@@ -1,9 +1,10 @@
 import {createAppContainer, createSwitchNavigator, } from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import HomeScreen from './Components/Screens/Main/HomeScreen';
-import LoginScreen from './Components/Screens/Auth/LoginScreen';
+import HomeScreen from './Components/Screens/Main/HomeScreen.native';
 import LoadingScreen from './Components/Screens/LoadingScreen';
-import SignUpScreen from './Components/Screens/Auth/SignUpScreen';
+import SignUpScreen from './Components/Screens/Auth/SignUpScreen/SignUpScreen';
+import LoginScreen from './Components/Screens/Auth/LoginScreen/LoginScreen';
+
 
 
 const authStackConfig = {

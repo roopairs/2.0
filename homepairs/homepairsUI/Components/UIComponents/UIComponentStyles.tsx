@@ -36,18 +36,6 @@ const DefaultAccountTypeRadioButtonStyle = StyleSheet.create({
        opacity: 50,
   
     },
-    input: {
-       alignItems: 'center',
-       margin: 1,
-       minWidth:40,
-       maxWidth: 350,
-       width: '95%',
-       height: 40,
-       borderColor: '#AFB3B5',
-       borderWidth: 1,
-       borderRadius: 4,
-       paddingHorizontal: 10,
-    },
   
     selectedButton: {
       alignItems: 'center',
@@ -102,10 +90,10 @@ const DefaultInputFormStyle = StyleSheet.create({
     },
     input: {
        alignItems: 'center',
+       alignSelf: 'center',
        margin: 1,
        minWidth:40,
-       maxWidth: 350,
-       width: '95%',
+       width: '100%',
        height: 40,
        borderColor: '#AFB3B5',
        borderWidth: 1,

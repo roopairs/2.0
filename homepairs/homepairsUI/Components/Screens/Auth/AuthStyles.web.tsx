@@ -3,6 +3,8 @@ import {StyleSheet} from 'react-native';
 const AuthScreenStyles = StyleSheet.create ({
         container : {
             alignItems: 'center',
+            alignSelf: 'center',
+            width: '99%',
         },
         pallet:{
             backgroundColor: '#1177B0',
@@ -13,10 +15,10 @@ const AuthScreenStyles = StyleSheet.create ({
         homePairsTitle: {
             color: '#0098CD', 
             fontFamily: 'nunito-regular', 
-            fontSize: 32,
+            fontSize: 38,
         },
         authCardContainer: {
-            maxWidth: 375,
+            maxWidth: 500,
             width: '85%', 
             borderRadius: 8,
             shadowRadius: 10,
@@ -24,13 +26,13 @@ const AuthScreenStyles = StyleSheet.create ({
         },
         /**This is the contianer style to use when all assets of the program have been loaded. */
         assetLoadedContainer: {//This container will only set default items to center of the pallet. It will always have a blue pallet behind it as well.
-            maxWidth: 380,
+            maxWidth: 540,
             backgroundColor: '#1177B0',
             alignItems: 'center',
             justifyContent: 'center',
             alignSelf: 'center',
             width: '100%',
-            aspectRatio: 1/1.5,
+            //aspectRatio: 1/1.5,
             minHeight: 1000,
           },
     
@@ -49,7 +51,7 @@ const AuthScreenStyles = StyleSheet.create ({
             flexDirection: 'column',
             padding: 10,
             maxHeight: 6,
-            marginTop: '10%',
+            marginTop: '7%',
             marginBottom: '1%',
             width: '50%',
             alignSelf: 'center',
@@ -67,14 +69,15 @@ const AuthScreenStyles = StyleSheet.create ({
         },
         subTitleText:{
             fontFamily:'nunito-regular', 
-            fontSize: 14,
+            fontSize: 16,
             marginTop: '5%',
-            marginBottom: '7%',
+            marginBottom: '5%',
         },
         standardText: {
             fontFamily: 'nunito-regular', 
-            fontSize: 14, 
+            fontSize: 16, 
             color: '#9BA0A2',
+            marginTop: '2%'
         },
         thinButtonContainer: {
             flex: 1,
@@ -95,7 +98,7 @@ const AuthScreenStyles = StyleSheet.create ({
         },
         thinButtonText:{
             color: '#0098CD', 
-            fontSize: 16,
+            fontSize: 22,
             alignSelf: 'center',
         },
     });

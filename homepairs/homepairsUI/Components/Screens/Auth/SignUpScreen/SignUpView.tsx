@@ -1,13 +1,13 @@
 import { Text, View, ScrollView } from 'react-native';
 import { Card } from 'react-native-elements';
 import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
-import InputForm from '../../UIComponents/InputForm';
-import ThinButton from '../../UIComponents/Buttons/ThinButton';
-import AuthStyles from './AuthStyles'
-import {NavigationProps} from '../../../utility/NavigationProps'
+import InputForm from '../../../UIComponents/InputForm';
+import ThinButton from '../../../UIComponents/Buttons/ThinButton';
+import AuthStyles from '../AuthStyles.native'
+import {NavigationProps} from '../../../../utility/NavigationProps'
 import { SafeAreaView } from 'react-navigation';
-import AccountTypeRadioButton from '../../UIComponents/Buttons/AccountTypeRadioButton'
-import { AccountTypes } from '../../../utility/AccountTypes';
+import AccountTypeRadioButton from '../../../UIComponents/Buttons/AccountTypeRadioButton'
+import { AccountTypes } from '../../../../utility/AccountTypes';
 
 /**
  * StyleSheet for all components in this directory and children directories 
@@ -20,8 +20,8 @@ const parentStyles = AuthStyles.AuthScreenStyles
  * in a NavigationStack (check App.tsx) are defined along with ant properties specific
  * to this component.  
 */
-interface SignUpScreenProps extends NavigationProps {}
-interface SignUpScreenState {
+interface SignUpViewProps extends NavigationProps {}
+interface SignUpViewState {
     accountType?: AccountTypes,
     firstName? : String,
     lastName? : String,
@@ -30,7 +30,7 @@ interface SignUpScreenState {
     cPassword? : String,
 }
 
-export default class SignUpScreen extends React.Component<SignUpScreenProps, SignUpScreenState>{
+export default class SignUpView extends React.Component<SignUpViewProps, SignUpViewState>{
     constructor(props){
         super(props)
         this.state = {
@@ -89,7 +89,10 @@ export default class SignUpScreen extends React.Component<SignUpScreenProps, Sig
     render() {
         return(
             <SafeAreaView style={parentStyles.pallet}>
-                <ScrollView style={{flex: 1}} contentContainerStyle={parentStyles.assetLoadedContainer}>
+                <ScrollView style={{flex: 1}} 
+                contentContainerStyle={parentStyles.assetLoadedSignUpContainer}
+                directionalLockEnabled={true}
+                automaticallyAdjustContentInsets={false}>
                     <Card
                     containerStyle={parentStyles.authCardContainer} 
                     title="HomePairs"
