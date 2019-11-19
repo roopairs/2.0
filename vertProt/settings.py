@@ -25,7 +25,8 @@ SECRET_KEY = 'p!y1^iuol45g957o%eg3o1zgezm5qb=dg81092o97&ptq6knox'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['vertical-proto-homepairs.herokuapp.com']
+ALLOWED_HOSTS = ['vertical-proto-homepairs.herokuapp.com',
+                 'localhost']
 
 
 # Application definition
