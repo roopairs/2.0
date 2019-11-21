@@ -4,6 +4,8 @@ import { NavigationProps } from '../../../../utility/NavigationProps';
 
 interface HomePairsMenuProps extends NavigationProps {
     showMenu : boolean;
+    selectedPage : number;
+    parentCallBack: (arg0?: any) => any;
 }
 interface HomePairsMenuState {
     currentPage : number,
@@ -13,6 +15,7 @@ interface HomePairsMenuState {
 export default class HomePairsMenu extends React.Component<HomePairsMenuProps, HomePairsMenuState>{
     nav: any;
     static page? : number;
+    focusListener: any;
     constructor(props: Readonly<HomePairsMenuProps>) {
         super(props);
         this.nav= this.props.navigation
@@ -39,15 +42,20 @@ export default class HomePairsMenu extends React.Component<HomePairsMenuProps, H
     navServiceRequest = () => { 
         this.nav.navigate('ServiceRequest')
         this.setSelected(1);
+        this.closeMenu();
     };
     navProperties = () => { 
         this.nav.navigate('Properties') 
         this.setSelected(0);
+        this.closeMenu();
     };
     setSelected = (index : number) => {
         HomePairsMenu.page = index;
         this.setState({currentPage: index})
     };
+    closeMenu = () => {
+        this.props.parentCallBack();
+    }
     
     /**This function renders all the selections of a button in the format the we want. 
      * Notice the use of the maps function. This function requires that we iterate through a list 

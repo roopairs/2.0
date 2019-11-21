@@ -14,7 +14,8 @@ export default class HomePairsHeader extends HomePairsHeaderTemplate {
                 <HomePairsHeaderTitle parentCallBack={this.toggleMenu}/>
                 <HomePairsMenu 
                 showMenu={this.state.showMenu} 
-                navigation={this.props.navigation}/>
+                navigation={this.props.navigation}
+                parentCallBack={this.toggleMenu}/>
             </View>
         </SafeAreaView>
         )}
@@ -34,5 +35,3 @@ const styles = StyleSheet.create({
         backgroundColor: HeaderStyles.container.backgroundColor,
     },
 })
-
-//export default withNavigation(HomePairsHeader);
