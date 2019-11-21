@@ -1,7 +1,7 @@
 import React from "react";
 import { AsyncStorage, View, ActivityIndicator, StatusBar, StyleSheet } from "react-native";
 import * as Font from 'expo-font';
-import {NavigationProps} from '../../utility/NavigationProps'
+import {NavigationProps} from '../utility/NavigationProps'
 
 
 export default class AuthLoadingScreen extends React.Component<NavigationProps> {
@@ -15,7 +15,7 @@ export default class AuthLoadingScreen extends React.Component<NavigationProps> 
   
     async loadAssets(){
         await Font.loadAsync({ //Every Assest not found in native devices, load them here!!
-            'nunito-regular' : require('../../assets/fonts/Nunito-Regular.ttf')
+            'nunito-regular' : require('../assets/fonts/Nunito-Regular.ttf')
         });
         this.setState({assetsLoaded: true});
         this._bootstrapAsync()

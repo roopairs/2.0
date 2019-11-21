@@ -1,8 +1,8 @@
 import { Text, View, ScrollView } from 'react-native';
 import { Card } from 'react-native-elements';
 import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
-import InputForm from '../../../UIComponents/InputForm';
-import ThinButton from '../../../UIComponents/Buttons/ThinButton';
+import InputForm from '../../../Components/UIComponents/InputForm';
+import ThinButton from '../../../Components/UIComponents/Buttons/ThinButton';
 import AuthStyles from '../AuthStyles.native'
 import { SafeAreaView } from 'react-navigation';
 import LoginView from './LoginView'

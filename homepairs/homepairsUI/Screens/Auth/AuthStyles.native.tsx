@@ -24,7 +24,7 @@ const AuthScreenStyles = StyleSheet.create ({
         },
         /**This is the contianer style to use when all assets of the program have been loaded. */
         assetLoadedSignUpContainer: {//This container will only set default items to center of the pallet. It will always have a blue pallet behind it as well.
-            maxWidth: 380,
+            maxWidth: 540,
             backgroundColor: '#1177B0',
             alignItems: 'center',
             justifyContent: 'center',
@@ -34,7 +34,7 @@ const AuthScreenStyles = StyleSheet.create ({
             minHeight: 1000,
           },
           assetLoadedLogInContainer: {//This container will only set default items to center of the pallet. It will always have a blue pallet behind it as well.
-            maxWidth: 380,
+            maxWidth: 540,
             backgroundColor: '#1177B0',
             alignItems: 'center',
             justifyContent: 'center',
