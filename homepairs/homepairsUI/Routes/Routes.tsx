@@ -11,6 +11,7 @@ import ServiceRequestScreen from '../Screens/Main/ServiceRequest/ServiceRequestS
 import { Platform, View } from 'react-native';
 import HomePairsHeader from '../Components/Navigation/HomePairsHeader/HomePairsHeader';
 import React from 'react'
+import AccountScreen from '../Screens/Main/Account/AccountScreen';
 
 const navigationHeader = (navigation: any) => ({
   header :<View style={{backgroundColor: '#1177B0'}}>
@@ -34,19 +35,10 @@ const authStackConfig = {
     defaultNavigationOptions: navigationHeader,
     initialRouteName: 'Properties',
   }
-
-  const webConfig ={
-    initialRouteName: 'Properties',
-    drawerType: 'front',
-    drawerPosition: 'left',
-    drawerBackgroundColor: 'orange',
-    contentComponent: navigationHeader,
-    drawerWidth: '20%',
-  }
   
-  const mainStackConfig = headerConfig//(Platform.OS === 'web') ? webConfig : nativeConfig   
+  const mainStackConfig = headerConfig
   
-  const MainStack = createStackNavigator({Properties: PropertiesScreen, ServiceRequest: ServiceRequestScreen}, mainStackConfig);
+  const MainStack = createStackNavigator({Properties: PropertiesScreen, ServiceRequest: ServiceRequestScreen, Account: AccountScreen}, mainStackConfig);
   const AuthStack = createSwitchNavigator({ Login: LoginScreen, SignUp: SignUpScreen},  authStackConfig);
   
   export default createAppContainer(createSwitchNavigator(

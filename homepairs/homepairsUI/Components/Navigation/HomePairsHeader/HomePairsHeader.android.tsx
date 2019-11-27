@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
          * library's StatusBar attributes. This is desgined for Android devices. 
         */
         marginTop : StatusBar.currentHeight,
+        elevation: 3,
     },
     ios11Container: {
         backgroundColor: HeaderStyles.container.backgroundColor,

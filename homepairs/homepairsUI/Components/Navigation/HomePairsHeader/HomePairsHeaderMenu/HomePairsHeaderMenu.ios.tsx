@@ -31,6 +31,10 @@ export default class HomePairsMenu extends React.Component<HomePairsMenuProps, H
                     navigationFunction: this.navServiceRequest, 
                 }, 
                 {
+                    title: 'Account Settings',
+                    navigationFunction: this.navAccount,
+                },
+                {
                     title: 'Log Out', 
                     navigationFunction: this.navAuth, 
                 },
@@ -38,7 +42,10 @@ export default class HomePairsMenu extends React.Component<HomePairsMenuProps, H
         }
     }
 
-    navAuth = () => { this.nav.navigate('Auth') };
+    navAuth = () => { 
+        this.nav.navigate('Auth') 
+        this.setSelected(null);
+    };
     navServiceRequest = () => { 
         this.nav.navigate('ServiceRequest')
         this.setSelected(1);
@@ -47,6 +54,11 @@ export default class HomePairsMenu extends React.Component<HomePairsMenuProps, H
     navProperties = () => { 
         this.nav.navigate('Properties') 
         this.setSelected(0);
+        this.closeMenu();
+    };
+    navAccount = () => { 
+        this.nav.navigate('Account') 
+        this.setSelected(2);
         this.closeMenu();
     };
     setSelected = (index : number) => {
@@ -97,16 +109,16 @@ const styles = StyleSheet.create({
     },
     menuText: {
         fontFamily: 'nunito-regular',
-        paddingLeft: '5%',
-        paddingVertical: '3%',
+        paddingLeft: 15,
+        paddingVertical: 15,
         maxHeight: 50,
         fontSize: 16,
         color: '#9BA0A2'
     },
     menuSelectedText: {
         fontFamily: 'nunito-regular',
-        paddingLeft: '5%',
-        paddingVertical: '3%',
+        paddingLeft: 15,
+        paddingVertical: 15,
         maxHeight: 50,
         fontSize: 16,
     }

@@ -30,7 +30,7 @@ export default class PropertiesScreen extends MainScreen {
             </ScrollView>
         </View>
     );
-}
+  }
 }
 
 const styles = StyleSheet.create({
@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
-  });
+});

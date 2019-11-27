@@ -1,5 +1,5 @@
 import React from "react";
-import { AsyncStorage, View, ActivityIndicator, StatusBar, StyleSheet } from "react-native";
+import { AsyncStorage, View, ActivityIndicator, StatusBar, StyleSheet, Image } from "react-native";
 import * as Font from 'expo-font';
 import {NavigationProps} from '../utility/NavigationProps'
 

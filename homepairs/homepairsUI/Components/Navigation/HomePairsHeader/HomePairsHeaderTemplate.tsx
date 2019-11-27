@@ -8,6 +8,8 @@ interface HomePairsHeaderProps extends NavigationProps {
 }
 interface HomePairsHeaderState{
    showMenu : boolean,
+   isDropDown?: boolean,
+   currentPage?: number,
 }
 
 export default abstract class HomePairsHeaderTemplate extends React.Component <HomePairsHeaderProps, HomePairsHeaderState> {
@@ -20,12 +22,6 @@ export default abstract class HomePairsHeaderTemplate extends React.Component <H
     }
     toggleMenu = () => {
         this.setState({showMenu : !this.state.showMenu}) //Flips true/false
-        if(Platform.OS === 'web'){
-            if(this.state.showMenu)
-                this.props.navigation.navigate('DrawerOpen'); // open drawer
-            else
-                this.props.navigation.navigate('DrawerClose'); // close drawer
-        }
     }
 }
 

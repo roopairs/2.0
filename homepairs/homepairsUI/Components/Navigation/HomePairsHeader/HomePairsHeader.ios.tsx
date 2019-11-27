@@ -22,16 +22,12 @@ export default class HomePairsHeader extends HomePairsHeaderTemplate {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: HeaderStyles.container.backgroundColor,
-
-        /**Notice how this header is resolved based on IOS or Android. IOS versions below 11 
-         * have a default header height of 20, while android heights vary so we use the React 
-         * libraries StatusBar attributes. This is desgined for Android devices. 
-        */
-        marginTop : (Platform.OS === 'ios') ? 20 : StatusBar.currentHeight,
-    },
     ios11Container: {
         backgroundColor: HeaderStyles.container.backgroundColor,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowRadius: 1,
+        shadowOffset: {width: 0, height: 2},
+        elevation: 1,
     },
 })

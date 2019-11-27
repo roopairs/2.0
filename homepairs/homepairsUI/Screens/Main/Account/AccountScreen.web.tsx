@@ -1,14 +1,11 @@
 import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar, ActivityIndicator, Button } from 'react-native';
-import {NavigationProps} from '../../../utility/NavigationProps'
+import { StyleSheet, Text,SafeAreaView, ScrollView, View} from 'react-native';
 import {MainAppStyles} from '../MainAppStyles'
-import HomePairsHeaderTemplate from '../../../Components/Navigation/HomePairsHeader/HomePairsHeaderTemplate'
-import { createSwitchNavigator } from 'react-navigation';
 import MainScreen from '../MainScreen';
-import HomePairsHeader from '../../../Components/Navigation/HomePairsHeader/HomePairsHeader.web';
+import HomePairsHeader from '../../../Components/Navigation/HomePairsHeader/HomePairsHeader';
 
 
-export default class ServiceRequestScreen extends MainScreen {  
+export default class AccountScreen extends MainScreen {
   render() {
     return(
         <SafeAreaView style={MainAppStyles.pallet}>
@@ -17,11 +14,11 @@ export default class ServiceRequestScreen extends MainScreen {
             contentContainerStyle={MainAppStyles.assetLoadedContainer}
             directionalLockEnabled={true}
             automaticallyAdjustContentInsets={false}>
-                <Text style={styles.container}>Service Request</Text>
+                <Text style={styles.container}>Account</Text>
             </ScrollView>
         </SafeAreaView>
     );
-  }
+}
 }
 
 const styles = StyleSheet.create({

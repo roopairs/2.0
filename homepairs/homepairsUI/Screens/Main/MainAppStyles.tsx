@@ -14,14 +14,10 @@ const MainAppStyles = StyleSheet.create ({
             color: '#0098CD', 
             fontFamily: 'nunito-regular', 
             fontSize: 24,
-            //alignSelf: 'center',
         },
         homePairsNavHeader: {
-            //maxWidth: 380,
             width: '100%', 
             borderRadius: 1,
-            //shadowRadius: 10,
-            //shadowOffset: {height :5, width: 0},
             justifyContent: 'center',
             alignSelf: 'center',
             alignItems: 'center'
@@ -41,7 +37,6 @@ const MainAppStyles = StyleSheet.create ({
             justifyContent: 'center',
             alignSelf: 'center',
             width: '100%',
-            //aspectRatio: 1/1.5,
             minHeight: 1000,
           },
     

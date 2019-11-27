@@ -3,7 +3,7 @@ import { StyleSheet, Text, SafeAreaView, ScrollView} from 'react-native';
 import {MainAppStyles} from '../MainAppStyles';
 import MainScreen from '../MainScreen';
 
-export default class PropertiesScreen extends MainScreen {
+export default class AccountScreen extends MainScreen {
   render() {
     return(
         <SafeAreaView style={MainAppStyles.pallet}>
@@ -12,7 +12,7 @@ export default class PropertiesScreen extends MainScreen {
             contentContainerStyle={MainAppStyles.assetLoadedContainer}
             directionalLockEnabled={true}
             automaticallyAdjustContentInsets={false}>
-             <Text style={styles.container}>Properties</Text>
+             <Text style={styles.container}>Account</Text>
             </ScrollView>
         </SafeAreaView>
     );

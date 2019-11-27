@@ -32,6 +32,10 @@ export default class HomePairsMenu extends React.Component<HomePairsMenuProps, H
                     navigationFunction: this.navServiceRequest, 
                 }, 
                 {
+                    title: 'Account Settings',
+                    navigationFunction: this.navAccount,
+                },
+                {
                     title: 'Log Out', 
                     navigationFunction: this.navAuth, 
                 },
@@ -49,7 +53,10 @@ export default class HomePairsMenu extends React.Component<HomePairsMenuProps, H
         this.nav.navigate('Properties')
         this.closeMenu(); 
     };
-    
+    navAccount = () => { 
+        this.nav.navigate('Account')
+        this.closeMenu(); 
+    };
     closeMenu = () => {
         this.props.parentCallBack();
     }
@@ -94,16 +101,16 @@ const styles = StyleSheet.create({
     },
     menuText: {
         fontFamily: 'nunito-regular',
-        paddingLeft: '5%',
-        paddingVertical: '3%',
+        paddingLeft: 15,
+        paddingVertical: 15,
         maxHeight: 50,
         fontSize: 16,
         color: '#9BA0A2'
     },
     menuSelectedText: {
         fontFamily: 'nunito-regular',
-        paddingLeft: '5%',
-        paddingVertical: '3%',
+        paddingLeft: 15,
+        paddingVertical: 15,
         maxHeight: 50,
         fontSize: 16,
     }

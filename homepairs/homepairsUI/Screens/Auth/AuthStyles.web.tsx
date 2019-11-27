@@ -11,6 +11,7 @@ const AuthScreenStyles = StyleSheet.create ({
             width: '100%',
             height: '100%',
             flex: 1,
+            minWidth: 300,
         },
         homePairsTitle: {
             color: '#0098CD', 
