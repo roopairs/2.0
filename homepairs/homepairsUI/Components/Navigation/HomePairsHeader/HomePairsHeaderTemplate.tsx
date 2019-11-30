@@ -1,8 +1,12 @@
 import { StyleSheet, Platform } from 'react-native';
 import React from 'react'
 import { NavigationProps } from '../../../utility/NavigationProps';
-import NavigationActions from 'react-navigation'
 
+
+/** 
+ * This component is intended to hold all the functionality that should exits within any header 
+ * regardless of Platform. 
+*/
 interface HomePairsHeaderProps extends NavigationProps {
     currentPage?: number,
 }

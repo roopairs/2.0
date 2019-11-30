@@ -1,28 +1,19 @@
 import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { StyleSheet, Text, SafeAreaView, ScrollView} from 'react-native';
+import {SafeAreaView, View,} from 'react-native';
 import {MainAppStyles} from '../MainAppStyles';
 import MainScreen from '../MainScreen';
+import AccountScreenSkeleton from './AccountScreenSkeleton';
 
 export default class AccountScreen extends MainScreen {
-  render() {
-    return(
-        <SafeAreaView style={MainAppStyles.pallet}>
-            <ScrollView 
-            style={{flex: 1}} 
-            contentContainerStyle={MainAppStyles.assetLoadedContainer}
-            directionalLockEnabled={true}
-            automaticallyAdjustContentInsets={false}>
-             <Text style={styles.container}>Account</Text>
-            </ScrollView>
-        </SafeAreaView>
-    );
-}
-}
+  
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-});
+  renderContents = () => {
+    return(
+      <View style={MainAppStyles.container}>
+        <SafeAreaView style={MainAppStyles.pallet}>
+            <AccountScreenSkeleton/>
+        </SafeAreaView>
+      </View>
+    );
+  }
+}

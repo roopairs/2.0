@@ -15,7 +15,8 @@ export default class AuthLoadingScreen extends React.Component<NavigationProps> 
   
     async loadAssets(){
         await Font.loadAsync({ //Every Assest not found in native devices, load them here!!
-            'nunito-regular' : require('../assets/fonts/Nunito-Regular.ttf')
+            'nunito-regular' : require('../assets/fonts/Nunito-Regular.ttf'),
+            'nunito-semibold': require('../assets/fonts/Nunito-SemiBold.ttf')
         });
         this.setState({assetsLoaded: true});
         this._bootstrapAsync()

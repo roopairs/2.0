@@ -4,9 +4,9 @@ import { MainAppStyles } from '../MainAppStyles';
 import MainStackTitle from '../../../Components/UIComponents/MainAppComponents/MainStackTitle';
 
 
-interface PropertiesScreenSkeletonProps {}
+interface ServiceRequestScreenSkeletonProps {}
 
-export default abstract class PropertiesScreenSkeleton extends React.Component<PropertiesScreenSkeletonProps> {
+export default abstract class ServiceRequestScreenSkeleton extends React.Component<ServiceRequestScreenSkeletonProps> {
   /**
    * TODO: Insert any logic for the Properties pages. These pages will need to be divided since our header 
    * responds differently based on the OS. Web will hold a side menu, where IOS and Android navigate differntly. 
@@ -14,8 +14,8 @@ export default abstract class PropertiesScreenSkeleton extends React.Component<P
    * classes here. 
    * */
 
-  addNewProperty = (arg0?:any) => {
-    //TODO: Handle the logic of adding a new Property to a HomePairs Account
+  presentNewRequestModal = (arg0?:any) => {
+    //TODO: Present Modal for new Request
     alert('I need to open a modal Page')
   }
 
@@ -27,9 +27,9 @@ export default abstract class PropertiesScreenSkeleton extends React.Component<P
      directionalLockEnabled={true}
      automaticallyAdjustContentInsets={false}>
          <MainStackTitle 
-         title='Properties'
-         buttonTitle='Add Property'
-         onButtonPress={this.addNewProperty}
+         title='Service Requests'
+         buttonTitle='New Request'
+         onButtonPress={this.presentNewRequestModal}
          />
      </ScrollView>
     )

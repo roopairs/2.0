@@ -52,6 +52,7 @@ export default class HomePairsMenu extends React.Component<HomePairsMenuProps, H
     }
 
 
+
     setSelected = (index : number) => {this.selectedPage = index};
     navAuth = () => { this.nav.navigate('Auth') };
     navServiceRequest = () => { 
@@ -69,6 +70,13 @@ export default class HomePairsMenu extends React.Component<HomePairsMenuProps, H
         this.nav.navigate('Account')
         this.closeMenu()
     }
+
+    /**
+     * This function renders the drop down . This rendering 
+     * is dependant on the parent. To change the width (or height) that the drop down 
+     * menu occurs, refer to ../HomepairsHeaderTitle/HomePairsHeaderTitle.tsx and adjust the 
+     * value in MIN_MENU_DROP_WIDTH
+     */
     displayCorrectMenu =  (currentPage:number) => {
         if(this.props.isDropDown){
             if(!this.props.showMenu){

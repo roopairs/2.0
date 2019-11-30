@@ -44,7 +44,9 @@ export class HomePairsHeaderTitle extends React.Component<HomePairsTitleProps, H
             <TouchableOpacity
             onPress={() => this.sendData()}
             style={styles.hamburgerStyle}>
-                <Image style={styles.homePairsHamburgerImage} source={require('../../../../assets/Hamburger.png')}/>
+                <Image 
+                style={styles.homePairsHamburgerImage} 
+                source={require('../../../../assets/Hamburger.png')}/>
             </TouchableOpacity> 
         )
     }
@@ -67,7 +69,9 @@ export class HomePairsHeaderTitle extends React.Component<HomePairsTitleProps, H
             return(<TouchableOpacity
                 onPress={() => this.sendData()}
                 style={styles.hamburgerStyleWeb}>
-                    <Image style={styles.homePairsHamburgerImageWeb} source={hamburgerButton}/>
+                    <Image 
+                    style={styles.homePairsHamburgerImageWeb} 
+                    source={hamburgerButton}/>
                 </TouchableOpacity> )
         }
     }

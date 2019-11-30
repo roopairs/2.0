@@ -9,7 +9,7 @@ export default class HomePairsHeader extends HomePairsHeaderTemplate {
 
     render() {
         return (
-        <SafeAreaView style={styles.ios11Container}>
+        <SafeAreaView style={styles.container}>
             <View style={{flexDirection: 'column'}}>
                 <HomePairsHeaderTitle parentCallBack={this.toggleMenu}/>
                 <HomePairsMenu 
@@ -22,7 +22,7 @@ export default class HomePairsHeader extends HomePairsHeaderTemplate {
 }
 
 const styles = StyleSheet.create({
-    ios11Container: {
+    container: {
         backgroundColor: HeaderStyles.container.backgroundColor,
         shadowColor: '#000',
         shadowOpacity: 0.1,

@@ -2,28 +2,14 @@ import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REA
 import { StyleSheet, Text, SafeAreaView, ScrollView } from 'react-native';
 import {MainAppStyles} from '../MainAppStyles';
 import MainScreen from '../MainScreen';
+import ServiceRequestScreenSkeleton from './ServiceRequestScreenSkeleton';
 
 export default class ServiceRequestScreen extends MainScreen {
-  render() {
+  renderContents = () => {
     return(
         <SafeAreaView style={MainAppStyles.pallet}>
-            <ScrollView 
-            style={{flex: 1}} 
-            contentContainerStyle={MainAppStyles.assetLoadedContainer}
-            directionalLockEnabled={true}
-            automaticallyAdjustContentInsets={false}>
-              <Text style={styles.container}>Service Request</Text>
-
-            </ScrollView>
+          <ServiceRequestScreenSkeleton />
         </SafeAreaView>
     );
   }
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-});

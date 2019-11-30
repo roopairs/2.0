@@ -1,14 +1,18 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 
 const MainAppStyles = StyleSheet.create ({
         container : {
             alignItems: 'center',
+            backgroundColor: '#1177B0', 
+            width: '100%',
+            flex: 1,
         },
         pallet:{
             backgroundColor: '#FBFBFB',
             width: '100%',
-            height: '100%',
             flex: 1,
+            maxWidth: 500,
+            alignSelf: 'center',
         },
         homePairsTitle: {
             color: '#0098CD', 
@@ -31,10 +35,8 @@ const MainAppStyles = StyleSheet.create ({
         },
         /**This is the contianer style to use when all assets of the program have been loaded. */
         assetLoadedContainer: {//This container will only set default items to center of the pallet. It will always have a blue pallet behind it as well.
-            maxWidth: 380,
+            maxWidth: 500,
             backgroundColor: '#FBFBFB',
-            alignItems: 'center',
-            justifyContent: 'center',
             alignSelf: 'center',
             width: '100%',
             minHeight: 1000,

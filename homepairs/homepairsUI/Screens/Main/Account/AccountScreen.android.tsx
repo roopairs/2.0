@@ -1,8 +1,9 @@
 import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { StyleSheet, Text, View, ScrollView} from 'react-native';
+import {View} from 'react-native';
 import {MainAppStyles} from '../MainAppStyles';
 import MainScreen from '../MainScreen';
 import HomePairsHeader from '../../../Components/Navigation/HomePairsHeader/HomePairsHeader';
+import AccountScreenSkeleton from './AccountScreenSkeleton';
 
 export default class AccountScreen extends MainScreen {
   
@@ -18,25 +19,13 @@ export default class AccountScreen extends MainScreen {
     },
   });
 
-  render() {
+  renderContents = () => {
     return(
+      <View style={MainAppStyles.container}>
         <View style={MainAppStyles.pallet}>
-            <ScrollView 
-            style={{flex: 1}} 
-            contentContainerStyle={MainAppStyles.assetLoadedContainer}
-            directionalLockEnabled={true}
-            automaticallyAdjustContentInsets={false}>
-                <Text style={styles.container}>Account</Text>
-            </ScrollView>
+            <AccountScreenSkeleton />
         </View>
+      </View>
     );
+  }
 }
-}
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-});

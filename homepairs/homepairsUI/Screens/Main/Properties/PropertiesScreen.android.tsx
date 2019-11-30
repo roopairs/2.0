@@ -1,8 +1,9 @@
 import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { StyleSheet, Text, View, ScrollView} from 'react-native';
-import {MainAppStyles} from '../MainAppStyles';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { MainAppStyles } from '../MainAppStyles';
 import MainScreen from '../MainScreen';
 import HomePairsHeader from '../../../Components/Navigation/HomePairsHeader/HomePairsHeader';
+import PropertiesScreenSkeleton from './PropertiesScreenSkeleton';
 
 export default class PropertiesScreen extends MainScreen {
   
@@ -18,16 +19,10 @@ export default class PropertiesScreen extends MainScreen {
     },
   });
 
-  render() {
+  renderContents = () => {
     return(
         <View style={MainAppStyles.pallet}>
-            <ScrollView 
-            style={{flex: 1}} 
-            contentContainerStyle={MainAppStyles.assetLoadedContainer}
-            directionalLockEnabled={true}
-            automaticallyAdjustContentInsets={false}>
-                <Text style={styles.container}>Properties</Text>
-            </ScrollView>
+            <PropertiesScreenSkeleton />
         </View>
     );
   }

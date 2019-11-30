@@ -4,6 +4,8 @@ import {HomePairsHeaderTemplate, HeaderStyles} from './HomePairsHeaderTemplate';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle/HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu/HomePairsHeaderMenu';
 
+
+const DROP_MENU_WIDTH : number = 600
 /**
  * Unlike the native components, this one will need to render multiple views 
  * based on the size of the browsers window. 
@@ -16,7 +18,7 @@ export default class HomePairsHeader extends HomePairsHeaderTemplate {
      */
     handleChange = () => {
         var width= Dimensions.get('window').width
-        if(width < 600){
+        if(width < DROP_MENU_WIDTH){
             this.setState({isDropDown : true})
         }else{
             this.setState({isDropDown: false})
@@ -31,7 +33,7 @@ export default class HomePairsHeader extends HomePairsHeaderTemplate {
      */
     componentDidMount(){
         var width = Dimensions.get('window').width
-        if(width < 600){
+        if(width < DROP_MENU_WIDTH){
             this.setState({isDropDown : true})
         }
         Dimensions.addEventListener("change", this.handleChange)
