@@ -1,6 +1,6 @@
 import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text, View, Platform} from 'react-native';
-import ThinButton from '../Buttons/ThinButton';
+import ThinButton from '../GeneralComponents/Buttons/ThinButton';
 
 
 interface ConnectAccountProps {

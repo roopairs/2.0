@@ -13,11 +13,3 @@ export default class PropertiesScreen extends MainScreen {
       );
   }
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-});

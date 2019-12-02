@@ -5,17 +5,17 @@ import PropertiesScreen from '../Screens/Main/Properties/PropertiesScreen';
 import LoadingScreen from '../Screens/LoadingScreen';
 import SignUpScreen from '../Screens/Auth/SignUpScreen/SignUpScreen';
 import LoginScreen from '../Screens/Auth/LoginScreen/LoginScreen';
-import {CustomDrawerNavigation} from '../Components/Navigation/HomePairsHeader/HomePairsHeaderMenu/HomePairsHeaderMenu.web';
-import HomePairsHeaderTemplate from '../Components/Navigation/HomePairsHeader/HomePairsHeaderTemplate';
 import ServiceRequestScreen from '../Screens/Main/ServiceRequest/ServiceRequestScreen';
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 import HomePairsHeader from '../Components/Navigation/HomePairsHeader/HomePairsHeader';
 import React from 'react'
 import AccountScreen from '../Screens/Main/Account/AccountScreen';
 
 const navigationHeader = (navigation: any) => ({
-  header :<View style={{backgroundColor: '#1177B0'}}>
-  <HomePairsHeader navigation={navigation.navigation}/></View>,
+  header :
+    <View style={{backgroundColor: '#1177B0'}}>
+      <HomePairsHeader navigation={navigation.navigation}/>
+    </View>,
   headerStyle: {
     backgroundColor: '#f4511e',
   },
@@ -31,13 +31,11 @@ const authStackConfig = {
     }
   }
   
-  const headerConfig = {
+  const mainStackConfig = {
     defaultNavigationOptions: navigationHeader,
     initialRouteName: 'Properties',
   }
-  
-  const mainStackConfig = headerConfig
-  
+    
   const MainStack = createStackNavigator({Properties: PropertiesScreen, ServiceRequest: ServiceRequestScreen, Account: AccountScreen}, mainStackConfig);
   const AuthStack = createSwitchNavigator({ Login: LoginScreen, SignUp: SignUpScreen},  authStackConfig);
   

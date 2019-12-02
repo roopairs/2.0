@@ -8,7 +8,7 @@ import AccountScreenSkeleton from './AccountScreenSkeleton';
 export default class AccountScreen extends MainScreen {
   
   /**
-   * Unlike IOS, we actually have to define the instance of our header for every page. 
+   * Unlike IOS or Web, we actually have to define the instance of our header for every page. 
    * This is due to the behavior of Android Navigation. It navigates using fragements and activitys 
    * and these pages are remained unchanged until removed  */
   static navigationOptions = (navigation) => ({

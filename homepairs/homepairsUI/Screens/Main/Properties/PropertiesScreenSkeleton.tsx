@@ -1,7 +1,7 @@
 import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { ScrollView } from 'react-native';
 import { MainAppStyles } from '../MainAppStyles';
-import MainStackTitle from '../../../Components/UIComponents/MainAppComponents/MainStackTitle';
+import MainStackTitle from '../../../Components/MainAppComponents/MainStackTitle';
 
 
 interface PropertiesScreenSkeletonProps {}
@@ -31,6 +31,8 @@ export default abstract class PropertiesScreenSkeleton extends React.Component<P
          buttonTitle='Add Property'
          onButtonPress={this.addNewProperty}
          />
+         {/**TODO: Add Components for Properties Screen */}
+
      </ScrollView>
     )
   }

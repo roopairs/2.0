@@ -1,8 +1,8 @@
 import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
 import {ScrollView } from 'react-native';
 import {MainAppStyles} from '../MainAppStyles';
-import MainStackTitle from '../../../Components/UIComponents/MainAppComponents/MainStackTitle';
-import ConnectAccountCard from '../../../Components/UIComponents/MainAppComponents/ConnectAccountCard';
+import MainStackTitle from '../../../Components/MainAppComponents/MainStackTitle';
+import ConnectAccountCard from '../../../Components/MainAppComponents/ConnectAccountCard';
 
 interface AccountScreenSkeletonProps {}
 export default abstract class AccountScreenSkeleton extends React.Component<AccountScreenSkeletonProps> {
@@ -28,6 +28,7 @@ export default abstract class AccountScreenSkeleton extends React.Component<Acco
           <MainStackTitle 
           title='Account Settings'/>
           <ConnectAccountCard connectAccountCallBack={() => this.handleConnectResults()}/>
+          {/**TODO: Show Account Information for when connected to Roopairs Account*/}
       </ScrollView>
      )
    }

@@ -5,8 +5,6 @@ import MainScreen from '../MainScreen';
 import AccountScreenSkeleton from './AccountScreenSkeleton';
 
 export default class AccountScreen extends MainScreen {
-  
-
   renderContents = () => {
     return(
       <View style={MainAppStyles.container}>

@@ -8,7 +8,7 @@ import PropertiesScreenSkeleton from './PropertiesScreenSkeleton';
 export default class PropertiesScreen extends MainScreen {
   
   /**
-   * Unlike IOS, we actually have to define the instance of our header for every page. 
+   * Unlike IOS and Web, we actually have to define the instance of our header for every page. 
    * This is due to the behavior of Android Navigation. It navigates using fragements and activitys 
    * and these pages are remained unchanged until removed  */
   static navigationOptions = (navigation) => ({
@@ -27,11 +27,3 @@ export default class PropertiesScreen extends MainScreen {
     );
   }
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-});
