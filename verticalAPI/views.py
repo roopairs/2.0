@@ -11,8 +11,5 @@ def testVert(request):
    print("Printing data.")
    print(request.data)
    print("Printing data end.")
-   if(int(request.data.get("number")) >= 5):
-      response = "hello world"
-   else:
-      response = "hello cruel world"
+   response = "hello world"
    return Response(data=response)
