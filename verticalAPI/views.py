@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 @api_view(['GET', 'POST'])
 def testVert(request):
    print("Printing data.")
-   print(request.data)
+#   print(request.data)
    print("Printing data end.")
    response = "hello world"
    return Response(data=response)
