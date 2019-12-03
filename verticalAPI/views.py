@@ -60,7 +60,7 @@ def testVert(request):
 
 
 
-def getDBInfo(first_name, last_name):
+def getDBInfo(email, password):
     # Connect to an existing database
     conn = psycopg2.connect("postgres://ghxbuhvcqaekmf:e0ca350eb49c619ecece518cd258363ed6d801496d50c4ae7fffa6eecf639997@ec2-107-22-253-158.compute-1.amazonaws.com:5432/d1es3so922rir0", sslmode='require')
 
@@ -71,7 +71,7 @@ def getDBInfo(first_name, last_name):
     cur.execute("DELETE FROM property where true")
     cur.execute("INSERT INTO prop_manager (LastName, FirstName, email, phone, password) VALUES ('Bergmann', 'Thomas', 'tommy@gmail.com', '8575552323', 'password');")
 
-    select_sql = "SELECT managerId FROM prop_manager where LastName = \'" + last_name + "\' and FirstName = \'" + first_name + "\';"
+    select_sql = "SELECT managerId FROM prop_manager where email = \'" + email + "\' and password = \'" + password + "\';"
     cur.execute(select_sql)
     manId = cur.fetchone()[0]
 
@@ -83,7 +83,7 @@ def getDBInfo(first_name, last_name):
 
 
 
-    select_sql = "SELECT * FROM prop_manager where LastName = \'" + last_name + "\' and FirstName = \'" + first_name + "\';"
+    select_sql = "SELECT * FROM prop_manager where email = \'" + email + "\' and password = \'" + password + "\';"
     cur.execute(select_sql)
     print("Property Manager")
     output = cur.fetchone()
