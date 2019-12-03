@@ -9,13 +9,8 @@ import psycopg2
 
 @api_view(['GET', 'POST'])
 def testVert(request):
-   # Touching the data base
-   #first_name = "Thomas"
-   #last_name = "Bergmann"
-   #getDBInfo(first_name, last_name)
-   params = request.data
-   user = params.get('username')
-   password = params.get('password')
+   user = request.data.get('username')
+   password = request.data.get('password')
    response = {
                  "user": user,
                  "pass": password
@@ -31,6 +26,10 @@ def testVert(request):
 
 
 
+# Touching the data base
+#first_name = "Thomas"
+#last_name = "Bergmann"
+#getDBInfo(first_name, last_name)
 
 
 
