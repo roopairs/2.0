@@ -9,17 +9,60 @@ import psycopg2
 
 @api_view(['GET', 'POST'])
 def testVert(request):
-   print("Printing data.")
-   #print(request.data)
+   print(request.data)
 
-   #replace with data
+   # Touching the data base
    first_name = "Thomas"
    last_name = "Bergmann"
    getDBInfo(first_name, last_name)
    
-   print("Printing data end.")
-   response = {"response": "hello world"}
+   response = {
+                 "response": "hello world",
+                 "foo": "bar"
+              }
    return Response(data=response)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def getDBInfo(first_name, last_name):
