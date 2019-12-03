@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.decorators import api_view
 import psycopg2
+import requests
 
 # Create your views here.
 
@@ -15,7 +16,52 @@ def testVert(request):
    deleteTables()
 
    returnable = loginAndGet(user, password)
+
+   if(not returnable):
+      return Response(data="ERROR: There is no account with the username and password specified.")
+
+   url = "https://capstone.api.roopairs.com/v0/auth/login/"
+   data = {
+             "username": user,
+             "password": password
+          }
+
+   response = requests.post(url, json=data)
+   if(response.text.startswith('{"token":')):
+      print("API Auth succeeded")
+   else:
+      print("NO!!!! API SAYS NO!!!!")
+      return Response(data="ERROR: Roopairs does not have an account linked to this.")
+
+   returnable.append(response.text)
    return Response(data=returnable)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def deleteTables():
@@ -41,7 +87,7 @@ def loginAndGet(email, password):
     # Open a cursor to perform database operations
     cur = conn.cursor()
 
-    cur.execute("INSERT INTO prop_manager (LastName, FirstName, email, phone, password) VALUES ('Bergmann', 'Thomas', 'tommy@gmail.com', '8575552323', 'password');")
+    cur.execute("INSERT INTO prop_manager (LastName, FirstName, email, phone, password) VALUES ('Bergmann', 'Thomas', 'tommy@gmail.com', '8575552323', 'pass4tommy');")
 
     select_sql = "SELECT managerId FROM prop_manager where email = \'" + email + "\' and password = \'" + password + "\';"
     cur.execute(select_sql)
@@ -50,7 +96,7 @@ def loginAndGet(email, password):
 
     print(manId)
     if(manId == None):
-       return "ERROR: There is no account with the username and password specified."
+       return False
     else:
        manId = manId[0]
 
@@ -81,4 +127,4 @@ def loginAndGet(email, password):
     cur.close()
     conn.close()
 
-    return (pmInfo, addresses)
+    return [pmInfo, addresses]

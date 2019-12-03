@@ -2,7 +2,7 @@
 # File Name : test.py
 # Created By : Adam Berard
 # Creation Date : 02-12-2019
-# Last Modified : Mon Dec  2 20:36:03 2019
+# Last Modified : Mon Dec  2 22:12:47 2019
 # Description:
 
 ################################################################################
@@ -16,7 +16,7 @@ url = "http://localhost:8000/verticalAPI/"
 
 ################################################################################
 if __name__ == '__main__':
-   data = {"username": "1tommy@gmail.com",
-           "password": "password"}
+   data = {"username": "tommy@gmail.com",
+           "password": "pass4tommy"}
    x = requests.post(url, json=data)
    print(x.text)
