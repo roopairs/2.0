@@ -9,17 +9,14 @@ import psycopg2
 
 @api_view(['GET', 'POST'])
 def testVert(request):
-   user = request.data.get('username')
-   password = request.data.get('password')
-   response = {
-                 "user": user,
-                 "pass": password
-              }
+   #user = request.data.get('username')
+   #password = request.data.get('password')
+   #response = {
+   #              "user": user,
+   #              "pass": password
+   #           }
+   response = request.readline()
    return Response(data=response)
-
-
-
-
 
 
 
