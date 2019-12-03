@@ -12,3 +12,7 @@ class TestStringMethods(unittest.TestCase):
         select_sql = "SELECT email FROM prop_manager where LastName = \'" + last_name + "\' and FirstName = \'" + first_name + "\';"
         cur.execute(select_sql)
         output = cur.fetchone()
+        self.assertEqual(output[0], "tommy@gmail.com")
+
+if __name__ == '__main__':
+    unittest.main()
