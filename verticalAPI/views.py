@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view
 
 @api_view(['GET', 'POST'])
 def testVert(request):
-   if(request.data.get("number") >= 5):
+   if(int(request.data.get("number")) >= 5):
       response = "hello world"
    else:
       response = "hello cruel world"

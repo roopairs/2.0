@@ -2,7 +2,7 @@
 # File Name : test.py
 # Created By : Adam Berard
 # Creation Date : 02-12-2019
-# Last Modified : Mon Dec  2 16:03:22 2019
+# Last Modified : Mon Dec  2 16:11:37 2019
 # Description:
 
 ################################################################################
@@ -11,7 +11,8 @@ import requests
 
 ################################################################################
 # Vars
-url = "http://localhost:8000/verticalAPI/"
+#url = "http://localhost:8000/verticalAPI/"
+url = "https://vertical-proto-homepairs.herokuapp.com/verticalAPI"
 
 ################################################################################
 if __name__ == '__main__':
