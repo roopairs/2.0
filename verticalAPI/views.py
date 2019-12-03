@@ -33,7 +33,10 @@ def testVert(request):
       print("NO!!!! API SAYS NO!!!!")
       return Response(data="ERROR: Roopairs does not have an account linked to this.")
 
-   returnable.append(response.text)
+   print(response.text)
+   temp = {"token": response.text[10:-2].replace("\\", "")}
+   returnable.append(temp)
+
    return Response(data=returnable)
 
 
