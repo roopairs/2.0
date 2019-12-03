@@ -11,5 +11,5 @@ def testVert(request):
    print("Printing data.")
 #   print(request.data)
    print("Printing data end.")
-   response = "hello world"
+   response = {"response": "hello world"}
    return Response(data=response)
