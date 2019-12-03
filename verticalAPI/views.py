@@ -10,15 +10,17 @@ import psycopg2
 @api_view(['GET', 'POST'])
 def testVert(request):
    print(request.data)
+   email = request.data.get("username")
+   password = request.data.get("password")
 
    # Touching the data base
    first_name = "Thomas"
    last_name = "Bergmann"
    getDBInfo(first_name, last_name)
-   
+
    response = {
-                 "response": "hello world",
-                 "foo": "bar"
+                 "response": email,
+                 "foo": password
               }
    return Response(data=response)
 
