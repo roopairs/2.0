@@ -11,21 +11,17 @@ import psycopg2
 def testVert(request):
    user = request.data.get('username')
    password = request.data.get('password')
-   response = {
-                 "user": user,
-                 "pass": password
-              }
-   return Response(data=response)
+
+   #email = "tommy@gmail.com"
+   #password = "password"
+   returnable = getDBInfo(user, password)
+   return Response(data=returnable)
 
 
 
 
 
 
-# Touching the data base
-#first_name = "Thomas"
-#last_name = "Bergmann"
-#getDBInfo(first_name, last_name)
 
 
 
@@ -64,6 +60,7 @@ def getDBInfo(email, password):
     # Connect to an existing database
     conn = psycopg2.connect("postgres://ghxbuhvcqaekmf:e0ca350eb49c619ecece518cd258363ed6d801496d50c4ae7fffa6eecf639997@ec2-107-22-253-158.compute-1.amazonaws.com:5432/d1es3so922rir0", sslmode='require')
 
+
     # Open a cursor to perform database operations
     cur = conn.cursor()
 
@@ -85,16 +82,15 @@ def getDBInfo(email, password):
 
     select_sql = "SELECT * FROM prop_manager where email = \'" + email + "\' and password = \'" + password + "\';"
     cur.execute(select_sql)
-    print("Property Manager")
-    output = cur.fetchone()
-    print(output)
+    pmInfo = cur.fetchone()
 
-    print("Properties")
     select_sql = "SELECT * FROM property WHERE manId = " + str(manId) + ";"
     cur.execute(select_sql)
+    addresses = []
+
     output = cur.fetchone()
     while (not(output is None)):
-        print(output)
+        addresses.append(output)
         output = cur.fetchone()
 
     # Make the changes to the database persistent
@@ -103,3 +99,5 @@ def getDBInfo(email, password):
     # Close communication with the database
     cur.close()
     conn.close()
+
+    return (pmInfo, addresses)
