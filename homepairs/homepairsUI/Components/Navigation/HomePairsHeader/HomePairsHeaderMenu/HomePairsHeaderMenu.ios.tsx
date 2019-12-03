@@ -52,7 +52,7 @@ export default class HomePairsMenu extends React.Component<HomePairsMenuProps, H
         this.closeMenu();
     };
     navProperties = () => { 
-        this.nav.navigate('Properties') 
+        this.nav.navigate('AccountProperties')
         this.setSelected(0);
         this.closeMenu();
     };

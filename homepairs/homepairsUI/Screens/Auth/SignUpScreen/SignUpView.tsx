@@ -13,7 +13,7 @@ import { AccountTypes } from '../../../utility/AccountTypes';
  * StyleSheet for all components in this directory and children directories 
  * */
 const parentStyles = AuthStyles.AuthScreenStyles
-
+const axios = require('axios')
 /** 
  * These define the types for the prop and state attributes for the component. Notice 
  * how the LoginScreenProps extends from NavigationProps. This is so all screens that are 

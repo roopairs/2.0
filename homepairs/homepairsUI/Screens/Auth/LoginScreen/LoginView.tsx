@@ -1,5 +1,6 @@
 import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
 import {NavigationProps} from '../../../utility/NavigationProps'
+import { PropertiesViewModel } from '../../../ViewModel/PropertiesViewModel';
 
 /** 
  * These define the types for the prop and state attributes for the component. Notice 
@@ -12,6 +13,8 @@ interface LoginViewState {
     username? : String,
     password? : String,
 }
+
+const axios = require('axios')
 
 export default abstract class LoginView extends React.Component<LoginViewProps, LoginViewState>{
     constructor(props : any){
@@ -44,10 +47,27 @@ export default abstract class LoginView extends React.Component<LoginViewProps, 
     /** 
      * Event functions for when something occurs on this component. 
     */
-    _clickSignIn = () => {
+    _clickSignIn = async () => {
         //alert(this.state.username + " " + this.state.password)
         //TODO: Make authentication request to BackEnd
-        this.props.navigation.navigate('Main')
+        await axios.post('http://vertical-proto-homepairs.herokuapp.com/verticalAPI/', {
+          username: this.state.username,
+          password: this.state.password,
+        })
+        .then((response) => {
+          //alert(response['data'])  
+          //console.log(response['data']);
+          if(!('ERROR' in response)){
+            PropertiesViewModel.initProperties(response['data'])
+            //console.log(PropertiesViewModel.properties)
+            this.props.navigation.navigate('Main')
+          }else{
+              alert(response['ERROR'])
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
     _clickSignUp = () => { 
        this.props.navigation.navigate('SignUp')

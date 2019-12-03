@@ -1,5 +1,4 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createStackNavigator} from 'react-navigation-stack';
 import PropertiesScreen from '../Screens/Main/Properties/PropertiesScreen';
 import LoadingScreen from '../Screens/LoadingScreen';
@@ -10,6 +9,7 @@ import { View } from 'react-native';
 import HomePairsHeader from '../Components/Navigation/HomePairsHeader/HomePairsHeader';
 import React from 'react'
 import AccountScreen from '../Screens/Main/Account/AccountScreen';
+import DetailedPropertyScreen from '../Screens/Main/Properties/DetailedPropertyScreen';
 
 const navigationHeader = (navigation: any) => ({
   header :
@@ -36,9 +36,14 @@ const authStackConfig = {
     initialRouteName: 'Properties',
   }
     
-  const MainStack = createStackNavigator({Properties: PropertiesScreen, ServiceRequest: ServiceRequestScreen, Account: AccountScreen}, mainStackConfig);
+  const propertyStackConfig = {
+    //defaultNavigationOptions: navigationHeader,
+    initialRouteName: 'AccountProperties',
+  }
+  const PropertyStack = createSwitchNavigator({AccountProperties: PropertiesScreen, DetailedProperty: DetailedPropertyScreen}, propertyStackConfig);
+  const MainStack = createStackNavigator({Properties: PropertyStack, ServiceRequest: ServiceRequestScreen, Account: AccountScreen}, mainStackConfig);
+  //const MainStack = createStackNavigator({Properties: PropertiesScreen, ServiceRequest: ServiceRequestScreen, Account: AccountScreen}, mainStackConfig);
   const AuthStack = createSwitchNavigator({ Login: LoginScreen, SignUp: SignUpScreen},  authStackConfig);
-  
   export default createAppContainer(createSwitchNavigator(
     {
       Main: MainStack,
@@ -49,5 +54,4 @@ const authStackConfig = {
       initialRouteName: 'Loading',
     }
   ));
-
   export {MainStack, AuthStack}

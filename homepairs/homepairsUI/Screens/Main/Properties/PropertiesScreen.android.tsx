@@ -22,7 +22,7 @@ export default class PropertiesScreen extends MainScreen {
   renderContents = () => {
     return(
         <View style={MainAppStyles.pallet}>
-            <PropertiesScreenSkeleton />
+            <PropertiesScreenSkeleton openPropertyDetails={this.openPropertyPage}/>
         </View>
     );
   }

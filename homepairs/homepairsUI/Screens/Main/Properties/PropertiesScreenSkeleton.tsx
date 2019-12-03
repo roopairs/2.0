@@ -2,9 +2,13 @@ import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REA
 import { ScrollView } from 'react-native';
 import { MainAppStyles } from '../MainAppStyles';
 import MainStackTitle from '../../../Components/MainAppComponents/MainStackTitle';
+import ViewPropertyCard from '../../../Components/MainAppComponents/ViewPropertyCard';
+import { PropertiesViewModel } from '../../../ViewModel/PropertiesViewModel';
 
 
-interface PropertiesScreenSkeletonProps {}
+interface PropertiesScreenSkeletonProps {
+  openPropertyDetails?: (arg0:number, arg1:any) => any
+}
 
 export default abstract class PropertiesScreenSkeleton extends React.Component<PropertiesScreenSkeletonProps> {
   /**
@@ -19,6 +23,21 @@ export default abstract class PropertiesScreenSkeleton extends React.Component<P
     alert('I need to open a modal Page')
   }
 
+
+  propertyList(){
+    var properties = []
+    for(let i=0; i < PropertiesViewModel.properties.length; i++){
+
+      properties.push(
+        <ViewPropertyCard 
+        key={i}
+        viewPropertyDetails={this.props.openPropertyDetails}
+        propertyIndex={i}/>
+      )
+    };
+    return properties
+  }
+
   render = () => {
     return(
      <ScrollView 
@@ -31,8 +50,10 @@ export default abstract class PropertiesScreenSkeleton extends React.Component<P
          buttonTitle='Add Property'
          onButtonPress={this.addNewProperty}
          />
-         {/**TODO: Add Components for Properties Screen */}
-
+         {this.propertyList()}
+         {/*<ViewPropertyCard 
+         viewPropertyDetails={this.props.openPropertyDetails}
+         propertyIndex={1}/>*/}
      </ScrollView>
     )
   }
