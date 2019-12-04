@@ -6,7 +6,19 @@ from rest_framework.decorators import api_view
 import psycopg2
 import requests
 
-# Create your views here.
+
+
+################################################################################
+# GLOBAL VARS
+#
+
+dbUrl = ("postgres://ghxbuhvcqaekmf:e0ca350eb49c619ecece518cd258363ed6d801496d"
+         "50c4ae7fffa6eecf639997@ec2-107-22-253-158.compute-1.amazonaws.com:54"
+         "32/d1es3so922rir0")
+
+################################################################################
+# Views / API Endpoints
+#
 
 @api_view(['GET', 'POST'])
 def testVert(request):
@@ -14,11 +26,10 @@ def testVert(request):
    password = request.data.get('password')
 
    deleteTables()
+   insertDummyInfo()
 
    returnable = loginAndGet(user, password)
 
-   if(not returnable):
-      return Response(data="ERROR: There is no account with the username and password specified.")
 
    url = "https://capstone.api.roopairs.com/v0/auth/login/"
    data = {
@@ -28,106 +39,148 @@ def testVert(request):
 
    response = requests.post(url, json=data)
    if(response.text.startswith('{"token":')):
-      print("API Auth succeeded")
+      returnable["roopairs"] = response.text[10:-2].replace("\\", "")
    else:
-      print("NO!!!! API SAYS NO!!!!")
-      return Response(data="ERROR: Roopairs does not have an account linked to this.")
-
-   print(response.text)
-   temp = {"token": response.text[10:-2].replace("\\", "")}
-   returnable.append(temp)
+      returnable["roopairs"] = "failure"
 
    return Response(data=returnable)
 
+################################################################################
+# General Functions
+#
 
+def packagePMInfo(info):
+   dict = {"manId": info[0],
+           "LastName": info[1],
+           "FirstName": info[2],
+           "email": info[3],
+           "phone": info[4],
+           "password": info[5],
+           "tenantId": info[6],
+           "propId": info[7]
+          }
+   return dict
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def deleteTables():
-    # Connect to an existing database
-    conn = psycopg2.connect("postgres://ghxbuhvcqaekmf:e0ca350eb49c619ecece518cd258363ed6d801496d50c4ae7fffa6eecf639997@ec2-107-22-253-158.compute-1.amazonaws.com:5432/d1es3so922rir0", sslmode='require')
-    # Open a cursor to perform database operations
-    cur = conn.cursor()
-
-    cur.execute("DELETE FROM prop_manager where true")
-    cur.execute("DELETE FROM property where true")
-
-    # Make the changes to the database persistent
-    conn.commit()
-
-    # Close communication with the database
-    cur.close()
-    conn.close()
+def packagePropertyInfo(info):
+   dict = {"propId": info[0],
+           "address": info[1],
+           "SLID": info[2],
+           "numBath": info[3],
+           "numBed": info[4],
+           "maxTenants": info[5],
+           "applianceId": info[6],
+           "tenantId": info[7],
+           "manId": info[8]
+          }
+   return dict
 
 def loginAndGet(email, password):
-    # Connect to an existing database
-    conn = psycopg2.connect("postgres://ghxbuhvcqaekmf:e0ca350eb49c619ecece518cd258363ed6d801496d50c4ae7fffa6eecf639997@ec2-107-22-253-158.compute-1.amazonaws.com:5432/d1es3so922rir0", sslmode='require')
+   # Make connection to the database
+   conn = psycopg2.connect(dbUrl, sslmode='require')
 
-    # Open a cursor to perform database operations
-    cur = conn.cursor()
+   # Cursors let you perform database operations
+   cur = conn.cursor()
 
-    cur.execute("INSERT INTO prop_manager (LastName, FirstName, email, phone, password) VALUES ('Bergmann', 'Thomas', 'tommy@gmail.com', '8575552323', 'pass4tommy');")
+   # Find account if it exists
+   select_sql = ("SELECT * FROM prop_manager "
+                 "WHERE email = '%s' and password = '%s';") % (email, password)
+   cur.execute(select_sql)
+   pmInfo = cur.fetchone()
 
-    select_sql = "SELECT managerId FROM prop_manager where email = \'" + email + "\' and password = \'" + password + "\';"
-    cur.execute(select_sql)
+   # Check if it exists
+   if(pmInfo == None):
+      return {
+              "status": "failure",
+              "pmInfo": None,
+              "properties" : None
+             }
+   else:
+      manId = pmInfo[0]
 
-    manId = cur.fetchone()
+   # Now get all the properties they own
+   select_sql = "SELECT * FROM property WHERE manId = " + str(manId) + ";"
+   cur.execute(select_sql)
+   properties = []
 
-    print(manId)
-    if(manId == None):
-       return False
-    else:
-       manId = manId[0]
+   # Get each property data
+   output = cur.fetchone()
+   while (not(output is None)):
+       properties.append(packagePropertyInfo(output))
+       output = cur.fetchone()
 
+   # Close communication with the database
+   cur.close()
+   conn.close()
 
-    insert_sql = "INSERT INTO property (address, SLID, numBath, numBed, maxTenats, manId) VALUES ('200 North Santa Rosa Street', 1, 3, 3, 6," + str(manId) + ");"
-    cur.execute(insert_sql)
+   returnable = {
+                 "status": "success",
+                 "pmInfo": packagePMInfo(pmInfo),
+                 "properties": properties
+                }
+   return returnable
 
-    insert_sql = "INSERT INTO property (address, SLID, numBath, numBed, maxTenats, manId) VALUES ('110 Orange Drive', 2, 2, 1.5, 3, " + str(manId) + ");"
-    cur.execute(insert_sql)
+################################################################################
+# Vertical Prototype Functions
+#
 
-    select_sql = "SELECT * FROM prop_manager where email = \'" + email + "\' and password = \'" + password + "\';"
-    cur.execute(select_sql)
-    pmInfo = cur.fetchone()
+def insertDummyInfo():
+   # Vars
+   pmTargets = "(LastName, FirstName, email, phone, password)"
+   propertyTargets = "(address, SLID, numBath, numBed, maxTenats, manId)"
 
-    select_sql = "SELECT * FROM property WHERE manId = " + str(manId) + ";"
-    cur.execute(select_sql)
-    addresses = []
+   # Make connection to the database
+   conn = psycopg2.connect(dbUrl, sslmode='require')
 
-    output = cur.fetchone()
-    while (not(output is None)):
-        addresses.append(output)
-        output = cur.fetchone()
+   # Cursors let you perform database operations
+   cur = conn.cursor()
 
-    # Make the changes to the database persistent
-    conn.commit()
+   # Inserts a dummy Adam account into the database
+   values = "('Berard', 'Adam', 'adam@gmail.com', '9092614617', 'pass4adam')"
+   cur.execute("INSERT INTO prop_manager %s VALUES %s;" % (pmTargets, values))
 
-    # Close communication with the database
-    cur.close()
-    conn.close()
+   # Inserts a dummy Tommy account into the database
+   values = "('Bergmann', 'Thomas', 'tommy@gmail.com', '8575552323', 'pass4tommy')"
+   cur.execute("INSERT INTO prop_manager %s VALUES %s;" % (pmTargets, values))
 
-    return [pmInfo, addresses]
+   # Get the auto-created manager id for Tommy
+   select_sql = ("SELECT managerId FROM prop_manager "
+                "WHERE email = 'tommy@gmail.com' and password = 'pass4tommy';")
+   cur.execute(select_sql)
+   manId = cur.fetchone()
+   manId = manId[0]
+
+   # Insert a property owned by Tommy
+   values = "('200 North Santa Rosa Street', 1, 3, 3, 6," + str(manId) + ")"
+   insert_sql = "INSERT INTO property %s VALUES %s;" % (propertyTargets, values)
+   cur.execute(insert_sql)
+
+   # Insert a property owned by Tommy
+   values = "('110 Orange Drive', 2, 2, 1.5, 3, " + str(manId) + ")"
+   insert_sql = "INSERT INTO property %s VALUES %s;" % (propertyTargets, values)
+   cur.execute(insert_sql)
+
+   # Make the changes to the database persistent
+   conn.commit()
+
+   # Close communication with the database
+   cur.close()
+   conn.close()
+   
+def deleteTables():
+   # Make connection to the database
+   conn = psycopg2.connect(dbUrl, sslmode='require')
+
+   # Cursors let you perform database operations
+   cur = conn.cursor()
+
+   # Delete everything
+   cur.execute("DELETE FROM prop_manager where true")
+   cur.execute("DELETE FROM property where true")
+
+   # Make the changes to the database persistent
+   conn.commit()
+
+   # Close communication with the database
+   cur.close()
+   conn.close()
+
