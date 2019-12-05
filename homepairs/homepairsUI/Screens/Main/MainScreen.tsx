@@ -15,6 +15,7 @@ export default abstract class MainScreen extends React.Component<NavigationProps
    
    openPropertyPage = (arg0:number, arg1: any) => {
       this.props.navigation.navigate('DetailedProperty', {itemId: arg0, details : arg1})
+      //this.props.navigation.
    } 
 
    render(){

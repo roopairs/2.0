@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react'
 import { NavigationProps } from '../../../../utility/NavigationProps';
+import { PropertiesModel } from '../../../../ViewModel/PropertiesModel';
 
 interface HomePairsMenuProps extends NavigationProps {
     showMenu : boolean;
@@ -44,7 +45,10 @@ export default class HomePairsMenu extends React.Component<HomePairsMenuProps, H
     }
 
 
-    navAuth = () => { this.nav.navigate('Auth') };
+    navAuth = () => { 
+        this.nav.navigate('Auth') 
+        PropertiesModel.clearContent()
+    };
     navServiceRequest = () => { 
         this.nav.navigate('ServiceRequest')
         this.closeMenu();

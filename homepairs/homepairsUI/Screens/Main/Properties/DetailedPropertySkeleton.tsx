@@ -2,7 +2,7 @@ import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REA
 import { ScrollView, Platform, View, StyleSheet, Image } from 'react-native';
 import { MainAppStyles } from '../MainAppStyles';
 import MainStackTitle from '../../../Components/MainAppComponents/MainStackTitle';
-import { PropertiesViewModel } from '../../../ViewModel/PropertiesViewModel';
+import { PropertiesViewModel } from '../../../ViewModel/PropertiesModel';
 import AddressSticker from '../../../Components/MainAppComponents/DetailPropertiesComponents/AddressSticker';
 import defaultPropertyImage from '../../../assets/defaultProperty.png'
 import GeneralHomeInfo from '../../../Components/MainAppComponents/DetailPropertiesComponents/GeneralHomeInfo';

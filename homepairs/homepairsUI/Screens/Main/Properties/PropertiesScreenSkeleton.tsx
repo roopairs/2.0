@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native';
 import { MainAppStyles } from '../MainAppStyles';
 import MainStackTitle from '../../../Components/MainAppComponents/MainStackTitle';
 import ViewPropertyCard from '../../../Components/MainAppComponents/ViewPropertyCard';
-import { PropertiesViewModel } from '../../../ViewModel/PropertiesViewModel';
+import { PropertiesModel } from '../../../ViewModel/PropertiesModel';
 
 
 interface PropertiesScreenSkeletonProps {
@@ -26,7 +26,7 @@ export default abstract class PropertiesScreenSkeleton extends React.Component<P
 
   propertyList(){
     var properties = []
-    for(let i=0; i < PropertiesViewModel.properties.length; i++){
+    for(let i=0; i < PropertiesModel.properties.length; i++){
 
       properties.push(
         <ViewPropertyCard 

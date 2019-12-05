@@ -2,7 +2,7 @@ import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REA
 import { StyleSheet, Text, View, Platform, ImageBackground, } from 'react-native';
 import ThinButton from '../GeneralComponents/Buttons/ThinButton';
 import defaultPropertyImage from '../../assets/defaultProperty.png'
-import { PropertiesViewModel } from '../../ViewModel/PropertiesViewModel';
+import { PropertiesModel } from '../../ViewModel/PropertiesModel';
 
 interface ViewPropertyCardProps {
     viewPropertyDetails?: (arg0:number, arg1: any) => any
@@ -15,13 +15,11 @@ export default class ViewPropertyCard extends React.Component<ViewPropertyCardPr
     }
 
     getAddress = () => {
-        return PropertiesViewModel.properties[this.props.propertyIndex]['address']
+        return PropertiesModel.properties[this.props.propertyIndex]['address']
     }
 
     viewProperty = () => {
-        //TODO: Call asyncronous fetch (From fetch or axios) to connect Roopairs account
-        //alert('I need to open a New Page')
-        this.props.viewPropertyDetails(this.props.propertyIndex, PropertiesViewModel.properties[this.props.propertyIndex])
+        this.props.viewPropertyDetails(this.props.propertyIndex, PropertiesModel.properties[this.props.propertyIndex])
     }
 
     render() {

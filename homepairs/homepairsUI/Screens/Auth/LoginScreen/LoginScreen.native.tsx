@@ -25,6 +25,7 @@ export default class LoginScreen extends LoginView {
     render() {
         return(
             <SafeAreaView style={parentStyles.pallet}>
+                {this.presentModal()}
                 <ScrollView style={{flex: 1}} 
                 contentContainerStyle={parentStyles.assetLoadedLogInContainer}
                 directionalLockEnabled={true}
@@ -35,6 +36,7 @@ export default class LoginScreen extends LoginView {
                     titleStyle={parentStyles.homePairsTitle}>
                         <View style={parentStyles.container}>
                             <Text style={parentStyles.subTitleText}>Sign in to your Account</Text>
+                            {this.showError()}
                             <InputForm name='EMAIL' parentCallBack={this.getFormUsername} />
                             <InputForm 
                             name='PASSWORD' 

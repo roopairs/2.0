@@ -9,7 +9,9 @@ export default class AddressSticker extends React.Component<AddressStickerProps>
     render() {
         return(
            <View style={styles.container}>
-                <Text style={styles.cityStateText}>San Luis Obispo, CA / {this.props.address}</Text>
+                <Text style={styles.cityStateText}>San Luis Obispo, CA / 
+                    <Text>{this.props.address}</Text>
+                    </Text>
             </View>
         );
     }
@@ -30,7 +32,8 @@ const styles = StyleSheet.create({
 
     },
     cityStateText: {
-        fontSize: 18,
+        fontSize: 16,
+        fontFamily: 'nunito-regular',
     },
     cardTitle: {
       fontSize: 18,

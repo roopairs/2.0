@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react'
 import { NavigationProps } from '../../../../utility/NavigationProps';
+import { PropertiesModel } from '../../../../ViewModel/PropertiesModel';
 
 /**
  * Unlike the native Menus, the web menu is capable of rendering two separate 
@@ -54,7 +55,10 @@ export default class HomePairsMenu extends React.Component<HomePairsMenuProps, H
 
 
     setSelected = (index : number) => {this.selectedPage = index};
-    navAuth = () => { this.nav.navigate('Auth') };
+    navAuth = () => { 
+        this.nav.navigate('Auth') 
+        PropertiesModel.clearContent()
+    };
     navServiceRequest = () => { 
         this.setSelected(1)
         this.nav.navigate('ServiceRequest')

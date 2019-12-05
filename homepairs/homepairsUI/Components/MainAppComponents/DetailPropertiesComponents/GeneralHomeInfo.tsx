@@ -18,7 +18,7 @@ interface GeneralHomeInfoState {
 
 export default class GeneralHomeInfo extends React.Component<GeneralHomeInfoProps, GeneralHomeInfoState> {
     
-    constructor(props){
+    constructor(props: Readonly<GeneralHomeInfoProps>){
         super(props)
         this.state = {
             address : this.props.address,
@@ -30,9 +30,9 @@ export default class GeneralHomeInfo extends React.Component<GeneralHomeInfoProp
 
     detailBox = (arg0: string, arg1: number) => {
         return(
-            <View style={{flex: 1}}> 
-                <Text>{arg0}</Text>
-                <Text>{arg1}</Text>
+            <View style={{flex: 1, alignSelf: 'center', alignItems: 'center'}}> 
+                <Text style={{fontSize:12, marginBottom: 10, color: '#727A7C'}}>{arg0}</Text>
+                <Text style={{fontSize: 18, fontFamily: 'nunito-bold'}}>{arg1}</Text>
             </View>
         )
     }
@@ -59,9 +59,9 @@ export default class GeneralHomeInfo extends React.Component<GeneralHomeInfoProp
                 {this.livingSpace()}
                 <ThinButton 
                 name='Edit Property'
+                buttonStyle={styles.editButton}
                 onClick={() => {alert('TODO: Create Edit Property Modal!')}}/>
             </View>
-            
             </View>
         );
     }
@@ -78,10 +78,7 @@ const styles = StyleSheet.create({
         paddingVertical: '5%',
         paddingHorizontal: '5%',
         width: '90%',
-        //maxWidth: 380,
         alignSelf: 'center',
-        //alignItems: 'center',
-        //maxHeight: Platform.OS === 'web' ? null : 175,
         shadowColor: '#aaaaaa',
         shadowRadius: 10,
         shadowOffset: {width : 1, height: 1,},
@@ -90,14 +87,21 @@ const styles = StyleSheet.create({
     },
     livingSpaceContainer: {
         flexDirection: 'row',
+        alignContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        width: '99%',
+        paddingVertical: 10,
     },
     addressContainer: {
         borderBottomColor: '#E8E8E8',
         borderBottomWidth: 1,
-        paddingBottom:5,
+        paddingBottom:10,
+        marginBottom: 10,
     },
     streetAddress: {
-        fontSize: 14,
+        fontSize: 16,
         fontFamily: 'nunito-bold',
     },
     cityStateText: {
@@ -117,5 +121,15 @@ const styles = StyleSheet.create({
         borderBottomColor: '#EFEFEF',
         paddingBottom: 10,
         borderBottomWidth: 1,
+    },
+    editButton: {
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        padding: 10,
+        maxWidth: 200,
+        minWidth: 150,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#798285',
     },
 })
