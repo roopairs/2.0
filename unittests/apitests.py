@@ -2,7 +2,7 @@
 # File Name : test.py
 # Created By : Adam Berard
 # Creation Date : 02-12-2019
-# Last Modified : Wed Dec  4 19:43:14 2019
+# Last Modified : Wed Dec  4 19:55:01 2019
 # Description:
 
 ################################################################################
@@ -11,6 +11,7 @@ from django.shortcuts import render
 import psycopg2
 import requests
 import json
+import unittest
 
 ################################################################################
 # Vars
@@ -20,57 +21,6 @@ url = "https://vertical-proto-homepairs.herokuapp.com/verticalAPI/"
 dbUrl = ("postgres://ghxbuhvcqaekmf:e0ca350eb49c619ecece518cd258363ed6d801496d"
          "50c4ae7fffa6eecf639997@ec2-107-22-253-158.compute-1.amazonaws.com:54"
          "32/d1es3so922rir0")
-
-################################################################################
-if __name__ == '__main__':
-   data = {"username": "tommy@gmail.com", "password": "pass4tommy"}
-   data = {"username": "dam@gmail.com", "password": "pass4adam"}
-   data = {"username": "adam@gmail.com", "password": "pass4adam"}
-   x = requests.post(url, json=data)
-   print(x.text)
-
-def test_NoRoopairsAccount():
-   insertDummyInfo()
-   data = {"username": "adam@gmail.com", "password": "pass4adam"}
-   x = requests.post(url, json=data)
-   info = json.loads(x.text)
-   deleteTables()
-   assert info.get("status") == "success"
-   assert info.get("pmInfo").get("LastName") == "Berard"
-   assert info.get("pmInfo").get("FirstName") == "Adam"
-   assert info.get("pmInfo").get("email") == "adam@gmail.com"
-   assert info.get("pmInfo").get("phone") == "9092614617"
-   assert info.get("pmInfo").get("password") == "pass4adam"
-   assert info.get("properties") == []
-   assert info.get("roopairs") == "failure"
-
-def test_NoAccount():
-   insertDummyInfo()
-   data = {"username": "dam@gmail.com", "password": "pass4adam"}
-   x = requests.post(url, json=data)
-   info = json.loads(x.text)
-   deleteTables()
-   assert info.get("status") == "failure"
-   assert info.get("pmInfo") == None
-   assert info.get("properties") == None
-   assert info.get("roopairs") == "failure"
-
-def test_BothAccounts():
-   insertDummyInfo()
-   data = {"username": "tommy@gmail.com", "password": "pass4tommy"}
-   x = requests.post(url, json=data)
-   info = json.loads(x.text)
-   deleteTables()
-   assert info.get("status") == "success"
-   assert info.get("pmInfo").get("LastName") == "Bergmann"
-   assert info.get("pmInfo").get("FirstName") == "Thomas"
-   assert info.get("pmInfo").get("email") == "tommy@gmail.com"
-   assert info.get("pmInfo").get("phone") == "8575552323"
-   assert info.get("pmInfo").get("password") == "pass4tommy"
-   assert len(info.get("properties")) == 2
-   assert info.get("properties")[0].get("address") == "200 North Santa Rosa Street"
-   assert info.get("properties")[0].get("numBath") == 3
-   assert info.get("roopairs") != "failure"
 
 ################################################################################
 # Vertical Prototype Functions
@@ -136,4 +86,53 @@ def deleteTables():
    # Close communication with the database
    cur.close()
    conn.close()
+
+################################################################################
+class TestStringMethods(unittest.TestCase):
+
+   def test_NoRoopairsAccount(self):
+      insertDummyInfo()
+      data = {"username": "adam@gmail.com", "password": "pass4adam"}
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      deleteTables()
+      assert info.get("status") == "success"
+      assert info.get("pmInfo").get("LastName") == "Berard"
+      assert info.get("pmInfo").get("FirstName") == "Adam"
+      assert info.get("pmInfo").get("email") == "adam@gmail.com"
+      assert info.get("pmInfo").get("phone") == "9092614617"
+      assert info.get("pmInfo").get("password") == "pass4adam"
+      assert info.get("properties") == []
+      assert info.get("roopairs") == "failure"
+   
+   def test_NoAccount(self):
+      insertDummyInfo()
+      data = {"username": "dam@gmail.com", "password": "pass4adam"}
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      deleteTables()
+      assert info.get("status") == "failure"
+      assert info.get("pmInfo") == None
+      assert info.get("properties") == None
+      assert info.get("roopairs") == "failure"
+   
+   def test_BothAccounts(self):
+      insertDummyInfo()
+      data = {"username": "tommy@gmail.com", "password": "pass4tommy"}
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      deleteTables()
+      assert info.get("status") == "success"
+      assert info.get("pmInfo").get("LastName") == "Bergmann"
+      assert info.get("pmInfo").get("FirstName") == "Thomas"
+      assert info.get("pmInfo").get("email") == "tommy@gmail.com"
+      assert info.get("pmInfo").get("phone") == "8575552323"
+      assert info.get("pmInfo").get("password") == "pass4tommy"
+      assert len(info.get("properties")) == 2
+      assert info.get("properties")[0].get("address") == "200 North Santa Rosa Street"
+      assert info.get("properties")[0].get("numBath") == 3
+      assert info.get("roopairs") != "failure"
+
+if __name__ == '__main__':
+    unittest.main()
 
