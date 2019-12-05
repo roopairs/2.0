@@ -4,6 +4,7 @@ import { PropertiesModel } from '../../../ViewModel/PropertiesModel';
 import axios from 'axios';
 import { View, Modal, Alert, ActivityIndicator, StatusBar, Text, Platform } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import { AccountDetailsModel } from '../../../ViewModel/AccountDetailsModel';
 
 /** 
  * These define the types for the prop and state attributes for the component. Notice 
@@ -65,12 +66,12 @@ export default abstract class LoginView extends React.Component<LoginViewProps, 
         .then((response) => {
           if(!((response["data"]['status']) === 'failure')){
             console.log(response['data'])
+            console.log(response['data']['roopairs'])
             PropertiesModel.initProperties(response['data']['properties'])
-            //alert(PropertiesViewModel.properties)
+            AccountDetailsModel.setToken(response['data']['roopairs'])
             this.props.navigation.navigate('Main')
           }else{
               this.setState({modalVisible : false, error: true, errorMessage: "Home Pairs was unable to log in. Please try again."})
-              //alert(response['data'])
           }
         })
         .catch(function (error) {

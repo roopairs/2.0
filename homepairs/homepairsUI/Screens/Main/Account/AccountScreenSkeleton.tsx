@@ -1,8 +1,10 @@
 import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
-import {ScrollView } from 'react-native';
+import {ScrollView, Text } from 'react-native';
 import {MainAppStyles} from '../MainAppStyles';
 import MainStackTitle from '../../../Components/MainAppComponents/MainStackTitle';
 import ConnectAccountCard from '../../../Components/MainAppComponents/ConnectAccountCard';
+import { AccountDetailsModel } from '../../../ViewModel/AccountDetailsModel';
+import AccountConnectedCard from '../../../Components/MainAppComponents/AccountConnectedCard';
 
 interface AccountScreenSkeletonProps {}
 export default abstract class AccountScreenSkeleton extends React.Component<AccountScreenSkeletonProps> {
@@ -18,6 +20,22 @@ export default abstract class AccountScreenSkeleton extends React.Component<Acco
      alert('I need to handle these results now!')
    }
 
+   handleDisconnectResults = (arg0?:any) => {
+     //TODO: Handle the results of disconnecting a Roopairs account from the Homepairs account 
+     alert('I need to handle these results now!')  
+   }
+
+   renderCardOnRoopairsConnection = () => {
+     if(AccountDetailsModel.roopairsToken === 'failure'){
+       return (
+        <ConnectAccountCard connectAccountCallBack={() => this.handleConnectResults()}/>
+       )
+     }
+     return(
+        <AccountConnectedCard disconnectAccountCallBack={() => this.handleDisconnectResults()}/>
+     )
+   }
+
    render = () => {
      return(
       <ScrollView 
@@ -27,8 +45,7 @@ export default abstract class AccountScreenSkeleton extends React.Component<Acco
       automaticallyAdjustContentInsets={false}>
           <MainStackTitle 
           title='Account Settings'/>
-          <ConnectAccountCard connectAccountCallBack={() => this.handleConnectResults()}/>
-          {/**TODO: Show Account Information for when connected to Roopairs Account*/}
+          {this.renderCardOnRoopairsConnection()}
       </ScrollView>
      )
    }
