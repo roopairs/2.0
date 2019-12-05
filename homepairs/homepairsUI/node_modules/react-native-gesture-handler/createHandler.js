@@ -1,42 +1,16 @@
 import React from 'react';
-import {
-  findNodeHandle as findNodeHandleRN,
-  NativeModules,
-  Touchable,
-  Platform,
-} from 'react-native';
+import { findNodeHandle, NativeModules, Touchable } from 'react-native';
 import deepEqual from 'fbjs/lib/areEqual';
 import RNGestureHandlerModule from './RNGestureHandlerModule';
+
 import State from './State';
 
-function findNodeHandle(node) {
-  if (Platform.OS === 'web') return node;
-  return findNodeHandleRN(node);
-}
-
-const { UIManager = {} } = NativeModules;
-
-const customGHEventsConfig = {
-  onGestureHandlerEvent: { registrationName: 'onGestureHandlerEvent' },
-  onGestureHandlerStateChange: {
-    registrationName: 'onGestureHandlerStateChange',
-  },
-};
-
-// Add gesture specific events to genericDirectEventTypes object exported from UIManager
-// native module.
-// Once new event types are registered with react it is possible to dispatch these
-// events to all kind of native views.
-UIManager.genericDirectEventTypes = {
-  ...UIManager.genericDirectEventTypes,
-  ...customGHEventsConfig,
-};
+const { UIManager } = NativeModules;
 
 // Wrap JS responder calls and notify gesture handler manager
 const {
-  setJSResponder: oldSetJSResponder = () => {},
-  clearJSResponder: oldClearJSResponder = () => {},
-  getConstants: oldGetConstants = () => ({}),
+  setJSResponder: oldSetJSResponder,
+  clearJSResponder: oldClearJSResponder,
 } = UIManager;
 UIManager.setJSResponder = (tag, blockNativeResponder) => {
   RNGestureHandlerModule.handleSetJSResponder(tag, blockNativeResponder);
@@ -46,17 +20,17 @@ UIManager.clearJSResponder = () => {
   RNGestureHandlerModule.handleClearJSResponder();
   oldClearJSResponder();
 };
-// We also add GH specific events to the constants object returned by
-// UIManager.getConstants to make it work with the newest version of RN
-UIManager.getConstants = () => {
-  const constants = oldGetConstants();
-  return {
-    ...constants,
-    genericDirectEventTypes: {
-      ...constants.genericDirectEventTypes,
-      ...customGHEventsConfig,
-    },
-  };
+
+// Add gesture specific events to genericDirectEventTypes object exported from UIManager
+// native module.
+// Once new event types are registered with react it is possible to dispatch these
+// events to all kind of native views.
+UIManager.genericDirectEventTypes = {
+  ...UIManager.genericDirectEventTypes,
+  onGestureHandlerEvent: { registrationName: 'onGestureHandlerEvent' },
+  onGestureHandlerStateChange: {
+    registrationName: 'onGestureHandlerStateChange',
+  },
 };
 
 let handlerTag = 1;
@@ -97,9 +71,6 @@ function transformIntoHandlerTags(handlerIDs) {
     handlerIDs = [handlerIDs];
   }
 
-  if (Platform.OS === 'web') {
-    return handlerIDs.map(({ current }) => current).filter(handle => handle);
-  }
   // converts handler string IDs into their numeric tags
   return handlerIDs
     .map(
