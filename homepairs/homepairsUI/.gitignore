@@ -12,3 +12,5 @@ web-report/
 *.log
 # macOS
 .DS_Store
+.jest/
+coverage/
