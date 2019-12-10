@@ -2,7 +2,7 @@ import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REA
 import { StyleSheet, Text, View, Platform} from 'react-native';
 
 interface AddressStickerProps {
-    address: string
+    address: String
 }
 
 export default class AddressSticker extends React.Component<AddressStickerProps> {

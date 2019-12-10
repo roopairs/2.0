@@ -1,4 +1,4 @@
-import LoginScreen from '../src/Screens/Auth/LoginScreen/LoginScreen.web';
+import LoginScreen from '../src/Screens/Auth/LoginScreen/LoginScreenBase.web';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import { View } from 'react-native';

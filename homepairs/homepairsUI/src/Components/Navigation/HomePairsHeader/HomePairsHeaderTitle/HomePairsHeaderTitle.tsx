@@ -2,24 +2,21 @@ import {
     View, 
     Text, 
     StyleSheet, 
-    Dimensions, 
     TouchableOpacity, 
-    Image,} from 'react-native';
+    Image,
+    Platform,} from 'react-native';
 import React from 'react'
-import { Platform } from 'react-native';
 import hamburgerButton from '../../../../../assets/Hamburger.png';
 
-
-interface HomePairsHeaderState{
-    showMenu : boolean,
-}
 interface HomePairsTitleProps {
     /**
      * This callBack function is intended to notify the parent header of when the 
      * hamburger icon has been clicked. The parameter intended to be passed should 
      * be this components showMenu property. 
     */
-    parentCallBack?: (arg0?: any) => any
+    toggleMenuCallBack?: (arg0?: any) => any
+    showGoBackButton: boolean
+    isDropDown: boolean
 }
 
 /**
@@ -30,23 +27,25 @@ interface HomePairsTitleProps {
  * This page has an optional props to send information back to the parent. This is function is intended to
  * help toggle the drop down menu of the header when the hamburger menu is present. 
  */
-export class HomePairsHeaderTitle extends React.Component<HomePairsTitleProps, HomePairsHeaderState>{
-    sendData(){
-        this.props.parentCallBack()
-    }
-
+export class HomePairsHeaderTitle extends React.Component<HomePairsTitleProps>{
+    
+    hamburgerButton = (Platform.OS === 'web') ? hamburgerButton : require('../../../../../assets/Hamburger.png') 
+    hamburgerStyle = (Platform.OS === 'web') ? styles.hamburgerStyleWeb : styles.hamburgerStyle
+    hamburgerImageStyle = (Platform.OS === 'web') ? styles.homePairsHamburgerImageWeb : styles.homePairsHamburgerImage
+    
+    
     /**
      * This should be called when running on a native application. 
      * NOTE: require('') seems to only work in native apps. 
      */
-    nativeRender(){
+    dropDownRender(){
         return (
             <TouchableOpacity
-            onPress={() => this.sendData()}
-            style={styles.hamburgerStyle}>
+            onPress={() => this.props.toggleMenuCallBack()}
+            style={this.hamburgerStyle}>
                 <Image 
-                style={styles.homePairsHamburgerImage} 
-                source={require('../../../../../assets/Hamburger.png')}/>
+                style={this.hamburgerImageStyle} 
+                source={this.hamburgerButton}/>
             </TouchableOpacity> 
         )
     }
@@ -55,50 +54,31 @@ export class HomePairsHeaderTitle extends React.Component<HomePairsTitleProps, H
      * This should be called when running on native-web. It seems react-native-web is 
      * required to import local images in order to render them. 
      */
-    webRender(){
-        let window = Dimensions.get('window').width
+    chooseWideRender(){
         /**
          * Case 1: If window is large, show all navigation options next to title
          * Else:: If window is tiny, show hamburger menu for dropdown navigation
          */
-        if(window >= 600){
-            return(
-                <View style={{height:'0%', width:'0%'}}></View>
-            )
-        }else{
-            return(<TouchableOpacity
-                onPress={() => this.sendData()}
-                style={styles.hamburgerStyleWeb}>
-                    <Image 
-                    style={styles.homePairsHamburgerImageWeb} 
-                    source={hamburgerButton}/>
-                </TouchableOpacity> )
+        if(this.props.isDropDown){
+            return this.dropDownRender()
         }
+        
+        return(
+            <View style={{height:'0%', width:'0%'}}></View>
+        )
     }
-
-    /**
-     * Use the Platorm.OS library to determine if running on the web. Appropriate render is executed 
-     * based on the returned result.
-     */
-    chooseRender(){
-        if(Platform.OS === 'web')
-            return this.webRender()
-        else 
-            return this.nativeRender()
-    }
-
     render() {
         return (
-           <View style={styles.homePairsTitleContianer}>
+           <View style={styles.homePairsTitleContainer}>
                <Text style={styles.homePairsTitle}>HomePairs</Text>
-               {this.chooseRender()}
+               {this.chooseWideRender()}
            </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    homePairsTitleContianer : {
+    homePairsTitleContainer : {
         flexDirection: 'row', 
         padding: 15,
         height: 80,
@@ -118,7 +98,7 @@ const styles = StyleSheet.create({
         height: 45,
     },
     hamburgerStyle: {
-       flex: 1,
+       flex: 2,
        marginRight: "3%",
        height: null,
        width: null,

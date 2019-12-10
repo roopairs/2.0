@@ -2,24 +2,35 @@ import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REA
 import { StyleSheet, Text, View, Platform, ImageBackground, } from 'react-native';
 import ThinButton from '../GeneralComponents/Buttons/ThinButton';
 import defaultPropertyImage from '../../../assets/defaultProperty.png'
-import { PropertiesModel } from '../../ViewModel/PropertiesModel';
 
-interface ViewPropertyCardProps {
-    viewPropertyDetails?: (arg0:number, arg1: any) => any
+/**
+ * Main App Components will have similar functionality to the parent components ONLY 
+ * in terms of Presentation. These are NOT SMART COMPONENTS. These components should never 
+ * have access the store. They should send information back to the parent class and allow
+ * the parent to take care of logic related to the global state. 
+ */
+type ViewPropertyCardProps = {
+    viewButtonSelectedCallBack?: (arg0?:number, arg1?:any) => any
     propertyIndex: number
+    propertyAddress: String
 }
 
-export default class ViewPropertyCard extends React.Component<ViewPropertyCardProps> {
-    constructor(props){
+export default class ViewPropertyCardBase extends React.Component<ViewPropertyCardProps> {
+    constructor(props: Readonly<ViewPropertyCardProps>){
         super(props)
     }
 
     getAddress = () => {
-        return PropertiesModel.properties[this.props.propertyIndex]['address']
+        return this.props.propertyAddress
     }
 
-    viewProperty = () => {
-        this.props.viewPropertyDetails(this.props.propertyIndex, PropertiesModel.properties[this.props.propertyIndex])
+    /**
+     * This function is inteded to invoke the callback to its parent function. It will return the index of the 
+     * the Property found in global store's PropertyState which an array of Properties, Property[]
+     */
+    sendIndexToParent = () => {
+        console.log(this.props.viewButtonSelectedCallBack)
+        this.props.viewButtonSelectedCallBack(this.props.propertyIndex)
     }
 
     render() {
@@ -32,7 +43,7 @@ export default class ViewPropertyCard extends React.Component<ViewPropertyCardPr
                 imageStyle={styles.imageStyle}
                 resizeMode='cover'>
                     <View style={styles.propertyAddressContainer}>
-                <Text style={styles.streetText}>{this.getAddress()}</Text>
+                <Text style={styles.streetText}>{this.props.propertyAddress}</Text>
                 <Text style={styles.cityText}>San Luis Obispo, CA</Text>
                 </View>
                 </ImageBackground>
@@ -43,13 +54,12 @@ export default class ViewPropertyCard extends React.Component<ViewPropertyCardPr
                 containerStyle={styles.thinButtonContainer}
                 buttonStyle={styles.thinButton}
                 buttonTextStyle={styles.thinButtonText}
-                onClick={this.viewProperty} />
+                onClick={this.sendIndexToParent} />
                 </View>
             </View>
         );
     }
 }
-
 
 const styles = StyleSheet.create({
     streetText:{

@@ -19,7 +19,7 @@ export class PropertiesModel{
 
     static initProperties(data:any){
         const values = data
-        values.forEach(element => {
+        values.forEach((element: any) => {
             PropertiesModel.properties.push((new Property(element)).property)
         });
     }

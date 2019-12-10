@@ -2,8 +2,6 @@ import React from "react";
 import { AsyncStorage, View, ActivityIndicator, StatusBar, StyleSheet, Image } from "react-native";
 import * as Font from 'expo-font';
 import {NavigationProps} from '../utility/NavigationProps'
-import { PropertiesViewModel } from '../ViewModel/PropertiesModel';
-import axios from 'axios';
  
 export default class AuthLoadingScreen extends React.Component<NavigationProps> {
     constructor(props) {

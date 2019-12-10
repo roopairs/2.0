@@ -1,15 +1,15 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import PropertiesScreen from '../Screens/Main/Properties/PropertiesScreen';
+import PropertiesScreen from '../Screens/Main/Properties/PropertiesScreen/PropertiesScreen';
 import LoadingScreen from '../Screens/LoadingScreen';
 import SignUpScreen from '../Screens/Auth/SignUpScreen/SignUpScreen';
 import LoginScreen from '../Screens/Auth/LoginScreen/LoginScreen';
 import ServiceRequestScreen from '../Screens/Main/ServiceRequest/ServiceRequestScreen';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import HomePairsHeader from '../Components/Navigation/HomePairsHeader/HomePairsHeader';
 import React from 'react'
 import AccountScreen from '../Screens/Main/Account/AccountScreen';
-import DetailedPropertyScreen from '../Screens/Main/Properties/DetailedPropertyScreen';
+import DetailedPropertyScreen from '../Screens/Main/Properties/DetailedPropertiesScreen/DetailedPropertyScreen';
 
 const navigationHeader = (navigation: any) => ({
   header :
@@ -31,18 +31,35 @@ const authStackConfig = {
     }
   }
   
-  const mainStackConfig = {
+  const mainStackConfig: any = {
     defaultNavigationOptions: navigationHeader,
     initialRouteName: 'Properties',
   }
     
-  const propertyStackConfig = {
-    //defaultNavigationOptions: navigationHeader,
-    initialRouteName: 'AccountProperties',
+  const propertyStackConfigMobile: any = { 
+    headerMode: 'none',
   }
-  const PropertyStack = createSwitchNavigator({AccountProperties: PropertiesScreen, DetailedProperty: DetailedPropertyScreen}, propertyStackConfig);
+
+  /**
+   * There seems to be a bug on the the navigationStack for web. 
+   * It does not properly render a header to none but the entire page. 
+   * This is the current workaround
+   */
+  const propertyStackConfigWeb:any = {
+    defaultNavigationOptions: {
+      headerStyle: {
+        height: 0,
+        width: 0,
+      },
+    },
+  }
+
+  const propertyStackConfig = {
+    initialRouteName : 'AccountProperties',  
+  ...(Platform.OS === 'web' ? propertyStackConfigWeb : propertyStackConfigMobile)}
+  
+  const PropertyStack = createStackNavigator({AccountProperties: PropertiesScreen, DetailedProperty: DetailedPropertyScreen}, propertyStackConfig);
   const MainStack = createStackNavigator({Properties: PropertyStack, ServiceRequest: ServiceRequestScreen, Account: AccountScreen}, mainStackConfig);
-  //const MainStack = createStackNavigator({Properties: PropertiesScreen, ServiceRequest: ServiceRequestScreen, Account: AccountScreen}, mainStackConfig);
   const AuthStack = createSwitchNavigator({ Login: LoginScreen, SignUp: SignUpScreen},  authStackConfig);
   export default createAppContainer(createSwitchNavigator(
     {

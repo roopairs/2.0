@@ -1,6 +1,5 @@
 
-interface NavigationProps {
+type NavigationProps = {
     navigation: any
 }
-
 export {NavigationProps};

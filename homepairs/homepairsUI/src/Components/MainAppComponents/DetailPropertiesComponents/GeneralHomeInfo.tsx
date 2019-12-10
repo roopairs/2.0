@@ -4,31 +4,16 @@ import ThinButton from '../../GeneralComponents/Buttons/ThinButton';
 
 
 interface GeneralHomeInfoProps {
-    address: string
+    address: String
     tenants: number
     bedrooms: number
-    bathrooms: number 
-}
-interface GeneralHomeInfoState {
-    address: string
-    tenants: number
-    bedrooms: number
-    bathrooms: number 
+    bathrooms: number
+    onClick: () => any  
 }
 
-export default class GeneralHomeInfo extends React.Component<GeneralHomeInfoProps, GeneralHomeInfoState> {
-    
-    constructor(props: Readonly<GeneralHomeInfoProps>){
-        super(props)
-        this.state = {
-            address : this.props.address,
-            tenants: this.props.tenants,
-            bedrooms: this.props.bedrooms,
-            bathrooms: this.props.bathrooms
-        }
-    }
+export default class GeneralHomeInfo extends React.Component<GeneralHomeInfoProps> {
 
-    detailBox = (arg0: string, arg1: number) => {
+    detailBox = (arg0: String, arg1: number) => {
         return(
             <View style={{flex: 1, alignSelf: 'center', alignItems: 'center'}}> 
                 <Text style={{fontSize:12, marginBottom: 10, color: '#727A7C'}}>{arg0}</Text>
@@ -40,27 +25,27 @@ export default class GeneralHomeInfo extends React.Component<GeneralHomeInfoProp
     livingSpace = () => {
         return (
             <View style={styles.livingSpaceContainer}> 
-                {this.detailBox('Max Tenants',this.state.tenants)}
-                {this.detailBox('Bedrooms',this.state.bedrooms)}
-                {this.detailBox('Bathrooms',this.state.bathrooms)}
+                {this.detailBox('Max Tenants',this.props.tenants)}
+                {this.detailBox('Bedrooms',this.props.bedrooms)}
+                {this.detailBox('Bathrooms',this.props.bathrooms)}
             </View>
         )
     }
-    
+
     render() {
         /**Need the wrapper View so iOS can render the content properly. I don't know why it does this. */
         return(
             <View>
             <View style={styles.container}>
             <View style={styles.addressContainer}>
-                    <Text style={styles.streetAddress}>{this.state.address}</Text>
+                    <Text style={styles.streetAddress}>{this.props.address}</Text>
                     <Text style={styles.cityStateText}>San Luis Obispo, CA</Text>
                 </View>
                 {this.livingSpace()}
                 <ThinButton 
                 name='Edit Property'
                 buttonStyle={styles.editButton}
-                onClick={() => {alert('TODO: Create Edit Property Modal!')}}/>
+                onClick={() => this.props.onClick()}/>
             </View>
             </View>
         );
