@@ -14,3 +14,4 @@ web-report/
 .DS_Store
 .jest/
 coverage/
+node_modules/
