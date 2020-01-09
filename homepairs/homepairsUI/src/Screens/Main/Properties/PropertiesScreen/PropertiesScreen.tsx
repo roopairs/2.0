@@ -1,23 +1,26 @@
-import { AppState } from "../../../../state/types";
+import { AppState } from "homepair-types";
 import { connect } from "react-redux";
-import PropertiesScreenBase from './PropertiesScreenBase';
-import { showGoBackButton } from '../../../../state/header/actions';
+import PropertiesScreenBase, {PropertiesScreenStateProps} from './PropertiesScreenBase'
+import { withScene, AddNewPropertyModal, withDarkMode } from 'homepair-components'
+import { MainAppStackType } from 'homepair-types';
 
-function mapStateToProps(state: AppState){ 
+const sceneParams : MainAppStackType = { 
+  title: 'Properties', 
+  navigate: 'AccountProperties',
+  key: 'Properties',
+  button: 'Add Property',
+  buttonAction: AddNewPropertyModal
+}
+
+function mapStateToProps(state: AppState) : PropertiesScreenStateProps { 
   return {
     properties: state.propertyList,
     header: state.header
   }
 };
   
-const mapDispatchToProps = dispatch => ({
-  onSetHeaderGoBackButton: (isSet:boolean) => {
-      dispatch(showGoBackButton(isSet));
-  },
-});
-
 const PropertiesScreen = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(PropertiesScreenBase);
-export default PropertiesScreen;
+
+export default withDarkMode(withScene(PropertiesScreen, sceneParams));

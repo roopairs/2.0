@@ -1,1 +1,0 @@
-export enum AccountTypes{Tenant, Landlord}

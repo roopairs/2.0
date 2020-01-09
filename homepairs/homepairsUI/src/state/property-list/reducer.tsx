@@ -4,7 +4,8 @@ import {
       AddPropertyAction, 
       RemovePropertyAction, 
       UpdatePropertyAction, 
-      FetchPropertyAction } from '../types';
+      FetchPropertyAction 
+} from '../types';
 import { PROPERTY_LIST_ACTION_TYPES } from './actions';
 
 /**

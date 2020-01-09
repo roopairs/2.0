@@ -1,49 +1,46 @@
-import { FetchUserAccountProfileAction, LandlordAccount, Account, TenantAccount, AccountState } from '../types';
+import { 
+  FetchUserAccountProfileAction, 
+  LandlordAccount, 
+  Account, 
+  TenantAccount, 
+  AccountState, 
+  AccountTypes,
+  HomePairsResponseKeys, 
+} from '../types';
 import axios from 'axios'
 import { fetchProperties } from '../property-list/actions';
 
-const DATA = 'data'
-
-const PMINFO = 'pmInfo'
-const FIRSTNAME = 'FirstName'
-const LASTNAME = 'LastName'
-const EMAIL = 'email'
-const MANID = 'manId'
-const PASSWORD = 'password'
-const PHONE = 'phone'
-const PROPID = 'propId'
-const TENANTID = 'tenantID'
-
-const PROPERTIES = 'properties'
-const ROOPAIRS = 'roopairs'
-const STATUS = 'status'
-
-const SUCCESS = 'success'
-const FAILURE = 'failure'
+let responseKeys = HomePairsResponseKeys;
+let accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
+let responseStatus = HomePairsResponseKeys.STATUS_RESULTS;
 
 export enum FETCH_PROFILE_ACTION_TYPES {
     FETCH_PROFILE = 'ACCOUNT/FETCH_PROFILE',
+    GENERATE_ACCOUNT = 'ACCOUNT/GENERATE_ACCOUNT'
 }
 
 export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileAction => {
-    let profile = accountJSON[PMINFO]
+    let profile = accountJSON[accountKeys.PMINFO]
     let fetchedProfile : AccountState 
     let baseProfile : Account = {
-        firstName: profile[FIRSTNAME],
-        lastName: profile[LASTNAME],
-        email: profile[EMAIL],
-        phone: profile[PHONE],
-        roopairsToken: accountJSON[ROOPAIRS]
+        accountType: AccountTypes.Tenant,
+        firstName: profile[accountKeys.FIRSTNAME],
+        lastName: profile[accountKeys.LASTNAME],
+        email: profile[accountKeys.EMAIL],
+        phone: profile[accountKeys.PHONE],
+        roopairsToken: accountJSON[responseKeys.ROOPAIRS]
     }
-    if(profile[TENANTID] == null){
+    if(profile[accountKeys.TENANTID] == null){
         var landLordProfile : LandlordAccount = { ...baseProfile,
-            manId: profile[MANID],
+            manId: profile[accountKeys.MANID],
         }
+        //Make sure to change from Tenant Account to Landlord
+        landLordProfile[accountKeys.TYPE] = AccountTypes.Landlord
         fetchedProfile = landLordProfile
     }else{
         var tenantProfile : TenantAccount = { ...baseProfile,
-            tenantId: profile[TENANTID],
-            propId: profile[PROPID],
+            tenantId: profile[accountKeys.TENANTID],
+            propId: profile[accountKeys.PROPID],
         }
         fetchedProfile = tenantProfile
     }
@@ -57,14 +54,15 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
 export const fetchAccount = (
     Username: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
     return async (dispatch: (arg0: any) => void) => {
+        //TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
         return await axios.post('http://vertical-proto-homepairs.herokuapp.com/verticalAPI/', {
             username: Username,
             password: Password,
           } )
           .then((response) => {
-            if(!(response[DATA][STATUS] === FAILURE)){
-              dispatch(fetchAccountProfile(response[DATA]))
-              dispatch(fetchProperties(response[DATA][PROPERTIES]))
+            if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
+              dispatch(fetchAccountProfile(response[responseKeys.DATA]))
+              dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
               navigateMainCallBack()
             }else{
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")
@@ -79,4 +77,10 @@ export const fetchAccount = (
           });
     };
 };
+
+export const generateAccount = (accountDetails: Account, password: String) => {
+  //TODO: Complete this function for backend is able to initialize accounts
+  alert(accountDetails.accountType + "\n" + accountDetails.firstName + " " + accountDetails.lastName + 
+        "\n" + accountDetails.email + "\n" + password)
+}
 

@@ -1,5 +1,16 @@
-import { AddPropertyAction, UpdatePropertyAction, RemovePropertyAction, FetchPropertyAction, Property } from '../types';
+import { 
+    AddPropertyAction,
+    UpdatePropertyAction, 
+    RemovePropertyAction, 
+    FetchPropertyAction, 
+    Property,
+    HomePairsResponseKeys,
+} from '../types';
 import axios from 'axios'
+
+let responseKeys = HomePairsResponseKeys;
+let loginStatus = HomePairsResponseKeys.STATUS_RESULTS;
+let propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
 
 export enum PROPERTY_LIST_ACTION_TYPES {
     ADD_PROPERTY = 'PROPERTY_LIST/ADD_PROPERTY',
@@ -40,10 +51,10 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertyActi
     let fetchedProperties : Property[] = new Array()
     linkedProperties.forEach(element => {
         fetchedProperties.push({
-            address: element['address'],
-            tenants: element['maxTenants'],
-            bedrooms : element['numBed'],
-            bathrooms : element['numBath']})
+            address: element[propertyKeys.ADDRESS],
+            tenants: element[propertyKeys.TENANTS],
+            bedrooms : element[propertyKeys.BEDROOMS],
+            bathrooms : element[propertyKeys.BATHROOMS]})
     });
     return {
       type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
@@ -54,13 +65,14 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertyActi
 export const fetchAllProperties = (
     Username: String, Password: String, modalSetOffCallBack?: () => void, navigateMainCallBack?: () => void) => {
     return (dispatch: (arg0: any) => void) => {
+        //TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
         return axios.post('http://vertical-proto-homepairs.herokuapp.com/verticalAPI/', {
             username: Username,
             password: Password,
           })
           .then((response) => {
-            if(!((response["data"]['status']) === 'failure')){
-              dispatch(fetchProperties(response["data"]['properties']))
+            if(!((response[responseKeys.DATA][responseKeys.STATUS]) === loginStatus.FAILURE)){
+              dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
               navigateMainCallBack()
             }else{
                 modalSetOffCallBack()

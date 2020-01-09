@@ -1,10 +1,14 @@
-import { AccountState, FetchUserAccountProfileAction, AccountStateAction } from '../types';
+import { 
+    AccountState, 
+    FetchUserAccountProfileAction, 
+    AccountStateAction 
+} from '../types';
 import { FETCH_PROFILE_ACTION_TYPES } from './actions';
 
 /**
 * A reducer is a pure function that takes the previous state and 
 * an action as arguments and returns a new state. The reducer is 
-* instrumental in keeping the current state of friends updated 
+* instrumental in keeping the current state updated 
 * throughout our app as it changes. 
 * */
 

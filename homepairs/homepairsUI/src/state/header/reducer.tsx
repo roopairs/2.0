@@ -4,13 +4,13 @@ import {
     SwitchDropDownNavBarAction,
     ShowGoBackButtonAction,
     UpdateSelectedPageAction,
-    HeaderAction} from '../types';
+    HeaderAction,
+    HomePairsDimensions,
+} from '../types';
 import { HEADER_ACTION_TYPES } from './actions';
 import { Dimensions } from 'react-native';
-
-
-const DROP_MENU_WIDTH = 700;
-
+import strings from 'homepair-strings'
+import { MainAppStack } from '../../Routes/Routes';
 /**
  * This function is intended be called when the application first loads. It 
  * will insure the that header is rendered correctly based on the dimensions 
@@ -19,7 +19,7 @@ const DROP_MENU_WIDTH = 700;
  */
 function determineInitialIsDropDown() {
     var width= Dimensions.get('window').width
-    if(width < DROP_MENU_WIDTH){
+    if(width < HomePairsDimensions.DROP_MENU_WIDTH){
         return true
     }else{
         return false  
@@ -29,13 +29,13 @@ function determineInitialIsDropDown() {
 export const initialState: HeaderState = {
     showMenu : false,
     isDropDown: determineInitialIsDropDown(),
-    currentPage: 0,
+    currentPage: MainAppStack[0],
     showBackButton: false,
     menu: [
-        'Properties', 
-        'Service Request', 
-        'Account Settings',
-        'Log Out', 
+        strings.propertiesPage.title,
+        strings.serviceRequestPage.title,
+        strings.connectAccountPage.title,
+        strings.logOut,
     ]
 };
 

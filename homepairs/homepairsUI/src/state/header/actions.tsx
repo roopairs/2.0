@@ -3,8 +3,8 @@ import {
     SwitchDropDownNavBarAction,
     ShowGoBackButtonAction,
     UpdateSelectedPageAction,
+    MainAppStackType,
 } from '../types';
-
 
 export enum HEADER_ACTION_TYPES {
     TOGGLE_MENU = 'HEADER/TOGGLE_MENU',
@@ -34,7 +34,7 @@ export const showGoBackButton = (showBackButton: boolean): ShowGoBackButtonActio
     }
 };
 
-export const updateSelectedPage = (selectedPage: number): UpdateSelectedPageAction =>{
+export const updateSelectedPage = (selectedPage: MainAppStackType): UpdateSelectedPageAction =>{
     return {
       type : HEADER_ACTION_TYPES.UPDATE_SELECTED_PAGE,
       selected: selectedPage,
