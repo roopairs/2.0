@@ -5,7 +5,7 @@ import { View, ScrollView } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import PropertiesScreenBase from '../../src/Screens/Main/Properties/PropertiesScreen/PropertiesScreenBase';
-import MainStackTitle from '../../src/Components/MainAppComponents/MainStackTitle';
+import { SceneHeader } from 'homepair-components';
 
 const mockStore = configureStore();
 // const mockDispatchfn = jest.fn(() => new Promise(resolve => resolve('')));
@@ -47,6 +47,6 @@ describe("PropertiesScreenBase", () => {
   it("Test amount of Views with no Properties", () => {
     expect(wrapper.find(View)).toHaveLength(1)
     expect(wrapper.find(ScrollView)).toHaveLength(1)
-    expect(wrapper.find(MainStackTitle)).toHaveLength(1)
+    expect(wrapper.find(SceneHeader)).toHaveLength(1)
   })
 })
