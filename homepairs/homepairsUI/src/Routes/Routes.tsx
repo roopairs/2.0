@@ -9,6 +9,7 @@ import { View, Platform } from 'react-native';
 import { HomePairsHeader, AddNewPropertyModal } from 'homepair-components';
 import { MainAppStackType } from 'homepair-types';
 
+//these should be separated into different files for each Route (AccountProperties, Service Request, Account)
 export const MainAppStack : Array<MainAppStackType> = [
   { 
       title: 'Properties', 
@@ -82,6 +83,7 @@ const authStackConfig = {
     },
   }
 
+  //these should be separated into different files for each Route (AccountProperties, Service Request, Account)
   const propertyStackConfig = {
     initialRouteName : 'AccountProperties',  
   ...(Platform.OS === 'web' ? innerStackConfigWeb : innerStackConfigMobile)}
@@ -103,6 +105,10 @@ const authStackConfig = {
     {Account: MainAppPages.AccountPages.AccountScreen},
     accountStackConfig)
   
+  /*
+   * injects navigator objects into all these pages; if you make a new page that needs a navigator, add it to this stack 
+   * (example: SignUp navigates to SignUpScreen [syntax: SignUp: AuthenticationPages.SignUpScreen])
+   */
   const MainStack = createStackNavigator({Properties: PropertyStack, ServiceRequest: ServiceRequestStack, Account: AccountStack}, mainStackConfig);
   const AuthStack = createSwitchNavigator({ Login: AuthenticationPages.LoginScreen, SignUp: AuthenticationPages.SignUpScreen},  authStackConfig);
   
