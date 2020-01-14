@@ -1,0 +1,25 @@
+jobs:
+  include: #frontend tests, node_js
+    - language: node_js
+      node_js:
+        - node
+        - lts/*
+      cache:
+      directories:
+        - ~/.npm
+      before_script:
+        - npm install -g npm@latest
+      script:
+        - cd homepairs/homepairsUI
+        - npm ci
+        - npx jest --ci
+
+  #backend tests, python
+    - language: python
+      python:
+        - "3.7.4"
+      install:
+        - pip install -r unittests/requirements.txt
+      script:
+        - cd homepairs/homepairsUI
+        - unittests/runTests.sh
