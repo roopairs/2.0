@@ -1,18 +1,30 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from .models import PropertyManager
 import requests
 import json
 
 ################################################################################
 # Functions
 #
+def getTenant(email, password):
+   print(PropertyManager.objects.all())
+#def username_present(uemail, upassword):
+#    land = landlord.objects.filter(email=uemail)
+#    tenant = tenant.objects.filter(email=uemail, password=upassword)
+#    if land.exists():
+#        #return landlord login
+#    elif tenant.exists():
+#        #return tenant login
+#        tenant[0].id
+#    #return login failed
 
 ################################################################################
 # Views / API Endpoints
 #
 
 @api_view(['GET', 'POST'])
-def testVert(request):
+def login(request):
 
    email = request.data.get('email')
    password = request.data.get('password')

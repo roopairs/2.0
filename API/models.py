@@ -3,7 +3,6 @@ from django.db import models
 # Create your models here.
 
 class PropertyManager(models.Model):
-   propertyManagerId = models.AutoField(primary_key=True)
    lastName = models.CharField(max_length=100)
    firstName = models.CharField(max_length=100)
    email = models.CharField(max_length=255)
@@ -18,7 +17,6 @@ class Property(models.Model):
    manager = models.ForeignKey(PropertyManager, on_delete=models.CASCADE)
 
 class Tenant(models.Model):
-   tenantId = models.AutoField(primary_key=True)
    lastName = models.CharField(max_length=100)
    firstName = models.CharField(max_length=100)
    email = models.CharField(max_length=255)
