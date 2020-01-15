@@ -19,9 +19,8 @@ from .models import PropertyManager, Property, Tenant
 ################################################################################
 # Vars
 
-url = "https://vertical-proto-homepairs.herokuapp.com/verticalAPI/"
-url = "https://homepairs-alpha.herokuapp.com/API/login/"
-url = "http://localhost:8000/API/login/"
+globUrl = "https://homepairs-alpha.herokuapp.com/API/"
+globUrl = "http://localhost:8000/API/"
 
 ################################################################################
 # Vertical Prototype Functions
@@ -67,7 +66,9 @@ class TestStringMethods(unittest.TestCase):
    # Tenant Login Tests
    def test_tenant_allCorrect(self):
       setup()
-      data = {"type": "login", "email": "ad@m.com", "password": "adamiscool"}
+      data = {"email": "adamkberard@gmail.com", "password": "pass4adam"}
+      url = globUrl + 'login/tenant/'
+      print(url)
       x = requests.post(url, json=data)
       print(x.text)
       #info = json.loads(x.text)
