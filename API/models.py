@@ -3,13 +3,15 @@ from django.db import models
 # Create your models here.
 
 class PropertyManager(models.Model):
-   lastName = models.CharField(max_length=100)
    firstName = models.CharField(max_length=100)
+   lastName = models.CharField(max_length=100)
    email = models.CharField(max_length=255)
    phone = models.CharField(max_length=30)
 
 class Property(models.Model):
-   address = models.CharField(max_length=255)
+   streetAddress = models.CharField(max_length=255)
+   city = models.CharField(max_length=255)
+   state = models.CharField(max_length=255)
    SLID = models.IntegerField()
    numBath = models.IntegerField()
    numBed = models.IntegerField()
@@ -17,8 +19,8 @@ class Property(models.Model):
    manager = models.ForeignKey(PropertyManager, on_delete=models.CASCADE)
 
 class Tenant(models.Model):
-   lastName = models.CharField(max_length=100)
    firstName = models.CharField(max_length=100)
+   lastName = models.CharField(max_length=100)
    email = models.CharField(max_length=255)
    phone = models.CharField(max_length=30)
    password = models.CharField(max_length=20)
