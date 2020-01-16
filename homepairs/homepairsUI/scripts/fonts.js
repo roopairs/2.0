@@ -5,6 +5,7 @@
  * to the function for loading all fonts (for native applications) and the access of use 
  * to these fonts. Run this script whenever a new font is inputted into the res/assets/fonts 
  * folder. 
+ * 
  */
 
 const fs = require('fs')
@@ -22,9 +23,11 @@ const generate = () => {
   const loadedProperties = fontFileNames()
     .map((name) => {
       const key = name.replace(/\s/g, '')
-      return `\t\t'${key.toLowerCase()}': require('./assets/fonts/${name}.ttf')`
+      return `\tawait Font.loadAsync({
+\t\t'${key.toLowerCase()}': require('./assets/fonts/${name}.ttf')
+\t});`
     })
-    .join(',\n')
+    .join('\n')
   
     const properties = fontFileNames()
         .map((name) => {
@@ -34,11 +37,15 @@ const generate = () => {
 
 const string = `import * as Font from 'expo-font';
 
+/** 
+ * NOTICE: We are required to call the loadAsync multiple times. This is due to a bug in how non-Chrome 
+ * web browsers appear to call this async function. If more than one asset is loaded, the function 
+ * never does completed. Therefore, this is a hack-around for the problem. 
+ * 
+ * I may report this issue to expo.
+*/
 export const LoadFonts = async () => {
-\tawait Font.loadAsync({
-\t\t//Load desired fonts into /res/assets/fonts and then run the script via: npm run fonts 
 ${loadedProperties}
-\t});
 }
 
 export const HomePairFonts = {
