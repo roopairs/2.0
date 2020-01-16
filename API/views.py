@@ -135,11 +135,13 @@ def tenantRegister(request):
 
 @api_view(['GET', 'POST'])
 def pmRegister(request):
+   print("HERE 1")
    url = "https://capstone.api.roopairs.com/v0/auth/register/"
 
    if ("firstName" in request.data and "lastName" in request.data and
        "email" in request.data and "phone" in request.data and
        "password" in request.data and "companyName" in request.data):
+      print("HERE 2")
       pmFirstName = request.data.get("firstName")
       pmLastName = request.data.get("lastName")
       pmEmail = request.data.get("email")
@@ -157,12 +159,17 @@ def pmRegister(request):
                                       "industry_type": 1
                                    }
              }
+      print("HERE 3")
       response = requests.post(url, json=data)
+      print("HERE 4")
       info = json.loads(response.text)
+      print("HERE 5")
 
       if "non_field_errors" in info:
+         print("HERE 5")
          return Response(returnError("could'nt make a roopairs account"))
       elif 'token' in info:
+         print("HERE 6")
          # NEEED TO ADD THEE DUDE
          tempPM = PropertyManager(
                                     firstName=pmFirstName,
@@ -170,10 +177,13 @@ def pmRegister(request):
                                     email=pmEmail,
                                     phone=pmPhone)
          tempPM.save()
+         print("HERE 7")
          tempDict = getPropertyManager(pmEmail)
          if tempDict['status'] == 'failure':
+            print("HERE 8")
             return Response(data=returnError('no homepairs account: %s' % tempDict['error']))
          tempDict['token'] = info.get('token')
+         print("HERE 9")
          return Response(data=tempDict)
    else:
       print("WHACK")
