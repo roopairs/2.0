@@ -125,7 +125,7 @@ def tenantRegister(request):
                          pm = tenPM)
             ten.save()
             return Response(data=tenantLogin(request))
-         return Response(data=returnError('too many props?')
+         return Response(data=returnError('too many props?'))
       return Response(data=getTenant(tenEmail, tenPass))
    else:
       return Response(data=returnError('incorrect11fields'))
