@@ -20,7 +20,9 @@ export enum FETCH_PROFILE_ACTION_TYPES {
 }
 
 export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileAction => {
-    let profile = accountJSON[accountKeys.PM]
+    let profile
+    if(accountJSON[accountKeys.PM] != null){ profile = accountJSON[accountKeys.PM] } //it's a PM
+    else{ profile = accountJSON[accountKeys.TENANT] } //it's a Tenant
     console.log(accountJSON[accountKeys.PM])
     let fetchedProfile : AccountState 
     let baseProfile : Account = {
