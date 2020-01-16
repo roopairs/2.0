@@ -38,7 +38,7 @@ def getTenant(tenantEmail, tenantPassword):
 # Views / API Endpoints
 #
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 def pmLogin(request):
    url = "https://capstone.api.roopairs.com/v0/auth/login/"
 
@@ -70,7 +70,7 @@ def tenantRegister(request):
 def pmRegister(request):
    print('')
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 def tenantLogin(request):
    if "email" in request.data and "password" in request.data:
       tenantEmail = request.data.get("email")
