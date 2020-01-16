@@ -42,7 +42,7 @@ const strings = {
       subtitle: 'Sign in to your Account',
       inputForms: {
         email: 'EMAIL',
-        password: 'PASSWORD'
+        password: 'PASSWORD', 
       },
       button: 'Sign In',
       signUpHighlight: 'Sign Up',
@@ -60,8 +60,13 @@ const strings = {
         firstName: 'FIRST NAME',
         lastName: 'LAST NAME',
         email: 'EMAIL',
+        phone: 'PHONE',
         password: 'PASSWORD',
         confirmPassword: 'CONFIRM PASSWORD',
+        address: 'ADDRESS', 
+        city: 'CITY',
+        companyName: 'COMPANY NAME', 
+        companyType: 'COMPANY TYPE'
       },
       button: 'Sign Up',
       currentUserText: 'Already have an account? ',

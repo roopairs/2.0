@@ -29,6 +29,10 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
         lastName: profile[accountKeys.LASTNAME],
         email: profile[accountKeys.EMAIL],
         phone: profile[accountKeys.PHONE],
+        address: profile[accountKeys.ADDRESS], 
+        city: profile[accountKeys.CITY],
+        companyName: profile[accountKeys.COMPANY_NAME], 
+        companyType: profile[accountKeys.COMPANY_TYPE],
         roopairsToken: accountJSON[responseKeys.ROOPAIRS]
     }
     if(profile[accountKeys.TENANTID] == null){
@@ -56,11 +60,7 @@ export const fetchAccount = (
     Email: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
     return async (dispatch: (arg0: any) => void) => {
         //TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
-<<<<<<< HEAD
         return await axios.post('https://homepairs-alpha.herokuapp.com/API/login/', {
-=======
-        return await axios.post('https://homepairs-alpha.herokuapp.com/API/login/tenant/', {
->>>>>>> 0b2231fcfac44cb281312bca32ce3fcb6258097d
             email: Email,
             password: Password,
           })
@@ -78,7 +78,7 @@ export const fetchAccount = (
           })
           .catch((error) => {
             console.log(error);
-            modalSetOffCallBack("Connection to the server could not be established.")
+            modalSetOffCallBack("Unable to establish a connection with HomePairs servers")
           })
           .finally(() => {
 
@@ -86,10 +86,10 @@ export const fetchAccount = (
     };
 };
 
-export const loginForPM = (Username: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
+export const loginForPM = (Email: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
   return async (dispatch: (arg0: any) => void) => {
     return await axios.post('', {
-      username: Username, 
+      email: Email, 
       password: Password,
     })
     .then((response) => {
@@ -113,7 +113,9 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
       return await axios.post('', {
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
-        username: accountDetails.email, 
+        address: accountDetails.address, 
+        city: accountDetails.city,
+        email: accountDetails.email, 
         password: password, 
       })
       .then((response) => {
@@ -121,7 +123,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
           dispatch(fetchAccountProfile(response[responseKeys.DATA]))
           dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
           navigateMainCallBack()
-        }else{
+        } else {
           modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")
         }
       })
@@ -137,7 +139,8 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
       return await axios.post('', {
           firstName: accountDetails.firstName, 
           lastName: accountDetails.lastName,
-          username: accountDetails.email, 
+          email: accountDetails.email, 
+          phone: accountDetails.phone,
           password: password, 
         })
         .then((response) => {
