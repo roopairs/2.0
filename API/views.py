@@ -124,9 +124,63 @@ def tenantRegister(request):
                          place=tenProp,
                          pm = tenPM)
             ten.save()
-            print("JUst saved")
             return Response(data=tenantLogin(request))
       return Response(data=getTenant(tenantEmail, tenantPass))
    else:
-      print(":LKJ")
+      return Response(data=returnError('incorrect fields'))
+
+@api_view(['GET', 'POST'])
+def pmRegister(request):
+   url = "https://capstone.api.roopairs.com/v0/auth/register/"
+   print("GOT TO 1")
+
+   if ("firstName" in request.data and "lastName" in request.data and
+       "email" in request.data and "phone" in request.data and
+       "password" in request.data and "companyName" in request.data):
+      print("GOT TO 2")
+      pmFirstName = request.data.get("firstName")
+      pmLastName = request.data.get("lastName")
+      pmEmail = request.data.get("email")
+      pmPhone = request.data.get("phone")
+      pmPass = request.data.get("password")
+      pmCompanyName = request.data.get("companyName")
+
+      data = {
+                "first_name": pmFirstName,
+                "last_name": pmLastName,
+                "email": pmEmail,
+                "password": pmPass,
+                "internal_client": {
+                                      "name": pmCompanyName,
+                                      "industry_type": 1
+                                   }
+             }
+      response = requests.post(url, json=data)
+      print("GOT TO 3")
+      print(response.text)
+      info = json.loads(response.text)
+
+      if "non_field_errors" in info:
+         return Response(returnError("could'nt make a roopairs account"))
+      elif 'token' in info:
+         # NEEED TO ADD THEE DUDE
+         print("GOT TO 4")
+         tempPM = PropertyManager(
+                                    firstName=pmFirstName,
+                                    lastName=pmLastName,
+                                    email=pmEmail,
+                                    phone=pmPhone)
+         tempPM.save()
+         tempDict = getPropertyManager(pmEmail)
+         print("GOT TO 5")
+         print(tempDict)
+         if tempDict['status'] == 'failure':
+            return returnError('no homepairs account: %s' % tempDict['error'])
+         tempDict['token'] = info.get('token')
+         print("RESPONSE")
+         print(tempDict)
+         print("GOT TO 6")
+         return Response(data=tempDict)
+   else:
+      print("WHACK")
       return Response(data=returnError('incorrect fields'))

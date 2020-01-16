@@ -267,3 +267,28 @@ class TenantRegistration(TestCase):
       self.assertEqual(prop.get('streetAddress'), '537 Couper Dr.')
       self.assertEqual(prop.get('numBath'), 2)
 
+# Property Manager Login Tests
+class PMRegistration(TestCase):
+
+   # Everything is correct
+   def test_pm_allCorrect(self):
+      #setup()
+      randEmail = "fakeEmailsForFakePeople{0}@gmail.com".format(str(random.randint(0, 10000000)))
+      randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
+      data = {
+                'firstName': randName,
+                'lastName': 'Ugly Boi',
+                'email': randEmail,
+                'phone': '887282939',
+                'password': 'pass4fake',
+                'companyName': randName + " Rentals",
+                }
+      url = globUrl + 'register/pm/'
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      self.assertEqual(info.get('status'), 'success')
+      pm = info.get('pm')
+      self.assertEqual(pm.get('firstName'), randName)
+      self.assertEqual(pm.get('lastName'), 'Ugly Boi')
+      self.assertEqual(pm.get('email'), randEmail)
+      self.assertEqual(pm.get('phone'), '887282939')
