@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import PropertyManager, Tenant
+from .models import PropertyManager, Tenant, Property
 import requests
 import json
 
@@ -14,10 +14,17 @@ def getPropertyManager(pmEmail):
    pmList = PropertyManager.objects.filter(email=pmEmail)
    if pmList.exists():
       if pmList.count() < 2:
-         pm = pmList[0]
+         thisPM = pmList[0]
+         propertyList = Property.objects.filter(pm=thisPM)
+         print("PROPERITES")
+         sendPropList = []
+         for prop in propertyList:
+            tempProp = prop.toDictNoRecurs()
+            sendPropList.append(tempProp)
          return {
                    "status": "success",
-                   "pm": pm.toDict(),
+                   "pm": thisPM.toDict(),
+                   "properties": sendPropList,
                 }
       return returnError('multiple accounts')
    return returnError('incorrect credentials')
@@ -62,7 +69,7 @@ def pmLogin(request):
          tempDict['token'] = info.get('token')
          return Response(data=tempDict)
    else:
-      return Response(data=returnError('wrong fields'))
+      return Response(data=returnError('incorrect fields'))
 
 def tenantRegister(request):
    print('')
@@ -77,4 +84,4 @@ def tenantLogin(request):
       tenantPass = request.data.get("password")
       return Response(data=getTenant(tenantEmail, tenantPass))
    else:
-      return Response(data=returnError('wrong fields'))
+      return Response(data=returnError('incorrect fields'))

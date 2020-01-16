@@ -32,6 +32,17 @@ class Property(models.Model):
    def __str__(self):
       return "%s, %s, %s" % (self.streetAddress, self.city, self.state)
    
+   def toDictNoRecurs(self):
+      return {
+                "streetAddress": self.streetAddress,
+                "city": self.city,
+                "state": self.state,
+                "SLID": self.SLID,
+                "numBath": self.numBath,
+                "numBed": self.numBed,
+                "maxTenants": self.maxTenants,
+                "pm": str(self.pm)
+             }
    def toDict(self):
       return {
                 "streetAddress": self.streetAddress,
