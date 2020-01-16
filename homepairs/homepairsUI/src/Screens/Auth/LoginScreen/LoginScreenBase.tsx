@@ -17,9 +17,7 @@ export type LoginState = {
     username: string,
     password: string,
 }
-/**
- * StyleSheet for all components in this directory and children directories 
- * */
+
 const signInStrings = strings.signInPage
 const initialState : LoginState = {
     username : '',
