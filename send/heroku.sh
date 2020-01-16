@@ -1,3 +1,3 @@
 #!/bin/bash
 
-git push heroku master
+git push --force heroku master

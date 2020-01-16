@@ -26,7 +26,7 @@ def getPropertyManager(pmEmail):
                    "properties": sendPropList,
                 }
       return returnError('multiple accounts')
-   return returnError('incorrect credentials')
+   return returnError('incorrect3fields')
 
 def getTenant(tenantEmail, tenantPassword):
    tenantList = Tenant.objects.filter(email=tenantEmail, password=tenantPassword)
@@ -39,7 +39,7 @@ def getTenant(tenantEmail, tenantPassword):
                    "tenant": tenant.toDict(),
                 }
       return {"status": "failure", "error": "multiple accounts"}
-   return {"status": "failure", "error": "incorrect credentials"}
+   return {"status": "failure", "error": "incorrect5fields"}
 
 def pmLogin(request):
    url = "https://capstone.api.roopairs.com/v0/auth/login/"
@@ -55,7 +55,7 @@ def pmLogin(request):
       info = json.loads(response.text)
 
       if "non_field_errors" in info:
-         return returnError('incorrect credentials')
+         return returnError('incorrect7fields')
       elif 'token' in info:
          pm = getPropertyManager(pmEmail)
          tempDict = getPropertyManager(pmEmail)
@@ -64,7 +64,7 @@ def pmLogin(request):
          tempDict['token'] = info.get('token')
          return tempDict
    else:
-      return returnError('incorrect fields')
+      return returnError('incorrect9fields')
 
 def tenantLogin(request):
    if "email" in request.data and "password" in request.data:
@@ -72,7 +72,7 @@ def tenantLogin(request):
       tenantPass = request.data.get("password")
       return getTenant(tenantEmail, tenantPass)
    else:
-      return returnError('incorrect fields')
+      return returnError('incorrect8fields')
 
 def tenantRegister(request):
    print('')
@@ -127,7 +127,7 @@ def tenantRegister(request):
             return Response(data=tenantLogin(request))
       return Response(data=getTenant(tenantEmail, tenantPass))
    else:
-      return Response(data=returnError('incorrect fields'))
+      return Response(data=returnError('incorrect11fields'))
 
 @api_view(['GET', 'POST'])
 def pmRegister(request):
@@ -183,4 +183,4 @@ def pmRegister(request):
          return Response(data=tempDict)
    else:
       print("WHACK")
-      return Response(data=returnError('incorrect fields'))
+      return Response(data=returnError('incorrect2fields'))
