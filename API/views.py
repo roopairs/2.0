@@ -133,7 +133,7 @@ def tenantRegister(request):
    else:
       return Response(data=returnError('incorrect11fields'))
 
-      @api_view(['GET', 'POST'])
+@api_view(['GET', 'POST'])
 def pmRegister(request):
    print("HERE 1")
    url = "https://capstone.api.roopairs.com/v0/auth/register/"
