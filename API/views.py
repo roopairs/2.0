@@ -172,7 +172,7 @@ def pmRegister(request):
          tempPM.save()
          tempDict = getPropertyManager(pmEmail)
          if tempDict['status'] == 'failure':
-            return returnError('no homepairs account: %s' % tempDict['error'])
+            return Response(data=returnError('no homepairs account: %s' % tempDict['error']))
          tempDict['token'] = info.get('token')
          return Response(data=tempDict)
    else:
