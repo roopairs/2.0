@@ -16,7 +16,6 @@ def getPropertyManager(pmEmail):
       if pmList.count() < 2:
          thisPM = pmList[0]
          propertyList = Property.objects.filter(pm=thisPM)
-         print("PROPERITES")
          sendPropList = []
          for prop in propertyList:
             tempProp = prop.toDictNoRecurs()
@@ -41,23 +40,6 @@ def getTenant(tenantEmail, tenantPassword):
                 }
       return {"status": "failure", "error": "multiple accounts"}
    return {"status": "failure", "error": "incorrect credentials"}
-################################################################################
-# Views / API Endpoints
-#
-
-@api_view(['GET', 'POST'])
-def login(request):
-   tenantTest = tenantLogin(request)
-   if tenantTest.get('status') == "success":
-      tenantTest['role'] = 'tenant'
-      return Response(data=tenantTest)
-
-   pmTest = pmLogin(request)
-   if pmTest.get('status') == 'success':
-      pmTest['role'] = 'pm'
-      return Response(data=pmTest)
-
-   return Response(data=pmTest)
 
 def pmLogin(request):
    url = "https://capstone.api.roopairs.com/v0/auth/login/"
@@ -84,12 +66,6 @@ def pmLogin(request):
    else:
       return returnError('incorrect fields')
 
-def tenantRegister(request):
-   print('')
-
-def pmRegister(request):
-   print('')
-
 def tenantLogin(request):
    if "email" in request.data and "password" in request.data:
       tenantEmail = request.data.get("email")
@@ -97,3 +73,60 @@ def tenantLogin(request):
       return getTenant(tenantEmail, tenantPass)
    else:
       return returnError('incorrect fields')
+
+def tenantRegister(request):
+   print('')
+
+def pmRegister(request):
+   print('')
+
+################################################################################
+# Views / API Endpoints
+#
+
+@api_view(['GET', 'POST'])
+def login(request):
+   tenantTest = tenantLogin(request)
+   if tenantTest.get('status') == "success":
+      tenantTest['role'] = 'tenant'
+      return Response(data=tenantTest)
+
+   pmTest = pmLogin(request)
+   if pmTest.get('status') == 'success':
+      pmTest['role'] = 'pm'
+      return Response(data=pmTest)
+
+   return Response(data=pmTest)
+
+@api_view(['GET', 'POST'])
+def tenantRegister(request):
+   if ("firstName" in request.data and "lastName" in request.data and
+       "email" in request.data and "phone" in request.data and
+       "password" in request.data and "streetAddress" in request.data and
+       "city" in request.data):
+      tenFirstName = request.data.get("firstName")
+      tenLastName = request.data.get("lastName")
+      tenEmail = request.data.get("email")
+      tenPhone = request.data.get("phone")
+      tenStreet = request.data.get("streetAddress")
+      tenCity = request.data.get("city")
+      tenPass = request.data.get("password")
+      tenPropList = Property.objects.filter(streetAddress=tenStreet, city=tenCity)
+      if tenPropList.exists():
+         if tenPropList.count() < 2:
+            tenProp = tenPropList[0]
+            tenPM = tenProp.pm
+            ten = Tenant(firstName=tenFirstName,
+                         lastName=tenLastName,
+                         email=tenEmail,
+                         phone=tenPhone,
+                         password=tenPass,
+                         place=tenProp,
+                         pm = tenPM)
+            ten.save()
+            print("JUst saved")
+            return Response(data=tenantLogin(request))
+      return Response(data=getTenant(tenantEmail, tenantPass))
+   else:
+      print(":LKJ")
+      return Response(data=returnError('incorrect fields'))

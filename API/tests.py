@@ -13,13 +13,14 @@ from django.test import TestCase
 import psycopg2
 import requests
 import json
+import random
 from .models import PropertyManager, Property, Tenant
 
 ################################################################################
 # Vars
 
-globUrl = 'http://localhost:8000/API/'
 globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
+globUrl = 'http://localhost:8000/API/'
 
 tempPM = PropertyManager(firstName='Tommy',
                          lastName='Bergmann', 
@@ -71,7 +72,7 @@ class TenantLogin(TestCase):
    def test_tenant_allCorrect(self):
       #setup()
       data = {'email': 'adamkberard@gmail.com', 'password': 'pass4adam'}
-      url = globUrl + 'login/tenant/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'success')
@@ -162,7 +163,6 @@ class PropertyManagerLogin(TestCase):
       data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
       url = globUrl + 'login/'
       x = requests.post(url, json=data)
-      print(x.text)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'success')
       self.assertTrue('token' in info)
@@ -237,3 +237,29 @@ class PropertyManagerLogin(TestCase):
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'failure')
       self.assertEqual(info.get('error'), 'no homepairs account: incorrect credentials')
+
+# Property Manager Login Tests
+class TenantRegistration(TestCase):
+
+   # Everything is correct
+   def test_tenant_allCorrect(self):
+      #setup()
+      randEmail = "fakeEmail{0}@gmail.com".format(str(random.randint(0, 10000000)))
+      data = {
+                'firstName': 'Fake',
+                'lastName': 'Name',
+                'email': randEmail,
+                'phone': '9029833892',
+                'streetAddress': '537 Couper Dr.',
+                'city': 'San Luis Obispo',
+                'password': 'pass4fake',
+                }
+      url = globUrl + 'register/tenant/'
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      self.assertEqual(info.get('status'), 'success')
+      ten = info.get('tenant')
+      self.assertEqual(ten.get('firstName'), 'Fake')
+      self.assertEqual(ten.get('lastName'), 'Name')
+      self.assertEqual(ten.get('email'), randEmail)
+      self.assertEqual(ten.get('phone'), '9029833892')
