@@ -28,6 +28,7 @@ const LightModeColors = {
     secondaryImageOverlayText: '#9DA0A2',
 
     shadowColor: '#00000030',
+    roopairs: '#40D7A7'
 }
 
 const DarkModeColors = {

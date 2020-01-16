@@ -52,13 +52,13 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
 
 /** Function makes async request to server and loads all information before app begins.**/
 export const fetchAccount = (
-    Username: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
+    Email: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
     return async (dispatch: (arg0: any) => void) => {
         //TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
-        return await axios.post('http://vertical-proto-homepairs.herokuapp.com/verticalAPI/', {
-            username: Username,
+        return await axios.post('https://homepairs-alpha.herokuapp.com/API/login/', {
+            email: Email,
             password: Password,
-          } )
+          })
           .then((response) => {
             if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
               dispatch(fetchAccountProfile(response[responseKeys.DATA]))
@@ -78,9 +78,73 @@ export const fetchAccount = (
     };
 };
 
-export const generateAccount = (accountDetails: Account, password: String) => {
-  //TODO: Complete this function for backend is able to initialize accounts
-  alert(accountDetails.accountType + "\n" + accountDetails.firstName + " " + accountDetails.lastName + 
-        "\n" + accountDetails.email + "\n" + password)
+export const loginForPM = (Username: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
+  return async (dispatch: (arg0: any) => void) => {
+    return await axios.post('', {
+      username: Username, 
+      password: Password,
+    })
+    .then((response) => {
+      if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
+        dispatch(fetchAccountProfile(response[responseKeys.DATA]))
+        dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
+        navigateMainCallBack()
+      }else{
+        modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")
+      }
+    }).catch((error) => {
+      console.log(error);
+      modalSetOffCallBack("Connection to the server could not be established.")
+    });
+  };
+}
+
+
+export const generateAccountForTenant = (accountDetails: Account, password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
+  return async (dispatch: (arg0: any) => void) => {
+      return await axios.post('', {
+        firstName: accountDetails.firstName, 
+        lastName: accountDetails.lastName,
+        username: accountDetails.email, 
+        password: password, 
+      })
+      .then((response) => {
+        if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
+          dispatch(fetchAccountProfile(response[responseKeys.DATA]))
+          dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
+          navigateMainCallBack()
+        }else{
+          modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        modalSetOffCallBack("Connection to the server could not be established.")
+      });
+  };
+}
+
+export const generateAccountForPM = (accountDetails: Account, password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
+    return async (dispatch: (arg0: any) => void) => {
+      return await axios.post('', {
+          firstName: accountDetails.firstName, 
+          lastName: accountDetails.lastName,
+          username: accountDetails.email, 
+          password: password, 
+        })
+        .then((response) => {
+          if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
+            dispatch(fetchAccountProfile(response[responseKeys.DATA]))
+            dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
+            navigateMainCallBack()
+          }else{
+            modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          modalSetOffCallBack("Connection to the server could not be established.")
+        });
+    };
 }
 
