@@ -118,7 +118,8 @@ def tenantRegister(request):
       tenCity = request.data.get("city")
       tenPass = request.data.get("password")
       tenPropList = Property.objects.filter(streetAddress=tenStreet, city=tenCity)
-      print("tenStreet\n", tenStreet)
+      print("tenStreet")
+      print(tenStreet)
       print('tenity')
       print(tenCity)
       if tenPropList.exists():
