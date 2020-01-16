@@ -112,12 +112,13 @@ export const loginForPM = (Email: String, Password: String, modalSetOffCallBack?
 
 export const generateAccountForTenant = (accountDetails: Account, password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
   return async (dispatch: (arg0: any) => void) => {
-      return await axios.post('', {
+      return await axios.post('http://homepairs-alpha.herokuapp.com/API/register/tenant/', {
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
-        address: accountDetails.address, 
+        streetAddress: accountDetails.address, 
         city: accountDetails.city,
         email: accountDetails.email, 
+        phone: accountDetails.phone, 
         password: password, 
       })
       .then((response) => {
@@ -126,6 +127,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
           dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
           navigateMainCallBack()
         } else {
+          console.log(response);
           modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")
         }
       })
@@ -138,11 +140,13 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
 
 export const generateAccountForPM = (accountDetails: Account, password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
     return async (dispatch: (arg0: any) => void) => {
-      return await axios.post('', {
+      return await axios.post('http://homepairs-alpha.herokuapp.com/API/register/pm/', {
           firstName: accountDetails.firstName, 
           lastName: accountDetails.lastName,
           email: accountDetails.email, 
           phone: accountDetails.phone,
+          companyName: accountDetails.companyName, 
+          companyType: accountDetails.companyType,
           password: password, 
         })
         .then((response) => {
