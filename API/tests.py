@@ -263,3 +263,7 @@ class TenantRegistration(TestCase):
       self.assertEqual(ten.get('lastName'), 'Name')
       self.assertEqual(ten.get('email'), randEmail)
       self.assertEqual(ten.get('phone'), '9029833892')
+      prop = ten.get('place')
+      self.assertEqual(prop.get('streetAddress'), '537 Couper Dr.')
+      self.assertEqual(prop.get('numBath'), 2)
+
