@@ -29,12 +29,6 @@ def getPropertyManager(pmEmail):
    return returnError('incorrect3fields')
 
 def getTenant(tenantEmail, tenantPassword):
-   print("EMAIL")
-   print(tenantEmail)
-   print("PASS")
-   print(tenantPassword)
-   for ob in Tenant.objects.all():
-      print(ob)
    tenantList = Tenant.objects.filter(email=tenantEmail, password=tenantPassword)
    if tenantList.exists():
       if tenantList.count() < 2:
@@ -118,10 +112,6 @@ def tenantRegister(request):
       tenCity = request.data.get("city")
       tenPass = request.data.get("password")
       tenPropList = Property.objects.filter(streetAddress=tenStreet, city=tenCity)
-      print("tenStreet")
-      print(tenStreet)
-      print('tenity')
-      print(tenCity)
       if tenPropList.exists():
          if tenPropList.count() < 2:
             tenProp = tenPropList[0]
@@ -134,9 +124,7 @@ def tenantRegister(request):
                          place=tenProp,
                          pm = tenPM)
             ten.save()
-            print("OBJECTS")
-            for ob in Tenant.objects.all():
-               print(ob)
+
             return Response(data=tenantLogin(request))
          else:
             return Response(data=returnError('too many props?'))
@@ -148,12 +136,10 @@ def tenantRegister(request):
 @api_view(['GET', 'POST'])
 def pmRegister(request):
    url = "https://capstone.api.roopairs.com/v0/auth/register/"
-   print("GOT TO 1")
 
    if ("firstName" in request.data and "lastName" in request.data and
        "email" in request.data and "phone" in request.data and
        "password" in request.data and "companyName" in request.data):
-      print("GOT TO 2")
       pmFirstName = request.data.get("firstName")
       pmLastName = request.data.get("lastName")
       pmEmail = request.data.get("email")
@@ -172,15 +158,12 @@ def pmRegister(request):
                                    }
              }
       response = requests.post(url, json=data)
-      print("GOT TO 3")
-      print(response.text)
       info = json.loads(response.text)
 
       if "non_field_errors" in info:
          return Response(returnError("could'nt make a roopairs account"))
       elif 'token' in info:
          # NEEED TO ADD THEE DUDE
-         print("GOT TO 4")
          tempPM = PropertyManager(
                                     firstName=pmFirstName,
                                     lastName=pmLastName,
@@ -188,14 +171,9 @@ def pmRegister(request):
                                     phone=pmPhone)
          tempPM.save()
          tempDict = getPropertyManager(pmEmail)
-         print("GOT TO 5")
-         print(tempDict)
          if tempDict['status'] == 'failure':
             return returnError('no homepairs account: %s' % tempDict['error'])
          tempDict['token'] = info.get('token')
-         print("RESPONSE")
-         print(tempDict)
-         print("GOT TO 6")
          return Response(data=tempDict)
    else:
       print("WHACK")
