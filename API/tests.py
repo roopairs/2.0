@@ -18,8 +18,8 @@ from .models import PropertyManager, Property, Tenant
 ################################################################################
 # Vars
 
-globUrl = 'http://localhost:8000/API/'
 globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
+globUrl = 'http://localhost:8000/API/'
 
 tempPM = PropertyManager(firstName='Tommy',
                          lastName='Bergmann', 
@@ -96,7 +96,7 @@ class TenantLogin(TestCase):
       self.assertEqual(pm.get('firstName'), 'Eeron')
       self.assertEqual(pm.get('lastName'), 'Grant')
       self.assertEqual(pm.get('email'), 'eerongrant@gmail.com')
-      self.assertEqual(pm.get('phone'), '5557389292')
+      self.assertEqual(pm.get('phone'), '5558393823')
 
 
    # Incorrect Email
@@ -171,7 +171,7 @@ class PropertyManagerLogin(TestCase):
       self.assertEqual(pm.get('firstName'), 'Eeron')
       self.assertEqual(pm.get('lastName'), 'Grant')
       self.assertEqual(pm.get('email'), 'eerongrant@gmail.com')
-      self.assertEqual(pm.get('phone'), '5557389292')
+      self.assertEqual(pm.get('phone'), '5558393823')
 
    # Email is wrong
    def test_pm_wrongEmail(self):

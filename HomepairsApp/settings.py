@@ -81,8 +81,8 @@ WSGI_APPLICATION = 'HomepairsApp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'NAME': 'theOneTrueDB',
         'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
     'other': {
         'NAME': 'theOneTrueTest',

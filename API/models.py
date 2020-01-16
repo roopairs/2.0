@@ -30,7 +30,7 @@ class Property(models.Model):
    pm = models.ForeignKey(PropertyManager, on_delete=models.CASCADE)
 
    def __str__(self):
-      return "%s, %s, %s" % (streetAddress, city, state)
+      return "%s, %s, %s" % (self.streetAddress, self.city, self.state)
    
    def toDict(self):
       return {

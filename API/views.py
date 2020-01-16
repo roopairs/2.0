@@ -8,7 +8,7 @@ import json
 # Functions
 #
 def returnError(error):
-   return {'status': 'faulire', 'error': error}
+   return {'status': 'failure', 'error': error}
 
 def getPropertyManager(pmEmail):
    pmList = PropertyManager.objects.filter(email=pmEmail)
@@ -32,8 +32,8 @@ def getTenant(tenantEmail, tenantPassword):
                    "status": "success",
                    "tenant": tenant.toDict(),
                 }
-      return {"status": "faulire", "error": "multiple accounts"}
-   return {"status": "faulire", "error": "incorrect credentials"}
+      return {"status": "failure", "error": "multiple accounts"}
+   return {"status": "failure", "error": "incorrect credentials"}
 ################################################################################
 # Views / API Endpoints
 #
@@ -57,7 +57,7 @@ def pmLogin(request):
       elif 'token' in info:
          pm = getPropertyManager(pmEmail)
          tempDict = getPropertyManager(pmEmail)
-         if tempDict['status'] == 'faulire':
+         if tempDict['status'] == 'failure':
             return Response(data=returnError('no homepairs account: %s' % tempDict['error']))
          tempDict['token'] = info.get('token')
          return Response(data=tempDict)
