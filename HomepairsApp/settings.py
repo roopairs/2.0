@@ -12,10 +12,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import dj_database_url
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -81,13 +81,16 @@ WSGI_APPLICATION = 'HomepairsApp.wsgi.application'
 
 DATABASES = {
     'default': {
+        'NAME': 'theOneTrueDB',
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'other': {
+        'NAME': 'theOneTrueTest',
+        'ENGINE': 'django.db.backends.sqlite3',
     }
-}
-
-
-# Password validation
+}   
+       
+#    Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [

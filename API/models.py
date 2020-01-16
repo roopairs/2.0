@@ -8,6 +8,17 @@ class PropertyManager(models.Model):
    email = models.CharField(max_length=255)
    phone = models.CharField(max_length=30)
 
+   def __str__(self):
+      return self.firstName + " " + self.lastName
+
+   def toDict(self):
+      return {
+                "firstName": self.firstName,
+                "lastName": self.lastName,
+                "email": self.email,
+                "phone": self.phone
+             }
+
 class Property(models.Model):
    streetAddress = models.CharField(max_length=255)
    city = models.CharField(max_length=255)
@@ -16,7 +27,22 @@ class Property(models.Model):
    numBath = models.IntegerField()
    numBed = models.IntegerField()
    maxTenants = models.IntegerField()
-   manager = models.ForeignKey(PropertyManager, on_delete=models.CASCADE)
+   pm = models.ForeignKey(PropertyManager, on_delete=models.CASCADE)
+
+   def __str__(self):
+      return "%s, %s, %s" % (streetAddress, city, state)
+   
+   def toDict(self):
+      return {
+                "streetAddress": self.streetAddress,
+                "city": self.city,
+                "state": self.state,
+                "SLID": self.SLID,
+                "numBath": self.numBath,
+                "numBed": self.numBed,
+                "maxTenants": self.maxTenants,
+                "pm": self.pm.toDict()
+             }
 
 class Tenant(models.Model):
    firstName = models.CharField(max_length=100)
@@ -24,14 +50,22 @@ class Tenant(models.Model):
    email = models.CharField(max_length=255)
    phone = models.CharField(max_length=30)
    password = models.CharField(max_length=20)
-   propId = models.ForeignKey(Property, on_delete=models.CASCADE)
-   pmId = models.ForeignKey(PropertyManager, on_delete=models.CASCADE)
+   place = models.ForeignKey(Property, on_delete=models.CASCADE)
+   pm = models.ForeignKey(PropertyManager, on_delete=models.CASCADE)
 
-# FOR LATER
-#class Appliance(models.Model):
-#   applianceId = models.AutoField(primary_key=True)
-#   name = models.CharField(max_length=255)
-#   description = models.CharField(max_length=1000)
-#   location = models.CharField(max_length=255)
-#
-#class Job(models.Model):
+   def __str__(self):
+      return self.firstName + " " + self.lastName
+
+   def toDict(self):
+      editPlace = self.place.toDict()
+      editPlace.pop('pm', None)
+      editPlace['pm'] = str(self.pm)
+      return {
+                "firstName": self.firstName,
+                "lastName": self.lastName,
+                "email": self.email,
+                "phone": self.phone,
+                "password": self.password,
+                "place": editPlace,
+                "pm": self.pm.toDict()
+             }

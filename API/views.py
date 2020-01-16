@@ -1,29 +1,68 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import PropertyManager
+from .models import PropertyManager, Tenant
 import requests
 import json
 
 ################################################################################
 # Functions
 #
-def getTenant(email, password):
-   print(PropertyManager.objects.all())
-#def username_present(uemail, upassword):
-#    land = landlord.objects.filter(email=uemail)
-#    tenant = tenant.objects.filter(email=uemail, password=upassword)
-#    if land.exists():
-#        #return landlord login
-#    elif tenant.exists():
-#        #return tenant login
-#        tenant[0].id
-#    #return login failed
+def returnError(error):
+   return {'status': 'failure', 'error': error}
 
+def getPropertyManager(pmEmail):
+   pmList = PropertyManager.objects.filter(email=pmEmail)
+   if pmList.exists():
+      if pmList.count() < 2:
+         pm = pmList[0]
+         return {
+                   "status": "success",
+                   "pm": pm.toDict(),
+                }
+      return returnError('multiple accounts')
+   return returnError('incorrect credentials')
+
+def getTenant(tenantEmail, tenantPassword):
+   tenantList = Tenant.objects.filter(email=tenantEmail, password=tenantPassword)
+   if tenantList.exists():
+      if tenantList.count() < 2:
+         tenant = tenantList[0]
+         tenantProperty = tenant.place
+         return {
+                   "status": "success",
+                   "tenant": tenant.toDict(),
+                }
+      return {"status": "failure", "error": "multiple accounts"}
+   return {"status": "failure", "error": "incorrect credentials"}
 ################################################################################
 # Views / API Endpoints
 #
+
+@api_view(['POST'])
 def pmLogin(request):
-   print("")
+   url = "https://capstone.api.roopairs.com/v0/auth/login/"
+
+   if "email" in request.data and "password" in request.data:
+      pmEmail = request.data.get("email")
+      pmPass = request.data.get("password")
+      data = {
+                "username": pmEmail,
+                "password": pmPass
+             }
+      response = requests.post(url, json=data)
+      info = json.loads(response.text)
+
+      if "non_field_errors" in info:
+         return Response(data=returnError('incorrect credentials'))
+      elif 'token' in info:
+         pm = getPropertyManager(pmEmail)
+         tempDict = getPropertyManager(pmEmail)
+         if tempDict['status'] == 'failure':
+            return Response(data=returnError('no homepairs account: %s' % tempDict['error']))
+         tempDict['token'] = info.get('token')
+         return Response(data=tempDict)
+   else:
+      return Response(data=returnError('wrong fields'))
 
 def tenantRegister(request):
    print('')
@@ -33,39 +72,9 @@ def pmRegister(request):
 
 @api_view(['POST'])
 def tenantLogin(request):
-   print(request.data)
-
-   return Response(data={"status": "success"})
-
-   #email = request.data.get('email')
-   #password = request.data.get('password')
-
-   #if(request.data.get("type") == "login"):
-   #   returnable = getTenant(email, password)
-   #   if(returnable.get("status") == "success"):
-   #      return Response(data=returnable)
-
-   ## If it gets here, they do not have a tenant account with us
-   ## so we will check with Roopairs to see if they have a
-   ## property manager account for them.
-
-   #url = "https://capstone.api.roopairs.com/v0/auth/login/"
-   #data = {
-   #          "username": email,
-   #          "password": password
-   #       }
-
-   #response = requests.post(url, json=data)
-   #info = json.loads(response.text)
-   #
-   #if "non_field_errors" in info:
-   #   return Response(data={"status": "incorrect credentials"})
-   #else:
-   #   landlordInfo = getLandlord(email)
-   #   print("LANDLORD INFO")
-   #   print(landlordInfo)
-   #   returnable = {
-   #                   "status": "success",
-   #                   "token": info.get("token")
-   #                }
-   #   return Response(data=returnable)
+   if "email" in request.data and "password" in request.data:
+      tenantEmail = request.data.get("email")
+      tenantPass = request.data.get("password")
+      return Response(data=getTenant(tenantEmail, tenantPass))
+   else:
+      return Response(data=returnError('wrong fields'))
