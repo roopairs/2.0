@@ -130,6 +130,9 @@ def tenantRegister(request):
                          place=tenProp,
                          pm = tenPM)
             ten.save()
+            print("OBJECTS")
+            for ob in Tenant.objects.all():
+               print(ob)
             return Response(data=tenantLogin(request))
          return Response(data=returnError('too many props?'))
       return Response(data=getTenant(tenEmail, tenPass))
