@@ -73,8 +73,6 @@ class TenantLogin(TestCase):
       data = {'email': 'adamkberard@gmail.com', 'password': 'pass4adam'}
       url = globUrl + 'login/tenant/'
       x = requests.post(url, json=data)
-      print("HERE")
-      print(x.text)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'success')
       tenant = info.get('tenant')
