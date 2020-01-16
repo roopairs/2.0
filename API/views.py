@@ -29,6 +29,12 @@ def getPropertyManager(pmEmail):
    return returnError('incorrect3fields')
 
 def getTenant(tenantEmail, tenantPassword):
+   print("EMAIL")
+   print(tenantEmail)
+   print("PASS")
+   print(tenantPassword)
+   for ob in Tenant.objects.all():
+      print(ob)
    tenantList = Tenant.objects.filter(email=tenantEmail, password=tenantPassword)
    if tenantList.exists():
       if tenantList.count() < 2:
