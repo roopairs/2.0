@@ -118,6 +118,9 @@ def tenantRegister(request):
       tenCity = request.data.get("city")
       tenPass = request.data.get("password")
       tenPropList = Property.objects.filter(streetAddress=tenStreet, city=tenCity)
+      print("tenStreet\n", tenStreet)
+      print('tenity')
+      print(tenCity)
       if tenPropList.exists():
          if tenPropList.count() < 2:
             tenProp = tenPropList[0]
@@ -134,8 +137,10 @@ def tenantRegister(request):
             for ob in Tenant.objects.all():
                print(ob)
             return Response(data=tenantLogin(request))
-         return Response(data=returnError('too many props?'))
-      return Response(data=getTenant(tenEmail, tenPass))
+         else:
+            return Response(data=returnError('too many props?'))
+      else:
+         return Response(data=returnError('property not valid'))
    else:
       return Response(data=returnError('incorrect11fields'))
 
