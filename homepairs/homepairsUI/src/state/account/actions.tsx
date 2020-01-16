@@ -20,7 +20,9 @@ export enum FETCH_PROFILE_ACTION_TYPES {
 }
 
 export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileAction => {
-    let profile = accountJSON[accountKeys.PM]
+    let profile
+    if(accountJSON[accountKeys.PM] != null){ profile = accountJSON[accountKeys.PM] } //it's a PM
+    else{ profile = accountJSON[accountKeys.TENANT] } //it's a Tenant
     console.log(accountJSON[accountKeys.PM])
     let fetchedProfile : AccountState 
     let baseProfile : Account = {
@@ -56,7 +58,7 @@ export const fetchAccount = (
     Email: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
     return async (dispatch: (arg0: any) => void) => {
         //TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
-        return await axios.post('https://homepairs-alpha.herokuapp.com/API/login/tenant/', {
+        return await axios.post('https://homepairs-alpha.herokuapp.com/API/login/', {
             email: Email,
             password: Password,
           } )

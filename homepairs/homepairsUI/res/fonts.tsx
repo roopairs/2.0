@@ -1,7 +1,7 @@
 import * as Font from 'expo-font';
 
 export const LoadFonts = async () => {
-	await Font.loadAsync({
+	Font.loadAsync({ //should be await Font.loadAsync but expo has a bug where web client will never load with await
 		//Load desired fonts into /res/assets/fonts and then run the script via: npm run fonts 
 		'nunito-black': require('./assets/fonts/Nunito-Black.ttf'),
 		'nunito-blackitalic': require('./assets/fonts/Nunito-BlackItalic.ttf'),
