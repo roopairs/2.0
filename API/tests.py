@@ -18,8 +18,8 @@ from .models import PropertyManager, Property, Tenant
 ################################################################################
 # Vars
 
-globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
 globUrl = 'http://localhost:8000/API/'
+globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
 
 tempPM = PropertyManager(firstName='Tommy',
                          lastName='Bergmann', 
