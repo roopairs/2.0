@@ -110,7 +110,7 @@ const authStackConfig = {
    * (example: SignUp navigates to SignUpScreen [syntax: SignUp: AuthenticationPages.SignUpScreen])
    */
   const MainStack = createStackNavigator({Properties: PropertyStack, ServiceRequest: ServiceRequestStack, Account: AccountStack}, mainStackConfig);
-  const AuthStack = createSwitchNavigator({ Login: AuthenticationPages.LoginScreen, SignUp: AuthenticationPages.SignUpScreen},  authStackConfig);
+  const AuthStack = createSwitchNavigator({ Login: AuthenticationPages.LoginScreen, SignUp: AuthenticationPages.SignUpScreen, Connect: AuthenticationPages.RoopairsLogin},  authStackConfig);
   
   export default createAppContainer(createSwitchNavigator(
     {

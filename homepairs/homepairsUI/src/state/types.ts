@@ -42,6 +42,10 @@ export type Account = {
     lastName: string;
     email: string;
     phone: string;
+    address: string, 
+    city: string,
+    companyName: string, 
+    companyType: string, 
     roopairsToken: string;
 }
 
@@ -237,9 +241,19 @@ enum HOMEPAIRS_ACCOUNT_KEYS{
     MANID = 'manId',
     PASSWORD = 'password',
     PHONE = 'phone',
+    ADDRESS = 'address', 
+    CITY = 'city',
     PLACE = 'place', 
     PROPID = 'propId',
     TENANTID = 'tenantID', 
+    COMPANY_TYPE = 'companyType', 
+    COMPANY_NAME = 'companyName',
+}
+
+enum COMPANY_TYPES {
+    RESIDENTIAL = 'residential', 
+    COMMERCIAL = 'commercial', 
+    INDUSTRIAL = 'industrial',
 }
 
 enum HOMEPAIRS_LOGIN_STATUS {

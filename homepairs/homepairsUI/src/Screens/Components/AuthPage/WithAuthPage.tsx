@@ -13,11 +13,13 @@ import { HomePairsDimensions } from 'homepair-types';
 import colors from 'homepair-colors';
 import * as BaseStyles from 'homepair-base-styles';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
+import HomePairColors from 'homepair-colors';
 
 
 export type AuthPassProps = {
     button: String
-    subtitle: String
+    buttonColor: string
+    subtitle: String | React.ReactElement
     loadingModalText: String
     underButtonText: String
     highlightedText: String
@@ -61,14 +63,16 @@ export default function withAuthPage(WrappedComponent: any, defaultAuthPassProps
         extends React.Component<AuthPageInjectedProps, DefaultAuthPageState> {
         constructor(props: Readonly<AuthPageInjectedProps>) {
           super(props);
-          styles = setStyles(props.primaryColorTheme)
+          styles = setStyles(defaultAuthPassProps.buttonColor, props.primaryColorTheme)
           this.presentLoading = this.presentLoading.bind(this);
-          this.showError = this.showError.bind(this)
-          this.setThinButtonClick = this.setThinButtonClick.bind(this)
-          this.setHighlightedClick = this.setHighlightedClick.bind(this)
-          this.setErrorFlag = this.setErrorFlag.bind(this)
-          this.showModal = this.showModal.bind(this)
-          this.state = initalState
+          this.showError = this.showError.bind(this);
+          this.setThinButtonClick = this.setThinButtonClick.bind(this);
+          this.setHighlightedClick = this.setHighlightedClick.bind(this);
+          this.setErrorFlag = this.setErrorFlag.bind(this);
+          this.showModal = this.showModal.bind(this);
+          this.renderSubtitle = this.renderSubtitle.bind(this);
+          this.renderSignInButton = this.renderSignInButton.bind(this);
+          this.state = initalState;
         }
 
         scrollViewProps(): ScrollViewProps {
@@ -137,6 +141,21 @@ export default function withAuthPage(WrappedComponent: any, defaultAuthPassProps
             )
         }
 
+        renderSubtitle() {
+            if (typeof defaultAuthPassProps.subtitle === 'string') {
+                return <Text style={styles.subTitleText}>Sign into your account</Text>;
+            } else if (React.isValidElement(defaultAuthPassProps.subtitle)) {
+                return defaultAuthPassProps.subtitle;
+            }
+        }
+
+        renderSignInButton() {
+            return <View style={styles.submitSection}>
+                <ThinButton {...this.state.thinButtonStyle}/>
+            </View>
+        }
+
+
         render() {
             return(
                 <SafeAreaView style={styles.pallet}>
@@ -144,7 +163,7 @@ export default function withAuthPage(WrappedComponent: any, defaultAuthPassProps
                     <ScrollView {...this.scrollViewProps()}>
                         <Card {...this.cardProps()}>
                             <View style={styles.container}>
-                                <Text style={styles.subTitleText}>{defaultAuthPassProps.subtitle}</Text>
+                                {this.renderSubtitle()}
                                 {this.showError()}
                                 <WrappedComponent {...this.props}
                                 _clickButton={this.setThinButtonClick}
@@ -152,9 +171,7 @@ export default function withAuthPage(WrappedComponent: any, defaultAuthPassProps
                                 _setErrorState={this.setErrorFlag}
                                 _showModal={this.showModal}
                                 />
-                                <View style={styles.submitSection}>
-                                    <ThinButton {...this.state.thinButtonStyle}/>
-                                </View>
+                                {this.renderSignInButton()}
                                 <View style={styles.signUpSection}>
                                     <Text style={styles.standardText}>
                                         {defaultAuthPassProps.underButtonText}
@@ -174,7 +191,7 @@ export default function withAuthPage(WrappedComponent: any, defaultAuthPassProps
     return withNavigation(ReduxComponentBase)
 }
 
-function setStyles(colorTheme?: BaseStyles.ColorTheme){ 
+function setStyles(buttonColor: string, colorTheme?: BaseStyles.ColorTheme){ 
     let colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme
     return(
         StyleSheet.create ({
@@ -257,10 +274,10 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme){
                 minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
                 borderRadius: BaseStyles.BorderRadius.large,
                 borderWidth: 1,
-                borderColor: colors.primary,
+                borderColor: buttonColor,
             },
             thinButtonText:{
-                color: colors.primary, 
+                color: buttonColor, 
                 fontSize: BaseStyles.FontTheme.lg,
                 alignSelf: 'center',
             },

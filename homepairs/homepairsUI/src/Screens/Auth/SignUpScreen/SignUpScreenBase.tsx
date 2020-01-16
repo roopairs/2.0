@@ -1,16 +1,18 @@
 import React from 'react';
-import {InputForm, InputFormProps} from 'homepair-elements'
+import {InputForm, InputFormProps, LoginButton, ThinButton} from 'homepair-elements'
 import {AccountTypeRadioButton, DarkModeInjectedProps} from 'homepair-components';
 import strings from 'homepair-strings';
 import { AccountTypes, Account } from 'homepair-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { AuthPageInjectedProps } from 'homepair-components';
 import * as BaseStyles from 'homepair-base-styles';
-import { StyleSheet } from 'react-native';
-
+import { StyleSheet, View, Text } from 'react-native';
+import {FontTheme} from 'homepair-base-styles';
+import Divider from 'react-native-divider';
+import { createUnionTypeAnnotation } from '@babel/types';
 
 export type SignUpViewDispatchProps = {
-    generateHomePairsAccount: (details: Account, password: String) => any 
+    generateHomePairsAccount: (details: Account, password: String, modalSetOff: () => any, navigationRouteCallback: () => any) => any 
 }
 export type SignUpProps = DarkModeInjectedProps & SignUpViewDispatchProps & AuthPageInjectedProps & NavigationStackScreenProps<any,any>
 
@@ -19,6 +21,11 @@ type SignUpState = {
     firstName: string,
     lastName: string,
     email: string,
+    phone: string, 
+    address: string, 
+    city: string,
+    companyName: string, 
+    companyType: string,
     password: String,
     cPassword: String,
 }
@@ -28,6 +35,11 @@ const initalState = {
     firstName : '',
     lastName : '',
     email : '',
+    phone: '',
+    address: '', 
+    city: '',
+    companyName: '', 
+    companyType: '', 
     password : '',
     cPassword : '',
 }
@@ -47,12 +59,28 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
         this.getFormFirstName = this.getFormFirstName.bind(this)
         this.getFormLastName = this.getFormLastName.bind(this)
         this.getFormEmail = this.getFormEmail.bind(this)
+        this.getFormPhone = this.getFormPhone.bind(this)
         this.getFormPassword = this.getFormPassword.bind(this)
         this.getFormCPassword = this.getFormCPassword.bind(this)
+        this.getFormAddress = this.getFormAddress.bind(this)
+        this.getFormCity = this.getFormCity.bind(this)
+        this.getFormCompanyName = this.getFormCompanyName.bind(this)
+        this.getFormCompanyType = this.getFormCompanyType.bind(this)
+        this.setModalOff = this.setModalOff.bind(this)
+        this.navigateMain = this.navigateMain.bind(this)
+
         this.state = initalState
 
         this.props._clickButton(this._clickSignUp)
         this.props._clickHighlightedText(this._clickSignIn)
+    }
+
+    setModalOff(error:string = "Error Message") {
+        this.props._showModal(false)
+        this.props._setErrorState(true, error)
+    }
+    navigateMain() {
+        this.props.navigation.navigate('Main')
     }
     
     getAccountType(childData : AccountTypes) {
@@ -67,12 +95,33 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
     getFormEmail(childData : string){
         this.setState({email : childData})
     }
+
+    getFormPhone(childData : string) {
+        this.setState({phone: childData})
+    }
     getFormPassword(childData : String){
         this.setState({password : childData})
     }
     getFormCPassword(childData : String){
         this.setState({cPassword : childData})
     }
+
+    getFormAddress(childData : string) {
+        this.setState({address: childData})
+    }
+
+    getFormCity(childData : string) {
+        this.setState({city: childData})
+    }
+
+    getFormCompanyType(childData : string) {
+        this.setState({companyType: childData})
+    }
+
+    getFormCompanyName(childData : string) {
+        this.setState({companyName: childData})
+    }
+ 
 
     
     private inputFormProps() : {[id: string] : InputFormProps} {
@@ -95,6 +144,12 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
             },
+            phone: {
+                name: signUpScreenStrings.inputForms.phone, 
+                parentCallBack: this.getFormPhone, 
+                formTitleStyle: this.inputFormStyle.formTitle, 
+                inputStyle: this.inputFormStyle.input,
+            },
             password: {
                 name: signUpScreenStrings.inputForms.password,
                 parentCallBack: this.getFormPassword,
@@ -108,6 +163,30 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 secureTextEntry: true,
+            },
+            address: {
+                name: signUpScreenStrings.inputForms.address, 
+                parentCallBack: this.getFormAddress, 
+                formTitleStyle: this.inputFormStyle.formTitle,
+                inputStyle: this.inputFormStyle.input,
+            }, 
+            city: {
+                name: signUpScreenStrings.inputForms.city, 
+                parentCallBack: this.getFormAddress, 
+                formTitleStyle: this.inputFormStyle.formTitle,
+                inputStyle: this.inputFormStyle.input,
+            },
+            companyName: {
+                name: signUpScreenStrings.inputForms.companyName, 
+                parentCallBack: this.getFormCompanyName, 
+                formTitleStyle: this.inputFormStyle.formTitle,
+                inputStyle: this.inputFormStyle.input,
+            }, 
+            companyType: {
+                name: signUpScreenStrings.inputForms.companyType, 
+                parentCallBack: this.getFormCompanyType, 
+                formTitleStyle: this.inputFormStyle.formTitle,
+                inputStyle: this.inputFormStyle.input,
             }
         }
     }
@@ -131,26 +210,56 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
     };
     _clickSignUp = () => {
         this.props._showModal(true, signUpScreenStrings.modal)
-        let details : Account = {...this.state, phone: '', roopairsToken: ''}
+        let details : Account = {...this.state, roopairsToken: ''}
         if(this.validateCredentials()){
-            this.props.generateHomePairsAccount(details, this.state.password)
+            this.props.generateHomePairsAccount(details, this.state.password, this.setModalOff, this.navigateMain)
             this.props._showModal(false)
         }
     }
 
+    toRoopairsLogin = () => {
+        this.props.navigation.navigate('Connect')
+    };
+
     render() {
-        return(
+        if (this.state.accountType === AccountTypes.Landlord) {
+            return (
             <>
                 <AccountTypeRadioButton 
                 parentCallBack={this.getAccountType}
                 primaryColorTheme={this.props.primaryColorTheme}/>
+                <LoginButton name='Login with your Roopairs Account' onClick={this.toRoopairsLogin}/>
+                <View style = {{minHeight: 30, alignItems: 'center'}}>
+                    <Divider></Divider>
+                    <Text style = {{fontSize: 16}}>OR</Text>
+                </View>
                 <InputForm {...this.inputFormProps().firstName} />
                 <InputForm {...this.inputFormProps().lastName}/>
                 <InputForm {...this.inputFormProps().email}/>
+                <InputForm {...this.inputFormProps().phone}/>
+                <InputForm {...this.inputFormProps().companyName}/>
+                <InputForm {...this.inputFormProps().companyType}/>
                 <InputForm {...this.inputFormProps().password}/>
                 <InputForm {...this.inputFormProps().confirmPassword}/>
             </>
-        )
+            )
+        } else {
+            return(
+                <>
+                    <AccountTypeRadioButton 
+                    parentCallBack={this.getAccountType}
+                    primaryColorTheme={this.props.primaryColorTheme}/>
+                    <InputForm {...this.inputFormProps().firstName} />
+                    <InputForm {...this.inputFormProps().lastName}/>
+                    <InputForm {...this.inputFormProps().email}/>
+                    <InputForm {...this.inputFormProps().phone}/>
+                    <InputForm {...this.inputFormProps().address}/>
+                    <InputForm {...this.inputFormProps().city}/>
+                    <InputForm {...this.inputFormProps().password}/>
+                    <InputForm {...this.inputFormProps().confirmPassword}/>
+                </>
+            )
+        }
     }
 }
 

@@ -20,6 +20,7 @@ import { StickerProps as SP} from './Stickers/Sticker';
 
 export {default as InputForm } from './Forms/InputForm';
 export {default as ThinButton} from './Buttons/ThinButton';
+export {default as LoginButton} from './Buttons/LoginButton';
 export {default as Card } from './Cards/Card';
 export {default as LoadingModal} from './Modals/LoadingModal'
 export {default as Sticker} from './Stickers/Sticker';
