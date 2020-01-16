@@ -5,6 +5,7 @@ import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { AuthPageInjectedProps, DarkModeInjectedProps } from 'homepair-components';
 import * as BaseStyles from 'homepair-base-styles';
 import { StyleSheet } from 'react-native';
+import { EmailSyntaxVerification } from 'homepair-helpers';
 
 export type LoginViewDispatchProps = {
     onFetchAccountProfile: (username: string, password: string, 
@@ -16,9 +17,7 @@ export type LoginState = {
     username: string,
     password: string,
 }
-/**
- * StyleSheet for all components in this directory and children directories 
- * */
+
 const signInStrings = strings.signInPage
 const initialState : LoginState = {
     username : '',
@@ -62,7 +61,15 @@ export default class LoginScreenBase extends React.Component<LoginProps, LoginSt
     }
     _clickButton() {
         this.props._showModal(true)
-        this.props.onFetchAccountProfile(this.state.username, this.state.password, this.setModalOff, this.navigateMain)
+        //verify login credentials here
+        //TO DO: verify email syntax
+        if(!EmailSyntaxVerification.isEmailSyntaxValid(this.state.username)){
+            alert("Invalid Username! Must be an email");
+            this.props._showModal(false)
+        }
+        else{
+            this.props.onFetchAccountProfile(this.state.username, this.state.password, this.setModalOff, this.navigateMain)
+        }
     } 
 
     inputFormProps() : {[id: string] : InputFormProps} {

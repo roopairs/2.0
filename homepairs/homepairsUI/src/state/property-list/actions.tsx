@@ -49,7 +49,8 @@ export const removeProperty = (propertyIndex: number): RemovePropertyAction => (
 
 export const fetchProperties = (linkedProperties: Array<any>): FetchPropertyAction => {
     let fetchedProperties : Property[] = new Array()
-    linkedProperties.forEach(element => {
+    //TO DO: make linkedProperties not nullable again (once adam gives us properties for pm's again)
+    linkedProperties?.forEach(element => {
         fetchedProperties.push({
             address: element[propertyKeys.ADDRESS],
             tenants: element[propertyKeys.TENANTS],

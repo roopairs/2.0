@@ -20,7 +20,8 @@ export enum FETCH_PROFILE_ACTION_TYPES {
 }
 
 export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileAction => {
-    let profile = accountJSON[accountKeys.PMINFO]
+    let profile = accountJSON[accountKeys.PM]
+    console.log(accountJSON[accountKeys.PM])
     let fetchedProfile : AccountState 
     let baseProfile : Account = {
         accountType: AccountTypes.Tenant,
@@ -55,11 +56,18 @@ export const fetchAccount = (
     Email: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
     return async (dispatch: (arg0: any) => void) => {
         //TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
+<<<<<<< HEAD
         return await axios.post('https://homepairs-alpha.herokuapp.com/API/login/', {
+=======
+        return await axios.post('https://homepairs-alpha.herokuapp.com/API/login/tenant/', {
+>>>>>>> 0b2231fcfac44cb281312bca32ce3fcb6258097d
             email: Email,
             password: Password,
           })
           .then((response) => {
+            //here is where we get our response from our heroku database.
+            //console.log(response) //is an easy way to read error messages (invalid credentials, for example)"
+            console.log(response[responseKeys.DATA])
             if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
               dispatch(fetchAccountProfile(response[responseKeys.DATA]))
               dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))

@@ -229,13 +229,14 @@ export enum HomePairsDimensions {
 
 enum HOMEPAIRS_ACCOUNT_KEYS{
     TYPE = 'accountType',
-    PMINFO = 'pmInfo',
-    FIRSTNAME = 'FirstName',
-    LASTNAME = 'LastName',
+    PM = 'pm',
+    FIRSTNAME = 'firstName',
+    LASTNAME = 'lastName',
     EMAIL = 'email',
     MANID = 'manId',
     PASSWORD = 'password',
     PHONE = 'phone',
+    PLACE = 'place', 
     PROPID = 'propId',
     TENANTID = 'tenantID', 
 }
