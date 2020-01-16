@@ -46,6 +46,19 @@ def getTenant(tenantEmail, tenantPassword):
 #
 
 @api_view(['GET', 'POST'])
+def login(request):
+   tenantTest = tenantLogin(request)
+   if tenantTest.get('status') == "success":
+      tenantTest['role'] = 'tenant'
+      return Response(data=tenantTest)
+
+   pmTest = pmLogin(request)
+   if pmTest.get('status') == 'success':
+      pmTest['role'] = 'pm'
+      return Response(data=pmTest)
+
+   return Response(data=pmTest)
+
 def pmLogin(request):
    url = "https://capstone.api.roopairs.com/v0/auth/login/"
 
@@ -60,16 +73,16 @@ def pmLogin(request):
       info = json.loads(response.text)
 
       if "non_field_errors" in info:
-         return Response(data=returnError('incorrect credentials'))
+         return returnError('incorrect credentials')
       elif 'token' in info:
          pm = getPropertyManager(pmEmail)
          tempDict = getPropertyManager(pmEmail)
          if tempDict['status'] == 'failure':
-            return Response(data=returnError('no homepairs account: %s' % tempDict['error']))
+            return returnError('no homepairs account: %s' % tempDict['error'])
          tempDict['token'] = info.get('token')
-         return Response(data=tempDict)
+         return tempDict
    else:
-      return Response(data=returnError('incorrect fields'))
+      return returnError('incorrect fields')
 
 def tenantRegister(request):
    print('')
@@ -77,11 +90,10 @@ def tenantRegister(request):
 def pmRegister(request):
    print('')
 
-@api_view(['GET', 'POST'])
 def tenantLogin(request):
    if "email" in request.data and "password" in request.data:
       tenantEmail = request.data.get("email")
       tenantPass = request.data.get("password")
-      return Response(data=getTenant(tenantEmail, tenantPass))
+      return getTenant(tenantEmail, tenantPass)
    else:
-      return Response(data=returnError('incorrect fields'))
+      return returnError('incorrect fields')

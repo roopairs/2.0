@@ -18,8 +18,8 @@ from .models import PropertyManager, Property, Tenant
 ################################################################################
 # Vars
 
-globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
 globUrl = 'http://localhost:8000/API/'
+globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
 
 tempPM = PropertyManager(firstName='Tommy',
                          lastName='Bergmann', 
@@ -101,7 +101,7 @@ class TenantLogin(TestCase):
    def test_tenant_incorrectEmail(self):
       #setup()
       data = {'email': 'damkberard@gmail.com', 'password': 'pass4adam'}
-      url = globUrl + 'login/tenant/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'failure')
@@ -111,7 +111,7 @@ class TenantLogin(TestCase):
    def test_tenant_incorrectPass(self):
       #setup()
       data = {'email': 'adamkberard@gmail.com', 'password': 'adamisNOTcool'}
-      url = globUrl + 'login/tenant/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'failure')
@@ -120,7 +120,7 @@ class TenantLogin(TestCase):
    # Incorrect Pass & Email
    def test_tenant_incorrectPassAndEmail(self):
       data = {'email': 'adam@m.com', 'password': 'adamisNOTcool'}
-      url = globUrl + 'login/tenant/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'failure')
@@ -129,7 +129,7 @@ class TenantLogin(TestCase):
    # No Email Field
    def test_tenant_incorrectEmailField(self):
       data = {'gmail': 'adam@m.com', 'password': 'adamisNOTcool'}
-      url = globUrl + 'login/tenant/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'failure')
@@ -138,7 +138,7 @@ class TenantLogin(TestCase):
    # No Pass Field
    def test_tenant_incorrectPassField(self):
       data = {'email': 'adam@m.com', 'assword': 'adamisNOTcool'}
-      url = globUrl + 'login/tenant/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'failure')
@@ -147,7 +147,7 @@ class TenantLogin(TestCase):
    # No Correct Fields
    def test_tenant_incorrectFields(self):
       data = {'gmail': 'adam@m.com', 'assword': 'adamisNOTcool'}
-      url = globUrl + 'login/tenant/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'failure')
@@ -160,7 +160,7 @@ class PropertyManagerLogin(TestCase):
    def test_pm_allCorrect(self):
       #setup()
       data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
-      url = globUrl + 'login/pm/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       print(x.text)
       info = json.loads(x.text)
@@ -176,7 +176,7 @@ class PropertyManagerLogin(TestCase):
    def test_pm_wrongEmail(self):
       #setup()
       data = {'email': 'erongrant@gmail.com', 'password': 'pass4eeron'}
-      url = globUrl + 'login/pm/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'failure')
@@ -186,7 +186,7 @@ class PropertyManagerLogin(TestCase):
    def test_pm_wrongPass(self):
       #setup()
       data = {'email': 'eerongrant@gmail.com', 'password': 'passeeron'}
-      url = globUrl + 'login/pm/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'failure')
@@ -196,7 +196,7 @@ class PropertyManagerLogin(TestCase):
    def test_pm_wrongPassAndEmail(self):
       #setup()
       data = {'email': 'eerongant@gmail.com', 'password': 'passeeron'}
-      url = globUrl + 'login/pm/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'failure')
@@ -205,7 +205,7 @@ class PropertyManagerLogin(TestCase):
    # No Email Field
    def test_pm_incorrectEmailField(self):
       data = {'gmail': 'adam@m.com', 'password': 'adamisNOTcool'}
-      url = globUrl + 'login/tenant/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'failure')
@@ -214,7 +214,7 @@ class PropertyManagerLogin(TestCase):
    # No Pass Field
    def test_pm_incorrectPassField(self):
       data = {'email': 'adam@m.com', 'assword': 'adamisNOTcool'}
-      url = globUrl + 'login/tenant/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'failure')
@@ -223,7 +223,7 @@ class PropertyManagerLogin(TestCase):
    # No Correct Fields
    def test_pm_incorrectFields(self):
       data = {'gmail': 'adam@m.com', 'assword': 'adamisNOTcool'}
-      url = globUrl + 'login/tenant/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'failure')
@@ -232,7 +232,7 @@ class PropertyManagerLogin(TestCase):
    # Exists in Roopairs but not in Homepairs
    def test_pm_wrongAccount(self):
       data = {'email': 'tbbergma@calpoly.edu', 'password': 'yNVU2qMH7ndgK5M'}
-      url = globUrl + 'login/pm/'
+      url = globUrl + 'login/'
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get('status'), 'failure')
