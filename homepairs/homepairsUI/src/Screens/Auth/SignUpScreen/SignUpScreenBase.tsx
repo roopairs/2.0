@@ -229,9 +229,8 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
                 parentCallBack={this.getAccountType}
                 primaryColorTheme={this.props.primaryColorTheme}/>
                 <LoginButton name='Login with your Roopairs Account' onClick={this.toRoopairsLogin}/>
-                <View style = {{minHeight: 30, alignItems: 'center'}}>
-                    <Divider></Divider>
-                    <Text style = {{fontSize: 16}}>OR</Text>
+                <View style = {{minHeight: 30, alignItems: 'center', marginTop: 20}}>
+                    <Text style = {{fontSize: 20}}>OR</Text>
                 </View>
                 <InputForm {...this.inputFormProps().firstName} />
                 <InputForm {...this.inputFormProps().lastName}/>
