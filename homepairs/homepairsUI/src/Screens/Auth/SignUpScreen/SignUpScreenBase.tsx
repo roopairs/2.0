@@ -172,7 +172,7 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
             }, 
             city: {
                 name: signUpScreenStrings.inputForms.city, 
-                parentCallBack: this.getFormAddress, 
+                parentCallBack: this.getFormCity, 
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
             },

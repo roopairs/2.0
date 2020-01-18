@@ -10,8 +10,12 @@ export type PropertiesScreenStateProps = {
   header?: HeaderState,
 }
 
+export type PropertiesScreenDispatchProps = {
+  onRevealGoBack: (showGoBack:boolean) => any;
+}
+
 export type PropertiesScreenProps = SceneInjectedProps & 
-PropertiesScreenStateProps  & 
+PropertiesScreenStateProps  &  PropertiesScreenDispatchProps &
 { store: any }
 
 export default class PropertiesScreenBase extends React.Component<PropertiesScreenProps> {
@@ -24,6 +28,7 @@ export default class PropertiesScreenBase extends React.Component<PropertiesScre
   navigateToDetiailedProperty(index:number){
     let property: Property = this.props.properties[index]
     let navParams = {propertyIndex : index, selectedProperty: property}
+    this.props.onRevealGoBack(true)
     this.props.navigation.push('DetailedProperty', navParams)
   } 
 

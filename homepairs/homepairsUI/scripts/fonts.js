@@ -53,7 +53,38 @@ ${properties}
 }
 `
 
+    fs.writeFileSync('res/fonts.web.tsx', string, 'utf8')
+}
+
+const generateWeb = () => {
+  const loadedProperties = fontFileNames()
+    .map((name) => {
+      const key = name.replace(/\s/g, '')
+      return `\t\t'${key.toLowerCase()}': require('./assets/fonts/${name}.ttf')`
+    })
+    .join(',\n')
+  
+    const properties = fontFileNames()
+        .map((name) => {
+            const key = name.replace(/\s/g, '')
+            return `\t${key.replace('-', '_').toLowerCase()}: '${name.toLowerCase()}'`
+        }).join(',\n')
+
+const string = `import * as Font from 'expo-font';
+export const LoadFonts = async () => {
+\tawait Font.loadAsync({
+\t\t//Load desired fonts into /res/assets/fonts and then run the script via: npm run fonts 
+${loadedProperties}
+\t});
+}
+export const HomePairFonts = {
+${properties}
+}
+`
+
     fs.writeFileSync('res/fonts.tsx', string, 'utf8')
 }
 
+
 generate()
+generateWeb()

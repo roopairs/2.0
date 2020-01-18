@@ -19,7 +19,6 @@ function setStyle(colorTheme: BaseStyles.ColorTheme = BaseStyles.LightColorTheme
                 marginTop: 20,
                 width: BaseStyles.ContentWidth.reg,
                 borderBottomWidth: 1,
-                //marginBottom: 15,
                 borderBottomColor: colorTheme.veryLightGray,
                 paddingBottom: 4,
                 flexDirection: 'row',
@@ -50,7 +49,7 @@ function setStyle(colorTheme: BaseStyles.ColorTheme = BaseStyles.LightColorTheme
             },
             thinButtonText:{
                 color: colorTheme.primary, 
-                fontSize: 16,
+                fontSize: BaseStyles.FontTheme.reg,
                 alignSelf: 'center',
             },
         })

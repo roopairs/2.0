@@ -1,9 +1,9 @@
 import { AppState } from "homepair-types";
 import { connect } from "react-redux";
-import PropertiesScreenBase, {PropertiesScreenStateProps} from './PropertiesScreenBase'
+import PropertiesScreenBase, {PropertiesScreenStateProps, PropertiesScreenDispatchProps} from './PropertiesScreenBase'
 import { withScene, AddNewPropertyModal, withDarkMode } from 'homepair-components'
 import { MainAppStackType } from 'homepair-types';
-
+import { HeaderActions } from 'homepair-redux-actions';
 const sceneParams : MainAppStackType = { 
   title: 'Properties', 
   navigate: 'AccountProperties',
@@ -18,9 +18,15 @@ function mapStateToProps(state: AppState) : PropertiesScreenStateProps {
     header: state.header
   }
 };
-  
+const mapDispatchToProps: (dispatch:any) => PropertiesScreenDispatchProps = dispatch => ({
+  onRevealGoBack: (showBackButton:boolean) => {
+      dispatch(HeaderActions.showGoBackButton(showBackButton));
+  },
+});
+
 const PropertiesScreen = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(PropertiesScreenBase);
 
 export default withDarkMode(withScene(PropertiesScreen, sceneParams));

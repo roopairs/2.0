@@ -15,7 +15,6 @@ export type HomePairsMenuProps = DarkModeInjectedProps & {
     parentCloseMenu?: (arg0?:any) => any;
 }
 
-console.log(MainAppStack)
 type Props = NavigationInjectedProps & HomePairsMenuProps 
 
 class HomePairsMenu extends React.Component<Props>{
@@ -31,7 +30,7 @@ class HomePairsMenu extends React.Component<Props>{
         this.displayCorrectMenu = this.displayCorrectMenu.bind(this)
 
         this.colorScheme = (props.allColors == null) ? HomePairColors.LightModeColors : props.allColors
-        styles = setColorScheme(this.colorScheme, baseStyles)
+        styles = setColorScheme(this.colorScheme, baseStyles, props.isDropDown)
     }
 
 
@@ -47,6 +46,7 @@ class HomePairsMenu extends React.Component<Props>{
             page = MainAppStack[0]
         this.props.parentCallBack(page)
     };
+
     closeMenu(){
         this.props.parentCloseMenu();
     }
@@ -92,12 +92,12 @@ class HomePairsMenu extends React.Component<Props>{
 }
 export default withNavigation(HomePairsMenu)
 
-const setColorScheme = (colorScheme:any, baseStyles: any) => {
+const setColorScheme = (colorScheme:any, baseStyles: any, isDropDown: boolean) => {
     let newStyle = StyleSheet.create({
         container: {...baseStyles.container, backgroundColor: colorScheme.primary},
         containerDropDown: {...baseStyles.containerDropDown, backgroundColor: colorScheme.primary},
-        menuText: {...baseStyles.menuText, color: colorScheme.formTitle},
-        menuSelectedText: {...baseStyles.menuSelectedText, color: colorScheme.primaryText}
+        menuText: {...baseStyles.menuText, color: colorScheme.formTitle, paddingLeft: isDropDown ? 33 : 15},
+        menuSelectedText: {...baseStyles.menuSelectedText, color: colorScheme.primaryText,  paddingLeft: isDropDown ? 33 : 15}
     })
     return newStyle
 }
@@ -121,14 +121,12 @@ const baseStyles = {
     },
     menuText: {
         fontFamily: FontTheme.primary,
-        paddingLeft: 15,
         paddingVertical: 15,
         maxHeight: 50,
         fontSize: 16,
     },
     menuSelectedText: {
         fontFamily: FontTheme.primary,
-        paddingLeft: 15,
         paddingVertical: 15,
         maxHeight: 50,
         fontSize: 16,

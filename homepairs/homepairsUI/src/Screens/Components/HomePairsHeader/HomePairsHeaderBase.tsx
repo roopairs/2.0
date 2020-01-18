@@ -1,12 +1,17 @@
-import { View, StyleSheet, StatusBar, Platform } from 'react-native';
+import { View, StyleSheet, StatusBar, Platform, TouchableOpacity, Text } from 'react-native';
 import React from 'react'
 import {HomePairsHeaderTemplate} from './HomePairsHeaderTemplate';
 import { HomePairsHeaderTitle, HomePairsHeaderTitleProps } from './HomePairsHeaderTitle/HomePairsHeaderTitle';
 import HomePairsMenu, {HomePairsMenuProps} from './HomePairsHeaderMenu/HomePairsHeaderMenu';
-import { SafeAreaView } from 'react-navigation';
+import { SafeAreaView, StackActions } from 'react-navigation';
 import { HomePairsHeaderProps } from './HomePairsHeaderTemplate';
 import * as BaseStyles from 'homepair-base-styles';
+import { showGoBackButton } from '../../../state/header/actions';
 
+const popAction = StackActions.pop({
+    n: 1,
+});
+const backSymbol = '<'
 
 class HomePairsHeaderBase extends HomePairsHeaderTemplate {
     colorScheme: BaseStyles.ColorTheme
@@ -14,6 +19,7 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
         super(props)
         this.colorScheme = (props.primaryColorTheme == null) ? BaseStyles.LightColorTheme : props.primaryColorTheme
         styles = setColorTheme(this.colorScheme)
+        this.goBack = this.goBack.bind(this)
     }
 
     private setHeaderTitleProps() : HomePairsHeaderTitleProps {
@@ -22,7 +28,7 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
             toggleMenuCallBack: this.toggleMenu,
             isDropDown: this.props.header.isDropDown,
             allColors: this.props.allColors,
-            primaryColorTheme: this.props.primaryColorTheme
+            primaryColorTheme: this.props.primaryColorTheme,
         }
     }
     
@@ -38,13 +44,41 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
         }
     }
 
+    showBackButton(){
+        return this.props.header.showBackButton ? 
+        <TouchableOpacity
+            onPress={this.goBack}
+            style={styles.goBackButton}>
+                <Text style={styles.goBackSymbol}>{backSymbol}</Text>
+            </TouchableOpacity>
+        :
+        <></>
+    }
+
+    /**
+     * This function navigates to the previous screen and then hides the goBack button
+     * if the screen is the first in the navigation stack.
+     * */
+    goBack(){
+        this.props.navigation.dispatch(popAction)
+        if(this.props.navigation.isFirstRouteInParent()){
+            this.props.onShowGoBackbutton(false)
+        }
+        this.props.onToggleMenu(false)
+    }
+
     render() {
         const homePairsMenuProps : HomePairsMenuProps = this.setMenuProps()
         const homePairsHeaderTitleProps : HomePairsHeaderTitleProps = this.setHeaderTitleProps()
         return (
         <SafeAreaView style={styles.container}>
             <View style={this.props.header.isDropDown ? {flexDirection: 'column'} : {flexDirection: 'row'}}>
-                    <HomePairsHeaderTitle {...homePairsHeaderTitleProps}/>
+                    <View style={{flexDirection: 'row'}}>
+                        {this.showBackButton()}
+                        <View style={this.showBackButton ? {marginLeft: BaseStyles.MarginPadding.largeConst, flex: 20} : {flex: 20}}>
+                            <HomePairsHeaderTitle {...homePairsHeaderTitleProps}/>
+                        </View>
+                    </View>
                     <HomePairsMenu {...homePairsMenuProps}/>
                 </View>
         </SafeAreaView>
@@ -61,8 +95,29 @@ function setColorTheme(colorScheme?:BaseStyles.ColorTheme){
             shadowOffset: {width: 0, height: 2},
             elevation: 1,
             marginTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
-            backgroundColor: colors.primary, 
+            backgroundColor: colors.secondary, 
             shadowColor: colors.shadow,
+            minHeight: 50,
+        },
+        homePairsTitle: {
+            fontFamily: BaseStyles.FontTheme.primary,
+            fontSize: BaseStyles.FontTheme.title,
+            color: colorScheme.primary,
+            flex: 1,
+        },
+        goBackSymbol: {
+            fontFamily: BaseStyles.FontTheme.primary,
+            fontSize: BaseStyles.FontTheme.lg,
+            color: colorScheme.primary,
+            flex: 1,
+        },
+        goBackButton: {
+            backgroundColor: colorScheme.secondary,
+            padding:BaseStyles.MarginPadding.mediumConst,
+            paddingTop: 20, 
+            alignItems: 'center', 
+            position: 'absolute',
+            zIndex: 1,
         }
     })
 }

@@ -20,7 +20,7 @@ module.exports = function(api) {
           ],
           root: ['./src'],
           alias: {
-            "homepair-fonts": "./res/fonts.tsx",
+            "homepair-fonts": "./res/fonts",
             "homepair-images": "./res/images.tsx",
             "homepair-strings": "./res/strings.tsx",
             "homepair-colors": "./res/colors.tsx",
