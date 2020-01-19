@@ -16,7 +16,7 @@
     "baseUrl": "./",
     "paths":{
       "*": ["*", "*.ios", "*.android", "*.web"],
-      "homepair-fonts": ["res/fonts.tsx"],
+      "homepair-fonts": ["res/fonts"],
       "homepair-images": ["./res/images.tsx"],
       "homepair-types": ["./src/state/types.ts"],
       "homepair-strings": ["./res/strings.tsx"],

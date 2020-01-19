@@ -1,3 +1,10 @@
-import * as EmailSyntaxVerification from './SyntaxVerification/EmailSyntaxVerification';
+<<<<<<< HEAD
+import { isEmailSyntaxValid } from './SyntaxVerification/EmailSyntaxVerification';
+import { isEmptyOrSpaces } from './SyntaxVerification/EmptyStringVerification';
+import { isPasswordValid } from './SyntaxVerification/PasswordVerification';
 
-export {EmailSyntaxVerification};
+=======
+import * as EmailSyntaxVerification from './SyntaxVerification/EmailSyntaxVerification';
+>>>>>>> beca8c522b80c1dd9690aabbea07343aefe509df
+
+export {isEmailSyntaxValid, isPasswordValid};

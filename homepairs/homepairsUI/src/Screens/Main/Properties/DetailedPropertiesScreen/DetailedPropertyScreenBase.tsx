@@ -41,13 +41,6 @@ export default function DetailedPropertyScreenBase(props:Props){
       props.onUpdateProperty(id, 'New Address', 0, 0, 1)
     }
 
-    const scrollViewProps: ScrollViewProps  = {
-        //style: {flex: 1, marginBottom: BaseStyles.MarginPadding.largeConst}, 
-        //contentContainerStyle: styles.scrollViewContentContainer,
-        //directionalLockEnabled: true,
-        //automaticallyAdjustContentInsets: false,
-    }
-
     const imageProps : ImageProps = { 
         source: defaultProperty,
         style: Platform.OS === 'web' ? styles.homePairsPropertiesImageWeb : styles.homePairsPropertiesImage,
@@ -106,17 +99,13 @@ function setStyles(colorTheme?:BaseStyles.ColorTheme) {
             container : {
                 alignItems: 'center',
                 backgroundColor: colors.space,
-                borderWidth: 1, 
                 width: BaseStyles.ContentWidth.max,
-                //minHeight: HomePairsDimensions.MIN_PALLET_HEIGHT,
-                //flex: 1,
+                flex:1,
             },
             pallet:{
                 backgroundColor: colors.secondary,
                 width: BaseStyles.ContentWidth.max,
-                borderWidth: 1, 
-                //flex: 1,
-                //minHeight: HomePairsDimensions.MIN_PALLET_HEIGHT,
+                flex: 1,
                 maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
                 alignSelf: 'center',
             },
@@ -145,7 +134,7 @@ function setStyles(colorTheme?:BaseStyles.ColorTheme) {
                 backgroundColor: colors.secondary,
                 alignSelf: 'center',
                 width: BaseStyles.ContentWidth.max,
-                //flexGrow: 1,
+                flexGrow: 1,
             },
             addBottomMargin: {
                 flex: 1,

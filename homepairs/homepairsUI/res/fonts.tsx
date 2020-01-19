@@ -1,5 +1,4 @@
 import * as Font from 'expo-font';
-
 export const LoadFonts = async () => {
 	await Font.loadAsync({
 		//Load desired fonts into /res/assets/fonts and then run the script via: npm run fonts 
@@ -19,7 +18,6 @@ export const LoadFonts = async () => {
 		'nunito-semibolditalic': require('./assets/fonts/Nunito-SemiBoldItalic.ttf')
 	});
 }
-
 export const HomePairFonts = {
 	nunito_black: 'nunito-black',
 	nunito_blackitalic: 'nunito-blackitalic',

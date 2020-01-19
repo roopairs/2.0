@@ -110,13 +110,14 @@ export const loginForPM = (Email: String, Password: String, modalSetOffCallBack?
 
 export const generateAccountForTenant = (accountDetails: Account, password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
   return async (dispatch: (arg0: any) => void) => {
+    console.log(accountDetails)
       return await axios.post('http://homepairs-alpha.herokuapp.com/API/register/tenant/', {
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
+        email: accountDetails.email, 
+        phone: accountDetails.phone,
         streetAddress: accountDetails.address, 
         city: accountDetails.city,
-        email: accountDetails.email, 
-        phone: accountDetails.phone, 
         password: password, 
       })
       .then((response) => {
@@ -125,7 +126,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
           dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
           navigateMainCallBack()
         } else {
-          console.log(response);
+          console.log(response)
           modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")
         }
       })

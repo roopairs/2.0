@@ -59,7 +59,7 @@ const initalState : DefaultAuthPageState = {
 
 export default function withAuthPage(WrappedComponent: any, defaultAuthPassProps : AuthPassProps){
     var styles: any = null;
-    class ReduxComponentBase 
+    class ComponentBase 
         extends React.Component<AuthPageInjectedProps, DefaultAuthPageState> {
         constructor(props: Readonly<AuthPageInjectedProps>) {
           super(props);
@@ -188,7 +188,7 @@ export default function withAuthPage(WrappedComponent: any, defaultAuthPassProps
             );
         }
     }
-    return withNavigation(ReduxComponentBase)
+    return withNavigation(ComponentBase)
 }
 
 function setStyles(buttonColor: string, colorTheme?: BaseStyles.ColorTheme){ 

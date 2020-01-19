@@ -5,7 +5,7 @@ import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { AuthPageInjectedProps, DarkModeInjectedProps } from 'homepair-components';
 import * as BaseStyles from 'homepair-base-styles';
 import { StyleSheet } from 'react-native';
-import { EmailSyntaxVerification } from 'homepair-helpers';
+import { isEmailSyntaxValid, isPasswordValid } from 'homepair-helpers';
 
 export type LoginViewDispatchProps = {
     onFetchAccountProfile: (username: string, password: string, 
@@ -41,6 +41,10 @@ export default class LoginScreenBase extends React.Component<LoginProps, LoginSt
         this.props._clickHighlightedText(this._clickHighlightedText)
     }
 
+    /**
+     * Sets the state of the modal to hidden and then displays an error message. If none is passed
+     * defaults to 'Error Message' 
+     */
     setModalOff(error:string = "Error Message") {
         this.props._showModal(false)
         this.props._setErrorState(true, error)
@@ -55,19 +59,18 @@ export default class LoginScreenBase extends React.Component<LoginProps, LoginSt
     getFormPassword(childData : string){
         this.setState({password : childData})
     }
-
     _clickHighlightedText() {
         this.props.navigation.navigate('SignUp')
     }
+
     _clickButton() {
         this.props._showModal(true)
-        //verify login credentials here
-        //TO DO: verify email syntax
-        if(!EmailSyntaxVerification.isEmailSyntaxValid(this.state.username)){
-            alert("Invalid Username! Must be an email");
-            this.props._showModal(false)
+        if(!isEmailSyntaxValid(this.state.username)){
+            this.setModalOff("Invalid Username! Must be an email")
         }
-        else{
+        else if (!isPasswordValid(this.state.password)){
+            this.setModalOff("You have entered an invalid password.")
+        }else{
             this.props.onFetchAccountProfile(this.state.username, this.state.password, this.setModalOff, this.navigateMain)
         }
     } 
@@ -90,10 +93,6 @@ export default class LoginScreenBase extends React.Component<LoginProps, LoginSt
         }
     }
     
-    /**
-     * NOTE: If you want your ScrollView to actually scroll, you must set the style of the ScrollView {{flex:1}}. Do not 
-     * have the contentContainerStyle have a flex. This will effectively make your ScrollView unable to scroll!
-     */
     render() {
         return(
             <>

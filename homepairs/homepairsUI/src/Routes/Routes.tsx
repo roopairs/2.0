@@ -37,14 +37,15 @@ export const MainAppStack : Array<MainAppStackType> = [
 ]
 
 const navigationHeader = () => ({
-  header :
-    <View style={{backgroundColor: '#1177B0'}}>
+  header : () => { return (
+    <View style={{backgroundColor: '#1177B0', flex: 1}}>
       <HomePairsHeader />
-    </View>,
+    </View>)
+  },
   headerStyle: {
     backgroundColor: '#f4511e',
   },
-  gesturesEnabled: false,
+  gestureEnabled: false,
 })
 
 const authStackConfig = {
@@ -62,39 +63,27 @@ const authStackConfig = {
     initialRouteName: 'Properties',
   }
     
-  const innerStackConfigMobile: any = { 
+  const innerStackConfig: any = { 
     headerMode: 'none',
     defaultNavigationOptions: {
-      gesturesEnabled: true,
+      gestureEnabled: true,
     }
   }
 
-  /**
-   * There seems to be a bug on the the navigationStack for web. 
-   * It does not properly render a header to none but the entire page. 
-   * This is the current workaround
-   */
-  const innerStackConfigWeb:any = {
-    defaultNavigationOptions: {
-      headerStyle: {
-        height: 0,
-        width: 0,
-      },
-    },
-  }
+
 
   //these should be separated into different files for each Route (AccountProperties, Service Request, Account)
   const propertyStackConfig = {
     initialRouteName : 'AccountProperties',  
-  ...(Platform.OS === 'web' ? innerStackConfigWeb : innerStackConfigMobile)}
+    ...innerStackConfig}
 
   const serviceRequestStackConfig = {
     initialRouteName : 'ServiceRequest',  
-  ...(Platform.OS === 'web' ? innerStackConfigWeb : innerStackConfigMobile)}
+    ...innerStackConfig}
 
   const accountStackConfig = {
     initialRouteName : 'Account',  
-  ...(Platform.OS === 'web' ? innerStackConfigWeb : innerStackConfigMobile)}
+    ...innerStackConfig}
   
   const PropertyStack = createStackNavigator({AccountProperties: MainAppPages.PropertyPages.PropertiesScreen,
      DetailedProperty: MainAppPages.PropertyPages.DetailedPropertyScreen}, propertyStackConfig);

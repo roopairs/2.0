@@ -3,6 +3,7 @@ import React from 'react';
 import { HeaderState, MainAppStackType } from 'homepair-types';
 import { HomePairsDimensions } from 'homepair-types';
 import { DarkModeInjectedProps } from 'homepair-components';
+import { NavigationInjectedProps, NavigationStackAction } from 'react-navigation';
 
 /** 
  * This component is intended to hold all the functionality that should exits within any header 
@@ -21,7 +22,8 @@ export type HomePairsHeaderDispatchProps = {
     onSwitchNavBar: (switchNavBar: boolean) => any,
     onUpdateSelected: (selected: MainAppStackType) => any,
 }
-export type HomePairsHeaderProps = HomePairsHeaderDispatchProps & HomePairsHeaderStateProps & DarkModeInjectedProps
+export type HomePairsHeaderProps = HomePairsHeaderDispatchProps & HomePairsHeaderStateProps & DarkModeInjectedProps 
+& NavigationInjectedProps & NavigationStackAction
 
 export default abstract class HomePairsHeaderTemplate extends React.Component<HomePairsHeaderProps> {
     constructor(props: Readonly<HomePairsHeaderProps>){
@@ -58,7 +60,6 @@ export default abstract class HomePairsHeaderTemplate extends React.Component<Ho
     componentWillUnmount(){
         Dimensions.removeEventListener("change", this.handleChange)
     }
-
     changePage(page : MainAppStackType) {
         this.props.onUpdateSelected(page)
     }

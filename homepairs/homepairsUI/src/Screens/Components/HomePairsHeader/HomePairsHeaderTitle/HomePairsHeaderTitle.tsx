@@ -109,15 +109,18 @@ const baseStyles = {
         width: '100%',
         justifyContent: 'center',
         alignContent: 'center',
+        flex: 1
     },
     homePairsTitleContainerNavSet: {
         flexDirection: 'row', 
         padding: 15,
         paddingRight: 0,
         height: 80,
-        width: 175,
+        minWidth: 175,
+        maxWidth: 185,
         justifyContent: 'center',
         alignContent: 'center',
+        flex: 5
     },
     homePairsTitle: {
         fontFamily: HomePairFonts.nunito_regular, 

@@ -30,7 +30,6 @@ export default function withSceneHeader(WrappedComponent : any, Page: MainAppSta
         
         scrollViewProps() : ScrollViewProps {
             return{
-                //style: styles.scrollViewStyle, 
                 contentContainerStyle: styles.scrollViewContentContainer,
                 directionalLockEnabled: true,
                 automaticallyAdjustContentInsets: false,
@@ -51,21 +50,22 @@ export default function withSceneHeader(WrappedComponent : any, Page: MainAppSta
             return(
                 (!(Platform.OS === 'web')) ?
                   (
-                    <TouchableWithoutFeedback onPressIn={this.props.onCloseHeaderMenu}>
+                    <TouchableWithoutFeedback onPressIn={this.props.onCloseHeaderMenu} style={{flex:1}}>
                         {this.renderContents()}
                     </TouchableWithoutFeedback>
                 )
-                : this.renderContents() 
+                : <View style={{flex : 1}}>{this.renderContents()}</View>
               )
         }
 
         renderContents() {
             return(
-                    <ScrollView {...this.scrollViewProps()}>
-                        <SceneHeader {...this.sceneHeaderProps()}/>
-                        <WrappedComponent
-                        {...this.props}/>
-                    </ScrollView>
+                <>
+                <SceneHeader {...this.sceneHeaderProps()}/>
+                <ScrollView {...this.scrollViewProps()}>
+                    <WrappedComponent {...this.props}/>
+                </ScrollView>
+                </>
             )
         }
         
@@ -74,15 +74,15 @@ export default function withSceneHeader(WrappedComponent : any, Page: MainAppSta
               (Platform.OS === 'android') ?
                 (
                     <View style={styles.container}>
-                          <View style={ styles.pallet}>
-                            {this.renderTouchArea()}
+                          <View style={styles.pallet}>
+                            {this.renderContents()}
                           </View>
                       </View>
                 )
               :(
                     <View style={styles.container}>
                         <SafeAreaView style={styles.pallet}>
-                          {this.renderTouchArea()}
+                          {this.renderContents()}
                         </SafeAreaView>
                       </View>
                 )
@@ -113,31 +113,26 @@ function setStyle(colorTheme: BaseStyles.ColorTheme){
         StyleSheet.create({
             container : {
                 alignItems: 'center',
+                alignSelf: 'center',
                 backgroundColor: colorTheme.primary, 
                 width: BaseStyles.ContentWidth.max,
-                //flex: 1,
+                flex: 1, 
+                //height: Dimensions.get('window').height,
             },
             pallet:{
-                //flex: 1,
                 backgroundColor: colorTheme.secondary,
                 width: BaseStyles.ContentWidth.max,
-                //height: '100%',
-                //minHeight: HomePairsDimensions.MIN_PALLET_HEIGHT,
                 maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
                 alignSelf: 'center',
+                flex: 1,
             },
             scrollViewStyle: {
-                flex: 1,
-            
-                //flexGrow: 1,
-                //marginBottom: BaseStyles.MarginPadding.largeConst,
             },
             scrollViewContentContainer: {
                 maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
                 backgroundColor: colorTheme.secondary,
                 alignSelf: 'center',
                 width: BaseStyles.ContentWidth.max,
-                //height: 1000,
                 flexGrow: 1,
             },
     }))
