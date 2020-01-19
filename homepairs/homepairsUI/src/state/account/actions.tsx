@@ -33,8 +33,6 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
         phone: profile[accountKeys.PHONE],
         address: profile[accountKeys.ADDRESS], 
         city: profile[accountKeys.CITY],
-        companyName: profile[accountKeys.COMPANY_NAME], 
-        companyType: profile[accountKeys.COMPANY_TYPE],
         roopairsToken: accountJSON[responseKeys.ROOPAIRS]
     }
     if(profile[accountKeys.TENANTID] == null){
@@ -145,8 +143,6 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
           lastName: accountDetails.lastName,
           email: accountDetails.email, 
           phone: accountDetails.phone,
-          companyName: accountDetails.companyName, 
-          companyType: accountDetails.companyType,
           password: password, 
         })
         .then((response) => {

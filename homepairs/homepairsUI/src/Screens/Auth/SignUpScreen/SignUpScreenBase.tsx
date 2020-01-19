@@ -24,8 +24,6 @@ type SignUpState = {
     phone: string, 
     address: string, 
     city: string,
-    companyName: string, 
-    companyType: string,
     password: String,
     cPassword: String,
 }
@@ -38,8 +36,6 @@ const initalState = {
     phone: '',
     address: '', 
     city: '',
-    companyName: '', 
-    companyType: '', 
     password : '',
     cPassword : '',
 }
@@ -64,8 +60,6 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
         this.getFormCPassword = this.getFormCPassword.bind(this)
         this.getFormAddress = this.getFormAddress.bind(this)
         this.getFormCity = this.getFormCity.bind(this)
-        this.getFormCompanyName = this.getFormCompanyName.bind(this)
-        this.getFormCompanyType = this.getFormCompanyType.bind(this)
         this.setModalOff = this.setModalOff.bind(this)
         this.navigateMain = this.navigateMain.bind(this)
 
@@ -112,14 +106,6 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
 
     getFormCity(childData : string) {
         this.setState({city: childData})
-    }
-
-    getFormCompanyType(childData : string) {
-        this.setState({companyType: childData})
-    }
-
-    getFormCompanyName(childData : string) {
-        this.setState({companyName: childData})
     }
  
 
@@ -172,22 +158,10 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
             }, 
             city: {
                 name: signUpScreenStrings.inputForms.city, 
-                parentCallBack: this.getFormAddress, 
+                parentCallBack: this.getFormCity, 
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
             },
-            companyName: {
-                name: signUpScreenStrings.inputForms.companyName, 
-                parentCallBack: this.getFormCompanyName, 
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-            }, 
-            companyType: {
-                name: signUpScreenStrings.inputForms.companyType, 
-                parentCallBack: this.getFormCompanyType, 
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-            }
         }
     }
 
@@ -229,15 +203,11 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
                 parentCallBack={this.getAccountType}
                 primaryColorTheme={this.props.primaryColorTheme}/>
                 <LoginButton name='Login with your Roopairs Account' onClick={this.toRoopairsLogin}/>
-                <View style = {{minHeight: 30, alignItems: 'center', marginTop: 20}}>
-                    <Text style = {{fontSize: 20}}>OR</Text>
-                </View>
+                <View style = {{minHeight: 35, marginTop: 20}}><Text style = {{fontSize: 20}}>OR</Text></View>
                 <InputForm {...this.inputFormProps().firstName} />
                 <InputForm {...this.inputFormProps().lastName}/>
                 <InputForm {...this.inputFormProps().email}/>
                 <InputForm {...this.inputFormProps().phone}/>
-                <InputForm {...this.inputFormProps().companyName}/>
-                <InputForm {...this.inputFormProps().companyType}/>
                 <InputForm {...this.inputFormProps().password}/>
                 <InputForm {...this.inputFormProps().confirmPassword}/>
             </>
