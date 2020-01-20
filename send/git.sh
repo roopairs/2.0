@@ -6,5 +6,5 @@ then
 else
    git add .
    git commit -m '$1'
-   git push
+   git push origin HEAD:Sprint2-Heroku
 fi

@@ -189,3 +189,44 @@ def pmRegister(request):
          return Response(data=tempDict)
    else:
       return Response(data=returnError(INCORRECT_FIELDS))
+
+@api_view(['GET', 'POST'])
+def pmRegisterRoo(request):
+   url = BASE_URL + 'auth/login/'
+
+   if 'email' in request.data and 'password' in request.data):
+      #pmFirstName = request.data.get('firstName')
+      #pmLastName = request.data.get('lastName')
+      #pmPhone = request.data.get('phone')
+      #pmCompanyName = '%s %s Property Rental' % (pmFirstName, pmLastName) 
+      pmEmail = request.data.get('email')
+      pmPass = request.data.get('password')
+      data = {
+                'first_name': pmFirstName,
+                'last_name': pmLastName,
+                'email': pmEmail,
+                'password': pmPass,
+                'internal_client': {
+                                      'name': pmCompanyName,
+                                      'industry_type': RESIDENTIAL_CODE
+                                   }
+             }
+      response = requests.post(url, json=data)
+      info = json.loads(response.text)
+
+      if NON_FIELD_ERRORS in info:
+         return Response(returnError(ROOPAIR_ACCOUNT_CREATION_FAILED))
+      elif TOKEN in info:
+         tempPM = PropertyManager(
+                                    firstName=pmFirstName,
+                                    lastName=pmLastName,
+                                    email=pmEmail,
+                                    phone=pmPhone)
+         tempPM.save()
+         tempDict = getPropertyManager(pmEmail)
+         if tempDict[STATUS] == FAIL:
+            return Response(data=returnError(HOMEPAIRS_ACCOUNT_CREATION_FAILED))
+         tempDict[TOKEN] = info.get(TOKEN)
+         return Response(data=tempDict)
+   else:
+      return Response(data=returnError(INCORRECT_FIELDS))
