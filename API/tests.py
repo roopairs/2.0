@@ -1,4 +1,3 @@
-
 # Create your tests here.
 ################################################################################
 # File Name : loginAndRegistrationTests.py
@@ -15,10 +14,11 @@ import requests
 import json
 import random
 from .models import PropertyManager, Property, Tenant
+from .views import INCORRECT_FIELDS
 
 ################################################################################
 # Vars
-INCORRECT_FIELDS = 'Incorrect fields'
+#INCORRECT_FIELDS = 'Incorrect fields'
 #INCORRECT_FIELDS = views.
 MULTIPLE_ACCOUNTS = 'Multiple Accounts Detected'
 STATUS = 'status'
@@ -45,54 +45,37 @@ tenantPassword = 'password'
 tenantPlace = 'place'
 tenantPropertyManager = 'pm'
 
-
-
-
-tempPM = PropertyManager(firstName='Tommy',
-                         lastName='Bergmann', 
-                         email='tbbergma@calpoly.edu',
-                         phone='5558393823')
-tempProperty = Property(streetAddress='200 N. Santa Rosa',
-                        city='San Luis Obispo',
-                        state='CA',
-                        SLID=69,
-                        numBath=2,
-                        numBed=3,
-                        maxTenants=5,
-                        pm=tempPM)
-tempTenant = Tenant(firstName='Adam',
-                    lastName='Berard',
-                    email='adamkberard@gmail.com',
-                    phone='9092614646',
-                    password='pass4adam',
-                    place=tempProperty,
-                    pm=tempPM)
-
 ################################################################################
 # Helper Functions
 
-def clearData():
-   PropertyManager.objects.all().delete()
-   Property.objects.all().delete()
-   Tenant.objects.all().delete()
+def setUpHelper():
+   email = 'adamkberard@gmail.com'
+   password = 'pass4testing'
+   data = {'email': email, 'password': password}
+   url = globUrl + 'setUpTests/'
+   requests.post(url, json=data)
    
-def populateTables():
-   tempPM.save()
-   tempProperty.save()
-   tempTenant.save()
-   tempPM.save(using='other')
-   tempProperty.save(using='other')
-   tempTenant.save(using='other')
-
-def setup():
-   clearData()
-   populateTables()
+def tearDownHelper():
+   email = 'adamkberard@gmail.com'
+   password = 'pass4testing'
+   data = {'email': email, 'password': password}
+   url = globUrl + 'tearDownTests/'
+   requests.post(url, json=data)
 
 ################################################################################
 # Tests
 
 # Tenant Login Tests
 class TenantLogin(TestCase):
+   def setUp(self):
+      setUpHelper()
+
+   def tearDown(self):
+      tearDownHelper()
+
+   @classmethod
+   def tearDownClass(self):
+      setUpHelper()
 
    # Everything is correct
    def test_tenant_allCorrect(self):
@@ -187,6 +170,16 @@ class TenantLogin(TestCase):
 # Property Manager Login Tests
 class PropertyManagerLogin(TestCase):
 
+   def setUp(self):
+      setUpHelper()
+
+   def tearDown(self):
+      tearDownHelper()
+
+   @classmethod
+   def tearDownClass(self):
+      setUpHelper()
+
    # Everything is correct
    def test_pm_allCorrect(self):
       #setup()
@@ -259,17 +252,18 @@ class PropertyManagerLogin(TestCase):
       self.assertEqual(info.get(STATUS), FAIL)
       self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
 
-   # Exists in Roopairs but not in Homepairs
-   def test_pm_wrongAccount(self):
-      data = {'email': 'tbbergma@calpoly.edu', 'password': 'yNVU2qMH7ndgK5M'}
-      url = globUrl + 'login/'
-      x = requests.post(url, json=data)
-      info = json.loads(x.text)
-      self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), '%s: %s' % (HOMEPAIRS_ACCOUNT_CREATION_FAILED, INCORRECT_FIELDS))
-
 # Property Manager Login Tests
 class TenantRegistration(TestCase):
+
+   def setUp(self):
+      setUpHelper()
+
+   def tearDown(self):
+      tearDownHelper()
+
+   @classmethod
+   def tearDownClass(self):
+      setUpHelper()
 
    # Everything is correct
    def test_tenant_allCorrect(self):
@@ -300,6 +294,16 @@ class TenantRegistration(TestCase):
 # Property Manager Login Tests
 class PMRegistration(TestCase):
 
+   def setUp(self):
+      setUpHelper()
+
+   def tearDown(self):
+      tearDownHelper()
+
+   @classmethod
+   def tearDownClass(self):
+      setUpHelper()
+
    # Everything is correct
    def test_pm_allCorrect(self):
       #setup()
@@ -326,6 +330,16 @@ class PMRegistration(TestCase):
 # Property Manager Login Tests
 class PMRegistration(TestCase):
 
+   def setUp(self):
+      setUpHelper()
+
+   def tearDown(self):
+      tearDownHelper()
+
+   @classmethod
+   def tearDownClass(self):
+      setUpHelper()
+
    # Everything is correct
    def test_pm_allCorrect(self):
       #setup()
@@ -348,3 +362,40 @@ class PMRegistration(TestCase):
       self.assertEqual(pm.get('lastName'), 'Ugly Boi')
       self.assertEqual(pm.get('email'), randEmail)
       self.assertEqual(pm.get('phone'), '887282939')
+
+# Property Manager Login Tests with Roopairs
+class PMRegistrationRoopairs(TestCase):
+
+   def setUp(self):
+      setUpHelper()
+
+   def tearDown(self):
+      tearDownHelper()
+
+   @classmethod
+   def tearDownClass(self):
+      setUpHelper()
+
+   # Everything is correct
+   def test_pm_allCorrect(self):
+      #setup()
+      pmEmail = "testForRoopairsRegistration@gmail.com"
+      pmPass = "pass4test"
+      pmFirstName = 'Test'
+      pmLastName = 'RooRegistration'
+      
+      data = {
+                'email': pmEmail,
+                'password': 'pass4test',
+             }
+
+      url = globUrl + 'login/'
+      x = requests.post(url, json=data)
+
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), SUCCESS)
+      pm = info.get('pm')
+      self.assertEqual(pm.get('firstName'), pmFirstName)
+      self.assertEqual(pm.get('lastName'), pmLastName)
+      self.assertEqual(pm.get('email'), pmEmail)
+      PropertyManager.objects.filter(email=pmEmail).delete()

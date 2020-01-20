@@ -6,7 +6,9 @@ class PropertyManager(models.Model):
    firstName = models.CharField(max_length=100)
    lastName = models.CharField(max_length=100)
    email = models.CharField(max_length=255)
-   phone = models.CharField(max_length=30)
+   phone = models.CharField(max_length=30,
+                            blank=True,
+                            null=True)
 
    def __str__(self):
       return self.firstName + " " + self.lastName
