@@ -112,16 +112,6 @@ export const loginForPM = (Email: String, Password: String, modalSetOffCallBack?
 
 export const generateAccountForTenant = (accountDetails: Account, password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
   return async (dispatch: (arg0: any) => void) => {
-<<<<<<< HEAD
-    console.log(accountDetails)
-      return await axios.post('http://homepairs-alpha.herokuapp.com/API/register/tenant/', {
-        firstName: accountDetails.firstName, 
-        lastName: accountDetails.lastName,
-        email: accountDetails.email, 
-        phone: accountDetails.phone,
-        streetAddress: accountDetails.address, 
-        city: accountDetails.city,
-=======
       return await axios.post('http://homepairs-alpha.herokuapp.com/API/register/tenant/', {
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
@@ -129,7 +119,6 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
         city: accountDetails.city,
         email: accountDetails.email, 
         phone: accountDetails.phone, 
->>>>>>> beca8c522b80c1dd9690aabbea07343aefe509df
         password: password, 
       })
       .then((response) => {
@@ -138,16 +127,10 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
           dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
           navigateMainCallBack()
         } else {
-<<<<<<< HEAD
-          console.log(response)
-=======
-          console.log(response);
->>>>>>> beca8c522b80c1dd9690aabbea07343aefe509df
           modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")
         }
       })
       .catch((error) => {
-        console.log(error);
         modalSetOffCallBack("Connection to the server could not be established.")
       });
   };

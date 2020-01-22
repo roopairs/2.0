@@ -16,7 +16,7 @@
     "baseUrl": "./",
     "paths":{
       "*": ["*", "*.ios", "*.android", "*.web"],
-      "homepair-fonts": ["res/fonts"],
+      "homepair-fonts": ["./res/fonts"],
       "homepair-images": ["./res/images.tsx"],
       "homepair-types": ["./src/state/types.ts"],
       "homepair-strings": ["./res/strings.tsx"],
@@ -24,12 +24,12 @@
       "homepair-elements": ["./src/Elements/index.tsx"],
       "homepair-redux-actions": ["./src/state/actions.ts"],
       "homepair-pages": ["./src/Screens/index.ts"],
-      "homepair-base-styles": ["res/Styles/base.ts"],
+      "homepair-base-styles": ["./res/Styles/base.ts"],
       "homepair-helpers": ["./src/utility/index.tsx"], //RENAME THIS TO SOMETHING BESIDES HELPERS
       "homepair-components": ["./src/Screens/Components/index.tsx"],
     },
 
   },
   "exclude": ["node_modules"],
-  "include": ["src", "res/Styles"]
+  "include": ["src", "res"]
 }

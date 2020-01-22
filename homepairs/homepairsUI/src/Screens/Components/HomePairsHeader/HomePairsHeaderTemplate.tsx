@@ -2,7 +2,7 @@ import { Dimensions } from 'react-native';
 import React from 'react';
 import { HeaderState, MainAppStackType } from 'homepair-types';
 import { HomePairsDimensions } from 'homepair-types';
-import { DarkModeInjectedProps } from 'homepair-components';
+import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 import { NavigationInjectedProps, NavigationStackAction } from 'react-navigation';
 
 /** 

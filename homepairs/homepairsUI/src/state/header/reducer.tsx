@@ -2,7 +2,7 @@ import {
     HeaderState, 
     ToggleMenuAction,
     SwitchDropDownNavBarAction,
-    ShowGoBackButtonAction,
+    ShowGoBack_onButtonClick,
     UpdateSelectedPageAction,
     HeaderAction,
     HomePairsDimensions,
@@ -50,7 +50,7 @@ export const header = (
             newState.showMenu = (action as ToggleMenuAction).showMenu
             return newState
         case HEADER_ACTION_TYPES.SHOW_GOBACK_BUTTON:
-            newState.showBackButton = (action as ShowGoBackButtonAction).showBackButton
+            newState.showBackButton = (action as ShowGoBack_onButtonClick).showBackButton
             return newState
         case HEADER_ACTION_TYPES.SWITCH_DROPDOWN_NAVBAR:
             newState.isDropDown = (action as SwitchDropDownNavBarAction).isDropDown

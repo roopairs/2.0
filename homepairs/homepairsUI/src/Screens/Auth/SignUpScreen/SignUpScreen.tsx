@@ -5,7 +5,7 @@ import { SignUpViewDispatchProps } from './SignUpScreenBase';
 import { Account, AccountTypes } from "homepair-types";
 import strings from 'homepair-strings';
 import { AuthPassProps, withAuthPage, withDarkMode } from "homepair-components";
-import HomePairColors from 'homepair-colors';
+import HomePairColors from 'res/colors';
 
 const signUpStrings = strings.signUpPage
 const authPageParam : AuthPassProps  = {

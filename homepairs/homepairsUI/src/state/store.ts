@@ -8,7 +8,6 @@ import { createStore, combineReducers, AnyAction, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 
-
 export default createStore(
     combineReducers<AppState, AnyAction>(
         {   

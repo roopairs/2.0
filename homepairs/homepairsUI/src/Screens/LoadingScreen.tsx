@@ -6,6 +6,7 @@ import {
   StyleSheet, 
 } from "react-native";
 import { LoadFonts } from 'homepair-fonts';
+import * as Fonts from 'expo-font'
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 
 
@@ -20,7 +21,7 @@ export default class AuthLoadingScreen extends React.Component<NavigationStackSc
   
 
     async loadAssets(){
-        await LoadFonts();
+        await LoadFonts()
         this.setState({assetsLoaded: true});
         this._bootstrapAsync()
     }
