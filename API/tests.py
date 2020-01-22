@@ -14,36 +14,30 @@ import requests
 import json
 import random
 from .models import PropertyManager, Property, Tenant
-from .views import INCORRECT_FIELDS
+from .views import INCORRECT_FIELDS, MULTIPLE_ACCOUNTS, STATUS
+from .views import SUCCESS, FAIL, ERROR, ROOPAIR_ACCOUNT_CREATION_FAILED
+from .views import HOMEPAIRS_ACCOUNT_CREATION_FAILED, TOO_MANY_PROPERTIES
+from .views import INVALID_PROPERTY, NON_FIELD_ERRORS, TOKEN, RESIDENTIAL_CODE
 
 ################################################################################
 # Vars
-#INCORRECT_FIELDS = 'Incorrect fields'
-#INCORRECT_FIELDS = views.
-MULTIPLE_ACCOUNTS = 'Multiple Accounts Detected'
-STATUS = 'status'
-SUCCESS = 'success'
-FAIL = 'failure'
-ERROR = 'error'
-ROOPAIR_ACCOUNT_CREATION_FAILED = 'Failed to create a Roopairs account'
-HOMEPAIRS_ACCOUNT_CREATION_FAILED = 'Failed to create a Homepairs account'
-TOO_MANY_PROPERTIES = 'Too many properties associated with tenant'
-INVALID_PROPERTY = 'Invalid property'
-NON_FIELD_ERRORS = 'non_field_errors'
-TOKEN = 'token'
 
-globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
 globUrl = 'http://localhost:8000/API/'
+globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
+
+# EXTRA URLS
+LOGIN_URL = 'login/'
+PM_REG_URL = 'register/pm/'
+TEN_REG_URL = 'register/tenant/'
 
 # MODEL FIELDS
 # Tenant
-tenantFirstName = 'firstName'
-tenantLastName = 'lastName'
-tenantEmail = 'email'
-tenantPhone = 'phone'
-tenantPassword = 'password'
-tenantPlace = 'place'
-tenantPropertyManager = 'pm'
+#tenantFirstName = 'firstName'
+#tenantLastName = 'lastName'
+#tenantEmail = 'email'
+#tenantPassword = 'password'
+#tenantPlace = 'place'
+#tenantPropertyManager = 'pm'
 
 ################################################################################
 # Helper Functions
@@ -69,10 +63,8 @@ def tearDownHelper():
 class TenantLogin(TestCase):
    def setUp(self):
       setUpHelper()
-
    def tearDown(self):
       tearDownHelper()
-
    @classmethod
    def tearDownClass(self):
       setUpHelper()
@@ -83,17 +75,16 @@ class TenantLogin(TestCase):
       email = 'adamkberard@gmail.com'
       password = 'pass4adam'
       data = {'email': email, 'password': password}
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
 
       x = requests.post(url, json=data)
       info = json.loads(x.text)
 
       self.assertEqual(info.get(STATUS), SUCCESS)
       tenant = info.get('tenant')
-      self.assertEqual(tenant.get(tenantFirstName), 'Adam')
-      self.assertEqual(tenant.get(tenantLastName), 'Berard')
+      self.assertEqual(tenant.get('firstName'), 'Adam')
+      self.assertEqual(tenant.get('lastName'), 'Berard')
       self.assertEqual(tenant.get('email'), 'adamkberard@gmail.com')
-      self.assertEqual(tenant.get('phone'), '9092614646')
       self.assertEqual(tenant.get('password'), 'pass4adam')
       place = tenant.get('place')
       self.assertEqual(place.get('streetAddress'), '200 N. Santa Rosa')
@@ -108,14 +99,13 @@ class TenantLogin(TestCase):
       self.assertEqual(pm.get('firstName'), 'Eeron')
       self.assertEqual(pm.get('lastName'), 'Grant')
       self.assertEqual(pm.get('email'), 'eerongrant@gmail.com')
-      self.assertEqual(pm.get('phone'), '5558393823')
 
 
    # Incorrect Email
    def test_tenant_incorrectEmail(self):
       #setup()
       data = {'email': 'damkberard@gmail.com', 'password': 'pass4adam'}
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
@@ -125,7 +115,7 @@ class TenantLogin(TestCase):
    def test_tenant_incorrectPass(self):
       #setup()
       data = {'email': 'adamkberard@gmail.com', 'password': 'adamisNOTcool'}
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
@@ -134,7 +124,7 @@ class TenantLogin(TestCase):
    # Incorrect Pass & Email
    def test_tenant_incorrectPassAndEmail(self):
       data = {'email': 'adam@m.com', 'password': 'adamisNOTcool'}
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
@@ -143,7 +133,7 @@ class TenantLogin(TestCase):
    # No Email Field
    def test_tenant_incorrectEmailField(self):
       data = {'gmail': 'adam@m.com', 'password': 'adamisNOTcool'}
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
@@ -152,7 +142,7 @@ class TenantLogin(TestCase):
    # No Pass Field
    def test_tenant_incorrectPassField(self):
       data = {'email': 'adam@m.com', 'assword': 'adamisNOTcool'}
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
@@ -161,7 +151,7 @@ class TenantLogin(TestCase):
    # No Correct Fields
    def test_tenant_incorrectFields(self):
       data = {'gmail': 'adam@m.com', 'assword': 'adamisNOTcool'}
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
@@ -169,13 +159,10 @@ class TenantLogin(TestCase):
 
 # Property Manager Login Tests
 class PropertyManagerLogin(TestCase):
-
    def setUp(self):
       setUpHelper()
-
    def tearDown(self):
       tearDownHelper()
-
    @classmethod
    def tearDownClass(self):
       setUpHelper()
@@ -184,7 +171,7 @@ class PropertyManagerLogin(TestCase):
    def test_pm_allCorrect(self):
       #setup()
       data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), SUCCESS)
@@ -193,13 +180,12 @@ class PropertyManagerLogin(TestCase):
       self.assertEqual(pm.get('firstName'), 'Eeron')
       self.assertEqual(pm.get('lastName'), 'Grant')
       self.assertEqual(pm.get('email'), 'eerongrant@gmail.com')
-      self.assertEqual(pm.get('phone'), '5558393823')
 
    # Email is wrong
    def test_pm_wrongEmail(self):
       #setup()
       data = {'email': 'erongrant@gmail.com', 'password': 'pass4eeron'}
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
@@ -209,7 +195,7 @@ class PropertyManagerLogin(TestCase):
    def test_pm_wrongPass(self):
       #setup()
       data = {'email': 'eerongrant@gmail.com', 'password': 'passeeron'}
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
@@ -219,7 +205,7 @@ class PropertyManagerLogin(TestCase):
    def test_pm_wrongPassAndEmail(self):
       #setup()
       data = {'email': 'eerongant@gmail.com', 'password': 'passeeron'}
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
@@ -228,7 +214,7 @@ class PropertyManagerLogin(TestCase):
    # No Email Field
    def test_pm_incorrectEmailField(self):
       data = {'gmail': 'adam@m.com', 'password': 'adamisNOTcool'}
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
@@ -237,7 +223,7 @@ class PropertyManagerLogin(TestCase):
    # No Pass Field
    def test_pm_incorrectPassField(self):
       data = {'email': 'adam@m.com', 'assword': 'adamisNOTcool'}
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
@@ -246,21 +232,18 @@ class PropertyManagerLogin(TestCase):
    # No Correct Fields
    def test_pm_incorrectFields(self):
       data = {'gmail': 'adam@m.com', 'assword': 'adamisNOTcool'}
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
       self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
 
-# Property Manager Login Tests
+#  Tenant Login Tests
 class TenantRegistration(TestCase):
-
    def setUp(self):
       setUpHelper()
-
    def tearDown(self):
       tearDownHelper()
-
    @classmethod
    def tearDownClass(self):
       setUpHelper()
@@ -268,38 +251,97 @@ class TenantRegistration(TestCase):
    # Everything is correct
    def test_tenant_allCorrect(self):
       #setup()
-      randEmail = "fakeEmail{0}@gmail.com".format(str(random.randint(0, 10000000)))
+      tenEmail = 'fakeEmail@gmail.com'
       data = {
-                tenantFirstName: 'Fake',
-                tenantLastName: 'Name',
-                'email': randEmail,
-                'phone': '9029833892',
+                'firstName': 'Fake',
+                'lastName': 'Name',
+                'email': tenEmail,
                 'streetAddress': '537 Couper Dr.',
                 'city': 'San Luis Obispo',
                 'password': 'pass4fake',
                 }
-      url = globUrl + 'register/tenant/'
+      url = globUrl + TEN_REG_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), SUCCESS)
       ten = info.get('tenant')
-      self.assertEqual(ten.get(tenantFirstName), 'Fake')
-      self.assertEqual(ten.get(tenantLastName), 'Name')
-      self.assertEqual(ten.get('email'), randEmail)
-      self.assertEqual(ten.get('phone'), '9029833892')
+      self.assertEqual(ten.get('firstName'), 'Fake')
+      self.assertEqual(ten.get('lastName'), 'Name')
+      self.assertEqual(ten.get('email'), tenEmail)
       prop = ten.get('place')
       self.assertEqual(prop.get('streetAddress'), '537 Couper Dr.')
       self.assertEqual(prop.get('numBath'), 2)
 
-# Property Manager Login Tests
-class PMRegistration(TestCase):
+   # Not all fields supplied
+   def test_tenant_noLastName(self):
+      #setup()
+      tenEmail = 'fakeEmail@gmail.com'
+      data = {
+                'firstName': 'Fake',
+                'email': tenEmail,
+                'streetAddress': '537 Couper Dr.',
+                'city': 'San Luis Obispo',
+                'password': 'pass4fake',
+             }
+      url = globUrl + TEN_REG_URL
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
 
+   def test_tenant_noFirstName(self):
+      #setup()
+      tenEmail = 'fakeEmail@gmail.com'
+      data = {
+                'lastName': 'Name',
+                'email': tenEmail,
+                'streetAddress': '537 Couper Dr.',
+                'city': 'San Luis Obispo',
+                'password': 'pass4fake',
+             }
+      url = globUrl + TEN_REG_URL
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+
+   def test_tenant_Email(self):
+      #setup()
+      tenEmail = 'fakeEmail@gmail.com'
+      data = {
+                'firstName': 'Fake',
+                'lastName': 'Name',
+                'streetAddress': '537 Couper Dr.',
+                'city': 'San Luis Obispo',
+                'password': 'pass4fake',
+             }
+      url = globUrl + TEN_REG_URL
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+
+   def test_tenant_noPassword(self):
+      #setup()
+      tenEmail = 'fakeEmail@gmail.com'
+      data = {
+                'lastName': 'Name',
+                'email': tenEmail,
+                'streetAddress': '537 Couper Dr.',
+                'city': 'San Luis Obispo',
+             }
+      url = globUrl + TEN_REG_URL
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+
+# Property Manager Registration Tests
+class PMRegistration(TestCase):
    def setUp(self):
       setUpHelper()
-
    def tearDown(self):
       tearDownHelper()
-
    @classmethod
    def tearDownClass(self):
       setUpHelper()
@@ -307,71 +349,89 @@ class PMRegistration(TestCase):
    # Everything is correct
    def test_pm_allCorrect(self):
       #setup()
-      randEmail = "fakeEmailsForFakePeople{0}@gmail.com".format(str(random.randint(0, 10000000)))
+      randEmail = "fakeEmail{0}@gmail.com".format(str(random.randint(0, 10000000)))
       randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
       data = {
                 'firstName': randName,
                 'lastName': 'Ugly Boi',
                 'email': randEmail,
-                'phone': '887282939',
                 'password': 'pass4fake',
                 'companyName': randName + " Rentals",
-                }
-      url = globUrl + 'register/pm/'
+             }
+      url = globUrl + PM_REG_URL
       x = requests.post(url, json=data)
+      print(x.text)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), SUCCESS)
       pm = info.get('pm')
       self.assertEqual(pm.get('firstName'), randName)
       self.assertEqual(pm.get('lastName'), 'Ugly Boi')
       self.assertEqual(pm.get('email'), randEmail)
-      self.assertEqual(pm.get('phone'), '887282939')
 
-# Property Manager Login Tests
-class PMRegistration(TestCase):
-
-   def setUp(self):
-      setUpHelper()
-
-   def tearDown(self):
-      tearDownHelper()
-
-   @classmethod
-   def tearDownClass(self):
-      setUpHelper()
-
-   # Everything is correct
-   def test_pm_allCorrect(self):
+   # PM Missing fields
+   def test_pm_missing_firstName(self):
       #setup()
-      randEmail = "fakeEmailsForFakePeople{0}@gmail.com".format(str(random.randint(0, 10000000)))
+      data = {
+                'lastName': 'Ugly Boi',
+                'email': 'fakeEmail@gmail.com',
+                'password': 'pass4fake',
+             }
+      url = globUrl + PM_REG_URL
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+
+   def test_pm_missing_lastName(self):
+      #setup()
+      randEmail = "fakeEmail.@gmail.com"
+      randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
+      data = {
+                'firstName': 'Test',
+                'email': 'fakeEmail@gmail.com',
+                'password': 'pass4fake',
+             }
+      url = globUrl + PM_REG_URL
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+
+   def test_pm_missing_email(self):
+      #setup()
+      randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
+      data = {
+                'firstName': randName,
+                'lastName': 'Ugly Boi',
+                'password': 'pass4fake',
+             }
+      url = globUrl + PM_REG_URL
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+
+   def test_pm_missing_password(self):
+      #setup()
+      randEmail = "fakeEmail.@gmail.com"
       randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
       data = {
                 'firstName': randName,
                 'lastName': 'Ugly Boi',
                 'email': randEmail,
-                'phone': '887282939',
-                'password': 'pass4fake',
-                'companyName': randName + " Rentals",
-                }
-      url = globUrl + 'register/pm/'
+             }
+      url = globUrl + PM_REG_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
-      self.assertEqual(info.get(STATUS), SUCCESS)
-      pm = info.get('pm')
-      self.assertEqual(pm.get('firstName'), randName)
-      self.assertEqual(pm.get('lastName'), 'Ugly Boi')
-      self.assertEqual(pm.get('email'), randEmail)
-      self.assertEqual(pm.get('phone'), '887282939')
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
 
 # Property Manager Login Tests with Roopairs
 class PMRegistrationRoopairs(TestCase):
-
    def setUp(self):
       setUpHelper()
-
    def tearDown(self):
       tearDownHelper()
-
    @classmethod
    def tearDownClass(self):
       setUpHelper()
@@ -389,7 +449,7 @@ class PMRegistrationRoopairs(TestCase):
                 'password': 'pass4test',
              }
 
-      url = globUrl + 'login/'
+      url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
 
       info = json.loads(x.text)

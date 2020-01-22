@@ -6,9 +6,6 @@ class PropertyManager(models.Model):
    firstName = models.CharField(max_length=100)
    lastName = models.CharField(max_length=100)
    email = models.CharField(max_length=255)
-   phone = models.CharField(max_length=30,
-                            blank=True,
-                            null=True)
 
    def __str__(self):
       return self.firstName + " " + self.lastName
@@ -18,7 +15,6 @@ class PropertyManager(models.Model):
                 "firstName": self.firstName,
                 "lastName": self.lastName,
                 "email": self.email,
-                "phone": self.phone
              }
 
 class Property(models.Model):
@@ -61,7 +57,6 @@ class Tenant(models.Model):
    firstName = models.CharField(max_length=100)
    lastName = models.CharField(max_length=100)
    email = models.CharField(max_length=255)
-   phone = models.CharField(max_length=30)
    password = models.CharField(max_length=20)
    place = models.ForeignKey(Property, on_delete=models.CASCADE)
    pm = models.ForeignKey(PropertyManager, on_delete=models.CASCADE)
@@ -77,7 +72,6 @@ class Tenant(models.Model):
                 "firstName": self.firstName,
                 "lastName": self.lastName,
                 "email": self.email,
-                "phone": self.phone,
                 "password": self.password,
                 "place": editPlace,
                 "pm": self.pm.toDict()

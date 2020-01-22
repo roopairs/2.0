@@ -81,11 +81,9 @@ def pmLogin(request):
             pmFirstName = info.get('first_name')
             pmLastName = info.get('last_name')
             pmEmail = info.get('email')
-            pmPhone = info.get('phone')
             tempPM = PropertyManager(firstName=pmFirstName,
                                      lastName=pmLastName,
-                                     email=pmEmail,
-                                     phone=pmPhone)
+                                     email=pmEmail)
             tempPM.save()
                                            
          pm = getPropertyManager(pmEmail)
@@ -126,13 +124,12 @@ def login(request):
 @api_view(['GET', 'POST'])
 def tenantRegister(request):
    if ('firstName' in request.data and 'lastName' in request.data and
-       'email' in request.data and 'phone' in request.data and
+       'email' in request.data and
        'password' in request.data and 'streetAddress' in request.data and
        'city' in request.data):
       tenFirstName = request.data.get('firstName')
       tenLastName = request.data.get('lastName')
       tenEmail = request.data.get('email')
-      tenPhone = request.data.get('phone')
       tenStreet = request.data.get('streetAddress')
       tenCity = request.data.get('city')
       tenPass = request.data.get('password')
@@ -144,7 +141,6 @@ def tenantRegister(request):
             ten = Tenant(firstName=tenFirstName,
                          lastName=tenLastName,
                          email=tenEmail,
-                         phone=tenPhone,
                          password=tenPass,
                          place=tenProp,
                          pm = tenPM)
@@ -163,12 +159,10 @@ def pmRegister(request):
    url = BASE_URL + 'auth/register/'
 
    if ('firstName' in request.data and 'lastName' in request.data and
-       'email' in request.data and 'phone' in request.data and
-       'password' in request.data):
+       'email' in request.data and 'password' in request.data):
       pmFirstName = request.data.get('firstName')
       pmLastName = request.data.get('lastName')
       pmEmail = request.data.get('email')
-      pmPhone = request.data.get('phone')
       pmPass = request.data.get('password')
       pmCompanyName = '%s %s Property Rental' % (pmFirstName, pmLastName) 
       data = {
@@ -182,6 +176,8 @@ def pmRegister(request):
                                    }
              }
       response = requests.post(url, json=data)
+      print("GOT HERE")
+      print(response.text)
       info = json.loads(response.text)
 
       if NON_FIELD_ERRORS in info:
@@ -190,14 +186,15 @@ def pmRegister(request):
          tempPM = PropertyManager(
                                     firstName=pmFirstName,
                                     lastName=pmLastName,
-                                    email=pmEmail,
-                                    phone=pmPhone)
+                                    email=pmEmail)
          tempPM.save()
          tempDict = getPropertyManager(pmEmail)
          if tempDict[STATUS] == FAIL:
             return Response(data=returnError(HOMEPAIRS_ACCOUNT_CREATION_FAILED))
          tempDict[TOKEN] = info.get(TOKEN)
          return Response(data=tempDict)
+      else:
+         return Response(data=info)
    else:
       return Response(data=returnError(INCORRECT_FIELDS))
 
@@ -212,8 +209,7 @@ def setUpTests(request):
          Tenant.objects.all().delete()
          tempPM = PropertyManager(firstName='Eeron',
                                   lastName='Grant', 
-                                  email='eerongrant@gmail.com',
-                                  phone='5558393823')
+                                  email='eerongrant@gmail.com')
          tempProperty1 = Property(streetAddress='537 Couper Dr.',
                                   city='San Luis Obispo',
                                   state='CA',
@@ -233,7 +229,6 @@ def setUpTests(request):
          tempTenant = Tenant(firstName='Adam',
                              lastName='Berard',
                              email='adamkberard@gmail.com',
-                             phone='9092614646',
                              password='pass4adam',
                              place=tempProperty2,
                              pm=tempPM)
