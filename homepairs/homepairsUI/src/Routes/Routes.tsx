@@ -75,12 +75,7 @@ const innerStackConfig: any = {
 
 
 //these should be separated into different files for each Route (AccountProperties, Service Request, Account)
-const propertyStackConfig_PM = {
-  initialRouteName: 'TenantProperties',
-  ...innerStackConfig
-}
-
-const propertyStackConfig_Tenant = {
+const propertyStackConfig = {
   initialRouteName: 'TenantProperties',
   ...innerStackConfig
 }
@@ -99,7 +94,7 @@ const PropertyStack = createStackNavigator({
   AccountProperties: MainAppPages.PropertyPages.PropertiesScreen,
   TenantProperties: MainAppPages.PropertyPages.TenantPropertiesScreen,
   DetailedProperty: MainAppPages.PropertyPages.DetailedPropertyScreen
-}, propertyStackConfig_PM);
+}, propertyStackConfig);
 const ServiceRequestStack = createStackNavigator(
   { ServiceRequest: MainAppPages.ServiceRequestPages.ServiceRequestScreen },
   serviceRequestStackConfig);
