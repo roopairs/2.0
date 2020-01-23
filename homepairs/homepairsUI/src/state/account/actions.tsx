@@ -109,7 +109,6 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
         }
       })
       .catch((error) => {
-        console.log(error);
         modalSetOffCallBack("Connection to the server could not be established.")
       });
   };

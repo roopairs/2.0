@@ -8,7 +8,7 @@ export type state = {modalVisible: boolean};
 type props = {isShown : boolean};
 
 
-export default class AddNewPropertyModal extends Component<props, state> {
+export class AddNewPropertyModal extends Component<props, state> {
     constructor(props: any) {
         super(props);
         this.state = {modalVisible: props.isShown};
@@ -31,7 +31,6 @@ export default class AddNewPropertyModal extends Component<props, state> {
         children: this.cardChildren,
         title: 'Add a New Property', 
         titleStyle: styles.cardTitle,
-        closeButtonColor: HomePairColors.LightModeColors.blueButton, 
         showCloseButton: true, 
         closeButtonPressedCallBack: () => {this.setModalVisible(false)}
     };

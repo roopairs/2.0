@@ -18,7 +18,7 @@ module.exports = function(api) {
             '.web.js',
             '.web.tsx',
           ],
-          root: ['./src'],
+          root: ['.'],
           alias: {
             "homepair-fonts": "./res/fonts",
             "homepair-images": "./res/images.tsx",

@@ -10,40 +10,7 @@
     "images": "node scripts/images.js",
     "fonts": "node scripts/fonts.js"
   },
-  "jest": {
-    "setupFiles": [
-      "<rootDir>/tests/setup/test-shim.js",
-      "<rootDir>/tests/setup/test-setup.js"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "preset": "jest-expo",
-    "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
-    },
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/setup/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/tests/setup/styleMock.js"
-    },
-    "moduleDirectories": [
-      "node_modules",
-      "src"
-    ],
-    "testMatch": [
-      "**/tests/**/*.test.(ts|tsx|js)"
-    ],
-    "globals": {
-      "ts-jest": {
-        "tsConfig": {
-          "jsx": "react"
-        }
-      }
-    },
-    "collectCoverage": false
-  },
+  "jest": {},
   "dependencies": {
     "@expo/vector-icons": "^10.0.0",
     "@react-native-community/masked-view": "^0.1.6",
@@ -73,6 +40,7 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.8.3",
     "@types/enzyme": "^3.10.4",
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "@types/jest": "^24.0.25",
@@ -87,6 +55,7 @@
     "jest": "^24.9.0",
     "jest-expo": "^36.0.0",
     "jest-fetch-mock": "^3.0.1",
+    "react-native-jest-mocks": "^1.5.0",
     "react-native-testing-library": "^1.12.0",
     "react-test-renderer": "^16.12.0",
     "redux-devtools": "^3.5.0",

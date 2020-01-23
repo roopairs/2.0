@@ -83,6 +83,8 @@ class HomePairsMenu extends React.Component<Props>{
     }
 
     render() {
+        styles = setColorScheme(this.colorScheme, baseStyles, this.props.isDropDown)
+
         return (
             <View style={ !this.props.isDropDown ? styles.container : styles.containerDropDown}>
                     {this.displayCorrectMenu(this.props.selectedPage)}

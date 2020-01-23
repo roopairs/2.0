@@ -1,5 +1,5 @@
 import { HomePairsDimensions } from 'homepair-types';
-import { HomePairFonts } from 'homepair-fonts';
+import { HomePairFonts } from '../fonts';
 
 export type ColorTheme = {
     primary: string
@@ -16,7 +16,7 @@ export type ColorTheme = {
 export const LightColorTheme : ColorTheme = {
     primary: '#00ADE9',
     secondary: 'white',
-    tertiary: 'black',
+    tertiary: '#374245',
     space: '#1177B0',
     transparent: 'transparent',
     red: '#C70000',

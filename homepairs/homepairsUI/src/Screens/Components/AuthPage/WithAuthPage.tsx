@@ -1,11 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 import { 
     Platform, View, Text, 
     ScrollView, ScrollViewProps, SafeAreaView, 
     StyleSheet, StatusBar, Dimensions 
 } from 'react-native';
 import { CardProps, InputFormProps, ThinButtonProps, Card, LoadingModal, ThinButton} from 'homepair-elements'
-import { withNavigation} from 'react-navigation';
+import { withNavigation, NavigationNavigatorProps, NavigationProp, NavigationState, NavigationInjectedProps} from 'react-navigation';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import strings from 'homepair-strings';
 import { HomePairFonts } from 'homepair-fonts';
@@ -25,10 +25,10 @@ export type AuthPassProps = {
     highlightedText: String
 }
 
-export type AuthPageInjectedProps = DarkModeInjectedProps & NavigationStackScreenProps<any,any> &
+export type AuthPageInjectedProps = DarkModeInjectedProps & NavigationInjectedProps &
 { 
     inputFormProps?: {[id: string] : InputFormProps},
-    thinButtonProps: ThinButtonProps,
+    //thinButtonProps?: ThinButtonProps,
     _clickHighlightedText?: (arg?:any) => any
     _clickButton?: (arg:any) => any 
     _setErrorState?: (arg1:boolean, arg2?:string) => any
@@ -57,7 +57,7 @@ const initalState : DefaultAuthPageState = {
     _clickHighlightedText: () => {},
 }
 
-export default function withAuthPage(WrappedComponent: any, defaultAuthPassProps : AuthPassProps){
+export function withAuthPage(WrappedComponent: any, defaultAuthPassProps : AuthPassProps){
     var styles: any = null;
     class ComponentBase 
         extends React.Component<AuthPageInjectedProps, DefaultAuthPageState> {

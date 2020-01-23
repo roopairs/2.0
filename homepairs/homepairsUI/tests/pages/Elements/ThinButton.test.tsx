@@ -1,5 +1,5 @@
 import {ThinButton} from 'homepair-elements';
-import { shallow, ShallowWrapper, mount } from 'enzyme';
+import { shallow, ShallowWrapper} from 'enzyme';
 import * as React from 'react';
 import { View, TouchableOpacity, Text} from 'react-native';
 

@@ -16,7 +16,7 @@ export const MainAppStack : Array<MainAppStackType> = [
       navigate: 'AccountProperties',
       key: 'Properties',
       button: 'Add Property',
-      buttonAction: AddNewPropertyModal
+      //_onButtonClick: AddNewPropertyModal
   },
   { 
       title: 'Service Request', 
@@ -45,7 +45,6 @@ const navigationHeader = () => ({
   headerStyle: {
     backgroundColor: '#f4511e',
   },
-  gestureEnabled: false,
 })
 
 const authStackConfig = {
@@ -66,7 +65,7 @@ const authStackConfig = {
   const innerStackConfig: any = { 
     headerMode: 'none',
     defaultNavigationOptions: {
-      gestureEnabled: true,
+      gestureEnabled: false,
     }
   }
 
@@ -88,7 +87,7 @@ const authStackConfig = {
   const PropertyStack = createStackNavigator({AccountProperties: MainAppPages.PropertyPages.PropertiesScreen,
      DetailedProperty: MainAppPages.PropertyPages.DetailedPropertyScreen}, propertyStackConfig);
   const ServiceRequestStack = createStackNavigator(
-    {ServiceRequest: MainAppPages.ServiceRequestPages.ServiceRequestScreen}, 
+    {ServiceRequest: MainAppPages.ServiceRequestPages.ServiceRequestScreen, NewRequest: MainAppPages.ServiceRequestPages.NewRequestScreen}, 
     serviceRequestStackConfig);
   const AccountStack = createStackNavigator(
     {Account: MainAppPages.AccountPages.AccountScreen},
@@ -101,7 +100,7 @@ const authStackConfig = {
   const MainStack = createStackNavigator({Properties: PropertyStack, ServiceRequest: ServiceRequestStack, Account: AccountStack}, mainStackConfig);
   const AuthStack = createSwitchNavigator({ Login: AuthenticationPages.LoginScreen, SignUp: AuthenticationPages.SignUpScreen, Connect: AuthenticationPages.RoopairsLogin},  authStackConfig);
   
-  export default createAppContainer(createSwitchNavigator(
+  export const AppNavigator = createAppContainer(createSwitchNavigator(
     {
       Main: MainStack,
       Auth: AuthStack,

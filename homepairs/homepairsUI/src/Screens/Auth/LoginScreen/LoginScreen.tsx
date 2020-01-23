@@ -4,7 +4,7 @@ import { AccountActions } from 'homepair-redux-actions';
 import { LoginViewDispatchProps } from './LoginScreenBase';
 import {withAuthPage, AuthPassProps, withDarkMode } from 'homepair-components'
 import strings from 'homepair-strings'
-import HomePairColors from 'homepair-colors';
+import HomePairColors from 'res/colors';
 
 const signInStrings = strings.signInPage
 const authPageParam : AuthPassProps  = {

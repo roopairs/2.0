@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import React from 'react';
 import { AppState } from 'homepair-types';
-import colors from 'homepair-colors';
+import colors from 'res/colors';
 import { LightColorTheme, DarkColorTheme, ColorTheme} from 'homepair-base-styles';
 
 
@@ -14,7 +14,7 @@ export type DarkModeInjectedProps = {
     allColors?: any,
 }
 
-export default function withDarkMode(WrappedComponent: any) {
+export function withDarkMode(WrappedComponent: any) {
     const ReduxComponent = class DarkMode extends React.Component<DarkModeProps>{ 
         injectedProps: DarkModeInjectedProps
         constructor(props: Readonly<DarkModeProps>){
