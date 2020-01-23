@@ -22,14 +22,14 @@ class Property(models.Model):
    city = models.CharField(max_length=255)
    state = models.CharField(max_length=255)
    SLID = models.IntegerField()
-   numBath = models.IntegerField()
+   numBath = models.FloatField()
    numBed = models.IntegerField()
    maxTenants = models.IntegerField()
    pm = models.ForeignKey(PropertyManager, on_delete=models.CASCADE)
 
    def __str__(self):
       return "%s, %s, %s" % (self.streetAddress, self.city, self.state)
-   
+
    def toDictNoRecurs(self):
       return {
                 "streetAddress": self.streetAddress,
