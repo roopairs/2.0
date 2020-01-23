@@ -8,9 +8,9 @@ jobs:
       directories:
         - ~/.npm
       before_script:
+        - cd homepairs/homepairsUI
         - npm install -g npm@latest
       script:
-        - cd homepairs/homepairsUI
         - npm ci
         - npx jest --ci
 
@@ -18,8 +18,9 @@ jobs:
     - language: python
       python:
         - "3.7.4"
+      before_script:
+        - cd homepairs/homepairsUI
       install:
         - pip install -r unittests/requirements.txt
       script:
-        - cd homepairs/homepairsUI
         - unittests/runTests.sh
