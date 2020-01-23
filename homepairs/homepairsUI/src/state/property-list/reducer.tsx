@@ -4,7 +4,8 @@ import {
       AddPropertyAction, 
       RemovePropertyAction, 
       UpdatePropertyAction, 
-      FetchPropertyAction 
+      FetchPropertyAction,
+      FetchPropertyListAction 
 } from '../types';
 import { PROPERTY_LIST_ACTION_TYPES } from './actions';
 
@@ -48,8 +49,14 @@ export const propertyList = (
                   }
             })
             return updatedState;
-      case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES:
-            return (action as FetchPropertyAction).properties
+      case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_LIST:
+            console.log("Fetch Property List: " + (action as FetchPropertyListAction).properties)
+            return (action as FetchPropertyListAction).properties
+      case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY:
+            let propertyList = []
+            propertyList.push((action as FetchPropertyAction).property) //convert Property to PropertyList
+            console.log("Fetch Property: " + propertyList[0])
+            return propertyList
       default:
           return state;
   }

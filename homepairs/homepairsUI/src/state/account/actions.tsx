@@ -8,11 +8,13 @@ import {
   HomePairsResponseKeys, 
 } from '../types';
 import axios from 'axios'
-import { fetchProperties } from '../property-list/actions';
+import { fetchProperty, fetchPropertyList } from '../property-list/actions';
 
 let responseKeys = HomePairsResponseKeys;
 let accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
 let responseStatus = HomePairsResponseKeys.STATUS_RESULTS;
+const rolePM = 'pm';
+const roleTenant = 'tenant';
 
 export enum FETCH_PROFILE_ACTION_TYPES {
     FETCH_PROFILE = 'ACCOUNT/FETCH_PROFILE',
@@ -70,9 +72,19 @@ export const fetchAccount = (
             //here is where we get our response from our heroku database.
             //console.log(response) //is an easy way to read error messages (invalid credentials, for example)"
             console.log(response[responseKeys.DATA])
+
             if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
               dispatch(fetchAccountProfile(response[responseKeys.DATA]))
-              dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
+              if(response[responseKeys.DATA][responseKeys.ROLE] === rolePM){
+                dispatch(fetchPropertyList(response[responseKeys.DATA][responseKeys.PROPERTIES]))
+              }
+              else if(response[responseKeys.DATA][responseKeys.ROLE] === roleTenant){
+                console.log("place: " + response[responseKeys.DATA]['tenant'][responseKeys.PLACE])
+                dispatch(fetchProperty(response[responseKeys.DATA]['tenant'][responseKeys.PLACE]))
+              }
+              else{
+                throw new Error("Role type not implemented!")
+              }
               navigateMainCallBack()
             }else{
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")
@@ -88,7 +100,7 @@ export const fetchAccount = (
     };
 };
 
-export const loginForPM = (Email: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
+/*export const loginForPM = (Email: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
   return async (dispatch: (arg0: any) => void) => {
     return await axios.post('', {
       email: Email, 
@@ -97,7 +109,7 @@ export const loginForPM = (Email: String, Password: String, modalSetOffCallBack?
     .then((response) => {
       if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
         dispatch(fetchAccountProfile(response[responseKeys.DATA]))
-        dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
+        dispatch(fetchPropertyList(response[responseKeys.DATA][responseKeys.PROPERTIES]))
         navigateMainCallBack()
       }else{
         modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")
@@ -107,12 +119,11 @@ export const loginForPM = (Email: String, Password: String, modalSetOffCallBack?
       modalSetOffCallBack("Connection to the server could not be established.")
     });
   };
-}
+}*/
 
 
 export const generateAccountForTenant = (accountDetails: Account, password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
   return async (dispatch: (arg0: any) => void) => {
-<<<<<<< HEAD
     console.log(accountDetails)
       return await axios.post('http://homepairs-alpha.herokuapp.com/API/register/tenant/', {
         firstName: accountDetails.firstName, 
@@ -121,28 +132,15 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
         phone: accountDetails.phone,
         streetAddress: accountDetails.address, 
         city: accountDetails.city,
-=======
-      return await axios.post('http://homepairs-alpha.herokuapp.com/API/register/tenant/', {
-        firstName: accountDetails.firstName, 
-        lastName: accountDetails.lastName,
-        streetAddress: accountDetails.address, 
-        city: accountDetails.city,
-        email: accountDetails.email, 
-        phone: accountDetails.phone, 
->>>>>>> beca8c522b80c1dd9690aabbea07343aefe509df
         password: password, 
       })
       .then((response) => {
         if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
           dispatch(fetchAccountProfile(response[responseKeys.DATA]))
-          dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
+          dispatch(fetchPropertyList(response[responseKeys.DATA][responseKeys.PROPERTIES]))
           navigateMainCallBack()
         } else {
-<<<<<<< HEAD
           console.log(response)
-=======
-          console.log(response);
->>>>>>> beca8c522b80c1dd9690aabbea07343aefe509df
           modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")
         }
       })
@@ -167,7 +165,7 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
         .then((response) => {
           if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
             dispatch(fetchAccountProfile(response[responseKeys.DATA]))
-            dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
+            dispatch(fetchPropertyList(response[responseKeys.DATA][responseKeys.PROPERTIES]))
             navigateMainCallBack()
           }else{
             modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")

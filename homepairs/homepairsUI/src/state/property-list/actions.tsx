@@ -2,7 +2,8 @@ import {
     AddPropertyAction,
     UpdatePropertyAction, 
     RemovePropertyAction, 
-    FetchPropertyAction, 
+    FetchPropertyAction,
+    FetchPropertyListAction, 
     Property,
     HomePairsResponseKeys,
 } from '../types';
@@ -16,7 +17,8 @@ export enum PROPERTY_LIST_ACTION_TYPES {
     ADD_PROPERTY = 'PROPERTY_LIST/ADD_PROPERTY',
     REMOVE_PROPERTY = 'PROPETY_LIST/REMOVE_PROPERTY',
     UPDATE_PROPERTY = 'PROPERTY_LIST/UPDATE_PROPERTY',
-    FETCH_PROPERTIES = 'PROPERTY_LIST/FETCH_PROPERTIES',
+    FETCH_PROPERTY = 'PROPERTY_LIST/FETCH_PROPERTY',
+    FETCH_PROPERTY_LIST = 'PROPERTY_LIST/FETCH_PROPERTY_LIST',
 }
 
 export const addProperty = (address: string, tenants: number,
@@ -47,7 +49,21 @@ export const removeProperty = (propertyIndex: number): RemovePropertyAction => (
     index: propertyIndex,
 });
 
-export const fetchProperties = (linkedProperties: Array<any>): FetchPropertyAction => {
+export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => {
+    let fetchedProperty : Property;
+        fetchedProperty = {
+            address: linkedProperty[propertyKeys.ADDRESS],
+            tenants: linkedProperty[propertyKeys.TENANTS],
+            bedrooms : linkedProperty[propertyKeys.BEDROOMS],
+            bathrooms : linkedProperty[propertyKeys.BATHROOMS]
+        };
+    return {
+      type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
+      property: fetchedProperty
+    }
+};
+
+export const fetchPropertyList = (linkedProperties: Array<any>): FetchPropertyListAction => {
     let fetchedProperties : Property[] = new Array()
     //TO DO: make linkedProperties not nullable again (once adam gives us properties for pm's again)
     linkedProperties?.forEach(element => {
@@ -58,12 +74,12 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertyActi
             bathrooms : element[propertyKeys.BATHROOMS]})
     });
     return {
-      type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
+      type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_LIST,
       properties: fetchedProperties
     }
 };
 
-export const fetchAllProperties = (
+/*export const fetchAllProperties = (
     Username: String, Password: String, modalSetOffCallBack?: () => void, navigateMainCallBack?: () => void) => {
     return (dispatch: (arg0: any) => void) => {
         //TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
@@ -73,7 +89,7 @@ export const fetchAllProperties = (
           })
           .then((response) => {
             if(!((response[responseKeys.DATA][responseKeys.STATUS]) === loginStatus.FAILURE)){
-              dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
+              dispatch(fetchPropertyList(response[responseKeys.DATA][responseKeys.PROPERTIES]))
               navigateMainCallBack()
             }else{
                 modalSetOffCallBack()
@@ -85,4 +101,4 @@ export const fetchAllProperties = (
           .finally(() => {
           });
     };
-  };
+  };*/

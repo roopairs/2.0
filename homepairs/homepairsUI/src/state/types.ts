@@ -8,7 +8,8 @@ export type Property = {
     bathrooms: number,
 }
 
-export type PropertyListState = Property[];
+export type PropertyState = Property
+export type PropertyListState = Property[]
 
 export type AddPropertyAction = {
     type: string;
@@ -26,11 +27,16 @@ export type RemovePropertyAction  = {
 
 export type FetchPropertyAction = {
     type: string;
+    property: PropertyState,
+}
+
+export type FetchPropertyListAction = {
+    type: string;
     properties: PropertyListState,
 }
 
 /*Union type for the Property Lists. This will be used for the reducer.*/
-export type PropertyListAction = AddPropertyAction | UpdatePropertyAction | RemovePropertyAction | FetchPropertyAction;
+export type PropertyListAction = AddPropertyAction | UpdatePropertyAction | RemovePropertyAction | FetchPropertyAction | FetchPropertyListAction;
 /**-------------------Property Types-------------------**/
 
 /**-------------------Account Types-------------------**/
@@ -276,10 +282,12 @@ export enum HomepairsPropertyAttributes{
 }
 
 export const HomePairsResponseKeys = {
-    DATA : 'data',
+    DATA : 'data', //full JSON obj
     ACCOUNT_KEYS: HOMEPAIRS_ACCOUNT_KEYS,
+    PLACE : 'place',
     PROPERTIES : 'properties',
     PROPERTY_KEYS: HOMEPAIRS_PROPERTY_KEYS,
+    ROLE: 'role',
     ROOPAIRS : 'roopairs',
     STATUS : 'status',
     STATUS_RESULTS : HOMEPAIRS_LOGIN_STATUS,
