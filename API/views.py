@@ -17,6 +17,7 @@ ROOPAIR_ACCOUNT_CREATION_FAILED = 'Failed to create a Roopairs account'
 HOMEPAIRS_ACCOUNT_CREATION_FAILED = 'Failed to create a Homepairs account'
 TOO_MANY_PROPERTIES = 'Too many properties associated with tenant'
 INVALID_PROPERTY = 'Invalid property'
+PROPERTY_ALREADY_EXISTS = 'Property given already exists'
 NON_FIELD_ERRORS = 'non_field_errors'
 TOKEN = 'token'
 RESIDENTIAL_CODE = 1
@@ -85,7 +86,7 @@ def pmLogin(request):
                                      lastName=pmLastName,
                                      email=pmEmail)
             tempPM.save()
-                                           
+
          pm = getPropertyManager(pmEmail)
          tempDict = getPropertyManager(pmEmail)
          if tempDict[STATUS] == FAIL:
@@ -102,6 +103,37 @@ def tenantLogin(request):
       return getTenant(tenantEmail, tenantPass)
    else:
       return returnError(INCORRECT_FIELDS)
+
+@api_view(['GET', 'POST'])
+def createProperty(request):
+   if ('streetAddress' in request.data and 'city' in request.data and 'state' in request.data
+    and 'pm' in request.data and 'numBed' in request.data and 'numBath' in request.data
+    and 'maxTenants' in request.data):
+      streetAddress = request.data.get('streetAddress')
+      city = request.data.get('city')
+      state = request.data.get('state')
+      pm = request.data.get('pm')
+      numBed = request.data.get('numBed')
+      numBath = request.data.get('numBath')
+      maxTenants = request.data.get('maxTenants')
+      isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
+      if not isMade.exists():
+        prop = Property(streetAddress=streetAddress,
+                     city=city,
+                     state=state,
+                     numBed=numBed,
+                     numBath=numBath,
+                     maxTenants=maxTenants,
+                     pm = pm)
+        prop.save()
+        data = {
+                  STATUS: SUCCESS
+               }
+        return Response(data=data)
+      else:
+        return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
+   else:
+      return Response(data=returnError(INCORRECT_FIELDS))
 
 ################################################################################
 # Views / API Endpoints
@@ -164,7 +196,7 @@ def pmRegister(request):
       pmLastName = request.data.get('lastName')
       pmEmail = request.data.get('email')
       pmPass = request.data.get('password')
-      pmCompanyName = '%s %s Property Rental' % (pmFirstName, pmLastName) 
+      pmCompanyName = '%s %s Property Rental' % (pmFirstName, pmLastName)
       data = {
                 'first_name': pmFirstName,
                 'last_name': pmLastName,
@@ -208,7 +240,7 @@ def setUpTests(request):
          Property.objects.all().delete()
          Tenant.objects.all().delete()
          tempPM = PropertyManager(firstName='Eeron',
-                                  lastName='Grant', 
+                                  lastName='Grant',
                                   email='eerongrant@gmail.com')
          tempProperty1 = Property(streetAddress='537 Couper Dr.',
                                   city='San Luis Obispo',
@@ -236,7 +268,7 @@ def setUpTests(request):
          tempProperty1.save()
          tempProperty2.save()
          tempTenant.save()
-         
+
       return Response()
 
 @api_view(['GET', 'POST'])
