@@ -1,5 +1,5 @@
-//import {withAuthPage, AuthPassProps, AuthPageInjectedProps} from 'homepair-components';
-import { shallow, ShallowWrapper, render } from "enzyme";
+//import { withAuthPage, AuthPassProps, AuthPageInjectedProps, SceneHeader } from 'homepair-components';
+import { shallow, ShallowWrapper} from "enzyme";
 import * as React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import * as Mocks from "../../fixtures/StoreFixture";
@@ -8,15 +8,15 @@ import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 import jest from "jest";
-import renderer from "react-test-renderer";
+import {render} from "react-native-testing-library";
 //import { NavigationStackScreenProps, createStackNavigator } from 'react-navigation-stack';
 //import { NavigationParams } from 'react-navigation';
-import withDarkMode from "../../../src/Screens/Main/ServiceRequest/ServiceRequestScreen/ServiceRequestScreen";
-import SceneHeader from "../../../src/Screens/Components/SceneHeader/SceneHeader";
 import {
   withAuthPage,
   AuthPassProps,
-  AuthPageInjectedProps
+  AuthPageInjectedProps,
+  withDarkMode,
+  SceneHeader,
 } from "homepair-components";
 import PropertiesScreen from '../../../src/Screens/Main/Properties/PropertiesScreen/PropertiesScreen'
 import {AppNavigator} from "../../../src/Routes/Routes"
@@ -60,12 +60,14 @@ describe("test withAuth Page", () => {
   //We have renderer working with regular components. Need to figure out how to get this to work with
   //HOC
   it("Should render the property and have behavior we should examine", () => {
-    const Component = component1;
-    const AuthHOC = withAuthPage(<View />, passProps1);
+    const Component1 = component1;
+    const AuthHOC = withAuthPage(Component1, passProps1);
 
     const wrapper = shallow(
         <AuthHOC />
     );
+    //let tree = render(<Provider store={store}><PropertiesScreen title="Foo" /></Provider>)
+    console.log()
     expect(wrapper).not.toBe(null);
     let elements = wrapper.getElements()
     let props = wrapper.getElement()
