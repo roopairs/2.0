@@ -19,7 +19,7 @@ jobs:
       python:
         - "3.7.4"
       install:
-        - cd homepairs/homepairsUI
-        - pip install -r unittests/requirements.txt
+        - cd homepairs/homepairsAPI-DB
+        - pip install -r requirements.txt
       script:
-        - unittests/runTests.sh
+        - tests/runTests.sh
