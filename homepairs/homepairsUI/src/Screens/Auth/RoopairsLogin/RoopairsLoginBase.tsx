@@ -9,7 +9,7 @@ import { StyleSheet } from 'react-native';
 
 export type RoopairsLoginDispatchProps = {
     onFetchAccountProfile: (username: string, password: string, type: string,
-        modalSetOff: () => any, navigationRouteCallback: () => any) => void
+        modalSetOff: () => any, navigation: any) => void
 }
 
 export type LoginProps = DarkModeInjectedProps & RoopairsLoginDispatchProps & AuthPageInjectedProps & NavigationStackScreenProps<any,any>
@@ -32,7 +32,6 @@ export default class RoopairsLoginBase extends React.Component<LoginProps, Login
         this.getFormUsername = this.getFormUsername.bind(this)
         this.getFormPassword = this.getFormPassword.bind(this)
         this.setModalOff = this.setModalOff.bind(this)
-        this.navigateMain = this.navigateMain.bind(this)
         this._clickButton = this._clickButton.bind(this)
         this._clickHighlightedText = this._clickHighlightedText.bind(this)
         this.state = initialState
@@ -44,9 +43,6 @@ export default class RoopairsLoginBase extends React.Component<LoginProps, Login
     setModalOff(error:string = "Error Message") {
         this.props._showModal(false)
         this.props._setErrorState(true, error)
-    }
-    navigateMain() {
-        this.props.navigation.navigate('Main')
     }
 
     getFormUsername (childData : string) {
@@ -61,7 +57,7 @@ export default class RoopairsLoginBase extends React.Component<LoginProps, Login
     }
     _clickButton() {
         this.props._showModal(true)
-        this.props.onFetchAccountProfile(this.state.username, this.state.password, 'Roopairs', this.setModalOff, this.navigateMain)
+        this.props.onFetchAccountProfile(this.state.username, this.state.password, 'Roopairs', this.setModalOff, this.props.navigation)
     } 
 
     inputFormProps() : {[id: string] : InputFormProps} {

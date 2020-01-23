@@ -12,7 +12,7 @@ import Divider from 'react-native-divider';
 import { createUnionTypeAnnotation } from '@babel/types';
 
 export type SignUpViewDispatchProps = {
-    generateHomePairsAccount: (details: Account, password: String, modalSetOff: () => any, navigationRouteCallback: () => any) => any 
+    generateHomePairsAccount: (details: Account, password: String, modalSetOff: () => any, navigation: any) => any 
 }
 export type SignUpProps = DarkModeInjectedProps & SignUpViewDispatchProps & AuthPageInjectedProps & NavigationStackScreenProps<any,any>
 
@@ -67,7 +67,6 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
         this.getFormCompanyName = this.getFormCompanyName.bind(this)
         this.getFormCompanyType = this.getFormCompanyType.bind(this)
         this.setModalOff = this.setModalOff.bind(this)
-        this.navigateMain = this.navigateMain.bind(this)
 
         this.state = initalState
 
@@ -79,10 +78,8 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
         this.props._showModal(false)
         this.props._setErrorState(true, error)
     }
-    navigateMain() {
-        this.props.navigation.navigate('Main')
-    }
-    
+
+  
     getAccountType(childData : AccountTypes) {
         this.setState({accountType : childData})
     }
@@ -122,7 +119,6 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
         this.setState({companyName: childData})
     }
  
-
     
     private inputFormProps() : {[id: string] : InputFormProps} {
         return{
@@ -212,7 +208,7 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
         this.props._showModal(true, signUpScreenStrings.modal)
         let details : Account = {...this.state, roopairsToken: ''}
         if(this.validateCredentials()){
-            this.props.generateHomePairsAccount(details, this.state.password, this.setModalOff, this.navigateMain)
+            this.props.generateHomePairsAccount(details, this.state.password, this.setModalOff, this.props.navigation)
             this.props._showModal(false)
         }
     }
