@@ -1,10 +1,10 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { LandlordAccount, AccountTypes, AppState, Property, Header, MainAppStackType, ConfigurationSettings, ServiceState } from 'homepair-types';
+import { LandlordAccount, AccountTypes, AppState, Property, Header, MainNavigationStackProps, ConfigurationSettings, ServiceState } from 'homepair-types';
 
 const middleWares = [thunk]
 const mockStore = configureMockStore(middleWares);
-const MainAppStack : Array<MainAppStackType> = [
+const MainAppStack : Array<MainNavigationStackProps> = [
     { 
         title: 'Properties', 
         navigate: 'AccountProperties',

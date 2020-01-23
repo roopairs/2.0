@@ -1,6 +1,6 @@
 import { Dimensions } from 'react-native';
 import React from 'react';
-import { HeaderState, MainAppStackType } from 'homepair-types';
+import { HeaderState, MainNavigationStackProps } from 'homepair-types';
 import { HomePairsDimensions } from 'homepair-types';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 import { NavigationInjectedProps, NavigationStackAction } from 'react-navigation';
@@ -20,7 +20,7 @@ export type HomePairsHeaderDispatchProps = {
     onToggleMenu: (showMenu:boolean) => any,
     onShowGoBackbutton: (showBackButton: boolean) => any,
     onSwitchNavBar: (switchNavBar: boolean) => any,
-    onUpdateSelected: (selected: MainAppStackType) => any,
+    onUpdateSelected: (selected: MainNavigationStackProps) => any,
 }
 export type HomePairsHeaderProps = HomePairsHeaderDispatchProps & HomePairsHeaderStateProps & DarkModeInjectedProps 
 & NavigationInjectedProps & NavigationStackAction
@@ -60,7 +60,7 @@ export default abstract class HomePairsHeaderTemplate extends React.Component<Ho
     componentWillUnmount(){
         Dimensions.removeEventListener("change", this.handleChange)
     }
-    changePage(page : MainAppStackType) {
+    changePage(page : MainNavigationStackProps) {
         this.props.onUpdateSelected(page)
     }
 }

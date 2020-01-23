@@ -3,7 +3,7 @@ import {
     SwitchDropDownNavBarAction,
     ShowGoBack_onButtonClick,
     UpdateSelectedPageAction,
-    MainAppStackType,
+    MainNavigationStackProps,
 } from '../types';
 
 export enum HEADER_ACTION_TYPES {
@@ -34,7 +34,7 @@ export const showGoBackButton = (showBackButton: boolean): ShowGoBack_onButtonCl
     }
 };
 
-export const updateSelectedPage = (selectedPage: MainAppStackType): UpdateSelectedPageAction =>{
+export const updateSelectedPage = (selectedPage: MainNavigationStackProps): UpdateSelectedPageAction =>{
     return {
       type : HEADER_ACTION_TYPES.UPDATE_SELECTED_PAGE,
       selected: selectedPage,

@@ -2,13 +2,13 @@ import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react'
 import { NavigationInjectedProps, withNavigation } from 'react-navigation'
 import { FontTheme } from 'homepair-base-styles';
-import { MainAppStackType} from 'homepair-types';
+import { MainNavigationStackProps} from 'homepair-types';
 import { MainAppStack } from '../../../../Routes/Routes';
 import { DarkModeInjectedProps } from '../../WithDarkMode/WithDarkMode';
 import HomePairColors from 'homepair-colors';
 
 export type HomePairsMenuProps = DarkModeInjectedProps & {
-    selectedPage : MainAppStackType;
+    selectedPage : MainNavigationStackProps;
     parentCallBack?: (arg0?: any) => any;
     isDropDown?: boolean;
     showMenu?: boolean;
@@ -34,13 +34,13 @@ class HomePairsMenu extends React.Component<Props>{
     }
 
 
-    navigatePages(value: MainAppStackType){
+    navigatePages(value: MainNavigationStackProps){
         this.setSelected(value);
         this.closeMenu() 
         this.props.navigation.navigate(value.navigate)
     }
 
-    setSelected(value : MainAppStackType){
+    setSelected(value : MainNavigationStackProps){
         var page = value 
         if(value.key === MainAppStack[MainAppStack.length-1].key)
             page = MainAppStack[0]
@@ -51,7 +51,7 @@ class HomePairsMenu extends React.Component<Props>{
         this.props.parentCloseMenu();
     }
   
-    displayCorrectMenu(currentPage: MainAppStackType){
+    displayCorrectMenu(currentPage: MainNavigationStackProps){
         if(this.props.isDropDown){
             if(!this.props.showMenu){
                 return (
@@ -64,7 +64,7 @@ class HomePairsMenu extends React.Component<Props>{
     /**This function renders all the selections of a button in the format the we want. 
      * Notice the use of the maps function. This function requires that we iterate through a list 
      * of objects with a specific key. Each key must be unique in the array/list.*/         
-    buttonFormat(currentPage:MainAppStackType){
+    buttonFormat(currentPage:MainNavigationStackProps){
         return MainAppStack.map((page, i) => {
             return(
                 <View 

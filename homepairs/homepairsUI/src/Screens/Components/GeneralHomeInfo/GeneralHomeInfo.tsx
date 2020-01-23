@@ -1,6 +1,6 @@
 import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text, View, Platform} from 'react-native';
-import { ThinButton, ThinButtonProps } from 'homepair-elements';
+import { ThinButton, ThinButtonProps } from 'src/Elements/Elements';
 import { HomePairFonts } from 'homepair-fonts';
 import strings from 'homepair-strings';
 import * as BaseStyles from 'homepair-base-styles';

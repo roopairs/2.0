@@ -1,4 +1,4 @@
-import { AppState, MainAppStackType } from "homepair-types";
+import { AppState, MainNavigationStackProps } from "homepair-types";
 import { connect } from "react-redux";
 import { HeaderActions } from 'homepair-redux-actions';
 import HomePairsHeaderBase from "./HomePairsHeaderBase";
@@ -23,7 +23,7 @@ const mapDispatchToProps: (dispatch:any) => HomePairsHeaderDispatchProps = dispa
   onSwitchNavBar: (switchNavBar: boolean) => {
     dispatch(HeaderActions.switchDropdownNavbar(switchNavBar))
   },
-  onUpdateSelected: (selected: MainAppStackType) => {
+  onUpdateSelected: (selected: MainNavigationStackProps) => {
     dispatch(HeaderActions.showGoBackButton(false))
     dispatch(HeaderActions.updateSelectedPage(selected))
   }

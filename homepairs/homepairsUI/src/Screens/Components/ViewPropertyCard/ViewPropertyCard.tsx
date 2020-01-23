@@ -1,6 +1,6 @@
 import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text, View, Platform, ImageBackground, ImageBackgroundProps, ImageSourcePropType} from 'react-native';
-import {ThinButton, ThinButtonProps} from 'homepair-elements';
+import {ThinButton, ThinButtonProps} from 'src/Elements/Elements';
 import { defaultProperty } from 'homepair-images';
 import strings from 'homepair-strings';
 import { HomePairsDimensions } from 'homepair-types';

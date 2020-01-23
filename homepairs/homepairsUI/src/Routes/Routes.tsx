@@ -5,18 +5,17 @@ import {
 } from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {MainAppPages, LoadingScreen, AuthenticationPages} from 'homepair-pages';
-import { View, Platform } from 'react-native';
-import { HomePairsHeader, AddNewPropertyModal } from 'homepair-components';
-import { MainAppStackType } from 'homepair-types';
+import { View} from 'react-native';
+import { HomePairsHeader} from 'homepair-components';
+import { MainNavigationStackProps, AccountTypes } from 'homepair-types';
 
 //these should be separated into different files for each Route (AccountProperties, Service Request, Account)
-export const MainAppStack : Array<MainAppStackType> = [
+export const MainAppStack : Array<MainNavigationStackProps> = [
   { 
       title: 'Properties', 
       navigate: 'AccountProperties',
       key: 'Properties',
       button: 'Add Property',
-      //_onButtonClick: AddNewPropertyModal
   },
   { 
       title: 'Service Request', 

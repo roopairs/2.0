@@ -1,5 +1,4 @@
 import { Dimensions } from "react-native";
-import { ReactElement, Context } from "react";
 
 /**-------------------Property Types-------------------**/
 export type Property = {
@@ -144,7 +143,7 @@ AcceptServiceAction | DenyServiceAction | CancelServiceAction
 /**-------------------Service Types-------------------**/
 
 /**-------------------Header Types-------------------**/
-export type MainAppStackType = {
+export type MainNavigationStackProps = {
     title : string, 
     navigate: string, 
     key: string, 
@@ -156,7 +155,7 @@ export type MainAppStackType = {
 export type Header = {
     showMenu : boolean,
     isDropDown: boolean,
-    currentPage: MainAppStackType,
+    currentPage: MainNavigationStackProps,
     showBackButton: boolean,
     menu: string[]
 }
@@ -180,7 +179,7 @@ export type ShowGoBack_onButtonClick = {
 
 export type UpdateSelectedPageAction = {
     type: string,
-    selected: MainAppStackType,
+    selected: MainNavigationStackProps,
 }
 
 export type HeaderAction = ToggleMenuAction | SwitchDropDownNavBarAction 
@@ -286,8 +285,4 @@ export const HomePairsResponseKeys = {
     ROOPAIRS : 'roopairs',
     STATUS : 'status',
     STATUS_RESULTS : HOMEPAIRS_LOGIN_STATUS,
-}
-
-export type DarkModeProperties = {
-    isDarkModeActive?: boolean,
 }

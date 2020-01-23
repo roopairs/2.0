@@ -1,6 +1,6 @@
 import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text } from 'react-native';
-import { Sticker } from 'homepair-elements';
+import { Sticker } from 'src/Elements/Elements';
 import { ColorTheme, FontTheme, ContentWidth, MarginPadding, LightColorTheme} from 'homepair-base-styles';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 

@@ -25,7 +25,7 @@ module.exports = function(api) {
             "homepair-strings": "./res/strings.tsx",
             "homepair-colors": "./res/colors.tsx",
             "homepair-types": "./src/state/types.ts",
-            "homepair-elements": "./src/Elements/index.tsx",
+            "homepair-elements": "./src/Elements/Elements.tsx",
             "homepair-redux-actions": "./src/state/actions.ts",
             "homepair-pages": "./src/Screens/index.ts",
             "homepair-base-styles": "./res/Styles/base.ts",

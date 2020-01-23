@@ -1,5 +1,5 @@
 import React from "react";
-import { AppState, MainAppStackType } from "homepair-types";
+import { AppState, MainNavigationStackProps } from "homepair-types";
 import { connect } from "react-redux";
 import {
   withSceneHeader,
@@ -12,7 +12,7 @@ import { ServiceActions } from "homepair-redux-actions";
 
 
 //const serviceRequestStrings = strings.serviceRequestPage;
-const sceneParam: MainAppStackType = {
+const sceneParam: MainNavigationStackProps = {
   title: "New Service Request",
   navigate: "NewRequest",
   key: "NewRequest",

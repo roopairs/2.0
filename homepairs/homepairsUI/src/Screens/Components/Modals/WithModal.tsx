@@ -9,7 +9,7 @@ import React, { Component } from "react";
 import { default as WebModal } from "modal-enhanced-react-native-web";
 import * as BaseStyles from "homepair-base-styles";
 
-const window = Dimensions.get("window");
+const UNDEFINED = 'undefined'
 
 type Props = {};
 type State = {
@@ -64,7 +64,7 @@ export function withModal(BaseComponent: any, ModalComponent: any) {
      */
     _onChangeModalVisibility(isVisible?: boolean) {
       let changedVisibility: boolean =
-        isVisible == null ? !this.state.isVisible : isVisible;
+        typeof isVisible == UNDEFINED ? !this.state.isVisible : isVisible;
       this.setState({ isVisible: changedVisibility });
     }
 

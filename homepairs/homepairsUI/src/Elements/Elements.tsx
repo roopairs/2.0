@@ -12,6 +12,17 @@ import AddressSticker from './AddressSticker';
  *  please define a Components folder for the topmost parent and define it there. 
  */
 
+
+ /**
+  * -----------------------
+  * Elements.tsx 
+  * -----------------------
+  * Elements are designed to be very basic components whose purpose is fulfill 
+  * a small amount of use cases. Homepair Elements tend to be slightly more advanced 
+  * than React Components but are still limited in their use. These elements should help
+  * make up larger Components. 
+  */
+
 import { InputFormProps as IFP } from './Forms/InputForm';
 import { ThinButtonProps as TBP } from './Buttons/ThinButton';
 import { CardProps as CP} from './Cards/Card';
