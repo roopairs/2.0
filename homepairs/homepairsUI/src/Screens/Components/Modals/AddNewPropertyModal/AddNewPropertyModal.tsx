@@ -1,13 +1,13 @@
-import { StyleSheet } from "react-native";
+import { View, ActivityIndicator, Platform, StyleSheet } from "react-native";
 import React, { Component } from "react";
-import { Card } from "src/Elements/Elements";
-import { ModalInjectedProps } from "./WithModal";
+import { Card } from "homepair-elements";
+import { ModalInjectedProps } from "../WithModal/WithModal";
 import { HomePairsDimensions } from "homepair-types";
 
 type Props = ModalInjectedProps;
 type State = {};
 
-export class AddNewPropertyModal extends React.Component<Props, State> {
+export class AddNewPropertyModal extends Component<Props, State> {
   //TODO: Handle the logic of adding a new Property to a HomePairs Account
 
   constructor(props: Readonly<Props>) {
@@ -24,6 +24,7 @@ export class AddNewPropertyModal extends React.Component<Props, State> {
         }
         containerStyle={styles.container}
       >
+        <ActivityIndicator />
       </Card>
     );
   }

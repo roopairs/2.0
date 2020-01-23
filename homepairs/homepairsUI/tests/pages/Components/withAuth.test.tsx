@@ -1,16 +1,17 @@
-//import { withAuthPage, AuthPassProps, AuthPageInjectedProps, SceneHeader } from 'homepair-components';
-import { shallow, ShallowWrapper} from "enzyme";
+//import {withAuthPage, AuthPassProps, AuthPageInjectedProps} from 'homepair-components';
+import { shallow, ShallowWrapper, render } from "enzyme";
 import * as React from "react";
-import { View} from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import * as Mocks from "../../fixtures/StoreFixture";
 import * as Components from "../../fixtures/DummyComponents";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 import jest from "jest";
+import renderer from "react-test-renderer";
 //import { NavigationStackScreenProps, createStackNavigator } from 'react-navigation-stack';
 //import { NavigationParams } from 'react-navigation';
-import {withDarkMode} from "../../../src/Screens/Components/WithDarkMode/WithDarkMode"
+import withDarkMode from "../../../src/Screens/Main/ServiceRequest/ServiceRequestScreen/ServiceRequestScreen";
 import SceneHeader from "../../../src/Screens/Components/SceneHeader/SceneHeader";
 import {
   withAuthPage,
@@ -19,8 +20,6 @@ import {
 } from "homepair-components";
 import PropertiesScreen from '../../../src/Screens/Main/Properties/PropertiesScreen/PropertiesScreen'
 import {AppNavigator} from "../../../src/Routes/Routes"
-import {render} from 'react-native-testing-library'
-
 
 /**
  * Here we will test the HOC of withAuthPage. We will pass in some dum parameters
@@ -33,6 +32,7 @@ const passProps1: AuthPassProps = {
   button: "Hello",
   subtitle: "This is a test",
   buttonColor: "blue",
+  loadingModalText: "I should never appear",
   underButtonText: "This is something to think about",
   highlightedText: "I am highlighted"
 };
@@ -60,26 +60,21 @@ describe("test withAuth Page", () => {
   //We have renderer working with regular components. Need to figure out how to get this to work with
   //HOC
   it("Should render the property and have behavior we should examine", () => {
-    const Component1 = component1;
-    const AuthHOC = withAuthPage(View, passProps1);
-    const WithDM = withDarkMode(View)
+    const Component = component1;
+    const AuthHOC = withAuthPage(<View />, passProps1);
+
     const wrapper = shallow(
-        <Provider store={store}>
-        <AuthHOC navigation={null} _onChangeModalVisibility={() => {}}/>
-        </Provider>
+        <AuthHOC />
     );
     expect(wrapper).not.toBe(null);
     let elements = wrapper.getElements()
     let props = wrapper.getElement()
-    let tree= render(<Provider store={store}>
-      <PropertiesScreen />
-      </Provider>)
-    console.log(tree)
-    wrapper.simulate('setHighlightedClick').dive()
-    //console.log(wrapper.state())
+    console.log(elements)
+    wrapper.simulate('setHighlightedClick')
+    console.log(wrapper.state())
     //expect(wrapper.find(View)).toHaveLength(5);
     //expect(wrapper.find(TouchableOpacity)).toHaveLength(1);
-    expect(wrapper.find(AuthHOC).dive().find(View)).toHaveLength(4);
+    expect(wrapper.find(Text)).toHaveLength(1);
   });
 });
 

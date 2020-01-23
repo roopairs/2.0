@@ -1,4 +1,5 @@
 import ServiceRequestScreen from './ServiceRequestScreen/ServiceRequestScreen';
 import NewRequestScreen from './NewRequest/NewRequestScreen';
 
-export { ServiceRequestScreen, NewRequestScreen }
+const ServiceRequestPages = { ServiceRequestScreen, NewRequestScreen }
+export default ServiceRequestPages

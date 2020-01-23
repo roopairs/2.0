@@ -1,5 +1,5 @@
 import React from "react";
-import { MainNavigationStackProps, HomePairsDimensions } from "homepair-types";
+import { MainAppStackType, HomePairsDimensions } from "homepair-types";
 import {
   Platform,
   View,
@@ -16,7 +16,7 @@ import { withNavigation } from "react-navigation";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import { DarkModeInjectedProps } from "../WithDarkMode/WithDarkMode";
 import * as BaseStyles from "homepair-base-styles";
-import { ModalInjectedProps } from '../Modals/WithModal';
+import { ModalInjectedProps } from '../Modals/WithModal/WithModal';
 
 type SceneDispatchProps = {
   onSetHeaderGoBackButton?: (isSet: boolean) => any;
@@ -28,7 +28,7 @@ export type SceneInjectedProps = NavigationStackScreenProps<any, any> &
 type State = {
   showModal: boolean;
 };
-export function withSceneHeader(WrappedComponent: any, Page: MainNavigationStackProps) {
+export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
   var styles: any;
   const ReduxComponent = withNavigation(
     class ReduxComponentBase extends React.Component<
@@ -45,9 +45,13 @@ export function withSceneHeader(WrappedComponent: any, Page: MainNavigationStack
         styles = setStyle(this.colorScheme);
         this.renderContents = this.renderContents.bind(this);
         this.onPressButton = this.onPressButton.bind(this);
+        console.log('withSceneHeader constructor')
+        console.log(props._onChangeModalVisibility)
       }
 
       onPressButton() {
+          console.log('withSceneHeader onPressButton')
+          console.log(this.props._onChangeModalVisibility)
           return Page.doesButtonUseNavigate ? Page._onButtonClick(this.props) : this.props._onChangeModalVisibility(true)
       }
 

@@ -6,14 +6,16 @@ import PropertiesScreenBase, {
 } from "./PropertiesScreenBase";
 import {
   withSceneHeader,
-  AddNewPropertyModal,
+  //AddNewPropertyModal,
   withDarkMode,
-  withModal,
+  withModal
 } from "homepair-components";
-import { MainNavigationStackProps } from "homepair-types";
+import { MainAppStackType } from "homepair-types";
 import { HeaderActions } from "homepair-redux-actions";
+import { View } from "react-native";
+import { AddNewPropertyModal } from '../../../Components/Modals/AddNewPropertyModal/AddNewPropertyModal';
 
-const sceneParams: MainNavigationStackProps = {
+const sceneParams: MainAppStackType = {
   title: "Properties",
   navigate: "AccountProperties",
   key: "Properties",
@@ -39,5 +41,5 @@ const PropertiesScreen = connect(
   mapStateToProps,
   mapDispatchToProps
 )(PropertiesScreenBase);
-withModal(PropertiesScreen, AddNewPropertyModal)
+
 export default withDarkMode(withModal(withSceneHeader(PropertiesScreen, sceneParams), AddNewPropertyModal));

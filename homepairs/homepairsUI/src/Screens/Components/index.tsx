@@ -29,8 +29,7 @@ import {
 import {
   ModalInjectedProps as MIP,
   withModal
-} from "./Modals/WithModal";
-
+} from "./Modals/WithModal/WithModal";
 export { default as AddressSticker } from "./AddressSticker/AddressSticker";
 export { default as SceneHeader } from "./SceneHeader/SceneHeader";
 export { default as GeneralHomeInfo } from "./GeneralHomeInfo/GeneralHomeInfo";
@@ -39,10 +38,8 @@ export { default as ViewPropertyCard } from "./ViewPropertyCard/ViewPropertyCard
 export { default as AccountConnectedCard } from "./AuthenticationCards/AccountConnectedCard";
 export { default as ConnectAccountCard } from "./AuthenticationCards/ConnectAccountCard";
 export { default as HomePairsHeader } from "./HomePairsHeader/HomePairsHeader";
-export * from "./Modals/AddNewPropertyModal";
-export * from "./Modals/PrefferedProviderModal";
-export * from './Modals/LoadingModals/LoadingModal';
-export * from './Modals/AuthPageLoadingModals'
+export { AddNewPropertyModal } from "./Modals/AddNewPropertyModal/AddNewPropertyModal";
+export { PrefferedProviderModal } from "./Modals/ServiceRequestModal/PrefferedProviderModal";
 
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows

@@ -1,6 +1,6 @@
 import React from "react"; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text, View } from "react-native";
-import { ThinButton, ThinButtonProps } from "src/Elements/Elements";
+import { ThinButton, ThinButtonProps } from "homepair-elements";
 import { DarkModeInjectedProps } from "../WithDarkMode/WithDarkMode";
 import * as BaseStyles from "homepair-base-styles";
 

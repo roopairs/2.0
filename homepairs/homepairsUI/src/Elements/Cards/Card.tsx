@@ -1,8 +1,16 @@
 import React, { ReactElement } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { HomePairFonts } from "homepair-fonts";
+import HomePairColors from "homepair-colors";
+import {
+  MarginPadding,
+  LightColorTheme,
+  FontTheme,
+  ContentWidth
+} from "homepair-base-styles";
 
-/**To pass types into a component like so:
+export type CardProps = {
+  /**To pass types into a component like so:
    *      <View>
    *          <Text>Text Me!</Text>
    *      </View>
@@ -11,7 +19,6 @@ import { HomePairFonts } from "homepair-fonts";
    *      {props.children}
    * This will render all children passed into the component.
    */
-export type CardProps = {
   children?: ReactElement[] | ReactElement;
   containerStyle?: {};
   wrapperStyle?: {};
