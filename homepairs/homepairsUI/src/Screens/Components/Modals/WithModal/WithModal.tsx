@@ -9,8 +9,6 @@ import React, { Component } from "react";
 import { default as WebModal } from "modal-enhanced-react-native-web";
 import * as BaseStyles from "homepair-base-styles";
 
-const window = Dimensions.get("window");
-
 type Props = {};
 type State = {
   isVisible: boolean;
@@ -24,7 +22,7 @@ export type ModalInjectedProps = {
 const Modal = Platform.OS === "web" ? WebModal : MobileModal;
 
 export function withModal(BaseComponent: any, ModalComponent: any) {
-  class WithModal extends Component<Props, State> {
+  return class WithModal extends Component<Props, State> {
     constructor(props: Readonly<Props>) {
       super(props);
       this.state = {
@@ -85,7 +83,6 @@ export function withModal(BaseComponent: any, ModalComponent: any) {
       );
     }
   }
-  return WithModal;
 }
 
 function setStyle() {

@@ -12,7 +12,6 @@ import {
 import { SceneHeaderProps, default as SceneHeader }  from './SceneHeader';
 import { HeaderActions } from "homepair-redux-actions";
 import { connect } from "react-redux";
-import { withNavigation } from "react-navigation";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import { DarkModeInjectedProps } from "../WithDarkMode/WithDarkMode";
 import * as BaseStyles from "homepair-base-styles";
@@ -30,7 +29,7 @@ type State = {
 };
 export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
   var styles: any;
-  const ReduxComponent = withNavigation(
+  
     class ReduxComponentBase extends React.Component<
       SceneInjectedProps,
       State
@@ -110,8 +109,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
           </View>
         );
       }
-    }
-  );
+    };
 
   function mapDispatchToProps(dispatch: any): SceneDispatchProps {
     return {
@@ -125,7 +123,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
     };
   }
 
-  return connect(null, mapDispatchToProps)(ReduxComponent);
+  return connect(null, mapDispatchToProps)(ReduxComponentBase);
 }
 
 function setStyle(colorTheme: BaseStyles.ColorTheme) {

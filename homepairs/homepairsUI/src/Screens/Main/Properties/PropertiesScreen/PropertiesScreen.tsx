@@ -14,6 +14,7 @@ import { MainAppStackType } from "homepair-types";
 import { HeaderActions } from "homepair-redux-actions";
 import { View } from "react-native";
 import { AddNewPropertyModal } from '../../../Components/Modals/AddNewPropertyModal/AddNewPropertyModal';
+import { withNavigation } from "react-navigation";
 
 const sceneParams: MainAppStackType = {
   title: "Properties",
@@ -42,4 +43,4 @@ const PropertiesScreen = connect(
   mapDispatchToProps
 )(PropertiesScreenBase);
 
-export default withDarkMode(withModal(withSceneHeader(PropertiesScreen, sceneParams), AddNewPropertyModal));
+export default withDarkMode(withModal(withNavigation(withSceneHeader(PropertiesScreen, sceneParams)), AddNewPropertyModal));

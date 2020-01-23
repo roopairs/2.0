@@ -11,7 +11,7 @@ import ServiceRequestScreenBase, {
 } from "./ServiceRequestScreenBase";
 import { ServiceActions } from "homepair-redux-actions";
 import strings from "homepair-strings";
-import { NavigationRoute, NavigationParams } from "react-navigation";
+import { NavigationRoute, NavigationParams, withNavigation } from "react-navigation";
 import { StackNavigationProp } from "react-navigation-stack/lib/typescript/src/vendor/types";
 
 const serviceRequestStrings = strings.serviceRequestPage;
@@ -43,4 +43,4 @@ const ServiceRequestScreen = connect(
   mapDispatchToProps
 )(ServiceRequestScreenBase);
 
-export default withDarkMode(withSceneHeader(ServiceRequestScreen, sceneParam));
+export default withDarkMode(withNavigation(withSceneHeader(ServiceRequestScreen, sceneParam)));

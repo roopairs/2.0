@@ -20,6 +20,7 @@ import {
 } from "homepair-components";
 import PropertiesScreen from '../../../src/Screens/Main/Properties/PropertiesScreen/PropertiesScreen'
 import {AppNavigator} from "../../../src/Routes/Routes"
+import { createStackNavigator } from "react-navigation-stack";
 
 /**
  * Here we will test the HOC of withAuthPage. We will pass in some dum parameters
@@ -28,6 +29,7 @@ import {AppNavigator} from "../../../src/Routes/Routes"
 
 const store1 = Mocks.testStore1;
 const component1 = Components.SingleViewComponent;
+const newNavStack = createStackNavigator({test: PropertiesScreen})
 const passProps1: AuthPassProps = {
   button: "Hello",
   subtitle: "This is a test",
@@ -58,16 +60,16 @@ describe("test withAuth Page", () => {
   });
 
   //We have renderer working with regular components. Need to figure out how to get this to work with
-  //HOC
+  //HOCß
   it("Should render the property and have behavior we should examine", () => {
     const Component1 = component1;
-    const AuthHOC = withAuthPage(Component1, passProps1);
-
-    const wrapper = shallow(
-        <AuthHOC />
-    );
-    //let tree = render(<Provider store={store}><PropertiesScreen title="Foo" /></Provider>)
-    console.log()
+    const AuthHOC = withAuthPage(View, passProps1);
+    const authObj = <AuthHOC navigation={null} _onChangeModalVisibility={()=>{}}/>
+  
+    const PropertiesMock = <Provider store={store}>{newNavStack}</Provider>
+    const wrapper = shallow(authObj);
+    let tree = render(PropertiesMock).toJSON()
+    console.log(tree)
     expect(wrapper).not.toBe(null);
     let elements = wrapper.getElements()
     let props = wrapper.getElement()

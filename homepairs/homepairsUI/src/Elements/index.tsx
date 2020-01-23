@@ -15,20 +15,17 @@ import AddressSticker from './AddressSticker';
 import { InputFormProps as IFP } from './Forms/InputForm';
 import { ThinButtonProps as TBP } from './Buttons/ThinButton';
 import { CardProps as CP} from './Cards/Card';
-import { LoadingModalProps as LMP} from './Modals/LoadingModal';
 import { StickerProps as SP} from './Stickers/Sticker';
 
 export {default as InputForm } from './Forms/InputForm';
 export {default as ThinButton} from './Buttons/ThinButton';
 export {default as LoginButton} from './Buttons/LoginButton';
 export {default as Card } from './Cards/Card';
-export {default as LoadingModal} from './Modals/LoadingModal'
 export {default as Sticker} from './Stickers/Sticker';
 
 //**A hack that works when exporting types */
 export type InputFormProps = IFP
 export type ThinButtonProps = TBP
 export type CardProps =  CP
-export type LoadingModalProps = LMP
 export type StickerProps = SP
 

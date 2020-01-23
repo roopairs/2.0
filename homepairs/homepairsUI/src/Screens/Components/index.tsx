@@ -40,7 +40,7 @@ export { default as ConnectAccountCard } from "./AuthenticationCards/ConnectAcco
 export { default as HomePairsHeader } from "./HomePairsHeader/HomePairsHeader";
 export { AddNewPropertyModal } from "./Modals/AddNewPropertyModal/AddNewPropertyModal";
 export { PrefferedProviderModal } from "./Modals/ServiceRequestModal/PrefferedProviderModal";
-
+export * from './Modals/AuthenticationModals'
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows
  * singular exporting for each module. This is a simple workaround.

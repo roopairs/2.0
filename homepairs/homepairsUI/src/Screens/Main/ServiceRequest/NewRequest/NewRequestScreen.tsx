@@ -9,6 +9,7 @@ import NewRequestScreenBase, {
   NewRequestScreenProps
 } from "./NewRequestScreenBase";
 import { ServiceActions } from "homepair-redux-actions";
+import { withNavigation } from "react-navigation";
 
 
 //const serviceRequestStrings = strings.serviceRequestPage;
@@ -34,4 +35,4 @@ const ServiceRequestScreen = connect(
   mapDispatchToProps
 )(NewRequestScreenBase);
 
-export default withDarkMode(withSceneHeader(ServiceRequestScreen, sceneParam));
+export default withDarkMode(withNavigation(withSceneHeader(ServiceRequestScreen, sceneParam)));

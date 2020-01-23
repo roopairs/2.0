@@ -5,6 +5,7 @@ import AccountScreenBase from './AccountScreenBase';
 import { AccountScreenStateProps, AccountScreenDispatchProps } from './AccountScreenBase';
 import { withSceneHeader, withDarkMode} from 'homepair-components'
 import React from 'react'
+import { withNavigation } from 'react-navigation';
 
 const sceneParam : MainAppStackType = {  
     title: 'Account Settings',
@@ -30,4 +31,4 @@ const AccountScreen = connect(
   mapDispatchToProps,
 )(AccountScreenBase);
 
-export default withDarkMode(withSceneHeader(AccountScreen, sceneParam));
+export default withDarkMode(withNavigation(withSceneHeader(AccountScreen, sceneParam)));
