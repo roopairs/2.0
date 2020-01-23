@@ -1,4 +1,4 @@
-import ThinButton from '../../src/Components/GeneralComponents/Buttons/ThinButton';
+import ThinButton from '../../src/Elements/Buttons/ThinButton';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import { View } from 'react-native';
@@ -8,7 +8,7 @@ import { mount } from '../setup/test-setup';
 
 
 const mockStore = configureStore();
-// const mockDispatchfn = jest.fn(() => new Promise(resolve => resolve('')));
+//const mockDispatchfn = jest.fn(() => new Promise(resolve => resolve('')));
 const mockDispatchfn = jest.fn();
 
 const createTestProps = (props: Object) => ({
