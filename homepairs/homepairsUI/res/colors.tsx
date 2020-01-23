@@ -1,6 +1,6 @@
 const LightModeColors = {
     title: '#00ADE9',
-    
+
     primary: 'white',
     secondary: '#FBFBFB',
     tertiary: '#1177B0',
@@ -29,11 +29,11 @@ const LightModeColors = {
 
     shadowColor: '#00000030',
     roopairs: '#40D7A7'
-}
+};
 
 const DarkModeColors = {
     title: '#00ADE9',
-    
+
     primary: '#1E1F21',
     secondary: '#2A2A2B',
     tertiary: '#1177B0',
@@ -60,9 +60,8 @@ const DarkModeColors = {
     primaryImageOverlayText: 'black',
     secondaryImageOverlayText: '#625f5d',
 
-    shadowColor: '#FFFFFF30',
+    shadowColor: '#FFFFFF30'
+};
 
-}
-
-const HomePairColors = {LightModeColors, DarkModeColors}
-export default HomePairColors
+const HomePairColors = { LightModeColors, DarkModeColors };
+export default HomePairColors;
