@@ -9,7 +9,7 @@ import { isEmailSyntaxValid, isPasswordValid } from 'homepair-helpers';
 
 export type LoginViewDispatchProps = {
     onFetchAccountProfile: (username: string, password: string, 
-        modalSetOff: () => any, navigationRouteCallback: () => any) => void
+        modalSetOff: () => any, navigation: any) => void
 }
 
 export type LoginProps = DarkModeInjectedProps & LoginViewDispatchProps & AuthPageInjectedProps & NavigationStackScreenProps<any,any>
@@ -24,6 +24,7 @@ const initialState : LoginState = {
     password : '',
 }
 
+
 export default class LoginScreenBase extends React.Component<LoginProps, LoginState> {
     protected inputFormStyle 
     constructor(props: Readonly<LoginProps>){
@@ -32,7 +33,6 @@ export default class LoginScreenBase extends React.Component<LoginProps, LoginSt
         this.getFormUsername = this.getFormUsername.bind(this)
         this.getFormPassword = this.getFormPassword.bind(this)
         this.setModalOff = this.setModalOff.bind(this)
-        this.navigateMain = this.navigateMain.bind(this)
         this._clickButton = this._clickButton.bind(this)
         this._clickHighlightedText = this._clickHighlightedText.bind(this)
         this.state = initialState
@@ -48,9 +48,6 @@ export default class LoginScreenBase extends React.Component<LoginProps, LoginSt
     setModalOff(error:string = "Error Message") {
         this.props._showModal(false)
         this.props._setErrorState(true, error)
-    }
-    navigateMain() {
-        this.props.navigation.navigate('Main')
     }
 
     getFormUsername (childData : string) {
@@ -71,7 +68,7 @@ export default class LoginScreenBase extends React.Component<LoginProps, LoginSt
         else if (!isPasswordValid(this.state.password)){
             this.setModalOff("You have entered an invalid password.")
         }else{
-            this.props.onFetchAccountProfile(this.state.username, this.state.password, this.setModalOff, this.navigateMain)
+            this.props.onFetchAccountProfile(this.state.username, this.state.password, this.setModalOff, this.props.navigation)
         }
     } 
 

@@ -8,6 +8,7 @@ import { MainAppPages, LoadingScreen, AuthenticationPages } from 'homepair-pages
 import { View, Platform } from 'react-native';
 import { HomePairsHeader, AddNewPropertyModal } from 'homepair-components';
 import { MainAppStackType } from 'homepair-types';
+import { AccountTypes } from '../state/types';
 
 //these should be separated into different files for each Route (AccountProperties, Service Request, Account)
 export const MainAppStack: Array<MainAppStackType> = [
@@ -75,7 +76,7 @@ const innerStackConfig: any = {
 
 //these should be separated into different files for each Route (AccountProperties, Service Request, Account)
 const propertyStackConfig_PM = {
-  initialRouteName: 'AccountProperties',
+  initialRouteName: 'TenantProperties',
   ...innerStackConfig
 }
 
@@ -94,13 +95,11 @@ const accountStackConfig = {
   ...innerStackConfig
 }
 
-const PropertyStack_PM = createStackNavigator({
+const PropertyStack = createStackNavigator({
   AccountProperties: MainAppPages.PropertyPages.PropertiesScreen,
+  TenantProperties: MainAppPages.PropertyPages.TenantPropertiesScreen,
   DetailedProperty: MainAppPages.PropertyPages.DetailedPropertyScreen
 }, propertyStackConfig_PM);
-const PropertyStack_Tenant = createStackNavigator({
-  TenantProperties: MainAppPages.PropertyPages.TenantPropertiesScreen,
-}, propertyStackConfig_Tenant);
 const ServiceRequestStack = createStackNavigator(
   { ServiceRequest: MainAppPages.ServiceRequestPages.ServiceRequestScreen },
   serviceRequestStackConfig);
@@ -108,11 +107,17 @@ const AccountStack = createStackNavigator(
   { Account: MainAppPages.AccountPages.AccountScreen },
   accountStackConfig)
 
+export function ChooseMainPage(accountType: AccountTypes = AccountTypes.Tenant, navigation: any) {
+    accountType === AccountTypes.Landlord ? 
+    navigation.navigate('AccountProperties') : 
+    navigation.navigate('TenantProperties')
+}
+
 /*
  * injects navigator objects into all these pages; if you make a new page that needs a navigator, add it to this stack 
  * (example: SignUp navigates to SignUpScreen [syntax: SignUp: AuthenticationPages.SignUpScreen])
  */
-const MainStack = createStackNavigator({ Properties: PropertyStack_PM, ServiceRequest: ServiceRequestStack, Account: AccountStack }, mainStackConfig);
+const MainStack = createStackNavigator({ Properties: PropertyStack, ServiceRequest: ServiceRequestStack, Account: AccountStack }, mainStackConfig);
 const AuthStack = createSwitchNavigator({ Login: AuthenticationPages.LoginScreen, SignUp: AuthenticationPages.SignUpScreen, Connect: AuthenticationPages.RoopairsLogin }, authStackConfig);
 
 export default createAppContainer(createSwitchNavigator(
@@ -125,4 +130,4 @@ export default createAppContainer(createSwitchNavigator(
     initialRouteName: 'Loading',
   }
 ));
-export { MainStack, AuthStack }
+export { MainStack, AuthStack}

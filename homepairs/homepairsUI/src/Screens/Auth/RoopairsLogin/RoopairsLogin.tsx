@@ -28,8 +28,8 @@ const authPageParam : AuthPassProps = {
 
 const mapDispatchToProps : (dispatch: any) => RoopairsLoginDispatchProps = (dispatch: any) => ({
     onFetchAccountProfile: (username: string, password: string, type: string,
-        modalSetOff: () => any, navigationRouteCallback: () => any) => {
-        dispatch(AccountActions.fetchAccount(username, password, modalSetOff, navigationRouteCallback));
+        modalSetOff: () => any, navigation: any) => {
+        dispatch(AccountActions.fetchAccount(username, password, navigation ,modalSetOff));
     },
 });
 
