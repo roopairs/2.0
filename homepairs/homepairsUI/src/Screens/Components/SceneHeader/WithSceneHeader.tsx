@@ -1,7 +1,7 @@
 import React from 'react';
 import { MainAppStackType,  HomePairsDimensions  } from 'homepair-types';
 import { Platform, View, TouchableWithoutFeedback, ScrollView, ScrollViewProps, SafeAreaView, StyleSheet, Dimensions } from 'react-native';
-import { SceneHeaderProps, SceneHeader} from 'homepair-components';
+import { SceneHeaderProps, SceneHeader, AddNewPropertyModal} from 'homepair-components';
 import { HeaderActions } from 'homepair-redux-actions';
 import { connect } from 'react-redux';
 import { withNavigation} from 'react-navigation';
@@ -62,6 +62,7 @@ export default function withSceneHeader(WrappedComponent : any, Page: MainAppSta
             return(
                 <>
                 <SceneHeader {...this.sceneHeaderProps()}/>
+                <AddNewPropertyModal isShown={Page.buttonAction(false)}></AddNewPropertyModal>
                 <ScrollView {...this.scrollViewProps()}>
                     <WrappedComponent {...this.props}/>
                 </ScrollView>

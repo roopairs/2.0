@@ -8,7 +8,7 @@ import { StyleSheet } from 'react-native';
 
 
 export type RoopairsLoginDispatchProps = {
-    onFetchAccountProfile: (username: string, password: string, type: string,
+    onFetchAccountProfile: (username: string, password: string,
         modalSetOff: () => any, navigationRouteCallback: () => any) => void
 }
 
@@ -61,7 +61,7 @@ export default class RoopairsLoginBase extends React.Component<LoginProps, Login
     }
     _clickButton() {
         this.props._showModal(true)
-        this.props.onFetchAccountProfile(this.state.username, this.state.password, 'Roopairs', this.setModalOff, this.navigateMain)
+        this.props.onFetchAccountProfile(this.state.username, this.state.password, this.setModalOff, this.navigateMain)
     } 
 
     inputFormProps() : {[id: string] : InputFormProps} {

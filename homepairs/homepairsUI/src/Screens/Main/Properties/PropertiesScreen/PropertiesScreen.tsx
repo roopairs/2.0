@@ -1,5 +1,6 @@
 import { AppState } from "homepair-types";
 import { connect } from "react-redux";
+import React, { Component } from "react"
 import PropertiesScreenBase, {PropertiesScreenStateProps, PropertiesScreenDispatchProps} from './PropertiesScreenBase'
 import { withScene, AddNewPropertyModal, withDarkMode } from 'homepair-components'
 import { MainAppStackType } from 'homepair-types';
@@ -9,7 +10,7 @@ const sceneParams : MainAppStackType = {
   navigate: 'AccountProperties',
   key: 'Properties',
   button: 'Add Property',
-  buttonAction: AddNewPropertyModal
+  buttonAction: (visible: boolean) => {return visible},
 }
 
 function mapStateToProps(state: AppState) : PropertiesScreenStateProps { 

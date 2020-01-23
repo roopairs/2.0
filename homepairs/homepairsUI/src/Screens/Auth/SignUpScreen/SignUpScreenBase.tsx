@@ -8,8 +8,8 @@ import { AuthPageInjectedProps } from 'homepair-components';
 import * as BaseStyles from 'homepair-base-styles';
 import { StyleSheet, View, Text } from 'react-native';
 import {FontTheme} from 'homepair-base-styles';
-import Divider from 'react-native-divider';
 import { createUnionTypeAnnotation } from '@babel/types';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export type SignUpViewDispatchProps = {
     generateHomePairsAccount: (details: Account, password: String, modalSetOff: () => any, navigationRouteCallback: () => any) => any 
@@ -73,6 +73,7 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
         this.props._showModal(false)
         this.props._setErrorState(true, error)
     }
+
     navigateMain() {
         this.props.navigation.navigate('Main')
     }
@@ -80,12 +81,15 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
     getAccountType(childData : AccountTypes) {
         this.setState({accountType : childData})
     }
+
     getFormFirstName(childData : string){
         this.setState({firstName : childData})
     }
+
     getFormLastName(childData : string){
         this.setState({lastName : childData})
     }
+
     getFormEmail(childData : string){
         this.setState({email : childData})
     }
@@ -182,6 +186,7 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
     _clickSignIn = () => {
        this.props.navigation.navigate('Login')
     };
+    
     _clickSignUp = () => {
         this.props._showModal(true, signUpScreenStrings.modal)
         let details : Account = {...this.state, roopairsToken: ''}
@@ -195,6 +200,7 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
         this.props.navigation.navigate('Connect')
     };
 
+
     render() {
         if (this.state.accountType === AccountTypes.Landlord) {
             return (
@@ -202,8 +208,8 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
                 <AccountTypeRadioButton 
                 parentCallBack={this.getAccountType}
                 primaryColorTheme={this.props.primaryColorTheme}/>
-                <LoginButton name='Login with your Roopairs Account' onClick={this.toRoopairsLogin}/>
-                <View style = {{minHeight: 35, marginTop: 20}}><Text style = {{fontSize: 20}}>OR</Text></View>
+                <View style = {{minHeight: 25, marginTop: 16}}><LoginButton name='Login with your Roopairs Account' onClick={this.toRoopairsLogin}/></View>
+                <View style={{minHeight: 40, marginBottom: 20, borderBottomColor: 'grey', borderBottomWidth: StyleSheet.hairlineWidth, alignSelf: 'stretch'}}></View>
                 <InputForm {...this.inputFormProps().firstName} />
                 <InputForm {...this.inputFormProps().lastName}/>
                 <InputForm {...this.inputFormProps().email}/>

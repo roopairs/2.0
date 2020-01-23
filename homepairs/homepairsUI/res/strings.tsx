@@ -54,7 +54,7 @@ const strings = {
       accountTypeRadioButton: {
         name: 'ACCOUNT TYPE',
         tenant: 'Tenant',
-        landlord: 'Landlord',
+        landlord: 'Property Manager',
       },
       inputForms: {
         firstName: 'FIRST NAME',
@@ -65,8 +65,6 @@ const strings = {
         confirmPassword: 'CONFIRM PASSWORD',
         address: 'ADDRESS', 
         city: 'CITY',
-        companyName: 'COMPANY NAME', 
-        companyType: 'COMPANY TYPE'
       },
       button: 'Sign Up',
       currentUserText: 'Already have an account? ',

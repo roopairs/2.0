@@ -5,7 +5,6 @@ import { RoopairsLoginDispatchProps } from './RoopairsLoginBase';
 import {withAuthPage, AuthPassProps, withDarkMode } from 'homepair-components'
 import strings from 'homepair-strings'
 import HomePairColors from 'homepair-colors';
-import {ThinButton} from 'homepair-elements';
 import {Image, Text, View} from 'react-native';
 import {roopairsLogo} from 'homepair-images';
 import React from 'react';
@@ -27,7 +26,7 @@ const authPageParam : AuthPassProps = {
 }
 
 const mapDispatchToProps : (dispatch: any) => RoopairsLoginDispatchProps = (dispatch: any) => ({
-    onFetchAccountProfile: (username: string, password: string, type: string,
+    onFetchAccountProfile: (username: string, password: string,
         modalSetOff: () => any, navigationRouteCallback: () => any) => {
         dispatch(AccountActions.fetchAccount(username, password, modalSetOff, navigationRouteCallback));
     },

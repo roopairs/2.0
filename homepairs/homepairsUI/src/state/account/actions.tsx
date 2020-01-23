@@ -86,28 +86,6 @@ export const fetchAccount = (
     };
 };
 
-export const loginForPM = (Email: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
-  return async (dispatch: (arg0: any) => void) => {
-    return await axios.post('', {
-      email: Email, 
-      password: Password,
-    })
-    .then((response) => {
-      if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
-        dispatch(fetchAccountProfile(response[responseKeys.DATA]))
-        dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
-        navigateMainCallBack()
-      }else{
-        modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")
-      }
-    }).catch((error) => {
-      console.log(error);
-      modalSetOffCallBack("Connection to the server could not be established.")
-    });
-  };
-}
-
-
 export const generateAccountForTenant = (accountDetails: Account, password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
   return async (dispatch: (arg0: any) => void) => {
     console.log(accountDetails)
