@@ -22,5 +22,4 @@ jobs:
         - cd homepairs/homepairsUI
         - pip install -r unittests/requirements.txt
       script:
-        - cd homepairs/homepairsUI
         - unittests/runTests.sh
