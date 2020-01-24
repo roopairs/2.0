@@ -19,7 +19,7 @@ jobs:
       python:
         - "3.7.4"
       install:
-        - cd homepairs/homepairsApp/tests
-        - pip install -r ../requirements.txt
+        - cd homepairs/homepairsApp
+        - pip install -r requirements.txt
       script:
         - ./runTests.sh
