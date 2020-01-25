@@ -1,78 +1,28 @@
-import React from 'react'
+import React from 'react';
 import { AccountTypes } from 'homepair-types';
 import strings from 'homepair-strings';
 import {
   TouchableOpacity,
   Text,
   View,
-  StyleSheet
-} from 'react-native'
+  StyleSheet,
+} from 'react-native';
 import * as BaseStyles from 'homepair-base-styles';
-import { DarkModeInjectedProps } from 'homepair-components';
+import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 
 export type AccountTypeRadioProps = DarkModeInjectedProps & {
   name?: String,
-  parentCallBack? : (childData : AccountTypes) => any, //Define a funtion with parameters
+  parentCallBack? : (childData : AccountTypes) => any, // Define a funtion with parameters
 }
+
 type AccountTypeRadioState = {
   landLordSelected : boolean
 }
 
-const accountRadioStrings = strings.signUpPage.accountTypeRadioButton
-export default class AccountTypeRadioButton extends React.Component<AccountTypeRadioProps, AccountTypeRadioState> {
-  constructor(props: Readonly<AccountTypeRadioProps>) {
-    super(props)
-    this.onPressLandLord = this.onPressLandLord.bind(this)
-    this.onPressTenant = this.onPressTenant.bind(this)
-
-    this.state = { landLordSelected : false}
-    this.props.parentCallBack(AccountTypes.Tenant)
-  }
-
-  onPressLandLord() {
-    this.setState({ landLordSelected : true })
-    this.props.parentCallBack(AccountTypes.Landlord)
-  }
-
-  onPressTenant() {
-    this.setState({ landLordSelected : false })
-    this.props.parentCallBack(AccountTypes.Tenant)
-  }
-
- render() {
-   let style = setStyle(this.props.primaryColorTheme)
-   let leftButtonStyle = this.state.landLordSelected ? style.unselectedLeftButton : style.selectedLeftButton
-   let rightButtonStyle = this.state.landLordSelected ? style.selectedRightButton : style.unselectedRightButton
-   return (
-     <View style={style.titleContainer}>
-       <Text style={style.title}>
-         {accountRadioStrings.name}
-         </Text>
-      <View style={style.buttonContainer}>
-        <TouchableOpacity
-          style={leftButtonStyle}
-          onPress={this.onPressTenant}>
-          <Text style={this.state.landLordSelected ? 
-            style.unselectedText : style.selectedText}>
-              {accountRadioStrings.tenant}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={rightButtonStyle}
-          onPress={this.onPressLandLord}>
-          <Text style={this.state.landLordSelected ? 
-            style.selectedText : style.unselectedText }>
-              {accountRadioStrings.landlord}
-          </Text>
-        </TouchableOpacity>
-        </View>
-      </View>
-    )
-  }
-}
+const accountRadioStrings = strings.signUpPage.accountTypeRadioButton;
 
 function setStyle(colorTheme: BaseStyles.ColorTheme){
-  let colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme
+  const colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme;
   return StyleSheet.create({
     buttonContainer: {
       flexDirection: 'row',
@@ -84,7 +34,7 @@ function setStyle(colorTheme: BaseStyles.ColorTheme){
     title: {
       marginVertical: BaseStyles.MarginPadding.inputForm, 
       fontFamily: BaseStyles.FontTheme.primary, 
-      color: colors.lightGray
+      color: colors.lightGray,
     },
     titleContainer: {
       width: BaseStyles.ContentWidth.max,
@@ -99,6 +49,7 @@ function setStyle(colorTheme: BaseStyles.ColorTheme){
       borderBottomLeftRadius: BaseStyles.BorderRadius.small,
       borderWidth: 1,
       borderColor: colors.space,
+      height: 40,
     },
     selectedRightButton: {
       alignItems: 'center',
@@ -110,6 +61,7 @@ function setStyle(colorTheme: BaseStyles.ColorTheme){
       borderBottomRightRadius: BaseStyles.BorderRadius.small,
       borderWidth: 1,
       borderColor: colors.space,
+      height: 40,
     },
     selectedText:{
       color: colors.secondary, 
@@ -128,6 +80,7 @@ function setStyle(colorTheme: BaseStyles.ColorTheme){
       borderBottomLeftRadius: BaseStyles.BorderRadius.small,
       borderWidth: 1,
       borderColor: colors.lightGray,
+      height: 40,
     },
     unselectedRightButton: {
       alignItems: 'center',
@@ -139,11 +92,84 @@ function setStyle(colorTheme: BaseStyles.ColorTheme){
       borderBottomRightRadius: BaseStyles.BorderRadius.small,
       borderWidth: 1,
       borderColor: colors.lightGray,
+      height: 40,
     },
     unselectedText:{
       color: colors.lightGray, 
       fontSize: BaseStyles.FontTheme.reg,
       alignSelf: 'center',
-    }
+    },
   });
 }
+
+export default class AccountTypeRadioButton extends React.Component<AccountTypeRadioProps, AccountTypeRadioState> {
+  static defaultProps: { name: AccountTypes; parentCallBack: (childData: AccountTypes) => void; primaryColorTheme: BaseStyles.ColorTheme };
+
+  constructor(props: Readonly<AccountTypeRadioProps>) {
+    super(props);
+    this.onPressLandLord = this.onPressLandLord.bind(this);
+    this.onPressTenant = this.onPressTenant.bind(this);
+
+    this.state = { landLordSelected : false};
+    props.parentCallBack(AccountTypes.Tenant);
+  }
+
+  onPressLandLord() {
+    const {parentCallBack} = this.props;
+    this.setState({ landLordSelected : true });
+    parentCallBack(AccountTypes.Landlord);
+  }
+
+  onPressTenant() {
+    const {parentCallBack} = this.props;
+    this.setState({ landLordSelected : false });
+    parentCallBack(AccountTypes.Tenant);
+  }
+
+  renderName(style){
+    const {name} = this.props;
+    return name == null ? <></> : <View style={style.titleContainer}>
+    <Text style={style.title}>
+      {accountRadioStrings.name}
+      </Text>
+   </View>;
+  }
+
+ render() {
+   const {primaryColorTheme} = this.props;
+   const {landLordSelected} = this.state;
+   const style = setStyle(primaryColorTheme);
+   const leftButtonStyle = landLordSelected ? style.unselectedLeftButton : style.selectedLeftButton;
+   const rightButtonStyle = landLordSelected ? style.selectedRightButton : style.unselectedRightButton;
+   return (
+     <>
+     {this.renderName(style)}
+      <View style={style.buttonContainer}>
+        <TouchableOpacity
+          style={leftButtonStyle}
+          onPress={this.onPressTenant}>
+          <Text style={landLordSelected ? 
+            style.unselectedText : style.selectedText}>
+              {accountRadioStrings.tenant}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={rightButtonStyle}
+          onPress={this.onPressLandLord}>
+          <Text style={landLordSelected ? 
+            style.selectedText : style.unselectedText }>
+              {accountRadioStrings.landlord}
+          </Text>
+        </TouchableOpacity>
+        </View>
+      </>
+    );
+  }
+}
+
+/** VSCode does not recognize this notation. This works for setting default props in a class */
+AccountTypeRadioButton.defaultProps = {
+  name: AccountTypes.Tenant,
+  parentCallBack: (childData : AccountTypes) => {return childData;}, 
+  primaryColorTheme: BaseStyles.LightColorTheme,
+};

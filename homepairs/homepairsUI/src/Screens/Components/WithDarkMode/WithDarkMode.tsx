@@ -1,7 +1,6 @@
 import { connect } from "react-redux";
 import React from 'react';
 import { AppState } from 'homepair-types';
-import colors from 'res/colors';
 import { LightColorTheme, DarkColorTheme, ColorTheme} from 'homepair-base-styles';
 
 
@@ -11,26 +10,27 @@ type DarkModeProps = {
 
 export type DarkModeInjectedProps = {
     primaryColorTheme?: ColorTheme,
-    allColors?: any,
 }
 
 export function withDarkMode(WrappedComponent: any) {
     const ReduxComponent = class DarkMode extends React.Component<DarkModeProps>{ 
         injectedProps: DarkModeInjectedProps
+
         constructor(props: Readonly<DarkModeProps>){
-            super(props)
+            super(props);
             this.injectedProps = {
-                primaryColorTheme: this.props.isDarkMode ? DarkColorTheme: LightColorTheme,
-                allColors: this.props.isDarkMode ? colors.DarkModeColors : colors.LightModeColors,
-            }
+                primaryColorTheme: props.isDarkMode ? DarkColorTheme: LightColorTheme,
+            };
         }
+
         render(){
-            return(<WrappedComponent {...this.injectedProps}/>)
+            const {primaryColorTheme} = this.injectedProps;
+            return(<WrappedComponent primaryColorTheme={primaryColorTheme}/>);
         }  
-    }
+    };
 
     function mapStateToProps(state: AppState) : DarkModeProps {
-        return { isDarkMode: state.settings.isDarkModeActive}
+        return { isDarkMode: state.settings.isDarkModeActive};
     }
 
     return connect(mapStateToProps)(ReduxComponent);

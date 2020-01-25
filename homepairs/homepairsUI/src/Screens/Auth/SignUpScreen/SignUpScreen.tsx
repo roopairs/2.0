@@ -1,7 +1,5 @@
 import { connect } from "react-redux";
-import SignUpScreenBase from "./SignUpScreenBase";
 import { AccountActions } from "homepair-redux-actions";
-import { SignUpViewDispatchProps } from "./SignUpScreenBase";
 import { Account, AccountTypes } from "homepair-types";
 import strings from "homepair-strings";
 import {
@@ -9,10 +7,12 @@ import {
   withAuthPage,
   withDarkMode,
   CreatingAccountModal,
-  withModal
+  withModal,
 } from "homepair-components";
 import HomePairColors from "res/colors";
 import { withNavigation } from "react-navigation";
+import SignUpScreenBase, { SignUpViewDispatchProps } from "./SignUpScreenBase";
+
 
 const signUpStrings = strings.signUpPage;
 const authPageParam: AuthPassProps = {
@@ -21,28 +21,28 @@ const authPageParam: AuthPassProps = {
   loadingModalText: signUpStrings.modal,
   buttonColor: HomePairColors.LightModeColors.blueButton,
   underButtonText: signUpStrings.currentUserText,
-  highlightedText: signUpStrings.signUpHighlight
+  highlightedText: signUpStrings.signUpHighlight,
 };
 
 const mapDispatchToProps: (dispatch: any) => SignUpViewDispatchProps = (
-  dispatch: any
+  dispatch: any,
 ) => ({
-  //TODO: Finish sign up when backend is ready
+  // TODO: Finish sign up when backend is ready
   generateHomePairsAccount: (
     details: Account,
     password: String,
     modalSetOff: () => any,
-    navigationRouteCallback: () => any
+    navigationRouteCallback: () => any,
   ) => {
-    //TODO: Remember to Call dispatch when sign up is ready in backend
+    // TODO: Remember to Call dispatch when sign up is ready in backend
     if (details.accountType === AccountTypes.Landlord) {
       dispatch(
         AccountActions.generateAccountForPM(
           details,
           password,
           modalSetOff,
-          navigationRouteCallback
-        )
+          navigationRouteCallback,
+        ),
       );
     } else {
       dispatch(
@@ -50,11 +50,11 @@ const mapDispatchToProps: (dispatch: any) => SignUpViewDispatchProps = (
           details,
           password,
           modalSetOff,
-          navigationRouteCallback
-        )
+          navigationRouteCallback,
+        ),
       );
     }
-  }
+  },
 });
 
 const SignUpScreen = connect(null, mapDispatchToProps)(SignUpScreenBase);

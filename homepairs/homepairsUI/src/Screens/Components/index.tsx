@@ -6,30 +6,33 @@
  * then export it.
  */
 import { AddressStickerProps as ASP } from "./AddressSticker/AddressSticker";
-import { SceneHeaderProps as SHP } from "./SceneHeader/SceneHeader";
+import { SceneHeaderProps as SHP, renderSceneHeader } from './SceneHeader/SceneHeader';
 import { GeneralHomeInfoProps as GHIP } from "./GeneralHomeInfo/GeneralHomeInfo";
 import { AccountTypeRadioProps as ATRBP } from "./AccounttypeRadioButton/AccountTypeRadioButton";
 import { ViewPropertyCardProps as VPCP } from "./ViewPropertyCard/ViewPropertyCard";
 import { AccountConnectedCardProps as ACCP } from "./AuthenticationCards/AccountConnectedCard";
 import { ConnectAccountCardProps as CACP } from "./AuthenticationCards/ConnectAccountCard";
 import * as HomePairsHeaderProps from "./HomePairsHeader/HomePairsHeaderTemplate";
+import { LoggingInModal, CreatingAccountModal } from './Modals/AuthenticationModals';
+import { LoadingModal, LoadingModalProps as LMP} from './Modals/LoadingModal';
 import {
   SceneInjectedProps as SIP,
-  withSceneHeader
+  withSceneHeader,
 } from "./SceneHeader/WithSceneHeader";
 import {
   AuthPageInjectedProps as APIP,
   AuthPassProps as APP,
-  withAuthPage
+  withAuthPage,
 } from "./AuthPage/WithAuthPage";
 import {
   DarkModeInjectedProps as DMIP,
-  withDarkMode
+  withDarkMode,
 } from "./WithDarkMode/WithDarkMode";
 import {
   ModalInjectedProps as MIP,
-  withModal
+  withModal,
 } from "./Modals/WithModal/WithModal";
+
 export { default as AddressSticker } from "./AddressSticker/AddressSticker";
 export { default as SceneHeader } from "./SceneHeader/SceneHeader";
 export { default as GeneralHomeInfo } from "./GeneralHomeInfo/GeneralHomeInfo";
@@ -38,9 +41,9 @@ export { default as ViewPropertyCard } from "./ViewPropertyCard/ViewPropertyCard
 export { default as AccountConnectedCard } from "./AuthenticationCards/AccountConnectedCard";
 export { default as ConnectAccountCard } from "./AuthenticationCards/ConnectAccountCard";
 export { default as HomePairsHeader } from "./HomePairsHeader/HomePairsHeader";
-export { AddNewPropertyModal } from "./Modals/AddNewPropertyModal/AddNewPropertyModal";
-export { PrefferedProviderModal } from "./Modals/ServiceRequestModal/PrefferedProviderModal";
-export * from './Modals/AuthenticationModals'
+export { default as AddNewPropertyModal } from "./Modals/AddNewPropertyModal/AddNewPropertyModal";
+export { default as PrefferedProviderModal } from "./Modals/ServiceRequestModal/PrefferedProviderModal";
+
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows
  * singular exporting for each module. This is a simple workaround.
@@ -57,6 +60,8 @@ export type AuthPageInjectedProps = APIP;
 export type AuthPassProps = APP;
 export type DarkModeInjectedProps = DMIP;
 export type ModalInjectedProps = MIP;
+export type LoadingModalProps = LMP;
+
 
 export {
   HomePairsHeaderProps,
@@ -64,4 +69,8 @@ export {
   withSceneHeader,
   withDarkMode,
   withModal,
+  renderSceneHeader,
+  LoggingInModal,
+  CreatingAccountModal,
+  LoadingModal,
 };

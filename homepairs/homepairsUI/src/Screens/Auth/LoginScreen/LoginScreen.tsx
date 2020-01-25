@@ -1,17 +1,17 @@
 import { connect } from "react-redux";
-import LoginScreenBase from "./LoginScreenBase";
 import { AccountActions } from "homepair-redux-actions";
-import { LoginViewDispatchProps } from "./LoginScreenBase";
 import {
   withAuthPage,
   AuthPassProps,
   withDarkMode,
   LoggingInModal,
-  withModal
+  withModal,
 } from "homepair-components";
 import strings from "homepair-strings";
 import HomePairColors from "res/colors";
 import { withNavigation } from "react-navigation";
+import LoginScreenBase, { LoginViewDispatchProps } from "./LoginScreenBase";
+
 
 const signInStrings = strings.signInPage;
 const authPageParam: AuthPassProps = {
@@ -20,26 +20,26 @@ const authPageParam: AuthPassProps = {
   buttonColor: HomePairColors.LightModeColors.blueButton,
   loadingModalText: signInStrings.modal,
   underButtonText: signInStrings.newUserText,
-  highlightedText: signInStrings.signUpHighlight
+  highlightedText: signInStrings.signUpHighlight,
 };
 const mapDispatchToProps: (dispatch: any) => LoginViewDispatchProps = (
-  dispatch: any
+  dispatch: any,
 ) => ({
   onFetchAccountProfile: (
     username: string,
     password: string,
     modalSetOff: () => any,
-    navigationRouteCallback: () => any
+    navigationRouteCallback: () => any,
   ) => {
     dispatch(
       AccountActions.fetchAccount(
         username,
         password,
         modalSetOff,
-        navigationRouteCallback
-      )
+        navigationRouteCallback,
+      ),
     );
-  }
+  },
 });
 
 const LoginScreen = connect(null, mapDispatchToProps)(LoginScreenBase);

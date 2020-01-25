@@ -1,7 +1,7 @@
 import { 
     AccountState, 
     FetchUserAccountProfileAction, 
-    AccountStateAction 
+    AccountStateAction, 
 } from '../types';
 import { FETCH_PROFILE_ACTION_TYPES } from './actions';
 
@@ -16,15 +16,16 @@ export const initialState: AccountState = null;
 
 export const accountProfile = (
     state: AccountState = initialState,
-    action: AccountStateAction
+    action: AccountStateAction,
 ) => {
+    let profileState: AccountState;
     const prevState = {...state, modalOpen: true };
     switch (action.type){
         case FETCH_PROFILE_ACTION_TYPES.FETCH_PROFILE:
             // pay attention to type-casting on action
-            const profileState = (action as FetchUserAccountProfileAction).profile;
+            profileState = (action as FetchUserAccountProfileAction).profile;
             return profileState;
         default:
             return prevState;
     }
-}
+};
