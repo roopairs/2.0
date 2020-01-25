@@ -63,6 +63,7 @@ export default class SignUpScreenBase extends React.Component<
     SignUpState
 > {
     private inputFormStyle;
+
     constructor(props: Readonly<SignUpProps>) {
         super(props);
         this.inputFormStyle = setInputStyles(props.primaryColorTheme);
@@ -82,13 +83,13 @@ export default class SignUpScreenBase extends React.Component<
 
         this.state = initalState;
 
-        this.props._clickButton(this._clickSignUp);
-        this.props._clickHighlightedText(this._clickSignIn);
+        this.props.clickButton(this.clickSignUp);
+        this.props.clickHighlightedText(this.clickSignIn);
     }
 
     setModalOff(error: string = 'Error Message') {
-        this.props._onChangeModalVisibility(false);
-        this.props._setErrorState(true, error);
+        this.props.onChangeModalVisibility(false);
+        this.props.setErrorState(true, error);
     }
     navigateMain() {
         this.props.navigation.navigate('Main');
@@ -208,8 +209,8 @@ export default class SignUpScreenBase extends React.Component<
         )
             return true;
         else {
-            this.props._onChangeModalVisibility(false);
-            this.props._setErrorState(
+            this.props.onChangeModalVisibility(false);
+            this.props.setErrorState(
                 true,
                 'Your passwords do not match. Please try again.',
             );
@@ -220,11 +221,12 @@ export default class SignUpScreenBase extends React.Component<
     /**
      * Event functions for when something occurs on this component.
      */
-    _clickSignIn = () => {
+    clickSignIn = () => {
         this.props.navigation.navigate('Login');
     };
-    _clickSignUp = () => {
-        this.props._onChangeModalVisibility(true);
+
+    clickSignUp = () => {
+        this.props.onChangeModalVisibility(true);
         let details: Account = { ...this.state, roopairsToken: '' };
         if (this.validateCredentials()) {
             this.props.generateHomePairsAccount(
@@ -233,7 +235,7 @@ export default class SignUpScreenBase extends React.Component<
                 this.setModalOff,
                 this.navigateMain,
             );
-            this.props._onChangeModalVisibility(false);
+            this.props.onChangeModalVisibility(false);
         }
     };
 

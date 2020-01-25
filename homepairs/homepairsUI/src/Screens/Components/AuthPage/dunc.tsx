@@ -4,24 +4,25 @@ import {
     View,
     Text,
     ScrollView,
+    ScrollViewProps,
     SafeAreaView,
     StyleSheet,
     StatusBar,
     Dimensions,
 } from 'react-native';
 import {
-    ThinButtonProps,
-    Card,
-    renderThinButton,
+    CardProps,
     InputFormProps,
+    ThinButtonProps,
+    renderCard,
+    renderThinButton,
 } from 'homepair-elements';
-import { NavigationInjectedProps } from 'react-navigation';
+import { withNavigation, NavigationInjectedProps } from 'react-navigation';
 import strings from 'homepair-strings';
 import { HomePairFonts } from 'homepair-fonts';
 import { HomePairsDimensions } from 'homepair-types';
 import * as BaseStyles from 'homepair-base-styles';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
-import { ModalInjectedProps } from '../index';
 
 export type AuthPassProps = {
     button: String;
@@ -33,12 +34,12 @@ export type AuthPassProps = {
 };
 
 export type AuthPageInjectedProps = DarkModeInjectedProps &
-    NavigationInjectedProps &
-    ModalInjectedProps & {
+    NavigationInjectedProps & {
         inputFormProps?: { [id: string]: InputFormProps };
         clickHighlightedText?: (arg?: any) => any;
         clickButton?: (arg: any) => any;
         setErrorState?: (arg1: boolean, arg2?: string) => any;
+        showModal?: (arg1: boolean, arg2?: string) => any;
     };
 
 type DefaultAuthPageState = {
@@ -63,7 +64,8 @@ const initalState: DefaultAuthPageState = {
     clickHighlightedText: () => {},
 };
 
-function setStyles(buttonColor: string, colorTheme: BaseStyles.ColorTheme) {
+function setStyles(buttonColor: string, colorTheme?: BaseStyles.ColorTheme) {
+    const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;
     return StyleSheet.create({
         container: {
             alignItems: 'center',
@@ -72,7 +74,7 @@ function setStyles(buttonColor: string, colorTheme: BaseStyles.ColorTheme) {
             flex: 1,
         },
         pallet: {
-            backgroundColor: colorTheme.space,
+            backgroundColor: colors.space,
             width: BaseStyles.ContentWidth.max,
             alignSelf: 'center',
             alignContent: 'center',
@@ -94,24 +96,24 @@ function setStyles(buttonColor: string, colorTheme: BaseStyles.ColorTheme) {
         cardContainerStyle: {
             width: BaseStyles.ContentWidth.reg,
             paddingBottom: BaseStyles.MarginPadding.mediumConst,
-            backgroundColor: colorTheme.secondary,
+            backgroundColor: colors.secondary,
             marginHorizontal: BaseStyles.MarginPadding.large,
             borderRadius: BaseStyles.BorderRadius.large,
-            shadowColor: colorTheme.shadow,
+            shadowColor: colors.shadow,
             shadowRadius: 5,
             shadowOffset: { width: 1, height: 1 },
             shadowOpacity: 0.25,
             elevation: 2,
         },
         cardTitleStyle: {
-            color: colorTheme.primary,
+            color: colors.primary,
             fontFamily: HomePairFonts.nunito_semibold,
             fontSize: BaseStyles.FontTheme.title,
             alignSelf: 'center',
         },
         cardTitleContainerStyle: {
             width: BaseStyles.ContentWidth.max,
-            borderBottomColor: colorTheme.veryLightGray,
+            borderBottomColor: colors.veryLightGray,
             paddingTop:
                 (BaseStyles.MarginPadding.largeConst +
                     BaseStyles.MarginPadding.mediumConst) /
@@ -127,7 +129,7 @@ function setStyles(buttonColor: string, colorTheme: BaseStyles.ColorTheme) {
         },
         errorText: {
             fontSize: BaseStyles.FontTheme.small,
-            color: colorTheme.red,
+            color: colors.red,
         },
         modalText: {
             fontFamily: HomePairFonts.nunito_regular,
@@ -155,7 +157,7 @@ function setStyles(buttonColor: string, colorTheme: BaseStyles.ColorTheme) {
             alignSelf: 'center',
         },
         subTitleText: {
-            color: colorTheme.tertiary,
+            color: colors.tertiary,
             fontFamily: BaseStyles.FontTheme.primary,
             fontSize:
                 Dimensions.get('window').width >
@@ -198,6 +200,34 @@ export function withAuthPage(
     defaultAuthPassProps: AuthPassProps,
 ) {
     let styles: any = null;
+
+    function cardProps(style: {
+        cardContainerStyle: any;
+        cardTitleStyle: any;
+        cardTitleContainerStyle: any;
+        cardWrapperStyle: any;
+    }): CardProps {
+        return {
+            containerStyle: style.cardContainerStyle,
+            title: strings.title,
+            titleStyle: style.cardTitleStyle,
+            titleContainerStyle: style.cardTitleContainerStyle,
+            wrapperStyle: style.cardWrapperStyle,
+        };
+    }
+
+    function scrollViewProps(style: {
+        scrollStyle: any;
+        scrollContentContainerStyle: any;
+    }): ScrollViewProps {
+        return {
+            style: style.scrollStyle,
+            contentContainerStyle: style.scrollContentContainerStyle,
+            directionalLockEnabled: true,
+            automaticallyAdjustContentInsets: false,
+        };
+    }
+
     function renderSubtitle() {
         if (typeof defaultAuthPassProps.subtitle === 'string') {
             return (
@@ -209,24 +239,25 @@ export function withAuthPage(
         }
         return <></>;
     }
-    return class ComponentBase extends React.Component<
+
+    class ComponentBase extends React.Component<
         AuthPageInjectedProps,
         DefaultAuthPageState
     > {
-        colors: BaseStyles.ColorTheme;
-
         constructor(props: Readonly<AuthPageInjectedProps>) {
             super(props);
-            this.colors = typeof props.primaryColorTheme === 'undefined' ? BaseStyles.LightColorTheme : props.primaryColorTheme;
             styles = setStyles(
                 defaultAuthPassProps.buttonColor,
-                this.colors,
+                props.primaryColorTheme,
             );
+            this.presentLoading = this.presentLoading.bind(this);
             this.showError = this.showError.bind(this);
             this.setThinButtonClick = this.setThinButtonClick.bind(this);
             this.setHighlightedClick = this.setHighlightedClick.bind(this);
             this.setErrorFlag = this.setErrorFlag.bind(this);
+            this.showModal = this.showModal.bind(this);
             this.renderSignInButton = this.renderSignInButton.bind(this);
+            this.renderCardContents = this.renderCardContents.bind(this);
             this.state = initalState;
         }
 
@@ -255,72 +286,31 @@ export function withAuthPage(
             });
         }
 
+        showModal(
+            isShown: boolean,
+            message: string = strings.signInPage.modal,
+        ) {
+            this.setState({
+                modalVisible: isShown,
+                modalMessage: message,
+            });
+        }
+
+        presentLoading() {
+            const { modalVisible, modalMessage } = this.state;
+            return (
+                <LoadingModal visible={modalVisible}>
+                    <Text style={styles.modalText}>{modalMessage}</Text>
+                </LoadingModal>
+            );
+        }
+
         showError() {
             const { error, errorMessage } = this.state;
             if (!error) {
                 return <></>;
             }
             return <Text style={styles.errorText}>{errorMessage}</Text>;
-        }
-
-        renderContents() {
-          const {navigation, onChangeModalVisibility} = this.props;
-          const {clickHighlightedText} = this.state;
-            return (
-                <View style={styles.container}>
-                    {renderSubtitle()}
-                    {this.showError()}
-                    <WrappedComponent
-                        navigation={navigation}
-                        onChangeModalVisibility={onChangeModalVisibility}
-                        primaryColorTheme={this.colors}
-                        clickButton={this.setThinButtonClick}
-                        clickHighlightedText={this.setHighlightedClick}
-                        setErrorState={this.setErrorFlag}
-                    />
-                    {this.renderSignInButton()}
-                    <View style={styles.signUpSection}>
-                        <Text style={styles.standardText}>
-                            {defaultAuthPassProps.underButtonText}
-                            <Text
-                                style={{
-                                    color: this.colors.primary,
-                                }}
-                                onPress={clickHighlightedText}
-                            >
-                                {defaultAuthPassProps.highlightedText}
-                            </Text>
-                        </Text>
-                    </View>
-                </View>
-            );
-        }
-
-        renderCard() {
-            return (
-                <Card
-                    title={strings.title}
-                    titleStyle={styles.cardTitleStyle}
-                    titleContainerStyle={styles.cardTitleContainerStyle}
-                    containerStyle={styles.cardContainerStyle}
-                    wrapperStyle={styles.cardWrapperStyle}
-                >
-                    {this.renderContents()}
-                </Card>
-            );
-        }
-
-        renderScrollView() {
-            return (
-                <ScrollView
-                    style={styles.scrollStyle}
-                    contentContainerStyle={styles.scrollContentContainerStyle}
-                    directionalLockEnabled
-                    automaticallyAdjustContentInsets
-                >
-                    {this.renderCard()}
-                </ScrollView>
-            );
         }
 
         renderSignInButton() {
@@ -332,12 +322,65 @@ export function withAuthPage(
             );
         }
 
+        renderCardContents() {
+            const { primaryColorTheme, navigation } = this.props;
+            const { clickHighlightedText } = this.state;
+
+            return (
+                <View style={styles.container}>
+                    {renderSubtitle()}
+                    {this.showError()}
+                    <WrappedComponent
+                        navigation={navigation}
+                        primaryColorTheme={primaryColorTheme}
+                        clickButton={this.setThinButtonClick}
+                        clickHighlightedText={this.setHighlightedClick}
+                        setErrorState={this.setErrorFlag}
+                        showModal={this.showModal}
+                    />
+                    {this.renderSignInButton()}
+                    <View style={styles.signUpSection}>
+                        <Text style={styles.standardText}>
+                            {defaultAuthPassProps.underButtonText}
+                            <Text
+                                style={{
+                                    color: primaryColorTheme.primary,
+                                }}
+                                onPress={clickHighlightedText}
+                            >
+                                {defaultAuthPassProps.highlightedText}
+                            </Text>
+                        </Text>
+                    </View>
+                </View>
+            );
+        }
+
         render() {
+            const {
+                style,
+                contentContainerStyle,
+                directionalLockEnabled,
+                automaticallyAdjustContentInsets,
+            } = scrollViewProps(styles);
+            const cardProperty = cardProps(styles);
+            const renderedCardContents = this.renderCardContents();
             return (
                 <SafeAreaView style={styles.pallet}>
-                    {this.renderScrollView()}
+                    {this.presentLoading()}
+                    <ScrollView
+                        style={style}
+                        contentContainerStyle={contentContainerStyle}
+                        directionalLockEnabled={directionalLockEnabled}
+                        automaticallyAdjustContentInsets={
+                            automaticallyAdjustContentInsets
+                        }
+                    >
+                        {renderCard(cardProperty, renderedCardContents)}
+                    </ScrollView>
                 </SafeAreaView>
             );
         }
-    };
+    }
+    return withNavigation(ComponentBase);
 }

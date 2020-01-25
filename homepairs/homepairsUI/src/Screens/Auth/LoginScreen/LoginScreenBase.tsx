@@ -66,7 +66,7 @@ export default class LoginScreenBase extends React.Component<
 
     constructor(props: Readonly<LoginProps>) {
         super(props);
-        console.log(props)
+        console.log(props);
         this.inputFormStyle = setInputStyles(props.primaryColorTheme);
         this.getFormUsername = this.getFormUsername.bind(this);
         this.getFormPassword = this.getFormPassword.bind(this);

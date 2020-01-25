@@ -39,6 +39,7 @@ export default class RoopairsLoginBase extends React.Component<
     LoginState
 > {
     protected inputFormStyle;
+
     constructor(props: Readonly<LoginProps>) {
         super(props);
         this.inputFormStyle = setInputStyles(props.primaryColorTheme);
@@ -46,17 +47,17 @@ export default class RoopairsLoginBase extends React.Component<
         this.getFormPassword = this.getFormPassword.bind(this);
         this.setModalOff = this.setModalOff.bind(this);
         this.navigateMain = this.navigateMain.bind(this);
-        this._clickButton = this._clickButton.bind(this);
-        this._clickHighlightedText = this._clickHighlightedText.bind(this);
+        this.clickButton = this.clickButton.bind(this);
+        this.clickHighlightedText = this.clickHighlightedText.bind(this);
         this.state = initialState;
 
-        this.props._clickButton(this._clickButton);
-        this.props._clickHighlightedText(this._clickHighlightedText);
+        this.props.clickButton(this.clickButton);
+        this.props.clickHighlightedText(this.clickHighlightedText);
     }
 
     setModalOff(error: string = 'Error Message') {
-        this.props._onChangeModalVisibility(false);
-        this.props._setErrorState(true, error);
+        this.props.onChangeModalVisibility(false);
+        this.props.setErrorState(true, error);
     }
     navigateMain() {
         this.props.navigation.navigate('Main');
@@ -69,11 +70,11 @@ export default class RoopairsLoginBase extends React.Component<
         this.setState({ password: childData });
     }
 
-    _clickHighlightedText() {
+    clickHighlightedText() {
         this.props.navigation.navigate('SignUp');
     }
-    _clickButton() {
-        this.props._onChangeModalVisibility(true);
+    clickButton() {
+        this.props.onChangeModalVisibility(true);
         this.props.onFetchAccountProfile(
             this.state.username,
             this.state.password,
