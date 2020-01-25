@@ -1,6 +1,5 @@
-import { isEmailSyntaxValid } from './SyntaxVerification/EmailSyntaxVerification';
-import { isEmptyOrSpaces } from './SyntaxVerification/EmptyStringVerification';
-import { isPasswordValid } from './SyntaxVerification/PasswordVerification';
+import isEmailSyntaxValid from './SyntaxVerification/EmailSyntaxVerification';
+import isEmptyOrSpaces  from './SyntaxVerification/EmptyStringVerification';
+import isPasswordValid from './SyntaxVerification/PasswordVerification';
 
-
-export {isEmailSyntaxValid, isPasswordValid};
+export {isEmailSyntaxValid, isPasswordValid, isEmptyOrSpaces};

@@ -1,7 +1,7 @@
 import { 
     ToggleMenuAction,
     SwitchDropDownNavBarAction,
-    ShowGoBack_onButtonClick,
+    ShowGoBackOnButtonClick,
     UpdateSelectedPageAction,
     MainAppStackType,
 } from '../types';
@@ -16,27 +16,27 @@ export enum HEADER_ACTION_TYPES {
 export const toggleMenu = (showMenu: boolean): ToggleMenuAction => {
     return {
       type: HEADER_ACTION_TYPES.TOGGLE_MENU,
-      showMenu: showMenu,
-    }
+      showMenu,
+    };
 };
 
 export const switchDropdownNavbar = (isDropDown: boolean): SwitchDropDownNavBarAction =>{
     return {
       type : HEADER_ACTION_TYPES.SWITCH_DROPDOWN_NAVBAR,
-      isDropDown: isDropDown,
-    }
+      isDropDown,
+    };
 };
 
-export const showGoBackButton = (showBackButton: boolean): ShowGoBack_onButtonClick =>{
+export const showGoBackButton = (showBackButton: boolean): ShowGoBackOnButtonClick =>{
     return {
       type : HEADER_ACTION_TYPES.SHOW_GOBACK_BUTTON,
-      showBackButton: showBackButton,
-    }
+      showBackButton,
+    };
 };
 
 export const updateSelectedPage = (selectedPage: MainAppStackType): UpdateSelectedPageAction =>{
     return {
       type : HEADER_ACTION_TYPES.UPDATE_SELECTED_PAGE,
       selected: selectedPage,
-    }
+    };
 };

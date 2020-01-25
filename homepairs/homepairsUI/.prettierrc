@@ -1,6 +1,7 @@
 {
     "singleQuote": true,
-    "trailingComma": "none",
+    "trailingComma": "all",
     "tabWidth": 4,
-    "semi": true
+    "semi": true,
+    "parser": "typescript"
 }

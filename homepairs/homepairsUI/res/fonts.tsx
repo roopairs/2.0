@@ -1,7 +1,8 @@
 import * as Font from 'expo-font';
+
 export const LoadFonts = async () => {
     await Font.loadAsync({
-        //Load desired fonts into /res/assets/fonts and then run the script via: npm run fonts
+        // Load desired fonts into /res/assets/fonts and then run the script via: npm run fonts
         'nunito-black': require('./assets/fonts/Nunito-Black.ttf'),
         'nunito-blackitalic': require('./assets/fonts/Nunito-BlackItalic.ttf'),
         'nunito-bold': require('./assets/fonts/Nunito-Bold.ttf'),

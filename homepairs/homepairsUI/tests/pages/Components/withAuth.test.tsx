@@ -1,25 +1,25 @@
-//import {withAuthPage, AuthPassProps, AuthPageInjectedProps} from 'homepair-components';
+// import {withAuthPage, AuthPassProps, AuthPageInjectedProps} from 'homepair-components';
 import { shallow, ShallowWrapper, render } from "enzyme";
 import * as React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
-import * as Mocks from "../../fixtures/StoreFixture";
-import * as Components from "../../fixtures/DummyComponents";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 import jest from "jest";
 import renderer from "react-test-renderer";
-//import { NavigationStackScreenProps, createStackNavigator } from 'react-navigation-stack';
-//import { NavigationParams } from 'react-navigation';
-import withDarkMode from "../../../src/Screens/Main/ServiceRequest/ServiceRequestScreen/ServiceRequestScreen";
-import SceneHeader from "../../../src/Screens/Components/SceneHeader/SceneHeader";
+// import { NavigationStackScreenProps, createStackNavigator } from 'react-navigation-stack';
+// import { NavigationParams } from 'react-navigation';
 import {
   withAuthPage,
   AuthPassProps,
   AuthPageInjectedProps
 } from "homepair-components";
-import PropertiesScreen from '../../../src/Screens/Main/Properties/PropertiesScreen/PropertiesScreen'
-import {AppNavigator} from "../../../src/Routes/Routes"
+import withDarkMode from "../../../src/Screens/Main/ServiceRequest/ServiceRequestScreen/ServiceRequestScreen";
+import SceneHeader from "../../../src/Screens/Components/SceneHeader/SceneHeader";
+import * as Components from "../../fixtures/DummyComponents";
+import * as Mocks from "../../fixtures/StoreFixture";
+import PropertiesScreen from '../../../src/Screens/Main/Properties/PropertiesScreen/PropertiesScreen';
+import {AppNavigator} from "../../../src/Routes/Routes";
 
 /**
  * Here we will test the HOC of withAuthPage. We will pass in some dum parameters
@@ -37,7 +37,7 @@ const passProps1: AuthPassProps = {
   highlightedText: "I am highlighted"
 };
 
-//const fakeStackNav = createStackNavigator({})
+// const fakeStackNav = createStackNavigator({})
 /*
 const navStackScrnProp1 : NavigationStackScreenProps<NavigationParams, {}> = {
   theme: 'light',
@@ -46,19 +46,19 @@ const navStackScrnProp1 : NavigationStackScreenProps<NavigationParams, {}> = {
 }
 const injectProps1 : AuthPageInjectedProps = {
     
-}*/
+} */
 
 describe("test withAuth Page", () => {
   let store: any;
-  //const navigation = jest.fn();
+  // const navigation = jest.fn();
   beforeEach(() => {
     const mockStore = configureMockStore([thunk]);
     // creates the store with any initial state or middleware needed
     store = mockStore(store1);
   });
 
-  //We have renderer working with regular components. Need to figure out how to get this to work with
-  //HOC
+  // We have renderer working with regular components. Need to figure out how to get this to work with
+  // HOC
   it("Should render the property and have behavior we should examine", () => {
     const Component = component1;
     const AuthHOC = withAuthPage(<View />, passProps1);
@@ -67,13 +67,13 @@ describe("test withAuth Page", () => {
         <AuthHOC />
     );
     expect(wrapper).not.toBe(null);
-    let elements = wrapper.getElements()
-    let props = wrapper.getElement()
-    console.log(elements)
-    wrapper.simulate('setHighlightedClick')
-    console.log(wrapper.state())
-    //expect(wrapper.find(View)).toHaveLength(5);
-    //expect(wrapper.find(TouchableOpacity)).toHaveLength(1);
+    const elements = wrapper.getElements();
+    const props = wrapper.getElement();
+    console.log(elements);
+    wrapper.simulate('setHighlightedClick');
+    console.log(wrapper.state());
+    // expect(wrapper.find(View)).toHaveLength(5);
+    // expect(wrapper.find(TouchableOpacity)).toHaveLength(1);
     expect(wrapper.find(Text)).toHaveLength(1);
   });
 });

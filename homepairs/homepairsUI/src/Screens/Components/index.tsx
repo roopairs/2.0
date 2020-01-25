@@ -6,7 +6,7 @@
  * then export it.
  */
 import { AddressStickerProps as ASP } from "./AddressSticker/AddressSticker";
-import { SceneHeaderProps as SHP } from "./SceneHeader/SceneHeader";
+import { SceneHeaderProps as SHP, renderSceneHeader } from './SceneHeader/SceneHeader';
 import { GeneralHomeInfoProps as GHIP } from "./GeneralHomeInfo/GeneralHomeInfo";
 import { AccountTypeRadioProps as ATRBP } from "./AccounttypeRadioButton/AccountTypeRadioButton";
 import { ViewPropertyCardProps as VPCP } from "./ViewPropertyCard/ViewPropertyCard";
@@ -15,21 +15,22 @@ import { ConnectAccountCardProps as CACP } from "./AuthenticationCards/ConnectAc
 import * as HomePairsHeaderProps from "./HomePairsHeader/HomePairsHeaderTemplate";
 import {
   SceneInjectedProps as SIP,
-  withSceneHeader
+  withSceneHeader,
 } from "./SceneHeader/WithSceneHeader";
 import {
   AuthPageInjectedProps as APIP,
   AuthPassProps as APP,
-  withAuthPage
+  withAuthPage,
 } from "./AuthPage/WithAuthPage";
 import {
   DarkModeInjectedProps as DMIP,
-  withDarkMode
+  withDarkMode,
 } from "./WithDarkMode/WithDarkMode";
 import {
   ModalInjectedProps as MIP,
-  withModal
+  withModal,
 } from "./Modals/WithModal/WithModal";
+
 export { default as AddressSticker } from "./AddressSticker/AddressSticker";
 export { default as SceneHeader } from "./SceneHeader/SceneHeader";
 export { default as GeneralHomeInfo } from "./GeneralHomeInfo/GeneralHomeInfo";
@@ -38,8 +39,8 @@ export { default as ViewPropertyCard } from "./ViewPropertyCard/ViewPropertyCard
 export { default as AccountConnectedCard } from "./AuthenticationCards/AccountConnectedCard";
 export { default as ConnectAccountCard } from "./AuthenticationCards/ConnectAccountCard";
 export { default as HomePairsHeader } from "./HomePairsHeader/HomePairsHeader";
-export { AddNewPropertyModal } from "./Modals/AddNewPropertyModal/AddNewPropertyModal";
-export { PrefferedProviderModal } from "./Modals/ServiceRequestModal/PrefferedProviderModal";
+export { default as AddNewPropertyModal } from "./Modals/AddNewPropertyModal/AddNewPropertyModal";
+export { default as PrefferedProviderModal } from "./Modals/ServiceRequestModal/PrefferedProviderModal";
 
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows
@@ -64,4 +65,5 @@ export {
   withSceneHeader,
   withDarkMode,
   withModal,
+  renderSceneHeader,
 };

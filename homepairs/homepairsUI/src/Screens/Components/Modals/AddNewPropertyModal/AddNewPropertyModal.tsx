@@ -1,34 +1,11 @@
-import { View, ActivityIndicator, Platform, StyleSheet } from "react-native";
-import React, { Component } from "react";
+import {ActivityIndicator, StyleSheet } from "react-native";
+import React from "react";
 import { Card } from "homepair-elements";
-import { ModalInjectedProps } from "../WithModal/WithModal";
 import { HomePairsDimensions } from "homepair-types";
+import { ModalInjectedProps } from "../WithModal/WithModal";
 
 type Props = ModalInjectedProps;
 type State = {};
-
-export class AddNewPropertyModal extends Component<Props, State> {
-  //TODO: Handle the logic of adding a new Property to a HomePairs Account
-
-  constructor(props: Readonly<Props>) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <Card
-        showCloseButton={true}
-        title="New Property"
-        closeButtonPressedCallBack={() =>
-          this.props._onChangeModalVisibility(false)
-        }
-        containerStyle={styles.container}
-      >
-        <ActivityIndicator />
-      </Card>
-    );
-  }
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -43,5 +20,23 @@ const styles = StyleSheet.create({
     maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
     width: '100%',
     alignSelf: 'center',
-  }
+  },
 });
+
+export default function AddNewPropertyModal(props:Props){
+  // TODO: Handle the logic of adding a new Property to a HomePairs Account
+    const {onChangeModalVisibility} = props;
+    return (
+      <Card
+        showCloseButton
+        title="New Property"
+        closeButtonPressedCallBack={() =>
+          onChangeModalVisibility(false)
+        }
+        containerStyle={styles.container}
+      >
+        <ActivityIndicator />
+      </Card>
+    );
+  }
+

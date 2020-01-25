@@ -1,8 +1,8 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
-const window = Dimensions.get('window')
+const window = Dimensions.get('window');
 
-export const LoadingModalStyles = StyleSheet.create({        
+const LoadingModalStyles = StyleSheet.create({        
     modalPallet: {
         flexDirection:'column', 
         alignContent:'center', 
@@ -24,8 +24,10 @@ export const LoadingModalStyles = StyleSheet.create({
         maxWidth: 350,
         shadowColor: '#aaa',
         shadowRadius: 10,
-        shadowOffset: {width : 1, height: 1,},
+        shadowOffset: {width : 1, height: 1},
         shadowOpacity: 200,
         elevation: 9,
-        borderRadius: 10,}
+        borderRadius: 10},
  });
+
+ export default LoadingModalStyles;

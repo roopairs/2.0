@@ -25,10 +25,10 @@
             "homepair-redux-actions": ["./src/state/actions.ts"],
             "homepair-pages": ["./src/Screens/index.ts"],
             "homepair-base-styles": ["./res/Styles/base.ts"],
-            "homepair-helpers": ["./src/utility/index.tsx"], //RENAME THIS TO SOMETHING BESIDES HELPERS
+            "homepair-helpers": ["./src/utility/index.tsx"], // RENAME THIS TO SOMETHING BESIDES HELPERS
             "homepair-components": ["./src/Screens/Components/index.tsx"]
         }
     },
-    "exclude": ["node_modules", "../tests"],
+    "exclude": ["node_modules", "../tests", "build"],
     "include": ["src", "res"]
 }

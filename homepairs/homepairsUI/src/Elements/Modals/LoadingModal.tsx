@@ -1,7 +1,7 @@
-import React, { ReactElement } from "react"
-import { View, ActivityIndicator, StatusBar, Modal } from "react-native"
+import React, { ReactElement } from "react";
+import { View, ActivityIndicator, StatusBar, Modal } from "react-native";
 import Card from '../Cards/Card';
-import {LoadingModalStyles} from './LoadingModalStyles'
+import LoadingModalStyles from './LoadingModalStyles';
 
 
 export type LoadingModalProps = {
@@ -16,7 +16,7 @@ export default function LoadingModal(props: LoadingModalProps){
         return(
             <Modal
                 animationType='fade'
-                transparent={true}
+                transparent
                 visible={props.visible}
                 onRequestClose={props.onRequestClose}>
                     <View style={styles.modalPallet}>
@@ -31,7 +31,7 @@ export default function LoadingModal(props: LoadingModalProps){
                         </Card>
                     </View>
             </Modal>
-        )
+        );
 }
 
-const styles = LoadingModalStyles
+const styles = LoadingModalStyles;
