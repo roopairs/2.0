@@ -1,3 +1,4 @@
 #!/bin/bash
+cd ..
 
-git subtree push --prefix --force HomePairsApp heroku
+git push heroku 'git subtree split --prefix HomePairsApp master':master --force
