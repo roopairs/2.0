@@ -245,6 +245,8 @@ def createProperty(request):
       else:
         return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
    else:
+      print("SD:LFJK")
+      print(request.data)
       return Response(data=returnError(INCORRECT_FIELDS))
 
 @api_view(['GET', 'POST'])
