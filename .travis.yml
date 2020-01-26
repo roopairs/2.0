@@ -18,6 +18,8 @@ jobs:
     - language: python
       python:
         - "3.7.4"
+      env:
+        - DJANGO=3.0.2 DB=postgresql
       install:
         - cd homepairs/homepairsApp
         - pip install -r requirements.txt
