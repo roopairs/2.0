@@ -118,14 +118,15 @@ export const fetchAccount = (
 
 export const generateAccountForTenant = (accountDetails: Account, password: String, navigation: any, modalSetOffCallBack?: (error?:String) => void) => {
   return async (dispatch: (arg0: any) => void) => {
-    console.log(accountDetails)
+    
+    console.log("Generate account for tenant: " + accountDetails)
       return await axios.post('http://homepairs-alpha.herokuapp.com/API/register/tenant/', {
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
-        email: accountDetails.email, 
-        phone: accountDetails.phone,
         streetAddress: accountDetails.address, 
         city: accountDetails.city,
+        email: accountDetails.email, 
+        phone: accountDetails.phone, 
         password: password, 
       })
       .then((response) => {
@@ -134,12 +135,10 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
           dispatch(fetchPropertyList(response[responseKeys.DATA][responseKeys.PROPERTIES]))
           ChooseMainPage(AccountTypes.Tenant, navigation)
         } else {
-          console.log(response)
           modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")
         }
       })
       .catch((error) => {
-        console.log(error);
         modalSetOffCallBack("Connection to the server could not be established.")
       });
   };

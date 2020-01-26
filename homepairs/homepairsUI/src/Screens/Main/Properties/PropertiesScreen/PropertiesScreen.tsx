@@ -1,27 +1,40 @@
 import { AppState } from "homepair-types";
 import { connect } from "react-redux";
-import PropertiesScreenBase, {PropertiesScreenStateProps, PropertiesScreenDispatchProps} from './PropertiesScreenBase'
-import { withScene, AddNewPropertyModal, withDarkMode } from 'homepair-components'
-import { MainAppStackType } from 'homepair-types';
-import { HeaderActions } from 'homepair-redux-actions';
-const sceneParams : MainAppStackType = { 
-  title: 'Properties', 
-  navigate: 'AccountProperties',
-  key: 'Properties',
-  button: 'Add Property',
-  buttonAction: AddNewPropertyModal
-}
+import PropertiesScreenBase, {
+  PropertiesScreenStateProps,
+  PropertiesScreenDispatchProps
+} from "./PropertiesScreenBase";
+import {
+  withSceneHeader,
+  //AddNewPropertyModal,
+  withDarkMode,
+  withModal
+} from "homepair-components";
+import { MainAppStackType } from "homepair-types";
+import { HeaderActions } from "homepair-redux-actions";
+import { View } from "react-native";
+import { AddNewPropertyModal } from '../../../Components/Modals/AddNewPropertyModal/AddNewPropertyModal';
 
-function mapStateToProps(state: AppState) : PropertiesScreenStateProps { 
+const sceneParams: MainAppStackType = {
+  title: "Properties",
+  navigate: "AccountProperties",
+  key: "Properties",
+  button: "Add Property",
+  doesButtonUseNavigate: false,
+};
+
+function mapStateToProps(state: AppState): PropertiesScreenStateProps {
   return {
     properties: state.propertyList,
     header: state.header
+  };
+}
+const mapDispatchToProps: (
+  dispatch: any
+) => PropertiesScreenDispatchProps = dispatch => ({
+  onRevealGoBack: (showBackButton: boolean) => {
+    dispatch(HeaderActions.showGoBackButton(showBackButton));
   }
-};
-const mapDispatchToProps: (dispatch:any) => PropertiesScreenDispatchProps = dispatch => ({
-  onRevealGoBack: (showBackButton:boolean) => {
-      dispatch(HeaderActions.showGoBackButton(showBackButton));
-  },
 });
 
 const PropertiesScreen = connect(
@@ -29,4 +42,4 @@ const PropertiesScreen = connect(
   mapDispatchToProps
 )(PropertiesScreenBase);
 
-export default withDarkMode(withScene(PropertiesScreen, sceneParams));
+export default withDarkMode(withModal(withSceneHeader(PropertiesScreen, sceneParams), AddNewPropertyModal));

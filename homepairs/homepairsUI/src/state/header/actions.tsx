@@ -1,7 +1,7 @@
 import { 
     ToggleMenuAction,
     SwitchDropDownNavBarAction,
-    ShowGoBackButtonAction,
+    ShowGoBack_onButtonClick,
     UpdateSelectedPageAction,
     MainAppStackType,
 } from '../types';
@@ -27,7 +27,7 @@ export const switchDropdownNavbar = (isDropDown: boolean): SwitchDropDownNavBarA
     }
 };
 
-export const showGoBackButton = (showBackButton: boolean): ShowGoBackButtonAction =>{
+export const showGoBackButton = (showBackButton: boolean): ShowGoBack_onButtonClick =>{
     return {
       type : HEADER_ACTION_TYPES.SHOW_GOBACK_BUTTON,
       showBackButton: showBackButton,

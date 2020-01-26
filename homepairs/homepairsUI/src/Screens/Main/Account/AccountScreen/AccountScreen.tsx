@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { AccountActions } from 'homepair-redux-actions';
 import AccountScreenBase from './AccountScreenBase';
 import { AccountScreenStateProps, AccountScreenDispatchProps } from './AccountScreenBase';
-import { withScene, withDarkMode} from 'homepair-components'
+import { withSceneHeader, withDarkMode} from 'homepair-components'
+import React from 'react'
 
 const sceneParam : MainAppStackType = {  
     title: 'Account Settings',
@@ -29,4 +30,4 @@ const AccountScreen = connect(
   mapDispatchToProps,
 )(AccountScreenBase);
 
-export default withDarkMode(withScene(AccountScreen,  sceneParam));
+export default withDarkMode(withSceneHeader(AccountScreen, sceneParam));

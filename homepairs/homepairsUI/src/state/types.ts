@@ -1,4 +1,5 @@
 import { Dimensions } from "react-native";
+import { ReactElement, Context } from "react";
 
 /**-------------------Property Types-------------------**/
 export type Property = {
@@ -154,7 +155,8 @@ export type MainAppStackType = {
     navigate: string, 
     key: string, 
     button?: string,
-    buttonAction?: (any) => any
+    _onButtonClick?: (arg0?:any) => any
+    doesButtonUseNavigate?: boolean
 }
 
 export type Header = {
@@ -177,7 +179,7 @@ export type SwitchDropDownNavBarAction = {
     isDropDown: boolean
 }
 
-export type ShowGoBackButtonAction = {
+export type ShowGoBack_onButtonClick = {
     type: string, 
     showBackButton: boolean
 }
@@ -188,7 +190,7 @@ export type UpdateSelectedPageAction = {
 }
 
 export type HeaderAction = ToggleMenuAction | SwitchDropDownNavBarAction 
-| ShowGoBackButtonAction | UpdateSelectedPageAction
+| ShowGoBack_onButtonClick | UpdateSelectedPageAction
 /**-------------------Header Types-------------------**/
 
 /**-------------------Setting Types-------------------**/
@@ -230,6 +232,7 @@ export type AppState = {
 export enum HomePairsDimensions {
     DROP_MENU_WIDTH = 700,
     MAX_PALLET = 700,
+    MIN_PALLET = 360,
     MAX_CONTENT_SIZE = 500,
     MIN_CONTENT_SIZE = 300,
     MAX_BUTTON_WIDTH = 300,
