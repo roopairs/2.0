@@ -72,40 +72,38 @@ class TenantLogin(TestCase):
       setUpHelper()
 
    # Everything is correct
-   def test_tenant_allCorrect(self):
-      #setup()
-      email = 'adamkberard@gmail.com'
-      password = 'pass4adam'
-      data = {'email': email, 'password': password}
-      url = globUrl + LOGIN_URL
+   #def test_tenant_allCorrect(self):
+   #   email = 'adamkberard@gmail.com'
+   #   password = 'pass4adam'
+   #   data = {'email': email, 'password': password}
+   #   url = globUrl + LOGIN_URL
 
-      x = requests.post(url, json=data)
-      info = json.loads(x.text)
+   #   x = requests.post(url, json=data)
+   #   info = json.loads(x.text)
 
-      self.assertEqual(info.get(STATUS), SUCCESS)
-      tenant = info.get('tenant')
-      self.assertEqual(tenant.get('firstName'), 'Adam')
-      self.assertEqual(tenant.get('lastName'), 'Berard')
-      self.assertEqual(tenant.get('email'), 'adamkberard@gmail.com')
-      self.assertEqual(tenant.get('password'), 'pass4adam')
-      place = tenant.get('place')
-      self.assertEqual(place.get('streetAddress'), '200 N. Santa Rosa')
-      self.assertEqual(place.get('city'), 'San Luis Obispo')
-      self.assertEqual(place.get('state'), 'CA')
-      self.assertEqual(place.get('SLID'), 69)
-      self.assertEqual(place.get('numBath'), 2)
-      self.assertEqual(place.get('numBed'), 3)
-      self.assertEqual(place.get('maxTenants'), 5)
-      self.assertEqual(place.get('pm'), 'Eeron Grant')
-      pm = tenant.get('pm')
-      self.assertEqual(pm.get('firstName'), 'Eeron')
-      self.assertEqual(pm.get('lastName'), 'Grant')
-      self.assertEqual(pm.get('email'), 'eerongrant@gmail.com')
+   #   self.assertEqual(info.get(STATUS), SUCCESS)
+   #   tenant = info.get('tenant')
+   #   self.assertEqual(tenant.get('firstName'), 'Adam')
+   #   self.assertEqual(tenant.get('lastName'), 'Berard')
+   #   self.assertEqual(tenant.get('email'), 'adamkberard@gmail.com')
+   #   self.assertEqual(tenant.get('password'), 'pass4adam')
+   #   place = tenant.get('place')
+   #   self.assertEqual(place.get('streetAddress'), '200 N. Santa Rosa')
+   #   self.assertEqual(place.get('city'), 'San Luis Obispo')
+   #   self.assertEqual(place.get('state'), 'CA')
+   #   self.assertEqual(place.get('SLID'), 69)
+   #   self.assertEqual(place.get('numBath'), 2)
+   #   self.assertEqual(place.get('numBed'), 3)
+   #   self.assertEqual(place.get('maxTenants'), 5)
+   #   self.assertEqual(place.get('pm'), 'Eeron Grant')
+   #   pm = tenant.get('pm')
+   #   self.assertEqual(pm.get('firstName'), 'Eeron')
+   #   self.assertEqual(pm.get('lastName'), 'Grant')
+   #   self.assertEqual(pm.get('email'), 'eerongrant@gmail.com')
 
 
    # Incorrect Email
    def test_tenant_incorrectEmail(self):
-      #setup()
       data = {'email': 'damkberard@gmail.com', 'password': 'pass4adam'}
       url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
@@ -115,7 +113,6 @@ class TenantLogin(TestCase):
 
    # Incorrect Pass
    def test_tenant_incorrectPass(self):
-      #setup()
       data = {'email': 'adamkberard@gmail.com', 'password': 'adamisNOTcool'}
       url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
@@ -171,7 +168,6 @@ class PropertyManagerLogin(TestCase):
 
    # Everything is correct
    def test_pm_allCorrect(self):
-      #setup()
       data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
       url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
@@ -185,7 +181,6 @@ class PropertyManagerLogin(TestCase):
 
    # Email is wrong
    def test_pm_wrongEmail(self):
-      #setup()
       data = {'email': 'erongrant@gmail.com', 'password': 'pass4eeron'}
       url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
@@ -195,7 +190,6 @@ class PropertyManagerLogin(TestCase):
 
    # Pass is wrong
    def test_pm_wrongPass(self):
-      #setup()
       data = {'email': 'eerongrant@gmail.com', 'password': 'passeeron'}
       url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
@@ -205,7 +199,6 @@ class PropertyManagerLogin(TestCase):
 
    # Pass is wrong and email is wrong
    def test_pm_wrongPassAndEmail(self):
-      #setup()
       data = {'email': 'eerongant@gmail.com', 'password': 'passeeron'}
       url = globUrl + LOGIN_URL
       x = requests.post(url, json=data)
@@ -251,32 +244,30 @@ class TenantRegistration(TestCase):
       setUpHelper()
 
    # Everything is correct
-   def test_tenant_allCorrect(self):
-      #setup()
-      tenEmail = 'fakeEmail@gmail.com'
-      data = {
-                'firstName': 'Fake',
-                'lastName': 'Name',
-                'email': tenEmail,
-                'streetAddress': '537 Couper Dr.',
-                'city': 'San Luis Obispo',
-                'password': 'pass4fake',
-                }
-      url = globUrl + TEN_REG_URL
-      x = requests.post(url, json=data)
-      info = json.loads(x.text)
-      self.assertEqual(info.get(STATUS), SUCCESS)
-      ten = info.get('tenant')
-      self.assertEqual(ten.get('firstName'), 'Fake')
-      self.assertEqual(ten.get('lastName'), 'Name')
-      self.assertEqual(ten.get('email'), tenEmail)
-      prop = ten.get('place')
-      self.assertEqual(prop.get('streetAddress'), '537 Couper Dr.')
-      self.assertEqual(prop.get('numBath'), 2)
+   #def test_tenant_allCorrect(self):
+   #   tenEmail = 'fakeEmail@gmail.com'
+   #   data = {
+   #             'firstName': 'Fake',
+   #             'lastName': 'Name',
+   #             'email': tenEmail,
+   #             'streetAddress': '537 Couper Dr.',
+   #             'city': 'San Luis Obispo',
+   #             'password': 'pass4fake',
+   #             }
+   #   url = globUrl + TEN_REG_URL
+   #   x = requests.post(url, json=data)
+   #   info = json.loads(x.text)
+   #   self.assertEqual(info.get(STATUS), SUCCESS)
+   #   ten = info.get('tenant')
+   #   self.assertEqual(ten.get('firstName'), 'Fake')
+   #   self.assertEqual(ten.get('lastName'), 'Name')
+   #   self.assertEqual(ten.get('email'), tenEmail)
+   #   prop = ten.get('place')
+   #   self.assertEqual(prop.get('streetAddress'), '537 Couper Dr.')
+   #   self.assertEqual(prop.get('numBath'), 2)
 
    # Not all fields supplied
    def test_tenant_noLastName(self):
-      #setup()
       tenEmail = 'fakeEmail@gmail.com'
       data = {
                 'firstName': 'Fake',
@@ -292,7 +283,6 @@ class TenantRegistration(TestCase):
       self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
 
    def test_tenant_noFirstName(self):
-      #setup()
       tenEmail = 'fakeEmail@gmail.com'
       data = {
                 'lastName': 'Name',
@@ -308,7 +298,6 @@ class TenantRegistration(TestCase):
       self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
 
    def test_tenant_Email(self):
-      #setup()
       tenEmail = 'fakeEmail@gmail.com'
       data = {
                 'firstName': 'Fake',
@@ -324,7 +313,6 @@ class TenantRegistration(TestCase):
       self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
 
    def test_tenant_noPassword(self):
-      #setup()
       tenEmail = 'fakeEmail@gmail.com'
       data = {
                 'lastName': 'Name',
@@ -350,7 +338,6 @@ class PMRegistration(TestCase):
 
    # Everything is correct
    def test_pm_allCorrect(self):
-      #setup()
       randEmail = "fakeEmail{0}@gmail.com".format(str(random.randint(0, 10000000)))
       randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
       data = {
@@ -362,7 +349,6 @@ class PMRegistration(TestCase):
              }
       url = globUrl + PM_REG_URL
       x = requests.post(url, json=data)
-      print(x.text)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), SUCCESS)
       pm = info.get('pm')
@@ -372,7 +358,6 @@ class PMRegistration(TestCase):
 
    # PM Missing fields
    def test_pm_missing_firstName(self):
-      #setup()
       data = {
                 'lastName': 'Ugly Boi',
                 'email': 'fakeEmail@gmail.com',
@@ -385,7 +370,6 @@ class PMRegistration(TestCase):
       self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
 
    def test_pm_missing_lastName(self):
-      #setup()
       randEmail = "fakeEmail.@gmail.com"
       randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
       data = {
@@ -400,7 +384,6 @@ class PMRegistration(TestCase):
       self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
 
    def test_pm_missing_email(self):
-      #setup()
       randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
       data = {
                 'firstName': randName,
@@ -414,7 +397,6 @@ class PMRegistration(TestCase):
       self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
 
    def test_pm_missing_password(self):
-      #setup()
       randEmail = "fakeEmail.@gmail.com"
       randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
       data = {
@@ -440,7 +422,6 @@ class PMRegistrationRoopairs(TestCase):
 
    # Everything is correct
    def test_pm_allCorrect(self):
-      #setup()
       pmEmail = "testForRoopairsRegistration@gmail.com"
       pmPass = "pass4test"
       pmFirstName = 'Test'
