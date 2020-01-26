@@ -1,4 +1,4 @@
 #!/bin/bash
-cd ../..
+cd ..
 
-git subtree push --prefix homepairs/HomePairsApp heroku Sprint2-Heroku:master
+git subtree push --prefix HomePairsApp heroku master
