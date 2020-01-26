@@ -64,7 +64,7 @@ def getTenant(tenantEmail, tenantPassword):
 
 def getProperty(pmEmail, streetAddress, city, state):
     pmList = PropertyManager.objects.filter(email=pmEmail)
-    if pmList.exists() && pmList.count() == 1:
+    if pmList.exists() and pmList.count() == 1:
       pm = pmList[0]
       propList = Property.objects.filter(streetAddress=streetAddress, city=city, state=state, pm=pm)
       if propList.exists():
