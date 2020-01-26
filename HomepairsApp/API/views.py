@@ -230,23 +230,26 @@ def createProperty(request):
       maxTenants = request.data.get('maxTenants')
       isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
       if not isMade.exists():
-        prop = Property(streetAddress=streetAddress,
+        pmList = PropertyManager.objects.filter(email=pmEmail)
+        if pmList.exists() and pmList.count() == 1:
+          pm = pmList[0]
+          prop = Property(streetAddress=streetAddress,
                      city=city,
                      state=state,
                      numBed=numBed,
                      numBath=numBath,
                      maxTenants=maxTenants,
                      pm = pm)
-        prop.save()
-        data = {
+          prop.save()
+          data = {
                   STATUS: SUCCESS
-               }
-        return Response(data=data)
+                 }
+          return Response(data=data)
+        else:
+          return Response(data=returnError(INCORRECT_FIELDS))
       else:
         return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
    else:
-      print("SD:LFJK")
-      print(request.data)
       return Response(data=returnError(INCORRECT_FIELDS))
 
 @api_view(['GET', 'POST'])

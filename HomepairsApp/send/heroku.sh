@@ -1,3 +1,3 @@
 #!/bin/bash
 
-git push --force heroku master
+git subtree push --prefix --force HomePairsApp heroku
