@@ -24,6 +24,7 @@ from .views import INVALID_PROPERTY, NON_FIELD_ERRORS, TOKEN, RESIDENTIAL_CODE
 
 globUrl = 'http://localhost:8000/API/'
 globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
+globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
 
 # EXTRA URLS
 LOGIN_URL = 'login/'
