@@ -29,6 +29,8 @@ globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
 LOGIN_URL = 'login/'
 PM_REG_URL = 'register/pm/'
 TEN_REG_URL = 'register/tenant/'
+CRE_PROP_URL = 'property/create/'
+VIEW_PROP_URL = 'property/read/'
 
 # MODEL FIELDS
 # Tenant
@@ -48,7 +50,7 @@ def setUpHelper():
    data = {'email': email, 'password': password}
    url = globUrl + 'setUpTests/'
    requests.post(url, json=data)
-   
+
 def tearDownHelper():
    email = 'adamkberard@gmail.com'
    password = 'pass4testing'
@@ -443,7 +445,7 @@ class PMRegistrationRoopairs(TestCase):
       pmPass = "pass4test"
       pmFirstName = 'Test'
       pmLastName = 'RooRegistration'
-      
+
       data = {
                 'email': pmEmail,
                 'password': 'pass4test',
@@ -459,3 +461,56 @@ class PMRegistrationRoopairs(TestCase):
       self.assertEqual(pm.get('lastName'), pmLastName)
       self.assertEqual(pm.get('email'), pmEmail)
       PropertyManager.objects.filter(email=pmEmail).delete()
+
+
+class PropertyCRUD(TestCase):
+   def setUp(self):
+      setUpHelper()
+   def tearDown(self):
+      tearDownHelper()
+   @classmethod
+   def tearDownClass(self):
+      setUpHelper()
+
+   # Everything is correct
+   def test_create_property_allCorrect(self):
+      #setup()
+      streetAddress = '1 Grand Ave'
+      city = 'SLO'
+      state = 'CA'
+      numBed = 3
+      numBath = 1
+      maxTenants = 3
+      pmEmail = 'adamberard99@gmail.com'
+
+      data = {
+                'streetAddress': streetAddress,
+                'city': city,
+                'state': state,
+                'numBed': numBed,
+                'numBath': numBath,
+                'maxTenants': maxTenants,
+                'pm': pmEmail,
+             }
+      url = globUrl + CRE_PROP_URL
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), SUCCESS)
+
+      data = {
+                'streetAddress': streetAddress,
+                'city': city,
+                'state': state,
+                'pm': pmEmail,
+             }
+      url = globUrl + VIEW_PROP_URL
+      x = requests.post(url, json=data)
+
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), SUCCESS)
+      self.assertEqual(pm.get('streetAddress'), streetAddress)
+      self.assertEqual(pm.get('city'), city)
+      self.assertEqual(pm.get('state'), state)
+      self.assertEqual(pm.get('numBed'), numBed)
+      self.assertEqual(pm.get('numBath'), numBath)
+      self.assertEqual(pm.get('maxTenants'), maxTenants)

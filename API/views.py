@@ -9,6 +9,7 @@ import json
 #
 INCORRECT_FIELDS = 'Incorrect fields'
 MULTIPLE_ACCOUNTS = 'Multiple Accounts Detected'
+MULTIPLE_PROPERTIES = 'Multiple properties with same address found'
 STATUS = 'status'
 SUCCESS = 'success'
 FAIL = 'failure'
@@ -61,6 +62,22 @@ def getTenant(tenantEmail, tenantPassword):
       return {STATUS: FAIL, ERROR: MULTIPLE_ACCOUNTS}
    return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
 
+def getProperty(pmEmail, streetAddress, city, state):
+    pmList = PropertyManager.objects.filter(email=pmEmail)
+    if pmList.exists() && pmList.count() == 1:
+      pm = pmList[0]
+      propList = Property.objects.filter(streetAddress=streetAddress, city=city, state=state, pm=pm)
+      if propList.exists():
+         if propList.count() == 1:
+            prop = propList[0]
+            return {
+                      STATUS: SUCCESS,
+                      'prop': prop.toDictNoRecurs(),
+                   }
+         return {STATUS: FAIL, ERROR: MULTIPLE_PROPERTIES}
+      return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
+   return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
+
 def pmLogin(request):
    url = BASE_URL + 'auth/login/'
 
@@ -103,37 +120,6 @@ def tenantLogin(request):
       return getTenant(tenantEmail, tenantPass)
    else:
       return returnError(INCORRECT_FIELDS)
-
-@api_view(['GET', 'POST'])
-def createProperty(request):
-   if ('streetAddress' in request.data and 'city' in request.data and 'state' in request.data
-    and 'pm' in request.data and 'numBed' in request.data and 'numBath' in request.data
-    and 'maxTenants' in request.data):
-      streetAddress = request.data.get('streetAddress')
-      city = request.data.get('city')
-      state = request.data.get('state')
-      pm = request.data.get('pm')
-      numBed = request.data.get('numBed')
-      numBath = request.data.get('numBath')
-      maxTenants = request.data.get('maxTenants')
-      isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
-      if not isMade.exists():
-        prop = Property(streetAddress=streetAddress,
-                     city=city,
-                     state=state,
-                     numBed=numBed,
-                     numBath=numBath,
-                     maxTenants=maxTenants,
-                     pm = pm)
-        prop.save()
-        data = {
-                  STATUS: SUCCESS
-               }
-        return Response(data=data)
-      else:
-        return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
-   else:
-      return Response(data=returnError(INCORRECT_FIELDS))
 
 ################################################################################
 # Views / API Endpoints
@@ -229,6 +215,48 @@ def pmRegister(request):
          return Response(data=info)
    else:
       return Response(data=returnError(INCORRECT_FIELDS))
+
+@api_view(['GET', 'POST'])
+def createProperty(request):
+   if ('streetAddress' in request.data and 'city' in request.data and 'state' in request.data
+    and 'pm' in request.data and 'numBed' in request.data and 'numBath' in request.data
+    and 'maxTenants' in request.data):
+      streetAddress = request.data.get('streetAddress')
+      city = request.data.get('city')
+      state = request.data.get('state')
+      pm = request.data.get('pm')
+      numBed = request.data.get('numBed')
+      numBath = request.data.get('numBath')
+      maxTenants = request.data.get('maxTenants')
+      isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
+      if not isMade.exists():
+        prop = Property(streetAddress=streetAddress,
+                     city=city,
+                     state=state,
+                     numBed=numBed,
+                     numBath=numBath,
+                     maxTenants=maxTenants,
+                     pm = pm)
+        prop.save()
+        data = {
+                  STATUS: SUCCESS
+               }
+        return Response(data=data)
+      else:
+        return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
+   else:
+      return Response(data=returnError(INCORRECT_FIELDS))
+
+@api_view(['GET', 'POST'])
+def viewProperty(request):
+   if ('streetAddress' in request.data and 'city' in request.data and 'state' in request.data
+    and 'pm' in request.data):
+      streetAddress = request.data.get('streetAddress')
+      city = request.data.get('city')
+      state = request.data.get('state')
+      pmEmail = request.data.get('pm')
+      prop = getProperty(pmEmail, streetAddress, city, state)
+      return Response(data=prop)
 
 @api_view(['GET', 'POST'])
 def setUpTests(request):
