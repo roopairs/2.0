@@ -76,7 +76,7 @@ def getProperty(pmEmail, streetAddress, city, state):
                    }
          return {STATUS: FAIL, ERROR: MULTIPLE_PROPERTIES}
       return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
-   return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
+    return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
 
 def pmLogin(request):
    url = BASE_URL + 'auth/login/'
