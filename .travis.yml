@@ -21,7 +21,7 @@ jobs:
       env:
         - DJANGO=3.0.2 DB=postgresql
       install:
-        - cd homepairs/homepairsApp
+        - cd homepairs/HomepairsApp
         - pip install -r requirements.txt
       script:
         - ./runTests.sh
