@@ -1,12 +1,12 @@
-import { AppState, MainAppStackType } from 'homepair-types';
+import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
 import {
     withSceneHeader,
     withDarkMode,
     withModal,
     AddNewPropertyModal,
-} from 'homepair-components';
-import { HeaderActions } from 'homepair-redux-actions';
+} from 'homepairs-components';
+import { HeaderActions, PropertyListActions } from 'homepairs-redux-actions';
 import PropertiesScreenBase, {
     PropertiesScreenStateProps,
     PropertiesScreenDispatchProps,
@@ -22,7 +22,7 @@ const sceneParams: MainAppStackType = {
 
 function mapStateToProps(state: AppState): PropertiesScreenStateProps {
     return {
-        properties: state.propertyList,
+        propertyState: state.propertyList,
         header: state.header,
     };
 }
@@ -31,6 +31,9 @@ const mapDispatchToProps: (
 ) => PropertiesScreenDispatchProps = dispatch => ({
     onRevealGoBack: (showBackButton: boolean) => {
         dispatch(HeaderActions.showGoBackButton(showBackButton));
+    },
+    onSelectProperty: (selectedPropertyIndex: number) => {
+        dispatch(PropertyListActions.setSelectedProperty(selectedPropertyIndex));
     },
 });
 

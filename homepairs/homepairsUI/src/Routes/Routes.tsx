@@ -5,9 +5,9 @@ import {
     MainAppPages,
     LoadingScreen,
     AuthenticationPages,
-} from 'homepair-pages';
+} from 'homepairs-pages';
 import { View } from 'react-native';
-import { HomePairsHeader } from 'homepair-components';
+import { HomePairsHeader } from 'homepairs-components';
 
 const navigationHeader = () => ({
     header: () => {

@@ -3,16 +3,16 @@ import {
     InputFormProps,
     LoginButton,
     renderInputForm,
-} from 'homepair-elements';
+} from 'homepairs-elements';
 import {
     AccountTypeRadioButton,
     DarkModeInjectedProps,
     AuthPageInjectedProps,
-} from 'homepair-components';
-import strings from 'homepair-strings';
-import { AccountTypes, Account } from 'homepair-types';
+} from 'homepairs-components';
+import strings from 'homepairs-strings';
+import { AccountTypes, Account } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import * as BaseStyles from 'homepair-base-styles';
+import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet, View, Text } from 'react-native';
 
 export type SignUpViewDispatchProps = {

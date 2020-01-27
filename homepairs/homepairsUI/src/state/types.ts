@@ -10,11 +10,19 @@ export type Property = {
     bathrooms: number,
 }
 
-export type PropertyListState = Property[];
+export type PropertyListState = 
+{
+    selectedPropertyIndex?: number, 
+    properties: Property[]
+};
 
 export type AddPropertyAction = {
     type: string;
     userData: Property;
+};
+export type SetSelectedPropertyAction = {
+    type: string;
+    index: number;
 };
 export type UpdatePropertyAction = {
     type: string;
@@ -28,7 +36,7 @@ export type RemovePropertyAction = {
 
 export type FetchPropertyAction = {
     type: string;
-    properties: PropertyListState;
+    properties: Property[];
 };
 
 /* Union type for the Property Lists. This will be used for the reducer. */
@@ -36,6 +44,7 @@ export type PropertyListAction =
     | AddPropertyAction
     | UpdatePropertyAction
     | RemovePropertyAction
+    | SetSelectedPropertyAction
     | FetchPropertyAction;
 /* *-------------------Property Types-------------------* */
 
@@ -235,10 +244,10 @@ export type AppState = {
     settings: SettingsState;
     // add future state slices here
 }
-/**-------------------App State-------------------**/
+/* *-------------------App State-------------------* */
 
 
-/**-------------------Misc Types-------------------**/
+/* *-------------------Misc Types-------------------* */
 export enum HomePairsDimensions {
     DROP_MENU_WIDTH = 700,
     MAX_PALLET = 700,
@@ -273,7 +282,7 @@ enum HOMEPAIRS_LOGIN_STATUS {
 }
 
 enum HOMEPAIRS_PROPERTY_KEYS {
-    ADDRESS = 'address',
+    ADDRESS = 'streetAddress',
     CITY = 'city', 
     STATE = 'state',
     TENANTS = 'maxTenants',

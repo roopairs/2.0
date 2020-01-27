@@ -1,10 +1,10 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text, View } from 'react-native';
-import { ThinButtonProps, renderThinButton } from 'homepair-elements';
-import { HomePairFonts } from 'homepair-fonts';
-import strings from 'homepair-strings';
-import * as BaseStyles from 'homepair-base-styles';
-import { HomePairsDimensions } from 'homepair-types';
+import { ThinButtonProps, renderThinButton } from 'homepairs-elements';
+import { HomePairFonts } from 'homepairs-fonts';
+import strings from 'homepairs-strings';
+import * as BaseStyles from 'homepairs-base-styles';
+import { HomePairsDimensions } from 'homepairs-types';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 
 export type GeneralHomeInfoProps = DarkModeInjectedProps & {

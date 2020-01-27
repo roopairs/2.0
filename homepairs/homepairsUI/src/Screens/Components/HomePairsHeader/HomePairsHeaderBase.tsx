@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import { SafeAreaView, StackActions } from 'react-navigation';
-import * as BaseStyles from 'homepair-base-styles';
+import * as BaseStyles from 'homepairs-base-styles';
 import {
     HomePairsHeaderTemplate,
     HomePairsHeaderProps,

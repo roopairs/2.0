@@ -1,14 +1,14 @@
 import React, { Component } from "react"
 import { Text, ScrollView, StyleSheet, SafeAreaView } from "react-native"
-import HomePairColors from 'homepair-colors';
-import {InputForm, InputFormProps, ThinButton, ThinButtonProps } from 'homepair-elements';
-import strings from 'homepair-strings';
-import * as BaseStyles from 'homepair-base-styles';
+import HomePairColors from 'homepairs-colors';
+import {InputForm, InputFormProps, ThinButton, ThinButtonProps } from 'homepairs-elements';
+import strings from 'homepairs-strings';
+import * as BaseStyles from 'homepairs-base-styles';
 import Card from '../../../../Elements/Cards/Card';
-import { HomePairsDimensions, Property } from 'homepair-types';
-import Colors from 'homepair-colors';
+import { HomePairsDimensions, Property } from 'homepairs-types';
+import Colors from 'homepairs-colors';
 import {ModalInjectedProps} from '../WithModal/WithModal';
-import { AuthPageInjectedProps, DarkModeInjectedProps } from 'homepair-components';
+import { AuthPageInjectedProps, DarkModeInjectedProps } from 'homepairs-components';
 
 
 export type AddNewPropertyDispatchProps = {

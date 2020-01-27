@@ -1,4 +1,4 @@
-// import {withAuthPage, AuthPassProps, AuthPageInjectedProps} from 'homepair-components';
+// import {withAuthPage, AuthPassProps, AuthPageInjectedProps} from 'homepairs-components';
 import { shallow, ShallowWrapper, render } from "enzyme";
 import * as React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
@@ -13,7 +13,7 @@ import {
   withAuthPage,
   AuthPassProps,
   AuthPageInjectedProps
-} from "homepair-components";
+} from "homepairs-components";
 import withDarkMode from "../../../src/Screens/Main/ServiceRequest/ServiceRequestScreen/ServiceRequestScreen";
 import SceneHeader from "../../../src/Screens/Components/SceneHeader/SceneHeader";
 import * as Components from "../../fixtures/DummyComponents";

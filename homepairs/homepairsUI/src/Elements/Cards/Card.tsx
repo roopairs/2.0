@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { HomePairFonts } from 'homepair-fonts';
+import { HomePairFonts } from 'homepairs-fonts';
 
 export type CardProps = {
     children?: ReactElement[] | ReactElement;

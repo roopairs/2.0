@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { ServiceState, HeaderState } from 'homepair-types';
-import strings from 'homepair-strings';
+import { ServiceState, HeaderState } from 'homepairs-types';
+import strings from 'homepairs-strings';
 
 export type ServiceRequestScreenStateProps = {
     serviceRequests: ServiceState;

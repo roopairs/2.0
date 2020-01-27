@@ -1,6 +1,6 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { Card, renderThinButton } from 'homepair-elements';
-import strings from 'homepair-strings';
+import { Card, renderThinButton } from 'homepairs-elements';
+import strings from 'homepairs-strings';
 import setStyles from './ConnectCardStyles';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 

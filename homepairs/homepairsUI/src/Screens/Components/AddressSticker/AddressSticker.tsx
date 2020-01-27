@@ -1,7 +1,7 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text } from 'react-native';
-import { Sticker } from 'homepair-elements';
-import { ColorTheme, FontTheme, ContentWidth, MarginPadding, LightColorTheme} from 'homepair-base-styles';
+import { Sticker } from 'homepairs-elements';
+import { ColorTheme, FontTheme, ContentWidth, MarginPadding, LightColorTheme} from 'homepairs-base-styles';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 
 export type AddressStickerProps = DarkModeInjectedProps & {

@@ -1,7 +1,7 @@
 /*
 import React from 'react';
 import { connect } from "react-redux";
-import { PropertyListActions } from 'homepair-redux-actions';
+import { PropertyListActions } from 'homepairs-redux-actions';
 import EditPropertyModalBase, {EditPropertyDispatchProps} from './EditPropertyModalBase';
 import { Property, AppState } from 'src/state/types';
 
