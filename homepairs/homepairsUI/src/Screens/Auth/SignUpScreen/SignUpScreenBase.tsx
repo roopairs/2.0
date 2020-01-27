@@ -269,7 +269,7 @@ export default class SignUpScreenBase extends React.Component<
 
     renderLoginButton(accountType: AccountTypes) {
         return accountType === AccountTypes.Landlord ? (
-            <View style={{marginTop: 20}}>
+            <View style={{marginTop: BaseStyles.MarginPadding.large}}>
                 <LoginButton
                     name="Login with your Roopairs Account"
                     onClick={this.toRoopairsLogin}
