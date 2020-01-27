@@ -21,6 +21,7 @@ export enum PROPERTY_LIST_ACTION_TYPES {
 
 export const addProperty = (newProperty: Property): AddPropertyAction => 
 {
+  console.log(newProperty);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY,
     userData: newProperty

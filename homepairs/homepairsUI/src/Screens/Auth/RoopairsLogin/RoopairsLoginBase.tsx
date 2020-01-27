@@ -48,30 +48,6 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
     });
 }
 
-function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
-    const colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme
-    return StyleSheet.create({
-        formTitle: {
-            marginVertical: '3.5%', 
-            fontFamily: BaseStyles.FontTheme.primary, 
-            color: colors.lightGray,
-          },
-        input: {
-             alignItems: 'center',
-             alignSelf: 'center',
-             margin: BaseStyles.MarginPadding.xsmallConst,
-             minWidth:40,
-             width: BaseStyles.ContentWidth.max,
-             height: 40,
-             color: colors.tertiary,
-             borderColor: colors.lightGray,
-             borderWidth: 1,
-             borderRadius: BaseStyles.BorderRadius.small,
-             paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
-        },
-    })
-}
-
 export default class RoopairsLoginBase extends React.Component<LoginProps, LoginState> {
     inputFormStyle: { formTitle: any; input: any; }
 

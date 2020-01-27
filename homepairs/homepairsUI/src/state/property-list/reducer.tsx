@@ -25,13 +25,13 @@ export const propertyList = (
   let property = null;
   let updateIndex:number = null;
   let updatedState = null;
-  const newState = {...state, modalOpen: true };
+  const newState = [...state];
 
   switch (action.type){
       case PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY:
             // pay attention to type-casting on action
             property = (action as AddPropertyAction).userData;
-            return [...newState, property ];
+            return [...state, property];
       case PROPERTY_LIST_ACTION_TYPES.REMOVE_PROPERTY: 
             updateIndex = (action as RemovePropertyAction).index;
             return newState.filter((_item, propIndex) => propIndex !== updateIndex);
