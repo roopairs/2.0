@@ -73,28 +73,6 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
 }
 
 export default class RoopairsLoginBase extends React.Component<LoginProps, LoginState> {
-<<<<<<< HEAD
-    protected inputFormStyle 
-
-    constructor(props: Readonly<LoginProps>){
-        super(props)
-        this.inputFormStyle = setInputStyles(props.primaryColorTheme)
-        this.getFormUsername = this.getFormUsername.bind(this)
-        this.getFormPassword = this.getFormPassword.bind(this)
-        this.setModalOff = this.setModalOff.bind(this)
-        this.navigateMain = this.navigateMain.bind(this)
-        this.clickButton = this.clickButton.bind(this)
-        this.clickHighlightedText = this.clickHighlightedText.bind(this)
-        this.state = initialState
-        
-        this.props.clickButton(this.clickButton)
-        this.props.clickHighlightedText(this.clickHighlightedText)
-    }
-
-    setModalOff(error:string = "Error Message") {
-        this.props.showModal(false)
-        this.props.setErrorState(true, error)
-=======
     inputFormStyle: { formTitle: any; input: any; }
 
     constructor(props: Readonly<LoginProps>){
@@ -116,7 +94,6 @@ export default class RoopairsLoginBase extends React.Component<LoginProps, Login
         const {showModal, setErrorState} = this.props;
         showModal(false);
         setErrorState(true, error);
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
     }
 
     
@@ -129,18 +106,6 @@ export default class RoopairsLoginBase extends React.Component<LoginProps, Login
     }
 
     navigateMain() {
-<<<<<<< HEAD
-        this.props.navigation.navigate('Main')
-    }
-
-    clickHighlightedText() {
-        this.props.navigation.navigate('SignUp')
-    }
-
-    clickButton() {
-        this.props.showModal(true)
-        this.props.onFetchAccountProfile(this.state.username, this.state.password, this.setModalOff, this.navigateMain)
-=======
         const {navigation} = this.props;
         navigation.navigate('Main');
     }
@@ -155,7 +120,6 @@ export default class RoopairsLoginBase extends React.Component<LoginProps, Login
         const {username, password} = this.state;
         showModal(true);
         onFetchAccountProfile(username, password, 'Roopairs', this.setModalOff, this.navigateMain);
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
     } 
 
     inputFormProps() : {[id: string] : InputFormProps} {
@@ -185,8 +149,4 @@ export default class RoopairsLoginBase extends React.Component<LoginProps, Login
             </>
         );
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584

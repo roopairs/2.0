@@ -2,7 +2,6 @@ import { Dimensions } from 'react-native';
 
 /* *-------------------Property Types-------------------* */
 export type Property = {
-<<<<<<< HEAD
     address: string, 
     city: string, 
     state: string,
@@ -10,13 +9,6 @@ export type Property = {
     bedrooms: number, 
     bathrooms: number,
 }
-=======
-    address: String;
-    tenants: number;
-    bedrooms: number;
-    bathrooms: number;
-};
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 
 export type PropertyListState = Property[];
 
@@ -60,15 +52,9 @@ export type Account = {
     lastName: string;
     email: string;
     phone: string;
-<<<<<<< HEAD
-    address: string, 
-    city: string,
-=======
     address: string;
     city: string;
     companyName: string;
-    companyType: string;
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
     roopairsToken: string;
 };
 
@@ -248,7 +234,6 @@ export type AppState = {
     serviceRequests: ServiceState;
     settings: SettingsState;
     // add future state slices here
-<<<<<<< HEAD
 }
 /**-------------------App State-------------------**/
 
@@ -299,72 +284,11 @@ enum HOMEPAIRS_PROPERTY_KEYS {
 export enum HomepairsPropertyAttributes{
     ADDRESS = 'address',
     CITY = 'city', 
-    state = 'state',
+    STATE = 'state',
     TENANTS = 'tenants',
     BEDROOMS = 'bedrooms',
     BATHROOMS = 'bathrooms',
 }
-=======
-};
-/* *-------------------App State-------------------* */
-
-/* *-------------------Misc Types-------------------* */
-
-export const HomePairsDimensions = {
-    DROP_MENU_WIDTH: 700,
-    MAX_PALLET: 700,
-    MIN_PALLET: 360,
-    MAX_CONTENT_SIZE: 500,
-    MIN_CONTENT_SIZE: 300,
-    MAX_BUTTON_WIDTH: 300,
-    MIN_BUTTON_WIDTH: 200,
-    MIN_PALLET_HEIGHT: Dimensions.get('window').height,
-};
-
-const HOMEPAIRS_ACCOUNT_KEYS = {
-    TYPE: 'accountType',
-    PM: 'pm',
-    TENANT: 'tenant',
-    FIRSTNAME: 'firstName',
-    LASTNAME: 'lastName',
-    EMAIL: 'email',
-    MANID: 'manId',
-    PASSWORD: 'password',
-    PHONE: 'phone',
-    ADDRESS: 'address',
-    CITY: 'city',
-    PLACE: 'place',
-    PROPID: 'propId',
-    TENANTID: 'tenantID',
-    COMPANY_TYPE: 'companyType',
-    COMPANY_NAME: 'companyName',
-};
-
-const COMPANY_TYPES = {
-    RESIDENTIAL: 'residential',
-    COMMERCIAL: 'commercial',
-    INDUSTRIAL: 'industrial',
-};
-
-const HOMEPAIRS_LOGIN_STATUS = {
-    SUCCESS: 'success',
-    FAILURE: 'failure',
-};
-
-const HOMEPAIRS_PROPERTY_KEYS = {
-    ADDRESS: 'address',
-    TENANTS: 'maxTenants',
-    BEDROOMS: 'numBed',
-    BATHROOMS: 'numBath',
-};
-
-export const HomepairsPropertyAttributes = {
-    ADDRESS: 'address',
-    TENANTS: 'tenants',
-    BEDROOMS: 'bedrooms',
-    BATHROOMS: 'bathrooms',
-};
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 
 export const HomePairsResponseKeys = {
     DATA: 'data',

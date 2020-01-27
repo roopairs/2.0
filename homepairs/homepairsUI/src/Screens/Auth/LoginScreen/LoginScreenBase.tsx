@@ -59,48 +59,6 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
     });
 }
 
-<<<<<<< HEAD
-function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
-    const colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme
-    return StyleSheet.create({
-        formTitle: {
-            marginVertical: '3.5%', 
-            fontFamily: BaseStyles.FontTheme.primary, 
-            color: colors.lightGray,
-          },
-        input: {
-             alignItems: 'center',
-             alignSelf: 'center',
-             margin: BaseStyles.MarginPadding.xsmallConst,
-             minWidth:40,
-             width: BaseStyles.ContentWidth.max,
-             height: 40,
-             color: colors.tertiary,
-             borderColor: colors.lightGray,
-             borderWidth: 1,
-             borderRadius: BaseStyles.BorderRadius.small,
-             paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
-        },
-    })
-}
-
-export default class LoginScreenBase extends React.Component<LoginProps, LoginState> {
-    protected inputFormStyle 
-
-    constructor(props: Readonly<LoginProps>){
-        super(props)
-        this.inputFormStyle = setInputStyles(props.primaryColorTheme)
-        this.navigateMain = this.navigateMain.bind(this)
-        this.getFormUsername = this.getFormUsername.bind(this)
-        this.getFormPassword = this.getFormPassword.bind(this)
-        this.setModalOff = this.setModalOff.bind(this)
-        this.clickButton = this.clickButton.bind(this)
-        this.clickHighlightedText = this.clickHighlightedText.bind(this)
-        this.state = initialState
-        
-        this.props.clickButton(this.clickButton)
-        this.props.clickHighlightedText(this.clickHighlightedText)
-=======
 export default class LoginScreenBase extends React.Component<
     LoginProps,
     LoginState
@@ -120,45 +78,12 @@ export default class LoginScreenBase extends React.Component<
 
         props.clickButton(this.clickButton);
         props.clickHighlightedText(this.clickHighlightedText);
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
     }
 
     /**
      * Sets the state of the modal to hidden and then displays an error message. If none is passed
      * defaults to 'Error Message'
      */
-<<<<<<< HEAD
-    setModalOff(error:string = "Error Message") {
-        this.props.showModal(false)
-        this.props.setErrorState(true, error)
-    }
-    
-    getFormUsername (childData : string) {
-        this.setState({username : childData})
-    }
-
-    getFormPassword(childData : string){
-        this.setState({password : childData})
-    }
-
-    navigateMain() {
-        this.props.navigation.navigate('Main')
-    }
-    
-    clickHighlightedText() {
-        this.props.navigation.navigate('SignUp')
-    }
-
-    clickButton() {
-        this.props.showModal(true)
-        if(!isEmailSyntaxValid(this.state.username)){
-            this.setModalOff("Invalid Username! Must be an email")
-        }
-        else if (!isPasswordValid(this.state.password)){
-            this.setModalOff("You have entered an invalid password.")
-        }else{
-            this.props.onFetchAccountProfile(this.state.username, this.state.password, this.setModalOff, this.navigateMain)
-=======
     setModalOff(error: string = 'Error Message') {
         const { showModal, setErrorState } = this.props;
         showModal(false);
@@ -199,7 +124,6 @@ export default class LoginScreenBase extends React.Component<
                 this.setModalOff,
                 this.navigateMain,
             );
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
         }
     }
 
@@ -230,8 +154,4 @@ export default class LoginScreenBase extends React.Component<
             </>
         );
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584

@@ -29,34 +29,6 @@ export type SceneInjectedProps = NavigationStackScreenProps<any, any> &
 type State = {
     showModal: boolean;
 };
-<<<<<<< HEAD
-export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
-  var styles: any;
-  const ReduxComponent = withNavigation(
-    class ReduxComponentBase extends React.Component<
-      SceneInjectedProps,
-      State
-    > {
-      colorScheme: any;
-      constructor(props: Readonly<SceneInjectedProps>) {
-        super(props);
-        this.colorScheme =
-          typeof props.primaryColorTheme == 'undefined'
-            ? BaseStyles.LightColorTheme
-            : props.primaryColorTheme;
-        styles = setStyle(this.colorScheme);
-        this.renderContents = this.renderContents.bind(this);
-        this.onPressButton = this.onPressButton.bind(this);
-        console.log('withSceneHeader constructor')
-        console.log(props.onChangeModalVisibility)
-      }
-
-      onPressButton() {
-          console.log('withSceneHeader onPressButton')
-          console.log(this.props.onChangeModalVisibility)
-          return Page.doesButtonUseNavigate ? Page._onButtonClick(this.props) : this.props.onChangeModalVisibility(true)
-      }
-=======
 
 function setStyle(colorTheme: BaseStyles.ColorTheme) {
     return StyleSheet.create({
@@ -85,7 +57,6 @@ function setStyle(colorTheme: BaseStyles.ColorTheme) {
         },
     });
 }
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 
 export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
     let styles: any;

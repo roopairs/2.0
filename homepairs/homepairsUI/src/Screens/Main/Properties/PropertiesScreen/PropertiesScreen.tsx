@@ -1,17 +1,6 @@
 import { AppState, MainAppStackType } from 'homepair-types';
 import { connect } from 'react-redux';
 import {
-<<<<<<< HEAD
-  withSceneHeader,
-  //AddNewPropertyModal,
-  withDarkMode,
-  withModal
-} from "homepair-components";
-import { MainAppStackType } from "homepair-types";
-import { HeaderActions } from "homepair-redux-actions";
-import { View } from "react-native";
-import AddNewPropertyModal  from '../../../Components/Modals/AddNewPropertyModal/AddNewPropertyModal';
-=======
     withSceneHeader,
     withDarkMode,
     withModal,
@@ -22,7 +11,6 @@ import PropertiesScreenBase, {
     PropertiesScreenStateProps,
     PropertiesScreenDispatchProps,
 } from './PropertiesScreenBase';
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 
 const sceneParams: MainAppStackType = {
     title: 'Properties',

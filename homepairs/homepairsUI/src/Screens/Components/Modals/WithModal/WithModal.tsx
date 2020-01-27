@@ -16,11 +16,7 @@ type State = {
 };
 
 export type ModalInjectedProps = {
-<<<<<<< HEAD
-  onChangeModalVisibility: (isVisible?: boolean) => void;
-=======
     onChangeModalVisibility: (isVisible?: boolean) => void;
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 };
 
 const Modal = Platform.OS === 'web' ? WebModal : MobileModal;
@@ -48,51 +44,6 @@ function setStyle() {
 }
 
 export function withModal(BaseComponent: any, ModalComponent: any) {
-<<<<<<< HEAD
-  class WithModal extends Component<Props, State> {
-    constructor(props: Readonly<Props>) {
-      super(props);
-      this.state = {
-        isVisible: false,
-        styles: setStyle()
-      }
-      this.updateStyles = this.updateStyles.bind(this);
-      this.onChangeModalVisibility = this.onChangeModalVisibility.bind(this);
-    }
-
-    updateStyles() {
-      this.setState({styles: setStyle()})
-    }
-    /**Here we will add our window listener */
-    componentDidMount() {
-      Dimensions.addEventListener("change", this.updateStyles);
-    }
-    /**
-     * Here we clean up our component by removing the listener
-     */
-    componentWillUnmount() {
-      Dimensions.removeEventListener("change", this.updateStyles);
-    }
-    /**
-     * Intended to be called during the render. It will pass the return value
-     * to components that this is called in.
-     */
-    injectProps(): ModalInjectedProps {
-      return {
-        onChangeModalVisibility: this.onChangeModalVisibility
-      };
-    }
-
-    /**
-     * The bounded function will toggle the visiblity of the module or will
-     * set the visiblity based on the argument passed in.
-     */
-    onChangeModalVisibility(isVisible?: boolean) {
-      let changedVisibility: boolean =
-        isVisible == null ? !this.state.isVisible : isVisible;
-      this.setState({ isVisible: changedVisibility });
-    }
-=======
     class WithModal extends Component<Props, State> {
         constructor(props: Readonly<Props>) {
             super(props);
@@ -117,7 +68,6 @@ export function withModal(BaseComponent: any, ModalComponent: any) {
         componentWillUnmount() {
             Dimensions.removeEventListener('change', this.updateStyles);
         }
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 
         /**
          * The bounded function will toggle the visiblity of the module or will

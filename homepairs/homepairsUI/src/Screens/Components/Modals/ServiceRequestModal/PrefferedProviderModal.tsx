@@ -10,13 +10,7 @@ export default function PrefferedProviderModal(props: Props) {
         showCloseButton
         title="New Property"
         closeButtonPressedCallBack={()=>props.onChangeModalVisibility(false)}
-<<<<<<< HEAD
-      >
-        <ActivityIndicator />
-      </Card>
-=======
       />
  
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
   );
 }

@@ -8,10 +8,6 @@ import {
   AccountTypes,
   HomePairsResponseKeys, 
 } from '../types';
-<<<<<<< HEAD
-import axios from 'axios';
-=======
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 import { fetchProperties } from '../property-list/actions';
 
 const responseKeys = HomePairsResponseKeys;
@@ -36,15 +32,9 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
         phone: profile[accountKeys.PHONE],
         address: profile[accountKeys.ADDRESS], 
         city: profile[accountKeys.CITY],
-<<<<<<< HEAD
-        roopairsToken: accountJSON[responseKeys.ROOPAIRS]
-    }
-=======
         companyName: profile[accountKeys.COMPANY_NAME], 
-        companyType: profile[accountKeys.COMPANY_TYPE],
         roopairsToken: accountJSON[responseKeys.ROOPAIRS],
     };
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
     if(profile[accountKeys.TENANTID] == null){
         const landLordProfile : LandlordAccount = { ...baseProfile,
             manId: profile[accountKeys.MANID],
@@ -94,12 +84,6 @@ export const fetchAccount = (
     };
 };
 
-<<<<<<< HEAD
-export const generateAccountForTenant = (accountDetails: Account, password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
-  return async (dispatch: (arg0: any) => void) => {
-    console.log(accountDetails)
-      return await axios.post('http://homepairs-alpha.herokuapp.com/API/register/tenant/', {
-=======
 export const loginForPM = (Email: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
   return async (dispatch: (arg0: any) => void) => {
     await axios.post('', {
@@ -124,20 +108,15 @@ export const loginForPM = (Email: String, Password: String, modalSetOffCallBack?
 export const generateAccountForTenant = (accountDetails: Account, password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
   return async (dispatch: (arg0: any) => void) => {
       await axios.post('http://homepairs-alpha.herokuapp.com/API/register/tenant/', {
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
         email: accountDetails.email, 
         phone: accountDetails.phone,
         streetAddress: accountDetails.address, 
         city: accountDetails.city,
-<<<<<<< HEAD
-        password: password, 
-=======
         email: accountDetails.email, 
         phone: accountDetails.phone, 
         password, 
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
       })
       .then((response) => {
         if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
@@ -145,12 +124,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
           dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
           navigateMainCallBack();
         } else {
-<<<<<<< HEAD
-          console.log(response)
-          modalSetOffCallBack("Home Pairs was unable to log in. Please try again.")
-=======
           modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
         }
       })
       .catch((_error) => {
@@ -166,13 +140,8 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
           lastName: accountDetails.lastName,
           email: accountDetails.email, 
           phone: accountDetails.phone,
-<<<<<<< HEAD
-          password: password, 
-=======
           companyName: accountDetails.companyName, 
-          companyType: accountDetails.companyType,
           password, 
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
         })
         .then((response) => {
           if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){

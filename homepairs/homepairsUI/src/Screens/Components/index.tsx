@@ -39,14 +39,8 @@ export { default as ViewPropertyCard } from "./ViewPropertyCard/ViewPropertyCard
 export { default as AccountConnectedCard } from "./AuthenticationCards/AccountConnectedCard";
 export { default as ConnectAccountCard } from "./AuthenticationCards/ConnectAccountCard";
 export { default as HomePairsHeader } from "./HomePairsHeader/HomePairsHeader";
-<<<<<<< HEAD
-export { AddNewPropertyModalBase } from "./Modals/AddNewPropertyModal/AddNewPropertyModalBase";
-//export { EditPropertyModalBase} from "./Modals/EditPropertyModal/EditPropertyModalBase";
-export { PrefferedProviderModal } from "./Modals/ServiceRequestModal/PrefferedProviderModal";
-=======
 export { default as AddNewPropertyModal } from "./Modals/AddNewPropertyModal/AddNewPropertyModal";
 export { default as PrefferedProviderModal } from "./Modals/ServiceRequestModal/PrefferedProviderModal";
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows

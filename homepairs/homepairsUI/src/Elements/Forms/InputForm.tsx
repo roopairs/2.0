@@ -49,26 +49,6 @@ const DefaultInputFormStyle = StyleSheet.create({
 });
 
 export default function InputForm(props: InputFormProps) {
-<<<<<<< HEAD
-    const [value, sendData] : [InputFormState, any] = useState(initialState)
-    
-    function passInputValue(text:String) : void{
-        sendData(text)
-        props.parentCallBack(text)
-    }
- 
-    function renderName(){
-        if(props.name == null){
-            return(<></>)
-        }
-        return(
-            <Text 
-            style={ props.formTitleStyle == null ? DefaultInputFormStyle.formTitle : props.formTitleStyle}>
-                { props.name }
-            </Text>
-        );
-    }
-=======
     // Below shows how to ignore a returned value in an array/ dictionary
     const [, sendData]: [InputFormState, any] = useState(initialState);
     const {
@@ -79,7 +59,6 @@ export default function InputForm(props: InputFormProps) {
         containerStyle,
         inputStyle,
     } = props;
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 
     function passInputValue(text: String): void {
         sendData(text);

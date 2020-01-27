@@ -34,28 +34,6 @@ export type AuthPassProps = {
     highlightedText: String;
 };
 
-<<<<<<< HEAD
-export type AuthPageInjectedProps = DarkModeInjectedProps & NavigationInjectedProps &
-{ 
-    inputFormProps?: {[id: string] : InputFormProps},
-    //thinButtonProps?: ThinButtonProps,
-    clickHighlightedText?: (arg?:any) => any
-    clickButton?: (arg:any) => any 
-    setErrorState?: (arg1:boolean, arg2?:string) => any
-    showModal?: (arg1:boolean, arg2?:string) => any
-}
-
-type DefaultAuthPageState = {
-    username: String,
-    password: String,
-    modalVisible: boolean,
-    modalMessage: string,
-    error: boolean,
-    errorMessage: string,
-    thinButtonStyle: ThinButtonProps,
-    clickHighlightedText: () => void
-}
-=======
 export type AuthPageInjectedProps = DarkModeInjectedProps &
     NavigationInjectedProps & {
         inputFormProps?: { [id: string]: InputFormProps };
@@ -75,7 +53,6 @@ type DefaultAuthPageState = {
     thinButtonStyle: ThinButtonProps;
     clickHighlightedText: () => void;
 };
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 
 const initalState: DefaultAuthPageState = {
     username: '',
@@ -84,10 +61,6 @@ const initalState: DefaultAuthPageState = {
     errorMessage: '',
     modalVisible: false,
     modalMessage: strings.signInPage.modal,
-<<<<<<< HEAD
-    thinButtonStyle: null,
-    clickHighlightedText: () => {},
-=======
     thinButtonStyle: {},
     clickHighlightedText: () => {},
 };
@@ -221,7 +194,6 @@ function setStyles(buttonColor: string, colorTheme?: BaseStyles.ColorTheme) {
             marginTop: BaseStyles.MarginPadding.medium,
         },
     });
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 }
 
 export function withAuthPage(
@@ -292,13 +264,8 @@ export function withAuthPage(
 
         setHighlightedClick(arg: () => void): void {
             this.setState({
-<<<<<<< HEAD
-                clickHighlightedText: arg
-            })
-=======
                 clickHighlightedText: arg,
             });
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
         }
 
         setThinButtonClick(arg: () => void): void {
@@ -402,31 +369,6 @@ export function withAuthPage(
             return (
                 <SafeAreaView style={styles.pallet}>
                     {this.presentLoading()}
-<<<<<<< HEAD
-                    <ScrollView {...this.scrollViewProps()}>
-                        <Card {...this.cardProps()}>
-                            <View style={styles.container}>
-                                {this.renderSubtitle()}
-                                {this.showError()}
-                                <WrappedComponent {...this.props}
-                                clickButton={this.setThinButtonClick}
-                                clickHighlightedText={this.setHighlightedClick}
-                                setErrorState={this.setErrorFlag}
-                                showModal={this.showModal}
-                                />
-                                {this.renderSignInButton()}
-                                <View style={styles.signUpSection}>
-                                    <Text style={styles.standardText}>
-                                        {defaultAuthPassProps.underButtonText}
-                                        <Text style={{color: colors.LightModeColors.title}} 
-                                        onPress={this.state.clickHighlightedText}>
-                                            {defaultAuthPassProps.highlightedText}
-                                        </Text>
-                                    </Text>
-                                </View>
-                            </View>
-                        </Card>
-=======
                     <ScrollView
                         style={style}
                         contentContainerStyle={contentContainerStyle}
@@ -436,7 +378,6 @@ export function withAuthPage(
                         }
                     >
                         {renderCard(cardProperty, renderedCardContents)}
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
                     </ScrollView>
                 </SafeAreaView>
             );

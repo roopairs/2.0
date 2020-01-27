@@ -7,10 +7,6 @@ import {
     Property,
     HomePairsResponseKeys,
 } from '../types';
-<<<<<<< HEAD
-import axios from 'axios';
-=======
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 
 const responseKeys = HomePairsResponseKeys;
 const loginStatus = HomePairsResponseKeys.STATUS_RESULTS;
@@ -27,7 +23,6 @@ export const addProperty = (newProperty: Property): AddPropertyAction =>
 {
   return {
     type: PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY,
-<<<<<<< HEAD
     userData: newProperty
   }
 };
@@ -57,21 +52,11 @@ export const postNewProperty = (newProperty: Property, email: string, setInitial
       });
     }
 };
-=======
-    userData: {
-        address, 
-        tenants, 
-        bedrooms,
-        bathrooms,
-    },
-});
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 
 export const updateProperty = (propertyIndex: number, updatedProperty: Property) : UpdatePropertyAction => {
   return {
     type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
     index: propertyIndex,
-<<<<<<< HEAD
     userData: updatedProperty
   }
 };
@@ -103,15 +88,6 @@ export const postUpdatedProperty = (editProperty: Property, propIndex: number, e
 }
 
 
-=======
-    userData: {
-        address, 
-        tenants, 
-        bedrooms,
-        bathrooms,
-    },
-});
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 
 export const removeProperty = (propertyIndex: number): RemovePropertyAction => ({
     type: PROPERTY_LIST_ACTION_TYPES.REMOVE_PROPERTY,
@@ -132,11 +108,7 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertyActi
     });
     return {
       type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
-<<<<<<< HEAD
-      properties: fetchedProperties
-=======
       properties: fetchedProperties,
->>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
     };
 };
 
