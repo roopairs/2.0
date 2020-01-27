@@ -22,16 +22,15 @@ from .views import INVALID_PROPERTY, NON_FIELD_ERRORS, TOKEN, RESIDENTIAL_CODE
 ################################################################################
 # Vars
 
+globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
 globUrl = 'http://localhost:8000/API/'
-globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
-globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
 
 # EXTRA URLS
 LOGIN_URL = 'login/'
 PM_REG_URL = 'register/pm/'
 TEN_REG_URL = 'register/tenant/'
 CRE_PROP_URL = 'property/create/'
-VIEW_PROP_URL = 'property/read/'
+VIEW_PROP_URL = 'property/view/'
 
 # MODEL FIELDS
 # Tenant
@@ -73,34 +72,33 @@ class TenantLogin(TestCase):
       setUpHelper()
 
    # Everything is correct
-   #def test_tenant_allCorrect(self):
-   #   email = 'adamkberard@gmail.com'
-   #   password = 'pass4adam'
-   #   data = {'email': email, 'password': password}
-   #   url = globUrl + LOGIN_URL
+   def test_tenant_allCorrect(self):
+      email = 'adamkberard@gmail.com'
+      password = 'pass4adam'
+      data = {'email': email, 'password': password}
+      url = globUrl + LOGIN_URL
 
-   #   x = requests.post(url, json=data)
-   #   info = json.loads(x.text)
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
 
-   #   self.assertEqual(info.get(STATUS), SUCCESS)
-   #   tenant = info.get('tenant')
-   #   self.assertEqual(tenant.get('firstName'), 'Adam')
-   #   self.assertEqual(tenant.get('lastName'), 'Berard')
-   #   self.assertEqual(tenant.get('email'), 'adamkberard@gmail.com')
-   #   self.assertEqual(tenant.get('password'), 'pass4adam')
-   #   place = tenant.get('place')
-   #   self.assertEqual(place.get('streetAddress'), '200 N. Santa Rosa')
-   #   self.assertEqual(place.get('city'), 'San Luis Obispo')
-   #   self.assertEqual(place.get('state'), 'CA')
-   #   self.assertEqual(place.get('SLID'), 69)
-   #   self.assertEqual(place.get('numBath'), 2)
-   #   self.assertEqual(place.get('numBed'), 3)
-   #   self.assertEqual(place.get('maxTenants'), 5)
-   #   self.assertEqual(place.get('pm'), 'Eeron Grant')
-   #   pm = tenant.get('pm')
-   #   self.assertEqual(pm.get('firstName'), 'Eeron')
-   #   self.assertEqual(pm.get('lastName'), 'Grant')
-   #   self.assertEqual(pm.get('email'), 'eerongrant@gmail.com')
+      self.assertEqual(info.get(STATUS), SUCCESS)
+      tenant = info.get('tenant')
+      self.assertEqual(tenant.get('firstName'), 'Adam')
+      self.assertEqual(tenant.get('lastName'), 'Berard')
+      self.assertEqual(tenant.get('email'), 'adamkberard@gmail.com')
+      self.assertEqual(tenant.get('password'), 'pass4adam')
+      place = tenant.get('place')
+      self.assertEqual(place.get('streetAddress'), '200 N. Santa Rosa')
+      self.assertEqual(place.get('city'), 'San Luis Obispo')
+      self.assertEqual(place.get('state'), 'CA')
+      self.assertEqual(place.get('numBath'), 2)
+      self.assertEqual(place.get('numBed'), 3)
+      self.assertEqual(place.get('maxTenants'), 5)
+      self.assertEqual(place.get('pm'), 'Eeron Grant')
+      pm = tenant.get('pm')
+      self.assertEqual(pm.get('firstName'), 'Eeron')
+      self.assertEqual(pm.get('lastName'), 'Grant')
+      self.assertEqual(pm.get('email'), 'eerongrant@gmail.com')
 
 
    # Incorrect Email
@@ -245,27 +243,27 @@ class TenantRegistration(TestCase):
       setUpHelper()
 
    # Everything is correct
-   #def test_tenant_allCorrect(self):
-   #   tenEmail = 'fakeEmail@gmail.com'
-   #   data = {
-   #             'firstName': 'Fake',
-   #             'lastName': 'Name',
-   #             'email': tenEmail,
-   #             'streetAddress': '537 Couper Dr.',
-   #             'city': 'San Luis Obispo',
-   #             'password': 'pass4fake',
-   #             }
-   #   url = globUrl + TEN_REG_URL
-   #   x = requests.post(url, json=data)
-   #   info = json.loads(x.text)
-   #   self.assertEqual(info.get(STATUS), SUCCESS)
-   #   ten = info.get('tenant')
-   #   self.assertEqual(ten.get('firstName'), 'Fake')
-   #   self.assertEqual(ten.get('lastName'), 'Name')
-   #   self.assertEqual(ten.get('email'), tenEmail)
-   #   prop = ten.get('place')
-   #   self.assertEqual(prop.get('streetAddress'), '537 Couper Dr.')
-   #   self.assertEqual(prop.get('numBath'), 2)
+   def test_tenant_allCorrect(self):
+      tenEmail = 'fakeEmail@gmail.com'
+      data = {
+                'firstName': 'Fake',
+                'lastName': 'Name',
+                'email': tenEmail,
+                'streetAddress': '537 Couper Dr.',
+                'city': 'San Luis Obispo',
+                'password': 'pass4fake',
+                }
+      url = globUrl + TEN_REG_URL
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), SUCCESS)
+      ten = info.get('tenant')
+      self.assertEqual(ten.get('firstName'), 'Fake')
+      self.assertEqual(ten.get('lastName'), 'Name')
+      self.assertEqual(ten.get('email'), tenEmail)
+      prop = ten.get('place')
+      self.assertEqual(prop.get('streetAddress'), '537 Couper Dr.')
+      self.assertEqual(prop.get('numBath'), 2)
 
    # Not all fields supplied
    def test_tenant_noLastName(self):
@@ -463,7 +461,7 @@ class PropertyCRUD(TestCase):
       numBed = 3
       numBath = 1
       maxTenants = 3
-      pmEmail = 'adamberard99@gmail.com'
+      pmEmail = 'eerongrant@gmail.com'
 
       data = {
                 'streetAddress': streetAddress,
@@ -490,9 +488,10 @@ class PropertyCRUD(TestCase):
 
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), SUCCESS)
-      self.assertEqual(pm.get('streetAddress'), streetAddress)
-      self.assertEqual(pm.get('city'), city)
-      self.assertEqual(pm.get('state'), state)
-      self.assertEqual(pm.get('numBed'), numBed)
-      self.assertEqual(pm.get('numBath'), numBath)
-      self.assertEqual(pm.get('maxTenants'), maxTenants)
+      prop = info.get('prop')
+      self.assertEqual(prop.get('streetAddress'), streetAddress)
+      self.assertEqual(prop.get('city'), city)
+      self.assertEqual(prop.get('state'), state)
+      self.assertEqual(prop.get('numBed'), numBed)
+      self.assertEqual(prop.get('numBath'), numBath)
+      self.assertEqual(prop.get('maxTenants'), maxTenants)

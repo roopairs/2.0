@@ -21,7 +21,6 @@ class Property(models.Model):
    streetAddress = models.CharField(max_length=255)
    city = models.CharField(max_length=255)
    state = models.CharField(max_length=255)
-   SLID = models.IntegerField()
    numBath = models.FloatField()
    numBed = models.IntegerField()
    maxTenants = models.IntegerField()
@@ -35,7 +34,6 @@ class Property(models.Model):
                 "streetAddress": self.streetAddress,
                 "city": self.city,
                 "state": self.state,
-                "SLID": self.SLID,
                 "numBath": self.numBath,
                 "numBed": self.numBed,
                 "maxTenants": self.maxTenants,
@@ -46,7 +44,6 @@ class Property(models.Model):
                 "streetAddress": self.streetAddress,
                 "city": self.city,
                 "state": self.state,
-                "SLID": self.SLID,
                 "numBath": self.numBath,
                 "numBed": self.numBed,
                 "maxTenants": self.maxTenants,

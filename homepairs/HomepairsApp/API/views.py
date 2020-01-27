@@ -230,7 +230,7 @@ def createProperty(request):
       maxTenants = request.data.get('maxTenants')
       isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
       if not isMade.exists():
-        pmList = PropertyManager.objects.filter(email=pmEmail)
+        pmList = PropertyManager.objects.filter(email=pm)
         if pmList.exists() and pmList.count() == 1:
           pm = pmList[0]
           prop = Property(streetAddress=streetAddress,
@@ -246,6 +246,8 @@ def createProperty(request):
                  }
           return Response(data=data)
         else:
+          print("HERE 2")
+          print(pmList.exists())
           return Response(data=returnError(INCORRECT_FIELDS))
       else:
         return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
@@ -278,7 +280,6 @@ def setUpTests(request):
          tempProperty1 = Property(streetAddress='537 Couper Dr.',
                                   city='San Luis Obispo',
                                   state='CA',
-                                  SLID=70,
                                   numBath=2,
                                   numBed=5,
                                   maxTenants=8,
@@ -286,7 +287,6 @@ def setUpTests(request):
          tempProperty2 = Property(streetAddress='200 N. Santa Rosa',
                                   city='San Luis Obispo',
                                   state='CA',
-                                  SLID=69,
                                   numBath=2,
                                   numBed=3,
                                   maxTenants=5,
