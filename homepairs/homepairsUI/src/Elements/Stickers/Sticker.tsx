@@ -1,18 +1,11 @@
-import React, { ReactElement } from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
+import React, { ReactElement } from 'react';
 import { StyleSheet, View, ViewStyle} from 'react-native';
 
 export type StickerProps = {
     children?: ReactElement[] | ReactElement,
     style?: ViewStyle,
-}
+};
 
-export default function Sticker(props: StickerProps) {
-    return(
-       <View style={(props.style === null) ? styles.container : props.style}>
-            {props.children}
-        </View>
-    )
-}
 
 const styles = StyleSheet.create({
     container:{
@@ -24,4 +17,18 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 5,
     },
-})
+});
+
+export default function Sticker(props: StickerProps) {
+    const {style, children} = props;
+    return(
+       <View style={style}>
+            {children}
+        </View>
+    );
+}
+
+Sticker.defaultProps = {
+    children: <></>,
+    style: styles, 
+};

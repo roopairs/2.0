@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { 
     AddPropertyAction,
     UpdatePropertyAction, 
@@ -6,11 +7,14 @@ import {
     Property,
     HomePairsResponseKeys,
 } from '../types';
+<<<<<<< HEAD
 import axios from 'axios';
+=======
+>>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 
-let responseKeys = HomePairsResponseKeys;
-let loginStatus = HomePairsResponseKeys.STATUS_RESULTS;
-let propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
+const responseKeys = HomePairsResponseKeys;
+const loginStatus = HomePairsResponseKeys.STATUS_RESULTS;
+const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
 
 export enum PROPERTY_LIST_ACTION_TYPES {
     ADD_PROPERTY = 'PROPERTY_LIST/ADD_PROPERTY',
@@ -23,6 +27,7 @@ export const addProperty = (newProperty: Property): AddPropertyAction =>
 {
   return {
     type: PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY,
+<<<<<<< HEAD
     userData: newProperty
   }
 };
@@ -52,11 +57,21 @@ export const postNewProperty = (newProperty: Property, email: string, setInitial
       });
     }
 };
+=======
+    userData: {
+        address, 
+        tenants, 
+        bedrooms,
+        bathrooms,
+    },
+});
+>>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 
 export const updateProperty = (propertyIndex: number, updatedProperty: Property) : UpdatePropertyAction => {
   return {
     type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
     index: propertyIndex,
+<<<<<<< HEAD
     userData: updatedProperty
   }
 };
@@ -88,6 +103,15 @@ export const postUpdatedProperty = (editProperty: Property, propIndex: number, e
 }
 
 
+=======
+    userData: {
+        address, 
+        tenants, 
+        bedrooms,
+        bathrooms,
+    },
+});
+>>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
 
 export const removeProperty = (propertyIndex: number): RemovePropertyAction => ({
     type: PROPERTY_LIST_ACTION_TYPES.REMOVE_PROPERTY,
@@ -95,8 +119,8 @@ export const removeProperty = (propertyIndex: number): RemovePropertyAction => (
 });
 
 export const fetchProperties = (linkedProperties: Array<any>): FetchPropertyAction => {
-    let fetchedProperties : Property[] = new Array()
-    //TO DO: make linkedProperties not nullable again (once adam gives us properties for pm's again)
+    const fetchedProperties : Property[] = [];
+    // TO DO: make linkedProperties not nullable again (once adam gives us properties for pm's again)
     linkedProperties?.forEach(element => {
         fetchedProperties.push({
             address: element[propertyKeys.ADDRESS],
@@ -104,32 +128,35 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertyActi
             state: element[propertyKeys.STATE],
             tenants: element[propertyKeys.TENANTS],
             bedrooms : element[propertyKeys.BEDROOMS],
-            bathrooms : element[propertyKeys.BATHROOMS]})
+            bathrooms : element[propertyKeys.BATHROOMS]});
     });
     return {
       type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
+<<<<<<< HEAD
       properties: fetchedProperties
+=======
+      properties: fetchedProperties,
+>>>>>>> 6c0abe500170f7c4f80d6b59e196169385a97584
     };
 };
 
 export const fetchAllProperties = (
     Username: String, Password: String, modalSetOffCallBack?: () => void, navigateMainCallBack?: () => void) => {
     return (dispatch: (arg0: any) => void) => {
-        //TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
+        // TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
         return axios.post('http://vertical-proto-homepairs.herokuapp.com/verticalAPI/', {
             username: Username,
             password: Password,
           })
           .then((response) => {
             if(!((response[responseKeys.DATA][responseKeys.STATUS]) === loginStatus.FAILURE)){
-              dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
-              navigateMainCallBack()
+              dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
+              navigateMainCallBack();
             }else{
-                modalSetOffCallBack()
+                modalSetOffCallBack();
             }
           })
-          .catch(function (error) {
-            console.log(error);
+          .catch((_error) => {
           })
           .finally(() => {
           });

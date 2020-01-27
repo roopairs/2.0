@@ -1,8 +1,8 @@
-import React, { ReactElement } from "react"
-import { View, ActivityIndicator, StatusBar } from "react-native"
-import Card from '../Cards/Card';
+import React, { ReactElement } from "react";
+import { View, ActivityIndicator, StatusBar } from "react-native";
 import Modal from 'modal-enhanced-react-native-web';
-import {LoadingModalStyles} from './LoadingModalStyles'
+import Card from '../Cards/Card';
+import LoadingModalStyles from './LoadingModalStyles';
 
 export type LoadingModalProps = {
     children?: ReactElement[] | ReactElement,
@@ -16,7 +16,7 @@ export default function LoadingModal(props: LoadingModalProps){
     return(
         <Modal
             animationType='fade'
-            transparent={true}
+            transparent
             visible={props.visible}
             onRequestClose={props.onRequestClose}
             backdropColor='#0000080'
@@ -34,7 +34,7 @@ export default function LoadingModal(props: LoadingModalProps){
                     </Card>
                 </View>
         </Modal>
-    )
+    );
 }
 
-const styles = LoadingModalStyles
+const styles = LoadingModalStyles;

@@ -7,20 +7,20 @@ const imageFileNames = () => {
             return file.endsWith('.png');
         })
         .map(file => {
-            return file.replace('.png', ''); //.replace('@3x.png', '')
+            return file.replace('.png', ''); // .replace('@3x.png', '')
         });
 
     return Array.from(new Set(array));
 };
 
 const generate = () => {
-    let properties = imageFileNames()
+    const properties = imageFileNames()
         .map(name => {
             return `const ${name} = require('./assets/images/${name}.png')`;
         })
         .join(';\n');
 
-    let exportImages = imageFileNames()
+    const exportImages = imageFileNames()
         .map(name => {
             return `\n\t${name}`;
         })

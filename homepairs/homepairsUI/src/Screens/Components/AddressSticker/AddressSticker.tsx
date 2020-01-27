@@ -1,4 +1,4 @@
-import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
+import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text } from 'react-native';
 import { Sticker } from 'homepair-elements';
 import { ColorTheme, FontTheme, ContentWidth, MarginPadding, LightColorTheme} from 'homepair-base-styles';
@@ -8,8 +8,8 @@ export type AddressStickerProps = DarkModeInjectedProps & {
     address: String
 }
 
-function setStyle(colorTheme?: ColorTheme) {
-    let colors = (colorTheme == null) ? LightColorTheme : colorTheme 
+function setStyle(colorTheme: ColorTheme) {
+    const colors = colorTheme; 
     return(
         StyleSheet.create({
             container:{
@@ -36,17 +36,22 @@ function setStyle(colorTheme?: ColorTheme) {
                 paddingBottom: MarginPadding.mediumConst,
                 borderBottomWidth: 1,
             },
-    }))
+    }));
 }
 
 
 export default function AddressSticker(props: AddressStickerProps) {
-    let styles = setStyle(props.primaryColorTheme)
+    const {address, primaryColorTheme} = props;
+    const styles = setStyle(primaryColorTheme);
     return(
        <Sticker style={styles.container}>
             <Text style={styles.cityStateText}>San Luis Obispo, CA{" "} 
-            <Text style={styles.streetText}>/{" " + props.address}</Text>
+            <Text style={styles.streetText}>/{` ${address}`}</Text>
             </Text>
         </Sticker>
-    )
+    );
 }
+
+AddressSticker.defaultProps = {
+    primaryColorTheme: LightColorTheme,
+};
