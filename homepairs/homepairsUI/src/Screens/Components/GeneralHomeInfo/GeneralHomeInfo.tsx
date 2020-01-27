@@ -12,6 +12,7 @@ export type GeneralHomeInfoProps = DarkModeInjectedProps & {
     tenants: number;
     bedrooms: number;
     bathrooms: number;
+    hasEdit?: boolean;
     onClick: () => any;
 };
 
@@ -112,6 +113,7 @@ export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
         tenants,
         bedrooms,
         bathrooms,
+        hasEdit,
         onClick,
     } = props;
     const styles = setStyles(primaryColorTheme);
@@ -153,7 +155,14 @@ export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
                     </Text>
                 </View>
                 {livingSpace()}
-                {renderThinButton(thinButtonProps)}
+
+                {typeof hasEdit === 'undefined' ||
+                hasEdit == null ||
+                hasEdit ? (
+                    renderThinButton(thinButtonProps)
+                ) : (
+                    <></>
+                )}
             </View>
         </View>
     );
