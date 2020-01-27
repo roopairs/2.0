@@ -6,7 +6,7 @@ import {
     withModal,
     AddNewPropertyModal,
 } from 'homepairs-components';
-import { HeaderActions } from 'homepairs-redux-actions';
+import { HeaderActions, PropertyListActions } from 'homepairs-redux-actions';
 import { withNavigation } from 'react-navigation';
 import PropertiesScreenBase, {
     PropertiesScreenStateProps,
@@ -23,7 +23,7 @@ const sceneParams: MainAppStackType = {
 
 function mapStateToProps(state: AppState): PropertiesScreenStateProps {
     return {
-        properties: state.propertyList,
+        propertyState: state.propertyList,
         header: state.header,
     };
 }
@@ -32,6 +32,9 @@ const mapDispatchToProps: (
 ) => PropertiesScreenDispatchProps = dispatch => ({
     onRevealGoBack: (showBackButton: boolean) => {
         dispatch(HeaderActions.showGoBackButton(showBackButton));
+    },
+    onSelectProperty: (selectedPropertyIndex: number) => {
+        dispatch(PropertyListActions.setSelectedProperty(selectedPropertyIndex));
     },
 });
 

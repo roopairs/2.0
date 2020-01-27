@@ -17,7 +17,6 @@ import {
 } from 'homepairs-components';
 import {
     HomepairsPropertyAttributes,
-    PropertyListState,
     Property,
     HomePairsDimensions,
 } from 'homepairs-types';
@@ -28,15 +27,13 @@ import * as BaseStyles from 'homepairs-base-styles';
 const navParams = strings.detailedPropertyPage.navigationParams;
 
 export type DetailedPropertyStateProps = DarkModeInjectedProps & {
-    properties: PropertyListState;
+    propertyIndex: number;
+    property: Property;
 };
 export type DetailedPropertyDispatchProps = {
     onUpdateProperty?: (
         index: number,
-        address: string,
-        tenants: number,
-        bedrooms: number,
-        bathrooms: number
+        updatedProperty: Property,
     ) => void;
     onRemoveProperty?: (index: number) => void;
 };
@@ -110,14 +107,12 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
 }
 
 export default function DetailedPropertyScreenBase(props: Props) {
-    const { navigation, properties, primaryColorTheme } = props;
-    const id: number = navigation.getParam(navParams.propertyIndex);
-    const property: Property = properties[id];
+    const { property, propertyIndex, primaryColorTheme } = props;
     const styles = setStyles(primaryColorTheme);
 
     function editProperty() {
         // TODO: ADD MODAL AND SEND DATA FROM UPDATE PROPERTY
-        props.onUpdateProperty(id, 'New Address', 0, 0, 1);
+        props.onUpdateProperty(propertyIndex, 'New Address', 0, 0, 1);
     }
 
     const imageProps: ImageProps = {

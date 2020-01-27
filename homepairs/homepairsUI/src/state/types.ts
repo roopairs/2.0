@@ -2,17 +2,27 @@ import { Dimensions } from 'react-native';
 
 /* *-------------------Property Types-------------------* */
 export type Property = {
-    address: String;
-    tenants: number;
-    bedrooms: number;
-    bathrooms: number;
-};
+    address: string, 
+    city: string, 
+    state: string,
+    tenants : number, 
+    bedrooms: number, 
+    bathrooms: number,
+}
 
-export type PropertyListState = Property[];
+export type PropertyListState = 
+{
+    selectedPropertyIndex?: number, 
+    properties: Property[]
+};
 
 export type AddPropertyAction = {
     type: string;
     userData: Property;
+};
+export type SetSelectedPropertyAction = {
+    type: string;
+    index: number;
 };
 export type UpdatePropertyAction = {
     type: string;
@@ -26,7 +36,7 @@ export type RemovePropertyAction = {
 
 export type FetchPropertyAction = {
     type: string;
-    properties: PropertyListState;
+    properties: Property[];
 };
 
 /* Union type for the Property Lists. This will be used for the reducer. */
@@ -34,6 +44,7 @@ export type PropertyListAction =
     | AddPropertyAction
     | UpdatePropertyAction
     | RemovePropertyAction
+    | SetSelectedPropertyAction
     | FetchPropertyAction;
 /* *-------------------Property Types-------------------* */
 
@@ -53,7 +64,6 @@ export type Account = {
     address: string;
     city: string;
     companyName: string;
-    companyType: string;
     roopairsToken: string;
 };
 
@@ -233,65 +243,61 @@ export type AppState = {
     serviceRequests: ServiceState;
     settings: SettingsState;
     // add future state slices here
-};
+}
 /* *-------------------App State-------------------* */
 
+
 /* *-------------------Misc Types-------------------* */
+export enum HomePairsDimensions {
+    DROP_MENU_WIDTH = 700,
+    MAX_PALLET = 700,
+    MIN_PALLET = 360,
+    MAX_CONTENT_SIZE = 500,
+    MIN_CONTENT_SIZE = 300,
+    MAX_BUTTON_WIDTH = 300,
+    MIN_BUTTON_WIDTH = 200,
+    MIN_PALLET_HEIGHT = Dimensions.get('window').height
+}
 
-export const HomePairsDimensions = {
-    DROP_MENU_WIDTH: 700,
-    MAX_PALLET: 700,
-    MIN_PALLET: 360,
-    MAX_CONTENT_SIZE: 500,
-    MIN_CONTENT_SIZE: 300,
-    MAX_BUTTON_WIDTH: 300,
-    MIN_BUTTON_WIDTH: 200,
-    MIN_PALLET_HEIGHT: Dimensions.get('window').height,
-};
+enum HOMEPAIRS_ACCOUNT_KEYS{
+    TYPE = 'accountType',
+    PM = 'pm',
+    TENANT = 'tenant',
+    FIRSTNAME = 'firstName',
+    LASTNAME = 'lastName',
+    EMAIL = 'email',
+    MANID = 'manId',
+    PASSWORD = 'password',
+    PHONE = 'phone',
+    ADDRESS = 'address', 
+    CITY = 'city',
+    PLACE = 'place', 
+    PROPID = 'propId',
+    TENANTID = 'tenantID', 
+}
 
-const HOMEPAIRS_ACCOUNT_KEYS = {
-    TYPE: 'accountType',
-    PM: 'pm',
-    TENANT: 'tenant',
-    FIRSTNAME: 'firstName',
-    LASTNAME: 'lastName',
-    EMAIL: 'email',
-    MANID: 'manId',
-    PASSWORD: 'password',
-    PHONE: 'phone',
-    ADDRESS: 'address',
-    CITY: 'city',
-    PLACE: 'place',
-    PROPID: 'propId',
-    TENANTID: 'tenantID',
-    COMPANY_TYPE: 'companyType',
-    COMPANY_NAME: 'companyName',
-};
+enum HOMEPAIRS_LOGIN_STATUS {
+    SUCCESS = 'success',
+    FAILURE = 'failure',
+}
 
-const COMPANY_TYPES = {
-    RESIDENTIAL: 'residential',
-    COMMERCIAL: 'commercial',
-    INDUSTRIAL: 'industrial',
-};
+enum HOMEPAIRS_PROPERTY_KEYS {
+    ADDRESS = 'streetAddress',
+    CITY = 'city', 
+    STATE = 'state',
+    TENANTS = 'maxTenants',
+    BEDROOMS = 'numBed',
+    BATHROOMS = 'numBath',
+}
 
-const HOMEPAIRS_LOGIN_STATUS = {
-    SUCCESS: 'success',
-    FAILURE: 'failure',
-};
-
-const HOMEPAIRS_PROPERTY_KEYS = {
-    ADDRESS: 'address',
-    TENANTS: 'maxTenants',
-    BEDROOMS: 'numBed',
-    BATHROOMS: 'numBath',
-};
-
-export const HomepairsPropertyAttributes = {
-    ADDRESS: 'address',
-    TENANTS: 'tenants',
-    BEDROOMS: 'bedrooms',
-    BATHROOMS: 'bathrooms',
-};
+export enum HomepairsPropertyAttributes{
+    ADDRESS = 'address',
+    CITY = 'city', 
+    STATE = 'state',
+    TENANTS = 'tenants',
+    BEDROOMS = 'bedrooms',
+    BATHROOMS = 'bathrooms',
+}
 
 export const HomePairsResponseKeys = {
     DATA: 'data',

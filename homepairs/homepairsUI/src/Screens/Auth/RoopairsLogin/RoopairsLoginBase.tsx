@@ -11,14 +11,9 @@ import { StyleSheet } from 'react-native';
 import { isNullOrUndefined } from 'homepairs-utilities';
 
 export type RoopairsLoginDispatchProps = {
-    onFetchAccountProfile: (
-        username: string,
-        password: string,
-        type: string,
-        modalSetOff: () => any,
-        navigationRouteCallback: () => any,
-    ) => void;
-};
+    onFetchAccountProfile: (username: string, password: string,
+        modalSetOff: () => any, navigationRouteCallback: () => any) => void
+}
 
 export type LoginProps = DarkModeInjectedProps &
     RoopairsLoginDispatchProps &
@@ -110,7 +105,6 @@ export default class RoopairsLoginBase extends React.Component<
         onFetchAccountProfile(
             username,
             password,
-            'Roopairs',
             this.setModalOff,
             this.navigateToMain,
         );

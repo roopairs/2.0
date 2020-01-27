@@ -2,6 +2,7 @@ import React from 'react';
 import {
     InputForm,
     LoginButton,
+    renderInputForm,
 } from 'homepairs-elements';
 import {
     AccountTypeRadioButton,
@@ -38,7 +39,6 @@ type SignUpState = {
     address: string;
     city: string;
     companyName: string;
-    companyType: string;
     password: String;
     cPassword: String;
 };
@@ -52,7 +52,6 @@ const initalState = {
     address: '',
     city: '',
     companyName: '',
-    companyType: '',
     password: '',
     cPassword: '',
 };
@@ -101,7 +100,6 @@ export default class SignUpScreenBase extends React.Component<
         this.getFormAddress = this.getFormAddress.bind(this);
         this.getFormCity = this.getFormCity.bind(this);
         this.getFormCompanyName = this.getFormCompanyName.bind(this);
-        this.getFormCompanyType = this.getFormCompanyType.bind(this);
         this.setModalOff = this.setModalOff.bind(this);
         this.navigateMain = this.navigateMain.bind(this);
 
@@ -151,10 +149,6 @@ export default class SignUpScreenBase extends React.Component<
 
     getFormCity(childData: string) {
         this.setState({ city: childData });
-    }
-
-    getFormCompanyType(childData: string) {
-        this.setState({ companyType: childData });
     }
 
     getFormCompanyName(childData: string) {
@@ -277,15 +271,7 @@ export default class SignUpScreenBase extends React.Component<
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
             },
-            {
-                key: signUpScreenStrings.inputForms.companyType,
-                name: signUpScreenStrings.inputForms.companyType,
-                parentCallBack: this.getFormCompanyType,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-            },
         ];
-
         return inputFormProps.map(properties => {
             return (
                 <InputForm
@@ -297,13 +283,12 @@ export default class SignUpScreenBase extends React.Component<
                 />
             );
         });
-    }
+    };
 
     renderRoopairsLoginPage() {
         const { accountType } = this.state;
         return accountType === AccountTypes.Landlord ? (
-            <>
-                {' '}
+            <View style={{marginTop: BaseStyles.MarginPadding.large}}>
                 <LoginButton
                     name="Login with your Roopairs Account"
                     onClick={this.toRoopairsLogin}
@@ -316,8 +301,8 @@ export default class SignUpScreenBase extends React.Component<
                     }}
                 >
                     <Text style={{ fontSize: 20 }}>OR</Text>
-                </View>{' '}
-            </>
+                </View>
+            </View>
         ) : (
             <></>
         );

@@ -16,33 +16,33 @@ import * as HomePairsHeaderProps from "./HomePairsHeader/HomePairsHeaderTemplate
 import { LoggingInModal, CreatingAccountModal } from './Modals/AuthenticationModals';
 import { LoadingModal, LoadingModalProps as LMP} from './Modals/LoadingModal';
 import {
-  SceneInjectedProps as SIP,
-  withSceneHeader,
-} from "./SceneHeader/WithSceneHeader";
+    SceneInjectedProps as SIP,
+    withSceneHeader,
+} from './SceneHeader/WithSceneHeader';
 import {
-  AuthPageInjectedProps as APIP,
-  AuthPassProps as APP,
-  withAuthPage,
-} from "./AuthPage/WithAuthPage";
+    AuthPageInjectedProps as APIP,
+    AuthPassProps as APP,
+    withAuthPage,
+} from './AuthPage/WithAuthPage';
 import {
-  DarkModeInjectedProps as DMIP,
-  withDarkMode,
-} from "./WithDarkMode/WithDarkMode";
+    DarkModeInjectedProps as DMIP,
+    withDarkMode,
+} from './WithDarkMode/WithDarkMode';
 import {
-  ModalInjectedProps as MIP,
-  withModal,
-} from "./Modals/WithModal/WithModal";
+    ModalInjectedProps as MIP,
+    withModal,
+} from './Modals/WithModal/WithModal';
 
-export { default as AddressSticker } from "./AddressSticker/AddressSticker";
-export { default as SceneHeader } from "./SceneHeader/SceneHeader";
-export { default as GeneralHomeInfo } from "./GeneralHomeInfo/GeneralHomeInfo";
-export { default as AccountTypeRadioButton } from "./AccounttypeRadioButton/AccountTypeRadioButton";
-export { default as ViewPropertyCard } from "./ViewPropertyCard/ViewPropertyCard";
-export { default as AccountConnectedCard } from "./AuthenticationCards/AccountConnectedCard";
-export { default as ConnectAccountCard } from "./AuthenticationCards/ConnectAccountCard";
-export { default as HomePairsHeader } from "./HomePairsHeader/HomePairsHeader";
-export { default as AddNewPropertyModal } from "./Modals/AddNewPropertyModal/AddNewPropertyModal";
-export { default as PrefferedProviderModal } from "./Modals/ServiceRequestModal/PrefferedProviderModal";
+export { default as AddressSticker } from './AddressSticker/AddressSticker';
+export { default as SceneHeader } from './SceneHeader/SceneHeader';
+export { default as GeneralHomeInfo } from './GeneralHomeInfo/GeneralHomeInfo';
+export { default as AccountTypeRadioButton } from './AccounttypeRadioButton/AccountTypeRadioButton';
+export { default as ViewPropertyCard } from './ViewPropertyCard/ViewPropertyCard';
+export { default as AccountConnectedCard } from './AuthenticationCards/AccountConnectedCard';
+export { default as ConnectAccountCard } from './AuthenticationCards/ConnectAccountCard';
+export { default as HomePairsHeader } from './HomePairsHeader/HomePairsHeader';
+export { default as AddNewPropertyModal } from './Modals/AddNewPropertyModal/AddNewPropertyModal';
+export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
 
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows

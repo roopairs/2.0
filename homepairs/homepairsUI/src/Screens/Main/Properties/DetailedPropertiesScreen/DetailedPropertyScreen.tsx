@@ -1,4 +1,4 @@
-import { AppState } from 'homepairs-types';
+import { AppState, Property } from 'homepairs-types';
 import { PropertyListActions } from 'homepairs-redux-actions';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
@@ -9,7 +9,10 @@ import DetailedPropertyScreenBase, {
 } from './DetailedPropertyScreenBase';
 
 function mapStateToProps(state: AppState): DetailedPropertyStateProps {
-    return { properties: state.propertyList };
+    return { 
+        propertyIndex: state.propertyList.selectedPropertyIndex,
+        property: state.propertyList.properties[state.propertyList.selectedPropertyIndex],
+    };
 }
 
 const mapDispatchToProps: (
@@ -17,18 +20,12 @@ const mapDispatchToProps: (
 ) => DetailedPropertyDispatchProps = dispatch => ({
     onUpdateProperty: (
         index: number,
-        address: string,
-        tenants: number,
-        bedrooms: number,
-        bathrooms: number,
+        updatedProperty: Property,
     ) => {
         dispatch(
             PropertyListActions.updateProperty(
                 index,
-                address,
-                tenants,
-                bedrooms,
-                bathrooms,
+                updatedProperty,
             ),
         );
     },

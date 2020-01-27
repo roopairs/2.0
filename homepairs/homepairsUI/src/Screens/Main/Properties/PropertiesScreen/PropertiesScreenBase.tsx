@@ -7,12 +7,13 @@ import {
 } from 'homepairs-components';
 
 export type PropertiesScreenStateProps = {
-    properties: PropertyListState;
+    propertyState: PropertyListState;
     header: HeaderState;
 };
 
 export type PropertiesScreenDispatchProps = {
     onRevealGoBack: (showGoBack: boolean) => any;
+    onSelectProperty: (index: number) => any;
 };
 
 export type PropertiesScreenProps = SceneInjectedProps &
@@ -31,15 +32,15 @@ export default class PropertiesScreenBase extends React.Component<
     }
 
     navigateToDetiailedProperty(index: number) {
-        const { properties, onRevealGoBack, navigation } = this.props;
-        const property: Property = properties[index];
-        const navParams = { propertyIndex: index, selectedProperty: property };
+        const {navigation, onSelectProperty, onRevealGoBack} = this.props;
+        onSelectProperty(index);
         onRevealGoBack(true);
-        navigation.push('DetailedProperty', navParams);
+        navigation.push('DetailedProperty');
     }
 
     render() {
-        const { properties } = this.props;
+        const { propertyState} = this.props;
+        const {properties} = propertyState;
         let nextIndex = 0;
         return properties.map(property => {
             const curIndex = nextIndex;

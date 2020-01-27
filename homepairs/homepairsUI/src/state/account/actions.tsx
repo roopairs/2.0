@@ -33,7 +33,6 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
         address: profile[accountKeys.ADDRESS], 
         city: profile[accountKeys.CITY],
         companyName: profile[accountKeys.COMPANY_NAME], 
-        companyType: profile[accountKeys.COMPANY_TYPE],
         roopairsToken: accountJSON[responseKeys.ROOPAIRS],
     };
     if(profile[accountKeys.TENANTID] == null){
@@ -111,6 +110,8 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
       await axios.post('http://homepairs-alpha.herokuapp.com/API/register/tenant/', {
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
+        email: accountDetails.email, 
+        phone: accountDetails.phone,
         streetAddress: accountDetails.address, 
         city: accountDetails.city,
         email: accountDetails.email, 
@@ -140,7 +141,6 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
           email: accountDetails.email, 
           phone: accountDetails.phone,
           companyName: accountDetails.companyName, 
-          companyType: accountDetails.companyType,
           password, 
         })
         .then((response) => {
