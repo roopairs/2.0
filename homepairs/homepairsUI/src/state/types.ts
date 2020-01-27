@@ -3,7 +3,9 @@ import { ReactElement, Context } from "react";
 
 /**-------------------Property Types-------------------**/
 export type Property = {
-    address: String, 
+    address: string, 
+    city: string, 
+    state: string,
     tenants : number, 
     bedrooms: number, 
     bathrooms: number,
@@ -256,6 +258,8 @@ enum HOMEPAIRS_LOGIN_STATUS {
 
 enum HOMEPAIRS_PROPERTY_KEYS {
     ADDRESS = 'address',
+    CITY = 'city', 
+    STATE = 'state',
     TENANTS = 'maxTenants',
     BEDROOMS = 'numBed',
     BATHROOMS = 'numBath',
@@ -263,6 +267,8 @@ enum HOMEPAIRS_PROPERTY_KEYS {
 
 export enum HomepairsPropertyAttributes{
     ADDRESS = 'address',
+    CITY = 'city', 
+    state = 'state',
     TENANTS = 'tenants',
     BEDROOMS = 'bedrooms',
     BATHROOMS = 'bathrooms',

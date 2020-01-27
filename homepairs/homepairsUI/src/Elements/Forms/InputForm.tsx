@@ -16,7 +16,7 @@ type InputFormState = {
 
 const initialState : InputFormState = {value: ''}
 
-export default function InputForm(props: InputFormProps){
+export default function InputForm(props: InputFormProps) {
     const [value, sendData] : [InputFormState, any] = useState(initialState)
     
     function passInputValue(text:String) : void{
@@ -25,15 +25,15 @@ export default function InputForm(props: InputFormProps){
     }
  
     function renderName(){
-        if(props.name == null)
+        if(props.name == null){
             return(<></>)
-        else{
-            return(
-                <Text 
-                style={ props.formTitleStyle == null ? DefaultInputFormStyle.formTitle : props.formTitleStyle}>
-                    { props.name }
-                </Text>
-            )};
+        }
+        return(
+            <Text 
+            style={ props.formTitleStyle == null ? DefaultInputFormStyle.formTitle : props.formTitleStyle}>
+                { props.name }
+            </Text>
+        );
     }
 
     function textInputProps() : TextInputProps {
@@ -52,7 +52,7 @@ export default function InputForm(props: InputFormProps){
             {renderName()}
             <TextInput {...textInputProps()}/>
         </View>
-    )
+    );
 }
 
 const DefaultInputFormStyle = StyleSheet.create({

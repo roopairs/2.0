@@ -24,8 +24,33 @@ const initialState : LoginState = {
     password : '',
 }
 
+function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
+    const colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme
+    return StyleSheet.create({
+        formTitle: {
+            marginVertical: '3.5%', 
+            fontFamily: BaseStyles.FontTheme.primary, 
+            color: colors.lightGray,
+          },
+        input: {
+             alignItems: 'center',
+             alignSelf: 'center',
+             margin: BaseStyles.MarginPadding.xsmallConst,
+             minWidth:40,
+             width: BaseStyles.ContentWidth.max,
+             height: 40,
+             color: colors.tertiary,
+             borderColor: colors.lightGray,
+             borderWidth: 1,
+             borderRadius: BaseStyles.BorderRadius.small,
+             paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
+        },
+    })
+}
+
 export default class RoopairsLoginBase extends React.Component<LoginProps, LoginState> {
     protected inputFormStyle 
+
     constructor(props: Readonly<LoginProps>){
         super(props)
         this.inputFormStyle = setInputStyles(props.primaryColorTheme)
@@ -33,34 +58,37 @@ export default class RoopairsLoginBase extends React.Component<LoginProps, Login
         this.getFormPassword = this.getFormPassword.bind(this)
         this.setModalOff = this.setModalOff.bind(this)
         this.navigateMain = this.navigateMain.bind(this)
-        this._clickButton = this._clickButton.bind(this)
-        this._clickHighlightedText = this._clickHighlightedText.bind(this)
+        this.clickButton = this.clickButton.bind(this)
+        this.clickHighlightedText = this.clickHighlightedText.bind(this)
         this.state = initialState
         
-        this.props._clickButton(this._clickButton)
-        this.props._clickHighlightedText(this._clickHighlightedText)
+        this.props.clickButton(this.clickButton)
+        this.props.clickHighlightedText(this.clickHighlightedText)
     }
 
     setModalOff(error:string = "Error Message") {
-        this.props._showModal(false)
-        this.props._setErrorState(true, error)
-    }
-    navigateMain() {
-        this.props.navigation.navigate('Main')
+        this.props.showModal(false)
+        this.props.setErrorState(true, error)
     }
 
     getFormUsername (childData : string) {
         this.setState({username : childData})
     }
+
     getFormPassword(childData : string){
         this.setState({password : childData})
     }
 
-    _clickHighlightedText() {
+    navigateMain() {
+        this.props.navigation.navigate('Main')
+    }
+
+    clickHighlightedText() {
         this.props.navigation.navigate('SignUp')
     }
-    _clickButton() {
-        this.props._showModal(true)
+
+    clickButton() {
+        this.props.showModal(true)
         this.props.onFetchAccountProfile(this.state.username, this.state.password, this.setModalOff, this.navigateMain)
     } 
 
@@ -90,28 +118,4 @@ export default class RoopairsLoginBase extends React.Component<LoginProps, Login
             </>
         );
     }
-}
-
-function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
-    let colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme
-    return StyleSheet.create({
-        formTitle: {
-            marginVertical: '3.5%', 
-            fontFamily: BaseStyles.FontTheme.primary, 
-            color: colors.lightGray,
-          },
-        input: {
-             alignItems: 'center',
-             alignSelf: 'center',
-             margin: BaseStyles.MarginPadding.xsmallConst,
-             minWidth:40,
-             width: BaseStyles.ContentWidth.max,
-             height: 40,
-             color: colors.tertiary,
-             borderColor: colors.lightGray,
-             borderWidth: 1,
-             borderRadius: BaseStyles.BorderRadius.small,
-             paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
-        },
-    })
 }

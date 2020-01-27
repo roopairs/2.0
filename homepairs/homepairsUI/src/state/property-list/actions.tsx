@@ -6,7 +6,7 @@ import {
     Property,
     HomePairsResponseKeys,
 } from '../types';
-import axios from 'axios'
+import axios from 'axios';
 
 let responseKeys = HomePairsResponseKeys;
 let loginStatus = HomePairsResponseKeys.STATUS_RESULTS;
@@ -19,28 +19,75 @@ export enum PROPERTY_LIST_ACTION_TYPES {
     FETCH_PROPERTIES = 'PROPERTY_LIST/FETCH_PROPERTIES',
 }
 
-export const addProperty = (address: string, tenants: number,
-    bedrooms: number, bathrooms: number): AddPropertyAction => ({
+export const addProperty = (newProperty: Property): AddPropertyAction => 
+{
+  return {
     type: PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY,
-    userData: {
-        address, 
-        tenants, 
-        bedrooms,
-        bathrooms,
-    }
-});
+    userData: newProperty
+  }
+};
 
-export const updateProperty = (propertyIndex: number, address: string = null, tenants: number = null,
-    bedrooms: number = null, bathrooms: number = null) : UpdatePropertyAction => ({
+export const postNewProperty = (newProperty: Property, email: string, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => {
+    return async (dispatch: (arg0: any) => void) => {
+      return await axios.post('https://homepairs-alpha.herokuapp.com/API/property/create/', {
+        streetAddress: newProperty.address, 
+        city: newProperty.city, 
+        state: newProperty.state, 
+        numBed: newProperty.bedrooms, 
+        numBath: newProperty.bathrooms, 
+        maxTenants: newProperty.tenants,
+        pm: email
+      })
+      .then((response) => {
+        console.log(response[responseKeys.DATA])
+        if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.FAILURE)){
+          dispatch(addProperty(newProperty));
+          setInitialState();
+          onChangeModalVisibility(false);
+        } else {
+          console.log("error");
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
+};
+
+export const updateProperty = (propertyIndex: number, updatedProperty: Property) : UpdatePropertyAction => {
+  return {
     type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
     index: propertyIndex,
-    userData: {
-        address, 
-        tenants, 
-        bedrooms,
-        bathrooms,
-    }
-});
+    userData: updatedProperty
+  }
+};
+
+export const postUpdatedProperty = (editProperty: Property, propIndex: number, email: string, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => {
+  return async (dispatch: (arg0: any) => void) => {
+    return await axios.post('https://homepairs-alpha.herokuapp.com/API/property/create/', {
+      streetAddress: editProperty.address, 
+      city: editProperty.city, 
+      state: editProperty.state, 
+      numBed: editProperty.bedrooms, 
+      numBath: editProperty.bathrooms, 
+      maxTenants: editProperty.tenants,
+      pm: email
+    })
+    .then((response) => {
+      console.log(response[responseKeys.DATA])
+      if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.FAILURE)){
+        dispatch(updateProperty(propIndex, editProperty));
+        setInitialState();
+        onChangeModalVisibility(false);
+      } else {
+        console.log("error");
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+}
+
+
 
 export const removeProperty = (propertyIndex: number): RemovePropertyAction => ({
     type: PROPERTY_LIST_ACTION_TYPES.REMOVE_PROPERTY,
@@ -53,6 +100,8 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertyActi
     linkedProperties?.forEach(element => {
         fetchedProperties.push({
             address: element[propertyKeys.ADDRESS],
+            city: element[propertyKeys.CITY], 
+            state: element[propertyKeys.STATE],
             tenants: element[propertyKeys.TENANTS],
             bedrooms : element[propertyKeys.BEDROOMS],
             bathrooms : element[propertyKeys.BATHROOMS]})
@@ -60,7 +109,7 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertyActi
     return {
       type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
       properties: fetchedProperties
-    }
+    };
 };
 
 export const fetchAllProperties = (

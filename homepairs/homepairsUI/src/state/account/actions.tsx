@@ -7,7 +7,7 @@ import {
   AccountTypes,
   HomePairsResponseKeys, 
 } from '../types';
-import axios from 'axios'
+import axios from 'axios';
 import { fetchProperties } from '../property-list/actions';
 
 let responseKeys = HomePairsResponseKeys;

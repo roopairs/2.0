@@ -7,9 +7,6 @@ import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { AuthPageInjectedProps } from 'homepair-components';
 import * as BaseStyles from 'homepair-base-styles';
 import { StyleSheet, View, Text } from 'react-native';
-import {FontTheme} from 'homepair-base-styles';
-import { createUnionTypeAnnotation } from '@babel/types';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export type SignUpViewDispatchProps = {
     generateHomePairsAccount: (details: Account, password: String, modalSetOff: () => any, navigationRouteCallback: () => any) => any 
@@ -65,13 +62,13 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
 
         this.state = initalState
 
-        this.props._clickButton(this._clickSignUp)
-        this.props._clickHighlightedText(this._clickSignIn)
+        this.props.clickButton(this._clickSignUp)
+        this.props.clickHighlightedText(this._clickSignIn)
     }
 
     setModalOff(error:string = "Error Message") {
-        this.props._showModal(false)
-        this.props._setErrorState(true, error)
+        this.props.showModal(false)
+        this.props.setErrorState(true, error)
     }
 
     navigateMain() {
@@ -174,8 +171,8 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
         if(!isEmptyOrSpaces(this.state.password) && (this.state.password === this.state.cPassword))
             return true
         else {
-            this.props._showModal(false)
-            this.props._setErrorState(true, 'Your passwords do not match. Please try again.')
+            this.props.showModal(false)
+            this.props.setErrorState(true, 'Your passwords do not match. Please try again.')
         }
         return false
     } 
@@ -188,11 +185,11 @@ export default class SignUpScreenBase extends React.Component<SignUpProps, SignU
     };
     
     _clickSignUp = () => {
-        this.props._showModal(true, signUpScreenStrings.modal)
+        this.props.showModal(true, signUpScreenStrings.modal)
         let details : Account = {...this.state, roopairsToken: ''}
         if(this.validateCredentials()){
             this.props.generateHomePairsAccount(details, this.state.password, this.setModalOff, this.navigateMain)
-            this.props._showModal(false)
+            this.props.showModal(false)
         }
     }
 

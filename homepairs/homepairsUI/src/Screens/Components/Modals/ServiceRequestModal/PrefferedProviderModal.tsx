@@ -11,7 +11,7 @@ export function PrefferedProviderModal(props: Props) {
       <Card
         showCloseButton={true}
         title="New Property"
-        closeButtonPressedCallBack={()=>props._onChangeModalVisibility(false)}
+        closeButtonPressedCallBack={()=>props.onChangeModalVisibility(false)}
       >
         <ActivityIndicator />
       </Card>

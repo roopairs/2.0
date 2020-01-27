@@ -1,14 +1,12 @@
+import React from 'react';
 import { connect } from "react-redux";
-import RoopairsLoginBase from './RoopairsLoginBase';
 import { AccountActions } from 'homepair-redux-actions';
-import { RoopairsLoginDispatchProps } from './RoopairsLoginBase';
 import {withAuthPage, AuthPassProps, withDarkMode } from 'homepair-components'
 import strings from 'homepair-strings'
 import HomePairColors from 'homepair-colors';
 import {Image, Text, View} from 'react-native';
 import {roopairsLogo} from 'homepair-images';
-import React from 'react';
-
+import RoopairsLoginBase, {RoopairsLoginDispatchProps} from './RoopairsLoginBase';
 
 const roopairsSubtitle = <View style= {{flexDirection: 'row'}}> 
         <Image style = {{width: 60, height: 60, resizeMode: 'contain'}} source={roopairsLogo}/>

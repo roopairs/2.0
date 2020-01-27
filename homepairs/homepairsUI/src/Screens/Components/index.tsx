@@ -38,7 +38,8 @@ export { default as ViewPropertyCard } from "./ViewPropertyCard/ViewPropertyCard
 export { default as AccountConnectedCard } from "./AuthenticationCards/AccountConnectedCard";
 export { default as ConnectAccountCard } from "./AuthenticationCards/ConnectAccountCard";
 export { default as HomePairsHeader } from "./HomePairsHeader/HomePairsHeader";
-export { AddNewPropertyModal } from "./Modals/AddNewPropertyModal/AddNewPropertyModal";
+export { AddNewPropertyModalBase } from "./Modals/AddNewPropertyModal/AddNewPropertyModalBase";
+//export { EditPropertyModalBase} from "./Modals/EditPropertyModal/EditPropertyModalBase";
 export { PrefferedProviderModal } from "./Modals/ServiceRequestModal/PrefferedProviderModal";
 
 /**

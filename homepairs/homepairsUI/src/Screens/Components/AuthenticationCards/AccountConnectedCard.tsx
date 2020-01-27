@@ -11,15 +11,15 @@ export type AccountConnectedCardProps = DarkModeInjectedProps & {
 const cardStrings = strings.connectAccountPage.accountConnected.accountConnectedCard
 
 export default function AccountConnectedCard(props:AccountConnectedCardProps) {
-    let styles = setStyles(props.primaryColorTheme)
+    const styles = setStyles(props.primaryColorTheme)
     
     function disconnectAccount(){
-        //TODO: Call asyncronous fetch (From fetch or axios) to connect Roopairs account
+        // TODO: Call asyncronous fetch (From fetch or axios) to connect Roopairs account
         alert('I need to disconnect')
         props.disconnectAccountCallBack('TODO: Insert Parameters for call back (might be a json)!')
     }
 
-    let disconnectAccountCardProps = {
+    const disconnectAccountCardProps = {
         containerStyle: styles.accountContainer,
         title: cardStrings.title,
         titleStyle: styles.cardTitle,
@@ -29,7 +29,7 @@ export default function AccountConnectedCard(props:AccountConnectedCardProps) {
         wrapperStyle: styles.wrapper,
     }
 
-    let buttonProps = {
+    const buttonProps = {
         name: cardStrings.button,
         containerStyle: styles.thinButtonContainer,
         buttonStyle: styles.thinButton,

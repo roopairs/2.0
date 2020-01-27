@@ -29,10 +29,10 @@ export type AuthPageInjectedProps = DarkModeInjectedProps & NavigationInjectedPr
 { 
     inputFormProps?: {[id: string] : InputFormProps},
     //thinButtonProps?: ThinButtonProps,
-    _clickHighlightedText?: (arg?:any) => any
-    _clickButton?: (arg:any) => any 
-    _setErrorState?: (arg1:boolean, arg2?:string) => any
-    _showModal?: (arg1:boolean, arg2?:string) => any
+    clickHighlightedText?: (arg?:any) => any
+    clickButton?: (arg:any) => any 
+    setErrorState?: (arg1:boolean, arg2?:string) => any
+    showModal?: (arg1:boolean, arg2?:string) => any
 }
 
 type DefaultAuthPageState = {
@@ -43,7 +43,7 @@ type DefaultAuthPageState = {
     error: boolean,
     errorMessage: string,
     thinButtonStyle: ThinButtonProps,
-    _clickHighlightedText: () => void
+    clickHighlightedText: () => void
 }
 
 const initalState : DefaultAuthPageState = {
@@ -54,7 +54,7 @@ const initalState : DefaultAuthPageState = {
     modalVisible: false,
     modalMessage: strings.signInPage.modal,
     thinButtonStyle: null,
-    _clickHighlightedText: () => {},
+    clickHighlightedText: () => {},
 }
 
 export function withAuthPage(WrappedComponent: any, defaultAuthPassProps : AuthPassProps){
@@ -95,7 +95,7 @@ export function withAuthPage(WrappedComponent: any, defaultAuthPassProps : AuthP
     
         setHighlightedClick(arg: () => void) : void {
             this.setState({
-                _clickHighlightedText: arg
+                clickHighlightedText: arg
             })
         }
         setThinButtonClick(arg: () => void) : void {
@@ -166,17 +166,17 @@ export function withAuthPage(WrappedComponent: any, defaultAuthPassProps : AuthP
                                 {this.renderSubtitle()}
                                 {this.showError()}
                                 <WrappedComponent {...this.props}
-                                _clickButton={this.setThinButtonClick}
-                                _clickHighlightedText={this.setHighlightedClick}
-                                _setErrorState={this.setErrorFlag}
-                                _showModal={this.showModal}
+                                clickButton={this.setThinButtonClick}
+                                clickHighlightedText={this.setHighlightedClick}
+                                setErrorState={this.setErrorFlag}
+                                showModal={this.showModal}
                                 />
                                 {this.renderSignInButton()}
                                 <View style={styles.signUpSection}>
                                     <Text style={styles.standardText}>
                                         {defaultAuthPassProps.underButtonText}
                                         <Text style={{color: colors.LightModeColors.title}} 
-                                        onPress={this.state._clickHighlightedText}>
+                                        onPress={this.state.clickHighlightedText}>
                                             {defaultAuthPassProps.highlightedText}
                                         </Text>
                                     </Text>

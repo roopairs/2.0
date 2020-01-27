@@ -13,7 +13,7 @@ import {
 import { MainAppStackType } from "homepair-types";
 import { HeaderActions } from "homepair-redux-actions";
 import { View } from "react-native";
-import { AddNewPropertyModal } from '../../../Components/Modals/AddNewPropertyModal/AddNewPropertyModal';
+import AddNewPropertyModal  from '../../../Components/Modals/AddNewPropertyModal/AddNewPropertyModal';
 
 const sceneParams: MainAppStackType = {
   title: "Properties",

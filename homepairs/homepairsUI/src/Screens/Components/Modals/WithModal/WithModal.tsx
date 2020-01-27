@@ -18,7 +18,7 @@ type State = {
 };
 
 export type ModalInjectedProps = {
-  _onChangeModalVisibility: (isVisible?: boolean) => void;
+  onChangeModalVisibility: (isVisible?: boolean) => void;
 };
 
 const Modal = Platform.OS === "web" ? WebModal : MobileModal;
@@ -32,7 +32,7 @@ export function withModal(BaseComponent: any, ModalComponent: any) {
         styles: setStyle()
       }
       this.updateStyles = this.updateStyles.bind(this);
-      this._onChangeModalVisibility = this._onChangeModalVisibility.bind(this);
+      this.onChangeModalVisibility = this.onChangeModalVisibility.bind(this);
     }
 
     updateStyles() {
@@ -54,7 +54,7 @@ export function withModal(BaseComponent: any, ModalComponent: any) {
      */
     injectProps(): ModalInjectedProps {
       return {
-        _onChangeModalVisibility: this._onChangeModalVisibility
+        onChangeModalVisibility: this.onChangeModalVisibility
       };
     }
 
@@ -62,7 +62,7 @@ export function withModal(BaseComponent: any, ModalComponent: any) {
      * The bounded function will toggle the visiblity of the module or will
      * set the visiblity based on the argument passed in.
      */
-    _onChangeModalVisibility(isVisible?: boolean) {
+    onChangeModalVisibility(isVisible?: boolean) {
       let changedVisibility: boolean =
         isVisible == null ? !this.state.isVisible : isVisible;
       this.setState({ isVisible: changedVisibility });

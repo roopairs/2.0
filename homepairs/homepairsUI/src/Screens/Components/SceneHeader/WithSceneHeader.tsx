@@ -46,13 +46,13 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
         this.renderContents = this.renderContents.bind(this);
         this.onPressButton = this.onPressButton.bind(this);
         console.log('withSceneHeader constructor')
-        console.log(props._onChangeModalVisibility)
+        console.log(props.onChangeModalVisibility)
       }
 
       onPressButton() {
           console.log('withSceneHeader onPressButton')
-          console.log(this.props._onChangeModalVisibility)
-          return Page.doesButtonUseNavigate ? Page._onButtonClick(this.props) : this.props._onChangeModalVisibility(true)
+          console.log(this.props.onChangeModalVisibility)
+          return Page.doesButtonUseNavigate ? Page._onButtonClick(this.props) : this.props.onChangeModalVisibility(true)
       }
 
       scrollViewProps(): ScrollViewProps {
