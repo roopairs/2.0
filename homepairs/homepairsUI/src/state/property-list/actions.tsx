@@ -25,7 +25,7 @@ export const addProperty = (address: string, tenants: number,
     bedrooms: number, bathrooms: number): AddPropertyAction => ({
     type: PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY,
     userData: {
-        address, 
+        streetAddress: address, 
         tenants, 
         bedrooms,
         bathrooms,
@@ -37,7 +37,7 @@ export const updateProperty = (propertyIndex: number, address: string = null, te
     type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
     index: propertyIndex,
     userData: {
-        address, 
+        streetAddress: address, 
         tenants, 
         bedrooms,
         bathrooms,
@@ -52,7 +52,7 @@ export const removeProperty = (propertyIndex: number): RemovePropertyAction => (
 export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => {
     let fetchedProperty : Property;
         fetchedProperty = {
-            address: linkedProperty[propertyKeys.ADDRESS],
+            streetAddress: linkedProperty[propertyKeys.ADDRESS],
             tenants: linkedProperty[propertyKeys.TENANTS],
             bedrooms : linkedProperty[propertyKeys.BEDROOMS],
             bathrooms : linkedProperty[propertyKeys.BATHROOMS]
@@ -68,7 +68,7 @@ export const fetchPropertyList = (linkedProperties: Array<any>): FetchPropertyLi
     //TO DO: make linkedProperties not nullable again (once adam gives us properties for pm's again)
     linkedProperties?.forEach(element => {
         fetchedProperties.push({
-            address: element[propertyKeys.ADDRESS],
+            streetAddress: element[propertyKeys.ADDRESS],
             tenants: element[propertyKeys.TENANTS],
             bedrooms : element[propertyKeys.BEDROOMS],
             bathrooms : element[propertyKeys.BATHROOMS]})
