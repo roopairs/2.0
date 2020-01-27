@@ -1,7 +1,7 @@
-import { AppState, MainAppStackType } from 'homepair-types';
+import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
-import { AccountActions } from 'homepair-redux-actions';
-import { withSceneHeader, withDarkMode } from 'homepair-components';
+import { AccountActions } from 'homepairs-redux-actions';
+import { withSceneHeader, withDarkMode } from 'homepairs-components';
 import { withNavigation } from 'react-navigation';
 import AccountScreenBase, {
     AccountScreenStateProps,

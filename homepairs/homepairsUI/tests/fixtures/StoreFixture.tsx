@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { LandlordAccount, AccountTypes, AppState, Property, Header, MainAppStackType, ConfigurationSettings, ServiceState } from 'homepair-types';
+import { LandlordAccount, AccountTypes, AppState, Property, Header, MainAppStackType, ConfigurationSettings, ServiceState } from 'homepairs-types';
 
 const middleWares = [thunk];
 const mockStore = configureMockStore(middleWares);
@@ -10,13 +10,13 @@ const MainAppStack : Array<MainAppStackType> = [
         navigate: 'AccountProperties',
         key: 'Properties',
         button: 'Add Property',
-        onButtonClick: () => {return true;}
+        onButtonClick: () => {return true;},
     },
     { 
         title: 'Service Request', 
         navigate: 'ServiceRequest',
         key: 'ServiceRequest',
-        button: 'Request Service'
+        button: 'Request Service',
     },
     {  
         title: 'Account Settings',
@@ -27,13 +27,13 @@ const MainAppStack : Array<MainAppStackType> = [
         title: 'Log Out',
         navigate: 'Auth',
         key: 'LogOut',
-    }
+    },
 ];
 const navigationMenu : string[] = [
     'Properties',
     'Service Requests',
     'Account',
-    'Log Out'
+    'Log Out',
 ];
 
 /** User Account data for testing! */
@@ -65,7 +65,7 @@ const PropertyList1 : Property[] = [
         tenants : 5, 
         bedrooms: 3, 
         bathrooms: 2,
-    }
+    },
 ];
 /** Property data for testing! */
 
@@ -76,7 +76,7 @@ const HeaderState1 : Header = {
     isDropDown: true,
     currentPage: MainAppStack[1],
     showBackButton: false,
-    menu: navigationMenu
+    menu: navigationMenu,
 };
 /** Header data for testing! */
 
@@ -86,7 +86,7 @@ const HeaderState1 : Header = {
 const serviceRequest1: ServiceState = {
     requested: [],
     accepted: [],
-    closed:[]
+    closed:[],
 };
 /** Service Request  data for testing! */
 

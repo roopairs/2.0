@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "homepair-elements";
+import { Card } from "homepairs-elements";
 import { ModalInjectedProps } from '../WithModal/WithModal';
 
 type Props = ModalInjectedProps

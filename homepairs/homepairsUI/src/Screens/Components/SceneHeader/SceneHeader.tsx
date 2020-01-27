@@ -1,7 +1,7 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text, View } from 'react-native';
-import { ThinButtonProps, renderThinButton } from 'homepair-elements';
-import * as BaseStyles from 'homepair-base-styles';
+import { ThinButtonProps, renderThinButton } from 'homepairs-elements';
+import * as BaseStyles from 'homepairs-base-styles';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 
 export type SceneHeaderProps = DarkModeInjectedProps & {

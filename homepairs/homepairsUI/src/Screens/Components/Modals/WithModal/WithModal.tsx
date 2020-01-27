@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import React, { Component } from 'react';
 import WebModal from 'modal-enhanced-react-native-web';
-import * as BaseStyles from 'homepair-base-styles';
+import * as BaseStyles from 'homepairs-base-styles';
 
 type Props = {};
 type State = {

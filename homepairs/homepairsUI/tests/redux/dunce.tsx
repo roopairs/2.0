@@ -1,5 +1,5 @@
-import { AccountActions } from 'homepair-redux-actions';
-import { LandlordAccount, AccountTypes, } from 'homepair-types';
+import { AccountActions } from 'homepairs-redux-actions';
+import { LandlordAccount, AccountTypes, } from 'homepairs-types';
 import { fetchAccountProfile } from '../../src/state/account/actions';
 
 const fakeLandLord : LandlordAccount = {

@@ -1,12 +1,12 @@
-import { AppState, MainAppStackType } from 'homepair-types';
+import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
 import {
     withSceneHeader,
     withDarkMode,
     withModal,
     AddNewPropertyModal,
-} from 'homepair-components';
-import { HeaderActions } from 'homepair-redux-actions';
+} from 'homepairs-components';
+import { HeaderActions } from 'homepairs-redux-actions';
 import { withNavigation } from 'react-navigation';
 import PropertiesScreenBase, {
     PropertiesScreenStateProps,

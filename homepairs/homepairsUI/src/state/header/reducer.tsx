@@ -1,5 +1,5 @@
 import { Dimensions } from 'react-native';
-import strings from 'homepair-strings';
+import strings from 'homepairs-strings';
 import { 
     HeaderState, 
     ToggleMenuAction,

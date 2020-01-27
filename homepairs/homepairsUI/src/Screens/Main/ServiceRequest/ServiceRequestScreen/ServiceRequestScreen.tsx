@@ -1,11 +1,11 @@
-import { AppState, MainAppStackType } from 'homepair-types';
+import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
-import { withSceneHeader, withDarkMode } from 'homepair-components';
-import strings from 'homepair-strings';
+import { withSceneHeader, withDarkMode, SceneInjectedProps } from 'homepairs-components';
+import strings from 'homepairs-strings';
+import { withNavigation } from 'react-navigation';
 import ServiceRequestScreenBase, {
     ServiceRequestScreenStateProps,
 } from './ServiceRequestScreenBase';
-import { withNavigation } from 'react-navigation';
 
 const serviceRequestStrings = strings.serviceRequestPage;
 const sceneParam: MainAppStackType = {
@@ -13,8 +13,9 @@ const sceneParam: MainAppStackType = {
     navigate: 'ServiceRequest',
     key: 'ServiceRequest',
     button: serviceRequestStrings.button,
-    onButtonClick: (props: any) => {
+    onButtonClick: (props: SceneInjectedProps) => {
         props.navigation.push('NewRequest');
+        props.onSetHeaderGoBackButton(true);
     },
     doesButtonUseNavigate: true,
 };

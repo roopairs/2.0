@@ -1,20 +1,19 @@
 import { connect } from 'react-redux';
-import { AccountActions } from 'homepair-redux-actions';
+import { AccountActions } from 'homepairs-redux-actions';
 import {
     withAuthPage,
     AuthPassProps,
     withDarkMode,
     LoggingInModal,
     withModal,
-} from 'homepair-components';
-import strings from 'homepair-strings';
-import HomePairColors from 'homepair-colors';
+} from 'homepairs-components';
+import strings from 'homepairs-strings';
+import HomePairColors from 'homepairs-colors';
 import { Image, Text, View } from 'react-native';
-import { roopairsLogo } from 'homepair-images';
+import { roopairsLogo } from 'homepairs-images';
 import React from 'react';
 import { withNavigation } from 'react-navigation';
-import RoopairsLoginBase from './RoopairsLoginBase';
-import { RoopairsLoginDispatchProps } from './RoopairsLoginBase';
+import RoopairsLoginBase , { RoopairsLoginDispatchProps } from './RoopairsLoginBase';
 
 const roopairsSubtitle = (
     <View style={{ flexDirection: 'row' }}>

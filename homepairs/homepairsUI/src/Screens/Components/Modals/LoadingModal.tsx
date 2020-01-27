@@ -2,28 +2,15 @@ import React, { ReactElement } from "react";
 import {
   ActivityIndicator,
   StatusBar,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
-import {Card} from 'homepair-elements';
+import {Card} from 'homepairs-elements';
 
 export type LoadingModalProps = {
   children?: ReactElement[] | ReactElement;
   containerStyle?: {};
   wrapperStyle?: {};
 };
-
-export function LoadingModal(props: LoadingModalProps) {
-  return (
-    <Card
-      containerStyle={styles.loadingCardContents}
-      wrapperStyle={{ alignItems: "center" }}
-    >
-      <ActivityIndicator />
-      <StatusBar barStyle="default" />
-      <>{props.children}</>
-    </Card>
-  );
-}
 
 const styles = StyleSheet.create({
   loadingCardContents: {
@@ -41,6 +28,20 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 200,
     elevation: 9,
-    borderRadius: 10
-  }
+    borderRadius: 10,
+  },
 });
+
+export function LoadingModal(props: LoadingModalProps) {
+  const {children} = props;
+  return (
+    <Card
+      containerStyle={styles.loadingCardContents}
+      wrapperStyle={{ alignItems: "center" }}
+    >
+      <ActivityIndicator />
+      <StatusBar barStyle="default" />
+      <>{children}</>
+    </Card>
+  );
+}

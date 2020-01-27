@@ -1,13 +1,13 @@
 import { connect } from "react-redux";
-import { AccountActions } from "homepair-redux-actions";
+import { AccountActions } from "homepairs-redux-actions";
 import {
   withAuthPage,
   AuthPassProps,
   withDarkMode,
   LoggingInModal,
   withModal,
-} from "homepair-components";
-import strings from "homepair-strings";
+} from "homepairs-components";
+import strings from "homepairs-strings";
 import HomePairColors from "res/colors";
 import { withNavigation } from "react-navigation";
 import LoginScreenBase, { LoginViewDispatchProps } from "./LoginScreenBase";

@@ -10,10 +10,11 @@ import {
     ImageStyle,
     ImageSourcePropType,
 } from 'react-native';
-import { roopairsLogo } from 'homepair-images';
-import HomePairColors from 'homepair-colors';
+import { roopairsLogo } from 'homepairs-images';
+import HomePairColors from 'homepairs-colors';
 
 export type LoginButtonProps = {
+    key?: any;
     name?: String;
     onClick?: () => any;
     image?: ImageSourcePropType;
@@ -23,6 +24,16 @@ export type LoginButtonProps = {
     buttonTextStyle?: TextStyle;
 };
 
+/* *
+ * ------------------------------------------------------------
+ * Login Button 
+ * ------------------------------------------------------------
+ * This is a special element that has the same qualities of a thin button.
+ * However, this also is capable of rendering images with two additional 
+ * properties image and imageStyle.  
+ * 
+ * Sub
+ * */
 export default function LoginButton(props: LoginButtonProps) {
     const {
         name,
@@ -80,6 +91,7 @@ const DefaultLoginButtonStyles = StyleSheet.create({
 });
 
 LoginButton.defaultProps = {
+    key: null,
     name: '',
     onClick: () => {},
     image: roopairsLogo,

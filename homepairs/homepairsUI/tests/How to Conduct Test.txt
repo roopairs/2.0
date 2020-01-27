@@ -1,3 +1,13 @@
+Conducting tests in the React Native enviroment takes a little bit of set-up. 
+Since most Testing Frameworks are designed for React, this can give us a few 
+issues due to the fact that we are designing for both web and native applications. 
+This is not much of an issue for simple unit testing, but this does cause issues 
+if we some level of integration testing. Therefore, we are required to to set up 
+a jsdom enviroment for all tests that require any type of component method 
+execution. 
+
+EXAMPLE: 
+
 /**
  * @jest-environment jsdom
  */

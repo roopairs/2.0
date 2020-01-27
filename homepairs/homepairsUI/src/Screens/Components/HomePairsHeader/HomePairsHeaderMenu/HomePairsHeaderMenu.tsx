@@ -1,9 +1,9 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
-import { FontTheme, ColorTheme } from 'homepair-base-styles';
-import { MainAppStackType } from 'homepair-types';
-import HomePairColors from 'homepair-colors';
+import { FontTheme, ColorTheme } from 'homepairs-base-styles';
+import { MainAppStackType } from 'homepairs-types';
+import HomePairColors from 'homepairs-colors';
 import MainAppStack from '../../../../Routes/RouteConstants';
 import { DarkModeInjectedProps } from '../../WithDarkMode/WithDarkMode';
 

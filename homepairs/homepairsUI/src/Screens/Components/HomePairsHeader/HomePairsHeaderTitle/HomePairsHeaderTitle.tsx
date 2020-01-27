@@ -7,9 +7,9 @@ import {
     Platform,
 } from 'react-native';
 import React from 'react';
-import { hamburger } from 'homepair-images';
-import HomePairColors from 'homepair-colors';
-import { HomePairFonts } from 'homepair-fonts';
+import { hamburger } from 'homepairs-images';
+import HomePairColors from 'homepairs-colors';
+import { HomePairFonts } from 'homepairs-fonts';
 import { DarkModeInjectedProps } from '../../WithDarkMode/WithDarkMode';
 
 export type HomePairsHeaderTitleProps = DarkModeInjectedProps & {

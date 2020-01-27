@@ -1,7 +1,7 @@
-import * as BaseStyles from 'homepair-base-styles';
-import { HomePairsDimensions } from 'homepair-types';
+import * as BaseStyles from 'homepairs-base-styles';
+import { HomePairsDimensions } from 'homepairs-types';
 import { StyleSheet, Platform } from 'react-native';
-import { HomePairFonts } from 'homepair-fonts';
+import { HomePairFonts } from 'homepairs-fonts';
 
 export default function setStyles(colorTheme?: BaseStyles.ColorTheme) {
     const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;

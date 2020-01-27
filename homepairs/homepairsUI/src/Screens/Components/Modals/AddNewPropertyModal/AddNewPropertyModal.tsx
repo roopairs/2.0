@@ -1,7 +1,7 @@
 import {ActivityIndicator, StyleSheet } from "react-native";
 import React from "react";
-import { Card } from "homepair-elements";
-import { HomePairsDimensions } from "homepair-types";
+import { Card } from "homepairs-elements";
+import { HomePairsDimensions } from "homepairs-types";
 import { ModalInjectedProps } from "../WithModal/WithModal";
 
 type Props = ModalInjectedProps;

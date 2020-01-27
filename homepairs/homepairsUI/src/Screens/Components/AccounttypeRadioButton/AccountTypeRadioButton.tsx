@@ -1,13 +1,13 @@
 import React from 'react';
-import { AccountTypes } from 'homepair-types';
-import strings from 'homepair-strings';
+import { AccountTypes } from 'homepairs-types';
+import strings from 'homepairs-strings';
 import {
   TouchableOpacity,
   Text,
   View,
   StyleSheet,
 } from 'react-native';
-import * as BaseStyles from 'homepair-base-styles';
+import * as BaseStyles from 'homepairs-base-styles';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 
 export type AccountTypeRadioProps = DarkModeInjectedProps & {

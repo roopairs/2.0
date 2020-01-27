@@ -1,15 +1,24 @@
 /**
- * index.js file intended to act as an alias to the Components packages. 
- * It is in this file where all general purpose components (components common 
- * are shared between multiple Screens/Scenes/ParenentComponents) should be 
- * defined and exported. 
+ * ------------------------------------------------------------
+ * Elements 
+ * ------------------------------------------------------------
+ * Elements are designed to be the base level components akin to React.Elements.
+ * These components have hard coded values included into them are intended to be the 
+ * building blocks of larger components. 
  * 
- * An example of using this would be: 
- *  import { HomePairsHeader, SceneHeader } from 'homepair-components';
- *  import AddressSticker from './AddressSticker';
+ * ------------------------------------------------------------
+ * About aliases:
+ *      index.js file intended to act as an alias to the Components packages. 
+ *      It is in this file where all general purpose components (components common 
+ *      are shared between multiple Screens/Scenes/ParenentComponents) should be 
+ *      defined and exported. 
  * 
- * *Note, for any components specific to the scene (i.e. not used by any other scene), 
- *  please define a Components folder for the topmost parent and define it there. 
+ *      An example of using this would be: 
+ *          import { HomePairsHeader, SceneHeader } from 'homepairs-components';
+ *          import AddressSticker from './AddressSticker';
+ * 
+ *      * Note, for any components specific to the scene (i.e. not used by any other scene), 
+ *        please define a Components folder for the topmost parent and define it there. 
  */
 
 import { InputFormProps as IFP, renderInputForm } from './Forms/InputForm';

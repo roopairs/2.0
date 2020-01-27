@@ -1,4 +1,4 @@
-import { isPasswordValid, isEmailSyntaxValid } from 'homepair-helpers';
+import { isPasswordValid, isEmailSyntaxValid } from 'homepairs-utilities';
 
 const test1 = '';
 const test2 = 't';

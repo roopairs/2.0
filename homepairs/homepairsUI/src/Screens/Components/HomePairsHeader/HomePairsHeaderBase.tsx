@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 import React from 'react';
 import { SafeAreaView, StackActions } from 'react-navigation';
-import * as BaseStyles from 'homepair-base-styles';
+import * as BaseStyles from 'homepairs-base-styles';
+import { isNullOrUndefined } from 'homepairs-utilities';
 import {
     HomePairsHeaderTemplate,
     HomePairsHeaderProps,
@@ -100,7 +101,8 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
     }
 
     showBackButton() {
-        return this.props.header.showBackButton ? (
+        const {header} = this.props;
+        return header.showBackButton ? (
             <TouchableOpacity onPress={this.goBack} style={styles.goBackButton}>
                 <Text style={styles.goBackSymbol}>{backSymbol}</Text>
             </TouchableOpacity>
@@ -112,10 +114,15 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
     /**
      * This function navigates to the previous screen and then hides the goBack button
      * if the screen is the first in the navigation stack.
+     * 
+     * Navigation Stack stores its indices in the state. If the index is not defined or 
+     * if the index is 0, then we are at the beggining of the stack. 
      * */
     goBack() {
         this.props.navigation.dispatch(popAction);
-        if (this.props.navigation.isFirstRouteInParent()) {
+        const navigationIndex = this.props.navigation.state.index;
+        const isFirst = isNullOrUndefined(navigationIndex) || navigationIndex > 0;
+        if (isFirst) {
             this.props.onShowGoBackbutton(false);
         }
         this.props.onToggleMenu(false);

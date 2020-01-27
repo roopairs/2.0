@@ -8,22 +8,22 @@ import {
     StyleSheet,
     ImageProps,
 } from 'react-native';
-import { defaultProperty } from 'homepair-images';
+import { defaultProperty } from 'homepairs-images';
 import {
     GeneralHomeInfo,
     GeneralHomeInfoProps,
     AddressSticker,
     DarkModeInjectedProps,
-} from 'homepair-components';
+} from 'homepairs-components';
 import {
     HomepairsPropertyAttributes,
     PropertyListState,
     Property,
     HomePairsDimensions,
-} from 'homepair-types';
+} from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import strings from 'homepair-strings';
-import * as BaseStyles from 'homepair-base-styles';
+import strings from 'homepairs-strings';
+import * as BaseStyles from 'homepairs-base-styles';
 
 const navParams = strings.detailedPropertyPage.navigationParams;
 

@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-    Text,
-    View,
-    TextInput,
-    ViewStyle,
-    StyleSheet,
-} from 'react-native';
+import { Text, View, TextInput, ViewStyle, StyleSheet } from 'react-native';
 
 export type InputFormProps = {
     name?: String;
@@ -48,6 +42,18 @@ const DefaultInputFormStyle = StyleSheet.create({
     },
 });
 
+
+/**
+ * ------------------------------------------------------------
+ * Input Form
+ * ------------------------------------------------------------
+ * Renders an area where the user is able to input keyboard data.
+ * It inherits most of its functionality from the TextInput state but
+ * allows for a stylized version of it. It also is capable of rendering
+ * title for the state for UI clarity through the name property.
+ *
+ * 
+ * */
 export default function InputForm(props: InputFormProps) {
     // Below shows how to ignore a returned value in an array/ dictionary
     const [, sendData]: [InputFormState, any] = useState(initialState);
@@ -70,7 +76,7 @@ export default function InputForm(props: InputFormProps) {
 
         return <Text style={formTitleStyle}>{name}</Text>;
     }
-    
+
     return (
         <View style={containerStyle}>
             {renderName()}
@@ -87,7 +93,9 @@ export default function InputForm(props: InputFormProps) {
 
 InputForm.defaultProps = {
     name: null,
-    parentCallBack: (child: string) => {return child;},
+    parentCallBack: (child: string) => {
+        return child;
+    },
     secureTextEntry: false,
     formTitleStyle: DefaultInputFormStyle.formTitle,
     containerStyle: DefaultInputFormStyle.container,
@@ -95,7 +103,13 @@ InputForm.defaultProps = {
 };
 
 export function renderInputForm(formProps: InputFormProps) {
-    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry } = formProps;
+    const {
+        name,
+        parentCallBack,
+        formTitleStyle,
+        inputStyle,
+        secureTextEntry,
+    } = formProps;
     return (
         <InputForm
             name={name}

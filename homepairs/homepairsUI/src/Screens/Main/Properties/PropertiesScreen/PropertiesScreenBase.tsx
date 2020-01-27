@@ -1,11 +1,10 @@
 import React from 'react';
+import { PropertyListState, Property, HeaderState } from 'homepairs-types';
 import {
-    PropertyListState,
-    Property,
-    HeaderState,
-    HomepairsPropertyAttributes,
-} from 'homepair-types';
-import { ViewPropertyCard, SceneInjectedProps, DarkModeInjectedProps } from 'homepair-components';
+    ViewPropertyCard,
+    SceneInjectedProps,
+    DarkModeInjectedProps,
+} from 'homepairs-components';
 
 export type PropertiesScreenStateProps = {
     properties: PropertyListState;
@@ -18,7 +17,8 @@ export type PropertiesScreenDispatchProps = {
 
 export type PropertiesScreenProps = SceneInjectedProps &
     PropertiesScreenStateProps &
-    PropertiesScreenDispatchProps & DarkModeInjectedProps & { store: any };
+    PropertiesScreenDispatchProps &
+    DarkModeInjectedProps & { store: any };
 
 export default class PropertiesScreenBase extends React.Component<
     PropertiesScreenProps
@@ -40,21 +40,20 @@ export default class PropertiesScreenBase extends React.Component<
 
     render() {
         const { properties } = this.props;
-        const propertyList = [];
-        for (let i = 0; i < properties.length; i += 1) {
-            propertyList.push(
+        let nextIndex = 0;
+        return properties.map(property => {
+            const curIndex = nextIndex;
+            nextIndex += 1;
+            return (
                 <ViewPropertyCard
-                    key={i}
+                    key={curIndex}
                     viewButtonSelectedCallBack={
                         this.navigateToDetiailedProperty
                     }
-                    propertyAddress={
-                        properties[i][HomepairsPropertyAttributes.ADDRESS]
-                    }
-                    propertyIndex={i}
-                />,
+                    propertyAddress={property.address}
+                    propertyIndex={curIndex}
+                />
             );
-        }
-        return propertyList;
+        });
     }
 }

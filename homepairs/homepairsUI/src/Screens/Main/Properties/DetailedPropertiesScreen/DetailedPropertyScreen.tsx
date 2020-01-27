@@ -1,8 +1,8 @@
-import { AppState } from 'homepair-types';
-import { PropertyListActions } from 'homepair-redux-actions';
+import { AppState } from 'homepairs-types';
+import { PropertyListActions } from 'homepairs-redux-actions';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { withDarkMode } from 'homepair-components';
+import { withDarkMode } from 'homepairs-components';
 import DetailedPropertyScreenBase, {
     DetailedPropertyStateProps,
     DetailedPropertyDispatchProps,

@@ -1,4 +1,4 @@
-import { HomePairsDimensions } from 'homepair-types';
+import { HomePairsDimensions } from 'homepairs-types';
 import { HomePairFonts } from '../fonts';
 
 export type ColorTheme = {
@@ -23,8 +23,8 @@ export const LightColorTheme : ColorTheme = {
     gray: 'rgba(0,0,0,.5)',
     lightGray: 'rgba(55,66,69,.5)',
     veryLightGray: '#E9ECEF',
-    shadow: 'black'
-}
+    shadow: 'black',
+};
 
 export const DarkColorTheme : ColorTheme = {
     primary: '#00ADE9',
@@ -36,8 +36,8 @@ export const DarkColorTheme : ColorTheme = {
     gray: 'rgba(255,255,255,.75)',
     lightGray: 'rgba(255,255,255,.9)',
     veryLightGray: 'rgba(100,100,100, .50)',
-    shadow: 'white'
-}
+    shadow: 'white',
+};
 
 export const FontTheme = {
     title: 40,
@@ -52,7 +52,7 @@ export const FontTheme = {
     primary: HomePairFonts.nunito_regular,
     secondary: HomePairFonts.nunito_bold,
     tertiary: HomePairFonts.nunito_light,
-}
+};
 
 export const MarginPadding = {
     small: '1%',
@@ -66,7 +66,7 @@ export const MarginPadding = {
     mediumConst: 10,
     largeConst: 20,
     xlargConst: 25,
-}
+};
 
 export const ContentWidth = {
     half: '50%',
@@ -77,10 +77,10 @@ export const ContentWidth = {
     buttonWide: '20%',
     buttonReg: '15%',
     buttonThin: '10%',
-}
+};
 
 export const BorderRadius = {
     medium: 6,
     large: 8,
     small: 4,
-}
+};

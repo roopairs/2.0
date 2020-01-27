@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import React from 'react';
-import { AppState } from 'homepair-types';
-import { LightColorTheme, DarkColorTheme, ColorTheme} from 'homepair-base-styles';
+import { AppState } from 'homepairs-types';
+import { LightColorTheme, DarkColorTheme, ColorTheme} from 'homepairs-base-styles';
 
 
 type DarkModeProps = {

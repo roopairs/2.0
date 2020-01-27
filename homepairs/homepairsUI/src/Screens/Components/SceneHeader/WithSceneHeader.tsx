@@ -1,5 +1,5 @@
 import React from 'react';
-import { MainAppStackType, HomePairsDimensions } from 'homepair-types';
+import { MainAppStackType, HomePairsDimensions } from 'homepairs-types';
 import {
     Platform,
     View,
@@ -9,13 +9,14 @@ import {
     SafeAreaView,
     StyleSheet,
 } from 'react-native';
-import { HeaderActions } from 'homepair-redux-actions';
+import { HeaderActions } from 'homepairs-redux-actions';
 import { connect } from 'react-redux';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import * as BaseStyles from 'homepair-base-styles';
+import * as BaseStyles from 'homepairs-base-styles';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 import { SceneHeaderProps, renderSceneHeader } from './SceneHeader';
 import { ModalInjectedProps } from '../Modals/WithModal/WithModal';
+import {isNullOrUndefined} from 'homepairs-utilities';
 
 type SceneDispatchProps = {
     onSetHeaderGoBackButton?: (isSet: boolean) => any;
@@ -77,7 +78,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
         constructor(props: Readonly<SceneInjectedProps>) {
             super(props);
             this.colorScheme =
-                typeof props.primaryColorTheme === 'undefined'
+                isNullOrUndefined(props.primaryColorTheme)
                     ? BaseStyles.LightColorTheme
                     : props.primaryColorTheme;
             styles = setStyle(this.colorScheme);

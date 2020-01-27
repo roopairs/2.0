@@ -4,9 +4,9 @@ import {
     ConnectAccountCard,
     SceneInjectedProps,
     DarkModeInjectedProps,
-} from 'homepair-components';
-import strings from 'homepair-strings';
-import { AccountState } from 'homepair-types';
+} from 'homepairs-components';
+import strings from 'homepairs-strings';
+import { AccountState } from 'homepairs-types';
 
 const homepairAccountStrings = strings.connectAccountPage;
 
