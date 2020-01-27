@@ -37,7 +37,6 @@ type SignUpState = {
     address: string;
     city: string;
     companyName: string;
-    companyType: string;
     password: String;
     cPassword: String;
 };
@@ -158,8 +157,8 @@ export default class SignUpScreenBase extends React.Component<
         this.setState({ city: childData });
     }
 
-    getFormCompanyType(childData: string) {
-        this.setState({ companyType: childData });
+    getFormCompanyName(childData: string) {
+        this.setState({ companyName: childData });
     }
 
     validateCredentials: () => boolean = () => {
@@ -270,7 +269,7 @@ export default class SignUpScreenBase extends React.Component<
 
     renderLoginButton(accountType: AccountTypes) {
         return accountType === AccountTypes.Landlord ? (
-            <>
+            <View style={{marginTop: 20}}>
                 <LoginButton
                     name="Login with your Roopairs Account"
                     onClick={this.toRoopairsLogin}
@@ -284,7 +283,7 @@ export default class SignUpScreenBase extends React.Component<
                 >
                     <Text style={{ fontSize: 20 }}>OR</Text>
                 </View>
-            </>
+            </View>
         ) : (
             <></>
         );
@@ -299,7 +298,6 @@ export default class SignUpScreenBase extends React.Component<
             email,
             phone,
             companyName,
-            companyType,
             password,
             confirmPassword,
         } = this.formProps;
