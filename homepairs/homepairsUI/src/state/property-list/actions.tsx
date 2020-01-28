@@ -24,23 +24,23 @@ export const addProperty = (newProperty: Property): AddPropertyAction =>
   console.log(newProperty);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY,
-    userData: newProperty
-  }
+    userData: newProperty,
+  };
 };
 
 export const postNewProperty = (newProperty: Property, email: string, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => {
     return async (dispatch: (arg0: any) => void) => {
-      return await axios.post('https://homepairs-alpha.herokuapp.com/API/property/create/', {
+      return axios.post('https://homepairs-alpha.herokuapp.com/API/property/create/', {
         streetAddress: newProperty.address, 
         city: newProperty.city, 
         state: newProperty.state, 
         numBed: newProperty.bedrooms, 
         numBath: newProperty.bathrooms, 
         maxTenants: newProperty.tenants,
-        pm: email
+        pm: email,
       })
       .then((response) => {
-        console.log(response[responseKeys.DATA])
+        console.log(response[responseKeys.DATA]);
         if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.FAILURE)){
           dispatch(addProperty(newProperty));
           setInitialState();
@@ -51,30 +51,30 @@ export const postNewProperty = (newProperty: Property, email: string, setInitial
       }).catch((error) => {
         console.log(error);
       });
-    }
+    };
 };
 
 export const updateProperty = (propertyIndex: number, updatedProperty: Property) : UpdatePropertyAction => {
   return {
     type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
     index: propertyIndex,
-    userData: updatedProperty
-  }
+    userData: updatedProperty,
+  };
 };
 
 export const postUpdatedProperty = (editProperty: Property, propIndex: number, email: string, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => {
   return async (dispatch: (arg0: any) => void) => {
-    return await axios.post('https://homepairs-alpha.herokuapp.com/API/property/create/', {
+    return axios.post('https://homepairs-alpha.herokuapp.com/API/property/create/', {
       streetAddress: editProperty.address, 
       city: editProperty.city, 
       state: editProperty.state, 
       numBed: editProperty.bedrooms, 
       numBath: editProperty.bathrooms, 
       maxTenants: editProperty.tenants,
-      pm: email
+      pm: email,
     })
     .then((response) => {
-      console.log(response[responseKeys.DATA])
+      console.log(response[responseKeys.DATA]);
       if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.FAILURE)){
         dispatch(updateProperty(propIndex, editProperty));
         setInitialState();
@@ -85,8 +85,8 @@ export const postUpdatedProperty = (editProperty: Property, propIndex: number, e
     }).catch((error) => {
       console.log(error);
     });
-  }
-}
+  };
+};
 
 
 
@@ -129,7 +129,8 @@ export const fetchAllProperties = (
                 modalSetOffCallBack();
             }
           })
-          .catch((_error) => {
+          .catch((error) => {
+            console.log(error);
           })
           .finally(() => {
           });

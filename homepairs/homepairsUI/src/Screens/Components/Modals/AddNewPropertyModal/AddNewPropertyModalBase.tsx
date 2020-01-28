@@ -1,14 +1,13 @@
-import React, { Component } from "react"
-import { Text, ScrollView, StyleSheet, SafeAreaView } from "react-native"
-import HomePairColors from 'homepair-colors';
-import {InputForm, InputFormProps, ThinButton, ThinButtonProps } from 'homepair-elements';
+import React from "react";
+import {  ScrollView, StyleSheet, SafeAreaView } from "react-native";
+import {InputFormProps, renderInputForm, ThinButton, ThinButtonProps } from 'homepair-elements';
 import strings from 'homepair-strings';
 import * as BaseStyles from 'homepair-base-styles';
-import Card from '../../../../Elements/Cards/Card';
 import { HomePairsDimensions, Property } from 'homepair-types';
 import Colors from 'homepair-colors';
+import { DarkModeInjectedProps } from 'homepair-components';
 import {ModalInjectedProps} from '../WithModal/WithModal';
-import { AuthPageInjectedProps, DarkModeInjectedProps } from 'homepair-components';
+import Card from '../../../../Elements/Cards/Card';
 
 
 export type AddNewPropertyDispatchProps = {
@@ -23,8 +22,8 @@ type Props = ModalInjectedProps & DarkModeInjectedProps & AddNewPropertyDispatch
 
 type CreateState = {
     streetAddress: string, 
-    city: string, 
-    state: string, 
+    propCity: string, 
+    propState: string, 
     numBed: number, 
     numBath: number, 
     maxTenants: number, 
@@ -35,16 +34,16 @@ const signUpStrings = strings.signUpPage;
 
 const initialState : CreateState = {
     streetAddress: '', 
-    city: '', 
-    state: '', 
+    propCity: '', 
+    propState: '', 
     numBed: 0, 
     numBath: 0,
     maxTenants: 0,
     pm: '',
-}
+};
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
-    const colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme
+    const colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme;
     return StyleSheet.create({
         formTitle: {
             marginVertical: '3.5%', 
@@ -70,87 +69,16 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             maxHeight: 1000,
             alignSelf: 'center', 
         },
-    })
+    });
 }
 
 
 export default class AddNewPropertyModalBase extends React.Component<Props, CreateState> {
     private inputFormStyle;
 
-    constructor(props: Readonly<Props>) {
-        super(props);
-        this.inputFormStyle = setInputStyles(props.primaryColorTheme);
-        this.getFormAddress = this.getFormAddress.bind(this);
-        this.getFormCity = this.getFormCity.bind(this);
-        this.getFormState = this.getFormState.bind(this);
-        this.getFormNumBed = this.getFormNumBed.bind(this);
-        this.getFormNumBath = this.getFormNumBath.bind(this);
-        this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
-        this.setInitialState = this.setInitialState.bind(this);
-        this.state = initialState;
-    } 
-
-    
-
-    getFormAddress(childData : string) {
-        this.setState({streetAddress: childData})
-    }
-
-    getFormCity(childData : string) {
-        this.setState({city: childData})
-    }
-
-    getFormState(childData : string) {
-        this.setState({state: childData})
-    }
-
-    getFormNumBed(childData : string) {
-        const num = Number(childData);
-        if (isNaN(num)) {
-            this.setState({numBed: num})
-        } else {
-            // alert
-        }
-    }
-
-    getFormNumBath(childData : string) {
-        const num = Number(childData);
-        if (isNaN(num)) {
-            this.setState({numBath: num})
-        } else {
-            // alert
-        }
-    }
-
-    getFormMaxTenants(childData: string) {
-        const num = Number(childData);
-        if (isNaN(num)) {
-            this.setState({maxTenants: num})
-        } else {
-            // alert
-        }
-    }
-
-    setInitialState() {
-        this.setState(initialState);
-    }
-
-    clickSubmitButton() {
-        // put error messages inside InputForm component
-        const newProperty : Property = {
-            address: this.state.streetAddress, 
-            city: this.state.city, 
-            state: this.state.state, 
-            tenants: this.state.maxTenants,
-            bedrooms: this.state.numBed, 
-            bathrooms: this.state.numBath,
-        }
-        this.props.onCreateProperty(newProperty, this.props.email, this.setInitialState, this.props.onChangeModalVisibility);
-    }
-
     submitButton : ThinButtonProps = {
         name: 'Submit', 
-        onClick: () => {this.clickSubmitButton()}, 
+        onClick: () => {this.clickSubmitButton();}, 
         buttonStyle: {
             alignItems: 'center',
             backgroundColor: Colors.LightModeColors.transparent,
@@ -173,6 +101,78 @@ export default class AddNewPropertyModalBase extends React.Component<Props, Crea
             minHeight: 50,
         },
     };
+
+    constructor(props: Readonly<Props>) {
+        super(props);
+        this.inputFormStyle = setInputStyles(props.primaryColorTheme);
+        this.getFormAddress = this.getFormAddress.bind(this);
+        this.getFormCity = this.getFormCity.bind(this);
+        this.getFormState = this.getFormState.bind(this);
+        this.getFormNumBed = this.getFormNumBed.bind(this);
+        this.getFormNumBath = this.getFormNumBath.bind(this);
+        this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
+        this.setInitialState = this.setInitialState.bind(this);
+        this.state = initialState;
+    } 
+
+    
+
+    getFormAddress(childData : string) {
+        this.setState({streetAddress: childData});
+    }
+
+    getFormCity(childData : string) {
+        this.setState({propCity: childData});
+    }
+
+    getFormState(childData : string) {
+        this.setState({propState: childData});
+    }
+
+    getFormNumBed(childData : string) {
+        const num = Number(childData);
+        if (Number.isNaN(num)) {
+            this.setState({numBed: num});
+        } else {
+            // alert
+        }
+    }
+
+    getFormNumBath(childData : string) {
+        const num = Number(childData);
+        if (Number.isNaN(num)) {
+            this.setState({numBath: num});
+        } else {
+            // alert
+        }
+    }
+
+    getFormMaxTenants(childData: string) {
+        const num = Number(childData);
+        if (Number.isNaN(num)) {
+            this.setState({maxTenants: num});
+        } else {
+            // alert
+        }
+    }
+
+    setInitialState() {
+        this.setState(initialState);
+    }
+
+    clickSubmitButton() {
+        const {streetAddress, propCity, propState, maxTenants, numBath, numBed} = this.state;
+        const {email, onChangeModalVisibility, onCreateProperty} = this.props;
+        const newProperty : Property = {
+            address: streetAddress, 
+            city: propCity, 
+            state: propState, 
+            tenants: maxTenants,
+            bedrooms: numBed, 
+            bathrooms: numBath,
+        };
+        onCreateProperty(newProperty, email, this.setInitialState, onChangeModalVisibility);
+    }
 
     inputFormProps() : {[id: string] : InputFormProps} {
         return {
@@ -211,27 +211,29 @@ export default class AddNewPropertyModalBase extends React.Component<Props, Crea
                 parentCallBack: this.getFormMaxTenants,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-            }
-        }
+            },
+        };
     }
     
     render() {
+        const {streetAddress, city, state, numBed, numBath, maxTenants} = this.inputFormProps();
+        const {onChangeModalVisibility} = this.props;
         return <SafeAreaView>
             <ScrollView style = {this.inputFormStyle.modalContainer}>
                 <Card
                     showCloseButton = {true}
                     title= "Create New Property"
-                    closeButtonPressedCallBack={() => this.props.onChangeModalVisibility(false)}
+                    closeButtonPressedCallBack={() => onChangeModalVisibility(false)}
                     >
-                    <InputForm {...this.inputFormProps().streetAddress}/>
-                    <InputForm {...this.inputFormProps().city}/>
-                    <InputForm {...this.inputFormProps().state}/>
-                    <InputForm {...this.inputFormProps().maxTenants}/>
-                    <InputForm {...this.inputFormProps().numBed}/>
-                    <InputForm {...this.inputFormProps().numBath}/>
-                    <ThinButton  {...this.submitButton}/>
+                    {renderInputForm(streetAddress)}
+                    {renderInputForm(city)}
+                    {renderInputForm(state)}
+                    {renderInputForm(maxTenants)}
+                    {renderInputForm(numBed)}
+                    {renderInputForm(numBath)}
+                    {ThinButton(this.submitButton)}
                 </Card>
             </ScrollView>
-        </SafeAreaView>
+        </SafeAreaView>;
     }
 }
