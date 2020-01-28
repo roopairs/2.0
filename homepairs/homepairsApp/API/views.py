@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.authentication import TokenAuthentication
 from .models import PropertyManager, Tenant, Property
 import requests
 import json
@@ -17,9 +18,12 @@ ERROR = 'error'
 ROOPAIR_ACCOUNT_CREATION_FAILED = 'Failed to create a Roopairs account'
 HOMEPAIRS_ACCOUNT_CREATION_FAILED = 'Failed to create a Homepairs account'
 TOO_MANY_PROPERTIES = 'Too many properties associated with tenant'
+PROPERTY_SQUISH = 'This address and city are associated with more than one property'
 INVALID_PROPERTY = 'Invalid property'
 PROPERTY_ALREADY_EXISTS = 'Property given already exists'
 NON_FIELD_ERRORS = 'non_field_errors'
+PROPERTY_DOESNT_EXIST = 'Property does not exists.'
+NOT_PROP_OWNER = 'You are not the property owner'
 TOKEN = 'token'
 RESIDENTIAL_CODE = 1
 
@@ -194,8 +198,6 @@ def pmRegister(request):
                                    }
              }
       response = requests.post(url, json=data)
-      print("GOT HERE")
-      print(response.text)
       info = json.loads(response.text)
 
       if NON_FIELD_ERRORS in info:
@@ -230,7 +232,7 @@ def createProperty(request):
       maxTenants = request.data.get('maxTenants')
       isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
       if not isMade.exists():
-        pmList = PropertyManager.objects.filter(email=pmEmail)
+        pmList = PropertyManager.objects.filter(email=pm)
         if pmList.exists() and pmList.count() == 1:
           pm = pmList[0]
           prop = Property(streetAddress=streetAddress,
@@ -249,6 +251,46 @@ def createProperty(request):
           return Response(data=returnError(INCORRECT_FIELDS))
       else:
         return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
+   else:
+      return Response(data=returnError(INCORRECT_FIELDS))
+
+@api_view(['GET', 'POST'])
+def updateProperty(request):
+   if ('streetAddress' in request.data and 'city' in request.data and 'state' in request.data
+    and 'pm' in request.data and 'numBed' in request.data and 'numBath' in request.data
+    and 'maxTenants' in request.data and 'oldStreetAddress' in request.data 
+    and 'oldCity' in request.data):
+      oldStreetAddress = request.data.get('oldStreetAddress')
+      oldCity = request.data.get('oldCity')
+      streetAddress = request.data.get('streetAddress')
+      city = request.data.get('city')
+      state = request.data.get('state')
+      pm = request.data.get('pm')
+      numBed = request.data.get('numBed')
+      numBath = request.data.get('numBath')
+      maxTenants = request.data.get('maxTenants')
+
+      # The Property
+      thePropertyList = Property.objects.filter(streetAddress=oldStreetAddress, city=oldCity)
+
+      if thePropertyList.exists():
+        if thePropertyList.count() == 1:
+           theProperty = thePropertyList[0]
+           if theProperty.pm.email == pm:
+              theProperty.city = city
+              theProperty.state = state
+              theProperty.numBed = numBed
+              theProperty.numBath = numBath
+              theProperty.maxTenants = maxTenants
+              theProperty.streetAddress = streetAddress
+              theProperty.save()
+              return Response(data={STATUS: SUCCESS})
+           else:
+              return Response(data=returnError(NOT_PROP_OWNER))
+        else:
+          return Response(data=returnError(PROPERTY_SQUISH))
+      else:
+        return Response(data=returnError(PROPERTY_DOESNT_EXIST))
    else:
       return Response(data=returnError(INCORRECT_FIELDS))
 
@@ -278,7 +320,6 @@ def setUpTests(request):
          tempProperty1 = Property(streetAddress='537 Couper Dr.',
                                   city='San Luis Obispo',
                                   state='CA',
-                                  SLID=70,
                                   numBath=2,
                                   numBed=5,
                                   maxTenants=8,
@@ -286,7 +327,6 @@ def setUpTests(request):
          tempProperty2 = Property(streetAddress='200 N. Santa Rosa',
                                   city='San Luis Obispo',
                                   state='CA',
-                                  SLID=69,
                                   numBath=2,
                                   numBed=3,
                                   maxTenants=5,
