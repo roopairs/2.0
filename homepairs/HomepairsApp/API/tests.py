@@ -22,8 +22,8 @@ from .views import INVALID_PROPERTY, NON_FIELD_ERRORS, TOKEN, RESIDENTIAL_CODE
 ################################################################################
 # Vars
 
-globUrl = 'http://localhost:8000/API/'
 globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
+globUrl = 'http://localhost:8000/API/'
 
 # EXTRA URLS
 LOGIN_URL = 'login/'
@@ -31,6 +31,7 @@ PM_REG_URL = 'register/pm/'
 TEN_REG_URL = 'register/tenant/'
 CRE_PROP_URL = 'property/create/'
 VIEW_PROP_URL = 'property/view/'
+UPDATE_PROP_URL = 'property/update/'
 
 # MODEL FIELDS
 # Tenant
@@ -494,4 +495,78 @@ class PropertyCRUD(TestCase):
       self.assertEqual(prop.get('state'), state)
       self.assertEqual(prop.get('numBed'), numBed)
       self.assertEqual(prop.get('numBath'), numBath)
-      self.assertEqual(prop.get('maxTenants'), maxTenants)
+
+   # Everything is correct, I create the property first, then update it.
+   def test_update_property_allCorrect(self):
+      streetAddress = '1 Grand Ave'
+      city = 'SLO'
+      state = 'CA'
+      numBed = 3
+      numBath = 1
+      maxTenants = 3
+      pmEmail = 'eerongrant@gmail.com'
+      #setup()
+
+      data = {
+                'streetAddress': streetAddress,
+                'city': city,
+                'state': state,
+                'numBed': numBed,
+                'numBath': numBath,
+                'maxTenants': maxTenants,
+                'pm': pmEmail,
+             }
+      url = globUrl + CRE_PROP_URL
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), SUCCESS)
+
+      # NOW UPDATE IT
+
+      oldStreetAddress = '1 Grand Ave'
+      oldCity = 'SLO'
+      streetAddress = '1054 Saint James Ct.'
+      city = 'San Dimas'
+      state = 'CA'
+      numBed = 6
+      numBath = 4
+      maxTenants = 4
+      data = {
+                'oldStreetAddress': oldStreetAddress,
+                'oldCity': oldCity,
+                'streetAddress': streetAddress,
+                'city': city,
+                'state': state,
+                'numBed': numBed,
+                'numBath': numBath,
+                'maxTenants': maxTenants,
+                'pm': pmEmail,
+             }
+
+      url = globUrl + UPDATE_PROP_URL
+      x = requests.post(url, json=data)
+      info = json.loads(x.text)
+      print("PRINT")
+      print(x.text)
+
+      self.assertEqual(info.get(STATUS), SUCCESS)
+
+      data = {
+                'streetAddress': streetAddress,
+                'city': city,
+                'state': state,
+                'pm': pmEmail,
+             }
+
+      url = globUrl + VIEW_PROP_URL
+      x = requests.post(url, json=data)
+
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), SUCCESS)
+      prop = info.get('prop')
+      self.assertEqual(prop.get('streetAddress'), streetAddress)
+      self.assertEqual(prop.get('city'), city)
+      self.assertEqual(prop.get('state'), state)
+      self.assertEqual(prop.get('numBed'), numBed)
+      self.assertEqual(prop.get('numBath'), numBath)
+

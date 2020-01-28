@@ -18,9 +18,12 @@ ERROR = 'error'
 ROOPAIR_ACCOUNT_CREATION_FAILED = 'Failed to create a Roopairs account'
 HOMEPAIRS_ACCOUNT_CREATION_FAILED = 'Failed to create a Homepairs account'
 TOO_MANY_PROPERTIES = 'Too many properties associated with tenant'
+PROPERTY_SQUISH = 'This address and city are associated with more than one property'
 INVALID_PROPERTY = 'Invalid property'
 PROPERTY_ALREADY_EXISTS = 'Property given already exists'
 NON_FIELD_ERRORS = 'non_field_errors'
+PROPERTY_DOESNT_EXIST = 'Property does not exists.'
+NOT_PROP_OWNER = 'You are not the property owner'
 TOKEN = 'token'
 RESIDENTIAL_CODE = 1
 
@@ -252,6 +255,46 @@ def createProperty(request):
           return Response(data=returnError(INCORRECT_FIELDS))
       else:
         return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
+   else:
+      return Response(data=returnError(INCORRECT_FIELDS))
+
+@api_view(['GET', 'POST'])
+def updateProperty(request):
+   if ('streetAddress' in request.data and 'city' in request.data and 'state' in request.data
+    and 'pm' in request.data and 'numBed' in request.data and 'numBath' in request.data
+    and 'maxTenants' in request.data and 'oldStreetAddress' in request.data 
+    and 'oldCity' in request.data):
+      oldStreetAddress = request.data.get('oldStreetAddress')
+      oldCity = request.data.get('oldCity')
+      streetAddress = request.data.get('streetAddress')
+      city = request.data.get('city')
+      state = request.data.get('state')
+      pm = request.data.get('pm')
+      numBed = request.data.get('numBed')
+      numBath = request.data.get('numBath')
+      maxTenants = request.data.get('maxTenants')
+
+      # The Property
+      thePropertyList = Property.objects.filter(streetAddress=oldStreetAddress, city=oldCity)
+
+      if thePropertyList.exists():
+        if thePropertyList.count() == 1:
+           theProperty = thePropertyList[0]
+           if theProperty.pm.email == pm:
+              theProperty.city = city
+              theProperty.state = state
+              theProperty.numBed = numBed
+              theProperty.numBath = numBath
+              theProperty.maxTenants = maxTenants
+              theProperty.streetAddress = streetAddress
+              theProperty.save()
+              return Response(data={STATUS: SUCCESS})
+           else:
+              return Response(data=returnError(NOT_PROP_OWNER))
+        else:
+          return Response(data=returnError(PROPERTY_SQUISH))
+      else:
+        return Response(data=returnError(PROPERTY_DOESNT_EXIST))
    else:
       return Response(data=returnError(INCORRECT_FIELDS))
 
