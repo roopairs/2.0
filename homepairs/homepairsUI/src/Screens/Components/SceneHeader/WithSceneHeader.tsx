@@ -1,5 +1,5 @@
 import React from 'react';
-import { MainAppStackType, HomePairsDimensions } from 'homepair-types';
+import { MainAppStackType, HomePairsDimensions } from 'homepairs-types';
 import {
     Platform,
     View,
@@ -9,11 +9,11 @@ import {
     SafeAreaView,
     StyleSheet,
 } from 'react-native';
-import { HeaderActions } from 'homepair-redux-actions';
+import { HeaderActions } from 'homepairs-redux-actions';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import * as BaseStyles from 'homepair-base-styles';
+import * as BaseStyles from 'homepairs-base-styles';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 import { SceneHeaderProps, renderSceneHeader } from './SceneHeader';
 import { ModalInjectedProps } from '../Modals/WithModal/WithModal';

@@ -1,11 +1,11 @@
 import React from "react";
 import {  ScrollView, StyleSheet, SafeAreaView } from "react-native";
-import {InputFormProps, renderInputForm, ThinButton, ThinButtonProps } from 'homepair-elements';
-import strings from 'homepair-strings';
-import * as BaseStyles from 'homepair-base-styles';
-import { HomePairsDimensions, Property } from 'homepair-types';
-import Colors from 'homepair-colors';
-import { DarkModeInjectedProps } from 'homepair-components';
+import {InputFormProps, renderInputForm, ThinButton, ThinButtonProps } from 'homepairs-elements';
+import strings from 'homepairs-strings';
+import * as BaseStyles from 'homepairs-base-styles';
+import { HomePairsDimensions, Property } from 'homepairs-types';
+import Colors from 'homepairs-colors';
+import { DarkModeInjectedProps } from 'homepairs-components';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 import Card from '../../../../Elements/Cards/Card';
 

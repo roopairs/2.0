@@ -5,7 +5,7 @@
  * defined and exported. 
  * 
  * An example of using this would be: 
- *  import { HomePairsHeader, SceneHeader } from 'homepair-components';
+ *  import { HomePairsHeader, SceneHeader } from 'homepairs-components';
  *  import AddressSticker from './AddressSticker';
  * 
  * *Note, for any components specific to the scene (i.e. not used by any other scene), 

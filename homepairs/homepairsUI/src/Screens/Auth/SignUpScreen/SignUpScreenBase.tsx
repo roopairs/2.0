@@ -3,16 +3,16 @@ import {
     InputFormProps,
     LoginButton,
     renderInputForm,
-} from 'homepair-elements';
+} from 'homepairs-elements';
 import {
     AccountTypeRadioButton,
     DarkModeInjectedProps,
     AuthPageInjectedProps,
-} from 'homepair-components';
-import strings from 'homepair-strings';
-import { AccountTypes, Account } from 'homepair-types';
+} from 'homepairs-components';
+import strings from 'homepairs-strings';
+import { AccountTypes, Account } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import * as BaseStyles from 'homepair-base-styles';
+import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet, View, Text } from 'react-native';
 
 export type SignUpViewDispatchProps = {
@@ -37,7 +37,6 @@ type SignUpState = {
     address: string;
     city: string;
     companyName: string;
-    companyType: string;
     password: String;
     cPassword: String;
 };
@@ -158,8 +157,8 @@ export default class SignUpScreenBase extends React.Component<
         this.setState({ city: childData });
     }
 
-    getFormCompanyType(childData: string) {
-        this.setState({ companyType: childData });
+    getFormCompanyName(childData: string) {
+        this.setState({ companyName: childData });
     }
 
     validateCredentials: () => boolean = () => {
@@ -270,7 +269,7 @@ export default class SignUpScreenBase extends React.Component<
 
     renderLoginButton(accountType: AccountTypes) {
         return accountType === AccountTypes.Landlord ? (
-            <>
+            <View style={{marginTop: BaseStyles.MarginPadding.large}}>
                 <LoginButton
                     name="Login with your Roopairs Account"
                     onClick={this.toRoopairsLogin}
@@ -284,7 +283,7 @@ export default class SignUpScreenBase extends React.Component<
                 >
                     <Text style={{ fontSize: 20 }}>OR</Text>
                 </View>
-            </>
+            </View>
         ) : (
             <></>
         );
@@ -299,7 +298,6 @@ export default class SignUpScreenBase extends React.Component<
             email,
             phone,
             companyName,
-            companyType,
             password,
             confirmPassword,
         } = this.formProps;

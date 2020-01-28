@@ -1,4 +1,4 @@
-import { MainAppStackType } from 'homepair-types';
+import { MainAppStackType } from 'homepairs-types';
 
 const MainAppStack: Array<MainAppStackType> = [
     {

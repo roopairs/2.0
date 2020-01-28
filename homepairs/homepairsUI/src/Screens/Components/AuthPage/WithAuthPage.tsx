@@ -17,12 +17,12 @@ import {
     renderCard,
     LoadingModal,
     renderThinButton,
-} from 'homepair-elements';
+} from 'homepairs-elements';
 import { withNavigation, NavigationInjectedProps } from 'react-navigation';
-import strings from 'homepair-strings';
-import { HomePairFonts } from 'homepair-fonts';
-import { HomePairsDimensions } from 'homepair-types';
-import * as BaseStyles from 'homepair-base-styles';
+import strings from 'homepairs-strings';
+import { HomePairFonts } from 'homepairs-fonts';
+import { HomePairsDimensions } from 'homepairs-types';
+import * as BaseStyles from 'homepairs-base-styles';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 
 export type AuthPassProps = {

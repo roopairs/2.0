@@ -4,7 +4,7 @@ import {
     HeaderState,
     MainAppStackType,
     HomePairsDimensions,
-} from 'homepair-types';
+} from 'homepairs-types';
 import {
     NavigationInjectedProps,
     NavigationStackAction,

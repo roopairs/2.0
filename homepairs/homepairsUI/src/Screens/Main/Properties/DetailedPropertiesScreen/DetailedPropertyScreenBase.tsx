@@ -8,35 +8,29 @@ import {
     StyleSheet,
     ImageProps,
 } from 'react-native';
-import { defaultProperty } from 'homepair-images';
+import { defaultProperty } from 'homepairs-images';
 import {
     GeneralHomeInfo,
     GeneralHomeInfoProps,
     AddressSticker,
     DarkModeInjectedProps,
-} from 'homepair-components';
+} from 'homepairs-components';
 import {
     HomepairsPropertyAttributes,
-    PropertyListState,
     Property,
     HomePairsDimensions,
-} from 'homepair-types';
+} from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import strings from 'homepair-strings';
-import * as BaseStyles from 'homepair-base-styles';
-
-const navParams = strings.detailedPropertyPage.navigationParams;
+import * as BaseStyles from 'homepairs-base-styles';
 
 export type DetailedPropertyStateProps = DarkModeInjectedProps & {
-    properties: PropertyListState;
+    propertyIndex: number;
+    property: Property;
 };
 export type DetailedPropertyDispatchProps = {
     onUpdateProperty?: (
         index: number,
-        address: string,
-        tenants: number,
-        bedrooms: number,
-        bathrooms: number
+        updatedProperty: Property,
     ) => void;
     onRemoveProperty?: (index: number) => void;
 };
@@ -110,14 +104,12 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
 }
 
 export default function DetailedPropertyScreenBase(props: Props) {
-    const { navigation, properties, primaryColorTheme } = props;
-    const id: number = navigation.getParam(navParams.propertyIndex);
-    const property: Property = properties[id];
+    const { property, propertyIndex, primaryColorTheme } = props;
     const styles = setStyles(primaryColorTheme);
 
     function editProperty() {
         // TODO: ADD MODAL AND SEND DATA FROM UPDATE PROPERTY
-        props.onUpdateProperty(id, 'New Address', 0, 0, 1);
+        props.onUpdateProperty(propertyIndex, 'New Address', 0, 0, 1);
     }
 
     const imageProps: ImageProps = {

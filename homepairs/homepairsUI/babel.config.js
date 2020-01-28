@@ -16,26 +16,26 @@ module.exports = function(api) {
                         '.ios.js',
                         '.ios.tsx',
                         '.web.js',
-                        '.web.tsx'
+                        '.web.tsx',
                     ],
                     root: ['.'],
                     alias: {
-                        'homepair-fonts': './res/fonts',
-                        'homepair-images': './res/images.tsx',
-                        'homepair-strings': './res/strings.tsx',
-                        'homepair-colors': './res/colors.tsx',
-                        'homepair-types': './src/state/types.ts',
-                        'homepair-elements': './src/Elements/index.tsx',
-                        'homepair-redux-actions': './src/state/actions.ts',
-                        'homepair-pages': './src/Screens/index.ts',
-                        'homepair-base-styles': './res/Styles/base.ts',
-                        'homepair-components':
+                        'homepairs-fonts': './res/fonts',
+                        'homepairs-images': './res/images.tsx',
+                        'homepairs-strings': './res/strings.tsx',
+                        'homepairs-colors': './res/colors.tsx',
+                        'homepairs-types': './src/state/types.ts',
+                        'homepairs-elements': './src/Elements/index.tsx',
+                        'homepairs-redux-actions': './src/state/actions.ts',
+                        'homepairs-pages': './src/Screens/index.ts',
+                        'homepairs-base-styles': './res/Styles/base.ts',
+                        'homepairs-components':
                             './src/Screens/Components/index.tsx',
-                        'homepair-helpers': './src/utility/index.tsx'
-                    }
-                }
-            ]
+                        'homepairs-utilities': './src/utility/index.tsx',
+                    },
+                },
+            ],
         ],
-        sourceMaps: true
+        sourceMaps: true,
     };
 };

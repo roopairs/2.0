@@ -5,7 +5,7 @@ import {
   StatusBar, 
   StyleSheet, 
 } from "react-native";
-import { LoadFonts } from 'homepair-fonts';
+import { LoadFonts } from 'homepairs-fonts';
 import { NavigationInjectedProps } from 'react-navigation';
 
 const styles = StyleSheet.create({

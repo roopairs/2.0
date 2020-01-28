@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
-import { AccountActions } from 'homepair-redux-actions';
-import { Account, AccountTypes } from "homepair-types";
-import strings from 'homepair-strings';
-import { AuthPassProps, withAuthPage, withDarkMode } from "homepair-components";
-import HomePairColors from 'homepair-colors';
+import { AccountActions } from 'homepairs-redux-actions';
+import { Account, AccountTypes } from "homepairs-types";
+import strings from 'homepairs-strings';
+import { AuthPassProps, withAuthPage, withDarkMode } from "homepairs-components";
+import HomePairColors from 'homepairs-colors';
 import SignUpScreenBase, { SignUpViewDispatchProps } from './SignUpScreenBase';
 
 

@@ -1,9 +1,9 @@
 import React from 'react';
-import {InputFormProps, renderInputForm } from 'homepair-elements';
-import strings from 'homepair-strings';
+import {InputFormProps, renderInputForm } from 'homepairs-elements';
+import strings from 'homepairs-strings';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { AuthPageInjectedProps, DarkModeInjectedProps } from 'homepair-components';
-import * as BaseStyles from 'homepair-base-styles';
+import { AuthPageInjectedProps, DarkModeInjectedProps } from 'homepairs-components';
+import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
 
 

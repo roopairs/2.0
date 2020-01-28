@@ -10,8 +10,8 @@ import {
     ImageStyle,
     ImageSourcePropType,
 } from 'react-native';
-import { roopairsLogo } from 'homepair-images';
-import HomePairColors from 'homepair-colors';
+import { roopairsLogo } from 'homepairs-images';
+import HomePairColors from 'homepairs-colors';
 
 export type LoginButtonProps = {
     name?: String;

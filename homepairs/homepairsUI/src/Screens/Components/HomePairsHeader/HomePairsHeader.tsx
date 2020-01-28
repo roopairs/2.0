@@ -1,6 +1,6 @@
-import { AppState, MainAppStackType } from "homepair-types";
+import { AppState, MainAppStackType } from "homepairs-types";
 import { connect } from "react-redux";
-import { HeaderActions } from 'homepair-redux-actions';
+import { HeaderActions } from 'homepairs-redux-actions';
 import { withNavigation } from "react-navigation";
 import HomePairsHeaderBase from "./HomePairsHeaderBase";
 import { HomePairsHeaderStateProps, HomePairsHeaderDispatchProps } from "./HomePairsHeaderTemplate";

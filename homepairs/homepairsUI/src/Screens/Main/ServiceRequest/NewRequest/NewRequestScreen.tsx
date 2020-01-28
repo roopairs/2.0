@@ -1,7 +1,7 @@
-import { AppState, MainAppStackType } from 'homepair-types';
+import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
-import { withSceneHeader, withDarkMode } from 'homepair-components';
-import { ServiceActions } from 'homepair-redux-actions';
+import { withSceneHeader, withDarkMode } from 'homepairs-components';
+import { ServiceActions } from 'homepairs-redux-actions';
 import NewRequestScreenBase, {
     NewRequestScreenProps,
 } from './NewRequestScreenBase';

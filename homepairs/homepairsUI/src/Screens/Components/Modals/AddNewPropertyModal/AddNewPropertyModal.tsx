@@ -1,9 +1,7 @@
 import { connect } from "react-redux";
-import { PropertyListActions } from 'homepair-redux-actions';
+import { PropertyListActions } from 'homepairs-redux-actions';
 import { Property, AppState } from 'src/state/types';
-import AddNewPropertyModalBase, {AddNewPropertyDispatchProps} from './AddNewPropertyModalBase';
-
-
+import  AddNewPropertyModalBase, { AddNewPropertyDispatchProps} from './AddNewPropertyModalBase';
 
 const mapDispatchToProps : (dispatch: any) => AddNewPropertyDispatchProps = (dispatch: any) => ({
     onCreateProperty: (newProperty: Property, email: string, setInitialState: () => void, onChangeModalVisiblity: (check: boolean) => void) => {
@@ -16,6 +14,6 @@ function mapStateToProps(state: AppState) : any {
 }
 
 export default connect(
-    mapStateToProps, 
-    mapDispatchToProps)(AddNewPropertyModalBase);
+  mapStateToProps, 
+  mapDispatchToProps)(AddNewPropertyModalBase);
 

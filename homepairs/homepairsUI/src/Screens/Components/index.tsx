@@ -5,42 +5,45 @@
  * Essentially, you cannot import a module and export it with the same name. You must rename it and
  * then export it.
  */
-import { AddressStickerProps as ASP } from "./AddressSticker/AddressSticker";
-import { SceneHeaderProps as SHP, renderSceneHeader } from './SceneHeader/SceneHeader';
-import { GeneralHomeInfoProps as GHIP } from "./GeneralHomeInfo/GeneralHomeInfo";
-import { AccountTypeRadioProps as ATRBP } from "./AccounttypeRadioButton/AccountTypeRadioButton";
-import { ViewPropertyCardProps as VPCP } from "./ViewPropertyCard/ViewPropertyCard";
-import { AccountConnectedCardProps as ACCP } from "./AuthenticationCards/AccountConnectedCard";
-import { ConnectAccountCardProps as CACP } from "./AuthenticationCards/ConnectAccountCard";
-import * as HomePairsHeaderProps from "./HomePairsHeader/HomePairsHeaderTemplate";
+import { AddressStickerProps as ASP } from './AddressSticker/AddressSticker';
 import {
-  SceneInjectedProps as SIP,
-  withSceneHeader,
-} from "./SceneHeader/WithSceneHeader";
+    SceneHeaderProps as SHP,
+    renderSceneHeader,
+} from './SceneHeader/SceneHeader';
+import { GeneralHomeInfoProps as GHIP } from './GeneralHomeInfo/GeneralHomeInfo';
+import { AccountTypeRadioProps as ATRBP } from './AccounttypeRadioButton/AccountTypeRadioButton';
+import { ViewPropertyCardProps as VPCP } from './ViewPropertyCard/ViewPropertyCard';
+import { AccountConnectedCardProps as ACCP } from './AuthenticationCards/AccountConnectedCard';
+import { ConnectAccountCardProps as CACP } from './AuthenticationCards/ConnectAccountCard';
+import * as HomePairsHeaderProps from './HomePairsHeader/HomePairsHeaderTemplate';
 import {
-  AuthPageInjectedProps as APIP,
-  AuthPassProps as APP,
-  withAuthPage,
-} from "./AuthPage/WithAuthPage";
+    SceneInjectedProps as SIP,
+    withSceneHeader,
+} from './SceneHeader/WithSceneHeader';
 import {
-  DarkModeInjectedProps as DMIP,
-  withDarkMode,
-} from "./WithDarkMode/WithDarkMode";
+    AuthPageInjectedProps as APIP,
+    AuthPassProps as APP,
+    withAuthPage,
+} from './AuthPage/WithAuthPage';
 import {
-  ModalInjectedProps as MIP,
-  withModal,
-} from "./Modals/WithModal/WithModal";
+    DarkModeInjectedProps as DMIP,
+    withDarkMode,
+} from './WithDarkMode/WithDarkMode';
+import {
+    ModalInjectedProps as MIP,
+    withModal,
+} from './Modals/WithModal/WithModal';
 
-export { default as AddressSticker } from "./AddressSticker/AddressSticker";
-export { default as SceneHeader } from "./SceneHeader/SceneHeader";
-export { default as GeneralHomeInfo } from "./GeneralHomeInfo/GeneralHomeInfo";
-export { default as AccountTypeRadioButton } from "./AccounttypeRadioButton/AccountTypeRadioButton";
-export { default as ViewPropertyCard } from "./ViewPropertyCard/ViewPropertyCard";
-export { default as AccountConnectedCard } from "./AuthenticationCards/AccountConnectedCard";
-export { default as ConnectAccountCard } from "./AuthenticationCards/ConnectAccountCard";
-export { default as HomePairsHeader } from "./HomePairsHeader/HomePairsHeader";
-export { default as AddNewPropertyModal } from "./Modals/AddNewPropertyModal/AddNewPropertyModal";
-export { default as PrefferedProviderModal } from "./Modals/ServiceRequestModal/PrefferedProviderModal";
+export { default as AddressSticker } from './AddressSticker/AddressSticker';
+export { default as SceneHeader } from './SceneHeader/SceneHeader';
+export { default as GeneralHomeInfo } from './GeneralHomeInfo/GeneralHomeInfo';
+export { default as AccountTypeRadioButton } from './AccounttypeRadioButton/AccountTypeRadioButton';
+export { default as ViewPropertyCard } from './ViewPropertyCard/ViewPropertyCard';
+export { default as AccountConnectedCard } from './AuthenticationCards/AccountConnectedCard';
+export { default as ConnectAccountCard } from './AuthenticationCards/ConnectAccountCard';
+export { default as HomePairsHeader } from './HomePairsHeader/HomePairsHeader';
+export { default as AddNewPropertyModal } from './Modals/AddNewPropertyModal/AddNewPropertyModal';
+export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
 
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows
@@ -60,10 +63,10 @@ export type DarkModeInjectedProps = DMIP;
 export type ModalInjectedProps = MIP;
 
 export {
-  HomePairsHeaderProps,
-  withAuthPage,
-  withSceneHeader,
-  withDarkMode,
-  withModal,
-  renderSceneHeader,
+    HomePairsHeaderProps,
+    withAuthPage,
+    withSceneHeader,
+    withDarkMode,
+    withModal,
+    renderSceneHeader,
 };

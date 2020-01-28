@@ -10,10 +10,10 @@ import {
 import {
     ThinButtonProps,
     renderThinButton,
-} from 'homepair-elements';
-import { defaultProperty } from 'homepair-images';
-import strings from 'homepair-strings';
-import { HomePairsDimensions } from 'homepair-types';
+} from 'homepairs-elements';
+import { defaultProperty } from 'homepairs-images';
+import strings from 'homepairs-strings';
+import { HomePairsDimensions } from 'homepairs-types';
 
 /**
  * Main App Components will have similar functionality to the parent components ONLY
@@ -127,6 +127,8 @@ export default function ViewPropertyCard(props: ViewPropertyCardProps) {
         propertyIndex,
         image,
     } = props;
+
+    console.log(propertyAddress)
     /**
      * This function is inteded to invoke the callback to its parent function. It will return the index of the
      * the Property found in global store's PropertyState which an array of Properties, Property[]
