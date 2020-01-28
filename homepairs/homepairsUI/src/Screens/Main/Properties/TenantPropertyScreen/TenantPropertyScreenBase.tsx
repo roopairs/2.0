@@ -22,10 +22,10 @@ const navParams = strings.detailedPropertyPage.navigationParams
 export type TenantPropertyStateProps = DarkModeInjectedProps & {
   properties: PropertyListState,
 }
-/*export type TenantPropertyDispatchProps = {
-  onUpdateProperty?: (index : number, address: string, tenants: number, bedrooms: number, bathrooms: number) => void,
-  onRemoveProperty?: (index : number) => void;
-}*/
+
+export type TenantPropertyDispatchProps = {
+    onRevealGoBack: (showGoBack:boolean) => any;
+  }
 
 type Props = NavigationStackScreenProps & TenantPropertyStateProps //& TenantPropertyDispatchProps
 const propertyKeys = HomepairsPropertyAttributes
@@ -42,14 +42,14 @@ export default function TenantPropertyScreenBase(props:Props){
         resizeMode: 'cover',
     }
 
-    /*const generalHomeInfoProps:  GeneralHomeInfoProps = {
+    const generalHomeInfoProps:  GeneralHomeInfoProps = {
         address: property[propertyKeys.ADDRESS],
         tenants: property[propertyKeys.TENANTS],
         bedrooms: property[propertyKeys.BEDROOMS],
         bathrooms: property[propertyKeys.BATHROOMS],
-        onClick: //TO DO: we need a new component for Tenant Properties
+        onClick: null,
         primaryColorTheme: props.primaryColorTheme  
-    }*/
+    }
 
     function renderContents(){
         console.log(property)
@@ -64,6 +64,7 @@ export default function TenantPropertyScreenBase(props:Props){
                 <View style={styles.imageContainer}>
                     <Image {...imageProps}/>
                     </View>
+                    <GeneralHomeInfo {...generalHomeInfoProps} />
                 </View>
             </View>
         </ScrollView>

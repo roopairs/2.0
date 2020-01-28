@@ -22,10 +22,10 @@ export default class PropertiesScreenBase extends React.Component<PropertiesScre
 
   constructor(props: Readonly<PropertiesScreenProps>){
     super(props)
-    this.navigateToDetiailedProperty = this.navigateToDetiailedProperty.bind(this)
+    this.navigateToDetailedProperty = this.navigateToDetailedProperty.bind(this)
   }
   
-  navigateToDetiailedProperty(index:number){
+  navigateToDetailedProperty(index:number){
     let property: Property = this.props.properties[index]
     let navParams = {propertyIndex : index, selectedProperty: property}
     this.props.onRevealGoBack(true)
@@ -36,7 +36,7 @@ export default class PropertiesScreenBase extends React.Component<PropertiesScre
     var properties = []
     for(let i=0; i < this.props.properties.length; i++){
       let viewPropertyProps : ViewPropertyCardProps = {
-        viewButtonSelectedCallBack : this.navigateToDetiailedProperty,
+        viewButtonSelectedCallBack : this.navigateToDetailedProperty,
         propertyAddress: this.props.properties[i][HomepairsPropertyAttributes.ADDRESS],
         propertyIndex: i,
       }
