@@ -49,6 +49,7 @@ export default function ThinButton(props: ThinButtonProps) {
     return (
         <View style={containerStyle}>
             <TouchableOpacity
+                testID='click-thin-button'
                 style={buttonStyle}
                 onPress={onPress}
                 onPressIn={onPressIn}
@@ -78,7 +79,7 @@ const DefaultThinButtonStyles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#B3C0C2',
     },
-    signUpButtonText: {
+    buttonText: {
         color: '#B3C0C2',
         fontSize: 16,
         alignSelf: 'center',
@@ -92,8 +93,9 @@ ThinButton.defaultProps = {
     onPressOut: () => {},
     containerStyle: DefaultThinButtonStyles.container,
     buttonStyle: DefaultThinButtonStyles.button,
-    buttonTextStyle: DefaultThinButtonStyles.signUpButtonText,
+    buttonTextStyle: DefaultThinButtonStyles.buttonText,
 };
+
 
 export function renderThinButton(thinButtonProps: ThinButtonProps) {
     const {

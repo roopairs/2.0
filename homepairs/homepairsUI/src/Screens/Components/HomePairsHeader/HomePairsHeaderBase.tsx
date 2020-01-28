@@ -130,7 +130,7 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
 
     render() {
         return (
-            <SafeAreaView style={styles.container}>
+            <View style={styles.container}>
                 <View
                     style={
                         this.props.header.isDropDown
@@ -162,7 +162,7 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
                     </View>
                     {this.renderMenu()}
                 </View>
-            </SafeAreaView>
+            </View>
         );
     }
 }

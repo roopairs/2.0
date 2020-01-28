@@ -274,6 +274,7 @@ enum HOMEPAIRS_ACCOUNT_KEYS{
     PLACE = 'place', 
     PROPID = 'propId',
     TENANTID = 'tenantID', 
+    COMPANY_NAME= 'companyName'
 }
 
 enum HOMEPAIRS_LOGIN_STATUS {

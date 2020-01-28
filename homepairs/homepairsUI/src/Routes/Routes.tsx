@@ -1,5 +1,5 @@
 import React from 'react';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import {
     MainAppPages,
@@ -8,27 +8,32 @@ import {
 } from 'homepairs-pages';
 import { View } from 'react-native';
 import { HomePairsHeader } from 'homepairs-components';
+import { LightColorTheme} from 'homepairs-base-styles';
 
+
+// TODO: Render navigation header for andriod devices!!!
 const navigationHeader = () => ({
     header: () => {
         return (
-            <View style={{ backgroundColor: '#1177B0', flex: 1 }}>
+            <SafeAreaView style={{ backgroundColor: LightColorTheme.primary, flex: 1 }}>
                 <HomePairsHeader />
-            </View>
+            </SafeAreaView>
         );
     },
     headerStyle: {
-        backgroundColor: '#f4511e',
+        backgroundColor: LightColorTheme.primary,
     },
+    gestureEnabled: false,
 });
 
 const authStackConfig = {
     defaultNavigationOptions: {
         headerTintColor: '#fff',
         headerStyle: {
-            backgroundColor: '#000',
+            backgroundColor: LightColorTheme.primary,
         },
         headerShown: false,
+        gestureEnabled: false,
     },
 };
 

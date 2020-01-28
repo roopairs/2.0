@@ -26,13 +26,13 @@ export type LoginButtonProps = {
 
 /* *
  * ------------------------------------------------------------
- * Login Button 
+ * Login Button
  * ------------------------------------------------------------
  * This is a special element that has the same qualities of a thin button.
- * However, this also is capable of rendering images with two additional 
- * properties image and imageStyle.  
- * 
- * Sub
+ * However, this also is capable of rendering images with two additional
+ * properties image and imageStyle.
+ *
+ * @param LoginButtonProps
  * */
 export default function LoginButton(props: LoginButtonProps) {
     const {
@@ -51,7 +51,7 @@ export default function LoginButton(props: LoginButtonProps) {
 
     return (
         <View style={containerStyle}>
-            <TouchableOpacity style={buttonStyle} onPress={onPress}>
+            <TouchableOpacity testID='click-login-button' style={buttonStyle} onPress={onPress}>
                 <Image style={imageStyle} source={image} />
                 <Text style={buttonTextStyle}>{name}</Text>
             </TouchableOpacity>
@@ -91,7 +91,6 @@ const DefaultLoginButtonStyles = StyleSheet.create({
 });
 
 LoginButton.defaultProps = {
-    key: null,
     name: '',
     onClick: () => {},
     image: roopairsLogo,

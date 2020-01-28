@@ -15,8 +15,8 @@ import {
     AuthPageInjectedProps,
     DarkModeInjectedProps,
 } from 'homepairs-components';
+import {Card} from 'homepairs-elements';
 import { ModalInjectedProps } from '../WithModal/WithModal';
-import Card from 'homepairs-elements';
 
 export type AddNewPropertyDispatchProps = {
     onCreateProperty: (

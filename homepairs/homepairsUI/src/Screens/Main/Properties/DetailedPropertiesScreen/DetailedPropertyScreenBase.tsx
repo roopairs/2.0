@@ -112,7 +112,15 @@ export default function DetailedPropertyScreenBase(props: Props) {
 
     function editProperty() {
         // TODO: ADD MODAL AND SEND DATA FROM UPDATE PROPERTY
-        props.onUpdateProperty(propertyIndex, 'New Address', 0, 0, 1);
+        const newProperty: Property ={
+            address: 'New Address', 
+            city: 'San Luis Obispo',
+            state: 'California',
+            tenants: 0,
+            bedrooms: 3,
+            bathrooms: 1,
+        };
+        props.onUpdateProperty(propertyIndex, newProperty);
     }
 
     const imageProps: ImageProps = {

@@ -114,8 +114,6 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
         phone: accountDetails.phone,
         streetAddress: accountDetails.address, 
         city: accountDetails.city,
-        email: accountDetails.email, 
-        phone: accountDetails.phone, 
         password, 
       })
       .then((response) => {

@@ -81,6 +81,7 @@ export default function InputForm(props: InputFormProps) {
         <View style={containerStyle}>
             {renderName()}
             <TextInput
+                testID='userTextInput'
                 style={inputStyle}
                 underlineColorAndroid="transparent"
                 autoCapitalize="none"

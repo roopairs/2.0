@@ -17,6 +17,9 @@ describe("Sticker", () => {
       expect(rendered.find(Text)).toHaveLength(1);
       expect(rendered2.find(View)).toHaveLength(3);
       expect(rendered2.find(Text)).toHaveLength(1);
+      
+      // Test to make sure no unexpected changes occured. This is an element so this should always pass 
+      expect(rendered2).toMatchSnapshot();
     });
     
   });

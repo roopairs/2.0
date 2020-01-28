@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-    InputForm,
-    LoginButton,
-    renderInputForm,
-} from 'homepairs-elements';
+import { InputForm, LoginButton, renderInputForm } from 'homepairs-elements';
 import {
     AccountTypeRadioButton,
     DarkModeInjectedProps,
@@ -14,7 +10,7 @@ import { AccountTypes, Account } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet, View, Text } from 'react-native';
-import {isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
+import { isNullOrUndefined, isEmptyOrSpaces, isPasswordValid, isPhoneNumberValid, isEmailSyntaxValid, isAlphaCharacterOnly } from 'homepairs-utilities';
 
 export type SignUpViewDispatchProps = {
     generateHomePairsAccount: (
@@ -39,8 +35,21 @@ type SignUpState = {
     address: string;
     city: string;
     companyName: string;
-    password: String;
-    cPassword: String;
+    password: string;
+    cPassword: string;
+    error: {[id:string] : boolean};
+};
+
+const initalError : {[id:string] : boolean} = {
+    firstName: false,
+    lastName: false,
+    email: false,
+    phone: false,
+    address: false,
+    city: false,
+    companyName: false,
+    password: false,
+    cPassword: false,
 };
 
 const initalState = {
@@ -54,11 +63,14 @@ const initalState = {
     companyName: '',
     password: '',
     cPassword: '',
+    error: {...initalError},
 };
 const signUpScreenStrings = strings.signUpPage;
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
-    const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
+    const colors = isNullOrUndefined(colorTheme)
+        ? BaseStyles.LightColorTheme
+        : colorTheme;
     return StyleSheet.create({
         formTitle: {
             marginVertical: '3.5%',
@@ -74,6 +86,27 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
             height: 40,
             color: colors.lightGray,
             borderColor: colors.lightGray,
+            borderWidth: 1,
+            borderRadius: BaseStyles.BorderRadius.small,
+            paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
+        },
+        errorFormTitle: {
+            marginVertical: '3.5%',
+            fontFamily: BaseStyles.FontTheme.primary,
+            color: colors.red,
+        },
+        errorInput: {
+            alignItems: 'center',
+            alignSelf: 'center',
+            margin: BaseStyles.MarginPadding.xsmallConst,
+            minWidth: 40,
+            width: BaseStyles.ContentWidth.max,
+            height: 40,
+            color: colors.red,
+            borderColor: colors.red,
+            shadowColor: colors.red,
+            shadowRadius: 5,
+            shadowOpacity: .5,
             borderWidth: 1,
             borderRadius: BaseStyles.BorderRadius.small,
             paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
@@ -135,11 +168,11 @@ export default class SignUpScreenBase extends React.Component<
         this.setState({ phone: childData });
     }
 
-    getFormPassword(childData: String) {
+    getFormPassword(childData: string) {
         this.setState({ password: childData });
     }
 
-    getFormCPassword(childData: String) {
+    getFormCPassword(childData: string) {
         this.setState({ cPassword: childData });
     }
 
@@ -157,14 +190,61 @@ export default class SignUpScreenBase extends React.Component<
 
     validateCredentials: () => boolean = () => {
         const { onChangeModalVisibility, setErrorState } = this.props;
-        const { password, cPassword } = this.state;
-        // TODO: Validate credentials via a whitelist of approved inputs Right now, only checking passwords
-        if (!isEmptyOrSpaces(password) && password === cPassword) return true;
+        const {
+            firstName,
+            lastName,
+            password,
+            cPassword,
+            email,
+            phone,
+        } = this.state;
+        const newErrorState: {[id:string]: boolean} = {...initalError};
+        let isValid:boolean = true;
+        const errorMessages: string[] = [];
+        
+        // TODO: Add verfication for Company Type, Address, and others
+        if(!isAlphaCharacterOnly(firstName)){
+            isValid = false;
+            newErrorState.firstName=true;
+            errorMessages.push('You have entered an invalid first name!');
+        }
+        if(!isAlphaCharacterOnly(lastName)){
+            isValid = false;
+            newErrorState.lastName=true;
+            errorMessages.push('You have entered an invalid last name!');
+        }
+        if(!isEmailSyntaxValid(email)){
+            isValid = false;
+            newErrorState.email=true;
+            errorMessages.push('You have entered an invalid email!');
+        }
+        if(!isPhoneNumberValid(phone)){
+            isValid = false;
+            newErrorState.phone=true;
+            errorMessages.push('You have entered an invalid phone number!');
 
-        onChangeModalVisibility(false);
-        setErrorState(true, 'Your passwords do not match. Please try again.');
+        }
+        if(!(password === cPassword)){
+            isValid = false;
+            newErrorState.password=true;
+            newErrorState.cPassword=true;
+            errorMessages.push("You're passwords do not match! Please enter them again.");
+        }else if (!isPasswordValid(password)){
+            isValid = false;
+            newErrorState.password=true;
+            newErrorState.cPassword=true;
+            // TODO: Create a message that tells the user what values their password should have.
+            errorMessages.push("You have entered an invalid password");
+        } 
 
-        return false;
+        this.setState({error: newErrorState});
+        if(!isValid){
+            const message = errorMessages.length > 1 ? 'Please fix the problems below' : errorMessages[0];
+            setErrorState(true, message);
+            onChangeModalVisibility(false);
+        }
+
+        return isValid;
     };
 
     /**
@@ -205,52 +285,55 @@ export default class SignUpScreenBase extends React.Component<
     }
 
     renderAllInputForms() {
+        const {error} = this.state;
+        const {firstName, lastName, email, password, cPassword, phone} = error;
+        const {formTitle, input, errorFormTitle, errorInput} = this.inputFormStyle;
         const inputFormProps = [
             {
                 key: signUpScreenStrings.inputForms.firstName,
                 name: signUpScreenStrings.inputForms.firstName,
                 parentCallBack: this.getFormFirstName,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
+                formTitleStyle: !firstName ? formTitle : errorFormTitle,
+                inputStyle: !firstName ? input : errorInput,
             },
             {
                 key: signUpScreenStrings.inputForms.lastName,
                 name: signUpScreenStrings.inputForms.lastName,
                 parentCallBack: this.getFormLastName,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
+                formTitleStyle: !lastName ? formTitle : errorFormTitle,
+                inputStyle: !lastName ? input : errorInput,
             },
             {
                 key: signUpScreenStrings.inputForms.email,
                 name: signUpScreenStrings.inputForms.email,
                 parentCallBack: this.getFormEmail,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
+                formTitleStyle: !email ? formTitle : errorFormTitle,
+                inputStyle: !email ? input : errorInput,
             },
             {
                 key: signUpScreenStrings.inputForms.phone,
                 name: signUpScreenStrings.inputForms.phone,
                 parentCallBack: this.getFormPhone,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
+                formTitleStyle: !phone? formTitle : errorFormTitle,
+                inputStyle: !phone ? input : errorInput,
             },
             {
                 key: signUpScreenStrings.inputForms.password,
                 name: signUpScreenStrings.inputForms.password,
                 parentCallBack: this.getFormPassword,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
+                formTitleStyle: !password ? formTitle : errorFormTitle,
+                inputStyle: !password ? input : errorInput,
                 secureTextEntry: true,
             },
             {
                 key: signUpScreenStrings.inputForms.confirmPassword,
                 name: signUpScreenStrings.inputForms.confirmPassword,
                 parentCallBack: this.getFormCPassword,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
+                formTitleStyle: !cPassword ? formTitle : errorFormTitle,
+                inputStyle: !cPassword ? input : errorInput,
                 secureTextEntry: true,
             },
-            { 
+            {
                 key: signUpScreenStrings.inputForms.address,
                 name: signUpScreenStrings.inputForms.address,
                 parentCallBack: this.getFormAddress,
@@ -280,15 +363,16 @@ export default class SignUpScreenBase extends React.Component<
                     parentCallBack={properties.parentCallBack}
                     formTitleStyle={properties.formTitleStyle}
                     inputStyle={properties.inputStyle}
+                    secureTextEntry={properties.secureTextEntry}
                 />
             );
         });
-    };
+    }
 
     renderRoopairsLoginPage() {
         const { accountType } = this.state;
         return accountType === AccountTypes.Landlord ? (
-            <View style={{marginTop: BaseStyles.MarginPadding.large}}>
+            <View style={{ marginTop: BaseStyles.MarginPadding.large }}>
                 <LoginButton
                     name="Login with your Roopairs Account"
                     onClick={this.toRoopairsLogin}

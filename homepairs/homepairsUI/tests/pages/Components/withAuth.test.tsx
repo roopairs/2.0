@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 // import { withAuthPage, AuthPassProps, AuthPageInjectedProps, SceneHeader } from 'homepairs-components';
 import { shallow, ShallowWrapper} from "enzyme";
-=======
-// import {withAuthPage, AuthPassProps, AuthPageInjectedProps} from 'homepairs-components';
-import { shallow, ShallowWrapper, render } from "enzyme";
->>>>>>> development
 import * as React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import configureMockStore from "redux-mock-store";

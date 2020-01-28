@@ -1,28 +1,24 @@
+/**
+ * ------------------------------------------------------------
+ * Is Null or Undefined 
+ * ------------------------------------------------------------
+ * @param any
+ * Takes in a single argument and returns if that have has been 
+ * assigned null or has been undefined. 
+ */
+export function isNullOrUndefined(arg: any): boolean {
+    return typeof arg === 'undefined' || arg == null;
+}
+
 /** 
  * ------------------------------------------------------------
  * Parameter Checkers
  * ------------------------------------------------------------
  * These functions are intended to be helper functions for the 
- * use of comparison operations.   
-*/
-
-export function isNullOrUndefined(arg: any): boolean {
-    return typeof arg === 'undefined' || arg == null;
-}
-
-/**
+ * use of comparison operations.  
  * 
- * @param arg 
- * @param onStringValue 
- * @param onObjectValue 
- * Takes in a single argument and two call back functions. Dependent 
- * on the value, it executes the function of the type matching the 
- * argument.   
- */
-export function executeWhenStringAndObject(
-    arg: string | object,
-    onStringValue: (arg: string) => any,
-    onObjectValue: (arg: Object) => any,
-) {
-    return typeof arg === 'string' ? onStringValue(arg) : onObjectValue(arg);
-}
+ * Methods:
+ *      isNullOrUndefined( arg: any ) => boolean 
+*/
+const ParameterCheckers = {isNullOrUndefined};
+export default ParameterCheckers;

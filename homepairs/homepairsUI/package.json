@@ -7,6 +7,7 @@
         "web": "expo start --web",
         "eject": "expo eject",
         "test": "jest",
+        "test:coverage": "./node_modules/.bin/jest --coverage",
         "images": "node scripts/images.js",
         "fonts": "node scripts/fonts.js",
         "lint": "tsc --noEmit && eslint --ext .js,.jsx,.ts,.tsx ./src",

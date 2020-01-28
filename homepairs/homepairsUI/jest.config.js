@@ -16,11 +16,14 @@ module.exports = {
     ],
     collectCoverage: false,
     collectCoverageFrom: [
-        '**/*.{js,jsx}',
+        '**/*.{ts,tsx}',
+        '**/src/*.{js,jsx}',
         '!**/coverage/**',
         '!**/node_modules/**',
         '!**/babel.config.js',
-        '!**/jest.setup.js'
+        '!**/jest.setup.js',
+        '!**/tests/**',
+        '!**/App.{js,jsx,ts,tsx}',
     ],
     globals: {
         'ts-jest': {

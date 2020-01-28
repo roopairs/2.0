@@ -2,14 +2,12 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity,
-    Image,
     Platform,
 } from 'react-native';
 import React from 'react';
-import { hamburger } from 'homepairs-images';
 import HomePairColors from 'homepairs-colors';
 import { HomePairFonts } from 'homepairs-fonts';
+import {HamburgerButton} from 'homepairs-elements';
 import { DarkModeInjectedProps } from '../../WithDarkMode/WithDarkMode';
 
 export type HomePairsHeaderTitleProps = DarkModeInjectedProps & {
@@ -74,6 +72,30 @@ const baseStyles = {
         width: null,
         height: null,
     },
+    buttonContainer: {
+        //alignSelf: 'center',
+        //justifyContent: 'center',
+        //alignItems: 'center',
+        paddingHorizontal: 10,
+        minHeight: 40,
+    },
+    button: {
+        //flex:1,
+        //alignItems: 'center',
+        //justifyContent: 'center',
+        //alignSelf: 'center',
+        backgroundColor: 'transparent',
+        width: 50, 
+        height: 40,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#B3C0C2',
+    },
+    buttonText: {
+        //flex:1,
+        color: '#B3C0C2',
+        fontSize: 80,
+    },
 };
 
 const setColorScheme = (colorScheme: any, base: any) => {
@@ -97,6 +119,9 @@ const setColorScheme = (colorScheme: any, base: any) => {
             ...base.homePairsHamburgerImageWeb,
         },
         hamburgerStyleWeb: { ...base.hamburgerStyleWeb },
+        buttonContainer: {...base.buttonContainer},
+        button: {...base.button},
+        buttonText: {...base.buttonText},
     });
     return newStyle;
 };
@@ -112,9 +137,9 @@ const setColorScheme = (colorScheme: any, base: any) => {
 export class HomePairsHeaderTitle extends React.Component<
     HomePairsHeaderTitleProps
 > {
-    hamburgerStyle: any; // = (Platform.OS === 'web') ? this.state.styles.hamburgerStyleWeb : this.state.styles.hamburgerStyle
+    hamburgerStyle: any;
 
-    hamburgerImageStyle: any; //= (Platform.OS === 'web') ? this.state.styles.homePairsHamburgerImageWeb : this.state.styles.homePairsHamburgerImage
+    hamburgerImageStyle: any;
 
     colorScheme: any;
 
@@ -146,14 +171,20 @@ export class HomePairsHeaderTitle extends React.Component<
 
     dropDownRender() {
         const {toggleMenuCallBack} = this.props;
-        return (
+        
+        
+        /*return (
             <TouchableOpacity
                 onPress={() => toggleMenuCallBack()}
                 style={this.hamburgerStyle}
             >
                 <Image style={this.hamburgerImageStyle} source={hamburger} />
             </TouchableOpacity>
-        );
+        );*/
+        
+        
+       return (<HamburgerButton onClick={toggleMenuCallBack} />);
+
     }
 
     chooseWideRender() {
@@ -162,10 +193,10 @@ export class HomePairsHeaderTitle extends React.Component<
          * Case 1: If window is large, show all navigation options next to title
          * Else:: If window is tiny, show hamburger menu for dropdown navigation
          */
-        if (isDropDown) {
-            return this.dropDownRender();
-        }
-        return <View style={{ height: '0%', width: '0%' }} />;
+        return isDropDown ?
+            this.dropDownRender()
+        :
+        <View style={{ height: '0%', width: '0%' }} />;
     }
 
     render() {

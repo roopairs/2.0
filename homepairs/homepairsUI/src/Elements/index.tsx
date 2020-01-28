@@ -31,6 +31,7 @@ export {default as ThinButton} from './Buttons/ThinButton';
 export {default as LoginButton} from './Buttons/LoginButton';
 export {default as Card } from './Cards/Card';
 export {default as Sticker} from './Stickers/Sticker';
+export {default as HamburgerButton} from './Buttons/HamburgerButton';
 
 /** A hack that works when exporting types */
 export type InputFormProps = IFP;
