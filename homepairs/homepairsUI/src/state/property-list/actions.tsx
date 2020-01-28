@@ -84,9 +84,13 @@ export const updateProperty = (propertyIndex: number, updatedProperty: Property)
     };
   };
   
-export const postUpdatedProperty = (editProperty: Property, propIndex: number, email: string, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => {
+export const postUpdatedProperty = (oldProperty: Property, editProperty: Property, propIndex: number, email: string, onChangeModalVisibility: (check: boolean) => void) => {
   return async (dispatch: (arg0: any) => void) => {
-    return axios.post('https://homepairs-alpha.herokuapp.com/API/property/create/', {
+    console.log(oldProperty);
+    console.log(editProperty);
+    return axios.post('https://homepairs-alpha.herokuapp.com/API/property/update/', {
+      oldStreetAddress: oldProperty.address,
+      oldCity: oldProperty.city,
       streetAddress: editProperty.address, 
       city: editProperty.city, 
       state: editProperty.state, 
@@ -99,7 +103,6 @@ export const postUpdatedProperty = (editProperty: Property, propIndex: number, e
       console.log(response[responseKeys.DATA]);
       if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.FAILURE)){
         dispatch(updateProperty(propIndex, editProperty));
-        setInitialState();
         onChangeModalVisibility(false);
       } else {
         console.log("error");

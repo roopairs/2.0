@@ -14,6 +14,7 @@ import {
     GeneralHomeInfoProps,
     AddressSticker,
     DarkModeInjectedProps,
+    ModalInjectedProps,
 } from 'homepairs-components';
 import {
     HomepairsPropertyAttributes,
@@ -23,21 +24,12 @@ import {
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 
-export type DetailedPropertyStateProps = DarkModeInjectedProps & {
-    propertyIndex: number;
+export type DetailedPropertyStateProps = {
     property: Property;
 };
-export type DetailedPropertyDispatchProps = {
-    onUpdateProperty?: (
-        index: number,
-        updatedProperty: Property,
-    ) => void;
-    onRemoveProperty?: (index: number) => void;
-};
 
-type Props = NavigationStackScreenProps &
-    DetailedPropertyStateProps &
-    DetailedPropertyDispatchProps;
+type Props = NavigationStackScreenProps & DetailedPropertyStateProps & DarkModeInjectedProps & ModalInjectedProps;
+
 const propertyKeys = HomepairsPropertyAttributes;
 
 function setStyles(colorTheme?: BaseStyles.ColorTheme) {
@@ -104,13 +96,8 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
 }
 
 export default function DetailedPropertyScreenBase(props: Props) {
-    const { property, propertyIndex, primaryColorTheme } = props;
+    const { property, primaryColorTheme, onChangeModalVisibility } = props;
     const styles = setStyles(primaryColorTheme);
-
-    function editProperty() {
-        // TODO: ADD MODAL AND SEND DATA FROM UPDATE PROPERTY
-        props.onUpdateProperty(propertyIndex, 'New Address', 0, 0, 1);
-    }
 
     const imageProps: ImageProps = {
         source: defaultProperty,
@@ -126,7 +113,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
         tenants: property[propertyKeys.TENANTS],
         bedrooms: property[propertyKeys.BEDROOMS],
         bathrooms: property[propertyKeys.BATHROOMS],
-        onClick: editProperty,
+        onClick: onChangeModalVisibility,
     };
 
     function renderImage() {

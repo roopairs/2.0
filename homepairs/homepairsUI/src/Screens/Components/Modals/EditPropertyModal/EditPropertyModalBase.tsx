@@ -6,40 +6,25 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import { DarkModeInjectedProps } from 'homepairs-components';
+import {isNumber} from 'homepairs-utilities';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 import Card from '../../../../Elements/Cards/Card';
 
 export type EditPropertyDispatchProps = {
-    onEditProperty: (newProperty: Property, propIndex: number, email: string, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => void
+    onEditProperty: (oldProperty: Property, newProperty: Property, propIndex: number, email: string, onChangeModalVisibility: (check: boolean) => void) => void
 }
 
-export type NewPropertyState = {
+export type EditPropertyState = {
     email : string;
+    index: number;
+    oldProp: Property;
 }
 
-type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & NewPropertyState;
+type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyState;
 
-type CreateState = {
-    streetAddress: string, 
-    propCity: string, 
-    propState: string, 
-    numBed: number, 
-    numBath: number, 
-    maxTenants: number, 
-    pm: string
-};
+type EditState = Property;
 
 const signUpStrings = strings.signUpPage;
-
-const initialState : CreateState = {
-    streetAddress: '', 
-    propCity: '', 
-    propState: '', 
-    numBed: 0, 
-    numBath: 0,
-    maxTenants: 0,
-    pm: '',
-};
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
     const colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme;
@@ -72,7 +57,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
 }
 
 
-export default class AddNewPropertyModalBase extends React.Component<Props, CreateState> {
+export default class EditNewPropertyModalBase extends React.Component<Props, EditState> {
     private inputFormStyle;
 
     submitButton : ThinButtonProps = {
@@ -110,104 +95,95 @@ export default class AddNewPropertyModalBase extends React.Component<Props, Crea
         this.getFormNumBed = this.getFormNumBed.bind(this);
         this.getFormNumBath = this.getFormNumBath.bind(this);
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
-        this.setInitialState = this.setInitialState.bind(this);
-        this.state = initialState;
+        this.state = {...props.oldProp};
     } 
 
     getFormAddress(childData : string) {
-        this.setState({streetAddress: childData});
+        this.setState({address: childData});
     }
 
     getFormCity(childData : string) {
-        this.setState({propCity: childData});
+        this.setState({city: childData});
     }
 
     getFormState(childData : string) {
-        this.setState({propState: childData});
+        this.setState({state: childData});
     }
 
     getFormNumBed(childData : string) {
-        const num = Number(childData);
-        if (Number.isNaN(num)) {
-            this.setState({numBed: num});
+        if (isNumber(childData)) {
+            this.setState({bedrooms: Number(childData)});
         } else {
             // alert
         }
     }
 
     getFormNumBath(childData : string) {
-        const num = Number(childData);
-        if (Number.isNaN(num)) {
-            this.setState({numBath: num});
+        if (isNumber(childData)) {
+            this.setState({bathrooms: Number(childData)});
         } else {
             // alert
         }
     }
 
     getFormMaxTenants(childData: string) {
-        const num = Number(childData);
-        if (Number.isNaN(num)) {
-            this.setState({maxTenants: num});
+        if (isNumber(childData)) {
+            this.setState({tenants: Number(childData)});
         } else {
             // alert
         }
     }
 
-    setInitialState() {
-        this.setState(initialState);
-    }
-
     clickSubmitButton() {
-        const {streetAddress, propCity, propState, maxTenants, numBath, numBed} = this.state;
-        const {email, onChangeModalVisibility, onEditProperty, propIndex} = this.props;
-        const newProperty : Property = {
-            address: streetAddress, 
-            city: propCity, 
-            state: propState, 
-            tenants: maxTenants,
-            bedrooms: numBed, 
-            bathrooms: numBath,
-        };
-        onEditProperty(newProperty, propIndex, email, this.setInitialState, onChangeModalVisibility);
+        const {email, onChangeModalVisibility, onEditProperty, index, oldProp} = this.props;
+        const newProperty : Property = {...this.state};
+        onEditProperty(oldProp, newProperty, index, email, onChangeModalVisibility);
     }
 
     inputFormProps() : {[id: string] : InputFormProps} {
+        const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
         return {
             streetAddress: {
                 name: signUpStrings.inputForms.address,
                 parentCallBack: this.getFormAddress,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
+                placeholder: address,
             }, 
             city: {
                 name: signUpStrings.inputForms.city,
                 parentCallBack: this.getFormCity,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
+                placeholder: city,
             }, 
             state: {
                 name: signUpStrings.inputForms.state,
                 parentCallBack: this.getFormState,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
+                placeholder: state,
             }, 
             numBed: {
                 name: signUpStrings.inputForms.numBed,
                 parentCallBack: this.getFormNumBed,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
+                placeholder: bedrooms.toString(),
             }, 
             numBath: {
                 name: signUpStrings.inputForms.numBath,
                 parentCallBack: this.getFormNumBath,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
+                placeholder: bathrooms.toString(),
             }, 
             maxTenants: {
                 name: signUpStrings.inputForms.maxTenants,
                 parentCallBack: this.getFormMaxTenants,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
+                placeholder: tenants.toString(),
             },
         };
     }
@@ -219,7 +195,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props, Crea
             <ScrollView style = {this.inputFormStyle.modalContainer}>
                 <Card
                     showCloseButton = {true}
-                    title= "Create New Property"
+                    title= "Edit Property"
                     closeButtonPressedCallBack={() => onChangeModalVisibility(false)}
                     >
                     {renderInputForm(streetAddress)}

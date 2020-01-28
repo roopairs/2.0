@@ -3,16 +3,15 @@ import { PropertyListActions } from 'homepairs-redux-actions';
 import { Property, AppState } from 'src/state/types';
 import EditPropertyModalBase, {EditPropertyDispatchProps} from './EditPropertyModalBase';
 
-
-
 const mapDispatchToProps : (dispatch: any) => EditPropertyDispatchProps = (dispatch: any) => ({
-    onEditProperty: (editProperty: Property, propIndex: number, email: string, setInitialState: () => void, onChangeModalVisiblity: (check: boolean) => void) => {
-        dispatch(PropertyListActions.postUpdatedProperty(editProperty, propIndex, email, setInitialState, onChangeModalVisiblity));
+    onEditProperty: (oldProperty: Property, editProperty: Property, propIndex: number, email: string, onChangeModalVisiblity: (check: boolean) => void) => {
+        dispatch(PropertyListActions.postUpdatedProperty(oldProperty, editProperty, propIndex, email,  onChangeModalVisiblity));
     },
 });
 
 function mapStateToProps(state: AppState) : any {
-    return {email: state.accountProfile.email};
+    const propIndex = state.propertyList.selectedPropertyIndex;
+    return {email: state.accountProfile.email, index: propIndex, oldProp: state.propertyList.properties[propIndex]};
 }
 
 export default connect(

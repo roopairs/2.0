@@ -63,7 +63,6 @@ export type Account = {
     phone: string;
     address: string;
     city: string;
-    companyName: string;
     roopairsToken: string;
 };
 
