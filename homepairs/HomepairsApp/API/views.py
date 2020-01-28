@@ -198,8 +198,6 @@ def pmRegister(request):
                                    }
              }
       response = requests.post(url, json=data)
-      print("GOT HERE")
-      print(response.text)
       info = json.loads(response.text)
 
       if NON_FIELD_ERRORS in info:
@@ -250,8 +248,6 @@ def createProperty(request):
                  }
           return Response(data=data)
         else:
-          print("HERE 2")
-          print(pmList.exists())
           return Response(data=returnError(INCORRECT_FIELDS))
       else:
         return Response(data=returnError(PROPERTY_ALREADY_EXISTS))

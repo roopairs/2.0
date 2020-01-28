@@ -22,8 +22,8 @@ from .views import INVALID_PROPERTY, NON_FIELD_ERRORS, TOKEN, RESIDENTIAL_CODE
 ################################################################################
 # Vars
 
-globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
 globUrl = 'http://localhost:8000/API/'
+globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
 
 # EXTRA URLS
 LOGIN_URL = 'login/'
@@ -546,8 +546,6 @@ class PropertyCRUD(TestCase):
       url = globUrl + UPDATE_PROP_URL
       x = requests.post(url, json=data)
       info = json.loads(x.text)
-      print("PRINT")
-      print(x.text)
 
       self.assertEqual(info.get(STATUS), SUCCESS)
 
