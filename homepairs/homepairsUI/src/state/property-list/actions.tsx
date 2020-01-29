@@ -124,7 +124,6 @@ export const fetchProperties = (
     linkedProperties: Array<any>,
 ): FetchPropertyAction => {
     const fetchedProperties: Property[] = [];
-    // TO DO: make linkedProperties not nullable again (once adam gives us properties for pm's again)
     linkedProperties?.forEach(element => {
         fetchedProperties.push({
             address: element[propertyKeys.ADDRESS],

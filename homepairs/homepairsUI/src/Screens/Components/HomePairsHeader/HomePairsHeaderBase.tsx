@@ -135,20 +135,14 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
                         style={{
                             flexDirection: 'row',
                             backgroundColor: this.colorScheme.secondary,
+
                         }}
                     >
                         {this.showBackButton()}
                         <View
-                            style={
-                                this.showBackButton
-                                    ? {
-                                          marginLeft:
-                                              BaseStyles.MarginPadding
-                                                  .largeConst,
-                                          flex: 20,
-                                      }
-                                    : { flex: 20 }
-                            }
+                            style={{marginLeft: BaseStyles.MarginPadding.largeConst, flex: 1}
+                        }
+
                         >
                             {this.renderHeaderTitle()}
                         </View>

@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { HomePairFonts } from 'homepairs-fonts';
 
 export type CardProps = {
-    children?: ReactElement[] | ReactElement;
+    children?: ReactElement<any,any>[] | ReactElement<any,any>;
     containerStyle?: {};
     wrapperStyle?: {};
     title?: String;
@@ -11,6 +11,7 @@ export type CardProps = {
     subtitle?: String;
     subtitleStyle?: {};
     titleContainerStyle?: {};
+    closeButtonContainerStyle?: {};
     closeButtonStyle?: {};
     showCloseButton?: Boolean;
     closeButtonPressedCallBack?: (arg0?: any) => any;
@@ -69,7 +70,7 @@ const defaultStyles = StyleSheet.create({
         alignSelf: 'flex-end',
         justifyContent: 'center',
         paddingHorizontal: '2.5%',
-        paddingVertical: '5%',
+        paddingVertical: 25,
         maxHeight: 40,
         marginHorizontal: '5%',
         position: 'absolute',
@@ -158,6 +159,7 @@ Card.defaultProps = {
     subtitleStyle: defaultStyles.subtitle,
     titleContainerStyle: defaultStyles.titleContainer,
     closeButtonStyle: defaultStyles.closeButton,
+    closeButtonContainerStyle: defaultStyles.closeButtonContainer,
     showCloseButton: false,
     closeButtonPressedCallBack: () => {},
 };

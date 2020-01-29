@@ -1,28 +1,33 @@
 import React from "react";
 import { ScrollView, StyleSheet, SafeAreaView } from "react-native";
-import {InputFormProps, ThinButton, renderInputForm, ThinButtonProps } from 'homepairs-elements';
+import {InputFormProps, ThinButton, ThinButtonProps, Card, InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import { DarkModeInjectedProps } from 'homepairs-components';
-import {isNumber} from 'homepairs-utilities';
-import {ModalInjectedProps} from '../WithModal/WithModal';
-import Card from '../../../../Elements/Cards/Card';
+import { DarkModeInjectedProps, ModalInjectedProps } from 'homepairs-components';
+import {isNumber, isEmptyOrSpaces} from 'homepairs-utilities';
 
 export type EditPropertyDispatchProps = {
     onEditProperty: (oldProperty: Property, newProperty: Property, propIndex: number, email: string, onChangeModalVisibility: (check: boolean) => void) => void
 }
 
-export type EditPropertyState = {
+export type EditPropertyStateProps = {
     email : string;
     index: number;
     oldProp: Property;
 }
 
-type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyState;
+type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyStateProps;
 
-type EditState = Property;
+type State = {
+    address: string;
+    city: string;
+    state: string;
+    tenants: string;
+    bedrooms: string;
+    bathrooms: string;
+}
 
 const signUpStrings = strings.signUpPage;
 
@@ -56,9 +61,14 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
     });
 }
 
+function checkIfPositiveNumber(arg: string): boolean{
+    return (isNumber(arg) && Number(arg) > 0);
+ }
 
-export default class EditNewPropertyModalBase extends React.Component<Props, EditState> {
-    private inputFormStyle;
+export default class EditNewPropertyModalBase extends React.Component<Props, State> {
+    inputFormStyle: { formTitle: any; input: any; modalContainer: any; }
+
+    oldProperty: Property;
 
     submitButton : ThinButtonProps = {
         name: 'Submit', 
@@ -95,115 +105,144 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.getFormNumBed = this.getFormNumBed.bind(this);
         this.getFormNumBath = this.getFormNumBath.bind(this);
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
-        this.state = {...props.oldProp};
+        this.oldProperty = props.oldProp;
+        this.state = {
+            address: this.oldProperty.address,
+            city: this.oldProperty.city,
+            state: this.oldProperty.city,
+            bathrooms: this.oldProperty.bathrooms.toString(),
+            bedrooms: this.oldProperty.bedrooms.toString(),
+            tenants: this.oldProperty.tenants.toString(),
+        };
     } 
 
     getFormAddress(childData : string) {
-        this.setState({address: childData});
+        const address = isEmptyOrSpaces(childData) ? this.oldProperty.address : childData;
+        this.setState({address});
     }
 
     getFormCity(childData : string) {
-        this.setState({city: childData});
+        const city = isEmptyOrSpaces(childData) ? this.oldProperty.city : childData;
+        this.setState({city});
     }
 
     getFormState(childData : string) {
-        this.setState({state: childData});
+        const state = isEmptyOrSpaces(childData) ? this.oldProperty.state : childData;
+        this.setState({state});
     }
 
     getFormNumBed(childData : string) {
-        if (isNumber(childData)) {
-            this.setState({bedrooms: Number(childData)});
-        } else {
-            // alert
-        }
+        const oldBedrooms = this.oldProperty.bedrooms.toString();
+        const bedrooms = isEmptyOrSpaces(childData) ? oldBedrooms : childData;
+        this.setState({bedrooms});
     }
 
     getFormNumBath(childData : string) {
-        if (isNumber(childData)) {
-            this.setState({bathrooms: Number(childData)});
-        } else {
-            // alert
-        }
+        // if (isNumber(childData) && (baths > 0)) {
+        const oldBathrooms = this.oldProperty.bathrooms.toString();
+        const bathrooms = isEmptyOrSpaces(childData) ? oldBathrooms : childData;
+        this.setState({bathrooms});
     }
 
     getFormMaxTenants(childData: string) {
-        if (isNumber(childData)) {
-            this.setState({tenants: Number(childData)});
-        } else {
-            // alert
+        // if (isNumber(childData) && tenants > 0) {
+        const oldTenants = this.oldProperty.tenants.toString();
+        const tenants = isEmptyOrSpaces(childData) ? oldTenants : childData;
+        this.setState({tenants});
+   
+    }
+
+    validateInput(){
+        // TODO: Validate the input for Valid Address, City, and State Using the Google Maps API
+        const {address, city, state, bathrooms, bedrooms, tenants} = this.state;
+        if(!checkIfPositiveNumber(bathrooms) || !checkIfPositiveNumber(bedrooms) || !checkIfPositiveNumber(tenants)){
+            return false;
         }
+        return true;
     }
 
     clickSubmitButton() {
         const {email, onChangeModalVisibility, onEditProperty, index, oldProp} = this.props;
-        const newProperty : Property = {...this.state};
+        const {address, city, state, bathrooms, bedrooms, tenants} = this.state;
+        if(!this.validateInput()){
+            return;
+        }
+        const newProperty : Property = {
+            address,
+            city,
+            state,
+            bathrooms: Number(bathrooms),
+            bedrooms: Number(bedrooms),
+            tenants: Number(tenants),
+        };
         onEditProperty(oldProp, newProperty, index, email, onChangeModalVisibility);
     }
 
-    inputFormProps() : {[id: string] : InputFormProps} {
+    renderInputForms(): React.ReactElement[]{
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
-        return {
-            streetAddress: {
+        const inputFormProps : InputFormProps[] = [
+            {
                 name: signUpStrings.inputForms.address,
                 parentCallBack: this.getFormAddress,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 placeholder: address,
             }, 
-            city: {
+            {
                 name: signUpStrings.inputForms.city,
                 parentCallBack: this.getFormCity,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 placeholder: city,
             }, 
-            state: {
+            {
                 name: signUpStrings.inputForms.state,
                 parentCallBack: this.getFormState,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 placeholder: state,
             }, 
-            numBed: {
+            {
                 name: signUpStrings.inputForms.numBed,
                 parentCallBack: this.getFormNumBed,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 placeholder: bedrooms.toString(),
             }, 
-            numBath: {
+            {
                 name: signUpStrings.inputForms.numBath,
                 parentCallBack: this.getFormNumBath,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 placeholder: bathrooms.toString(),
             }, 
-            maxTenants: {
+            {
                 name: signUpStrings.inputForms.maxTenants,
                 parentCallBack: this.getFormMaxTenants,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 placeholder: tenants.toString(),
             },
-        };
+        ];
+
+        return inputFormProps.map(inputFormProp => {
+            const {name, parentCallBack, formTitleStyle, inputStyle, placeholder} = inputFormProp;
+            return <InputForm key={name} name={name} parentCallBack={parentCallBack} formTitleStyle={formTitleStyle} inputStyle={inputStyle} placeholder={placeholder}/>;
+        });
+        
     }
     
     render() {
-        const {streetAddress, city, state, numBed, numBath, maxTenants} = this.inputFormProps();
         const {onChangeModalVisibility} = this.props;
-        return <SafeAreaView>
+        const showCloseButton = true;
+        return <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
             <ScrollView style = {this.inputFormStyle.modalContainer}>
                 <Card
-                    showCloseButton = {true}
+                    showCloseButton={showCloseButton}
                     title= "Edit Property"
                     closeButtonPressedCallBack={() => onChangeModalVisibility(false)}
                     >
-                    {renderInputForm(streetAddress)}
-                    {renderInputForm(city)}
-                    {renderInputForm(state)}
-                    {renderInputForm(maxTenants)}
-                    {renderInputForm(numBed)}
-                    {renderInputForm(numBath)}
+                    <>{this.renderInputForms()}</>
                     {ThinButton(this.submitButton)}
                 </Card>
             </ScrollView>
