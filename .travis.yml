@@ -28,5 +28,4 @@ jobs:
       before_script:
         - ./travisScripts/beforeTests.sh     
       script:
-        - ls
         - ./travisScripts/runDBTests.sh
