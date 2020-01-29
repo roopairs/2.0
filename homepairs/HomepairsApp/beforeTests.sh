@@ -15,4 +15,6 @@ python manage.py migrate
 
 echo "beans"
 
-python manage.py runserver
+python manage.py runserver &
+
+echo "beans are cool"
