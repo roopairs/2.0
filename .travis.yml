@@ -23,5 +23,7 @@ jobs:
       install:
         - cd homepairs/HomepairsApp
         - ./installScript.sh
+      before_script:
+        - ./beforeTests.sh     
       script:
         - ./runTests.sh
