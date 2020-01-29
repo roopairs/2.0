@@ -46,6 +46,7 @@ UPDATE_PROP_URL = 'property/update/'
 # Helper Functions
 
 def setUpHelper():
+   print("SETUP HELPER")
    email = 'adamkberard@gmail.com'
    password = 'pass4testing'
    data = {'email': email, 'password': password}
