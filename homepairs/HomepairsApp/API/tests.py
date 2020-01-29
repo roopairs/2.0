@@ -443,6 +443,37 @@ class PMRegistrationRoopairs(TestCase):
       self.assertEqual(pm.get('email'), pmEmail)
       PropertyManager.objects.filter(email=pmEmail).delete()
 
+   def test_pm_noEmail(self):
+      pmPass = "pass4test"
+      pmFirstName = 'Test'
+      pmLastName = 'RooRegistration'
+
+      data = {
+                'password': 'pass4test',
+             }
+
+      url = globUrl + LOGIN_URL
+      x = requests.post(url, json=data)
+
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+
+   def test_pm_noPass(self):
+      pmEmail = "testForRoopairsRegistration@gmail.com"
+      pmFirstName = 'Test'
+      pmLastName = 'RooRegistration'
+
+      data = {
+                'email': pmEmail,
+             }
+
+      url = globUrl + LOGIN_URL
+      x = requests.post(url, json=data)
+
+      info = json.loads(x.text)
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
 
 class PropertyCRUD(TestCase):
    def setUp(self):
