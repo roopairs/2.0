@@ -1,41 +1,20 @@
-import { AppState, Property } from 'homepairs-types';
-import { PropertyListActions } from 'homepairs-redux-actions';
+import { AppState } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
+import {withModal} from 'homepairs-components';
+import EditPropertyModal from 'src/Screens/Components/Modals/EditPropertyModal/EditPropertyModal';
 import DetailedPropertyScreenBase, {
     DetailedPropertyStateProps,
-    DetailedPropertyDispatchProps,
 } from './DetailedPropertyScreenBase';
 
 function mapStateToProps(state: AppState): DetailedPropertyStateProps {
     return { 
-        propertyIndex: state.propertyList.selectedPropertyIndex,
         property: state.propertyList.properties[state.propertyList.selectedPropertyIndex],
     };
 }
 
-const mapDispatchToProps: (
-    dispath: any
-) => DetailedPropertyDispatchProps = dispatch => ({
-    onUpdateProperty: (
-        index: number,
-        updatedProperty: Property,
-    ) => {
-        dispatch(
-            PropertyListActions.updateProperty(
-                index,
-                updatedProperty,
-            ),
-        );
-    },
-    onRemoveProperty: (_index: number) => {
-        // TODO: Deal with removing properties
-    },
-});
-
 const DetailedPropertyScreen = connect(
     mapStateToProps,
-    mapDispatchToProps,
 )(DetailedPropertyScreenBase);
 
-export default withNavigation(DetailedPropertyScreen);
+export default withModal(withNavigation(DetailedPropertyScreen), EditPropertyModal);

@@ -76,57 +76,41 @@ export const postNewProperty = (
     };
 };
 
-export const updateProperty = (
-    propertyIndex: number,
-    updatedProperty: Property,
-): UpdatePropertyAction => {
+export const updateProperty = (propertyIndex: number, updatedProperty: Property) : UpdatePropertyAction => {
     return {
-        type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
-        index: propertyIndex,
-        userData: updatedProperty,
+      type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
+      index: propertyIndex,
+      userData: updatedProperty,
     };
-};
-
-export const postUpdatedProperty = (
-    editProperty: Property,
-    propIndex: number,
-    email: string,
-    setInitialState: () => void,
-    onChangeModalVisibility: (check: boolean) => void,
-) => {
-    return async (dispatch: (arg0: any) => void) => {
-        await axios
-            .post(
-                'https://homepairs-alpha.herokuapp.com/API/property/create/',
-                {
-                    streetAddress: editProperty.address,
-                    city: editProperty.city,
-                    state: editProperty.state,
-                    numBed: editProperty.bedrooms,
-                    numBath: editProperty.bathrooms,
-                    maxTenants: editProperty.tenants,
-                    pm: email,
-                },
-            )
-            .then(response => {
-                console.log(response[responseKeys.DATA]);
-                if (
-                    !(
-                        response[responseKeys.DATA][responseKeys.STATUS] ===
-                        responseKeys.STATUS_RESULTS.FAILURE
-                    )
-                ) {
-                    dispatch(updateProperty(propIndex, editProperty));
-                    setInitialState();
-                    onChangeModalVisibility(false);
-                } else {
-                    console.log('error');
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    };
+  };
+  
+export const postUpdatedProperty = (oldProperty: Property, editProperty: Property, propIndex: number, email: string, onChangeModalVisibility: (check: boolean) => void) => {
+  return async (dispatch: (arg0: any) => void) => {
+    console.log(oldProperty);
+    console.log(editProperty);
+    return axios.post('https://homepairs-alpha.herokuapp.com/API/property/update/', {
+      oldStreetAddress: oldProperty.address,
+      oldCity: oldProperty.city,
+      streetAddress: editProperty.address, 
+      city: editProperty.city, 
+      state: editProperty.state, 
+      numBed: editProperty.bedrooms, 
+      numBath: editProperty.bathrooms, 
+      maxTenants: editProperty.tenants,
+      pm: email,
+    })
+    .then((response) => {
+      console.log(response[responseKeys.DATA]);
+      if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.FAILURE)){
+        dispatch(updateProperty(propIndex, editProperty));
+        onChangeModalVisibility(false);
+      } else {
+        console.log("error");
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
 };
 
 export const removeProperty = (
@@ -166,34 +150,22 @@ export const fetchAllProperties = (
 ) => {
     return (dispatch: (arg0: any) => void) => {
         // TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
-        return axios
-            .post(
-                'http://vertical-proto-homepairs.herokuapp.com/verticalAPI/',
-                {
-                    username: Username,
-                    password: Password,
-                },
-            )
-            .then(response => {
-                if (
-                    !(
-                        response[responseKeys.DATA][responseKeys.STATUS] ===
-                        loginStatus.FAILURE
-                    )
-                ) {
-                    dispatch(
-                        fetchProperties(
-                            response[responseKeys.DATA][
-                                responseKeys.PROPERTIES
-                            ],
-                        ),
-                    );
-                    navigateMainCallBack();
-                } else {
-                    modalSetOffCallBack();
-                }
-            })
-            .catch(_error => {})
-            .finally(() => {});
+        return axios.post('http://vertical-proto-homepairs.herokuapp.com/verticalAPI/', {
+            username: Username,
+            password: Password,
+          })
+          .then((response) => {
+            if(!((response[responseKeys.DATA][responseKeys.STATUS]) === loginStatus.FAILURE)){
+              dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
+              navigateMainCallBack();
+            }else{
+                modalSetOffCallBack();
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .finally(() => {
+          });
     };
 };

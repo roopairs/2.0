@@ -95,7 +95,7 @@ export default class RoopairsLoginBase extends React.Component<LoginProps, Login
         const {showModal, onFetchAccountProfile} = this.props;
         const {username, password} = this.state;
         showModal(true);
-        onFetchAccountProfile(username, password, 'Roopairs', this.setModalOff, this.navigateMain);
+        onFetchAccountProfile(username, password, this.setModalOff, this.navigateMain);
     } 
 
     inputFormProps() : {[id: string] : InputFormProps} {
