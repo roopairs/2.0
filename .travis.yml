@@ -28,4 +28,4 @@ jobs:
       before_script:
         - ./travisScripts/beforeTests.sh     
       script:
-        - ./travisScripts/runDBTests.sh
+        - python manage.py test
