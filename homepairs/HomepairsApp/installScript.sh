@@ -1,3 +1,4 @@
+#!/bin/bash
 pip install -r requirements.txt
 
 psql -c "CREATE USER dummy WITH PASSWORD 'pass4dummy';"

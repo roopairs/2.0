@@ -292,6 +292,8 @@ def updateProperty(request):
       else:
         return Response(data=returnError(PROPERTY_DOESNT_EXIST))
    else:
+      print("FUCK")
+      print(request.data)
       return Response(data=returnError(INCORRECT_FIELDS))
 
 @api_view(['GET', 'POST'])
