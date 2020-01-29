@@ -24,9 +24,9 @@ jobs:
         - DJANGO=3.0.2 DB=postgresql
       install:
         - cd homepairs/HomepairsApp
-        - ./installScript.sh
+        - ./travisScripts/installScript.sh
       before_script:
-        - ./beforeTests.sh     
+        - ./travisScripts/beforeTests.sh     
       script:
         - ls
-        - ./runDBTests.sh
+        - ./travisScripts/runDBTests.sh
