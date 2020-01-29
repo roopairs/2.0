@@ -28,4 +28,5 @@ jobs:
       before_script:
         - ./beforeTests.sh     
       script:
+        - ls
         - ./runTests.sh
