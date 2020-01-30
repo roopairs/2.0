@@ -164,7 +164,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.getFormNumBed = this.getFormNumBed.bind(this);
         this.getFormNumBath = this.getFormNumBath.bind(this);
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
-        this.validateNums = this.validateNums.bind(this);
+        this.validateForms = this.validateForms.bind(this);
         const {oldProp} = this.props;
         const {address, city, state, bedrooms, bathrooms, tenants} = oldProp;
         this.state = {
@@ -176,18 +176,15 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
     } 
 
     getFormAddress(childData : string) {
-        const address = isEmptyOrSpaces(childData) ? this.oldProperty.address : childData;
-        this.setState({address});
+        this.setState({address: childData});
     }
 
     getFormCity(childData : string) {
-        const city = isEmptyOrSpaces(childData) ? this.oldProperty.city : childData;
-        this.setState({city});
+        this.setState({city: childData});
     }
 
     getFormState(childData : string) {
-        const state = isEmptyOrSpaces(childData) ? this.oldProperty.state : childData;
-        this.setState({state});
+        this.setState({state: childData});
     }
 
     getFormNumBed(childData : string) {
@@ -202,18 +199,23 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.setState({tenants: childData});
     }
 
-    validateNums() {
-        const {bedrooms, bathrooms, tenants} = this.state;
-        if (isNumber(bedrooms) && isNumber(bathrooms) && isNumber(tenants)) {
-            return true;
-        } 
+    validateForms() {
+        const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
+        if (!isEmptyOrSpaces(address) && !isEmptyOrSpaces(city) && !isEmptyOrSpaces(state)) {
+            if (isNumber(bedrooms) && isNumber(bathrooms) && isNumber(tenants)) {
+                return true;
+            }
+            // alert that must be integer
+            return false;
+        }
+        // alert that cannot be empty string
         return false;
     }
 
     clickSubmitButton() {
         const {email, onChangeModalVisibility, onEditProperty, index, oldProp, roopairsToken} = this.props;
         const {address, state, city, bedrooms, bathrooms, tenants} = this.state;
-        if (this.validateNums()) {
+        if (this.validateForms()) {
             const newProperty : Property = {
                 address, state, city, 
                 bedrooms: Number(bedrooms), 
@@ -222,7 +224,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
             };
             const info : EditPropertyState = { email, index, oldProp, roopairsToken};
             onEditProperty(newProperty, info, onChangeModalVisibility);
-        }
+        } 
     }
 
     renderInputForms() {
@@ -253,7 +255,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                 value: state, 
             }, 
             {
-
                 key: signUpStrings.inputForms.numBed,
                 name: signUpStrings.inputForms.numBed,
                 parentCallBack: this.getFormNumBed,
@@ -270,7 +271,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                 value: bathrooms,
             }, 
             {
-
                 key: signUpStrings.inputForms.maxTenants,
                 name: signUpStrings.inputForms.maxTenants,
                 parentCallBack: this.getFormMaxTenants,
@@ -283,7 +283,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         return inputForms.map(inputFromProp => {
             return renderInputForm(inputFromProp);
         });
-
     }
     
     render() {
