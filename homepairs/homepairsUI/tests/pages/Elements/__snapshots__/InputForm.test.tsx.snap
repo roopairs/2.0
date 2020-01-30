@@ -28,6 +28,7 @@ exports[`InputForm Method Test: Checks the onClick Method and checks to see if t
     allowFontScaling={true}
     autoCapitalize="none"
     onChangeText={[Function]}
+    placeholder=""
     rejectResponderTermination={true}
     secureTextEntry={true}
     style={

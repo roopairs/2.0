@@ -1,22 +1,14 @@
-import React, { Component } from 'react';
-import { Text, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
-import HomePairColors from 'homepairs-colors';
-import {
-    InputForm,
-    InputFormProps,
-    ThinButton,
-    ThinButtonProps,
-} from 'homepairs-elements';
+import React from "react";
+import {  ScrollView, StyleSheet, SafeAreaView } from "react-native";
+import {InputFormProps, renderInputForm, ThinButton, ThinButtonProps, Card } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {
-    AuthPageInjectedProps,
-    DarkModeInjectedProps,
-} from 'homepairs-components';
-import {Card} from 'homepairs-elements';
-import { ModalInjectedProps } from '../WithModal/WithModal';
+import {isNumber} from 'homepairs-utilities';
+import {ModalInjectedProps} from '../WithModal/WithModal';
+import { DarkModeInjectedProps } from "../../WithDarkMode/WithDarkMode";
+
 
 export type AddNewPropertyDispatchProps = {
     onCreateProperty: (
@@ -36,30 +28,30 @@ type Props = ModalInjectedProps &
     AddNewPropertyDispatchProps &
     NewPropertyState;
 
-type CreateState = {
-    streetAddress: string;
+type State = {
+    address: string;
     city: string;
     state: string;
-    numBed: number;
-    numBath: number;
-    maxTenants: number;
-    pm: string;
+    tenants: string;
+    bedrooms: string;
+    bathrooms: string;
+    pm: string
 };
 
 const signUpStrings = strings.signUpPage;
 
-const initialState: CreateState = {
-    streetAddress: '',
-    city: '',
-    state: '',
-    numBed: 0,
-    numBath: 0,
-    maxTenants: 0,
+const initialState : State = {
+    address: '', 
+    city: '', 
+    state: '', 
+    bedrooms: '', 
+    bathrooms: '',
+    tenants: '',
     pm: '',
 };
 
-function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
-    const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;
+function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
+    const colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme;
     return StyleSheet.create({
         formTitle: {
             marginVertical: '3.5%',
@@ -88,11 +80,38 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
     });
 }
 
-export default class AddNewPropertyModalBase extends React.Component<
-    Props,
-    CreateState
-> {
-    private inputFormStyle;
+function checkIfPositiveNumber(arg: string): boolean{
+    return (isNumber(arg) && Number(arg) > 0);
+}
+
+export default class AddNewPropertyModalBase extends React.Component<Props,State> {
+    inputFormStyle;
+
+    submitButton : ThinButtonProps = {
+        name: 'Submit', 
+        onClick: () => {this.clickSubmitButton();}, 
+        buttonStyle: {
+            alignItems: 'center',
+            backgroundColor: Colors.LightModeColors.transparent,
+            padding: BaseStyles.MarginPadding.mediumConst,
+            maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
+            minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
+            borderRadius: BaseStyles.BorderRadius.large,
+            borderWidth: 1,
+            borderColor: Colors.LightModeColors.blueButton,
+        },
+        buttonTextStyle: {
+            color: Colors.LightModeColors.blueButtonText, 
+            fontSize: BaseStyles.FontTheme.lg,
+            alignSelf: 'center',
+        },
+        containerStyle: {
+            flex: 1,
+            alignSelf: 'center',
+            justifyContent: 'center',
+            minHeight: 50,
+        },
+    };
 
     constructor(props: Readonly<Props>) {
         super(props);
@@ -107,94 +126,59 @@ export default class AddNewPropertyModalBase extends React.Component<
         this.state = initialState;
     }
 
-    getFormAddress(childData: string) {
-        this.setState({ streetAddress: childData });
+    getFormAddress(address : string) {
+        this.setState({address});
     }
 
-    getFormCity(childData: string) {
-        this.setState({ city: childData });
+    getFormCity(city : string) {
+        this.setState({city});
     }
 
-    getFormState(childData: string) {
-        this.setState({ state: childData });
+    getFormState(state: string) {
+        this.setState({state});
     }
 
-    getFormNumBed(childData: string) {
-        const num = Number(childData);
-        if (isNaN(num)) {
-            this.setState({ numBed: num });
-        } else {
-            // alert
-        }
+    getFormNumBed(bedrooms: string) {
+        this.setState({bedrooms});
     }
 
-    getFormNumBath(childData: string) {
-        const num = Number(childData);
-        if (isNaN(num)) {
-            this.setState({ numBath: num });
-        } else {
-            // alert
-        }
+    getFormNumBath(bathrooms: string) {
+        this.setState({bathrooms});
     }
 
-    getFormMaxTenants(childData: string) {
-        const num = Number(childData);
-        if (isNaN(num)) {
-            this.setState({ maxTenants: num });
-        } else {
-            // alert
-        }
+    getFormMaxTenants(tenants: string) {
+        this.setState({tenants});
     }
 
     setInitialState() {
         this.setState(initialState);
     }
 
-    clickSubmitButton() {
-        // put error messages inside InputForm component
-        const newProperty: Property = {
-            address: this.state.streetAddress,
-            city: this.state.city,
-            state: this.state.state,
-            tenants: this.state.maxTenants,
-            bedrooms: this.state.numBed,
-            bathrooms: this.state.numBath,
-        };
-        this.props.onCreateProperty(
-            newProperty,
-            this.props.email,
-            this.setInitialState,
-            this.props.onChangeModalVisibility,
-        );
+    validateInput() {
+        // TODO: Validate the input for Valid Address, City, and State Using the Google Maps API
+        const {address, city, state, bathrooms, bedrooms, tenants} = this.state;
+        if(!checkIfPositiveNumber(bathrooms) || !checkIfPositiveNumber(bedrooms) || !checkIfPositiveNumber(tenants)){
+            return false;
+        }
+        return true; 
     }
 
-    submitButton: ThinButtonProps = {
-        name: 'Submit',
-        onClick: () => {
-            this.clickSubmitButton();
-        },
-        buttonStyle: {
-            alignItems: 'center',
-            backgroundColor: Colors.LightModeColors.transparent,
-            padding: BaseStyles.MarginPadding.mediumConst,
-            maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
-            minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
-            borderRadius: BaseStyles.BorderRadius.large,
-            borderWidth: 1,
-            borderColor: Colors.LightModeColors.blueButton,
-        },
-        buttonTextStyle: {
-            color: Colors.LightModeColors.blueButtonText,
-            fontSize: BaseStyles.FontTheme.lg,
-            alignSelf: 'center',
-        },
-        containerStyle: {
-            flex: 1,
-            alignSelf: 'center',
-            justifyContent: 'center',
-            minHeight: 50,
-        },
-    };
+    clickSubmitButton() {
+        if(!this.validateInput()){
+            return;
+        }
+        const {address, city, state, tenants, bathrooms, bedrooms} = this.state;
+        const {email, onChangeModalVisibility, onCreateProperty} = this.props;
+        const newProperty : Property = {
+            address, 
+            city, 
+            state, 
+            tenants: Number(tenants),
+            bedrooms: Number(bedrooms), 
+            bathrooms: Number(bathrooms),
+        };
+        onCreateProperty(newProperty, email, this.setInitialState, onChangeModalVisibility);
+    }
 
     inputFormProps(): { [id: string]: InputFormProps } {
         return {
@@ -238,26 +222,25 @@ export default class AddNewPropertyModalBase extends React.Component<
     }
 
     render() {
-        return (
-            <SafeAreaView>
-                <ScrollView style={this.inputFormStyle.modalContainer}>
-                    <Card
-                        showCloseButton={true}
-                        title="Create New Property"
-                        closeButtonPressedCallBack={() =>
-                            this.props.onChangeModalVisibility(false)
-                        }
+        const {streetAddress, city, state, numBed, numBath, maxTenants} = this.inputFormProps();
+        const {onChangeModalVisibility} = this.props;
+        const showCloseButton = true;
+        return <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
+            <ScrollView style = {this.inputFormStyle.modalContainer}>
+                <Card
+                    showCloseButton={showCloseButton}
+                    title= "Create New Property"
+                    closeButtonPressedCallBack={() => onChangeModalVisibility(false)}
                     >
-                        <InputForm {...this.inputFormProps().streetAddress} />
-                        <InputForm {...this.inputFormProps().city} />
-                        <InputForm {...this.inputFormProps().state} />
-                        <InputForm {...this.inputFormProps().maxTenants} />
-                        <InputForm {...this.inputFormProps().numBed} />
-                        <InputForm {...this.inputFormProps().numBath} />
-                        <ThinButton {...this.submitButton} />
-                    </Card>
-                </ScrollView>
-            </SafeAreaView>
-        );
+                    {renderInputForm(streetAddress)}
+                    {renderInputForm(city)}
+                    {renderInputForm(state)}
+                    {renderInputForm(maxTenants)}
+                    {renderInputForm(numBed)}
+                    {renderInputForm(numBath)}
+                    {ThinButton(this.submitButton)}
+                </Card>
+            </ScrollView>
+        </SafeAreaView>;
     }
 }

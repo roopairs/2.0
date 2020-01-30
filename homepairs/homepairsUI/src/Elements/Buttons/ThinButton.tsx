@@ -19,8 +19,10 @@ export type ThinButtonProps = {
     buttonTextStyle?: TextStyle;
 };
 
-/* *
- * ------------------------------------------------------------
+
+
+/**
+ * * ------------------------------------------------------------
  * Thin Button
  * ------------------------------------------------------------
  * A component that renders a clickable space
@@ -28,8 +30,17 @@ export type ThinButtonProps = {
  * to invoke a specific function. onClick, onPressIn, and onPressOut
  * should have some callback that can communicate with the parent the
  * next steps to take.
- *
- * */
+ * 
+ * @param {ThinButtonProps} props 
+ * key?: any
+ * name?: String
+ * onClick?: () => any
+ * onPressIn?: () => any;
+ * onPressOut?: () => any;
+ * containerStyle?: ViewStyle
+ * buttonStyle?: ViewStyle
+ * buttonTextStyle?: TextStyle
+ */
 export default function ThinButton(props: ThinButtonProps) {
     // This function will call the parent callback function.
     const {

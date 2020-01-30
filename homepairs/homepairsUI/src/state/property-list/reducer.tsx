@@ -5,9 +5,9 @@ import {
     RemovePropertyAction,
     UpdatePropertyAction,
     FetchPropertyAction,
+    SetSelectedPropertyAction, 
 } from '../types';
 import { PROPERTY_LIST_ACTION_TYPES } from './actions';
-import { SetSelectedPropertyAction } from '../types';
 
 /**
  * A reducer is a pure function that takes the previous state and

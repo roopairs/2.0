@@ -100,7 +100,6 @@ export default class RoopairsLoginBase extends React.Component<
     clickButton() {
         const {onChangeModalVisibility, onFetchAccountProfile} = this.props;
         const {username, password} = this.state;
-
         onChangeModalVisibility(true);
         onFetchAccountProfile(
             username,

@@ -16,6 +16,8 @@ import {
 } from './HomePairsHeaderTemplate';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle/HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu/HomePairsHeaderMenu';
+import { HamburgerButton } from 'src/Elements';
+
 
 const popAction = StackActions.pop({
     n: 1,
@@ -72,6 +74,7 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
                 : props.primaryColorTheme;
         styles = setColorTheme(this.colorScheme);
         this.goBack = this.goBack.bind(this);
+        this.renderHamburger = this.renderHamburger.bind(this);
     }
 
     renderHeaderTitle() {
@@ -92,7 +95,7 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
             <HomePairsMenu
                 selectedPage={header.currentPage}
                 parentCallBack={this.changePage}
-                parentCloseMenu={this.toggleMenu}
+                toggleMenu={this.toggleMenu}
                 isDropDown={header.isDropDown}
                 showMenu={header.showMenu}
                 primaryColorTheme={primaryColorTheme}
@@ -128,6 +131,16 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
         this.props.onToggleMenu(false);
     }
 
+    renderHamburger(){
+        const {header} = this.props;
+        if (header.isDropDown) {
+
+            return <View style={{flex: 2}}><HamburgerButton onClick={this.toggleMenu}/></View>;
+        }
+        return<></>;
+
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -135,30 +148,16 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
                     style={
                         this.props.header.isDropDown
                             ? { flexDirection: 'column' }
-                            : { flexDirection: 'row' }
-                    }
-                >
+                            : { flexDirection: 'row' }}>
                     <View
                         style={{
                             flexDirection: 'row',
-                            backgroundColor: this.colorScheme.secondary,
-                        }}
-                    >
+                            backgroundColor: this.colorScheme.secondary}}>
                         {this.showBackButton()}
-                        <View
-                            style={
-                                this.showBackButton
-                                    ? {
-                                          marginLeft:
-                                              BaseStyles.MarginPadding
-                                                  .largeConst,
-                                          flex: 20,
-                                      }
-                                    : { flex: 20 }
-                            }
-                        >
+                        <View style={{marginLeft: BaseStyles.MarginPadding.largeConst}}>
                             {this.renderHeaderTitle()}
                         </View>
+                        {this.renderHamburger()}
                     </View>
                     {this.renderMenu()}
                 </View>
@@ -167,3 +166,29 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
     }
 }
 export default HomePairsHeaderBase;
+
+/* dropDownRender() {
+    const {toggleMenu} = this.props;
+    
+    
+    return Platform.OS !== 'web' ? (
+        <TouchableOpacity
+            onPress={() => toggleMenu()}
+            style={styles.hamburgerStyle}
+        >
+            <Image style={styles.hamburgerImageStyle} source={hamburger} />
+        </TouchableOpacity>
+    )
+    :
+    (<HamburgerButton onClick={toggleMenu} />);
+
+}
+
+chooseWideRender() {
+    const {isDropDown} = this.props;
+    
+    if (isDropDown) {
+        return <View style={{alignSelf: 'flex-end'}}>{this.dropDownRender()}</View>;
+    }
+    return <></> ;
+}*/

@@ -6,7 +6,7 @@ import {
     LoadingScreen,
     AuthenticationPages,
 } from 'homepairs-pages';
-import { View } from 'react-native';
+import { Platform } from 'react-native';
 import { HomePairsHeader } from 'homepairs-components';
 import { LightColorTheme} from 'homepairs-base-styles';
 
@@ -14,16 +14,16 @@ import { LightColorTheme} from 'homepairs-base-styles';
 // TODO: Render navigation header for andriod devices!!!
 const navigationHeader = () => ({
     header: () => {
-        return (
+        return !(Platform.OS === 'android') ? (
             <SafeAreaView style={{ backgroundColor: LightColorTheme.primary, flex: 1 }}>
                 <HomePairsHeader />
             </SafeAreaView>
-        );
+        ) : <HomePairsHeader />;
     },
     headerStyle: {
         backgroundColor: LightColorTheme.primary,
     },
-    gestureEnabled: false,
+    gestureEnabled: true,
 });
 
 const authStackConfig = {
@@ -33,7 +33,7 @@ const authStackConfig = {
             backgroundColor: LightColorTheme.primary,
         },
         headerShown: false,
-        gestureEnabled: false,
+        gestureEnabled: true,
     },
 };
 
@@ -45,7 +45,7 @@ const mainStackConfig: any = {
 const innerStackConfig: any = {
     headerMode: 'none',
     defaultNavigationOptions: {
-        gestureEnabled: false,
+        gestureEnabled: true,
     },
 };
 

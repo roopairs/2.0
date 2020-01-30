@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { Text, View, TextInput, ViewStyle, StyleSheet } from 'react-native';
 
 export type InputFormProps = {
-    name?: String;
-    parentCallBack?: (child: String) => any;
+    key?: any,
+    name?: string;
+    parentCallBack?: (child: string) => any;
     secureTextEntry?: boolean;
     formTitleStyle?: ViewStyle;
     containerStyle?: ViewStyle;
     inputStyle?: ViewStyle;
+    placeholder?: string
 };
 type InputFormState = {
-    value?: String;
+    value?: string;
 };
 const initialState: InputFormState = { value: '' };
 
@@ -54,6 +56,7 @@ const DefaultInputFormStyle = StyleSheet.create({
  *
  * 
  * */
+
 export default function InputForm(props: InputFormProps) {
     // Below shows how to ignore a returned value in an array/ dictionary
     const [, sendData]: [InputFormState, any] = useState(initialState);
@@ -64,9 +67,10 @@ export default function InputForm(props: InputFormProps) {
         formTitleStyle,
         containerStyle,
         inputStyle,
+        placeholder,
     } = props;
 
-    function passInputValue(text: String): void {
+    function passInputValue(text: string): void {
         sendData(text);
         parentCallBack(text);
     }
@@ -87,12 +91,14 @@ export default function InputForm(props: InputFormProps) {
                 autoCapitalize="none"
                 secureTextEntry={secureTextEntry}
                 onChangeText={passInputValue}
+                placeholder={placeholder}
             />
         </View>
     );
 }
 
 InputForm.defaultProps = {
+    key: null,
     name: null,
     parentCallBack: (child: string) => {
         return child;
@@ -101,16 +107,11 @@ InputForm.defaultProps = {
     formTitleStyle: DefaultInputFormStyle.formTitle,
     containerStyle: DefaultInputFormStyle.container,
     inputStyle: DefaultInputFormStyle.input,
+    placeholder: '',
 };
 
 export function renderInputForm(formProps: InputFormProps) {
-    const {
-        name,
-        parentCallBack,
-        formTitleStyle,
-        inputStyle,
-        secureTextEntry,
-    } = formProps;
+    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, placeholder } = formProps;
     return (
         <InputForm
             name={name}
@@ -118,6 +119,7 @@ export function renderInputForm(formProps: InputFormProps) {
             formTitleStyle={formTitleStyle}
             inputStyle={inputStyle}
             secureTextEntry={secureTextEntry}
+            placeholder= {placeholder}
         />
     );
 }

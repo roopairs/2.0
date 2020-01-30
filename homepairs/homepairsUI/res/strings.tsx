@@ -38,6 +38,18 @@ const strings = {
             bedrooms: 'Bedrooms',
             bathrooms: 'Bathrooms',
         },
+        editProperty: {
+            title: 'Edit Property',
+            inputForm:{
+                address: 'ADDRESS',
+                maxTenants: 'MAX TENANTS',
+                bedrooms: 'BEDROOMS',
+                bathrooms: 'BATHROOMS',
+                city: 'CITY',
+                state: 'STATE',
+            },
+            button: 'Save',
+        },
     },
     signInPage: {
         subtitle: 'Sign in to your Account',

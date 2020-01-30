@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputForm, LoginButton, renderInputForm } from 'homepairs-elements';
+import { InputForm, LoginButton} from 'homepairs-elements';
 import {
     AccountTypeRadioButton,
     DarkModeInjectedProps,
@@ -10,7 +10,7 @@ import { AccountTypes, Account } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet, View, Text } from 'react-native';
-import { isNullOrUndefined, isEmptyOrSpaces, isPasswordValid, isPhoneNumberValid, isEmailSyntaxValid, isAlphaCharacterOnly } from 'homepairs-utilities';
+import { isNullOrUndefined, isPasswordValid, isPhoneNumberValid, isEmailSyntaxValid, isAlphaCharacterOnly } from 'homepairs-utilities';
 
 export type SignUpViewDispatchProps = {
     generateHomePairsAccount: (

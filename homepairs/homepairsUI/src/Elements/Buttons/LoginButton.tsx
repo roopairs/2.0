@@ -24,16 +24,24 @@ export type LoginButtonProps = {
     buttonTextStyle?: TextStyle;
 };
 
-/* *
- * ------------------------------------------------------------
- * Login Button
- * ------------------------------------------------------------
- * This is a special element that has the same qualities of a thin button.
- * However, this also is capable of rendering images with two additional
- * properties image and imageStyle.
- *
- * @param LoginButtonProps
- * */
+ /**
+  * ------------------------------------------------------------
+  * Login Button
+  * ------------------------------------------------------------
+  * This is a special element that has the same qualities of a thin button.
+  * However, this also is capable of rendering images with two additional
+  * properties image and imageStyle.
+  * 
+  * @param {LoginButtonProps} props 
+  * key?: any
+  * name?: String
+  * onClick?: () => any
+  * image?: ImageSourcePropType
+  * imageStyle?: ImageStyle
+  * containerStyle?: ViewStyle
+  * buttonStyle?: ViewStyle
+  * buttonTextStyle?: TextStyle
+  */
 export default function LoginButton(props: LoginButtonProps) {
     const {
         name,

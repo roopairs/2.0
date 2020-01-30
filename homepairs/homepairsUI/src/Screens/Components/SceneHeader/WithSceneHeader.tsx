@@ -13,10 +13,10 @@ import { HeaderActions } from 'homepairs-redux-actions';
 import { connect } from 'react-redux';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
+import {isNullOrUndefined} from 'homepairs-utilities';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 import { SceneHeaderProps, renderSceneHeader } from './SceneHeader';
 import { ModalInjectedProps } from '../Modals/WithModal/WithModal';
-import {isNullOrUndefined} from 'homepairs-utilities';
 
 type SceneDispatchProps = {
     onSetHeaderGoBackButton?: (isSet: boolean) => any;

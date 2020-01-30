@@ -3,8 +3,8 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { HomePairFonts } from 'homepairs-fonts';
 
 export type CardProps = {
-    key?: any;
-    children?: ReactElement[] | ReactElement;
+    key?: any,
+    children?: ReactElement<any,any>[] | ReactElement<any,any>;
     containerStyle?: {};
     wrapperStyle?: {};
     title?: String;
@@ -12,6 +12,7 @@ export type CardProps = {
     subtitle?: String;
     subtitleStyle?: {};
     titleContainerStyle?: {};
+    closeButtonContainerStyle?: {};
     closeButtonStyle?: {};
     showCloseButton?: Boolean;
     closeButtonPressedCallBack?: (arg0?: any) => any;
@@ -56,23 +57,22 @@ const defaultStyles = StyleSheet.create({
     },
     wrapper: {
         width: '95%',
-        marginVertical: 20,
+        marginVertical: 10,
         alignSelf: 'center',
         justifyContent: 'center',
     },
     closeButton: {
+        flex:1,
         fontSize: 20,
         color: '#AFB3B5',
         fontFamily: HomePairFonts.nunito_regular,
-        alignSelf: 'center',
     },
     closeButtonContainer: {
-        alignSelf: 'flex-end',
+        right: '5%',
+        top: 20,
         justifyContent: 'center',
-        paddingHorizontal: '2.5%',
-        paddingVertical: '5%',
+        paddingBottom: '2.5%',
         maxHeight: 40,
-        marginHorizontal: '5%',
         position: 'absolute',
         zIndex: 1, // Needed for absolution position within TouchableOpacity
     },
@@ -171,6 +171,7 @@ Card.defaultProps = {
     subtitleStyle: defaultStyles.subtitle,
     titleContainerStyle: defaultStyles.titleContainer,
     closeButtonStyle: defaultStyles.closeButton,
+    closeButtonContainerStyle: defaultStyles.closeButtonContainer,
     showCloseButton: false,
     closeButtonPressedCallBack: () => {},
 };
