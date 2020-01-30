@@ -69,7 +69,6 @@ export default function InputForm(props: InputFormProps) {
 
     function renderName() {
         if (name == null) return <></>;
-
         return <Text style={formTitleStyle}>{name}</Text>;
     }
     

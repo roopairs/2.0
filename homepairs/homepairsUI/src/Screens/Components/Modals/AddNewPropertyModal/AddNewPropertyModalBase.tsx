@@ -6,6 +6,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import { DarkModeInjectedProps } from 'homepairs-components';
+import {isNumber} from 'homepairs-utilities';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 import Card from '../../../../Elements/Cards/Card';
 
@@ -131,27 +132,24 @@ export default class AddNewPropertyModalBase extends React.Component<Props, Crea
     }
 
     getFormNumBed(childData : string) {
-        const num = Number(childData);
-        if (Number.isNaN(num)) {
-            this.setState({numBed: num});
+        if (isNumber(childData)) {
+            this.setState({numBed: Number(childData)});
         } else {
             // alert
         }
     }
 
     getFormNumBath(childData : string) {
-        const num = Number(childData);
-        if (Number.isNaN(num)) {
-            this.setState({numBath: num});
+        if (isNumber(childData)) {
+            this.setState({numBath: Number(childData)});
         } else {
             // alert
         }
     }
 
     getFormMaxTenants(childData: string) {
-        const num = Number(childData);
-        if (Number.isNaN(num)) {
-            this.setState({maxTenants: num});
+        if (isNumber(childData)) {
+            this.setState({maxTenants: Number(childData)});
         } else {
             // alert
         }

@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { NewPropertyState } from 'src/Screens/Components/Modals/AddNewPropertyModal/AddNewPropertyModalBase';
+import { EditPropertyState } from 'src/Screens/Components/Modals/EditPropertyModal/EditPropertyModalBase';
 import { SetSelectedPropertyAction } from '../types';
 import {
     AddPropertyAction,
@@ -8,9 +10,6 @@ import {
     Property,
     HomePairsResponseKeys,
 } from '../types';
-import { NewPropertyState } from 'src/Screens/Components/Modals/AddNewPropertyModal/AddNewPropertyModalBase';
-import { EditPropertyState } from 'src/Screens/Components/Modals/EditPropertyModal/EditPropertyModalBase';
-
 const responseKeys = HomePairsResponseKeys;
 const loginStatus = HomePairsResponseKeys.STATUS_RESULTS;
 const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
