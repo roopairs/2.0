@@ -90,7 +90,7 @@ def addNewProperties(pmEmail, token):
    properties = requests.get(url, headers={"Authorization": tokenSend})
    print(properties.text)
 
-   # Now check each of the properties against the database to see if 
+   # Now check each of the properties against the database to see if
    # any of them are new
    # For now we will just assign them a default bed, bath and tenants
    # of 1 since front end is not set up to ask them yet
@@ -137,7 +137,7 @@ def pmLogin(request):
       if NON_FIELD_ERRORS in info:
          return returnError(info.get(NON_FIELD_ERRORS))
       elif TOKEN in info:
-         
+
          if(not PropertyManager.objects.filter(email=pmEmail).exists()):
             # THen they don't exist in our database
             pmFirstName = info.get('first_name')
@@ -153,7 +153,7 @@ def pmLogin(request):
          if tempDict[STATUS] == FAIL:
             return returnError('%s: %s' % (HOMEPAIRS_ACCOUNT_CREATION_FAILED, tempDict[ERROR]))
 
-         addNewProperties(pmEmail, info.get(TOKEN))         
+         addNewProperties(pmEmail, info.get(TOKEN))
 
          tempDict = getPropertyManager(pmEmail)
          tempDict[TOKEN] = info.get(TOKEN)
@@ -263,6 +263,8 @@ def pmRegister(request):
 
 @api_view(['GET', 'POST'])
 def createProperty(request):
+    url = BASE_URL + '/service-locations/'
+
    if ('streetAddress' in request.data and 'city' in request.data and 'state' in request.data
     and 'pm' in request.data and 'numBed' in request.data and 'numBath' in request.data
     and 'maxTenants' in request.data):
@@ -273,28 +275,41 @@ def createProperty(request):
       numBed = request.data.get('numBed')
       numBath = request.data.get('numBath')
       maxTenants = request.data.get('maxTenants')
-      isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
-      if not isMade.exists():
-        pmList = PropertyManager.objects.filter(email=pm)
-        if pmList.exists() and pmList.count() == 1:
-          pm = pmList[0]
-          prop = Property(streetAddress=streetAddress,
-                     city=city,
-                     state=state,
-                     numBed=numBed,
-                     numBath=numBath,
-                     maxTenants=maxTenants,
-                     pm = pm)
-          prop.save()
-          data = {
-                  STATUS: SUCCESS
-                 }
-          return Response(data=data)
-        else:
-        
-          return Response(data=returnError(INCORRECT_FIELDS))
-      else:
-        return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
+
+      data = {
+                'physical_address': streetAddress + ',' + city + ',' + state
+                }
+      response = requests.post(url, json=data)
+      info = json.loads(response.text)
+      if NON_FIELD_ERRORS in info:
+          return returnError(info.get(NON_FIELD_ERRORS))
+      elif TOKEN in info:
+          addy = response.get('physical_address_formatted').split(',')
+          tempStreetAddress = addy[0].strip()
+          tempCity = addy[1].strip()
+          tempState = addy[2].strip().split(' ')[0].strip()
+          isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
+          if not isMade.exists():
+            pmList = PropertyManager.objects.filter(email=pm)
+            if pmList.exists() and pmList.count() == 1:
+              pm = pmList[0]
+              prop = Property(streetAddress=streetAddress,
+                         city=city,
+                         state=state,
+                         numBed=numBed,
+                         numBath=numBath,
+                         maxTenants=maxTenants,
+                         pm = pm)
+              prop.save()
+              data = {
+                      STATUS: SUCCESS
+                     }
+              return Response(data=data)
+            else:
+
+              return Response(data=returnError(INCORRECT_FIELDS))
+          else:
+            return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
    else:
       return Response(data=returnError(INCORRECT_FIELDS))
 
@@ -302,7 +317,7 @@ def createProperty(request):
 def updateProperty(request):
    if ('streetAddress' in request.data and 'city' in request.data and 'state' in request.data
     and 'pm' in request.data and 'numBed' in request.data and 'numBath' in request.data
-    and 'maxTenants' in request.data and 'oldStreetAddress' in request.data 
+    and 'maxTenants' in request.data and 'oldStreetAddress' in request.data
     and 'oldCity' in request.data):
       oldStreetAddress = request.data.get('oldStreetAddress')
       oldCity = request.data.get('oldCity')
