@@ -141,3 +141,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 prod_db  =  dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
+
+# Hopefully this works
+TEST_URL = 'http://localhost:8000/API/'
+TEST_URL = 'https://homepairs-alpha.herokuapp.com/API/'

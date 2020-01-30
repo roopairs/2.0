@@ -1,6 +1,7 @@
 ################################################################################
 # Imports
 from django.test import TestCase
+from django.conf import settings
 import psycopg2
 import requests
 import json
@@ -10,8 +11,7 @@ from .views import INCORRECT_FIELDS, STATUS, SUCCESS, FAIL, ERROR
 ################################################################################
 # Vars
 
-globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
-globUrl = 'http://localhost:8000/API/'
+globUrl = settings.TEST_URL
 
 # EXTRA URLS
 LOGIN_URL = 'login/'
