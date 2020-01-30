@@ -304,7 +304,7 @@ export const HomePairsResponseKeys = {
     ACCOUNT_KEYS: HOMEPAIRS_ACCOUNT_KEYS,
     PROPERTIES: 'properties',
     PROPERTY_KEYS: HOMEPAIRS_PROPERTY_KEYS,
-    ROOPAIRS: 'roopairs',
+    ROOPAIRS_TOKEN: 'token',
     STATUS: 'status',
     STATUS_RESULTS: HOMEPAIRS_LOGIN_STATUS,
 };

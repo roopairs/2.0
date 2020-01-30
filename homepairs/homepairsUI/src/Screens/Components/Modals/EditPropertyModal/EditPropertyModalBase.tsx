@@ -10,18 +10,19 @@ import { ModalInjectedProps } from "../WithModal/WithModal";
 import { DarkModeInjectedProps } from "../../WithDarkMode/WithDarkMode";
 
 export type EditPropertyDispatchProps = {
-    onEditProperty: (oldProperty: Property, newProperty: Property, propIndex: number, email: string, onChangeModalVisibility: (check: boolean) => void) => void
+    onEditProperty: (newProperty: Property, info: EditPropertyStateProps, onChangeModalVisibility: (check: boolean) => void) => void
 }
 
 export type EditPropertyStateProps = {
     email : string;
     index: number;
     oldProp: Property;
+    roopairsToken: string;
 }
 
 type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyStateProps;
 
-type State = {
+type EditPropertyState = {
     address: string;
     city: string;
     state: string;
@@ -123,7 +124,7 @@ function checkIfPositiveNumber(arg: string): boolean{
     return (isNumber(arg) && Number(arg) > 0);
  }
 
-export default class EditNewPropertyModalBase extends React.Component<Props, State> {
+export default class EditNewPropertyModalBase extends React.Component<Props, EditPropertyState> {
     inputFormStyle
 
     oldProperty: Property;
@@ -228,7 +229,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
     }
 
     clickSubmitButton() {
-        const {email, onChangeModalVisibility, onEditProperty, index, oldProp} = this.props;
+        const {email, onChangeModalVisibility, onEditProperty, index, oldProp, roopairsToken} = this.props;
         const {address, city, state, bathrooms, bedrooms, tenants} = this.state;
         if(!this.validateInput()){
             return;
@@ -241,7 +242,8 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
             bedrooms: Number(bedrooms),
             tenants: Number(tenants),
         };
-        onEditProperty(oldProp, newProperty, index, email, onChangeModalVisibility);
+        const info : EditPropertyStateProps = { email, index, oldProp, roopairsToken};
+        onEditProperty(newProperty, info, onChangeModalVisibility);
         this.resetInputForms();
     }
 
@@ -261,42 +263,42 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
                 parentCallBack: this.getFormAddress,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                placeholder: address,
+                value: address,
             }, 
             {
                 name: inputFormStrings.city,
                 parentCallBack: this.getFormCity,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                placeholder: city,
+                value: city, 
             }, 
             {
                 name: inputFormStrings.state,
                 parentCallBack: this.getFormState,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                placeholder: state,
+                value: state, 
             }, 
             {
                 name: inputFormStrings.bedrooms,
                 parentCallBack: this.getFormNumBed,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                placeholder: bedrooms.toString(),
+                value: bedrooms,
             }, 
             {
                 name: inputFormStrings.bathrooms,
                 parentCallBack: this.getFormNumBath,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                placeholder: bathrooms.toString(),
+                value: bathrooms,
             }, 
             {
                 name: inputFormStrings.maxTenants,
                 parentCallBack: this.getFormMaxTenants,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                placeholder: tenants.toString(),
+                value: tenants,
             },
         ];
 
@@ -306,7 +308,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
                 parentCallBack,
                 formTitleStyle,
                 inputStyle,
-                placeholder,
             } = inputFormProp;
             return (
                 <InputForm
@@ -316,7 +317,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
                     parentCallBack={parentCallBack}
                     formTitleStyle={formTitleStyle}
                     inputStyle={inputStyle}
-                    placeholder={placeholder}
                 />
             );
         });

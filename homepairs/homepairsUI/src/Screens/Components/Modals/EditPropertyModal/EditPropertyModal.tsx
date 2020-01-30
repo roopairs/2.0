@@ -4,14 +4,19 @@ import { Property, AppState } from 'src/state/types';
 import EditPropertyModalBase, {EditPropertyDispatchProps, EditPropertyStateProps } from './EditPropertyModalBase';
 
 const mapDispatchToProps : (dispatch: any) => EditPropertyDispatchProps = (dispatch: any) => ({
-    onEditProperty: (oldProperty: Property, editProperty: Property, propIndex: number, email: string, onChangeModalVisiblity: (check: boolean) => void) => {
-        dispatch(PropertyListActions.postUpdatedProperty(oldProperty, editProperty, propIndex, email,  onChangeModalVisiblity));
+    onEditProperty: (editProperty: Property, info: EditPropertyStateProps, onChangeModalVisiblity: (check: boolean) => void) => {
+        dispatch(PropertyListActions.postUpdatedProperty(editProperty, info, onChangeModalVisiblity));
     },
 });
 
 function mapStateToProps(state: AppState) : EditPropertyStateProps {
     const propIndex = state.propertyList.selectedPropertyIndex;
-    return {email: state.accountProfile.email, index: propIndex, oldProp: state.propertyList.properties[propIndex]};
+    return {
+        email: state.accountProfile.email, 
+        index: propIndex, 
+        oldProp: state.propertyList.properties[propIndex],
+        roopairsToken: state.accountProfile.roopairsToken,
+    };
 }
 
 export default connect(

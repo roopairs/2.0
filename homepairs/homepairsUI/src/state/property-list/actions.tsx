@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AddNewPropertyStateProps } from '../../Screens/Components/Modals/AddNewPropertyModal/AddNewPropertyModalBase';
 import {
     AddPropertyAction,
     UpdatePropertyAction,
@@ -8,6 +9,7 @@ import {
     HomePairsResponseKeys,
     SetSelectedPropertyAction, 
 } from '../types';
+import { EditPropertyStateProps } from 'src/Screens/Components/Modals/EditPropertyModal/EditPropertyModalBase';
 
 const responseKeys = HomePairsResponseKeys;
 const loginStatus = HomePairsResponseKeys.STATUS_RESULTS;
@@ -37,7 +39,7 @@ export const addProperty = (newProperty: Property): AddPropertyAction => {
 
 export const postNewProperty = (
     newProperty: Property,
-    email: string,
+    info: AddNewPropertyStateProps,
     setInitialState: () => void,
     onChangeModalVisibility: (check: boolean) => void,
 ) => {
@@ -52,7 +54,8 @@ export const postNewProperty = (
                     numBed: newProperty.bedrooms,
                     numBath: newProperty.bathrooms,
                     maxTenants: newProperty.tenants,
-                    pm: email,
+                    pm: info.email,
+                    token: info.roopairsToken,
                 },
             )
             .then(response => {
@@ -83,22 +86,26 @@ export const updateProperty = (propertyIndex: number, updatedProperty: Property)
     };
   };
   
-export const postUpdatedProperty = (oldProperty: Property, editProperty: Property, propIndex: number, email: string, onChangeModalVisibility: (check: boolean) => void) => {
+export const postUpdatedProperty = (
+    editProperty: Property, 
+    info: EditPropertyStateProps,
+    onChangeModalVisibility: (check: boolean) => void) => {
   return async (dispatch: (arg0: any) => void) => {
     return axios.post('https://homepairs-alpha.herokuapp.com/API/property/update/', {
-      oldStreetAddress: oldProperty.address,
-      oldCity: oldProperty.city,
+      oldStreetAddress: info.oldProp.address,
+      oldCity: info.oldProp.city,
       streetAddress: editProperty.address, 
       city: editProperty.city, 
       state: editProperty.state, 
       numBed: editProperty.bedrooms, 
       numBath: editProperty.bathrooms, 
       maxTenants: editProperty.tenants,
-      pm: email,
+      pm: info.email,
+      token: info.roopairsToken,
     })
     .then((response) => {
       if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.FAILURE)){
-        dispatch(updateProperty(propIndex, editProperty));
+        dispatch(updateProperty(info.index, editProperty));
         onChangeModalVisibility(false);
       } else {
         // TODO: Send back error status to modal, this can be done by sending another callback as a parameter

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { Text, View, TextInput, ViewStyle, StyleSheet } from 'react-native';
 
 export type InputFormProps = {
@@ -10,7 +10,8 @@ export type InputFormProps = {
     formTitleStyle?: ViewStyle;
     containerStyle?: ViewStyle;
     inputStyle?: ViewStyle;
-    placeholder?: string
+    placeholder?: string;
+    value?: string;
 };
 type InputFormState = {
     value?: string;
@@ -86,7 +87,6 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
     renderName() {
         const {name, formTitleStyle} = this.props;
         if (name == null) return <></>;
-
         return <Text style={formTitleStyle}>{name}</Text>;
     }
     
@@ -96,6 +96,7 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
             containerStyle,
             inputStyle,
             placeholder,
+            value,
         } = this.props;
     return (
         <View style={containerStyle}>
@@ -106,9 +107,10 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
                 style={inputStyle}
                 underlineColorAndroid="transparent"
                 autoCapitalize="none"
+                value={value}
+                placeholder={placeholder}
                 secureTextEntry={secureTextEntry}
                 onChangeText={text => {this.passInputValue(text);}}
-                placeholder={placeholder}
             />
         </View>
     );
@@ -126,11 +128,12 @@ InputForm.defaultProps = {
     formTitleStyle: DefaultInputFormStyle.formTitle,
     containerStyle: DefaultInputFormStyle.container,
     inputStyle: DefaultInputFormStyle.input,
-    placeholder: '',
+    value: null,
+    placeholder: null,
 };
 
 export function renderInputForm(formProps: InputFormProps) {
-    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, placeholder, onRef} = formProps;
+    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, onRef, value, placeholder} = formProps;
     return (
         <InputForm
             name={name}
@@ -139,7 +142,8 @@ export function renderInputForm(formProps: InputFormProps) {
             formTitleStyle={formTitleStyle}
             inputStyle={inputStyle}
             secureTextEntry={secureTextEntry}
-            placeholder= {placeholder}
+            value={value}
+            placeholder={placeholder}
         />
     );
 }

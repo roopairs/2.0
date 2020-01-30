@@ -11,22 +11,18 @@ import { DarkModeInjectedProps } from "../../WithDarkMode/WithDarkMode";
 
 
 export type AddNewPropertyDispatchProps = {
-    onCreateProperty: (
-        newProperty: Property,
-        email: string,
-        setInitialState: () => void,
-        onChangeModalVisibility: (check: boolean) => void,
-    ) => void;
-};
+    onCreateProperty: (newProperty: Property, info: AddNewPropertyStateProps, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => void
+}
 
-export type NewPropertyState = {
-    email: string;
-};
+export type AddNewPropertyStateProps = {
+    email : string;
+    roopairsToken: string;
+}
 
 type Props = ModalInjectedProps &
     DarkModeInjectedProps &
     AddNewPropertyDispatchProps &
-    NewPropertyState;
+    AddNewPropertyStateProps;
 
 type State = {
     address: string;
@@ -36,7 +32,7 @@ type State = {
     bedrooms: string;
     bathrooms: string;
     pm: string;
-    resetForms: boolean;
+
 };
 
 const addPropertyStrings = strings.propertiesPage.addProperty;
@@ -50,7 +46,6 @@ const initialState : State = {
     bathrooms: '',
     tenants: '',
     pm: '',
-    resetForms: false,
 };
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
@@ -237,7 +232,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,State
             return;
         }
         const {address, city, state, tenants, bathrooms, bedrooms} = this.state;
-        const {email, onChangeModalVisibility, onCreateProperty} = this.props;
+        const {email, onChangeModalVisibility, onCreateProperty, roopairsToken} = this.props;
         const newProperty : Property = {
             address, 
             city, 
@@ -246,7 +241,8 @@ export default class AddNewPropertyModalBase extends React.Component<Props,State
             bedrooms: Number(bedrooms), 
             bathrooms: Number(bathrooms),
         };
-        onCreateProperty(newProperty, email, this.setInitialState, onChangeModalVisibility);
+        const info : AddNewPropertyStateProps = {email, roopairsToken};
+        onCreateProperty(newProperty, info, this.setInitialState, onChangeModalVisibility);
         this.resetInputForms();
     }
 
@@ -287,6 +283,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,State
                 parentCallBack: this.getFormMaxTenants,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
+                value: tenants,
             },
         ];
 

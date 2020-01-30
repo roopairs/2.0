@@ -23,7 +23,7 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
     let profile: { [x: string]: any; };
     if(accountJSON[accountKeys.PM] != null){ profile = accountJSON[accountKeys.PM]; } // it's a PM
     else{ profile = accountJSON[accountKeys.TENANT]; } // it's a Tenant
-    let fetchedProfile : AccountState; 
+    let fetchedProfile : AccountState;
     const baseProfile : Account = {
         accountType: AccountTypes.Landlord,
         firstName: profile[accountKeys.FIRSTNAME],
@@ -32,7 +32,7 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
         phone: profile[accountKeys.PHONE],
         address: profile[accountKeys.ADDRESS],
         city: profile[accountKeys.CITY],
-        roopairsToken: accountJSON[responseKeys.ROOPAIRS],
+        roopairsToken: accountJSON[responseKeys.ROOPAIRS_TOKEN],
     };
     if(profile[accountKeys.TENANTID] == null){
         const landLordProfile : LandlordAccount = { ...baseProfile,
@@ -141,7 +141,7 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
           lastName: accountDetails.lastName,
           email: accountDetails.email, 
           phone: accountDetails.phone,
-          password, 
+          password,
         })
         .then((response) => {
           if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
