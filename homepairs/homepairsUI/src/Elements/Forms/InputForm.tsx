@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 export type InputFormProps = {
+    key?: any,
     name?: String;
     parentCallBack?: (child: String) => any;
     secureTextEntry?: boolean;
@@ -88,6 +89,7 @@ export default function InputForm(props: InputFormProps) {
 }
 
 InputForm.defaultProps = {
+    key: null,
     name: null,
     parentCallBack: (child: string) => {return child;},
     secureTextEntry: false,
@@ -98,9 +100,10 @@ InputForm.defaultProps = {
 };
 
 export function renderInputForm(formProps: InputFormProps) {
-    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, value } = formProps;
+    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, value, key } = formProps;
     return (
         <InputForm
+            key={key}
             name={name}
             parentCallBack={parentCallBack}
             formTitleStyle={formTitleStyle}

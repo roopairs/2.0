@@ -1,12 +1,12 @@
 import React from "react";
-import { ScrollView, StyleSheet, SafeAreaView } from "react-native";
+import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from "react-native";
 import {InputFormProps, ThinButton, renderInputForm, ThinButtonProps } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import { DarkModeInjectedProps } from 'homepairs-components';
-import {isNumber} from 'homepairs-utilities';
+import {isNumber, isNullOrUndefined} from 'homepairs-utilities';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 import Card from '../../../../Elements/Cards/Card';
 export type EditPropertyDispatchProps = {
@@ -34,11 +34,11 @@ type EditState = {
 const signUpStrings = strings.signUpPage;
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
-    const colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme;
+    const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
     return StyleSheet.create({
         formTitle: {
-            marginVertical: '3.5%', 
-            fontFamily: BaseStyles.FontTheme.primary, 
+            marginVertical: '3.5%',
+            fontFamily: BaseStyles.FontTheme.primary,
             color: colors.lightGray,
           },
         input: {
@@ -55,10 +55,65 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
              paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
         },
         modalContainer: {
-            maxWidth: 500,
+            flex: 1,
             width: '100%',
-            maxHeight: 1000,
-            alignSelf: 'center', 
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf:'center',
+        },
+        scrollStyle: {
+            marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+            alignSelf: 'center',
+            width: '100%',
+        },
+        scrollContentContainerStyle: {
+            maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignSelf: 'center',
+            width: BaseStyles.ContentWidth.reg,
+            paddingVertical: BaseStyles.MarginPadding.large,
+            flexGrow: 1, // Needed to center the contents of the scroll container
+        },
+        cardContainer: {
+            backgroundColor: 'white',
+            maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+            width: BaseStyles.ContentWidth.reg,
+            marginHorizontal: '5%',
+            borderRadius: 7,
+            shadowColor: 'black',
+            shadowRadius: 20,
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 100,
+            elevation: 9,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            flex: 1,
+        },
+        cardTitle: {
+            color: colors.tertiary,
+            fontFamily: 'nunito-regular',
+            fontSize: 20,
+        },
+        cardTitleContainer: {
+            width: BaseStyles.ContentWidth.max,
+            borderBottomColor: '#AFB3B5',
+            paddingVertical: BaseStyles.MarginPadding.largeConst,
+            paddingHorizontal: BaseStyles.MarginPadding.largeConst,
+            borderBottomWidth: 1,
+            alignSelf: 'center',
+            maxHeight: 75,
+            minHeight: 50,
+            justifyContent: 'flex-start',
+        },
+        cardWrapperStyle: {
+            // flex:1,
+            width: BaseStyles.ContentWidth.thin,
+            marginTop: BaseStyles.MarginPadding.small,
+            marginBottom: BaseStyles.MarginPadding.smallConst,
+            alignSelf: 'center',
+            justifyContent: 'center',
         },
     });
 }
@@ -139,7 +194,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
 
     validateNums() {
         const {bedrooms, bathrooms, tenants} = this.state;
-        // isNumber function is bugged. It is accepting strings as numbers
         if (isNumber(bedrooms) && isNumber(bathrooms) && isNumber(tenants)) {
             return true;
         } 
@@ -161,73 +215,85 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         }
     }
 
-    inputFormProps() : {[id: string] : InputFormProps} {
+    renderInputForms() {
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
-        return {
-            streetAddress: {
+        const inputForms  = [
+             {
+                key: signUpStrings.inputForms.address,
                 name: signUpStrings.inputForms.address,
                 parentCallBack: this.getFormAddress,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: address,
             }, 
-            city: {
+            {
+                key: signUpStrings.inputForms.city,
                 name: signUpStrings.inputForms.city,
                 parentCallBack: this.getFormCity,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: city, 
             }, 
-            state: {
+            {
+                key: signUpStrings.inputForms.state,
                 name: signUpStrings.inputForms.state,
                 parentCallBack: this.getFormState,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: state, 
             }, 
-            numBed: {
+            {
+                key: signUpStrings.inputForms.numBed,
                 name: signUpStrings.inputForms.numBed,
                 parentCallBack: this.getFormNumBed,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: bedrooms,
             }, 
-            numBath: {
+            {
+                key: signUpStrings.inputForms.numBath,
                 name: signUpStrings.inputForms.numBath,
                 parentCallBack: this.getFormNumBath,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: bathrooms,
             }, 
-            maxTenants: {
+            {
+                key: signUpStrings.inputForms.maxTenants,
                 name: signUpStrings.inputForms.maxTenants,
                 parentCallBack: this.getFormMaxTenants,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: tenants,
             },
-        };
+        ];
+
+        return inputForms.map(inputFromProp => {
+            return renderInputForm(inputFromProp);
+        });
     }
     
     render() {
-        const {streetAddress, city, state, numBed, numBath, maxTenants} = this.inputFormProps();
         const {onChangeModalVisibility} = this.props;
-        return <SafeAreaView>
-            <ScrollView style = {this.inputFormStyle.modalContainer}>
+        const showCloseButton = true;
+        return(
+            <SafeAreaView style={this.inputFormStyle.modalContainer}>
+            <ScrollView style={this.inputFormStyle.scrollStyle}
+            contentContainerStyle={this.inputFormStyle.scrollContentContainerStyle}
+            showsHorizontalScrollIndicator={false}>
                 <Card
-                    showCloseButton = {true}
-                    title= "Edit Property"
+                    containerStyle={this.inputFormStyle.cardContainer}
+                    showCloseButton={showCloseButton}
+                    titleStyle={this.inputFormStyle.cardTitle}
+                    titleContainerStyle={this.inputFormStyle.cardTitleContainer}
+                    wrapperStyle={this.inputFormStyle.cardWrapperStyle}
+                    title='Edit Property'
                     closeButtonPressedCallBack={() => onChangeModalVisibility(false)}
                     >
-                    {renderInputForm(streetAddress)}
-                    {renderInputForm(city)}
-                    {renderInputForm(state)}
-                    {renderInputForm(maxTenants)}
-                    {renderInputForm(numBed)}
-                    {renderInputForm(numBath)}
+                    <>{this.renderInputForms()}</>
                     {ThinButton(this.submitButton)}
                 </Card>
             </ScrollView>
-        </SafeAreaView>;
+        </SafeAreaView>);
     }
 }
