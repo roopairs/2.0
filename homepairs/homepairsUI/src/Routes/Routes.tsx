@@ -14,7 +14,7 @@ import { LightColorTheme} from 'homepairs-base-styles';
 // TODO: Render navigation header for andriod devices!!!
 const navigationHeader = () => ({
     header: () => {
-        return !(Platform.OS === 'android') ? (
+        return Platform.OS === 'ios' ? (
             <SafeAreaView style={{ backgroundColor: LightColorTheme.primary, flex: 1 }}>
                 <HomePairsHeader />
             </SafeAreaView>

@@ -1,3 +1,12 @@
+const propertyMutationForm = {
+        address: 'ADDRESS',
+        maxTenants: 'MAX TENANTS',
+        bedrooms: 'BEDROOMS',
+        bathrooms: 'BATHROOMS',
+        city: 'CITY',
+        state: 'STATE',
+};
+
 const strings = {
     title: 'HomePairs',
     serviceRequestPage: {
@@ -26,6 +35,11 @@ const strings = {
     propertiesPage: {
         title: 'Properties',
         button: 'Add Property',
+        addProperty: {
+            title: 'Add Property',
+            inputForm: propertyMutationForm,
+            button: 'Add',
+        },
         viewPropertyCardButton: 'View Property',
     },
     detailedPropertyPage: {
@@ -40,14 +54,7 @@ const strings = {
         },
         editProperty: {
             title: 'Edit Property',
-            inputForm:{
-                address: 'ADDRESS',
-                maxTenants: 'MAX TENANTS',
-                bedrooms: 'BEDROOMS',
-                bathrooms: 'BATHROOMS',
-                city: 'CITY',
-                state: 'STATE',
-            },
+            inputForm: propertyMutationForm,
             button: 'Save',
         },
     },

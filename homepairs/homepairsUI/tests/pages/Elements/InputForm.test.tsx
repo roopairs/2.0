@@ -16,28 +16,41 @@ const testProps2: InputFormProps = {
     name: 'Hi',
 };
 
+class testClass {
+  static reference
+
+  static testRefFunc = (ref:any) => {testClass.reference = ref};
+}
+
 describe("InputForm", () => {
+  const TRUE = true;
   const testfunc = (child:string) => {return child;};
+  const testRefFunc = (ref:any) => {this.inputs.push(ref);};
+
   const spyFunction = jest.fn(testfunc);
- 
+  const spyFunction2 = jest.fn(testClass.testRefFunc);
+
   const wrapper = shallow(<InputForm/>);
-  const wrapper2 = shallow(<InputForm name='Test' parentCallBack={spyFunction} secureTextEntry={true}/>);
+  const wrapper2 = shallow(<InputForm name='Test' parentCallBack={spyFunction} secureTextEntry={TRUE}/>);
   const wrapper3 = shallow(renderInputForm(testProps));
   const wrapper4 = shallow(renderInputForm(testProps2));
 
-  const rendered = render(<InputForm name='Test' parentCallBack={spyFunction} secureTextEntry={true}/>);
+  const rendered = render(<InputForm name='Test' onRef={spyFunction2} parentCallBack={spyFunction} secureTextEntry={TRUE}/>);
 
   it('Test defaultProps for InputForm', () =>{
     expect(InputForm.defaultProps.name).toBeNull();
     expect(InputForm.defaultProps.parentCallBack).toBeDefined();
     expect(InputForm.defaultProps.secureTextEntry).toBeDefined();
     expect(InputForm.defaultProps.secureTextEntry).toBeFalsy();
+    expect(InputForm.defaultProps.secureTextEntry).toBeFalsy();
+    expect(InputForm.defaultProps.onRef).toBeDefined();
 
     expect(InputForm.defaultProps.formTitleStyle).toBeDefined();
     expect(InputForm.defaultProps.containerStyle).toBeDefined();
     expect(InputForm.defaultProps.inputStyle).toBeDefined();
 
     expect(InputForm.defaultProps.parentCallBack("Hellow")).toBe("Hellow");
+    expect(InputForm.defaultProps.onRef("Hi")).toBe("Hi");
 
   });
 
@@ -78,6 +91,13 @@ describe("InputForm", () => {
     expect(spyFunction.mock.calls).toHaveLength(2);
     expect(spyFunction.mock.results[0].value).toBe(messageText);
     expect(spyFunction.mock.results[1].value).toBe(messageText2);
+
+    // Test to see if references are being assigned and pass. We will 
+    // attempt to call its function and check the state 
+    expect(spyFunction.mock.calls).toHaveLength(2);
+    expect(testClass.reference).toBeDefined();
+    testClass.reference.clearText();
+    expect(testClass.reference.state.value).toBe('');
 
     // Test to make sure no unexpected changes occured. This is an element so this should always pass
     expect(rendered.toJSON()).toMatchSnapshot();

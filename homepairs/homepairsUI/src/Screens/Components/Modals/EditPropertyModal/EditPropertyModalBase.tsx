@@ -5,10 +5,9 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isNumber, isEmptyOrSpaces} from 'homepairs-utilities';
+import {isNumber, isEmptyOrSpaces, isNullOrUndefined} from 'homepairs-utilities';
 import { ModalInjectedProps } from "../WithModal/WithModal";
 import { DarkModeInjectedProps } from "../../WithDarkMode/WithDarkMode";
-import { isNullOrUndefined } from '../../../../utility/ParameterChecker';
 
 export type EditPropertyDispatchProps = {
     onEditProperty: (oldProperty: Property, newProperty: Property, propIndex: number, email: string, onChangeModalVisibility: (check: boolean) => void) => void
@@ -72,7 +71,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             alignItems: 'center',
             justifyContent: 'center',
             alignSelf: 'center',
-            width: BaseStyles.ContentWidth.max,
+            width: BaseStyles.ContentWidth.reg,
             paddingVertical: BaseStyles.MarginPadding.large,
             flexGrow: 1, // Needed to center the contents of the scroll container
         },
@@ -98,17 +97,22 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             fontSize: 20,
         },
         cardTitleContainer: {
+            flex:1,
             width: BaseStyles.ContentWidth.max,
             borderBottomColor: '#AFB3B5',
             paddingVertical: BaseStyles.MarginPadding.largeConst,
             paddingHorizontal: BaseStyles.MarginPadding.largeConst,
             borderBottomWidth: 1,
             alignSelf: 'center',
+            maxHeight: 75,
+            minHeight: 50,
             justifyContent: 'flex-start',
         },
         cardWrapperStyle: {
+            flex:1,
             width: BaseStyles.ContentWidth.thin,
-            marginVertical: BaseStyles.MarginPadding.smallConst,
+            marginTop: BaseStyles.MarginPadding.small,
+            marginBottom: BaseStyles.MarginPadding.smallConst,
             alignSelf: 'center',
             justifyContent: 'center',
         },
@@ -152,6 +156,8 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
         },
     };
 
+    inputs;
+
     constructor(props: Readonly<Props>) {
         super(props);
         this.inputFormStyle = setInputStyles(props.primaryColorTheme);
@@ -161,6 +167,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
         this.getFormNumBed = this.getFormNumBed.bind(this);
         this.getFormNumBath = this.getFormNumBath.bind(this);
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
+        this.onRef = this.onRef.bind(this);
         this.oldProperty = props.oldProp;
         this.state = {
             address: this.oldProperty.address,
@@ -170,7 +177,12 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
             bedrooms: this.oldProperty.bedrooms.toString(),
             tenants: this.oldProperty.tenants.toString(),
         };
+        this.inputs = [];
+
     } 
+
+    // Pass this function into the input form to get a reference of the Text Input element
+    onRef(ref){this.inputs.push(ref);}
 
     getFormAddress(childData : string) {
         const address = isEmptyOrSpaces(childData) ? this.oldProperty.address : childData;
@@ -230,10 +242,19 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
             tenants: Number(tenants),
         };
         onEditProperty(oldProp, newProperty, index, email, onChangeModalVisibility);
+        this.resetInputForms();
+    }
+
+
+    resetInputForms(){
+        this.inputs.forEach(element => {
+            element.clearText();
+        });
     }
 
     renderInputForms(): React.ReactElement[]{
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
+
         const inputFormProps : InputFormProps[] = [
             {
                 name: inputFormStrings.address,
@@ -290,6 +311,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
             return (
                 <InputForm
                     key={name}
+                    onRef={this.onRef}
                     name={name}
                     parentCallBack={parentCallBack}
                     formTitleStyle={formTitleStyle}
@@ -307,7 +329,8 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
         return (
         <SafeAreaView style={this.inputFormStyle.modalContainer}>
             <ScrollView style={this.inputFormStyle.scrollStyle}
-            contentContainerStyle={this.inputFormStyle.scrollContentContainerStyle}>
+            contentContainerStyle={this.inputFormStyle.scrollContentContainerStyle}
+            showsHorizontalScrollIndicator={false}>
                 <Card
                     containerStyle={this.inputFormStyle.cardContainer}
                     showCloseButton={showCloseButton}

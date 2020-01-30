@@ -21,10 +21,7 @@ describe("ThinButton", () => {
 
   const wrapper = shallow(<ThinButton />);
   const rendered = render(<ThinButton name='Test' onClick={spyFunction} onPressIn={spyFunction2} onPressOut={spyFunction3}/>);
-  const rendered2 = render(<ThinButton name='Test' onPressIn={spyFunction2} />);
-  const rendered3 = render(<ThinButton name='Test' onPressOut={spyFunction3}/>);
 
-  
   it('Test defaultProps for ThinButton', () =>{
     // We test the default property functions in here
     expect(ThinButton.defaultProps.onClick).toBeDefined();

@@ -1,6 +1,6 @@
 import React from "react";
-import {  ScrollView, StyleSheet, SafeAreaView } from "react-native";
-import {InputFormProps, renderInputForm, ThinButton, ThinButtonProps, Card } from 'homepairs-elements';
+import {  ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from "react-native";
+import {ThinButton, ThinButtonProps, Card, InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property } from 'homepairs-types';
@@ -35,10 +35,12 @@ type State = {
     tenants: string;
     bedrooms: string;
     bathrooms: string;
-    pm: string
+    pm: string;
+    resetForms: boolean;
 };
 
-const signUpStrings = strings.signUpPage;
+const addPropertyStrings = strings.propertiesPage.addProperty;
+const inputFormStrings = addPropertyStrings.inputForm;
 
 const initialState : State = {
     address: '', 
@@ -48,6 +50,7 @@ const initialState : State = {
     bathrooms: '',
     tenants: '',
     pm: '',
+    resetForms: false,
 };
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
@@ -72,10 +75,60 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
         },
         modalContainer: {
-            maxWidth: 500,
+            flex:1,
             width: '100%',
-            maxHeight: 1000,
             alignSelf: 'center',
+        },
+        scrollStyle: {
+            flex:1,
+            marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+            width: '100%',
+        },
+        scrollContentContainerStyle: {
+            maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignSelf: 'center',
+            width: BaseStyles.ContentWidth.reg,
+            paddingVertical: BaseStyles.MarginPadding.large,
+            flexGrow: 1, // Needed to center the contents of the scroll container
+        },
+        cardContainer: {
+            backgroundColor: 'white',
+            maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+            width: BaseStyles.ContentWidth.reg,
+            marginHorizontal: '5%',
+            borderRadius: 7,
+            shadowColor: 'black',
+            shadowRadius: 20,
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 100,
+            elevation: 9,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            flex: 1,
+        },
+        cardTitle: {
+            color: colors.tertiary,
+            fontFamily: 'nunito-regular',
+            fontSize: 20,
+        },
+        cardTitleContainer: {
+            width: BaseStyles.ContentWidth.max,
+            borderBottomColor: '#AFB3B5',
+            paddingVertical: BaseStyles.MarginPadding.largeConst,
+            paddingHorizontal: BaseStyles.MarginPadding.largeConst,
+            borderBottomWidth: 1,
+            alignSelf: 'center',
+            justifyContent: 'flex-start',
+        },
+        cardWrapperStyle: {
+            width: BaseStyles.ContentWidth.thin,
+            marginTop: BaseStyles.MarginPadding.small,
+            marginBottom: BaseStyles.MarginPadding.smallConst,
+            alignSelf: 'center',
+            justifyContent: 'center',
         },
     });
 }
@@ -88,7 +141,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,State
     inputFormStyle;
 
     submitButton : ThinButtonProps = {
-        name: 'Submit', 
+        name: addPropertyStrings.button, 
         onClick: () => {this.clickSubmitButton();}, 
         buttonStyle: {
             alignItems: 'center',
@@ -102,16 +155,20 @@ export default class AddNewPropertyModalBase extends React.Component<Props,State
         },
         buttonTextStyle: {
             color: Colors.LightModeColors.blueButtonText, 
-            fontSize: BaseStyles.FontTheme.lg,
+            fontSize: BaseStyles.FontTheme.reg,
             alignSelf: 'center',
         },
         containerStyle: {
             flex: 1,
             alignSelf: 'center',
             justifyContent: 'center',
+            marginTop: BaseStyles.MarginPadding.largeConst,
+            marginBottom: BaseStyles.MarginPadding.xlarge,
             minHeight: 50,
         },
     };
+
+    inputs;
 
     constructor(props: Readonly<Props>) {
         super(props);
@@ -123,8 +180,13 @@ export default class AddNewPropertyModalBase extends React.Component<Props,State
         this.getFormNumBath = this.getFormNumBath.bind(this);
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
+        this.onRef = this.onRef.bind(this);
         this.state = initialState;
+        this.inputs = [];
     }
+
+    // Pass this function into the input form to get a reference of the Text Input element
+    onRef(ref){this.inputs.push(ref);}
 
     getFormAddress(address : string) {
         this.setState({address});
@@ -163,6 +225,13 @@ export default class AddNewPropertyModalBase extends React.Component<Props,State
         return true; 
     }
 
+    // How we reset the forms once we have their references stored in the arraylist
+    resetInputForms(){
+        this.inputs.forEach(element => {
+            element.clearText();
+        });
+    }
+
     clickSubmitButton() {
         if(!this.validateInput()){
             return;
@@ -178,66 +247,86 @@ export default class AddNewPropertyModalBase extends React.Component<Props,State
             bathrooms: Number(bathrooms),
         };
         onCreateProperty(newProperty, email, this.setInitialState, onChangeModalVisibility);
+        this.resetInputForms();
     }
 
-    inputFormProps(): { [id: string]: InputFormProps } {
-        return {
-            streetAddress: {
-                name: signUpStrings.inputForms.address,
+    renderInputForms() {
+        const inputFormProps = [
+            {
+                name: inputFormStrings.address,
                 parentCallBack: this.getFormAddress,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
             },
-            city: {
-                name: signUpStrings.inputForms.city,
+            {
+                name: inputFormStrings.city,
                 parentCallBack: this.getFormCity,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
             },
-            state: {
-                name: signUpStrings.inputForms.state,
+            {
+                name: inputFormStrings.state,
                 parentCallBack: this.getFormState,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
             },
-            numBed: {
-                name: signUpStrings.inputForms.numBed,
+            {
+                name: inputFormStrings.bedrooms,
                 parentCallBack: this.getFormNumBed,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
             },
-            numBath: {
-                name: signUpStrings.inputForms.numBath,
+            {
+                name: inputFormStrings.bathrooms,
                 parentCallBack: this.getFormNumBath,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
             },
-            maxTenants: {
-                name: signUpStrings.inputForms.maxTenants,
+            {
+                name: inputFormStrings.maxTenants,
                 parentCallBack: this.getFormMaxTenants,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
             },
-        };
+        ];
+
+        return inputFormProps.map(inputFormProp => {
+            const {
+                name,
+                parentCallBack,
+                formTitleStyle,
+                inputStyle,
+            } = inputFormProp;
+            return (
+                <InputForm
+                    key={name}
+                    onRef={this.onRef}
+                    name={name}
+                    parentCallBack={parentCallBack}
+                    formTitleStyle={formTitleStyle}
+                    inputStyle={inputStyle}
+                />
+            );
+        });
     }
 
     render() {
-        const {streetAddress, city, state, numBed, numBath, maxTenants} = this.inputFormProps();
         const {onChangeModalVisibility} = this.props;
         const showCloseButton = true;
-        return <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
-            <ScrollView style = {this.inputFormStyle.modalContainer}>
+        return <SafeAreaView style={this.inputFormStyle.modalContainer}>
+            <ScrollView style={this.inputFormStyle.scrollStyle}
+            contentContainerStyle={this.inputFormStyle.scrollContentContainerStyle}
+            showsHorizontalScrollIndicator={false}>
                 <Card
                     showCloseButton={showCloseButton}
-                    title= "Create New Property"
+                    title={addPropertyStrings.title} 
                     closeButtonPressedCallBack={() => onChangeModalVisibility(false)}
+                    containerStyle={this.inputFormStyle.cardContainer}
+                    titleStyle={this.inputFormStyle.cardTitle}
+                    titleContainerStyle={this.inputFormStyle.cardTitleContainer}
+                    wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     >
-                    {renderInputForm(streetAddress)}
-                    {renderInputForm(city)}
-                    {renderInputForm(state)}
-                    {renderInputForm(maxTenants)}
-                    {renderInputForm(numBed)}
-                    {renderInputForm(numBath)}
+                    <>{this.renderInputForms()}</>
                     {ThinButton(this.submitButton)}
                 </Card>
             </ScrollView>

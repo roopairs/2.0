@@ -73,6 +73,7 @@ export const fetchAccount = (
             }else{
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
             }
+            console.log(response);
           })
           .catch((error) => {
             // console.log(error);

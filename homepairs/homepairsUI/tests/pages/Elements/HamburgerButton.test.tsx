@@ -30,7 +30,6 @@ describe("HamburgerButton", () => {
     expect(wrapper.find(View)).toHaveLength(1);
     expect(wrapper.find(TouchableOpacity)).toHaveLength(1);
     expect(wrapper.find(Text)).toHaveLength(1);
-    console.log(wrapper.find(Text).);
 
   });
 

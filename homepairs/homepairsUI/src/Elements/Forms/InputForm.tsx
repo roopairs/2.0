@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, TextInput, ViewStyle, StyleSheet } from 'react-native';
 
 export type InputFormProps = {
     key?: any,
     name?: string;
+    onRef?: (ref:any) => any,
     parentCallBack?: (child: string) => any;
     secureTextEntry?: boolean;
     formTitleStyle?: ViewStyle;
@@ -57,49 +58,67 @@ const DefaultInputFormStyle = StyleSheet.create({
  * 
  * */
 
-export default function InputForm(props: InputFormProps) {
-    // Below shows how to ignore a returned value in an array/ dictionary
-    const [, sendData]: [InputFormState, any] = useState(initialState);
-    const {
-        name,
-        parentCallBack,
-        secureTextEntry,
-        formTitleStyle,
-        containerStyle,
-        inputStyle,
-        placeholder,
-    } = props;
+export default class InputForm extends React.Component<InputFormProps, InputFormState> {
 
-    function passInputValue(text: string): void {
-        sendData(text);
+    textInput
+
+    static defaultProps: InputFormProps;
+
+    constructor(props){
+        super(props);
+        this.state = {...initialState};
+    }
+
+    componentDidMount(){
+        const {onRef} = this.props;
+        onRef(this);
+    }
+
+    passInputValue(text: string): void {
+        const {parentCallBack} = this.props;
         parentCallBack(text);
     }
 
-    function renderName() {
+    clearText(){
+        this.textInput.setNativeProps({text: ''});
+    }
+
+    renderName() {
+        const {name, formTitleStyle} = this.props;
         if (name == null) return <></>;
 
         return <Text style={formTitleStyle}>{name}</Text>;
     }
-
+    
+    render(){
+        const {
+            secureTextEntry,
+            containerStyle,
+            inputStyle,
+            placeholder,
+        } = this.props;
     return (
         <View style={containerStyle}>
-            {renderName()}
+            {this.renderName()}
             <TextInput
                 testID='userTextInput'
+                ref={(ref)=> {this.textInput = ref;}}
                 style={inputStyle}
                 underlineColorAndroid="transparent"
                 autoCapitalize="none"
                 secureTextEntry={secureTextEntry}
-                onChangeText={passInputValue}
+                onChangeText={text => {this.passInputValue(text);}}
                 placeholder={placeholder}
             />
         </View>
     );
+    }
 }
 
 InputForm.defaultProps = {
     key: null,
     name: null,
+    onRef: ref => {return ref;},
     parentCallBack: (child: string) => {
         return child;
     },
@@ -111,10 +130,11 @@ InputForm.defaultProps = {
 };
 
 export function renderInputForm(formProps: InputFormProps) {
-    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, placeholder } = formProps;
+    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, placeholder, onRef} = formProps;
     return (
         <InputForm
             name={name}
+            onRef={onRef}
             parentCallBack={parentCallBack}
             formTitleStyle={formTitleStyle}
             inputStyle={inputStyle}
