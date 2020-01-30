@@ -15,7 +15,7 @@ export type InputFormProps = {
     formTitleStyle?: ViewStyle;
     containerStyle?: ViewStyle;
     inputStyle?: ViewStyle;
-    placeholder?: string
+    value?: string;
 };
 type InputFormState = {
     value?: string;
@@ -60,7 +60,7 @@ export default function InputForm(props: InputFormProps) {
         formTitleStyle,
         containerStyle,
         inputStyle,
-        placeholder,
+        value,
     } = props;
 
     function passInputValue(text: string): void {
@@ -70,7 +70,6 @@ export default function InputForm(props: InputFormProps) {
 
     function renderName() {
         if (name == null) return <></>;
-
         return <Text style={formTitleStyle}>{name}</Text>;
     }
     
@@ -83,7 +82,7 @@ export default function InputForm(props: InputFormProps) {
                 autoCapitalize="none"
                 secureTextEntry={secureTextEntry}
                 onChangeText={passInputValue}
-                placeholder={placeholder}
+                value = {value}
             />
         </View>
     );
@@ -97,19 +96,20 @@ InputForm.defaultProps = {
     formTitleStyle: DefaultInputFormStyle.formTitle,
     containerStyle: DefaultInputFormStyle.container,
     inputStyle: DefaultInputFormStyle.input,
-    placeholder: '',
+    value: null,
 };
 
 export function renderInputForm(formProps: InputFormProps) {
-    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, placeholder } = formProps;
+    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, value, key } = formProps;
     return (
         <InputForm
+            key={key}
             name={name}
             parentCallBack={parentCallBack}
             formTitleStyle={formTitleStyle}
             inputStyle={inputStyle}
             secureTextEntry={secureTextEntry}
-            placeholder= {placeholder}
+            value = {value}
         />
     );
 }

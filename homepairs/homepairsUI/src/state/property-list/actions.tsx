@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { NewPropertyState } from 'src/Screens/Components/Modals/AddNewPropertyModal/AddNewPropertyModalBase';
+import { EditPropertyState } from 'src/Screens/Components/Modals/EditPropertyModal/EditPropertyModalBase';
 import { SetSelectedPropertyAction } from '../types';
 import {
     AddPropertyAction,
@@ -8,7 +10,6 @@ import {
     Property,
     HomePairsResponseKeys,
 } from '../types';
-
 const responseKeys = HomePairsResponseKeys;
 const loginStatus = HomePairsResponseKeys.STATUS_RESULTS;
 const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
@@ -37,7 +38,7 @@ export const addProperty = (newProperty: Property): AddPropertyAction => {
 
 export const postNewProperty = (
     newProperty: Property,
-    email: string,
+    info: NewPropertyState,
     setInitialState: () => void,
     onChangeModalVisibility: (check: boolean) => void,
 ) => {
@@ -52,7 +53,8 @@ export const postNewProperty = (
                     numBed: newProperty.bedrooms,
                     numBath: newProperty.bathrooms,
                     maxTenants: newProperty.tenants,
-                    pm: email,
+                    pm: info.email,
+                    token: info.roopairsToken,
                 },
             )
             .then(response => {
@@ -84,25 +86,27 @@ export const updateProperty = (propertyIndex: number, updatedProperty: Property)
     };
   };
   
-export const postUpdatedProperty = (oldProperty: Property, editProperty: Property, propIndex: number, email: string, onChangeModalVisibility: (check: boolean) => void) => {
+export const postUpdatedProperty = (
+    editProperty: Property, 
+    info: EditPropertyState,
+    onChangeModalVisibility: (check: boolean) => void) => {
   return async (dispatch: (arg0: any) => void) => {
-    console.log(oldProperty);
-    console.log(editProperty);
     return axios.post('https://homepairs-alpha.herokuapp.com/API/property/update/', {
-      oldStreetAddress: oldProperty.address,
-      oldCity: oldProperty.city,
+      oldStreetAddress: info.oldProp.address,
+      oldCity: info.oldProp.city,
       streetAddress: editProperty.address, 
       city: editProperty.city, 
       state: editProperty.state, 
       numBed: editProperty.bedrooms, 
       numBath: editProperty.bathrooms, 
       maxTenants: editProperty.tenants,
-      pm: email,
+      pm: info.email,
+      token: info.roopairsToken,
     })
     .then((response) => {
       console.log(response[responseKeys.DATA]);
       if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.FAILURE)){
-        dispatch(updateProperty(propIndex, editProperty));
+        dispatch(updateProperty(info.index, editProperty));
         onChangeModalVisibility(false);
       } else {
         console.log("error");

@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { HomePairFonts } from 'homepairs-fonts';
 
 export type CardProps = {
+    key?: any,
     children?: ReactElement<any,any>[] | ReactElement<any,any>;
     containerStyle?: {};
     wrapperStyle?: {};
@@ -56,23 +57,23 @@ const defaultStyles = StyleSheet.create({
     },
     wrapper: {
         width: '95%',
-        marginVertical: 20,
+        marginVertical: 10,
         alignSelf: 'center',
         justifyContent: 'center',
     },
     closeButton: {
+        flex:1,
         fontSize: 20,
         color: '#AFB3B5',
         fontFamily: HomePairFonts.nunito_regular,
-        alignSelf: 'center',
     },
     closeButtonContainer: {
-        alignSelf: 'flex-end',
+        right: '5%',
+        top: 20,
         justifyContent: 'center',
         paddingHorizontal: '2.5%',
         paddingVertical: 25,
         maxHeight: 40,
-        marginHorizontal: '5%',
         position: 'absolute',
         zIndex: 1, // Needed for absolution position within TouchableOpacity
     },
@@ -87,6 +88,17 @@ const defaultStyles = StyleSheet.create({
     },
 });
 
+
+/**
+ * ------------------------------------------------------------
+ * Card
+ * ------------------------------------------------------------
+ * Renders a space that appears to be a 'card' hovering over the
+ * parent. It has the capability of rendering a title, subtiltle, titledivider,
+ * as well as take in children components in typical React and React-Native
+ * fashion.
+ *
+ * */
 export default function Card(props: CardProps) {
     const {
         children,
@@ -150,6 +162,7 @@ export default function Card(props: CardProps) {
 }
 
 Card.defaultProps = {
+    key: null,
     children: <></>,
     containerStyle: defaultStyles.container,
     wrapperStyle: defaultStyles.wrapper,
@@ -164,8 +177,12 @@ Card.defaultProps = {
     closeButtonPressedCallBack: () => {},
 };
 
-export function renderCard(cardProperties: CardProps, innerComponent: ReactElement[] | ReactElement ) {
+export function renderCard(
+    cardProperties: CardProps,
+    innerComponent: ReactElement[] | ReactElement,
+) {
     const {
+        key,
         containerStyle,
         wrapperStyle,
         title,
@@ -179,6 +196,7 @@ export function renderCard(cardProperties: CardProps, innerComponent: ReactEleme
     } = cardProperties;
     return (
         <Card
+            key={key}
             containerStyle={containerStyle}
             wrapperStyle={wrapperStyle}
             title={title}
