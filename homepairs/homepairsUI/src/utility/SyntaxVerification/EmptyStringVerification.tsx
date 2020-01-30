@@ -4,5 +4,5 @@ export default function isEmptyOrSpaces(str:String){
 }
 
 export function isNumber(str: String) {
-    return str === null || str.match(/^[0-9]*$/) !== null;
+    return str !== null || str.match(/^[0-9]*$/) !== null;
 }

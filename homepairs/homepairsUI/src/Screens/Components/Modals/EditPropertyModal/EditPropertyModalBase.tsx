@@ -9,7 +9,6 @@ import { DarkModeInjectedProps } from 'homepairs-components';
 import {isNumber} from 'homepairs-utilities';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 import Card from '../../../../Elements/Cards/Card';
-
 export type EditPropertyDispatchProps = {
     onEditProperty: (newProperty: Property, info: EditPropertyState, onChangeModalVisibility: (check: boolean) => void) => void
 }
@@ -23,7 +22,14 @@ export type EditPropertyState = {
 
 type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyState;
 
-type EditState = Property;
+type EditState = {
+    address: string, 
+    city: string,
+    state: string, 
+    bedrooms: string, 
+    bathrooms: string, 
+    tenants: string,
+};
 
 const signUpStrings = strings.signUpPage;
 
@@ -96,7 +102,15 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.getFormNumBed = this.getFormNumBed.bind(this);
         this.getFormNumBath = this.getFormNumBath.bind(this);
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
-        this.state = {...props.oldProp};
+        this.validateNums = this.validateNums.bind(this);
+        const {oldProp} = this.props;
+        const {address, city, state, bedrooms, bathrooms, tenants} = oldProp;
+        this.state = {
+            address, city, state, 
+            bedrooms: bedrooms.toString(), 
+            bathrooms: bathrooms.toString(),
+            tenants: tenants.toString(),
+        };
     } 
 
     getFormAddress(childData : string) {
@@ -112,34 +126,39 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
     }
 
     getFormNumBed(childData : string) {
-        if (isNumber(childData)) {
-            this.setState({bedrooms: Number(childData)});
-        } else {
-            // alert
-        }
+        this.setState({bedrooms: childData});
     }
 
     getFormNumBath(childData : string) {
-        if (isNumber(childData)) {
-            this.setState({bathrooms: Number(childData)});
-        } else {
-            // alert
-        }
+        this.setState({bathrooms: childData});
     }
 
     getFormMaxTenants(childData: string) {
-        if (isNumber(childData)) {
-            this.setState({tenants: Number(childData)});
-        } else {
-            // alert
-        }
+        this.setState({tenants: childData});
+    }
+
+    validateNums() {
+        const {bedrooms, bathrooms, tenants} = this.state;
+        // isNumber function is bugged. It is accepting strings as numbers
+        if (isNumber(bedrooms) && isNumber(bathrooms) && isNumber(tenants)) {
+            return true;
+        } 
+        return false;
     }
 
     clickSubmitButton() {
         const {email, onChangeModalVisibility, onEditProperty, index, oldProp, roopairsToken} = this.props;
-        const newProperty : Property = {...this.state};
-        const info : EditPropertyState = { email, index, oldProp, roopairsToken};
-        onEditProperty(newProperty, info, onChangeModalVisibility);
+        const {address, state, city, bedrooms, bathrooms, tenants} = this.state;
+        if (this.validateNums()) {
+            const newProperty : Property = {
+                address, state, city, 
+                bedrooms: Number(bedrooms), 
+                bathrooms: Number(bathrooms), 
+                tenants: Number(tenants),
+            };
+            const info : EditPropertyState = { email, index, oldProp, roopairsToken};
+            onEditProperty(newProperty, info, onChangeModalVisibility);
+        }
     }
 
     inputFormProps() : {[id: string] : InputFormProps} {
@@ -150,42 +169,42 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                 parentCallBack: this.getFormAddress,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                placeholder: address,
+                value: address,
             }, 
             city: {
                 name: signUpStrings.inputForms.city,
                 parentCallBack: this.getFormCity,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                placeholder: city,
+                value: city, 
             }, 
             state: {
                 name: signUpStrings.inputForms.state,
                 parentCallBack: this.getFormState,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                placeholder: state,
+                value: state, 
             }, 
             numBed: {
                 name: signUpStrings.inputForms.numBed,
                 parentCallBack: this.getFormNumBed,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                placeholder: bedrooms.toString(),
+                value: bedrooms,
             }, 
             numBath: {
                 name: signUpStrings.inputForms.numBath,
                 parentCallBack: this.getFormNumBath,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                placeholder: bathrooms.toString(),
+                value: bathrooms,
             }, 
             maxTenants: {
                 name: signUpStrings.inputForms.maxTenants,
                 parentCallBack: this.getFormMaxTenants,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                placeholder: tenants.toString(),
+                value: tenants,
             },
         };
     }
