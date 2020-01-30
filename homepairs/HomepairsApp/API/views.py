@@ -26,6 +26,7 @@ PROPERTY_DOESNT_EXIST = 'Property does not exists.'
 NOT_PROP_OWNER = 'You are not the property owner'
 TOKEN = 'token'
 RESIDENTIAL_CODE = 1
+INCORRECT_CREDENTIALS = ['Unable to log in with provided credentials.']
 
 BASE_URL = 'https://capstone.api.roopairs.com/v0/'
 
@@ -82,6 +83,43 @@ def getProperty(pmEmail, streetAddress, city, state):
       return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
     return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
 
+def addNewProperties(pmEmail, token):
+   # This is for requesting properties from them
+   url = BASE_URL + "service-locations/"
+   tokenSend = "Token " + token
+   properties = requests.get(url, headers={"Authorization": tokenSend})
+   print(properties.text)
+
+   # Now check each of the properties against the database to see if 
+   # any of them are new
+   # For now we will just assign them a default bed, bath and tenants
+   # of 1 since front end is not set up to ask them yet
+   for prop in properties.json():
+      print("WHAT")
+      print(prop)
+      addy = prop.get('physical_address_formatted').split(',')
+      tempStreetAddress = addy[0].strip()
+      tempCity = addy[1].strip()
+      tempState = addy[2].strip().split(' ')[0].strip()
+      others = Property.objects.filter(streetAddress=tempStreetAddress,
+                                       city = tempCity,
+                                       state = tempState)
+      if not others.exists():
+         # We know the pm account exists in our database and only ours
+         # since we checked earlier and it didn't fail so we don't have
+         # to check it
+         tempPM = PropertyManager.objects.filter(email=pmEmail)[0]
+
+         # That means the property is not already in the database
+         prop = Property(streetAddress=tempStreetAddress,
+                         city=tempCity,
+                         state=tempState,
+                         numBed=1,
+                         numBath=1,
+                         maxTenants=1,
+                         pm = tempPM)
+         prop.save()
+
 def pmLogin(request):
    url = BASE_URL + 'auth/login/'
 
@@ -93,11 +131,13 @@ def pmLogin(request):
                 'password': pmPass
              }
       response = requests.post(url, json=data)
+
       info = json.loads(response.text)
 
       if NON_FIELD_ERRORS in info:
-         return returnError(INCORRECT_FIELDS)
+         return returnError(info.get(NON_FIELD_ERRORS))
       elif TOKEN in info:
+         
          if(not PropertyManager.objects.filter(email=pmEmail).exists()):
             # THen they don't exist in our database
             pmFirstName = info.get('first_name')
@@ -108,10 +148,14 @@ def pmLogin(request):
                                      email=pmEmail)
             tempPM.save()
 
-         pm = getPropertyManager(pmEmail)
          tempDict = getPropertyManager(pmEmail)
+
          if tempDict[STATUS] == FAIL:
             return returnError('%s: %s' % (HOMEPAIRS_ACCOUNT_CREATION_FAILED, tempDict[ERROR]))
+
+         addNewProperties(pmEmail, info.get(TOKEN))         
+
+         tempDict = getPropertyManager(pmEmail)
          tempDict[TOKEN] = info.get(TOKEN)
          return tempDict
    else:
@@ -139,7 +183,6 @@ def login(request):
    pmTest = pmLogin(request)
    if pmTest.get(STATUS) == SUCCESS:
       pmTest['role'] = 'pm'
-      return Response(data=pmTest)
 
    return Response(data=pmTest)
 
@@ -248,6 +291,7 @@ def createProperty(request):
                  }
           return Response(data=data)
         else:
+        
           return Response(data=returnError(INCORRECT_FIELDS))
       else:
         return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
@@ -292,8 +336,6 @@ def updateProperty(request):
       else:
         return Response(data=returnError(PROPERTY_DOESNT_EXIST))
    else:
-      print("FUCK")
-      print(request.data)
       return Response(data=returnError(INCORRECT_FIELDS))
 
 @api_view(['GET', 'POST'])
