@@ -140,7 +140,7 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
           lastName: accountDetails.lastName,
           email: accountDetails.email, 
           phone: accountDetails.phone,
-          password, 
+          password,
         })
         .then((response) => {
           if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){

@@ -34,7 +34,7 @@ const passProps1: AuthPassProps = {
   buttonColor: "blue",
   loadingModalText: "I should never appear",
   underButtonText: "This is something to think about",
-  highlightedText: "I am highlighted"
+  highlightedText: "I am highlighted",
 };
 
 // const fakeStackNav = createStackNavigator({})

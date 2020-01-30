@@ -11,11 +11,12 @@ import Card from '../../../../Elements/Cards/Card';
 
 
 export type AddNewPropertyDispatchProps = {
-    onCreateProperty: (newProperty: Property, email: string, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => void
+    onCreateProperty: (newProperty: Property, info: NewPropertyState, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => void
 }
 
 export type NewPropertyState = {
     email : string;
+    roopairsToken: string;
 }
 
 type Props = ModalInjectedProps & DarkModeInjectedProps & AddNewPropertyDispatchProps & NewPropertyState;
@@ -162,7 +163,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props, Crea
 
     clickSubmitButton() {
         const {streetAddress, propCity, propState, maxTenants, numBath, numBed} = this.state;
-        const {email, onChangeModalVisibility, onCreateProperty} = this.props;
+        const {email, onChangeModalVisibility, onCreateProperty, roopairsToken} = this.props;
         const newProperty : Property = {
             address: streetAddress, 
             city: propCity, 
@@ -171,7 +172,8 @@ export default class AddNewPropertyModalBase extends React.Component<Props, Crea
             bedrooms: numBed, 
             bathrooms: numBath,
         };
-        onCreateProperty(newProperty, email, this.setInitialState, onChangeModalVisibility);
+        const info : NewPropertyState = {email, roopairsToken};
+        onCreateProperty(newProperty, info, this.setInitialState, onChangeModalVisibility);
     }
 
     inputFormProps() : {[id: string] : InputFormProps} {

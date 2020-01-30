@@ -11,13 +11,14 @@ import {ModalInjectedProps} from '../WithModal/WithModal';
 import Card from '../../../../Elements/Cards/Card';
 
 export type EditPropertyDispatchProps = {
-    onEditProperty: (oldProperty: Property, newProperty: Property, propIndex: number, email: string, onChangeModalVisibility: (check: boolean) => void) => void
+    onEditProperty: (newProperty: Property, info: EditPropertyState, onChangeModalVisibility: (check: boolean) => void) => void
 }
 
 export type EditPropertyState = {
     email : string;
     index: number;
     oldProp: Property;
+    roopairsToken: string;
 }
 
 type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyState;
@@ -135,9 +136,10 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
     }
 
     clickSubmitButton() {
-        const {email, onChangeModalVisibility, onEditProperty, index, oldProp} = this.props;
+        const {email, onChangeModalVisibility, onEditProperty, index, oldProp, roopairsToken} = this.props;
         const newProperty : Property = {...this.state};
-        onEditProperty(oldProp, newProperty, index, email, onChangeModalVisibility);
+        const info : EditPropertyState = { email, index, oldProp, roopairsToken};
+        onEditProperty(newProperty, info, onChangeModalVisibility);
     }
 
     inputFormProps() : {[id: string] : InputFormProps} {

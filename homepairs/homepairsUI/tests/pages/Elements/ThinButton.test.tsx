@@ -5,7 +5,7 @@ import { View, TouchableOpacity, Text} from 'react-native';
 
 
 const createTestProps = (props: Object) => ({
-  onClick: jest.fn()
+  onClick: jest.fn(),
 });
 
 
