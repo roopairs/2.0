@@ -71,7 +71,8 @@ const defaultStyles = StyleSheet.create({
         right: '5%',
         top: 20,
         justifyContent: 'center',
-        paddingBottom: '2.5%',
+        paddingHorizontal: '2.5%',
+        paddingVertical: 25,
         maxHeight: 40,
         position: 'absolute',
         zIndex: 1, // Needed for absolution position within TouchableOpacity

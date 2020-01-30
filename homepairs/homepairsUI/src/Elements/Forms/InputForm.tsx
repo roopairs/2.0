@@ -9,8 +9,8 @@ import {
 
 export type InputFormProps = {
     key?: any,
-    name?: String;
-    parentCallBack?: (child: String) => any;
+    name?: string;
+    parentCallBack?: (child: string) => any;
     secureTextEntry?: boolean;
     formTitleStyle?: ViewStyle;
     containerStyle?: ViewStyle;
@@ -18,7 +18,7 @@ export type InputFormProps = {
     value?: string;
 };
 type InputFormState = {
-    value?: String;
+    value?: string;
 };
 const initialState: InputFormState = { value: '' };
 
@@ -63,7 +63,7 @@ export default function InputForm(props: InputFormProps) {
         value,
     } = props;
 
-    function passInputValue(text: String): void {
+    function passInputValue(text: string): void {
         sendData(text);
         parentCallBack(text);
     }

@@ -9,7 +9,7 @@ const mapDispatchToProps : (dispatch: any) => EditPropertyDispatchProps = (dispa
     },
 });
 
-function mapStateToProps(state: AppState) : any {
+function mapStateToProps(state: AppState) : EditPropertyStateProps {
     const propIndex = state.propertyList.selectedPropertyIndex;
     return {
         email: state.accountProfile.email, 

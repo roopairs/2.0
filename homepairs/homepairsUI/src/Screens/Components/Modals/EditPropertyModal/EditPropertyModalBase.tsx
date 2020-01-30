@@ -9,18 +9,19 @@ import { DarkModeInjectedProps } from 'homepairs-components';
 import {isNumber, isNullOrUndefined} from 'homepairs-utilities';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 import Card from '../../../../Elements/Cards/Card';
+
 export type EditPropertyDispatchProps = {
     onEditProperty: (newProperty: Property, info: EditPropertyState, onChangeModalVisibility: (check: boolean) => void) => void
 }
 
-export type EditPropertyState = {
+export type EditPropertyStateProps = {
     email : string;
     index: number;
     oldProp: Property;
     roopairsToken: string;
 }
 
-type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyState;
+type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyStateProps;
 
 type EditState = {
     address: string, 
@@ -30,6 +31,7 @@ type EditState = {
     bathrooms: string, 
     tenants: string,
 };
+
 
 const signUpStrings = strings.signUpPage;
 
@@ -118,9 +120,14 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
     });
 }
 
+function checkIfPositiveNumber(arg: string): boolean{
+    return (isNumber(arg) && Number(arg) > 0);
+ }
 
-export default class EditNewPropertyModalBase extends React.Component<Props, EditState> {
-    private inputFormStyle;
+export default class EditNewPropertyModalBase extends React.Component<Props, State> {
+    inputFormStyle: { formTitle: any; input: any; modalContainer: any; }
+
+    oldProperty: Property;
 
     submitButton : ThinButtonProps = {
         name: 'Submit', 
@@ -169,15 +176,18 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
     } 
 
     getFormAddress(childData : string) {
-        this.setState({address: childData});
+        const address = isEmptyOrSpaces(childData) ? this.oldProperty.address : childData;
+        this.setState({address});
     }
 
     getFormCity(childData : string) {
-        this.setState({city: childData});
+        const city = isEmptyOrSpaces(childData) ? this.oldProperty.city : childData;
+        this.setState({city});
     }
 
     getFormState(childData : string) {
-        this.setState({state: childData});
+        const state = isEmptyOrSpaces(childData) ? this.oldProperty.state : childData;
+        this.setState({state});
     }
 
     getFormNumBed(childData : string) {
@@ -243,6 +253,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                 value: state, 
             }, 
             {
+
                 key: signUpStrings.inputForms.numBed,
                 name: signUpStrings.inputForms.numBed,
                 parentCallBack: this.getFormNumBed,
@@ -259,6 +270,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                 value: bathrooms,
             }, 
             {
+
                 key: signUpStrings.inputForms.maxTenants,
                 name: signUpStrings.inputForms.maxTenants,
                 parentCallBack: this.getFormMaxTenants,
@@ -271,6 +283,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         return inputForms.map(inputFromProp => {
             return renderInputForm(inputFromProp);
         });
+
     }
     
     render() {

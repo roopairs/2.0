@@ -11,6 +11,8 @@ import { hamburger } from 'homepairs-images';
 import HomePairColors from 'homepairs-colors';
 import { HomePairFonts } from 'homepairs-fonts';
 import { DarkModeInjectedProps } from '../../WithDarkMode/WithDarkMode';
+import * as BaseStyles from 'homepairs-base-styles';
+import { HomePairsDimensions } from '../../../../state/types';
 
 export type HomePairsHeaderTitleProps = DarkModeInjectedProps & {
     /**
@@ -44,7 +46,7 @@ const baseStyles = {
         maxWidth: 185,
         justifyContent: 'center',
         alignContent: 'center',
-        flex: 5,
+        flex: 6,
     },
     homePairsTitle: {
         fontFamily: HomePairFonts.nunito_regular,
@@ -57,7 +59,7 @@ const baseStyles = {
         height: 45,
     },
     hamburgerStyle: {
-        flex: 2,
+        flex: 1,
         marginRight: '3%',
         height: null,
         width: null,
@@ -165,15 +167,17 @@ export class HomePairsHeaderTitle extends React.Component<
         if (isDropDown) {
             return this.dropDownRender();
         }
-        return <View style={{ height: '0%', width: '0%' }} />;
+        return <></> ;
     }
 
     render() {
         return (
+            <>
             <View style={this.getProperTitleStyle()}>
                 <Text style={styles.homePairsTitle}>HomePairs</Text>
                 {this.chooseWideRender()}
             </View>
+            </>
         );
     }
 }

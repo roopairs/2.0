@@ -8,6 +8,7 @@ import {
 import React, { Component } from 'react';
 import WebModal from 'modal-enhanced-react-native-web';
 import * as BaseStyles from 'homepairs-base-styles';
+import { HomePairsDimensions } from 'src/state/types';
 
 type Props = {};
 type State = {
@@ -40,10 +41,40 @@ function setStyle() {
             height,
             width,
         },
+        scrollContainer: {
+            flex: 1,
+            justifyContent: 'center',
+        },
+        scrollViewContentContainer: {
+            maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+            backgroundColor: BaseStyles.LightColorTheme.transparent,
+            alignSelf: 'center',
+            width: BaseStyles.ContentWidth.max,
+            flexGrow: 1,
+        },
     });
 }
 
-export function withModal(BaseComponent: any, ModalComponent: any) {
+
+/**
+ * ---------------------------------------------------
+ * withModal
+ * ---------------------------------------------------
+ * A HOC that takes in two ReactElements to render a 
+ * component that has a modal with a darkened background. 
+ * ModalComponent is revealed when the onChangeModalVisibility() 
+ * method is passed a value of true. 
+ * 
+ * @param {React.Component} BaseComponent
+ * The regular component shown in the UI. This component will not have 
+ * any significant changes. Only access to the injected prop onChangeModalVisibility
+ * @param {React.Component} ModalComponent
+ * The component that is revealed when onChangeModalVisibility is passed 
+ * true. This component also has access to this function in order to hide 
+ * itself when the user has no need 
+ *  
+ */
+export function withModal(BaseComponent: React.ElementType, ModalComponent: React.ElementType) {
     class WithModal extends Component<Props, State> {
         constructor(props: Readonly<Props>) {
             super(props);

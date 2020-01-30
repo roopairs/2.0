@@ -1,14 +1,15 @@
 import React from "react";
 import {  ScrollView, StyleSheet, SafeAreaView, StatusBar, Platform } from "react-native";
-import { renderInputForm, ThinButton, ThinButtonProps } from 'homepairs-elements';
+import { renderInputForm, ThinButton, ThinButtonProps, Card } from 'homepairs-elements';
+
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property } from 'homepairs-types';
 import Colors from 'homepairs-colors';
+import {isNumber} from 'homepairs-utilities';
 import { DarkModeInjectedProps } from 'homepairs-components';
 import {isNumber} from 'homepairs-utilities';
 import {ModalInjectedProps} from '../WithModal/WithModal';
-import Card from '../../../../Elements/Cards/Card';
 
 
 
@@ -123,9 +124,12 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
     });
 }
 
+function checkIfPositiveNumber(arg: string): boolean{
+    return (isNumber(arg) && Number(arg) > 0);
+}
 
-export default class AddNewPropertyModalBase extends React.Component<Props, CreateState> {
-    private inputFormStyle;
+export default class AddNewPropertyModalBase extends React.Component<Props,CreateState> {
+    inputFormStyle;
 
     submitButton : ThinButtonProps = {
         name: 'Submit', 
