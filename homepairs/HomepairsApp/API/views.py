@@ -88,15 +88,12 @@ def addNewProperties(pmEmail, token):
    url = BASE_URL + "service-locations/"
    tokenSend = "Token " + token
    properties = requests.get(url, headers={"Authorization": tokenSend})
-   print(properties.text)
 
    # Now check each of the properties against the database to see if
    # any of them are new
    # For now we will just assign them a default bed, bath and tenants
    # of 1 since front end is not set up to ask them yet
    for prop in properties.json():
-      print("WHAT")
-      print(prop)
       addy = prop.get('physical_address_formatted').split(',')
       tempStreetAddress = addy[0].strip()
       tempCity = addy[1].strip()
@@ -263,11 +260,11 @@ def pmRegister(request):
 
 @api_view(['GET', 'POST'])
 def createProperty(request):
-    url = BASE_URL + '/service-locations/'
+   url = BASE_URL + 'service-locations/'
 
    if ('streetAddress' in request.data and 'city' in request.data and 'state' in request.data
     and 'pm' in request.data and 'numBed' in request.data and 'numBath' in request.data
-    and 'maxTenants' in request.data):
+    and 'maxTenants' in request.data and 'token' in request.data):
       streetAddress = request.data.get('streetAddress')
       city = request.data.get('city')
       state = request.data.get('state')
@@ -275,41 +272,71 @@ def createProperty(request):
       numBed = request.data.get('numBed')
       numBath = request.data.get('numBath')
       maxTenants = request.data.get('maxTenants')
+      token = request.data.get('token')
+      sendAddress = streetAddress + ", " + city + ", " + state
 
-      data = {
-                'physical_address': streetAddress + ',' + city + ',' + state
-                }
-      response = requests.post(url, json=data)
-      info = json.loads(response.text)
-      if NON_FIELD_ERRORS in info:
-          return returnError(info.get(NON_FIELD_ERRORS))
-      elif TOKEN in info:
-          addy = response.get('physical_address_formatted').split(',')
-          tempStreetAddress = addy[0].strip()
-          tempCity = addy[1].strip()
-          tempState = addy[2].strip().split(' ')[0].strip()
-          isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
-          if not isMade.exists():
-            pmList = PropertyManager.objects.filter(email=pm)
-            if pmList.exists() and pmList.count() == 1:
-              pm = pmList[0]
-              prop = Property(streetAddress=streetAddress,
-                         city=city,
-                         state=state,
-                         numBed=numBed,
-                         numBath=numBath,
-                         maxTenants=maxTenants,
-                         pm = pm)
-              prop.save()
-              data = {
-                      STATUS: SUCCESS
-                     }
-              return Response(data=data)
-            else:
+      #data = {
+      #          'physical_address': sendAddress
+      #       }
+      #sendToken = "Token " + token
+      #response = requests.post(url, json=data, headers={"Authorization": sendToken})
+      #print("HERE 1")
+      #print(response.text)
+      #print("HERE 2")
+      #info = json.loads(response.text)
+      #print("HERE 3")
+      #if NON_FIELD_ERRORS in info:
+      #    return Response(returnError(info.get(NON_FIELD_ERRORS)))
+      #elif TOKEN in info:
+      #    addy = response.get('physical_address_formatted').split(',')
+      #    tempStreetAddress = addy[0].strip()
+      #    tempCity = addy[1].strip()
+      #    tempState = addy[2].strip().split(' ')[0].strip()
+      #    isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
+      #    if not isMade.exists():
+      #      pmList = PropertyManager.objects.filter(email=pm)
+      #      if pmList.exists() and pmList.count() == 1:
+      #        pm = pmList[0]
+      #        prop = Property(streetAddress=streetAddress,
+      #                   city=city,
+      #                   state=state,
+      #                   numBed=numBed,
+      #                   numBath=numBath,
+      #                   maxTenants=maxTenants,
+      #                   pm = pm)
+      #        prop.save()
+      #        data = {
+      #                STATUS: SUCCESS
+      #               }
+      #        return Response(data=data)
+      #      else:
 
-              return Response(data=returnError(INCORRECT_FIELDS))
-          else:
-            return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
+      #        return Response(data=returnError(INCORRECT_FIELDS))
+      #    else:
+      #      return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
+
+      isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
+      if not isMade.exists():
+        pmList = PropertyManager.objects.filter(email=pm)
+        if pmList.exists() and pmList.count() == 1:
+          pm = pmList[0]
+          prop = Property(streetAddress=streetAddress,
+                     city=city,
+                     state=state,
+                     numBed=numBed,
+                     numBath=numBath,
+                     maxTenants=maxTenants,
+                     pm = pm)
+          prop.save()
+          data = {
+                  STATUS: SUCCESS
+                 }
+          return Response(data=data)
+        else:
+
+          return Response(data=returnError(INCORRECT_FIELDS))
+      else:
+        return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
    else:
       return Response(data=returnError(INCORRECT_FIELDS))
 

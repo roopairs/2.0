@@ -20,6 +20,7 @@ globUrl = settings.TEST_URL
 CRE_PROP_URL = 'property/create/'
 VIEW_PROP_URL = 'property/view/'
 UPDATE_PROP_URL = 'property/update/'
+LOGIN_URL = 'login/'
 
 ################################################################################
 # Helper Functions
@@ -60,6 +61,15 @@ class CreateProperty(TestCase):
       numBath = 1
       maxTenants = 3
       pmEmail = 'eerongrant@gmail.com'
+      pmPass = 'pass4eeron'
+
+      data = {
+                'email': pmEmail,
+                'password': pmPass
+             }
+      url = globUrl + LOGIN_URL
+      x = requests.post(url, json=data)
+      info = x.json()
 
       data = {
                 'streetAddress': streetAddress,
@@ -69,10 +79,13 @@ class CreateProperty(TestCase):
                 'numBath': numBath,
                 'maxTenants': maxTenants,
                 'pm': pmEmail,
+                'token': info.get('token')
              }
+
       url = globUrl + CRE_PROP_URL
       x = requests.post(url, json=data)
-      info = json.loads(x.text)
+
+      info = x.json()
       self.assertEqual(info.get(STATUS), SUCCESS)
 
       data = {
@@ -112,8 +125,10 @@ class CreateProperty(TestCase):
                 'numBath': numBath,
                 'maxTenants': maxTenants,
                 'pm': pmEmail,
+                'token': 'hello'
              }
       url = globUrl + CRE_PROP_URL
+
       #succeeds the first time the property is created
       x = requests.post(url, json=data)
       info = json.loads(x.text)
@@ -177,6 +192,7 @@ class UpdateProperty(TestCase):
                 'numBath': numBath,
                 'maxTenants': maxTenants,
                 'pm': pmEmail,
+                'token': 'hello'
              }
       url = globUrl + CRE_PROP_URL
       x = requests.post(url, json=data)
@@ -247,6 +263,7 @@ class UpdateProperty(TestCase):
                 'numBath': numBath,
                 'maxTenants': maxTenants,
                 'pm': pmEmail,
+                'token': 'haha'
              }
       url = globUrl + CRE_PROP_URL
       x = requests.post(url, json=data)
