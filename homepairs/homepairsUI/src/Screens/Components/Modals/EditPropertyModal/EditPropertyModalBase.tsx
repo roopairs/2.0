@@ -1,12 +1,12 @@
 import React from "react";
 import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from "react-native";
-import {InputFormProps, ThinButton, renderInputForm, ThinButtonProps } from 'homepairs-elements';
+import {ThinButton, renderInputForm, ThinButtonProps } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import { DarkModeInjectedProps } from 'homepairs-components';
-import {isNumber, isNullOrUndefined} from 'homepairs-utilities';
+import {isNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 import Card from '../../../../Elements/Cards/Card';
 
@@ -14,14 +14,14 @@ export type EditPropertyDispatchProps = {
     onEditProperty: (newProperty: Property, info: EditPropertyState, onChangeModalVisibility: (check: boolean) => void) => void
 }
 
-export type EditPropertyStateProps = {
+export type EditPropertyState = {
     email : string;
     index: number;
     oldProp: Property;
     roopairsToken: string;
 }
 
-type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyStateProps;
+type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyState;
 
 type EditState = {
     address: string, 
@@ -42,7 +42,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             marginVertical: '3.5%',
             fontFamily: BaseStyles.FontTheme.primary,
             color: colors.lightGray,
-          },
+        },
         input: {
              alignItems: 'center',
              alignSelf: 'center',
@@ -124,8 +124,8 @@ function checkIfPositiveNumber(arg: string): boolean{
     return (isNumber(arg) && Number(arg) > 0);
  }
 
-export default class EditNewPropertyModalBase extends React.Component<Props, State> {
-    inputFormStyle: { formTitle: any; input: any; modalContainer: any; }
+export default class EditNewPropertyModalBase extends React.Component<Props, EditState> {
+    inputFormStyle;
 
     oldProperty: Property;
 

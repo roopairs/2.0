@@ -6,7 +6,6 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isNumber} from 'homepairs-utilities';
 import { DarkModeInjectedProps } from 'homepairs-components';
 import {isNumber} from 'homepairs-utilities';
 import {ModalInjectedProps} from '../WithModal/WithModal';
@@ -296,7 +295,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                     titleStyle={this.inputFormStyle.cardTitle}
                     titleContainerStyle={this.inputFormStyle.cardTitleContainer}
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
-                    title='Edit Property'
+                    title='Add Property'
                     closeButtonPressedCallBack={() => onChangeModalVisibility(false)}
                     >
                     <>{this.renderInputForms()}</>
