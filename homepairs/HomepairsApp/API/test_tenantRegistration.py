@@ -1,6 +1,7 @@
 ################################################################################
 # Imports
 from django.test import TestCase
+from django.conf import settings
 import psycopg2
 import requests
 import json
@@ -13,8 +14,7 @@ from .views import INVALID_PROPERTY, NON_FIELD_ERRORS, TOKEN, RESIDENTIAL_CODE
 ################################################################################
 # Vars
 
-globUrl = 'https://homepairs-alpha.herokuapp.com/API/'
-globUrl = 'http://localhost:8000/API/'
+globUrl = settings.TEST_URL
 
 # EXTRA URLS
 TEN_REG_URL = 'register/tenant/'

@@ -1,7 +1,8 @@
 #!/bin/bash
 
 git init
+heroku git:remote -a homepairs-alpha
 git add .
 git commit -m 'deploy'
-heroku git:remote -a homepairs-alpha
 git push --force heroku master
+rm -r -f .git
