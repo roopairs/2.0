@@ -267,6 +267,12 @@ export default class AddNewPropertyModalBase extends React.Component<Props,State
                 inputStyle: this.inputFormStyle.input,
             },
             {
+                name: inputFormStrings.maxTenants,
+                parentCallBack: this.getFormMaxTenants,
+                formTitleStyle: this.inputFormStyle.formTitle,
+                inputStyle: this.inputFormStyle.input,
+            },
+            {
                 name: inputFormStrings.bedrooms,
                 parentCallBack: this.getFormNumBed,
                 formTitleStyle: this.inputFormStyle.formTitle,
@@ -277,13 +283,6 @@ export default class AddNewPropertyModalBase extends React.Component<Props,State
                 parentCallBack: this.getFormNumBath,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-            },
-            {
-                name: inputFormStrings.maxTenants,
-                parentCallBack: this.getFormMaxTenants,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-                value: tenants,
             },
         ];
 
