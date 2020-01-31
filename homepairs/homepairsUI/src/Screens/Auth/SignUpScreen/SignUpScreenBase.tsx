@@ -20,7 +20,7 @@ export type SignUpViewDispatchProps = {
         details: Account,
         password: String,
         modalSetOff: () => any,
-        navigationRouteCallback: () => any,
+        navigation: any,
     ) => any;
 };
 export type SignUpProps = DarkModeInjectedProps &
@@ -181,7 +181,7 @@ export default class SignUpScreenBase extends React.Component<
     };
 
     clickSignUp = () => {
-        const { showModal, generateHomePairsAccount } = this.props;
+        const { showModal, generateHomePairsAccount, navigation } = this.props;
         const { password } = this.state;
         showModal(true, signUpScreenStrings.modal);
         const details: Account = { ...this.state, roopairsToken: '' };
@@ -190,7 +190,7 @@ export default class SignUpScreenBase extends React.Component<
                 details,
                 password,
                 this.setModalOff,
-                this.navigateMain,
+                navigation
             );
             showModal(false);
         }

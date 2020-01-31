@@ -166,7 +166,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
         this.validateForms = this.validateForms.bind(this);
         const {oldProp} = this.props;
-        const {address, city, state, bedrooms, bathrooms, tenants} = oldProp;
+        const {streetAddress: address, city, state, bedrooms, bathrooms, tenants} = oldProp;
         this.state = {
             address, city, state, 
             bedrooms: bedrooms.toString(), 
@@ -217,7 +217,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         const {address, state, city, bedrooms, bathrooms, tenants} = this.state;
         if (this.validateForms()) {
             const newProperty : Property = {
-                address, state, city, 
+                streetAddress: address, state, city, 
                 bedrooms: Number(bedrooms), 
                 bathrooms: Number(bathrooms), 
                 tenants: Number(tenants),

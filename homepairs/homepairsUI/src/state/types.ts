@@ -2,7 +2,7 @@ import { Dimensions } from 'react-native';
 
 /* *-------------------Property Types-------------------* */
 export type Property = {
-    address: string, 
+    streetAddress: string, 
     city: string, 
     state: string,
     tenants : number, 
@@ -33,8 +33,11 @@ export type RemovePropertyAction = {
     type: string;
     index: number;
 };
-
 export type FetchPropertyAction = {
+    type: string;
+    property: Property[];
+};
+export type FetchPropertiesAction = {
     type: string;
     properties: Property[];
 };
@@ -45,7 +48,8 @@ export type PropertyListAction =
     | UpdatePropertyAction
     | RemovePropertyAction
     | SetSelectedPropertyAction
-    | FetchPropertyAction;
+    | FetchPropertyAction
+    | FetchPropertiesAction;
 /* *-------------------Property Types-------------------* */
 
 /* *-------------------Account Types-------------------* */
@@ -61,7 +65,7 @@ export type Account = {
     lastName: string;
     email: string;
     phone: string;
-    address: string;
+    streetAddress: string;
     city: string;
     roopairsToken: string;
 };
@@ -236,7 +240,7 @@ export type SettingsActions = ToggleDarkModeActivationAction &
 
 /* *-------------------App State-------------------* */
 export type AppState = {
-    propertyList: PropertyListState;
+    properties: PropertyListState;
     accountProfile: AccountState;
     header: HeaderState;
     serviceRequests: ServiceState;
@@ -268,7 +272,7 @@ enum HOMEPAIRS_ACCOUNT_KEYS{
     MANID = 'manId',
     PASSWORD = 'password',
     PHONE = 'phone',
-    ADDRESS = 'address', 
+    ADDRESS = 'streetAddress', 
     CITY = 'city',
     PLACE = 'place', 
     PROPID = 'propId',
@@ -301,8 +305,10 @@ export enum HomepairsPropertyAttributes{
 export const HomePairsResponseKeys = {
     DATA: 'data',
     ACCOUNT_KEYS: HOMEPAIRS_ACCOUNT_KEYS,
+    PLACE : 'place',
     PROPERTIES: 'properties',
     PROPERTY_KEYS: HOMEPAIRS_PROPERTY_KEYS,
+    ROLE: 'role',
     ROOPAIRS_TOKEN: 'token',
     STATUS: 'status',
     STATUS_RESULTS: HOMEPAIRS_LOGIN_STATUS,

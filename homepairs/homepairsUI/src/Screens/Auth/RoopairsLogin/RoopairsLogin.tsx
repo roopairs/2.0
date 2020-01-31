@@ -43,15 +43,15 @@ const mapDispatchToProps: (dispatch: any) => RoopairsLoginDispatchProps = (
     onFetchAccountProfile: (
         username: string,
         password: string,
+        navigation,
         modalSetOff: () => any,
-        navigationRouteCallback: () => any,
     ) => {
         dispatch(
             AccountActions.fetchAccount(
                 username,
                 password,
+                navigation,
                 modalSetOff,
-                navigationRouteCallback,
             ),
         );
     },

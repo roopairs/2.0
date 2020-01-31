@@ -4,9 +4,10 @@ import { EditPropertyState } from 'src/Screens/Components/Modals/EditPropertyMod
 import { SetSelectedPropertyAction } from '../types';
 import {
     AddPropertyAction,
-    UpdatePropertyAction,
-    RemovePropertyAction,
-    FetchPropertyAction,
+    UpdatePropertyAction, 
+    RemovePropertyAction, 
+    FetchPropertyAction, 
+    FetchPropertiesAction,
     Property,
     HomePairsResponseKeys,
 } from '../types';
@@ -18,6 +19,7 @@ export enum PROPERTY_LIST_ACTION_TYPES {
     ADD_PROPERTY = 'PROPERTY_LIST/ADD_PROPERTY',
     REMOVE_PROPERTY = 'PROPERTY_LIST/REMOVE_PROPERTY',
     UPDATE_PROPERTY = 'PROPERTY_LIST/UPDATE_PROPERTY',
+    FETCH_PROPERTY = 'PROPERTY_LIST/FETCH_PROPERTY',
     FETCH_PROPERTIES = 'PROPERTY_LIST/FETCH_PROPERTIES',
     SET_SELECTED_PROPERTY = 'PROPERTY_LIST/SET_SELECTED_PROPERTY',
 }
@@ -47,7 +49,7 @@ export const postNewProperty = (
             .post(
                 'https://homepairs-alpha.herokuapp.com/API/property/create/',
                 {
-                    streetAddress: newProperty.address,
+                    streetAddress: newProperty.streetAddress,
                     city: newProperty.city,
                     state: newProperty.state,
                     numBed: newProperty.bedrooms,
@@ -92,9 +94,9 @@ export const postUpdatedProperty = (
     onChangeModalVisibility: (check: boolean) => void) => {
   return async (dispatch: (arg0: any) => void) => {
     return axios.post('https://homepairs-alpha.herokuapp.com/API/property/update/', {
-      oldStreetAddress: info.oldProp.address,
+      oldStreetAddress: info.oldProp.streetAddress,
       oldCity: info.oldProp.city,
-      streetAddress: editProperty.address, 
+      streetAddress: editProperty.streetAddress, 
       city: editProperty.city, 
       state: editProperty.state, 
       numBed: editProperty.bedrooms, 
@@ -124,51 +126,41 @@ export const removeProperty = (
     index: propertyIndex,
 });
 
+export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => {
+    let fetchedProperty : Property;
+    const fetchedProperties: Property[] = [];
+        fetchedProperty = {
+            streetAddress: linkedProperty[propertyKeys.ADDRESS],
+            city: linkedProperty[propertyKeys.CITY],
+            state: linkedProperty[propertyKeys.STATE],
+            tenants: linkedProperty[propertyKeys.TENANTS],
+            bedrooms : linkedProperty[propertyKeys.BEDROOMS],
+            bathrooms : linkedProperty[propertyKeys.BATHROOMS]
+        };
+        fetchedProperties.push(fetchedProperty);
+    return {
+      type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
+      property: fetchedProperties
+    }
+};
+
 export const fetchProperties = (
     linkedProperties: Array<any>,
-): FetchPropertyAction => {
+): FetchPropertiesAction => {
     const fetchedProperties: Property[] = [];
-    linkedProperties?.forEach(element => {
+    linkedProperties?.forEach(linkedProperty => {
         fetchedProperties.push({
-            address: element[propertyKeys.ADDRESS],
-            city: element[propertyKeys.CITY],
-            state: element[propertyKeys.STATE],
-            tenants: element[propertyKeys.TENANTS],
-            bedrooms: element[propertyKeys.BEDROOMS],
-            bathrooms: element[propertyKeys.BATHROOMS],
+            streetAddress: linkedProperty[propertyKeys.ADDRESS],
+            city: linkedProperty[propertyKeys.CITY],
+            state: linkedProperty[propertyKeys.STATE],
+            tenants: linkedProperty[propertyKeys.TENANTS],
+            bedrooms: linkedProperty[propertyKeys.BEDROOMS],
+            bathrooms: linkedProperty[propertyKeys.BATHROOMS],
         });
     });
     return {
-        type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
-        properties: fetchedProperties,
-
-    };
+      type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
+      properties: fetchedProperties
+    }
 };
 
-export const fetchAllProperties = (
-    Username: String,
-    Password: String,
-    modalSetOffCallBack?: () => void,
-    navigateMainCallBack?: () => void,
-) => {
-    return (dispatch: (arg0: any) => void) => {
-        // TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
-        return axios.post('http://vertical-proto-homepairs.herokuapp.com/verticalAPI/', {
-            username: Username,
-            password: Password,
-          })
-          .then((response) => {
-            if(!((response[responseKeys.DATA][responseKeys.STATUS]) === loginStatus.FAILURE)){
-              dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
-              navigateMainCallBack();
-            }else{
-                modalSetOffCallBack();
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-          .finally(() => {
-          });
-    };
-};
