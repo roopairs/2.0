@@ -11,8 +11,12 @@ import { StyleSheet } from 'react-native';
 import { isNullOrUndefined } from 'homepairs-utilities';
 
 export type RoopairsLoginDispatchProps = {
-    onFetchAccountProfile: (username: string, password: string,
-        modalSetOff: () => any, navigationRouteCallback: () => any) => void
+    onFetchAccountProfile: (
+        username: string, 
+        password: string,
+        navigation: any,
+        modalSetOff: () => any, 
+    ) => void
 }
 
 export type LoginProps = DarkModeInjectedProps &
@@ -68,7 +72,6 @@ export default class RoopairsLoginBase extends React.Component<
         this.getFormUsername = this.getFormUsername.bind(this);
         this.getFormPassword = this.getFormPassword.bind(this);
         this.setModalOff = this.setModalOff.bind(this);
-        this.navigateToMain = this.navigateToMain.bind(this);
         this.clickButton = this.clickButton.bind(this);
         this.clickHighlightedText = this.clickHighlightedText.bind(this);
         this.state = initialState;
@@ -98,21 +101,11 @@ export default class RoopairsLoginBase extends React.Component<
     }
 
     clickButton() {
-        const {onChangeModalVisibility, onFetchAccountProfile} = this.props;
+        const {onChangeModalVisibility, onFetchAccountProfile, navigation} = this.props;
         const {username, password} = this.state;
         onChangeModalVisibility(true);
-        onFetchAccountProfile(
-            username,
-            password,
-            this.setModalOff,
-            this.navigateToMain,
-        );
-    }
-
-    navigateToMain() {
-        const { navigation } = this.props;
-        navigation.navigate('Main');
-    }
+        onFetchAccountProfile(username, password, navigation, this.setModalOff);
+    } 
 
     inputFormProps(): { [id: string]: InputFormProps } {
         return {

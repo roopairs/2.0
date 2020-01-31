@@ -19,7 +19,7 @@ export type LoginViewDispatchProps = {
         username: string,
         password: string,
         modalSetOff: () => any,
-        navigationRouteCallback: () => any,
+        navigation: any
     ) => void;
 };
 
@@ -109,7 +109,7 @@ export default class LoginScreenBase extends React.Component<
     }
 
     clickButton() {
-        const { onChangeModalVisibility, onFetchAccountProfile } = this.props;
+        const { onChangeModalVisibility, onFetchAccountProfile, navigation } = this.props;
         const { username, password } = this.state;
         onChangeModalVisibility(true);
         if (!isEmailSyntaxValid(username)) {
@@ -121,7 +121,7 @@ export default class LoginScreenBase extends React.Component<
                 username,
                 password,
                 this.setModalOff,
-                this.navigateMain,
+                navigation,
             );
         }
     }

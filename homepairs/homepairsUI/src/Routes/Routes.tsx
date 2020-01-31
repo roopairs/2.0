@@ -9,6 +9,7 @@ import {
 import { Platform } from 'react-native';
 import { HomePairsHeader } from 'homepairs-components';
 import { LightColorTheme} from 'homepairs-base-styles';
+import { AccountTypes } from 'homepairs-types';
 
 
 // TODO: Render navigation header for andriod devices!!!
@@ -59,7 +60,6 @@ const serviceRequestStackConfig = {
     initialRouteName: 'ServiceRequest',
     ...innerStackConfig,
 };
-
 const accountStackConfig = {
     initialRouteName: 'Account',
     ...innerStackConfig,
@@ -68,21 +68,17 @@ const accountStackConfig = {
 const PropertyStack = createStackNavigator(
     {
         AccountProperties: MainAppPages.PropertyPages.PropertiesScreen,
+        TenantProperties: MainAppPages.PropertyPages.TenantPropertiesScreen,
         DetailedProperty: MainAppPages.PropertyPages.DetailedPropertyScreen,
     },
     propertyStackConfig,
 );
 const ServiceRequestStack = createStackNavigator(
-    {
-        ServiceRequest: MainAppPages.ServiceRequestPages.ServiceRequestScreen,
-        NewRequest: MainAppPages.ServiceRequestPages.NewRequestScreen,
-    },
-    serviceRequestStackConfig,
-);
+  {ServiceRequest: MainAppPages.ServiceRequestPages.ServiceRequestScreen, NewRequest: MainAppPages.ServiceRequestPages.NewRequestScreen}, 
+  serviceRequestStackConfig);
 const AccountStack = createStackNavigator(
-    { Account: MainAppPages.AccountPages.AccountScreen },
-    accountStackConfig,
-);
+  {Account: MainAppPages.AccountPages.AccountScreen},
+  accountStackConfig);
 
 /*
  * injects navigator objects into all these pages; if you make a new page that needs a navigator, add it to this stack

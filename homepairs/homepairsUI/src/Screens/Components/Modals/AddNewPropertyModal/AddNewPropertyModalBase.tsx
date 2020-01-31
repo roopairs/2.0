@@ -1,51 +1,51 @@
 import React from "react";
-import {  ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from "react-native";
-import {ThinButton, ThinButtonProps, Card, InputForm } from 'homepairs-elements';
+import {  ScrollView, StyleSheet, SafeAreaView, StatusBar, Platform } from "react-native";
+import { renderInputForm, ThinButton, ThinButtonProps, Card } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairsDimensions, Property } from 'homepairs-types';
+import { HomePairsDimensions, Property, AddNewPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {isNumber} from 'homepairs-utilities';
+import {DarkModeInjectedProps} from '../../WithDarkMode/WithDarkMode';
 import {ModalInjectedProps} from '../WithModal/WithModal';
-import { DarkModeInjectedProps } from "../../WithDarkMode/WithDarkMode";
+
+/** NOTE:
+ *  I moved this type to src/state/types.tsx in order to prevent a dependency cycle
+        export type AddNewPropertyState = {
+            email : string;
+            roopairsToken: string;
+        }
+*/
 
 
 export type AddNewPropertyDispatchProps = {
-    onCreateProperty: (newProperty: Property, info: AddNewPropertyStateProps, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => void
-}
-
-export type AddNewPropertyStateProps = {
-    email : string;
-    roopairsToken: string;
+    onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => void
 }
 
 type Props = ModalInjectedProps &
     DarkModeInjectedProps &
     AddNewPropertyDispatchProps &
-    AddNewPropertyStateProps;
+    AddNewPropertyState;
 
-type State = {
-    address: string;
-    city: string;
-    state: string;
-    tenants: string;
-    bedrooms: string;
-    bathrooms: string;
-    pm: string;
-
+type CreateState = {
+    address: string, 
+    city: string, 
+    state: string, 
+    bedrooms: string, 
+    bathrooms: string, 
+    tenants: string,
 };
 
 const addPropertyStrings = strings.propertiesPage.addProperty;
 const inputFormStrings = addPropertyStrings.inputForm;
 
-const initialState : State = {
+const initialState : CreateState = {
     address: '', 
     city: '', 
     state: '', 
     bedrooms: '', 
     bathrooms: '',
     tenants: '',
-    pm: '',
 };
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
@@ -128,11 +128,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
     });
 }
 
-function checkIfPositiveNumber(arg: string): boolean{
-    return (isNumber(arg) && Number(arg) > 0);
-}
-
-export default class AddNewPropertyModalBase extends React.Component<Props,State> {
+export default class AddNewPropertyModalBase extends React.Component<Props,CreateState> {
     inputFormStyle;
 
     submitButton : ThinButtonProps = {
@@ -175,149 +171,134 @@ export default class AddNewPropertyModalBase extends React.Component<Props,State
         this.getFormNumBath = this.getFormNumBath.bind(this);
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
-        this.onRef = this.onRef.bind(this);
         this.state = initialState;
         this.inputs = [];
     }
 
-    // Pass this function into the input form to get a reference of the Text Input element
-    onRef(ref){this.inputs.push(ref);}
-
-    getFormAddress(address : string) {
-        this.setState({address});
+    getFormAddress(childData : string) {
+        this.setState({address: childData});
     }
 
-    getFormCity(city : string) {
-        this.setState({city});
+    getFormCity(childData : string) {
+        this.setState({city: childData});
     }
 
-    getFormState(state: string) {
-        this.setState({state});
+    getFormState(childData : string) {
+        this.setState({state: childData});
     }
 
-    getFormNumBed(bedrooms: string) {
-        this.setState({bedrooms});
+    getFormNumBed(childData : string) {
+        this.setState({bedrooms: childData});
     }
 
-    getFormNumBath(bathrooms: string) {
-        this.setState({bathrooms});
+    getFormNumBath(childData : string) {
+        this.setState({bathrooms: childData});
     }
 
-    getFormMaxTenants(tenants: string) {
-        this.setState({tenants});
+    getFormMaxTenants(childData: string) {
+        this.setState({tenants: childData});
     }
 
     setInitialState() {
         this.setState(initialState);
     }
 
-    validateInput() {
-        // TODO: Validate the input for Valid Address, City, and State Using the Google Maps API
-        const {address, city, state, bathrooms, bedrooms, tenants} = this.state;
-        if(!checkIfPositiveNumber(bathrooms) || !checkIfPositiveNumber(bedrooms) || !checkIfPositiveNumber(tenants)){
-            return false;
-        }
-        return true; 
-    }
-
-    // How we reset the forms once we have their references stored in the arraylist
-    resetInputForms(){
-        this.inputs.forEach(element => {
-            element.clearText();
-        });
+    validateNums() {
+        const {bedrooms, bathrooms, tenants} = this.state;
+        // isNumber function is bugged. It is accepting strings as numbers
+        if (isNumber(bedrooms) && isNumber(bathrooms) && isNumber(tenants)) {
+            return true;
+        } 
+        return false;
     }
 
     clickSubmitButton() {
-        if(!this.validateInput()){
-            return;
-        }
         const {address, city, state, tenants, bathrooms, bedrooms} = this.state;
         const {email, onChangeModalVisibility, onCreateProperty, roopairsToken} = this.props;
-        const newProperty : Property = {
-            address, 
-            city, 
-            state, 
-            tenants: Number(tenants),
-            bedrooms: Number(bedrooms), 
-            bathrooms: Number(bathrooms),
-        };
-        const info : AddNewPropertyStateProps = {email, roopairsToken};
-        onCreateProperty(newProperty, info, this.setInitialState, onChangeModalVisibility);
-        this.resetInputForms();
+        if (this.validateNums()) {
+            const newProperty : Property = {
+                streetAddress: address, city, state,
+                tenants: Number(tenants),
+                bedrooms: Number(bedrooms), 
+                bathrooms: Number(bathrooms),
+            };
+            const info : AddNewPropertyState = {email, roopairsToken};
+            onCreateProperty(newProperty, info, this.setInitialState, onChangeModalVisibility);
+        } else {
+            // throw error
+        }
     }
 
     renderInputForms() {
-        const inputFormProps = [
-            {
+        const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
+        const inputForms  = [
+             {
+                key: inputFormStrings.address,
                 name: inputFormStrings.address,
                 parentCallBack: this.getFormAddress,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-            },
+                value: address,
+            }, 
             {
+                key: inputFormStrings.city,
                 name: inputFormStrings.city,
                 parentCallBack: this.getFormCity,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-            },
+                value: city, 
+            }, 
             {
+                key: inputFormStrings.state,
                 name: inputFormStrings.state,
                 parentCallBack: this.getFormState,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-            },
+                value: state, 
+            }, 
             {
+                key: inputFormStrings.maxTenants,
                 name: inputFormStrings.maxTenants,
                 parentCallBack: this.getFormMaxTenants,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
             },
             {
+                key: inputFormStrings.bedrooms,
                 name: inputFormStrings.bedrooms,
                 parentCallBack: this.getFormNumBed,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-            },
+                value: bedrooms,
+            }, 
             {
+                key: inputFormStrings.bathrooms,
                 name: inputFormStrings.bathrooms,
                 parentCallBack: this.getFormNumBath,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-            },
+                value: bathrooms,
+            }, 
         ];
 
-        return inputFormProps.map(inputFormProp => {
-            const {
-                name,
-                parentCallBack,
-                formTitleStyle,
-                inputStyle,
-            } = inputFormProp;
-            return (
-                <InputForm
-                    key={name}
-                    onRef={this.onRef}
-                    name={name}
-                    parentCallBack={parentCallBack}
-                    formTitleStyle={formTitleStyle}
-                    inputStyle={inputStyle}
-                />
-            );
+        return inputForms.map(inputFromProp => {
+            return renderInputForm(inputFromProp);
         });
     }
 
     render() {
         const {onChangeModalVisibility} = this.props;
         const showCloseButton = true;
-        return <SafeAreaView style={this.inputFormStyle.modalContainer}>
+        return(
+            <SafeAreaView style={this.inputFormStyle.modalContainer}>
             <ScrollView style={this.inputFormStyle.scrollStyle}
             contentContainerStyle={this.inputFormStyle.scrollContentContainerStyle}
             showsHorizontalScrollIndicator={false}>
                 <Card
+                    containerStyle={this.inputFormStyle.cardContainer}
                     showCloseButton={showCloseButton}
                     title={addPropertyStrings.title} 
                     closeButtonPressedCallBack={() => onChangeModalVisibility(false)}
-                    containerStyle={this.inputFormStyle.cardContainer}
                     titleStyle={this.inputFormStyle.cardTitle}
                     titleContainerStyle={this.inputFormStyle.cardTitleContainer}
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
@@ -326,6 +307,6 @@ export default class AddNewPropertyModalBase extends React.Component<Props,State
                     {ThinButton(this.submitButton)}
                 </Card>
             </ScrollView>
-        </SafeAreaView>;
+        </SafeAreaView>);
     }
 }

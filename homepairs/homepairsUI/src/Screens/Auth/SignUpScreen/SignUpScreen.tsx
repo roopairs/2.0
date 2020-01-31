@@ -23,38 +23,16 @@ const authPageParam: AuthPassProps = {
   underButtonText: signUpStrings.currentUserText,
   highlightedText: signUpStrings.signUpHighlight,
 };
-
-const mapDispatchToProps: (dispatch: any) => SignUpViewDispatchProps = (
-  dispatch: any,
-) => ({
-  // TODO: Finish sign up when backend is ready
-  generateHomePairsAccount: (
-    details: Account,
-    password: String,
-    modalSetOff: () => any,
-    navigationRouteCallback: () => any,
-  ) => {
-    // TODO: Remember to Call dispatch when sign up is ready in backend
-    if (details.accountType === AccountTypes.Landlord) {
-      dispatch(
-        AccountActions.generateAccountForPM(
-          details,
-          password,
-          modalSetOff,
-          navigationRouteCallback,
-        ),
-      );
-    } else {
-      dispatch(
-        AccountActions.generateAccountForTenant(
-          details,
-          password,
-          modalSetOff,
-          navigationRouteCallback,
-        ),
-      );
-    }
-  },
+const mapDispatchToProps : (dispatch: any) => SignUpViewDispatchProps = (dispatch: any) => ({
+    // TODO: Finish sign up when backend is ready 
+    generateHomePairsAccount: (details: Account, password: String, modalSetOff: () => any, navigation: any) => {
+        // TODO: Remember to Call dispatch when sign up is ready in backend
+        if (details.accountType === AccountTypes.Landlord) {
+            dispatch(AccountActions.generateAccountForPM(details, password, navigation, modalSetOff));
+        } else {
+            dispatch(AccountActions.generateAccountForTenant(details, password, navigation, modalSetOff));
+        }
+    },
 });
 
 const SignUpScreen = connect(null, mapDispatchToProps)(SignUpScreenBase);

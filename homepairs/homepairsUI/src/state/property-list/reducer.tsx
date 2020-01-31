@@ -6,6 +6,7 @@ import {
     UpdatePropertyAction,
     FetchPropertyAction,
     SetSelectedPropertyAction, 
+    FetchPropertiesAction,
 } from '../types';
 import { PROPERTY_LIST_ACTION_TYPES } from './actions';
 
@@ -21,7 +22,7 @@ export const initialState: PropertyListState = {
     properties: [],
 };
 
-export const propertyList = (
+export const properties = (
     state: PropertyListState = initialState,
     action: PropertyListAction,
 ) => {
@@ -67,15 +68,21 @@ export const propertyList = (
                 selectedPropertyIndex: updateIndex,
                 properties: updatedPropertyList,
             };
+        case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY:
+            return {
+                selectedPropertyIndex: null,
+                properties: (action as FetchPropertyAction).property,
+            };
         case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES:
             return {
                 selectedPropertyIndex: null,
-                properties: (action as FetchPropertyAction).properties,
+                properties: (action as FetchPropertiesAction).properties,
             };
         case PROPERTY_LIST_ACTION_TYPES.SET_SELECTED_PROPERTY:
-              return {...newState,
-                  selectedPropertyIndex: (action as SetSelectedPropertyAction).index, 
-              };  
+            return {
+                ...newState,
+                selectedPropertyIndex: (action as SetSelectedPropertyAction).index,
+            };
         default:
             return state;
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropertyListState, Property, HeaderState } from 'homepairs-types';
+import { PropertyListState, HeaderState } from 'homepairs-types';
 import {
     ViewPropertyCard,
     SceneInjectedProps,
@@ -51,7 +51,7 @@ export default class PropertiesScreenBase extends React.Component<
                     viewButtonSelectedCallBack={
                         this.navigateToDetiailedProperty
                     }
-                    propertyAddress={property.address}
+                    property={property}
                     propertyIndex={curIndex}
                 />
             );

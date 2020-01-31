@@ -15,10 +15,13 @@ import { ConnectAccountCardProps as CACP } from "./AuthenticationCards/ConnectAc
 import * as HomePairsHeaderProps from "./HomePairsHeader/HomePairsHeaderTemplate";
 import { LoggingInModal, CreatingAccountModal } from './Modals/AuthenticationModals';
 import { LoadingModal, LoadingModalProps as LMP} from './Modals/LoadingModal';
+
+
 import {
     SceneInjectedProps as SIP,
     withSceneHeader,
 } from './SceneHeader/WithSceneHeader';
+
 import {
     AuthPageInjectedProps as APIP,
     AuthPassProps as APP,
@@ -62,7 +65,6 @@ export type AuthPassProps = APP;
 export type DarkModeInjectedProps = DMIP;
 export type ModalInjectedProps = MIP;
 export type LoadingModalProps = LMP;
-
 
 export {
   HomePairsHeaderProps,

@@ -1,24 +1,25 @@
 import axios from 'axios';
-import { AddNewPropertyStateProps } from '../../Screens/Components/Modals/AddNewPropertyModal/AddNewPropertyModalBase';
 import {
     AddPropertyAction,
-    UpdatePropertyAction,
-    RemovePropertyAction,
-    FetchPropertyAction,
+    UpdatePropertyAction, 
+    RemovePropertyAction, 
+    FetchPropertyAction, 
+    FetchPropertiesAction,
     Property,
     HomePairsResponseKeys,
     SetSelectedPropertyAction, 
+    EditPropertyState,
+    AddNewPropertyState,
 } from '../types';
-import { EditPropertyStateProps } from 'src/Screens/Components/Modals/EditPropertyModal/EditPropertyModalBase';
 
 const responseKeys = HomePairsResponseKeys;
-const loginStatus = HomePairsResponseKeys.STATUS_RESULTS;
 const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
 
 export enum PROPERTY_LIST_ACTION_TYPES {
     ADD_PROPERTY = 'PROPERTY_LIST/ADD_PROPERTY',
     REMOVE_PROPERTY = 'PROPERTY_LIST/REMOVE_PROPERTY',
     UPDATE_PROPERTY = 'PROPERTY_LIST/UPDATE_PROPERTY',
+    FETCH_PROPERTY = 'PROPERTY_LIST/FETCH_PROPERTY',
     FETCH_PROPERTIES = 'PROPERTY_LIST/FETCH_PROPERTIES',
     SET_SELECTED_PROPERTY = 'PROPERTY_LIST/SET_SELECTED_PROPERTY',
 }
@@ -39,7 +40,7 @@ export const addProperty = (newProperty: Property): AddPropertyAction => {
 
 export const postNewProperty = (
     newProperty: Property,
-    info: AddNewPropertyStateProps,
+    info: AddNewPropertyState,
     setInitialState: () => void,
     onChangeModalVisibility: (check: boolean) => void,
 ) => {
@@ -48,7 +49,7 @@ export const postNewProperty = (
             .post(
                 'https://homepairs-alpha.herokuapp.com/API/property/create/',
                 {
-                    streetAddress: newProperty.address,
+                    streetAddress: newProperty.streetAddress,
                     city: newProperty.city,
                     state: newProperty.state,
                     numBed: newProperty.bedrooms,
@@ -86,15 +87,15 @@ export const updateProperty = (propertyIndex: number, updatedProperty: Property)
     };
   };
   
-export const postUpdatedProperty = (
+export const postUpdatedProperty = ( 
     editProperty: Property, 
-    info: EditPropertyStateProps,
+    info: EditPropertyState,
     onChangeModalVisibility: (check: boolean) => void) => {
   return async (dispatch: (arg0: any) => void) => {
     return axios.post('https://homepairs-alpha.herokuapp.com/API/property/update/', {
-      oldStreetAddress: info.oldProp.address,
+      oldStreetAddress: info.oldProp.streetAddress,
       oldCity: info.oldProp.city,
-      streetAddress: editProperty.address, 
+      streetAddress: editProperty.streetAddress, 
       city: editProperty.city, 
       state: editProperty.state, 
       numBed: editProperty.bedrooms, 
@@ -122,51 +123,40 @@ export const removeProperty = (
     index: propertyIndex,
 });
 
+export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => {
+    const fetchedProperties: Property[] = [];
+    const fetchedProperty = {
+            streetAddress: linkedProperty[propertyKeys.ADDRESS],
+            city: linkedProperty[propertyKeys.CITY],
+            state: linkedProperty[propertyKeys.STATE],
+            tenants: linkedProperty[propertyKeys.TENANTS],
+            bedrooms : linkedProperty[propertyKeys.BEDROOMS],
+            bathrooms : linkedProperty[propertyKeys.BATHROOMS],
+        };
+        fetchedProperties.push(fetchedProperty);
+    return {
+      type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
+      property: fetchedProperties,
+    };
+};
+
 export const fetchProperties = (
     linkedProperties: Array<any>,
-): FetchPropertyAction => {
+): FetchPropertiesAction => {
     const fetchedProperties: Property[] = [];
-    linkedProperties?.forEach(element => {
+    linkedProperties?.forEach(linkedProperty => {
         fetchedProperties.push({
-            address: element[propertyKeys.ADDRESS],
-            city: element[propertyKeys.CITY],
-            state: element[propertyKeys.STATE],
-            tenants: element[propertyKeys.TENANTS],
-            bedrooms: element[propertyKeys.BEDROOMS],
-            bathrooms: element[propertyKeys.BATHROOMS],
+            streetAddress: linkedProperty[propertyKeys.ADDRESS],
+            city: linkedProperty[propertyKeys.CITY],
+            state: linkedProperty[propertyKeys.STATE],
+            tenants: linkedProperty[propertyKeys.TENANTS],
+            bedrooms: linkedProperty[propertyKeys.BEDROOMS],
+            bathrooms: linkedProperty[propertyKeys.BATHROOMS],
         });
     });
     return {
-        type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
-        properties: fetchedProperties,
-
+      type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
+      properties: fetchedProperties,
     };
 };
 
-export const fetchAllProperties = (
-    Username: String,
-    Password: String,
-    modalSetOffCallBack?: () => void,
-    navigateMainCallBack?: () => void,
-) => {
-    return (dispatch: (arg0: any) => void) => {
-        // TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
-        return axios.post('http://vertical-proto-homepairs.herokuapp.com/verticalAPI/', {
-            username: Username,
-            password: Password,
-          })
-          .then((response) => {
-            if(!((response[responseKeys.DATA][responseKeys.STATUS]) === loginStatus.FAILURE)){
-              dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
-              navigateMainCallBack();
-            }else{
-                modalSetOffCallBack();
-            }
-          })
-          .catch((error) => {
-            // TODO: Send back error status to modal, this can be done by sending another callback as a parameter
-          })
-          .finally(() => {
-          });
-    };
-};

@@ -132,9 +132,10 @@ InputForm.defaultProps = {
 };
 
 export function renderInputForm(formProps: InputFormProps) {
-    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, onRef, value, placeholder} = formProps;
+    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, onRef, value, placeholder, key} = formProps;
     return (
         <InputForm
+            key={key}
             name={name}
             onRef={onRef}
             parentCallBack={parentCallBack}

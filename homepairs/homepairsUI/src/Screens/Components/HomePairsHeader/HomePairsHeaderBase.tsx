@@ -7,16 +7,16 @@ import {
     Text,
 } from 'react-native';
 import React from 'react';
-import { SafeAreaView, StackActions } from 'react-navigation';
+import { StackActions } from 'react-navigation';
 import * as BaseStyles from 'homepairs-base-styles';
 import { isNullOrUndefined } from 'homepairs-utilities';
+import { HamburgerButton } from 'src/Elements';
 import {
     HomePairsHeaderTemplate,
     HomePairsHeaderProps,
 } from './HomePairsHeaderTemplate';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle/HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu/HomePairsHeaderMenu';
-import { HamburgerButton } from 'src/Elements';
 
 
 const popAction = StackActions.pop({
@@ -166,29 +166,3 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
     }
 }
 export default HomePairsHeaderBase;
-
-/* dropDownRender() {
-    const {toggleMenu} = this.props;
-    
-    
-    return Platform.OS !== 'web' ? (
-        <TouchableOpacity
-            onPress={() => toggleMenu()}
-            style={styles.hamburgerStyle}
-        >
-            <Image style={styles.hamburgerImageStyle} source={hamburger} />
-        </TouchableOpacity>
-    )
-    :
-    (<HamburgerButton onClick={toggleMenu} />);
-
-}
-
-chooseWideRender() {
-    const {isDropDown} = this.props;
-    
-    if (isDropDown) {
-        return <View style={{alignSelf: 'flex-end'}}>{this.dropDownRender()}</View>;
-    }
-    return <></> ;
-}*/

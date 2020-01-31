@@ -17,7 +17,7 @@ export type SignUpViewDispatchProps = {
         details: Account,
         password: String,
         modalSetOff: () => any,
-        navigationRouteCallback: () => any,
+        navigation: any,
     ) => any;
 };
 
@@ -32,7 +32,7 @@ type SignUpState = {
     lastName: string;
     email: string;
     phone: string;
-    address: string;
+    streetAddress: string;
     city: string;
     companyName: string;
     password: string;
@@ -45,20 +45,20 @@ const initalError : {[id:string] : boolean} = {
     lastName: false,
     email: false,
     phone: false,
-    address: false,
+    streetAddress: false,
     city: false,
     companyName: false,
     password: false,
     cPassword: false,
 };
 
-const initalState = {
+const initalState : SignUpState = {
     accountType: AccountTypes.Tenant,
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
-    address: '',
+    streetAddress: '',
     city: '',
     companyName: '',
     password: '',
@@ -136,7 +136,7 @@ export default class SignUpScreenBase extends React.Component<
         this.setModalOff = this.setModalOff.bind(this);
         this.navigateMain = this.navigateMain.bind(this);
 
-        this.state = initalState;
+        this.state = {...initalState};
 
         props.clickButton(this.clickSignUp);
         props.clickHighlightedText(this.clickSignIn);
@@ -177,7 +177,7 @@ export default class SignUpScreenBase extends React.Component<
     }
 
     getFormAddress(childData: string) {
-        this.setState({ address: childData });
+        this.setState({ streetAddress: childData });
     }
 
     getFormCity(childData: string) {
@@ -256,10 +256,7 @@ export default class SignUpScreenBase extends React.Component<
     };
 
     clickSignUp = () => {
-        const {
-            onChangeModalVisibility,
-            generateHomePairsAccount,
-        } = this.props;
+        const { onChangeModalVisibility, generateHomePairsAccount, navigation } = this.props;
         const { password } = this.state;
         onChangeModalVisibility(true);
         const details: Account = { ...this.state, roopairsToken: '' };
@@ -268,7 +265,7 @@ export default class SignUpScreenBase extends React.Component<
                 details,
                 password,
                 this.setModalOff,
-                this.navigateMain,
+                navigation,
             );
             onChangeModalVisibility(false);
         }

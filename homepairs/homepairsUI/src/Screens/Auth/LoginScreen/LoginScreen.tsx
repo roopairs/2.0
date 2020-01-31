@@ -22,24 +22,11 @@ const authPageParam: AuthPassProps = {
   underButtonText: signInStrings.newUserText,
   highlightedText: signInStrings.signUpHighlight,
 };
-const mapDispatchToProps: (dispatch: any) => LoginViewDispatchProps = (
-  dispatch: any,
-) => ({
-  onFetchAccountProfile: (
-    username: string,
-    password: string,
-    modalSetOff: () => any,
-    navigationRouteCallback: () => any,
-  ) => {
-    dispatch(
-      AccountActions.fetchAccount(
-        username,
-        password,
-        modalSetOff,
-        navigationRouteCallback,
-      ),
-    );
-  },
+const mapDispatchToProps : (dispatch: any) => LoginViewDispatchProps = (dispatch: any) => ({
+    onFetchAccountProfile: (username: string, password: string, 
+        modalSetOff: () => any, navigation: any) => {
+        dispatch(AccountActions.fetchAccount(username, password, navigation, modalSetOff));
+    },
 });
 
 const LoginScreen = connect(null, mapDispatchToProps)(LoginScreenBase);

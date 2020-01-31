@@ -8,8 +8,9 @@ import DetailedPropertyScreenBase, {
 } from './DetailedPropertyScreenBase';
 
 function mapStateToProps(state: AppState): DetailedPropertyStateProps {
+    const {properties} = state;
     return { 
-        property: state.propertyList.properties[state.propertyList.selectedPropertyIndex],
+        property: properties.properties[properties.selectedPropertyIndex],
     };
 }
 

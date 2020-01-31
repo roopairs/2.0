@@ -1,10 +1,11 @@
 import { connect } from "react-redux";
 import { PropertyListActions } from 'homepairs-redux-actions';
-import { Property, AppState } from 'src/state/types';
-import  AddNewPropertyModalBase, { AddNewPropertyDispatchProps, AddNewPropertyStateProps} from './AddNewPropertyModalBase';
+import { Property, AppState, AddNewPropertyState } from 'homepairs-types';
+import  AddNewPropertyModalBase, { AddNewPropertyDispatchProps} from './AddNewPropertyModalBase';
+
 
 const mapDispatchToProps : (dispatch: any) => AddNewPropertyDispatchProps = (dispatch: any) => ({
-    onCreateProperty: (newProperty: Property, info: AddNewPropertyStateProps, setInitialState: () => void, onChangeModalVisiblity: (check: boolean) => void) => {
+    onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, onChangeModalVisiblity: (check: boolean) => void) => {
         dispatch(PropertyListActions.postNewProperty(newProperty, info, setInitialState, onChangeModalVisiblity));
     },
 });

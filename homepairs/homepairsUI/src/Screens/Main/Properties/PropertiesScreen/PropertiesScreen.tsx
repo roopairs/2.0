@@ -23,7 +23,7 @@ const sceneParams: MainAppStackType = {
 
 function mapStateToProps(state: AppState): PropertiesScreenStateProps {
     return {
-        propertyState: state.propertyList,
+        propertyState: state.properties,
         header: state.header,
     };
 }
