@@ -1,13 +1,19 @@
 import { connect } from 'react-redux';
 import { AccountActions } from 'homepairs-redux-actions';
-import { withAuthPage, AuthPassProps, withDarkMode } from 'homepairs-components';
+import {
+    withAuthPage,
+    AuthPassProps,
+    withDarkMode,
+    LoggingInModal,
+    withModal,
+} from 'homepairs-components';
 import strings from 'homepairs-strings';
 import HomePairColors from 'homepairs-colors';
 import { Image, Text, View } from 'react-native';
 import { roopairsLogo } from 'homepairs-images';
 import React from 'react';
-import RoopairsLoginBase, { RoopairsLoginDispatchProps } from './RoopairsLoginBase';
-
+import { withNavigation } from 'react-navigation';
+import RoopairsLoginBase , { RoopairsLoginDispatchProps } from './RoopairsLoginBase';
 
 const roopairsSubtitle = (
     <View style={{ flexDirection: 'row' }}>
@@ -58,5 +64,7 @@ const mapDispatchToProps: (dispatch: any) => RoopairsLoginDispatchProps = (
 });
 
 const RoopairsLogin = connect(null, mapDispatchToProps)(RoopairsLoginBase);
-
-export default withDarkMode(withAuthPage(RoopairsLogin, authPageParam));
+const AuthPage = withAuthPage(RoopairsLogin, authPageParam);
+const AuthPageWithNav = withNavigation(AuthPage);
+const AuthWithModal = withModal(AuthPageWithNav, LoggingInModal);
+export default withDarkMode(AuthWithModal);

@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { PropertyListActions } from 'homepairs-redux-actions';
-import { Property, AppState } from 'src/state/types';
-import EditPropertyModalBase, {EditPropertyDispatchProps, EditPropertyState} from './EditPropertyModalBase';
+import { Property, AppState, EditPropertyState } from 'homepairs-types';
+import EditPropertyModalBase, {EditPropertyDispatchProps} from './EditPropertyModalBase';
 
 const mapDispatchToProps : (dispatch: any) => EditPropertyDispatchProps = (dispatch: any) => ({
     onEditProperty: (editProperty: Property, info: EditPropertyState, onChangeModalVisiblity: (check: boolean) => void) => {

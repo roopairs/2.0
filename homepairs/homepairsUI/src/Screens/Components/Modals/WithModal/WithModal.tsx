@@ -75,7 +75,7 @@ function setStyle() {
  *  
  */
 export function withModal(BaseComponent: React.ElementType, ModalComponent: React.ElementType) {
-    class WithModal extends Component<Props, State> {
+    return class extends Component<Props, State> {
         constructor(props: Readonly<Props>) {
             super(props);
             this.state = {
@@ -131,6 +131,5 @@ export function withModal(BaseComponent: React.ElementType, ModalComponent: Reac
                 </View>
             );
         }
-    }
-    return WithModal;
+    };
 }

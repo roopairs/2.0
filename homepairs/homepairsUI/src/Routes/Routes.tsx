@@ -1,35 +1,40 @@
 import React from 'react';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import {
     MainAppPages,
     LoadingScreen,
     AuthenticationPages,
 } from 'homepairs-pages';
-import { View } from 'react-native';
+import { Platform } from 'react-native';
 import { HomePairsHeader } from 'homepairs-components';
+import { LightColorTheme} from 'homepairs-base-styles';
 import { AccountTypes } from 'homepairs-types';
 
+
+// TODO: Render navigation header for andriod devices!!!
 const navigationHeader = () => ({
     header: () => {
-        return (
-            <View style={{ backgroundColor: '#1177B0', flex: 1 }}>
+        return Platform.OS === 'ios' ? (
+            <SafeAreaView style={{ backgroundColor: LightColorTheme.primary, flex: 1 }}>
                 <HomePairsHeader />
-            </View>
-        );
+            </SafeAreaView>
+        ) : <HomePairsHeader />;
     },
     headerStyle: {
-        backgroundColor: '#f4511e',
+        backgroundColor: LightColorTheme.primary,
     },
+    gestureEnabled: true,
 });
 
 const authStackConfig = {
     defaultNavigationOptions: {
         headerTintColor: '#fff',
         headerStyle: {
-            backgroundColor: '#000',
+            backgroundColor: LightColorTheme.primary,
         },
         headerShown: false,
+        gestureEnabled: true,
     },
 };
 
@@ -41,7 +46,7 @@ const mainStackConfig: any = {
 const innerStackConfig: any = {
     headerMode: 'none',
     defaultNavigationOptions: {
-        gestureEnabled: false,
+        gestureEnabled: true,
     },
 };
 
@@ -74,12 +79,6 @@ const ServiceRequestStack = createStackNavigator(
 const AccountStack = createStackNavigator(
   {Account: MainAppPages.AccountPages.AccountScreen},
   accountStackConfig);
-
-export function ChooseMainPage(accountType: AccountTypes = AccountTypes.Tenant, navigation: any) {
-  accountType === AccountTypes.Landlord ? 
-  navigation.navigate('AccountProperties') : 
-  navigation.navigate('TenantProperties')
-}
 
 /*
  * injects navigator objects into all these pages; if you make a new page that needs a navigator, add it to this stack

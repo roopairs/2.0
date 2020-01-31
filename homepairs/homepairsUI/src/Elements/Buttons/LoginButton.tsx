@@ -14,6 +14,7 @@ import { roopairsLogo } from 'homepairs-images';
 import HomePairColors from 'homepairs-colors';
 
 export type LoginButtonProps = {
+    key?: any;
     name?: String;
     onClick?: () => any;
     image?: ImageSourcePropType;
@@ -23,6 +24,24 @@ export type LoginButtonProps = {
     buttonTextStyle?: TextStyle;
 };
 
+ /**
+  * ------------------------------------------------------------
+  * Login Button
+  * ------------------------------------------------------------
+  * This is a special element that has the same qualities of a thin button.
+  * However, this also is capable of rendering images with two additional
+  * properties image and imageStyle.
+  * 
+  * @param {LoginButtonProps} props 
+  * key?: any
+  * name?: String
+  * onClick?: () => any
+  * image?: ImageSourcePropType
+  * imageStyle?: ImageStyle
+  * containerStyle?: ViewStyle
+  * buttonStyle?: ViewStyle
+  * buttonTextStyle?: TextStyle
+  */
 export default function LoginButton(props: LoginButtonProps) {
     const {
         name,
@@ -40,7 +59,7 @@ export default function LoginButton(props: LoginButtonProps) {
 
     return (
         <View style={containerStyle}>
-            <TouchableOpacity style={buttonStyle} onPress={onPress}>
+            <TouchableOpacity testID='click-login-button' style={buttonStyle} onPress={onPress}>
                 <Image style={imageStyle} source={image} />
                 <Text style={buttonTextStyle}>{name}</Text>
             </TouchableOpacity>

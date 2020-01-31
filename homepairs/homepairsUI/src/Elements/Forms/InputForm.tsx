@@ -1,20 +1,16 @@
-import React, { useState } from 'react';
-import {
-    Text,
-    View,
-    TextInput,
-    ViewStyle,
-    StyleSheet,
-} from 'react-native';
+import React from 'react';
+import { Text, View, TextInput, ViewStyle, StyleSheet } from 'react-native';
 
 export type InputFormProps = {
     key?: any,
     name?: string;
+    onRef?: (ref:any) => any,
     parentCallBack?: (child: string) => any;
     secureTextEntry?: boolean;
     formTitleStyle?: ViewStyle;
     containerStyle?: ViewStyle;
     inputStyle?: ViewStyle;
+    placeholder?: string;
     value?: string;
 };
 type InputFormState = {
@@ -50,66 +46,104 @@ const DefaultInputFormStyle = StyleSheet.create({
     },
 });
 
-export default function InputForm(props: InputFormProps) {
-    // Below shows how to ignore a returned value in an array/ dictionary
-    const [, sendData]: [InputFormState, any] = useState(initialState);
-    const {
-        name,
-        parentCallBack,
-        secureTextEntry,
-        formTitleStyle,
-        containerStyle,
-        inputStyle,
-        value,
-    } = props;
 
-    function passInputValue(text: string): void {
-        sendData(text);
+/**
+ * ------------------------------------------------------------
+ * Input Form
+ * ------------------------------------------------------------
+ * Renders an area where the user is able to input keyboard data.
+ * It inherits most of its functionality from the TextInput state but
+ * allows for a stylized version of it. It also is capable of rendering
+ * title for the state for UI clarity through the name property.
+ *
+ * 
+ * */
+export default class InputForm extends React.Component<InputFormProps, InputFormState> {
+
+    textInput
+
+    static defaultProps: InputFormProps;
+
+    constructor(props){
+        super(props);
+        this.state = {...initialState};
+    }
+
+    componentDidMount(){
+        const {onRef} = this.props;
+        onRef(this);
+    }
+
+    passInputValue(text: string): void {
+        const {parentCallBack} = this.props;
         parentCallBack(text);
     }
 
-    function renderName() {
+    clearText(){
+        this.textInput.setNativeProps({text: ''});
+    }
+
+    renderName() {
+        const {name, formTitleStyle} = this.props;
         if (name == null) return <></>;
         return <Text style={formTitleStyle}>{name}</Text>;
     }
     
+    render(){
+        const {
+            secureTextEntry,
+            containerStyle,
+            inputStyle,
+            placeholder,
+            value,
+        } = this.props;
     return (
         <View style={containerStyle}>
-            {renderName()}
+            {this.renderName()}
             <TextInput
+                testID='userTextInput'
+                ref={(ref)=> {this.textInput = ref;}}
                 style={inputStyle}
                 underlineColorAndroid="transparent"
                 autoCapitalize="none"
+                value={value}
+                placeholder={placeholder}
                 secureTextEntry={secureTextEntry}
-                onChangeText={passInputValue}
-                value = {value}
+                onChangeText={text => {this.passInputValue(text);}}
             />
         </View>
     );
+    }
 }
 
 InputForm.defaultProps = {
     key: null,
     name: null,
-    parentCallBack: (child: string) => {return child;},
+    onRef: ref => {return ref;},
+    parentCallBack: (child: string) => {
+        return child;
+    },
     secureTextEntry: false,
     formTitleStyle: DefaultInputFormStyle.formTitle,
     containerStyle: DefaultInputFormStyle.container,
     inputStyle: DefaultInputFormStyle.input,
     value: null,
+    placeholder: null,
 };
 
 export function renderInputForm(formProps: InputFormProps) {
-    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, value, key } = formProps;
+    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, onRef, value, placeholder, key} = formProps;
     return (
         <InputForm
             key={key}
             name={name}
+            onRef={onRef}
             parentCallBack={parentCallBack}
             formTitleStyle={formTitleStyle}
             inputStyle={inputStyle}
             secureTextEntry={secureTextEntry}
-            value = {value}
+            value={value}
+            placeholder={placeholder}
         />
     );
 }

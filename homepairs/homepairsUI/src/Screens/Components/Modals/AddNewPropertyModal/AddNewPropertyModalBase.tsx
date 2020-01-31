@@ -1,27 +1,31 @@
 import React from "react";
 import {  ScrollView, StyleSheet, SafeAreaView, StatusBar, Platform } from "react-native";
 import { renderInputForm, ThinButton, ThinButtonProps, Card } from 'homepairs-elements';
-
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairsDimensions, Property } from 'homepairs-types';
+import { HomePairsDimensions, Property, AddNewPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {isNumber} from 'homepairs-utilities';
 import {DarkModeInjectedProps} from '../../WithDarkMode/WithDarkMode';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 
+/** NOTE:
+ *  I moved this type to src/state/types.tsx in order to prevent a dependency cycle
+        export type AddNewPropertyState = {
+            email : string;
+            roopairsToken: string;
+        }
+*/
 
 
 export type AddNewPropertyDispatchProps = {
-    onCreateProperty: (newProperty: Property, info: NewPropertyState, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => void
+    onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => void
 }
 
-export type NewPropertyState = {
-    email : string;
-    roopairsToken: string;
-}
-
-type Props = ModalInjectedProps & DarkModeInjectedProps & AddNewPropertyDispatchProps & NewPropertyState;
+type Props = ModalInjectedProps &
+    DarkModeInjectedProps &
+    AddNewPropertyDispatchProps &
+    AddNewPropertyState;
 
 type CreateState = {
     address: string, 
@@ -32,7 +36,8 @@ type CreateState = {
     tenants: string,
 };
 
-const signUpStrings = strings.signUpPage;
+const addPropertyStrings = strings.propertiesPage.addProperty;
+const inputFormStrings = addPropertyStrings.inputForm;
 
 const initialState : CreateState = {
     address: '', 
@@ -123,15 +128,11 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
     });
 }
 
-function checkIfPositiveNumber(arg: string): boolean{
-    return (isNumber(arg) && Number(arg) > 0);
-}
-
 export default class AddNewPropertyModalBase extends React.Component<Props,CreateState> {
     inputFormStyle;
 
     submitButton : ThinButtonProps = {
-        name: 'Submit', 
+        name: addPropertyStrings.button, 
         onClick: () => {this.clickSubmitButton();}, 
         buttonStyle: {
             alignItems: 'center',
@@ -145,16 +146,20 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         },
         buttonTextStyle: {
             color: Colors.LightModeColors.blueButtonText, 
-            fontSize: BaseStyles.FontTheme.lg,
+            fontSize: BaseStyles.FontTheme.reg,
             alignSelf: 'center',
         },
         containerStyle: {
             flex: 1,
             alignSelf: 'center',
             justifyContent: 'center',
+            marginTop: BaseStyles.MarginPadding.largeConst,
+            marginBottom: BaseStyles.MarginPadding.xlarge,
             minHeight: 50,
         },
     };
+
+    inputs;
 
     constructor(props: Readonly<Props>) {
         super(props);
@@ -167,7 +172,8 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
         this.state = initialState;
-    } 
+        this.inputs = [];
+    }
 
     getFormAddress(childData : string) {
         this.setState({address: childData});
@@ -216,7 +222,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                 bedrooms: Number(bedrooms), 
                 bathrooms: Number(bathrooms),
             };
-            const info : NewPropertyState = {email, roopairsToken};
+            const info : AddNewPropertyState = {email, roopairsToken};
             onCreateProperty(newProperty, info, this.setInitialState, onChangeModalVisibility);
         } else {
             // throw error
@@ -227,60 +233,59 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
         const inputForms  = [
              {
-                key: signUpStrings.inputForms.address,
-                name: signUpStrings.inputForms.address,
+                key: inputFormStrings.address,
+                name: inputFormStrings.address,
                 parentCallBack: this.getFormAddress,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: address,
             }, 
             {
-                key: signUpStrings.inputForms.city,
-                name: signUpStrings.inputForms.city,
+                key: inputFormStrings.city,
+                name: inputFormStrings.city,
                 parentCallBack: this.getFormCity,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: city, 
             }, 
             {
-                key: signUpStrings.inputForms.state,
-                name: signUpStrings.inputForms.state,
+                key: inputFormStrings.state,
+                name: inputFormStrings.state,
                 parentCallBack: this.getFormState,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: state, 
             }, 
             {
-                key: signUpStrings.inputForms.numBed,
-                name: signUpStrings.inputForms.numBed,
+                key: inputFormStrings.maxTenants,
+                name: inputFormStrings.maxTenants,
+                parentCallBack: this.getFormMaxTenants,
+                formTitleStyle: this.inputFormStyle.formTitle,
+                inputStyle: this.inputFormStyle.input,
+            },
+            {
+                key: inputFormStrings.bedrooms,
+                name: inputFormStrings.bedrooms,
                 parentCallBack: this.getFormNumBed,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: bedrooms,
             }, 
             {
-                key: signUpStrings.inputForms.numBath,
-                name: signUpStrings.inputForms.numBath,
+                key: inputFormStrings.bathrooms,
+                name: inputFormStrings.bathrooms,
                 parentCallBack: this.getFormNumBath,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: bathrooms,
             }, 
-            {
-                key: signUpStrings.inputForms.maxTenants,
-                name: signUpStrings.inputForms.maxTenants,
-                parentCallBack: this.getFormMaxTenants,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-                value: tenants,
-            },
         ];
 
         return inputForms.map(inputFromProp => {
             return renderInputForm(inputFromProp);
         });
     }
-    
+
     render() {
         const {onChangeModalVisibility} = this.props;
         const showCloseButton = true;
@@ -292,11 +297,11 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                 <Card
                     containerStyle={this.inputFormStyle.cardContainer}
                     showCloseButton={showCloseButton}
+                    title={addPropertyStrings.title} 
+                    closeButtonPressedCallBack={() => onChangeModalVisibility(false)}
                     titleStyle={this.inputFormStyle.cardTitle}
                     titleContainerStyle={this.inputFormStyle.cardTitleContainer}
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
-                    title='Add Property'
-                    closeButtonPressedCallBack={() => onChangeModalVisibility(false)}
                     >
                     <>{this.renderInputForms()}</>
                     {ThinButton(this.submitButton)}

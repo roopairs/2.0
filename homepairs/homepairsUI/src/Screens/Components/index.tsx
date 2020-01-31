@@ -5,21 +5,23 @@
  * Essentially, you cannot import a module and export it with the same name. You must rename it and
  * then export it.
  */
-import { AddressStickerProps as ASP } from './AddressSticker/AddressSticker';
-import {
-    SceneHeaderProps as SHP,
-    renderSceneHeader,
-} from './SceneHeader/SceneHeader';
-import { GeneralHomeInfoProps as GHIP } from './GeneralHomeInfo/GeneralHomeInfo';
-import { AccountTypeRadioProps as ATRBP } from './AccounttypeRadioButton/AccountTypeRadioButton';
-import { ViewPropertyCardProps as VPCP } from './ViewPropertyCard/ViewPropertyCard';
-import { AccountConnectedCardProps as ACCP } from './AuthenticationCards/AccountConnectedCard';
-import { ConnectAccountCardProps as CACP } from './AuthenticationCards/ConnectAccountCard';
-import * as HomePairsHeaderProps from './HomePairsHeader/HomePairsHeaderTemplate';
+import { AddressStickerProps as ASP } from "./AddressSticker/AddressSticker";
+import { SceneHeaderProps as SHP, renderSceneHeader } from './SceneHeader/SceneHeader';
+import { GeneralHomeInfoProps as GHIP } from "./GeneralHomeInfo/GeneralHomeInfo";
+import { AccountTypeRadioProps as ATRBP } from "./AccounttypeRadioButton/AccountTypeRadioButton";
+import { ViewPropertyCardProps as VPCP } from "./ViewPropertyCard/ViewPropertyCard";
+import { AccountConnectedCardProps as ACCP } from "./AuthenticationCards/AccountConnectedCard";
+import { ConnectAccountCardProps as CACP } from "./AuthenticationCards/ConnectAccountCard";
+import * as HomePairsHeaderProps from "./HomePairsHeader/HomePairsHeaderTemplate";
+import { LoggingInModal, CreatingAccountModal } from './Modals/AuthenticationModals';
+import { LoadingModal, LoadingModalProps as LMP} from './Modals/LoadingModal';
+
+
 import {
     SceneInjectedProps as SIP,
     withSceneHeader,
 } from './SceneHeader/WithSceneHeader';
+
 import {
     AuthPageInjectedProps as APIP,
     AuthPassProps as APP,
@@ -43,6 +45,7 @@ export { default as AccountConnectedCard } from './AuthenticationCards/AccountCo
 export { default as ConnectAccountCard } from './AuthenticationCards/ConnectAccountCard';
 export { default as HomePairsHeader } from './HomePairsHeader/HomePairsHeader';
 export { default as AddNewPropertyModal } from './Modals/AddNewPropertyModal/AddNewPropertyModal';
+export { default as EditPropertyModal } from './Modals/EditPropertyModal/EditPropertyModal';
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
 
 /**
@@ -61,12 +64,16 @@ export type AuthPageInjectedProps = APIP;
 export type AuthPassProps = APP;
 export type DarkModeInjectedProps = DMIP;
 export type ModalInjectedProps = MIP;
+export type LoadingModalProps = LMP;
 
 export {
-    HomePairsHeaderProps,
-    withAuthPage,
-    withSceneHeader,
-    withDarkMode,
-    withModal,
-    renderSceneHeader,
+  HomePairsHeaderProps,
+  withAuthPage,
+  withSceneHeader,
+  withDarkMode,
+  withModal,
+  renderSceneHeader,
+  LoggingInModal,
+  CreatingAccountModal,
+  LoadingModal,
 };

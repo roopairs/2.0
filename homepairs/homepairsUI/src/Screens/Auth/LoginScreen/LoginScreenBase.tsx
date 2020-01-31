@@ -1,5 +1,5 @@
 import React from 'react';
-import {InputFormProps, renderInputForm } from 'homepairs-elements';
+import { InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import {
@@ -8,8 +8,11 @@ import {
 } from 'homepairs-components';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
-import { isEmailSyntaxValid, isPasswordValid} from 'homepairs-utilities';
-
+import {
+    isEmailSyntaxValid,
+    isPasswordValid,
+    isNullOrUndefined,
+} from 'homepairs-utilities';
 
 export type LoginViewDispatchProps = {
     onFetchAccountProfile: (
@@ -36,7 +39,9 @@ const initialState: LoginState = {
 };
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
-    const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;
+    const colors = isNullOrUndefined(colorTheme)
+        ? BaseStyles.LightColorTheme
+        : colorTheme;
     return StyleSheet.create({
         formTitle: {
             marginVertical: '3.5%',
@@ -63,7 +68,7 @@ export default class LoginScreenBase extends React.Component<
     LoginProps,
     LoginState
 > {
-    inputFormStyle: { formTitle: any; input: any };
+    protected inputFormStyle;
 
     constructor(props: Readonly<LoginProps>) {
         super(props);
@@ -84,9 +89,9 @@ export default class LoginScreenBase extends React.Component<
      * Sets the state of the modal to hidden and then displays an error message. If none is passed
      * defaults to 'Error Message'
      */
-    setModalOff(error: string = 'Error Message') {
-        const { showModal, setErrorState } = this.props;
-        showModal(false);
+    setModalOff(error: string = 'There was an error logging in.') {
+        const { onChangeModalVisibility, setErrorState } = this.props;
+        onChangeModalVisibility(false);
         setErrorState(true, error);
     }
 
@@ -98,21 +103,15 @@ export default class LoginScreenBase extends React.Component<
         this.setState({ password: childData });
     }
 
-    navigateMain() {
-        const { navigation } = this.props;
-        navigation.navigate('Main');
-    }
-
     clickHighlightedText() {
         const { navigation } = this.props;
         navigation.navigate('SignUp');
     }
 
     clickButton() {
-        const { showModal, onFetchAccountProfile, navigation } = this.props;
+        const { onChangeModalVisibility, onFetchAccountProfile, navigation } = this.props;
         const { username, password } = this.state;
-
-        showModal(true);
+        onChangeModalVisibility(true);
         if (!isEmailSyntaxValid(username)) {
             this.setModalOff('Invalid Username! Must be an email');
         } else if (!isPasswordValid(password)) {
@@ -122,36 +121,45 @@ export default class LoginScreenBase extends React.Component<
                 username,
                 password,
                 this.setModalOff,
-                navigation
+                navigation,
             );
         }
     }
 
-    inputFormProps(): { [id: string]: InputFormProps } {
-        return {
-            email: {
+    navigateMain() {
+        const { navigation } = this.props;
+        navigation.navigate('Main');
+    }
+
+    render() {
+        const inputFormProps = [
+            {
+                key: signInStrings.inputForms.email,
                 name: signInStrings.inputForms.email,
                 parentCallBack: this.getFormUsername,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
             },
-            password: {
+            {
+                key: signInStrings.inputForms.password,
                 name: signInStrings.inputForms.password,
                 parentCallBack: this.getFormPassword,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 secureTextEntry: true,
             },
-        };
-    }
-
-    render() {
-        const { email, password } = this.inputFormProps();
-        return (
-            <>
-                {renderInputForm(email)}
-                {renderInputForm(password)}
-            </>
-        );
+        ];
+        return inputFormProps.map(properties => {
+            return (
+                <InputForm
+                    key={properties.key}
+                    name={properties.name}
+                    parentCallBack={properties.parentCallBack}
+                    formTitleStyle={properties.formTitleStyle}
+                    inputStyle={properties.inputStyle}
+                    secureTextEntry={properties.secureTextEntry}
+                />
+            );
+        });
     }
 }

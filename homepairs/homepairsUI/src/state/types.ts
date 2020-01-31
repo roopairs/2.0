@@ -251,6 +251,18 @@ export type AppState = {
 
 
 /* *-------------------Misc Types-------------------* */
+export type AddNewPropertyState = {
+    email : string;
+    roopairsToken: string;
+}
+
+export type EditPropertyState = {
+    email : string;
+    index: number;
+    oldProp: Property;
+    roopairsToken: string;
+}
+
 export enum HomePairsDimensions {
     DROP_MENU_WIDTH = 700,
     MAX_PALLET = 700,
@@ -277,6 +289,7 @@ enum HOMEPAIRS_ACCOUNT_KEYS{
     PLACE = 'place', 
     PROPID = 'propId',
     TENANTID = 'tenantID', 
+    COMPANY_NAME= 'companyName'
 }
 
 enum HOMEPAIRS_LOGIN_STATUS {
@@ -294,7 +307,7 @@ enum HOMEPAIRS_PROPERTY_KEYS {
 }
 
 export enum HomepairsPropertyAttributes{
-    ADDRESS = 'address',
+    ADDRESS = 'streetAddress',
     CITY = 'city', 
     STATE = 'state',
     TENANTS = 'tenants',

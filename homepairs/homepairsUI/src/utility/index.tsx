@@ -2,7 +2,7 @@ import isEmailSyntaxValid from './SyntaxVerification/EmailSyntaxVerification';
 import isEmptyOrSpaces, {isNumber}  from './SyntaxVerification/EmptyStringVerification';
 import isPasswordValid from './SyntaxVerification/PasswordVerification';
 import isPhoneNumberValid from './SyntaxVerification/PhoneNumberVerification';
-import isAlphaCharacterOnly from './SyntaxVerification/AlphaCharacterVerification';
+import isAlphaCharacterOnly from './SyntaxVerification/AlphaCharacterVerfication';
 import { isNullOrUndefined } from './ParameterChecker';
 
 /**
@@ -14,3 +14,4 @@ import { isNullOrUndefined } from './ParameterChecker';
  * and validators should be included in this package. 
  */
 export {isEmailSyntaxValid, isPasswordValid, isEmptyOrSpaces, isPhoneNumberValid, isAlphaCharacterOnly, isNullOrUndefined, isNumber};
+

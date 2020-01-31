@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import { FontTheme, ColorTheme } from 'homepairs-base-styles';
@@ -7,12 +7,13 @@ import HomePairColors from 'homepairs-colors';
 import MainAppStack from '../../../../Routes/RouteConstants';
 import { DarkModeInjectedProps } from '../../WithDarkMode/WithDarkMode';
 
+
 export type HomePairsMenuProps = DarkModeInjectedProps & {
     selectedPage: MainAppStackType;
     parentCallBack?: (arg0?: any) => any;
     isDropDown?: boolean;
     showMenu?: boolean;
-    parentCloseMenu?: (arg0?: any) => any;
+    toggleMenu?: (arg0?: any) => any;
 };
 
 type Props = NavigationInjectedProps & HomePairsMenuProps;
@@ -109,14 +110,21 @@ class HomePairsMenu extends React.Component<Props> {
 
     navigatePages(value: MainAppStackType) {
             const {navigation} = this.props;
-            this.setSelected(value);
+
+            // Check to see if logout had been clicked. If so, set the selected value 
+            // to the Properties
+            if(value.key === MainAppStack[MainAppStack.length-1].key){
+                this.setSelected(MainAppStack[0]);
+            }else{
+                this.setSelected(value);
+            }
             this.closeMenu();
             navigation.navigate(value.navigate);
-        }
+    }
 
     closeMenu() {
-        const {parentCloseMenu} = this.props;
-        parentCloseMenu();
+        const {toggleMenu} = this.props;
+        toggleMenu();
     }
 
     displayCorrectMenu(currentPage: MainAppStackType) {

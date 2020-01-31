@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputForm Method Test: Checks the onClick Method and checks to see if the image was updated 1`] = `
+<View
+  style={
+    Object {
+      "borderRadius": 4,
+      "marginBottom": "3.5%",
+      "opacity": 50,
+      "paddingHorizontal": 3,
+      "paddingTop": 1,
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#AFB3B5",
+        "fontFamily": "nunito_regular",
+        "marginVertical": "3.5%",
+      }
+    }
+  >
+    Test
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    autoCapitalize="none"
+    onChangeText={[Function]}
+    placeholder={null}
+    rejectResponderTermination={true}
+    secureTextEntry={true}
+    style={
+      Object {
+        "alignItems": "center",
+        "alignSelf": "center",
+        "borderColor": "#AFB3B5",
+        "borderRadius": 4,
+        "borderWidth": 1,
+        "height": 40,
+        "margin": 1,
+        "minWidth": 40,
+        "paddingHorizontal": 10,
+        "width": "100%",
+      }
+    }
+    testID="userTextInput"
+    underlineColorAndroid="transparent"
+    value={null}
+  />
+</View>
+`;

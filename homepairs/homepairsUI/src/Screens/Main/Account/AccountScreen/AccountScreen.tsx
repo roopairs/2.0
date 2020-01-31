@@ -2,6 +2,7 @@ import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { AccountActions } from 'homepairs-redux-actions';
 import { withSceneHeader, withDarkMode } from 'homepairs-components';
+import { withNavigation } from 'react-navigation';
 import AccountScreenBase, {
     AccountScreenStateProps,
     AccountScreenDispatchProps,
@@ -33,4 +34,4 @@ const AccountScreen = connect(
     mapDispatchToProps,
 )(AccountScreenBase);
 
-export default withDarkMode(withSceneHeader(AccountScreen, sceneParam));
+export default withDarkMode(withNavigation(withSceneHeader(AccountScreen, sceneParam)));

@@ -13,7 +13,7 @@ import {
 } from 'homepairs-elements';
 import { defaultProperty } from 'homepairs-images';
 import strings from 'homepairs-strings';
-import { HomePairsDimensions } from 'homepairs-types';
+import { HomePairsDimensions, Property } from 'homepairs-types';
 
 /**
  * Main App Components will have similar functionality to the parent components ONLY
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
 export type ViewPropertyCardProps = {
     viewButtonSelectedCallBack?: (arg0?: number, arg1?: any) => any;
     propertyIndex: number;
-    propertyAddress: String;
+    property: Property;
     image?: ImageSourcePropType;
 };
 
@@ -123,12 +123,11 @@ const viewPropertyButtonText = strings.propertiesPage.viewPropertyCardButton;
 export default function ViewPropertyCard(props: ViewPropertyCardProps) {
     const {
         viewButtonSelectedCallBack,
-        propertyAddress,
+        property,
         propertyIndex,
         image,
     } = props;
-
-    console.log(propertyAddress)
+    const {streetAddress, city, state} = property;
     /**
      * This function is inteded to invoke the callback to its parent function. It will return the index of the
      * the Property found in global store's PropertyState which an array of Properties, Property[]
@@ -159,8 +158,8 @@ export default function ViewPropertyCard(props: ViewPropertyCardProps) {
                     resizeMode="cover"
                 >
                     <View style={styles.propertyAddressContainer}>
-                        <Text style={styles.streetText}>{propertyAddress}</Text>
-                        <Text style={styles.cityText}>San Luis Obispo, CA</Text>
+                        <Text style={styles.streetText}>{streetAddress}</Text>
+                            <Text style={styles.cityText}> {city},{" "}{state}</Text>
                     </View>
                 </ImageBackground>
             </View>

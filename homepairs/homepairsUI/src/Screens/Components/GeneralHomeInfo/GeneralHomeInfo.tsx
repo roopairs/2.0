@@ -4,16 +4,13 @@ import { ThinButtonProps, renderThinButton } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairsDimensions } from 'homepairs-types';
+import { HomePairsDimensions, Property } from 'homepairs-types';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 
 export type GeneralHomeInfoProps = DarkModeInjectedProps & {
-    address: String;
-    tenants: number;
-    bedrooms: number;
-    bathrooms: number;
+    property: Property;
     hasEdit?: boolean;
-    onClick: () => any;
+    onClick?: () => any;
 };
 
 const generalHomeStrings = strings.detailedPropertyPage.generalHomeInfo;
@@ -109,13 +106,11 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
 export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
     const {
         primaryColorTheme,
-        address,
-        tenants,
-        bedrooms,
-        bathrooms,
+        property,
         hasEdit,
         onClick,
     } = props;
+    const {streetAddress, tenants, bedrooms, bathrooms, city, state} = property;
     const styles = setStyles(primaryColorTheme);
 
     const thinButtonProps: ThinButtonProps = {
@@ -149,9 +144,9 @@ export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
         <View>
             <View style={styles.container}>
                 <View style={styles.addressContainer}>
-                    <Text style={styles.streetAddress}>{address}</Text>
+                    <Text style={styles.streetAddress}>{streetAddress}</Text>
                     <Text style={styles.cityStateText}>
-                        San Luis Obispo, CA
+                        {city},{" "}{state}
                     </Text>
                 </View>
                 {livingSpace()}
@@ -167,3 +162,8 @@ export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
         </View>
     );
 }
+
+GeneralHomeInfo.defaultProps = {
+    hasEdit: true,
+    onClick: () => {},
+};

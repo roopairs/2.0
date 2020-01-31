@@ -1,24 +1,20 @@
-import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
+import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { 
     View, 
     Platform, 
     SafeAreaView, 
     ScrollView, 
-    ScrollViewProps, 
     Image, 
     StyleSheet, 
-    ImageProps 
 } from 'react-native';
 import { defaultProperty } from 'homepairs-images';
-import {GeneralHomeInfo, GeneralHomeInfoProps, AddressSticker } from 'homepairs-components';
+import {GeneralHomeInfo, AddressSticker , DarkModeInjectedProps } from 'homepairs-components';
 import { HomepairsPropertyAttributes, PropertyListState, Property, HomePairsDimensions as HomepairsDimensions } from 'homepairs-types';
-import { NavigationStackScreenProps } from 'react-navigation-stack'
+import { NavigationStackScreenProps } from 'react-navigation-stack';
 import strings from 'homepairs-strings';
-import * as BaseStyles from 'homepairs-base-styles'
-import { DarkModeInjectedProps } from 'homepairs-components';
+import * as BaseStyles from 'homepairs-base-styles';
 
 const navParams = strings.detailedPropertyPage.navigationParams;
-
 export type TenantPropertyStateProps = DarkModeInjectedProps & {
   propertyState: PropertyListState,
 }
@@ -27,71 +23,11 @@ export type TenantPropertyDispatchProps = {
     onRevealGoBack: (showGoBack:boolean) => any;
   }
 
-type Props = NavigationStackScreenProps & TenantPropertyStateProps //& TenantPropertyDispatchProps
+type Props = NavigationStackScreenProps & TenantPropertyStateProps // & TenantPropertyDispatchProps
 const propertyKeys = HomepairsPropertyAttributes;
 
-export default function TenantPropertyScreenBase(props:Props){
-    const {propertyState, primaryColorTheme} = props;
-    const {selectedPropertyIndex, properties} = propertyState;
-    //const id: number = props.navigation.getParam(navParams.propertyIndex)
-    const property: Property = properties[0] //THIS IS BAD CODING, ASSUMING AN ARRAY IS OF SIZE 1
-    let styles = setStyles(primaryColorTheme);
-
-    const imageProps : ImageProps = { 
-        source: defaultProperty,
-        style: Platform.OS === 'web' ? styles.homepairsPropertiesImageWeb : styles.homepairsPropertiesImage,
-        resizeMode: 'cover',
-    }
-
-    const generalHomeInfoProps:  GeneralHomeInfoProps = {
-        address: property[propertyKeys.ADDRESS],
-        tenants: property[propertyKeys.TENANTS],
-        bedrooms: property[propertyKeys.BEDROOMS],
-        bathrooms: property[propertyKeys.BATHROOMS],
-        onClick: null,
-        primaryColorTheme , 
-    }
-
-    function renderContents(){
-        console.log(property)
-        return(
-        //TO DO (line 65-66 ADD TENANT COMPONENT)
-        <ScrollView style={{flexGrow: 1}}>
-            <View style={styles.addBottomMargin}>
-                <AddressSticker
-                address={property[propertyKeys.ADDRESS]}
-                primaryColorTheme={primaryColorTheme}/>
-                <View style={styles.imageWrapper}>
-                <View style={styles.imageContainer}>
-                    <Image {...imageProps}/>
-                    </View>
-                    <GeneralHomeInfo {...generalHomeInfoProps} />
-                </View>
-            </View>
-        </ScrollView>
-        )
-    }
-    
-    return(
-        !(Platform.OS === 'ios') ? 
-        (
-            <View style={styles.container}>
-                <View style={styles.pallet}>
-                    {renderContents()}
-                </View>
-            </View>
-        ) : (
-            <View style={styles.container}>
-                <SafeAreaView style={styles.pallet}>
-                    {renderContents()}
-                </SafeAreaView>
-            </View>
-    ))
-
-}
-
 function setStyles(colorTheme?:BaseStyles.ColorTheme) { 
-    let colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme
+    const colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme;
     return (    
         StyleSheet.create({
             container : {
@@ -123,7 +59,7 @@ function setStyles(colorTheme?:BaseStyles.ColorTheme) {
                 alignContent: 'center',
                 shadowColor: colors.shadow,
                 shadowRadius: 10,
-                shadowOffset: {width : 1, height: 1,},
+                shadowOffset: {width : 1, height: 1},
                 shadowOpacity: .25,
                 elevation: 9,
             },
@@ -136,7 +72,7 @@ function setStyles(colorTheme?:BaseStyles.ColorTheme) {
             },
             addBottomMargin: {
                 flex: 1,
-                marginBottom: BaseStyles.MarginPadding.largeConst
+                marginBottom: BaseStyles.MarginPadding.largeConst,
             },
             homepairsPropertiesImage: {
                 flex: 1,
@@ -152,4 +88,51 @@ function setStyles(colorTheme?:BaseStyles.ColorTheme) {
                 overflow: 'hidden',
             },
         })
-    )};
+    );};
+
+export default function TenantPropertyScreenBase(props:Props){
+    const {propertyState, primaryColorTheme} = props;
+    const {properties} = propertyState;
+
+    const property: Property = properties[0]; // THIS IS BAD CODING, ASSUMING AN ARRAY IS OF SIZE 1
+    const styles = setStyles(primaryColorTheme);
+
+    function renderContents(){
+        const hasEdit = false;
+        return(
+        // TO DO (line 65-66 ADD TENANT COMPONENT)
+        <ScrollView style={{flexGrow: 1}}>
+            <View style={styles.addBottomMargin}>
+                <AddressSticker
+                address={property[propertyKeys.ADDRESS]}
+                primaryColorTheme={primaryColorTheme}/>
+                <View style={styles.imageWrapper}>
+                <View style={styles.imageContainer}>
+                    <Image 
+                    source={defaultProperty}
+                    style={Platform.OS === 'web' ? styles.homepairsPropertiesImageWeb : styles.homepairsPropertiesImage}
+                    resizeMode='cover'/>
+                    </View>
+                    <GeneralHomeInfo property={property} primaryColorTheme={primaryColorTheme} hasEdit={hasEdit} />
+                </View>
+            </View>
+        </ScrollView>
+        );
+    }
+    
+    return(
+        !(Platform.OS === 'ios') ? 
+        (
+            <View style={styles.container}>
+                <View style={styles.pallet}>
+                    {renderContents()}
+                </View>
+            </View>
+        ) : (
+            <View style={styles.container}>
+                <SafeAreaView style={styles.pallet}>
+                    {renderContents()}
+                </SafeAreaView>
+            </View>
+    ));
+}

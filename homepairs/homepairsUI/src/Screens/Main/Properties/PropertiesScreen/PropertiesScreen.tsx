@@ -7,6 +7,7 @@ import {
     AddNewPropertyModal,
 } from 'homepairs-components';
 import { HeaderActions, PropertyListActions } from 'homepairs-redux-actions';
+import { withNavigation } from 'react-navigation';
 import PropertiesScreenBase, {
     PropertiesScreenStateProps,
     PropertiesScreenDispatchProps,
@@ -42,9 +43,4 @@ const PropertiesScreen = connect(
     mapDispatchToProps,
 )(PropertiesScreenBase);
 
-export default withDarkMode(
-    withModal(
-        withSceneHeader(PropertiesScreen, sceneParams),
-        AddNewPropertyModal,
-    ),
-);
+export default withDarkMode(withModal(withNavigation(withSceneHeader(PropertiesScreen, sceneParams)), AddNewPropertyModal));

@@ -9,8 +9,9 @@ import {
 } from 'react-native';
 
 export type ThinButtonProps = {
+    key?: any;
     name?: String;
-    onClick?: () => any; // Define a function and its return type
+    onClick?: () => any;
     onPressIn?: () => any;
     onPressOut?: () => any;
     containerStyle?: ViewStyle;
@@ -18,6 +19,28 @@ export type ThinButtonProps = {
     buttonTextStyle?: TextStyle;
 };
 
+
+
+/**
+ * * ------------------------------------------------------------
+ * Thin Button
+ * ------------------------------------------------------------
+ * A component that renders a clickable space
+ * with a border and text. This element is intended to be clicked
+ * to invoke a specific function. onClick, onPressIn, and onPressOut
+ * should have some callback that can communicate with the parent the
+ * next steps to take.
+ * 
+ * @param {ThinButtonProps} props 
+ * key?: any
+ * name?: String
+ * onClick?: () => any
+ * onPressIn?: () => any;
+ * onPressOut?: () => any;
+ * containerStyle?: ViewStyle
+ * buttonStyle?: ViewStyle
+ * buttonTextStyle?: TextStyle
+ */
 export default function ThinButton(props: ThinButtonProps) {
     // This function will call the parent callback function.
     const {
@@ -37,6 +60,7 @@ export default function ThinButton(props: ThinButtonProps) {
     return (
         <View style={containerStyle}>
             <TouchableOpacity
+                testID='click-thin-button'
                 style={buttonStyle}
                 onPress={onPress}
                 onPressIn={onPressIn}
@@ -66,7 +90,7 @@ const DefaultThinButtonStyles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#B3C0C2',
     },
-    signUpButtonText: {
+    buttonText: {
         color: '#B3C0C2',
         fontSize: 16,
         alignSelf: 'center',
@@ -80,11 +104,31 @@ ThinButton.defaultProps = {
     onPressOut: () => {},
     containerStyle: DefaultThinButtonStyles.container,
     buttonStyle: DefaultThinButtonStyles.button,
-    buttonTextStyle: DefaultThinButtonStyles.signUpButtonText,
+    buttonTextStyle: DefaultThinButtonStyles.buttonText,
 };
 
-export function renderThinButton(thinButtonProps:ThinButtonProps){
-    const {name, onClick, onPressIn, onPressOut, containerStyle, buttonStyle, buttonTextStyle} = thinButtonProps;
-    return <ThinButton name={name} onClick={onClick} onPressIn={onPressIn} onPressOut={onPressOut} containerStyle={containerStyle}
-    buttonStyle={buttonStyle} buttonTextStyle={buttonTextStyle}/>;
+
+export function renderThinButton(thinButtonProps: ThinButtonProps) {
+    const {
+        key,
+        name,
+        onClick,
+        onPressIn,
+        onPressOut,
+        containerStyle,
+        buttonStyle,
+        buttonTextStyle,
+    } = thinButtonProps;
+    return (
+        <ThinButton
+            key={key}
+            name={name}
+            onClick={onClick}
+            onPressIn={onPressIn}
+            onPressOut={onPressOut}
+            containerStyle={containerStyle}
+            buttonStyle={buttonStyle}
+            buttonTextStyle={buttonTextStyle}
+        />
+    );
 }

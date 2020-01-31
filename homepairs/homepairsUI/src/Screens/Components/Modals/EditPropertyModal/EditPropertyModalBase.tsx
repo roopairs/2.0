@@ -1,25 +1,27 @@
 import React from "react";
 import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from "react-native";
-import {ThinButton, renderInputForm, ThinButtonProps } from 'homepairs-elements';
+import {ThinButton, renderInputForm, ThinButtonProps, Card } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairsDimensions, Property } from 'homepairs-types';
+import { HomePairsDimensions, Property, EditPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import { DarkModeInjectedProps } from 'homepairs-components';
 import {isNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
+import { DarkModeInjectedProps } from '../../WithDarkMode/WithDarkMode';
 import {ModalInjectedProps} from '../WithModal/WithModal';
-import Card from '../../../../Elements/Cards/Card';
 
 export type EditPropertyDispatchProps = {
     onEditProperty: (newProperty: Property, info: EditPropertyState, onChangeModalVisibility: (check: boolean) => void) => void
 }
 
-export type EditPropertyState = {
-    email : string;
-    index: number;
-    oldProp: Property;
-    roopairsToken: string;
-}
+/** NOTE: 
+ *  I moved this type to src/state/types.tsx in order to prevent a dependency cycle
+        export type EditPropertyState = {
+            email : string;
+            index: number;
+            oldProp: Property;
+            roopairsToken: string;
+        }
+ */
 
 type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyState;
 
@@ -33,7 +35,8 @@ type EditState = {
 };
 
 
-const signUpStrings = strings.signUpPage;
+const editPropertyStrings = strings.detailedPropertyPage.editProperty;
+const inputFormStrings = editPropertyStrings.inputForm;
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
     const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
@@ -120,17 +123,13 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
     });
 }
 
-function checkIfPositiveNumber(arg: string): boolean{
-    return (isNumber(arg) && Number(arg) > 0);
- }
-
 export default class EditNewPropertyModalBase extends React.Component<Props, EditState> {
     inputFormStyle;
 
     oldProperty: Property;
 
     submitButton : ThinButtonProps = {
-        name: 'Submit', 
+        name: editPropertyStrings.title, 
         onClick: () => {this.clickSubmitButton();}, 
         buttonStyle: {
             alignItems: 'center',
@@ -144,16 +143,20 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         },
         buttonTextStyle: {
             color: Colors.LightModeColors.blueButtonText, 
-            fontSize: BaseStyles.FontTheme.lg,
+            fontSize: BaseStyles.FontTheme.reg,
             alignSelf: 'center',
         },
         containerStyle: {
             flex: 1,
             alignSelf: 'center',
             justifyContent: 'center',
+            marginTop: BaseStyles.MarginPadding.largeConst,
+            marginBottom: BaseStyles.MarginPadding.xlarge,
             minHeight: 50,
         },
     };
+
+    inputs;
 
     constructor(props: Readonly<Props>) {
         super(props);
@@ -173,7 +176,12 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
             bathrooms: bathrooms.toString(),
             tenants: tenants.toString(),
         };
+        this.inputs = [];
+
     } 
+
+    // Pass this function into the input form to get a reference of the Text Input element
+    onRef(ref){this.inputs.push(ref);}
 
     getFormAddress(childData : string) {
         this.setState({address: childData});
@@ -191,13 +199,13 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.setState({bedrooms: childData});
     }
 
-    getFormNumBath(childData : string) {
-        this.setState({bathrooms: childData});
-    }
-
     getFormMaxTenants(childData: string) {
         this.setState({tenants: childData});
     }
+
+    getFormNumBath(childData: string) {
+        this.setState({bathrooms: childData});
+    } 
 
     validateForms() {
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
@@ -231,53 +239,53 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
         const inputForms  = [
              {
-                key: signUpStrings.inputForms.address,
-                name: signUpStrings.inputForms.address,
+                key: inputFormStrings.address,
+                name: inputFormStrings.address,
                 parentCallBack: this.getFormAddress,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: address,
             }, 
             {
-                key: signUpStrings.inputForms.city,
-                name: signUpStrings.inputForms.city,
+                key: inputFormStrings.city,
+                name: inputFormStrings.city,
                 parentCallBack: this.getFormCity,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: city, 
             }, 
             {
-                key: signUpStrings.inputForms.state,
-                name: signUpStrings.inputForms.state,
+                key: inputFormStrings.state,
+                name: inputFormStrings.state,
                 parentCallBack: this.getFormState,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: state, 
             }, 
             {
-                key: signUpStrings.inputForms.numBed,
-                name: signUpStrings.inputForms.numBed,
+                key: inputFormStrings.maxTenants,
+                name: inputFormStrings.maxTenants,
+                parentCallBack: this.getFormMaxTenants,
+                formTitleStyle: this.inputFormStyle.formTitle,
+                inputStyle: this.inputFormStyle.input,
+                value: tenants,
+            },
+            {
+                key: inputFormStrings.bedrooms,
+                name: inputFormStrings.bedrooms,
                 parentCallBack: this.getFormNumBed,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: bedrooms,
             }, 
             {
-                key: signUpStrings.inputForms.numBath,
-                name: signUpStrings.inputForms.numBath,
+                key: inputFormStrings.bathrooms,
+                name: inputFormStrings.bathrooms,
                 parentCallBack: this.getFormNumBath,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: bathrooms,
             }, 
-            {
-                key: signUpStrings.inputForms.maxTenants,
-                name: signUpStrings.inputForms.maxTenants,
-                parentCallBack: this.getFormMaxTenants,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-                value: tenants,
-            },
         ];
 
         return inputForms.map(inputFromProp => {
@@ -299,7 +307,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                     titleStyle={this.inputFormStyle.cardTitle}
                     titleContainerStyle={this.inputFormStyle.cardTitleContainer}
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
-                    title='Edit Property'
+                    title={editPropertyStrings.title}
                     closeButtonPressedCallBack={() => onChangeModalVisibility(false)}
                     >
                     <>{this.renderInputForms()}</>

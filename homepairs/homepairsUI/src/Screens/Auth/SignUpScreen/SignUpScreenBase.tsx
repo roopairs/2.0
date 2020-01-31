@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-    InputFormProps,
-    LoginButton,
-    renderInputForm,
-} from 'homepairs-elements';
+import { InputForm, LoginButton} from 'homepairs-elements';
 import {
     AccountTypeRadioButton,
     DarkModeInjectedProps,
@@ -14,6 +10,7 @@ import { AccountTypes, Account } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet, View, Text } from 'react-native';
+import { isNullOrUndefined, isPasswordValid, isPhoneNumberValid, isEmailSyntaxValid, isAlphaCharacterOnly } from 'homepairs-utilities';
 
 export type SignUpViewDispatchProps = {
     generateHomePairsAccount: (
@@ -23,6 +20,7 @@ export type SignUpViewDispatchProps = {
         navigation: any,
     ) => any;
 };
+
 export type SignUpProps = DarkModeInjectedProps &
     SignUpViewDispatchProps &
     AuthPageInjectedProps &
@@ -34,29 +32,45 @@ type SignUpState = {
     lastName: string;
     email: string;
     phone: string;
-    address: string;
+    streetAddress: string;
     city: string;
     companyName: string;
-    password: String;
-    cPassword: String;
+    password: string;
+    cPassword: string;
+    error: {[id:string] : boolean};
 };
 
-const initalState = {
+const initalError : {[id:string] : boolean} = {
+    firstName: false,
+    lastName: false,
+    email: false,
+    phone: false,
+    streetAddress: false,
+    city: false,
+    companyName: false,
+    password: false,
+    cPassword: false,
+};
+
+const initalState : SignUpState = {
     accountType: AccountTypes.Tenant,
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
-    address: '',
+    streetAddress: '',
     city: '',
     companyName: '',
     password: '',
     cPassword: '',
+    error: {...initalError},
 };
 const signUpScreenStrings = strings.signUpPage;
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
-    const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;
+    const colors = isNullOrUndefined(colorTheme)
+        ? BaseStyles.LightColorTheme
+        : colorTheme;
     return StyleSheet.create({
         formTitle: {
             marginVertical: '3.5%',
@@ -76,21 +90,35 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
             borderRadius: BaseStyles.BorderRadius.small,
             paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
         },
+        errorFormTitle: {
+            marginVertical: '3.5%',
+            fontFamily: BaseStyles.FontTheme.primary,
+            color: colors.red,
+        },
+        errorInput: {
+            alignItems: 'center',
+            alignSelf: 'center',
+            margin: BaseStyles.MarginPadding.xsmallConst,
+            minWidth: 40,
+            width: BaseStyles.ContentWidth.max,
+            height: 40,
+            color: colors.red,
+            borderColor: colors.red,
+            shadowColor: colors.red,
+            shadowRadius: 5,
+            shadowOpacity: .5,
+            borderWidth: 1,
+            borderRadius: BaseStyles.BorderRadius.small,
+            paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
+        },
     });
-}
-
-/* * TODO: Create a module and possibly HOC/HOOK for validating user input!! * */
-function isEmptyOrSpaces(str: String) {
-    return str === null || str.match(/^ *$/) !== null;
 }
 
 export default class SignUpScreenBase extends React.Component<
     SignUpProps,
     SignUpState
 > {
-    inputFormStyle: { formTitle: any; input: any };
-
-    formProps: { [id: string]: InputFormProps };
+    inputFormStyle;
 
     constructor(props: Readonly<SignUpProps>) {
         super(props);
@@ -108,16 +136,15 @@ export default class SignUpScreenBase extends React.Component<
         this.setModalOff = this.setModalOff.bind(this);
         this.navigateMain = this.navigateMain.bind(this);
 
-        this.state = initalState;
+        this.state = {...initalState};
 
-        this.formProps = this.inputFormProps();
         props.clickButton(this.clickSignUp);
         props.clickHighlightedText(this.clickSignIn);
     }
 
     setModalOff(error: string = 'Error Message') {
-        const { showModal, setErrorState } = this.props;
-        showModal(false);
+        const { onChangeModalVisibility, setErrorState } = this.props;
+        onChangeModalVisibility(false);
         setErrorState(true, error);
     }
 
@@ -141,16 +168,16 @@ export default class SignUpScreenBase extends React.Component<
         this.setState({ phone: childData });
     }
 
-    getFormPassword(childData: String) {
+    getFormPassword(childData: string) {
         this.setState({ password: childData });
     }
 
-    getFormCPassword(childData: String) {
+    getFormCPassword(childData: string) {
         this.setState({ cPassword: childData });
     }
 
     getFormAddress(childData: string) {
-        this.setState({ address: childData });
+        this.setState({ streetAddress: childData });
     }
 
     getFormCity(childData: string) {
@@ -162,18 +189,66 @@ export default class SignUpScreenBase extends React.Component<
     }
 
     validateCredentials: () => boolean = () => {
-        const { password, cPassword } = this.state;
-        const { showModal, setErrorState } = this.props;
-        // TODO: Validate credentials via a whitelist of approved inputs Right now, only checking passwords
-        if (!isEmptyOrSpaces(password) && password === cPassword) return true;
+        const { onChangeModalVisibility, setErrorState } = this.props;
+        const {
+            firstName,
+            lastName,
+            password,
+            cPassword,
+            email,
+            phone,
+        } = this.state;
+        const newErrorState: {[id:string]: boolean} = {...initalError};
+        let isValid:boolean = true;
+        const errorMessages: string[] = [];
+        
+        // TODO: Add verfication for Company Type, Address, and others
+        if(!isAlphaCharacterOnly(firstName)){
+            isValid = false;
+            newErrorState.firstName=true;
+            errorMessages.push('You have entered an invalid first name!');
+        }
+        if(!isAlphaCharacterOnly(lastName)){
+            isValid = false;
+            newErrorState.lastName=true;
+            errorMessages.push('You have entered an invalid last name!');
+        }
+        if(!isEmailSyntaxValid(email)){
+            isValid = false;
+            newErrorState.email=true;
+            errorMessages.push('You have entered an invalid email!');
+        }
+        if(!isPhoneNumberValid(phone)){
+            isValid = false;
+            newErrorState.phone=true;
+            errorMessages.push('You have entered an invalid phone number!');
 
-        showModal(false);
-        setErrorState(true, 'Your passwords do not match. Please try again.');
-        return false;
+        }
+        if(!(password === cPassword)){
+            isValid = false;
+            newErrorState.password=true;
+            newErrorState.cPassword=true;
+            errorMessages.push("You're passwords do not match! Please enter them again.");
+        }else if (!isPasswordValid(password)){
+            isValid = false;
+            newErrorState.password=true;
+            newErrorState.cPassword=true;
+            // TODO: Create a message that tells the user what values their password should have.
+            errorMessages.push("You have entered an invalid password");
+        } 
+
+        this.setState({error: newErrorState});
+        if(!isValid){
+            const message = errorMessages.length > 1 ? 'Please fix the problems below' : errorMessages[0];
+            setErrorState(true, message);
+            onChangeModalVisibility(false);
+        }
+
+        return isValid;
     };
 
     /**
-     * Event functions for when something occurs on this component.
+     * Event methods for when something occurs on this component.
      */
     clickSignIn = () => {
         const { navigation } = this.props;
@@ -181,18 +256,18 @@ export default class SignUpScreenBase extends React.Component<
     };
 
     clickSignUp = () => {
-        const { showModal, generateHomePairsAccount, navigation } = this.props;
+        const { onChangeModalVisibility, generateHomePairsAccount, navigation } = this.props;
         const { password } = this.state;
-        showModal(true, signUpScreenStrings.modal);
+        onChangeModalVisibility(true);
         const details: Account = { ...this.state, roopairsToken: '' };
         if (this.validateCredentials()) {
             generateHomePairsAccount(
                 details,
                 password,
                 this.setModalOff,
-                navigation
+                navigation,
             );
-            showModal(false);
+            onChangeModalVisibility(false);
         }
     };
 
@@ -201,75 +276,100 @@ export default class SignUpScreenBase extends React.Component<
         navigation.navigate('Connect');
     };
 
-    inputFormProps(): { [id: string]: InputFormProps } {
-        return {
-            firstName: {
-                name: signUpScreenStrings.inputForms.firstName,
-                parentCallBack: this.getFormFirstName,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-            },
-            lastName: {
-                name: signUpScreenStrings.inputForms.lastName,
-                parentCallBack: this.getFormLastName,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-            },
-            email: {
-                name: signUpScreenStrings.inputForms.email,
-                parentCallBack: this.getFormEmail,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-            },
-            phone: {
-                name: signUpScreenStrings.inputForms.phone,
-                parentCallBack: this.getFormPhone,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-            },
-            password: {
-                name: signUpScreenStrings.inputForms.password,
-                parentCallBack: this.getFormPassword,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-                secureTextEntry: true,
-            },
-            confirmPassword: {
-                name: signUpScreenStrings.inputForms.confirmPassword,
-                parentCallBack: this.getFormCPassword,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-                secureTextEntry: true,
-            },
-            address: {
-                name: signUpScreenStrings.inputForms.address,
-                parentCallBack: this.getFormAddress,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-            },
-            city: {
-                name: signUpScreenStrings.inputForms.city,
-                parentCallBack: this.getFormCity,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-            },
-            companyName: {
-                name: signUpScreenStrings.inputForms.companyName,
-                parentCallBack: this.getFormCompanyName,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-            },
-        };
-    }
-
     navigateMain() {
         const { navigation } = this.props;
         navigation.navigate('Main');
     }
 
-    renderLoginButton(accountType: AccountTypes) {
+    renderAllInputForms() {
+        const {error} = this.state;
+        const {firstName, lastName, email, password, cPassword, phone} = error;
+        const {formTitle, input, errorFormTitle, errorInput} = this.inputFormStyle;
+        const inputFormProps = [
+            {
+                key: signUpScreenStrings.inputForms.firstName,
+                name: signUpScreenStrings.inputForms.firstName,
+                parentCallBack: this.getFormFirstName,
+                formTitleStyle: !firstName ? formTitle : errorFormTitle,
+                inputStyle: !firstName ? input : errorInput,
+            },
+            {
+                key: signUpScreenStrings.inputForms.lastName,
+                name: signUpScreenStrings.inputForms.lastName,
+                parentCallBack: this.getFormLastName,
+                formTitleStyle: !lastName ? formTitle : errorFormTitle,
+                inputStyle: !lastName ? input : errorInput,
+            },
+            {
+                key: signUpScreenStrings.inputForms.email,
+                name: signUpScreenStrings.inputForms.email,
+                parentCallBack: this.getFormEmail,
+                formTitleStyle: !email ? formTitle : errorFormTitle,
+                inputStyle: !email ? input : errorInput,
+            },
+            {
+                key: signUpScreenStrings.inputForms.phone,
+                name: signUpScreenStrings.inputForms.phone,
+                parentCallBack: this.getFormPhone,
+                formTitleStyle: !phone? formTitle : errorFormTitle,
+                inputStyle: !phone ? input : errorInput,
+            },
+            {
+                key: signUpScreenStrings.inputForms.password,
+                name: signUpScreenStrings.inputForms.password,
+                parentCallBack: this.getFormPassword,
+                formTitleStyle: !password ? formTitle : errorFormTitle,
+                inputStyle: !password ? input : errorInput,
+                secureTextEntry: true,
+            },
+            {
+                key: signUpScreenStrings.inputForms.confirmPassword,
+                name: signUpScreenStrings.inputForms.confirmPassword,
+                parentCallBack: this.getFormCPassword,
+                formTitleStyle: !cPassword ? formTitle : errorFormTitle,
+                inputStyle: !cPassword ? input : errorInput,
+                secureTextEntry: true,
+            },
+            {
+                key: signUpScreenStrings.inputForms.address,
+                name: signUpScreenStrings.inputForms.address,
+                parentCallBack: this.getFormAddress,
+                formTitleStyle: this.inputFormStyle.formTitle,
+                inputStyle: this.inputFormStyle.input,
+            },
+            {
+                key: signUpScreenStrings.inputForms.city,
+                name: signUpScreenStrings.inputForms.city,
+                parentCallBack: this.getFormCity,
+                formTitleStyle: this.inputFormStyle.formTitle,
+                inputStyle: this.inputFormStyle.input,
+            },
+            {
+                key: signUpScreenStrings.inputForms.companyName,
+                name: signUpScreenStrings.inputForms.companyName,
+                parentCallBack: this.getFormCompanyName,
+                formTitleStyle: this.inputFormStyle.formTitle,
+                inputStyle: this.inputFormStyle.input,
+            },
+        ];
+        return inputFormProps.map(properties => {
+            return (
+                <InputForm
+                    key={properties.key}
+                    name={properties.name}
+                    parentCallBack={properties.parentCallBack}
+                    formTitleStyle={properties.formTitleStyle}
+                    inputStyle={properties.inputStyle}
+                    secureTextEntry={properties.secureTextEntry}
+                />
+            );
+        });
+    }
+
+    renderRoopairsLoginPage() {
+        const { accountType } = this.state;
         return accountType === AccountTypes.Landlord ? (
-            <View style={{marginTop: BaseStyles.MarginPadding.large}}>
+            <View style={{ marginTop: BaseStyles.MarginPadding.large }}>
                 <LoginButton
                     name="Login with your Roopairs Account"
                     onClick={this.toRoopairsLogin}
@@ -290,31 +390,15 @@ export default class SignUpScreenBase extends React.Component<
     }
 
     render() {
-        const { accountType } = this.state;
         const { primaryColorTheme } = this.props;
-        const {
-            firstName,
-            lastName,
-            email,
-            phone,
-            companyName,
-            password,
-            confirmPassword,
-        } = this.formProps;
         return (
             <>
                 <AccountTypeRadioButton
                     parentCallBack={this.getAccountType}
                     primaryColorTheme={primaryColorTheme}
                 />
-                {this.renderLoginButton(accountType)}
-                {renderInputForm(firstName)}
-                {renderInputForm(lastName)}
-                {renderInputForm(email)}
-                {renderInputForm(phone)}
-                {renderInputForm(companyName)}
-                {renderInputForm(password)}
-                {renderInputForm(confirmPassword)}
+                {this.renderRoopairsLoginPage()}
+                {this.renderAllInputForms()}
             </>
         );
     }

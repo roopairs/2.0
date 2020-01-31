@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HamburgerButton Method Test: Checks the onClick Method and checks to see if the image was updated 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "alignSelf": "flex-end",
+      "flex": 1,
+      "justifyContent": "center",
+      "marginRight": "5%",
+      "paddingHorizontal": "5%",
+    }
+  }
+>
+  <View
+    accessible={true}
+    focusable={true}
+    isTVSelectable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignContent": "center",
+        "alignItems": "center",
+        "alignSelf": "center",
+        "backgroundColor": "transparent",
+        "borderColor": "#rgba(0,0,0, .08)",
+        "borderRadius": 8,
+        "borderWidth": 1.4,
+        "flex": 1,
+        "justifyContent": "center",
+        "maxHeight": 45,
+        "opacity": 1,
+        "width": 45,
+      }
+    }
+    testID="click-hamburger-button"
+  >
+    <Text
+      style={
+        Object {
+          "alignSelf": "center",
+          "color": "#B3C0C2",
+          "flex": 1,
+          "fontFamily": "nunito-extrabold",
+          "fontSize": 30,
+        }
+      }
+    >
+      ≡
+    </Text>
+  </View>
+</View>
+`;

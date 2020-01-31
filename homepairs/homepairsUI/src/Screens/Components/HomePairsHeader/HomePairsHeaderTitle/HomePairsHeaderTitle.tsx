@@ -2,17 +2,11 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity,
-    Image,
-    Platform,
 } from 'react-native';
 import React from 'react';
-import { hamburger } from 'homepairs-images';
 import HomePairColors from 'homepairs-colors';
 import { HomePairFonts } from 'homepairs-fonts';
 import { DarkModeInjectedProps } from '../../WithDarkMode/WithDarkMode';
-import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairsDimensions } from '../../../../state/types';
 
 export type HomePairsHeaderTitleProps = DarkModeInjectedProps & {
     /**
@@ -28,14 +22,10 @@ export type HomePairsHeaderTitleProps = DarkModeInjectedProps & {
 let styles = null;
 const baseStyles = {
     homePairsTitleContainer: {
-        flexDirection: 'row',
         padding: 15,
         paddingRight: 0,
         height: 80,
         width: '100%',
-        justifyContent: 'center',
-        alignContent: 'center',
-        flex: 1,
     },
     homePairsTitleContainerNavSet: {
         flexDirection: 'row',
@@ -44,37 +34,11 @@ const baseStyles = {
         height: 80,
         minWidth: 175,
         maxWidth: 185,
-        justifyContent: 'center',
-        alignContent: 'center',
-        flex: 6,
+
     },
     homePairsTitle: {
         fontFamily: HomePairFonts.nunito_regular,
         fontSize: 32,
-        flex: 6,
-    },
-    homePairsHamburgerImage: {
-        alignSelf: 'center',
-        width: 45,
-        height: 45,
-    },
-    hamburgerStyle: {
-        flex: 1,
-        marginRight: '3%',
-        height: null,
-        width: null,
-        resizeMode: 'contain',
-        maxWidth: 50,
-    },
-    homePairsHamburgerImageWeb: {
-        width: 45,
-        height: 45,
-    },
-    hamburgerStyleWeb: {
-        flex: 1,
-        marginRight: '3%',
-        width: null,
-        height: null,
     },
 };
 
@@ -92,13 +56,6 @@ const setColorScheme = (colorScheme: any, base: any) => {
             ...base.homePairsTitle,
             color: colorScheme.primary,
         },
-        homePairsHamburgerImage: { ...base.homePairsHamburgerImage },
-
-        hamburgerStyle: { ...base.hamburgerStyle },
-        homePairsHamburgerImageWeb: {
-            ...base.homePairsHamburgerImageWeb,
-        },
-        hamburgerStyleWeb: { ...base.hamburgerStyleWeb },
     });
     return newStyle;
 };
@@ -114,10 +71,6 @@ const setColorScheme = (colorScheme: any, base: any) => {
 export class HomePairsHeaderTitle extends React.Component<
     HomePairsHeaderTitleProps
 > {
-    hamburgerStyle: any; // = (Platform.OS === 'web') ? this.state.styles.hamburgerStyleWeb : this.state.styles.hamburgerStyle
-
-    hamburgerImageStyle: any; //= (Platform.OS === 'web') ? this.state.styles.homePairsHamburgerImageWeb : this.state.styles.homePairsHamburgerImage
-
     colorScheme: any;
 
     constructor(props: Readonly<HomePairsHeaderTitleProps>) {
@@ -128,15 +81,6 @@ export class HomePairsHeaderTitle extends React.Component<
                 : props.primaryColorTheme;
         styles = setColorScheme(this.colorScheme, baseStyles);
         this.getProperTitleStyle = this.getProperTitleStyle.bind(this);
-
-        this.hamburgerStyle =
-            Platform.OS === 'web'
-                ? styles.hamburgerStyleWeb
-                : styles.hamburgerStyle;
-        this.hamburgerImageStyle =
-            Platform.OS === 'web'
-                ? styles.homePairsHamburgerImageWeb
-                : styles.homePairsHamburgerImage;
     }
 
     getProperTitleStyle() {
@@ -146,36 +90,11 @@ export class HomePairsHeaderTitle extends React.Component<
             : styles.homePairsTitleContainerNavSet;
     }
 
-    dropDownRender() {
-        const {toggleMenuCallBack} = this.props;
-        return (
-            <TouchableOpacity
-                onPress={() => toggleMenuCallBack()}
-                style={this.hamburgerStyle}
-            >
-                <Image style={this.hamburgerImageStyle} source={hamburger} />
-            </TouchableOpacity>
-        );
-    }
-
-    chooseWideRender() {
-        const {isDropDown} = this.props;
-        /**
-         * Case 1: If window is large, show all navigation options next to title
-         * Else:: If window is tiny, show hamburger menu for dropdown navigation
-         */
-        if (isDropDown) {
-            return this.dropDownRender();
-        }
-        return <></> ;
-    }
-
     render() {
         return (
             <>
             <View style={this.getProperTitleStyle()}>
                 <Text style={styles.homePairsTitle}>HomePairs</Text>
-                {this.chooseWideRender()}
             </View>
             </>
         );

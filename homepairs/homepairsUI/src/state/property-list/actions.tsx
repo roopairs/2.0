@@ -1,7 +1,4 @@
 import axios from 'axios';
-import { NewPropertyState } from 'src/Screens/Components/Modals/AddNewPropertyModal/AddNewPropertyModalBase';
-import { EditPropertyState } from 'src/Screens/Components/Modals/EditPropertyModal/EditPropertyModalBase';
-import { SetSelectedPropertyAction } from '../types';
 import {
     AddPropertyAction,
     UpdatePropertyAction, 
@@ -10,9 +7,12 @@ import {
     FetchPropertiesAction,
     Property,
     HomePairsResponseKeys,
+    SetSelectedPropertyAction, 
+    EditPropertyState,
+    AddNewPropertyState,
 } from '../types';
+
 const responseKeys = HomePairsResponseKeys;
-const loginStatus = HomePairsResponseKeys.STATUS_RESULTS;
 const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
 
 export enum PROPERTY_LIST_ACTION_TYPES {
@@ -40,7 +40,7 @@ export const addProperty = (newProperty: Property): AddPropertyAction => {
 
 export const postNewProperty = (
     newProperty: Property,
-    info: NewPropertyState,
+    info: AddNewPropertyState,
     setInitialState: () => void,
     onChangeModalVisibility: (check: boolean) => void,
 ) => {
@@ -60,7 +60,6 @@ export const postNewProperty = (
                 },
             )
             .then(response => {
-                console.log(response[responseKeys.DATA]);
                 if (
                     !(
                         response[responseKeys.DATA][responseKeys.STATUS] ===
@@ -71,11 +70,11 @@ export const postNewProperty = (
                     setInitialState();
                     onChangeModalVisibility(false);
                 } else {
-                    console.log('error');
+                    //console.log('error');
                 }
             })
             .catch(error => {
-                console.log(error);
+                //console.log(error);
             });
     };
 };
@@ -88,7 +87,7 @@ export const updateProperty = (propertyIndex: number, updatedProperty: Property)
     };
   };
   
-export const postUpdatedProperty = (
+export const postUpdatedProperty = ( 
     editProperty: Property, 
     info: EditPropertyState,
     onChangeModalVisibility: (check: boolean) => void) => {
@@ -106,15 +105,13 @@ export const postUpdatedProperty = (
       token: info.roopairsToken,
     })
     .then((response) => {
-      console.log(response[responseKeys.DATA]);
       if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.FAILURE)){
         dispatch(updateProperty(info.index, editProperty));
         onChangeModalVisibility(false);
       } else {
-        console.log("error");
+        // TODO: Send back error status to modal, this can be done by sending another callback as a parameter
       }
     }).catch((error) => {
-      console.log(error);
     });
   };
 };
@@ -127,21 +124,20 @@ export const removeProperty = (
 });
 
 export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => {
-    let fetchedProperty : Property;
     const fetchedProperties: Property[] = [];
-        fetchedProperty = {
+    const fetchedProperty = {
             streetAddress: linkedProperty[propertyKeys.ADDRESS],
             city: linkedProperty[propertyKeys.CITY],
             state: linkedProperty[propertyKeys.STATE],
             tenants: linkedProperty[propertyKeys.TENANTS],
             bedrooms : linkedProperty[propertyKeys.BEDROOMS],
-            bathrooms : linkedProperty[propertyKeys.BATHROOMS]
+            bathrooms : linkedProperty[propertyKeys.BATHROOMS],
         };
         fetchedProperties.push(fetchedProperty);
     return {
       type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
-      property: fetchedProperties
-    }
+      property: fetchedProperties,
+    };
 };
 
 export const fetchProperties = (
@@ -160,7 +156,7 @@ export const fetchProperties = (
     });
     return {
       type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
-      properties: fetchedProperties
-    }
+      properties: fetchedProperties,
+    };
 };
 

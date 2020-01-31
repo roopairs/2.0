@@ -5,6 +5,9 @@ import { fetchAccountProfile } from '../../src/state/account/actions';
 const fakeLandLord : LandlordAccount = {
   accountType: AccountTypes.Landlord,
   firstName: 'Jack',
+  address: '9394 FakeLand Drive',
+  city: 'NoWhere',
+  companyName: 'My Own Company',
   lastName: 'profile[accountKeys.LASTNAME]',
   email: 'jacklame@gmail.com',
   phone: '555555555',

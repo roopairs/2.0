@@ -11,7 +11,6 @@ import {
 import { defaultProperty } from 'homepairs-images';
 import {
     GeneralHomeInfo,
-    GeneralHomeInfoProps,
     AddressSticker,
     DarkModeInjectedProps,
     ModalInjectedProps,
@@ -108,34 +107,16 @@ export default function DetailedPropertyScreenBase(props: Props) {
         resizeMode: 'cover',
     };
 
-    const generalHomeInfoProps: GeneralHomeInfoProps = {
-        address: property[propertyKeys.ADDRESS],
-        tenants: property[propertyKeys.TENANTS],
-        bedrooms: property[propertyKeys.BEDROOMS],
-        bathrooms: property[propertyKeys.BATHROOMS],
-        onClick: onChangeModalVisibility,
-    };
-
     function renderImage() {
         const { source, style, resizeMode } = imageProps;
         return <Image source={source} style={style} resizeMode={resizeMode} />;
     }
 
     function renderGeneralHomeInfo() {
-        const {
-            address,
-            tenants,
-            bedrooms,
-            bathrooms,
-            onClick,
-        } = generalHomeInfoProps;
         return (
             <GeneralHomeInfo
-                address={address}
-                tenants={tenants}
-                bedrooms={bedrooms}
-                bathrooms={bathrooms}
-                onClick={onClick}
+                property={property}
+                onClick={onChangeModalVisibility}
                 primaryColorTheme={primaryColorTheme}
             />
         );
@@ -147,6 +128,8 @@ export default function DetailedPropertyScreenBase(props: Props) {
                 <View style={styles.addBottomMargin}>
                     <AddressSticker
                         address={property[propertyKeys.ADDRESS]}
+                        city={property[propertyKeys.CITY]}
+                        state={property[propertyKeys.STATE]}
                         primaryColorTheme={primaryColorTheme}
                     />
                     <View style={styles.imageWrapper}>

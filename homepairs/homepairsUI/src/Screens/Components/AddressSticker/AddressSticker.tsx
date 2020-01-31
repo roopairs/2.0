@@ -5,7 +5,9 @@ import { ColorTheme, FontTheme, ContentWidth, MarginPadding, LightColorTheme} fr
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 
 export type AddressStickerProps = DarkModeInjectedProps & {
-    address: String
+    address: string
+    city?: string
+    state?: string
 }
 
 function setStyle(colorTheme: ColorTheme) {
@@ -41,11 +43,12 @@ function setStyle(colorTheme: ColorTheme) {
 
 
 export default function AddressSticker(props: AddressStickerProps) {
-    const {address, primaryColorTheme} = props;
+    const {address, primaryColorTheme, state, city} = props;
     const styles = setStyle(primaryColorTheme);
     return(
        <Sticker style={styles.container}>
-            <Text style={styles.cityStateText}>San Luis Obispo, CA{" "} 
+            <Text style={styles.cityStateText}>
+            {city},{" "}{state} 
             <Text style={styles.streetText}>/{` ${address}`}</Text>
             </Text>
         </Sticker>
@@ -54,4 +57,6 @@ export default function AddressSticker(props: AddressStickerProps) {
 
 AddressSticker.defaultProps = {
     primaryColorTheme: LightColorTheme,
+    city: 'San Luis Obispo',
+    state: 'CA',
 };

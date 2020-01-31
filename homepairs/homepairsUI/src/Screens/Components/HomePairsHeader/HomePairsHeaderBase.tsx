@@ -7,14 +7,17 @@ import {
     Text,
 } from 'react-native';
 import React from 'react';
-import { SafeAreaView, StackActions } from 'react-navigation';
+import { StackActions } from 'react-navigation';
 import * as BaseStyles from 'homepairs-base-styles';
+import { isNullOrUndefined } from 'homepairs-utilities';
+import { HamburgerButton } from 'src/Elements';
 import {
     HomePairsHeaderTemplate,
     HomePairsHeaderProps,
 } from './HomePairsHeaderTemplate';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle/HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu/HomePairsHeaderMenu';
+
 
 const popAction = StackActions.pop({
     n: 1,
@@ -71,6 +74,7 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
                 : props.primaryColorTheme;
         styles = setColorTheme(this.colorScheme);
         this.goBack = this.goBack.bind(this);
+        this.renderHamburger = this.renderHamburger.bind(this);
     }
 
     renderHeaderTitle() {
@@ -91,7 +95,7 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
             <HomePairsMenu
                 selectedPage={header.currentPage}
                 parentCallBack={this.changePage}
-                parentCloseMenu={this.toggleMenu}
+                toggleMenu={this.toggleMenu}
                 isDropDown={header.isDropDown}
                 showMenu={header.showMenu}
                 primaryColorTheme={primaryColorTheme}
@@ -100,7 +104,8 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
     }
 
     showBackButton() {
-        return this.props.header.showBackButton ? (
+        const {header} = this.props;
+        return header.showBackButton ? (
             <TouchableOpacity onPress={this.goBack} style={styles.goBackButton}>
                 <Text style={styles.goBackSymbol}>{backSymbol}</Text>
             </TouchableOpacity>
@@ -112,44 +117,51 @@ class HomePairsHeaderBase extends HomePairsHeaderTemplate {
     /**
      * This function navigates to the previous screen and then hides the goBack button
      * if the screen is the first in the navigation stack.
+     * 
+     * Navigation Stack stores its indices in the state. If the index is not defined or 
+     * if the index is 0, then we are at the beggining of the stack. 
      * */
     goBack() {
         this.props.navigation.dispatch(popAction);
-        if (this.props.navigation.isFirstRouteInParent()) {
+        const navigationIndex = this.props.navigation.state.index;
+        const isFirst = isNullOrUndefined(navigationIndex) || navigationIndex > 0;
+        if (isFirst) {
             this.props.onShowGoBackbutton(false);
         }
         this.props.onToggleMenu(false);
     }
 
+    renderHamburger(){
+        const {header} = this.props;
+        if (header.isDropDown) {
+
+            return <View style={{flex: 2}}><HamburgerButton onClick={this.toggleMenu}/></View>;
+        }
+        return<></>;
+
+    }
+
     render() {
         return (
-            <SafeAreaView style={styles.container}>
+            <View style={styles.container}>
                 <View
                     style={
                         this.props.header.isDropDown
                             ? { flexDirection: 'column' }
-                            : { flexDirection: 'row' }
-                    }
-                >
+                            : { flexDirection: 'row' }}>
                     <View
                         style={{
                             flexDirection: 'row',
-                            backgroundColor: this.colorScheme.secondary,
-
-                        }}
-                    >
+                            backgroundColor: this.colorScheme.secondary}}>
                         {this.showBackButton()}
-                        <View
-                            style={{marginLeft: BaseStyles.MarginPadding.largeConst, flex: 1}
-                        }
-
-                        >
+                        <View style={{marginLeft: BaseStyles.MarginPadding.largeConst}}>
                             {this.renderHeaderTitle()}
                         </View>
+                        {this.renderHamburger()}
                     </View>
                     {this.renderMenu()}
                 </View>
-            </SafeAreaView>
+            </View>
         );
     }
 }

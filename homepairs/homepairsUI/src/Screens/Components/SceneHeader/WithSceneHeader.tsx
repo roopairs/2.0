@@ -11,9 +11,9 @@ import {
 } from 'react-native';
 import { HeaderActions } from 'homepairs-redux-actions';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
+import {isNullOrUndefined} from 'homepairs-utilities';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 import { SceneHeaderProps, renderSceneHeader } from './SceneHeader';
 import { ModalInjectedProps } from '../Modals/WithModal/WithModal';
@@ -69,111 +69,103 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
         };
     }
 
-    const ReduxComponent = withNavigation(
-        class ReduxComponentBase extends React.Component<
-            SceneInjectedProps,
-            State
-        > {
-            colorScheme: any;
+    const ReduxComponent = class ReduxComponentBase extends React.Component<
+        SceneInjectedProps,
+        State
+    > {
+        colorScheme: any;
 
-            constructor(props: Readonly<SceneInjectedProps>) {
-                super(props);
-                this.colorScheme =
-                    typeof props.primaryColorTheme === 'undefined'
-                        ? BaseStyles.LightColorTheme
-                        : props.primaryColorTheme;
-                styles = setStyle(this.colorScheme);
-                this.renderContents = this.renderContents.bind(this);
-                this.onPressButton = this.onPressButton.bind(this);
-            }
+        constructor(props: Readonly<SceneInjectedProps>) {
+            super(props);
+            this.colorScheme =
+                isNullOrUndefined(props.primaryColorTheme)
+                    ? BaseStyles.LightColorTheme
+                    : props.primaryColorTheme;
+            styles = setStyle(this.colorScheme);
+            this.renderContents = this.renderContents.bind(this);
+            this.onPressButton = this.onPressButton.bind(this);
+        }
 
-            onPressButton() {
-                const { onChangeModalVisibility } = this.props;
-                return Page.doesButtonUseNavigate
-                    ? Page.onButtonClick(this.props)
-                    : onChangeModalVisibility(true);
-            }
+        onPressButton() {
+            const { onChangeModalVisibility } = this.props;
+            return Page.doesButtonUseNavigate
+                ? Page.onButtonClick(this.props)
+                : onChangeModalVisibility(true);
+        }
 
-            sceneHeaderProps(): SceneHeaderProps & DarkModeInjectedProps {
-                const { primaryColorTheme } = this.props;
-                return {
-                    title: Page.title,
-                    buttonTitle: Page.button,
-                    onButtonPress: this.onPressButton,
-                    primaryColorTheme,
-                };
-            }
+        sceneHeaderProps(): SceneHeaderProps & DarkModeInjectedProps {
+            const { primaryColorTheme } = this.props;
+            return {
+                title: Page.title,
+                buttonTitle: Page.button,
+                onButtonPress: this.onPressButton,
+                primaryColorTheme,
+            };
+        }
 
-            renderTouchArea() {
-                const { onCloseHeaderMenu } = this.props;
-                return !(Platform.OS === 'web') ? (
-                    <TouchableWithoutFeedback
-                        onPressIn={onCloseHeaderMenu}
-                        style={{ flex: 1 }}
+        renderTouchArea() {
+            const { onCloseHeaderMenu } = this.props;
+            return !(Platform.OS === 'web') ? (
+                <TouchableWithoutFeedback
+                    onPressIn={onCloseHeaderMenu}
+                    style={{ flex: 1 }}
+                >
+                    {this.renderContents()}
+                </TouchableWithoutFeedback>
+            ) : (
+                <View style={{ flex: 1 }}>{this.renderContents()}</View>
+            );
+        }
+
+        renderContents() {
+            const {
+                contentContainerStyle,
+                directionalLockEnabled,
+                automaticallyAdjustContentInsets,
+            } = scrollViewProps();
+            const {
+                navigation,
+                onSetHeaderGoBackButton,
+                onCloseHeaderMenu,
+                onChangeModalVisibility,
+                primaryColorTheme,
+            } = this.props;
+            return (
+                <>
+                    {renderSceneHeader(this.sceneHeaderProps())}
+                    <ScrollView
+                        contentContainerStyle={contentContainerStyle}
+                        directionalLockEnabled={directionalLockEnabled}
+                        automaticallyAdjustContentInsets={
+                            automaticallyAdjustContentInsets
+                        }
                     >
-                        {this.renderContents()}
-                    </TouchableWithoutFeedback>
-                ) : (
-                    <View style={{ flex: 1 }}>{this.renderContents()}</View>
-                );
-            }
+                        <WrappedComponent
+                            onSetHeaderGoBackButton={onSetHeaderGoBackButton}
+                            onCloseHeaderMenu={onCloseHeaderMenu}
+                            navigation={navigation}
+                            onChangeModalVisibility={onChangeModalVisibility}
+                            primaryColorTheme={primaryColorTheme}
+                        />
+                    </ScrollView>
+                </>
+            );
+        }
 
-            renderContents() {
-                const {
-                    contentContainerStyle,
-                    directionalLockEnabled,
-                    automaticallyAdjustContentInsets,
-                } = scrollViewProps();
-                const {
-                    navigation,
-                    onSetHeaderGoBackButton,
-                    onCloseHeaderMenu,
-                    onChangeModalVisibility,
-                    primaryColorTheme,
-                } = this.props;
-                return (
-                    <>
-                        {renderSceneHeader(this.sceneHeaderProps())}
-                        <ScrollView
-                            contentContainerStyle={contentContainerStyle}
-                            directionalLockEnabled={directionalLockEnabled}
-                            automaticallyAdjustContentInsets={
-                                automaticallyAdjustContentInsets
-                            }
-                        >
-                            <WrappedComponent
-                                onSetHeaderGoBackButton={
-                                    onSetHeaderGoBackButton
-                                }
-                                onCloseHeaderMenu={onCloseHeaderMenu}
-                                navigation={navigation}
-                                onChangeModalVisibility={
-                                    onChangeModalVisibility
-                                }
-                                primaryColorTheme={primaryColorTheme}
-                            />
-                        </ScrollView>
-                    </>
-                );
-            }
-
-            render() {
-                return Platform.OS === 'android' ? (
-                    <View style={styles.container}>
-                        <View style={styles.pallet}>
-                            {this.renderTouchArea()}
-                        </View>
-                    </View>
-                ) : (
-                    <View style={styles.container}>
-                        <SafeAreaView style={styles.pallet}>
-                            {this.renderTouchArea()}
-                        </SafeAreaView>
-                    </View>
-                );
-            }
-        },
-    );
+        render() {
+            return Platform.OS === 'android' ? (
+                <View style={styles.container}>
+                    <View style={styles.pallet}>{this.renderTouchArea()}</View>
+                </View>
+            ) : (
+                <View style={styles.container}>
+                    <SafeAreaView style={styles.pallet}>
+                        {this.renderTouchArea()}
+                    </SafeAreaView>
+                </View>
+            );
+        }
+    };
 
     function mapDispatchToProps(dispatch: any): SceneDispatchProps {
         return {
