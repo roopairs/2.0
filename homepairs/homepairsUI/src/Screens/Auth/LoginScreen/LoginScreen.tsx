@@ -17,8 +17,8 @@ const authPageParam : AuthPassProps  = {
 };
 const mapDispatchToProps : (dispatch: any) => LoginViewDispatchProps = (dispatch: any) => ({
     onFetchAccountProfile: (username: string, password: string, 
-        modalSetOff: () => any, navigationRouteCallback: () => any) => {
-        dispatch(AccountActions.fetchAccount(username, password, modalSetOff, navigationRouteCallback));
+        modalSetOff: () => any, navigation: any) => {
+        dispatch(AccountActions.fetchAccount(username, password, navigation, modalSetOff));
     },
 });
 

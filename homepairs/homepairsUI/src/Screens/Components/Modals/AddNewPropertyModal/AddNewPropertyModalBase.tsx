@@ -211,7 +211,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         const {email, onChangeModalVisibility, onCreateProperty, roopairsToken} = this.props;
         if (this.validateNums()) {
             const newProperty : Property = {
-                address, city, state,
+                streetAddress: address, city, state,
                 tenants: Number(tenants),
                 bedrooms: Number(bedrooms), 
                 bathrooms: Number(bathrooms),
@@ -295,7 +295,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                     titleStyle={this.inputFormStyle.cardTitle}
                     titleContainerStyle={this.inputFormStyle.cardTitleContainer}
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
-                    title='Edit Property'
+                    title='Add Property'
                     closeButtonPressedCallBack={() => onChangeModalVisibility(false)}
                     >
                     <>{this.renderInputForms()}</>

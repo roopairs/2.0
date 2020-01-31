@@ -1,12 +1,12 @@
 import React from "react";
 import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from "react-native";
-import {InputFormProps, ThinButton, renderInputForm, ThinButtonProps } from 'homepairs-elements';
+import {ThinButton, renderInputForm, ThinButtonProps } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import { DarkModeInjectedProps } from 'homepairs-components';
-import {isNumber, isNullOrUndefined} from 'homepairs-utilities';
+import {isNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 import Card from '../../../../Elements/Cards/Card';
 
@@ -14,14 +14,14 @@ export type EditPropertyDispatchProps = {
     onEditProperty: (newProperty: Property, info: EditPropertyState, onChangeModalVisibility: (check: boolean) => void) => void
 }
 
-export type EditPropertyStateProps = {
+export type EditPropertyState = {
     email : string;
     index: number;
     oldProp: Property;
     roopairsToken: string;
 }
 
-type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyStateProps;
+type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyState;
 
 type EditState = {
     address: string, 
@@ -42,7 +42,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             marginVertical: '3.5%',
             fontFamily: BaseStyles.FontTheme.primary,
             color: colors.lightGray,
-          },
+        },
         input: {
              alignItems: 'center',
              alignSelf: 'center',
@@ -124,8 +124,8 @@ function checkIfPositiveNumber(arg: string): boolean{
     return (isNumber(arg) && Number(arg) > 0);
  }
 
-export default class EditNewPropertyModalBase extends React.Component<Props, State> {
-    inputFormStyle: { formTitle: any; input: any; modalContainer: any; }
+export default class EditNewPropertyModalBase extends React.Component<Props, EditState> {
+    inputFormStyle;
 
     oldProperty: Property;
 
@@ -164,9 +164,9 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
         this.getFormNumBed = this.getFormNumBed.bind(this);
         this.getFormNumBath = this.getFormNumBath.bind(this);
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
-        this.validateNums = this.validateNums.bind(this);
+        this.validateForms = this.validateForms.bind(this);
         const {oldProp} = this.props;
-        const {address, city, state, bedrooms, bathrooms, tenants} = oldProp;
+        const {streetAddress: address, city, state, bedrooms, bathrooms, tenants} = oldProp;
         this.state = {
             address, city, state, 
             bedrooms: bedrooms.toString(), 
@@ -176,18 +176,15 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
     } 
 
     getFormAddress(childData : string) {
-        const address = isEmptyOrSpaces(childData) ? this.oldProperty.address : childData;
-        this.setState({address});
+        this.setState({address: childData});
     }
 
     getFormCity(childData : string) {
-        const city = isEmptyOrSpaces(childData) ? this.oldProperty.city : childData;
-        this.setState({city});
+        this.setState({city: childData});
     }
 
     getFormState(childData : string) {
-        const state = isEmptyOrSpaces(childData) ? this.oldProperty.state : childData;
-        this.setState({state});
+        this.setState({state: childData});
     }
 
     getFormNumBed(childData : string) {
@@ -202,27 +199,32 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
         this.setState({tenants: childData});
     }
 
-    validateNums() {
-        const {bedrooms, bathrooms, tenants} = this.state;
-        if (isNumber(bedrooms) && isNumber(bathrooms) && isNumber(tenants)) {
-            return true;
-        } 
+    validateForms() {
+        const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
+        if (!isEmptyOrSpaces(address) && !isEmptyOrSpaces(city) && !isEmptyOrSpaces(state)) {
+            if (isNumber(bedrooms) && isNumber(bathrooms) && isNumber(tenants)) {
+                return true;
+            }
+            // alert that must be integer
+            return false;
+        }
+        // alert that cannot be empty string
         return false;
     }
 
     clickSubmitButton() {
         const {email, onChangeModalVisibility, onEditProperty, index, oldProp, roopairsToken} = this.props;
         const {address, state, city, bedrooms, bathrooms, tenants} = this.state;
-        if (this.validateNums()) {
+        if (this.validateForms()) {
             const newProperty : Property = {
-                address, state, city, 
+                streetAddress: address, state, city, 
                 bedrooms: Number(bedrooms), 
                 bathrooms: Number(bathrooms), 
                 tenants: Number(tenants),
             };
             const info : EditPropertyState = { email, index, oldProp, roopairsToken};
             onEditProperty(newProperty, info, onChangeModalVisibility);
-        }
+        } 
     }
 
     renderInputForms() {
@@ -253,7 +255,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
                 value: state, 
             }, 
             {
-
                 key: signUpStrings.inputForms.numBed,
                 name: signUpStrings.inputForms.numBed,
                 parentCallBack: this.getFormNumBed,
@@ -270,7 +271,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
                 value: bathrooms,
             }, 
             {
-
                 key: signUpStrings.inputForms.maxTenants,
                 name: signUpStrings.inputForms.maxTenants,
                 parentCallBack: this.getFormMaxTenants,
@@ -283,7 +283,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Sta
         return inputForms.map(inputFromProp => {
             return renderInputForm(inputFromProp);
         });
-
     }
     
     render() {

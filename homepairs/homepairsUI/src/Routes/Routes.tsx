@@ -8,6 +8,7 @@ import {
 } from 'homepairs-pages';
 import { View } from 'react-native';
 import { HomePairsHeader } from 'homepairs-components';
+import { AccountTypes } from 'homepairs-types';
 
 const navigationHeader = () => ({
     header: () => {
@@ -54,7 +55,6 @@ const serviceRequestStackConfig = {
     initialRouteName: 'ServiceRequest',
     ...innerStackConfig,
 };
-
 const accountStackConfig = {
     initialRouteName: 'Account',
     ...innerStackConfig,
@@ -63,21 +63,23 @@ const accountStackConfig = {
 const PropertyStack = createStackNavigator(
     {
         AccountProperties: MainAppPages.PropertyPages.PropertiesScreen,
+        TenantProperties: MainAppPages.PropertyPages.TenantPropertiesScreen,
         DetailedProperty: MainAppPages.PropertyPages.DetailedPropertyScreen,
     },
     propertyStackConfig,
 );
 const ServiceRequestStack = createStackNavigator(
-    {
-        ServiceRequest: MainAppPages.ServiceRequestPages.ServiceRequestScreen,
-        NewRequest: MainAppPages.ServiceRequestPages.NewRequestScreen,
-    },
-    serviceRequestStackConfig,
-);
+  {ServiceRequest: MainAppPages.ServiceRequestPages.ServiceRequestScreen, NewRequest: MainAppPages.ServiceRequestPages.NewRequestScreen}, 
+  serviceRequestStackConfig);
 const AccountStack = createStackNavigator(
-    { Account: MainAppPages.AccountPages.AccountScreen },
-    accountStackConfig,
-);
+  {Account: MainAppPages.AccountPages.AccountScreen},
+  accountStackConfig);
+
+export function ChooseMainPage(accountType: AccountTypes = AccountTypes.Tenant, navigation: any) {
+  accountType === AccountTypes.Landlord ? 
+  navigation.navigate('AccountProperties') : 
+  navigation.navigate('TenantProperties')
+}
 
 /*
  * injects navigator objects into all these pages; if you make a new page that needs a navigator, add it to this stack
