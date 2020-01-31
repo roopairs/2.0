@@ -6,8 +6,8 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import { DarkModeInjectedProps } from 'homepairs-components';
 import {isNumber} from 'homepairs-utilities';
+import {DarkModeInjectedProps} from '../../WithDarkMode/WithDarkMode';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 
 

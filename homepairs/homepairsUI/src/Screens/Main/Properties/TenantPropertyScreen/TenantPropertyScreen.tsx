@@ -7,7 +7,7 @@ import { withDarkMode } from 'homepairs-components';
 import { HeaderActions } from "homepairs-redux-actions";
 
 function mapStateToProps(state: AppState) : TenantPropertyStateProps {
-    return { properties: state.properties,}
+    return { propertyState: state.properties};
 };
   
 const mapDispatchToProps: (

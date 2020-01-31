@@ -17,10 +17,10 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles'
 import { DarkModeInjectedProps } from 'homepairs-components';
 
-const navParams = strings.detailedPropertyPage.navigationParams
+const navParams = strings.detailedPropertyPage.navigationParams;
 
 export type TenantPropertyStateProps = DarkModeInjectedProps & {
-  properties: PropertyListState,
+  propertyState: PropertyListState,
 }
 
 export type TenantPropertyDispatchProps = {
@@ -28,13 +28,14 @@ export type TenantPropertyDispatchProps = {
   }
 
 type Props = NavigationStackScreenProps & TenantPropertyStateProps //& TenantPropertyDispatchProps
-const propertyKeys = HomepairsPropertyAttributes
+const propertyKeys = HomepairsPropertyAttributes;
 
 export default function TenantPropertyScreenBase(props:Props){
-
+    const {propertyState, primaryColorTheme} = props;
+    const {selectedPropertyIndex, properties} = propertyState;
     //const id: number = props.navigation.getParam(navParams.propertyIndex)
-    const property: Property = props.properties[0] //THIS IS BAD CODING, ASSUMING AN ARRAY IS OF SIZE 1
-    let styles = setStyles(props.primaryColorTheme)
+    const property: Property = properties[0] //THIS IS BAD CODING, ASSUMING AN ARRAY IS OF SIZE 1
+    let styles = setStyles(primaryColorTheme);
 
     const imageProps : ImageProps = { 
         source: defaultProperty,
@@ -48,7 +49,7 @@ export default function TenantPropertyScreenBase(props:Props){
         bedrooms: property[propertyKeys.BEDROOMS],
         bathrooms: property[propertyKeys.BATHROOMS],
         onClick: null,
-        primaryColorTheme: props.primaryColorTheme  
+        primaryColorTheme , 
     }
 
     function renderContents(){
@@ -59,7 +60,7 @@ export default function TenantPropertyScreenBase(props:Props){
             <View style={styles.addBottomMargin}>
                 <AddressSticker
                 address={property[propertyKeys.ADDRESS]}
-                primaryColorTheme={props.primaryColorTheme}/>
+                primaryColorTheme={primaryColorTheme}/>
                 <View style={styles.imageWrapper}>
                 <View style={styles.imageContainer}>
                     <Image {...imageProps}/>
