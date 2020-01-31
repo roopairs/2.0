@@ -1,35 +1,34 @@
 {
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "target": "es5",
-    "jsx": "react-native",
-    "allowJs": true,
-    "lib": ["dom", "esnext"],
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "noEmit": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "baseUrl": "./",
-    "paths":{
-      "*": ["*", "*.ios", "*.android", "*.web"],
-      "homepair-fonts": ["./res/fonts"],
-      "homepair-images": ["./res/images.tsx"],
-      "homepair-types": ["./src/state/types.ts"],
-      "homepair-strings": ["./res/strings.tsx"],
-      "homepair-colors": ["./res/colors.tsx"],
-      "homepair-elements": ["./src/Elements/index.tsx"],
-      "homepair-redux-actions": ["./src/state/actions.ts"],
-      "homepair-pages": ["./src/Screens/index.ts"],
-      "homepair-base-styles": ["./res/Styles/base.ts"],
-      "homepair-helpers": ["./src/utility/index.tsx"], //RENAME THIS TO SOMETHING BESIDES HELPERS
-      "homepair-components": ["./src/Screens/Components/index.tsx"],
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "target": "es5",
+        "jsx": "react-native",
+        "allowJs": true,
+        "lib": ["dom", "esnext"],
+        "forceConsistentCasingInFileNames": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "noEmit": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "isolatedModules": true,
+        "baseUrl": "./",
+        "paths": {
+            "*": ["*", "*.ios", "*.android", "*.web"],
+            "homepairs-fonts": ["./res/fonts"],
+            "homepairs-images": ["./res/images.tsx"],
+            "homepairs-types": ["./src/state/types.ts"],
+            "homepairs-strings": ["./res/strings.tsx"],
+            "homepairs-colors": ["./res/colors.tsx"],
+            "homepairs-elements": ["./src/Elements/index.tsx"],
+            "homepairs-redux-actions": ["./src/state/actions.ts"],
+            "homepairs-pages": ["./src/Screens/index.ts"],
+            "homepairs-base-styles": ["./res/Styles/base.ts"],
+            "homepairs-utilities": ["./src/utility/index.tsx"], // RENAME THIS TO SOMETHING BESIDES HELPERS
+            "homepairs-components": ["./src/Screens/Components/index.tsx"]
+        }
     },
-
-  },
-  "exclude": ["node_modules"],
-  "include": ["src", "res"]
+    "exclude": ["node_modules", "../tests", "build"],
+    "include": ["src", "res"]
 }

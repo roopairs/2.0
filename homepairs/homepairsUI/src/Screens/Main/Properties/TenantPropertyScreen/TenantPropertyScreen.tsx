@@ -1,13 +1,13 @@
-import { AppState } from "homepair-types";
-import { PropertyListActions } from "homepair-redux-actions";
+import { AppState } from "homepairs-types";
+import { PropertyListActions } from "homepairs-redux-actions";
 import { connect } from "react-redux";
 import TenantPropertyScreenBase, { TenantPropertyStateProps, TenantPropertyDispatchProps} from './TenantPropertyScreenBase';
 import { withNavigation } from "react-navigation";
-import { withDarkMode } from 'homepair-components';
-import { HeaderActions } from "homepair-redux-actions";
+import { withDarkMode } from 'homepairs-components';
+import { HeaderActions } from "homepairs-redux-actions";
 
 function mapStateToProps(state: AppState) : TenantPropertyStateProps {
-    return { properties: state.propertyList,}
+    return { properties: state.properties,}
 };
   
 const mapDispatchToProps: (

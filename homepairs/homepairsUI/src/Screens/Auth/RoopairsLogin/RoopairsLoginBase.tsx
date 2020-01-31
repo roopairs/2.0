@@ -1,15 +1,19 @@
 import React from 'react';
-import {InputForm, InputFormProps } from 'homepair-elements';
-import strings from 'homepair-strings';
+import {InputFormProps, renderInputForm } from 'homepairs-elements';
+import strings from 'homepairs-strings';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { AuthPageInjectedProps, DarkModeInjectedProps } from 'homepair-components';
-import * as BaseStyles from 'homepair-base-styles';
+import { AuthPageInjectedProps, DarkModeInjectedProps } from 'homepairs-components';
+import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
 
 
 export type RoopairsLoginDispatchProps = {
-    onFetchAccountProfile: (username: string, password: string, type: string,
-        modalSetOff: () => any, navigation: any) => void
+    onFetchAccountProfile: (
+        username: string, 
+        password: string,
+        navigation: any,
+        modalSetOff: () => any, 
+    ) => void
 }
 
 export type LoginProps = DarkModeInjectedProps & RoopairsLoginDispatchProps & AuthPageInjectedProps & NavigationStackScreenProps<any,any>
@@ -18,78 +22,14 @@ export type LoginState = {
     password: string,
 }
 
-const signInStrings = strings.signInPage
+const signInStrings = strings.signInPage;
 const initialState : LoginState = {
     username : '',
     password : '',
-}
-
-export default class RoopairsLoginBase extends React.Component<LoginProps, LoginState> {
-    protected inputFormStyle 
-    constructor(props: Readonly<LoginProps>){
-        super(props)
-        this.inputFormStyle = setInputStyles(props.primaryColorTheme)
-        this.getFormUsername = this.getFormUsername.bind(this)
-        this.getFormPassword = this.getFormPassword.bind(this)
-        this.setModalOff = this.setModalOff.bind(this)
-        this._clickButton = this._clickButton.bind(this)
-        this._clickHighlightedText = this._clickHighlightedText.bind(this)
-        this.state = initialState
-        
-        this.props._clickButton(this._clickButton)
-        this.props._clickHighlightedText(this._clickHighlightedText)
-    }
-
-    setModalOff(error:string = "Error Message") {
-        this.props._showModal(false)
-        this.props._setErrorState(true, error)
-    }
-
-    getFormUsername (childData : string) {
-        this.setState({username : childData})
-    }
-    getFormPassword(childData : string){
-        this.setState({password : childData})
-    }
-
-    _clickHighlightedText() {
-        this.props.navigation.navigate('SignUp')
-    }
-    _clickButton() {
-        this.props._showModal(true)
-        this.props.onFetchAccountProfile(this.state.username, this.state.password, 'Roopairs', this.setModalOff, this.props.navigation)
-    } 
-
-    inputFormProps() : {[id: string] : InputFormProps} {
-        return {
-            email: {
-                name: signInStrings.inputForms.email,
-                parentCallBack: this.getFormUsername,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-            },
-            password: {
-                name: signInStrings.inputForms.password,
-                parentCallBack: this.getFormPassword,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-                secureTextEntry: true,
-            },
-        }
-    }
-
-    render() {
-        return(
-            <>
-                <InputForm {...this.inputFormProps().email}/>
-                <InputForm {...this.inputFormProps().password}/>
-            </>
-        );
-    }
-}
+};
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
-    let colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme
+    const colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme;
     return StyleSheet.create({
         formTitle: {
             marginVertical: '3.5%', 
@@ -109,5 +49,84 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
              borderRadius: BaseStyles.BorderRadius.small,
              paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
         },
-    })
+    });
+}
+
+export default class RoopairsLoginBase extends React.Component<LoginProps, LoginState> {
+    inputFormStyle: { formTitle: any; input: any; }
+
+    constructor(props: Readonly<LoginProps>){
+        super(props);
+        this.inputFormStyle = setInputStyles(props.primaryColorTheme);
+        this.getFormUsername = this.getFormUsername.bind(this);
+        this.getFormPassword = this.getFormPassword.bind(this);
+        this.setModalOff = this.setModalOff.bind(this);
+        this.navigateMain = this.navigateMain.bind(this);
+        this.clickButton = this.clickButton.bind(this);
+        this.clickHighlightedText = this.clickHighlightedText.bind(this);
+        this.state = initialState;
+        
+        props.clickButton(this.clickButton);
+        props.clickHighlightedText(this.clickHighlightedText);
+    }
+
+    setModalOff(error:string = "Error Message") {
+        const {showModal, setErrorState} = this.props;
+        showModal(false);
+        setErrorState(true, error);
+    }
+
+    
+    getFormUsername (childData : string) {
+        this.setState({username : childData});
+    }
+
+    getFormPassword(childData : string){
+        this.setState({password : childData});
+    }
+
+    navigateMain() {
+        const {navigation} = this.props;
+        navigation.navigate('Main');
+    }
+
+    clickHighlightedText() {
+        const {navigation} = this.props;
+        navigation.navigate('SignUp');
+    }
+
+    clickButton() {
+        const {showModal, onFetchAccountProfile, navigation} = this.props;
+        const {username, password} = this.state;
+        showModal(true);
+        onFetchAccountProfile(username, password, navigation, this.setModalOff);
+    } 
+
+    inputFormProps() : {[id: string] : InputFormProps} {
+        return {
+            email: {
+                name: signInStrings.inputForms.email,
+                parentCallBack: this.getFormUsername,
+                formTitleStyle: this.inputFormStyle.formTitle,
+                inputStyle: this.inputFormStyle.input,
+            },
+            password: {
+                name: signInStrings.inputForms.password,
+                parentCallBack: this.getFormPassword,
+                formTitleStyle: this.inputFormStyle.formTitle,
+                inputStyle: this.inputFormStyle.input,
+                secureTextEntry: true,
+            },
+        };
+    }
+
+    render() {
+        const {email, password} = this.inputFormProps();
+        return(
+            <>
+                {renderInputForm(email)}
+                {renderInputForm(password)}
+            </>
+        );
+    }
 }

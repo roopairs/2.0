@@ -1,4 +1,4 @@
-import { HomePairsDimensions } from 'homepair-types';
+import { HomePairsDimensions } from 'homepairs-types';
 import { HomePairFonts } from '../fonts';
 
 export type ColorTheme = {

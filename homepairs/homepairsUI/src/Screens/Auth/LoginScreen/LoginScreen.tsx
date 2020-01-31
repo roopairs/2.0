@@ -1,12 +1,12 @@
 import { connect } from "react-redux";
-import LoginScreenBase from './LoginScreenBase';
-import { AccountActions } from 'homepair-redux-actions';
-import { LoginViewDispatchProps } from './LoginScreenBase';
-import {withAuthPage, AuthPassProps, withDarkMode } from 'homepair-components'
-import strings from 'homepair-strings'
+import { AccountActions } from 'homepairs-redux-actions';
+import {withAuthPage, AuthPassProps, withDarkMode } from 'homepairs-components';
+import strings from 'homepairs-strings';
 import HomePairColors from 'res/colors';
+import LoginScreenBase, { LoginViewDispatchProps } from './LoginScreenBase';
 
-const signInStrings = strings.signInPage
+
+const signInStrings = strings.signInPage;
 const authPageParam : AuthPassProps  = {
     button: signInStrings.button,
     subtitle: signInStrings.subtitle,
@@ -14,7 +14,7 @@ const authPageParam : AuthPassProps  = {
     loadingModalText: signInStrings.modal,
     underButtonText: signInStrings.newUserText,
     highlightedText: signInStrings.signUpHighlight,
-}
+};
 const mapDispatchToProps : (dispatch: any) => LoginViewDispatchProps = (dispatch: any) => ({
     onFetchAccountProfile: (username: string, password: string, 
         modalSetOff: () => any, navigation: any) => {
@@ -26,4 +26,4 @@ const LoginScreen = connect(
     null, 
     mapDispatchToProps)(LoginScreenBase);
 const AuthPage = withAuthPage(LoginScreen, authPageParam);
-export default withDarkMode(AuthPage)
+export default withDarkMode(AuthPage);

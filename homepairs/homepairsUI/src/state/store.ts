@@ -1,23 +1,23 @@
+import { createStore, combineReducers, AnyAction, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import { AppState } from './types';
-import { propertyList } from './property-list/reducer';
+import { properties } from './property-list/reducer';
 import { accountProfile } from './account/reducer';
 import { header } from './header/reducer';
 import { serviceRequests } from './service/reducer';
 import { settings } from './settings/reducer';
-import { createStore, combineReducers, AnyAction, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 
 export default createStore(
     combineReducers<AppState, AnyAction>(
         {   
             header,
-            propertyList,
+            properties,
             accountProfile,
             serviceRequests,
             settings,
-            /**REMEMBER TO GO INTO ./types AND UPDATE THE AppState TYPE */
-        }
+            /** REMEMBER TO GO INTO ./types AND UPDATE THE AppState TYPE */
+        },
     ),
-    composeWithDevTools(applyMiddleware(thunk))
-)
+    composeWithDevTools(applyMiddleware(thunk)),
+);

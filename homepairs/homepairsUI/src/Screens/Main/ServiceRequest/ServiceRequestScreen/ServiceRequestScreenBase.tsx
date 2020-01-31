@@ -1,18 +1,17 @@
-import React from 'react'; //**For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { NavigationStackScreenProps } from 'react-navigation-stack'
-import { ServiceState, HeaderState } from 'homepair-types';
-import strings from 'homepair-strings'
+import React from 'react';
+import { NavigationStackScreenProps } from 'react-navigation-stack';
+import { ServiceState, HeaderState } from 'homepairs-types';
+import strings from 'homepairs-strings';
 
-export type ServiceRequestScreenProps = {
-  serviceRequests: ServiceState,
-  header: HeaderState
-}
-type Props = NavigationStackScreenProps & ServiceRequestScreenProps
+export type ServiceRequestScreenStateProps = {
+    serviceRequests: ServiceState;
+    header: HeaderState;
+};
+type Props = NavigationStackScreenProps & ServiceRequestScreenStateProps;
 
-const serviceRequestStrings = strings.serviceRequestPage
-export default class ServiceRequestScreenBase extends React.Component<Props> {
-  //TODO: Insert Business/Non-View related logic here
-  render(){
-    return <></>
-  }
+const serviceRequestStrings = strings.serviceRequestPage;
+export default function ServiceRequestScreenBase(props: Props) {
+    // TODO: Insert Business/Non-View related logic here
+
+    return <></>;
 }

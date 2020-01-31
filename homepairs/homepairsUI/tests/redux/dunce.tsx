@@ -1,5 +1,5 @@
-import { AccountActions } from 'homepair-redux-actions';
-import { LandlordAccount, AccountTypes, } from 'homepair-types';
+import { AccountActions } from 'homepairs-redux-actions';
+import { LandlordAccount, AccountTypes, } from 'homepairs-types';
 import { fetchAccountProfile } from '../../src/state/account/actions';
 
 const fakeLandLord : LandlordAccount = {
@@ -10,7 +10,7 @@ const fakeLandLord : LandlordAccount = {
   phone: '555555555',
   roopairsToken: '',
   manId: 102449555,
-}
+};
 
 const json : any = {
   pmInfo: {
@@ -22,7 +22,7 @@ const json : any = {
     manId: 102449555,
   },
   roopairs: '',
-}
+};
 
 const json2 : any = {
   pmInfo: {
@@ -34,16 +34,16 @@ const json2 : any = {
     manId: 102449555,
   },
   roopairs: '',
-}
+};
 
 
 test('ACTIONS', () => {
        const expectedAction = {
           type: 'ACCOUNT/FETCH_PROFILE',
           profile: fakeLandLord,
-       }
-       expect(AccountActions.fetchAccountProfile(json)).toEqual(expectedAction)
-       expect( () => AccountActions.fetchAccountProfile(json['pmInfo'])).toThrow(TypeError)
+       };
+       expect(AccountActions.fetchAccountProfile(json)).toEqual(expectedAction);
+       expect( () => AccountActions.fetchAccountProfile(json.pmInfo)).toThrow(TypeError);
 
- })
+ });
  

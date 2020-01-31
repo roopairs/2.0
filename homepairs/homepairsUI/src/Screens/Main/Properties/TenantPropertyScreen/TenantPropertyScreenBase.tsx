@@ -9,13 +9,13 @@ import {
     StyleSheet, 
     ImageProps 
 } from 'react-native';
-import { defaultProperty } from 'homepair-images';
-import {GeneralHomeInfo, GeneralHomeInfoProps, AddressSticker } from 'homepair-components';
-import { HomepairsPropertyAttributes, PropertyListState, Property, HomePairsDimensions } from 'homepair-types';
+import { defaultProperty } from 'homepairs-images';
+import {GeneralHomeInfo, GeneralHomeInfoProps, AddressSticker } from 'homepairs-components';
+import { HomepairsPropertyAttributes, PropertyListState, Property, HomePairsDimensions as HomepairsDimensions } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack'
-import strings from 'homepair-strings';
-import * as BaseStyles from 'homepair-base-styles'
-import { DarkModeInjectedProps } from 'homepair-components';
+import strings from 'homepairs-strings';
+import * as BaseStyles from 'homepairs-base-styles'
+import { DarkModeInjectedProps } from 'homepairs-components';
 
 const navParams = strings.detailedPropertyPage.navigationParams
 
@@ -38,7 +38,7 @@ export default function TenantPropertyScreenBase(props:Props){
 
     const imageProps : ImageProps = { 
         source: defaultProperty,
-        style: Platform.OS === 'web' ? styles.homePairsPropertiesImageWeb : styles.homePairsPropertiesImage,
+        style: Platform.OS === 'web' ? styles.homepairsPropertiesImageWeb : styles.homepairsPropertiesImage,
         resizeMode: 'cover',
     }
 
@@ -103,7 +103,7 @@ function setStyles(colorTheme?:BaseStyles.ColorTheme) {
                 backgroundColor: colors.secondary,
                 width: BaseStyles.ContentWidth.max,
                 flex: 1,
-                maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+                maxWidth: HomepairsDimensions.MAX_CONTENT_SIZE,
                 alignSelf: 'center',
             },
             imageContainer: {
@@ -127,7 +127,7 @@ function setStyles(colorTheme?:BaseStyles.ColorTheme) {
                 elevation: 9,
             },
             scrollViewContentContainer: {
-                maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+                maxWidth: HomepairsDimensions.MAX_CONTENT_SIZE,
                 backgroundColor: colors.secondary,
                 alignSelf: 'center',
                 width: BaseStyles.ContentWidth.max,
@@ -137,14 +137,14 @@ function setStyles(colorTheme?:BaseStyles.ColorTheme) {
                 flex: 1,
                 marginBottom: BaseStyles.MarginPadding.largeConst
             },
-            homePairsPropertiesImage: {
+            homepairsPropertiesImage: {
                 flex: 1,
                 alignSelf:'center', 
                 width: BaseStyles.ContentWidth.max,
                 height: '100%',
                 overflow: 'hidden',
             },
-            homePairsPropertiesImageWeb: {
+            homepairsPropertiesImageWeb: {
                 alignSelf:'center', 
                 width: BaseStyles.ContentWidth.max,
                 height: '100%',

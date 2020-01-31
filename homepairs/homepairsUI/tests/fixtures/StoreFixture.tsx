@@ -1,8 +1,8 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { LandlordAccount, AccountTypes, AppState, Property, Header, MainAppStackType, ConfigurationSettings, ServiceState } from 'homepair-types';
+import { LandlordAccount, AccountTypes, AppState, Property, Header, MainAppStackType, ConfigurationSettings, ServiceState } from 'homepairs-types';
 
-const middleWares = [thunk]
+const middleWares = [thunk];
 const mockStore = configureMockStore(middleWares);
 const MainAppStack : Array<MainAppStackType> = [
     { 
@@ -10,7 +10,7 @@ const MainAppStack : Array<MainAppStackType> = [
         navigate: 'AccountProperties',
         key: 'Properties',
         button: 'Add Property',
-        _onButtonClick: () => {return true}
+        onButtonClick: () => {return true;}
     },
     { 
         title: 'Service Request', 
@@ -28,15 +28,15 @@ const MainAppStack : Array<MainAppStackType> = [
         navigate: 'Auth',
         key: 'LogOut',
     }
-]
+];
 const navigationMenu : string[] = [
     'Properties',
     'Service Requests',
     'Account',
     'Log Out'
-]
+];
 
-/** User Account data for testing!*/
+/** User Account data for testing! */
 const PropertyManagerAcount : LandlordAccount = {
     accountType: AccountTypes.Landlord,
     firstName: 'Darrel',
@@ -49,10 +49,10 @@ const PropertyManagerAcount : LandlordAccount = {
     companyType: 'Retail', 
     roopairsToken: '',
     manId: 1000,
-}
-/** User Account data for testing!*/
+};
+/** User Account data for testing! */
 
-/** Property data for testing!*/
+/** Property data for testing! */
 const PropertyList1 : Property[] = [
     {
         address: '560 Hathway Ap. San Luis Obispo', 
@@ -66,37 +66,37 @@ const PropertyList1 : Property[] = [
         bedrooms: 3, 
         bathrooms: 2,
     }
-]
-/** Property data for testing!*/
+];
+/** Property data for testing! */
 
 
-/** Header data for testing!*/
+/** Header data for testing! */
 const HeaderState1 : Header = {
     showMenu : false,
     isDropDown: true,
     currentPage: MainAppStack[1],
     showBackButton: false,
     menu: navigationMenu
-}
-/** Header data for testing!*/
+};
+/** Header data for testing! */
 
 
 
-/** Service Request data for testing!*/
+/** Service Request data for testing! */
 const serviceRequest1: ServiceState = {
     requested: [],
     accepted: [],
     closed:[]
-}
-/** Service Request  data for testing!*/
+};
+/** Service Request  data for testing! */
 
 
-/** Settings data for testing!*/
+/** Settings data for testing! */
 const ConfigurationSettings1 : ConfigurationSettings = {
     areNotificationsActive: true,
     isDarkModeActive: false,
-}
-/** Settings data for testing!*/
+};
+/** Settings data for testing! */
 
 export const testStore1 : AppState = {
     propertyList: PropertyList1,
@@ -104,6 +104,6 @@ export const testStore1 : AppState = {
     header: HeaderState1,
     serviceRequests: serviceRequest1,
     settings: ConfigurationSettings1,    
-}
+};
 
-export const propertyManagerMock1 = mockStore(testStore1)
+export const propertyManagerMock1 = mockStore(testStore1);

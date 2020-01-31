@@ -1,16 +1,16 @@
-import { AppState, MainAppStackType } from "homepair-types";
+import { AppState, MainAppStackType } from "homepairs-types";
 import { connect } from "react-redux";
-import { HeaderActions } from 'homepair-redux-actions';
+import { HeaderActions } from 'homepairs-redux-actions';
+import { withNavigation } from "react-navigation";
 import HomePairsHeaderBase from "./HomePairsHeaderBase";
 import { HomePairsHeaderStateProps, HomePairsHeaderDispatchProps } from "./HomePairsHeaderTemplate";
-import { withDarkMode } from '../WithDarkMode/WithDarkMode'
-import { withNavigation } from "react-navigation";
+import { withDarkMode } from '../WithDarkMode/WithDarkMode';
 
 function mapStateToProps(state: AppState): HomePairsHeaderStateProps{ 
   return {
     header: state.header,
-    isDarkModeActive: state.settings.isDarkModeActive
-  }
+    isDarkModeActive: state.settings.isDarkModeActive,
+  };
 };
 
 const mapDispatchToProps: (dispatch:any) => HomePairsHeaderDispatchProps = dispatch => ({
@@ -21,17 +21,17 @@ const mapDispatchToProps: (dispatch:any) => HomePairsHeaderDispatchProps = dispa
       dispatch(HeaderActions.showGoBackButton(showBackButton));
   },
   onSwitchNavBar: (switchNavBar: boolean) => {
-    dispatch(HeaderActions.switchDropdownNavbar(switchNavBar))
+    dispatch(HeaderActions.switchDropdownNavbar(switchNavBar));
   },
   onUpdateSelected: (selected: MainAppStackType) => {
-    dispatch(HeaderActions.showGoBackButton(false))
-    dispatch(HeaderActions.updateSelectedPage(selected))
-  }
+    dispatch(HeaderActions.showGoBackButton(false));
+    dispatch(HeaderActions.updateSelectedPage(selected));
+  },
 });
 
 const HomePairsHeader = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(HomePairsHeaderBase);
 
-export default withDarkMode(withNavigation(HomePairsHeader))
+export default withDarkMode(withNavigation(HomePairsHeader));
