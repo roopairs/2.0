@@ -119,6 +119,7 @@ export default function Card(props: CardProps) {
         if (showCloseButton) {
             return (
                 <TouchableOpacity
+                    testID='click-card-close-button'
                     style={closeButtonContainer}
                     onPress={closeButtonPressedCallBack}
                 >
@@ -176,38 +177,4 @@ Card.defaultProps = {
     closeButtonPressedCallBack: () => {},
 };
 
-export function renderCard(
-    cardProperties: CardProps,
-    innerComponent: ReactElement[] | ReactElement,
-) {
-    const {
-        key,
-        containerStyle,
-        wrapperStyle,
-        title,
-        titleStyle,
-        subtitle,
-        subtitleStyle,
-        titleContainerStyle,
-        closeButtonStyle,
-        showCloseButton,
-        closeButtonPressedCallBack,
-    } = cardProperties;
-    return (
-        <Card
-            key={key}
-            containerStyle={containerStyle}
-            wrapperStyle={wrapperStyle}
-            title={title}
-            titleStyle={titleStyle}
-            titleContainerStyle={titleContainerStyle}
-            subtitle={subtitle}
-            subtitleStyle={subtitleStyle}
-            closeButtonStyle={closeButtonStyle}
-            showCloseButton={showCloseButton}
-            closeButtonPressedCallBack={closeButtonPressedCallBack}
-        >
-            {innerComponent}
-        </Card>
-    );
-}
+/** Removed renderCardFunction. We should NOT be using this! */

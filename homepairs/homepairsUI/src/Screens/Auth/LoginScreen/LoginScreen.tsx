@@ -9,7 +9,7 @@ import {
 } from "homepairs-components";
 import strings from "homepairs-strings";
 import HomePairColors from "res/colors";
-import { withNavigation } from "react-navigation";
+import { withNavigation, NavigationSwitchProp } from "react-navigation";
 import LoginScreenBase, { LoginViewDispatchProps } from "./LoginScreenBase";
 
 
@@ -24,7 +24,7 @@ const authPageParam: AuthPassProps = {
 };
 const mapDispatchToProps : (dispatch: any) => LoginViewDispatchProps = (dispatch: any) => ({
     onFetchAccountProfile: (username: string, password: string, 
-        modalSetOff: () => any, navigation: any) => {
+        modalSetOff: () => any, navigation: NavigationSwitchProp) => {
         dispatch(AccountActions.fetchAccount(username, password, navigation, modalSetOff));
     },
 });

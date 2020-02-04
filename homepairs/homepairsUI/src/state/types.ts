@@ -1,4 +1,6 @@
 import { Dimensions } from 'react-native';
+import { NavigationSwitchProp } from 'react-navigation';
+import { NavigationStackProp } from 'react-navigation-stack';
 
 /* *-------------------Property Types-------------------* */
 export type Property = {
@@ -251,6 +253,8 @@ export type AppState = {
 
 
 /* *-------------------Misc Types-------------------* */
+export type NavigationPropType = NavigationSwitchProp | NavigationStackProp
+
 export type AddNewPropertyState = {
     email : string;
     roopairsToken: string;

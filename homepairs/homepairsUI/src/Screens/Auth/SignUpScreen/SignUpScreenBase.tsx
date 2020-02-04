@@ -7,24 +7,24 @@ import {
 } from 'homepairs-components';
 import strings from 'homepairs-strings';
 import { AccountTypes, Account } from 'homepairs-types';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet, View, Text } from 'react-native';
 import { isNullOrUndefined, isPasswordValid, isPhoneNumberValid, isEmailSyntaxValid, isAlphaCharacterOnly } from 'homepairs-utilities';
+import { NavigationSwitchProp, NavigationSwitchScreenProps } from 'react-navigation';
 
 export type SignUpViewDispatchProps = {
     generateHomePairsAccount: (
         details: Account,
         password: String,
         modalSetOff: () => any,
-        navigation: any,
+        navigation: NavigationSwitchProp,
     ) => any;
 };
 
 export type SignUpProps = DarkModeInjectedProps &
     SignUpViewDispatchProps &
     AuthPageInjectedProps &
-    NavigationStackScreenProps<any, any>;
+    NavigationSwitchScreenProps;
 
 type SignUpState = {
     accountType: AccountTypes;

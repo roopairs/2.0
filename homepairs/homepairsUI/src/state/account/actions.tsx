@@ -7,6 +7,7 @@ import {
   AccountState, 
   AccountTypes,
   HomePairsResponseKeys, 
+  NavigationPropType,
 } from '../types';
 import { fetchProperty, fetchProperties } from '../property-list/actions';
 
@@ -27,11 +28,11 @@ export const FETCH_PROFILE_ACTION_TYPES = {
  * ChooseMainPage
  * ----------------------------------------------------
  * This function navigates to a specific page based on the Account 
- * Type passed int.  
- * @param {AccountType} accountType 
- * @param {any} navigation 
- */
-export function ChooseMainPage(accountType: AccountTypes = AccountTypes.Tenant, navigation: any) {
+ * Type passed in.  
+ * @param {AccountType} accountType
+ * @param {NavigationPropType} navigation -navigator passed from calling component */
+export function ChooseMainPage(accountType: AccountTypes = AccountTypes.Tenant, 
+  navigation: NavigationPropType) {
   if(accountType === AccountTypes.Landlord){
     navigation.navigate('AccountProperties');  
     return;
@@ -39,19 +40,34 @@ export function ChooseMainPage(accountType: AccountTypes = AccountTypes.Tenant, 
   navigation.navigate('TenantProperties');
 }
 
-/** 
+
+/**
+ *  ----------------------------------------------------
+ * getAccountType
+ * ----------------------------------------------------
+ * @param {any} accountJSON -data object returned by the api request
+ *  
  * Determines if the response given by the Homepairs server is 
  * a PropertyManger or a Landlord. Assummed the correct format as 
- * been submitted
-*/
+ * been submitted */
 function getAccountType(accountJSON : any): AccountTypes{
   if(accountJSON[accountKeys.PM] != null){ 
     return AccountTypes.Landlord;
   }
-    return AccountTypes.Tenant;
-   
+    return AccountTypes.Tenant; 
 }
 
+
+/**
+ * ----------------------------------------------------
+ * fetchAccountProfile
+ * ----------------------------------------------------
+ * @param {any} accountJSON -Json Object from backend response
+ * 
+ * This function parses a json object returned from the homepairs 
+ * backend into an AccountState object. This object is either 
+ * a Tenant Account or a Landlord Account. The object is stored 
+ * as a reducer action with the FETCH_PROFILE type.  */
 export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileAction => {
   const accountType: AccountTypes = getAccountType(accountJSON) ;
   const profile = (accountType === AccountTypes.Landlord) ? accountJSON[accountKeys.PM] : accountJSON[accountKeys.TENANT]; 
@@ -80,26 +96,43 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
         };
         fetchedProfile = tenantProfile;
     }
+
     return {
       type: FETCH_PROFILE_ACTION_TYPES.FETCH_PROFILE,
       profile: fetchedProfile,
     };
 };
 
-/* * Function makes async request to server and loads all information before app begins. * */
-export const fetchAccount = (
-    Email: String, Password: String, navigation: any, modalSetOffCallBack?: (error?:String) => void) => {
-    return async (dispatch: (arg0: any) => void) => {
-        const TENANT = 'tenant';
 
+
+/**
+ * This callback is intended to set toggle a modal if the 
+ * invoking parent has a modal. 
+ * @callback modalSetOffCallBack
+ * @param {string} error -optional string to pass back to parent */
+/**
+ * ----------------------------------------------------
+ * fetchAccountProfile
+ * ----------------------------------------------------
+ * Sends a post requests to the homepairs login endpoint. Upon 
+ * success, this function will dispatch the fetchAccountProfile 
+ * action and then navigate to a different page. If not, it will 
+ * call the the modalSetOffCallBack method if defined and return 
+ * to the parent component.
+ * @param {string} Email - credential passed to the endpoint
+ * @param {string} Password - credential passed to the endpoint
+ * @param {NavigationPropType} navigation - navigator passed from the component
+ * @param {modalSetOffCallBack} modalSetOffCallBack -optional callback */
+export const fetchAccount = (
+    Email: string, Password: string, navigation: NavigationPropType, modalSetOffCallBack: (error?:String) => void = () => {}) => 
+    {return async (dispatch: (arg0: any) => void) => {
+        const TENANT = 'tenant';
         // TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
         await axios.post('https://homepairs-alpha.herokuapp.com/API/login/', {
             email: Email,
             password: Password,
           })
           .then((response) => {
-            //here is where we get our response from our heroku database.
-            //console.log(response) //is an easy way to read error messages (invalid credentials, for example)"
             const accountType = getAccountType(response[responseKeys.DATA])
             if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
               dispatch(fetchAccountProfile(response[responseKeys.DATA]))
@@ -122,9 +155,8 @@ export const fetchAccount = (
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
           })
           .finally(() => {
-
-          });
-    };
+          });};
+   
 };
 
 export const loginForPM = (Email: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
@@ -149,7 +181,7 @@ export const loginForPM = (Email: String, Password: String, modalSetOffCallBack?
 };
 
 
-export const generateAccountForTenant = (accountDetails: Account, password: String, navigation: any, modalSetOffCallBack?: (error?:String) => void) => {
+export const generateAccountForTenant = (accountDetails: Account, password: String, navigation: NavigationPropType, modalSetOffCallBack?: (error?:String) => void) => {
   return async (dispatch: (arg0: any) => void) => {
       await axios.post('http://homepairs-alpha.herokuapp.com/API/register/tenant/', {
         firstName: accountDetails.firstName, 
@@ -176,7 +208,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
   };
 };
 
-export const generateAccountForPM = (accountDetails: Account, password: String, navigation: any, modalSetOffCallBack?: (error?:String) => void) => {
+export const generateAccountForPM = (accountDetails: Account, password: String, navigation: NavigationPropType, modalSetOffCallBack?: (error?:String) => void) => {
     return async (dispatch: (arg0: any) => void) => {
       await axios.post('http://homepairs-alpha.herokuapp.com/API/register/pm/', {
           firstName: accountDetails.firstName, 

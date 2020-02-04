@@ -3,7 +3,7 @@ import {
     isEmailSyntaxValid,
     isPhoneNumberValid,
     isAlphaCharacterOnly,
-    isEmptyOrSpaces
+    isEmptyOrSpaces,
 } from 'homepairs-utilities';
 
 

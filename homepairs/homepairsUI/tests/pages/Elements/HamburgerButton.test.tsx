@@ -42,9 +42,6 @@ describe("HamburgerButton", () => {
 
     expect(spyFunction.mock.calls).toHaveLength(2);
     expect(spyFunction.mock.results[1].value).toBe(message);
-
-    // Test to make sure no unexpected changes occured. This is an element so this should always pass
-    expect(rendered.toJSON()).toMatchSnapshot();
   });
   
 });

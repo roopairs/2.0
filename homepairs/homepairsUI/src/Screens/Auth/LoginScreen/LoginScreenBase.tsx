@@ -1,13 +1,13 @@
 import React from 'react';
 import { InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import {
     AuthPageInjectedProps,
     DarkModeInjectedProps,
 } from 'homepairs-components';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
+import { NavigationSwitchProp, NavigationSwitchScreenProps} from 'react-navigation';
 import {
     isEmailSyntaxValid,
     isPasswordValid,
@@ -19,14 +19,15 @@ export type LoginViewDispatchProps = {
         username: string,
         password: string,
         modalSetOff: () => any,
-        navigation: any
+        navigation: NavigationSwitchProp
     ) => void;
 };
 
 export type LoginProps = DarkModeInjectedProps &
     LoginViewDispatchProps &
     AuthPageInjectedProps &
-    NavigationStackScreenProps<any, any>;
+    NavigationSwitchScreenProps;
+
 export type LoginState = {
     username: string;
     password: string;

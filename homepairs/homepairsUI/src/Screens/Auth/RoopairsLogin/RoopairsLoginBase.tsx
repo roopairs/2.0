@@ -1,7 +1,6 @@
 import React from 'react';
 import { InputForm, InputFormProps } from 'homepairs-elements';
 import strings from 'homepairs-strings';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import {
     AuthPageInjectedProps,
     DarkModeInjectedProps,
@@ -9,12 +8,13 @@ import {
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
 import { isNullOrUndefined } from 'homepairs-utilities';
+import { NavigationSwitchProp, NavigationSwitchScreenProps } from 'react-navigation';
 
 export type RoopairsLoginDispatchProps = {
     onFetchAccountProfile: (
         username: string, 
         password: string,
-        navigation: any,
+        navigation: NavigationSwitchProp,
         modalSetOff: () => any, 
     ) => void
 }
@@ -22,7 +22,9 @@ export type RoopairsLoginDispatchProps = {
 export type LoginProps = DarkModeInjectedProps &
     RoopairsLoginDispatchProps &
     AuthPageInjectedProps &
-    NavigationStackScreenProps<any, any>;
+    NavigationSwitchScreenProps;
+
+
 export type LoginState = {
     username: string;
     password: string;
