@@ -4,6 +4,7 @@ import { NavigationSwitchProp } from 'react-navigation';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
+import { Property } from '../../../src/state/types';
 
 const TYPE = 'ACCOUNT/FETCH_PROFILE';
 const spyFunction = jest.fn((arg:string) => {return arg;});
@@ -83,6 +84,17 @@ const expectedResults: {[id:string]: AccountStateAction} = {
   },
 };
 
+const expectedTenantProperty : Property[] = [
+  {
+    city: "San Luis Obispo",
+    tenants: 5,
+    bathrooms: 2,
+    bedrooms: 3,
+    state: "CA",
+    streetAddress: "200 N. Santa Rosa",
+  },
+]
+
 const testJsonValues: {[id:string]: any} =
 {
   PM_WITHOUT_TOKEN: { // PM without token
@@ -117,6 +129,15 @@ const testJsonValues: {[id:string]: any} =
       phone: '555555555',
       propId: 99,
       tenantID: 20,
+      place:{
+        city: "San Luis Obispo",
+        maxTenants: 5,
+        numBath: 2,
+        numBed: 3,
+        pm: "Eeron Grant",
+        state: "CA",
+        streetAddress: "200 N. Santa Rosa",
+      },
     },
     token: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
   },
@@ -184,28 +205,51 @@ describe('FetchAccount Action', () => {
     const testProps = createTestProps({});
     const mock = new MockAdapter(axios);
 
-    test('Tests Action when response returned is success', ( )=> {
+    describe('Tests Action when response returned is success', () => {
+        it('Test when the role is a PM', () => {
+          const data = { 
+              status: 'success',
+              ...testJsonValues.PM_WITH_TOKEN,
+              role: 'pm',
+          };
+          mock.onPost('https://homepairs-alpha.herokuapp.com/API/login/').reply(200, data);
+          propertyManagerMock1.dispatch(AccountActions.fetchAccount(email, password, testProps.navigation)).then(() => {
+            expect(spyFunction.call).toHaveLength(1);
+            const actionResults = propertyManagerMock1.getActions();
+            expect(actionResults).toHaveLength(2);
+            expect(actionResults[0]).toStrictEqual(expectedResults.PM_WIT_TOKEN);
+            expect(actionResults[1]).toStrictEqual([]);
+          });
+      });
+
+      it('Test when the role is a Tenant with a property', () => {
         const data = { 
             status: 'success',
-            ...testJsonValues.PM_WITH_TOKEN,
-            role: 'pm',
+            ...testJsonValues.TENANT_WITH_TOKEN,
+            role: 'tenant',
         };
         mock.onPost('https://homepairs-alpha.herokuapp.com/API/login/').reply(200, data);
         propertyManagerMock1.dispatch(AccountActions.fetchAccount(email, password, testProps.navigation)).then(() => {
           expect(spyFunction.call).toHaveLength(1);
-
           const actionResults = propertyManagerMock1.getActions();
-
           expect(actionResults).toHaveLength(2);
-          expect(actionResults[0]).toStrictEqual(expectedResults.PM_WIT_TOKEN);
+          expect(actionResults[0]).toStrictEqual(expectedTenantProperty);
         });
     });
 
     // TODO: Write test for when status returned is a failure 
     describe('Test action when response returned is a failure', () => {
       
-      it('When response has not been returned', () => {
-        expect(true).toBeFalsy();
+      it('When response has not been returned', async () => {
+        const statusFailedSpy = jest.fn(() => {});
+        mock.onPost('https://homepairs-alpha.herokuapp.com/API/login/').reply(400, null);
+        await propertyManagerMock1.dispatch(AccountActions.fetchAccount(email, password, testProps.navigation, statusFailedSpy))
+        .then(() => {
+          expect(spyFunction.call).toHaveLength(1);
+          expect(statusFailedSpy).toBeCalledWith("Unable to establish a connection with HomePairs servers");
+
+        })
+
       })
 
       it('When response returns failure', async () => {
@@ -216,9 +260,10 @@ describe('FetchAccount Action', () => {
         mock.onPost('https://homepairs-alpha.herokuapp.com/API/login/').reply(200, data);
         await propertyManagerMock1.dispatch(AccountActions.fetchAccount(email, password, testProps.navigation, statusFailedSpy)).then(() => {
           expect(propertyManagerMock1.getActions()).toHaveLength(0);
-          expect(statusFailedSpy.mock.calls).toHaveLength(0);
+          expect(statusFailedSpy.mock.calls).toHaveLength(1)
+          expect(statusFailedSpy).toBeCalledWith("Home Pairs was unable to log in. Please try again.");
         }); 
       });
     });
-  
-});
+    },)
+  })

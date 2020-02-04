@@ -133,6 +133,7 @@ export const fetchAccount = (
             password: Password,
           })
           .then((response) => {
+            console.log(response)
             const accountType = getAccountType(response[responseKeys.DATA])
             if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
               dispatch(fetchAccountProfile(response[responseKeys.DATA]))
