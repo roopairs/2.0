@@ -1,3 +1,0 @@
-# TESTING
-Check that the PM is the owner of the property
-And other things
