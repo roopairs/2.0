@@ -196,32 +196,6 @@ const mockNavigation: NavigationSwitchProp = {
   jumpTo: undefined,
 };
 
-/*
-export const mockStackNavigator: NavigationStackProp ={
-    navigate: (routeNameOrOptions)=>{
-      spyFunction(routeNameOrOptions);
-      return true;
-    },
-    state: undefined,
-    dispatch: undefined, 
-    goBack: undefined,
-    dismiss: undefined,
-    openDrawer:undefined,
-    closeDrawer: undefined, 
-    toggleDrawer: undefined,
-    getParam: undefined,
-    setParams: undefined,
-    emit: undefined, 
-    addListener: undefined, 
-    isFocused: undefined, 
-    isFirstRouteInParent: undefined, 
-    dangerouslyGetParent: undefined,
-    push: undefined,
-    pop: undefined,
-
-}
-*/
-
 const createTestProps = (props: Object) => ({
   navigation: mockNavigation,
   ...props,

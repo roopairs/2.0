@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1580967074634" clover="3.2.0">
-  <project timestamp="1580967074634" name="All files">
-    <metrics statements="1512" coveredstatements="652" conditionals="342" coveredconditionals="85" methods="351" coveredmethods="113" elements="2205" coveredelements="850" complexity="0" loc="1512" ncloc="1512" packages="46" files="79" classes="79"/>
+<coverage generated="1580975701456" clover="3.2.0">
+  <project timestamp="1580975701456" name="All files">
+    <metrics statements="1512" coveredstatements="679" conditionals="342" coveredconditionals="96" methods="351" coveredmethods="116" elements="2205" coveredelements="891" complexity="0" loc="1512" ncloc="1512" packages="46" files="79" classes="79"/>
     <package name="Elements">
       <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="index.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Elements/index.tsx">
@@ -1506,11 +1506,11 @@
       <metrics statements="71" coveredstatements="62" conditionals="16" coveredconditionals="16" methods="8" coveredmethods="8"/>
       <file name="actions.ts" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/actions.ts">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="8" type="stmt"/>
-        <line num="2" count="8" type="stmt"/>
-        <line num="3" count="8" type="stmt"/>
-        <line num="4" count="8" type="stmt"/>
-        <line num="8" count="8" type="stmt"/>
+        <line num="1" count="9" type="stmt"/>
+        <line num="2" count="9" type="stmt"/>
+        <line num="3" count="9" type="stmt"/>
+        <line num="4" count="9" type="stmt"/>
+        <line num="8" count="9" type="stmt"/>
       </file>
       <file name="store.ts" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/store.ts">
         <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -1526,78 +1526,78 @@
       </file>
       <file name="types.ts" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/types.ts">
         <metrics statements="57" coveredstatements="57" conditionals="16" coveredconditionals="16" methods="8" coveredmethods="8"/>
-        <line num="1" count="9" type="stmt"/>
-        <line num="59" count="9" type="cond" truecount="2" falsecount="0"/>
-        <line num="60" count="9" type="stmt"/>
-        <line num="61" count="9" type="stmt"/>
-        <line num="108" count="9" type="cond" truecount="2" falsecount="0"/>
-        <line num="109" count="9" type="stmt"/>
-        <line num="110" count="9" type="stmt"/>
-        <line num="111" count="9" type="stmt"/>
-        <line num="114" count="9" type="cond" truecount="2" falsecount="0"/>
-        <line num="115" count="9" type="stmt"/>
-        <line num="116" count="9" type="stmt"/>
-        <line num="117" count="9" type="stmt"/>
-        <line num="118" count="9" type="stmt"/>
-        <line num="119" count="9" type="stmt"/>
-        <line num="270" count="9" type="cond" truecount="2" falsecount="0"/>
-        <line num="271" count="9" type="stmt"/>
-        <line num="272" count="9" type="stmt"/>
-        <line num="273" count="9" type="stmt"/>
-        <line num="274" count="9" type="stmt"/>
-        <line num="275" count="9" type="stmt"/>
-        <line num="276" count="9" type="stmt"/>
-        <line num="277" count="9" type="stmt"/>
-        <line num="278" count="9" type="stmt"/>
-        <line num="281" count="9" type="cond" truecount="2" falsecount="0"/>
-        <line num="282" count="9" type="stmt"/>
-        <line num="283" count="9" type="stmt"/>
-        <line num="284" count="9" type="stmt"/>
-        <line num="285" count="9" type="stmt"/>
-        <line num="286" count="9" type="stmt"/>
-        <line num="287" count="9" type="stmt"/>
-        <line num="288" count="9" type="stmt"/>
-        <line num="289" count="9" type="stmt"/>
-        <line num="290" count="9" type="stmt"/>
-        <line num="291" count="9" type="stmt"/>
-        <line num="292" count="9" type="stmt"/>
-        <line num="293" count="9" type="stmt"/>
-        <line num="294" count="9" type="stmt"/>
-        <line num="295" count="9" type="stmt"/>
-        <line num="296" count="9" type="stmt"/>
-        <line num="299" count="9" type="cond" truecount="2" falsecount="0"/>
-        <line num="300" count="9" type="stmt"/>
-        <line num="301" count="9" type="stmt"/>
-        <line num="304" count="9" type="cond" truecount="2" falsecount="0"/>
-        <line num="305" count="9" type="stmt"/>
-        <line num="306" count="9" type="stmt"/>
-        <line num="307" count="9" type="stmt"/>
-        <line num="308" count="9" type="stmt"/>
-        <line num="309" count="9" type="stmt"/>
-        <line num="310" count="9" type="stmt"/>
-        <line num="313" count="9" type="cond" truecount="2" falsecount="0"/>
-        <line num="314" count="9" type="stmt"/>
-        <line num="315" count="9" type="stmt"/>
-        <line num="316" count="9" type="stmt"/>
-        <line num="317" count="9" type="stmt"/>
-        <line num="318" count="9" type="stmt"/>
-        <line num="319" count="9" type="stmt"/>
-        <line num="322" count="9" type="stmt"/>
+        <line num="1" count="10" type="stmt"/>
+        <line num="59" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="60" count="10" type="stmt"/>
+        <line num="61" count="10" type="stmt"/>
+        <line num="108" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="109" count="10" type="stmt"/>
+        <line num="110" count="10" type="stmt"/>
+        <line num="111" count="10" type="stmt"/>
+        <line num="114" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="115" count="10" type="stmt"/>
+        <line num="116" count="10" type="stmt"/>
+        <line num="117" count="10" type="stmt"/>
+        <line num="118" count="10" type="stmt"/>
+        <line num="119" count="10" type="stmt"/>
+        <line num="270" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="271" count="10" type="stmt"/>
+        <line num="272" count="10" type="stmt"/>
+        <line num="273" count="10" type="stmt"/>
+        <line num="274" count="10" type="stmt"/>
+        <line num="275" count="10" type="stmt"/>
+        <line num="276" count="10" type="stmt"/>
+        <line num="277" count="10" type="stmt"/>
+        <line num="278" count="10" type="stmt"/>
+        <line num="281" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="282" count="10" type="stmt"/>
+        <line num="283" count="10" type="stmt"/>
+        <line num="284" count="10" type="stmt"/>
+        <line num="285" count="10" type="stmt"/>
+        <line num="286" count="10" type="stmt"/>
+        <line num="287" count="10" type="stmt"/>
+        <line num="288" count="10" type="stmt"/>
+        <line num="289" count="10" type="stmt"/>
+        <line num="290" count="10" type="stmt"/>
+        <line num="291" count="10" type="stmt"/>
+        <line num="292" count="10" type="stmt"/>
+        <line num="293" count="10" type="stmt"/>
+        <line num="294" count="10" type="stmt"/>
+        <line num="295" count="10" type="stmt"/>
+        <line num="296" count="10" type="stmt"/>
+        <line num="299" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="300" count="10" type="stmt"/>
+        <line num="301" count="10" type="stmt"/>
+        <line num="304" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="305" count="10" type="stmt"/>
+        <line num="306" count="10" type="stmt"/>
+        <line num="307" count="10" type="stmt"/>
+        <line num="308" count="10" type="stmt"/>
+        <line num="309" count="10" type="stmt"/>
+        <line num="310" count="10" type="stmt"/>
+        <line num="313" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="314" count="10" type="stmt"/>
+        <line num="315" count="10" type="stmt"/>
+        <line num="316" count="10" type="stmt"/>
+        <line num="317" count="10" type="stmt"/>
+        <line num="318" count="10" type="stmt"/>
+        <line num="319" count="10" type="stmt"/>
+        <line num="322" count="10" type="stmt"/>
       </file>
     </package>
     <package name="state.account">
       <metrics statements="67" coveredstatements="67" conditionals="22" coveredconditionals="22" methods="21" coveredmethods="20"/>
       <file name="actions.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/account/actions.tsx">
         <metrics statements="58" coveredstatements="58" conditionals="18" coveredconditionals="18" methods="20" coveredmethods="19"/>
-        <line num="1" count="9" type="stmt"/>
-        <line num="2" count="9" type="stmt"/>
-        <line num="12" count="9" type="stmt"/>
-        <line num="14" count="9" type="stmt"/>
-        <line num="15" count="9" type="stmt"/>
-        <line num="16" count="9" type="stmt"/>
-        <line num="17" count="9" type="stmt"/>
-        <line num="18" count="9" type="stmt"/>
-        <line num="20" count="9" type="stmt"/>
+        <line num="1" count="10" type="stmt"/>
+        <line num="2" count="10" type="stmt"/>
+        <line num="12" count="10" type="stmt"/>
+        <line num="14" count="10" type="stmt"/>
+        <line num="15" count="10" type="stmt"/>
+        <line num="16" count="10" type="stmt"/>
+        <line num="17" count="10" type="stmt"/>
+        <line num="18" count="10" type="stmt"/>
+        <line num="20" count="10" type="stmt"/>
         <line num="41" count="4" type="cond" truecount="2" falsecount="0"/>
         <line num="42" count="2" type="stmt"/>
         <line num="43" count="2" type="stmt"/>
@@ -1605,7 +1605,7 @@
         <line num="59" count="12" type="cond" truecount="2" falsecount="0"/>
         <line num="60" count="6" type="stmt"/>
         <line num="62" count="6" type="stmt"/>
-        <line num="77" count="9" type="stmt"/>
+        <line num="77" count="10" type="stmt"/>
         <line num="78" count="9" type="stmt"/>
         <line num="79" count="9" type="cond" truecount="2" falsecount="0"/>
         <line num="81" count="9" type="stmt"/>
@@ -1616,7 +1616,7 @@
         <line num="99" count="4" type="stmt"/>
         <line num="103" count="4" type="stmt"/>
         <line num="106" count="9" type="stmt"/>
-        <line num="125" count="9" type="stmt"/>
+        <line num="125" count="10" type="stmt"/>
         <line num="126" count="4" type="cond" truecount="2" falsecount="0"/>
         <line num="127" count="4" type="stmt"/>
         <line num="129" count="8" type="stmt"/>
@@ -1629,7 +1629,7 @@
         <line num="143" count="2" type="stmt"/>
         <line num="145" count="1" type="stmt"/>
         <line num="150" count="1" type="stmt"/>
-        <line num="169" count="9" type="stmt"/>
+        <line num="169" count="10" type="stmt"/>
         <line num="170" count="3" type="stmt"/>
         <line num="171" count="6" type="stmt"/>
         <line num="181" count="2" type="cond" truecount="2" falsecount="0"/>
@@ -1638,7 +1638,7 @@
         <line num="184" count="1" type="stmt"/>
         <line num="186" count="1" type="stmt"/>
         <line num="191" count="1" type="stmt"/>
-        <line num="208" count="9" type="stmt"/>
+        <line num="208" count="10" type="stmt"/>
         <line num="209" count="3" type="stmt"/>
         <line num="210" count="6" type="stmt"/>
         <line num="218" count="2" type="cond" truecount="2" falsecount="0"/>
@@ -1665,18 +1665,18 @@
       <metrics statements="36" coveredstatements="35" conditionals="11" coveredconditionals="10" methods="7" coveredmethods="7"/>
       <file name="actions.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/header/actions.tsx">
         <metrics statements="13" coveredstatements="13" conditionals="2" coveredconditionals="2" methods="5" coveredmethods="5"/>
-        <line num="9" count="9" type="cond" truecount="2" falsecount="0"/>
-        <line num="10" count="9" type="stmt"/>
-        <line num="11" count="9" type="stmt"/>
-        <line num="12" count="9" type="stmt"/>
-        <line num="13" count="9" type="stmt"/>
-        <line num="24" count="9" type="stmt"/>
+        <line num="9" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="10" count="10" type="stmt"/>
+        <line num="11" count="10" type="stmt"/>
+        <line num="12" count="10" type="stmt"/>
+        <line num="13" count="10" type="stmt"/>
+        <line num="24" count="10" type="stmt"/>
         <line num="25" count="2" type="stmt"/>
-        <line num="38" count="9" type="stmt"/>
+        <line num="38" count="10" type="stmt"/>
         <line num="39" count="2" type="stmt"/>
-        <line num="52" count="9" type="stmt"/>
+        <line num="52" count="10" type="stmt"/>
         <line num="53" count="2" type="stmt"/>
-        <line num="67" count="9" type="stmt"/>
+        <line num="67" count="10" type="stmt"/>
         <line num="68" count="1" type="stmt"/>
       </file>
       <file name="reducer.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/header/reducer.tsx">
@@ -1707,99 +1707,99 @@
       </file>
     </package>
     <package name="state.property-list">
-      <metrics statements="69" coveredstatements="40" conditionals="21" coveredconditionals="10" methods="21" coveredmethods="16"/>
+      <metrics statements="69" coveredstatements="67" conditionals="21" coveredconditionals="21" methods="21" coveredmethods="19"/>
       <file name="actions.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/property-list/actions.tsx">
         <metrics statements="42" coveredstatements="40" conditionals="10" coveredconditionals="10" methods="18" coveredmethods="16"/>
-        <line num="1" count="9" type="stmt"/>
-        <line num="2" count="9" type="stmt"/>
-        <line num="15" count="9" type="stmt"/>
-        <line num="16" count="9" type="stmt"/>
-        <line num="18" count="9" type="cond" truecount="2" falsecount="0"/>
-        <line num="19" count="9" type="stmt"/>
-        <line num="20" count="9" type="stmt"/>
-        <line num="21" count="9" type="stmt"/>
-        <line num="22" count="9" type="stmt"/>
-        <line num="23" count="9" type="stmt"/>
-        <line num="24" count="9" type="stmt"/>
-        <line num="36" count="9" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="51" count="9" type="stmt"/>
-        <line num="52" count="1" type="stmt"/>
-        <line num="67" count="9" type="stmt"/>
-        <line num="73" count="3" type="stmt"/>
-        <line num="74" count="6" type="stmt"/>
-        <line num="87" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="88" count="1" type="stmt"/>
-        <line num="89" count="1" type="stmt"/>
-        <line num="90" count="1" type="stmt"/>
-        <line num="110" count="9" type="stmt"/>
-        <line num="111" count="1" type="stmt"/>
-        <line num="131" count="9" type="stmt"/>
-        <line num="135" count="3" type="stmt"/>
-        <line num="136" count="3" type="stmt"/>
-        <line num="149" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="150" count="1" type="stmt"/>
-        <line num="151" count="1" type="stmt"/>
-        <line num="168" count="9" type="stmt"/>
-        <line num="170" count="0" type="stmt"/>
-        <line num="184" count="9" type="stmt"/>
-        <line num="185" count="2" type="stmt"/>
-        <line num="186" count="2" type="stmt"/>
+        <line num="1" count="10" type="stmt"/>
+        <line num="2" count="10" type="stmt"/>
+        <line num="15" count="10" type="stmt"/>
+        <line num="16" count="10" type="stmt"/>
+        <line num="27" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="28" count="10" type="stmt"/>
+        <line num="29" count="10" type="stmt"/>
+        <line num="30" count="10" type="stmt"/>
+        <line num="31" count="10" type="stmt"/>
+        <line num="32" count="10" type="stmt"/>
+        <line num="33" count="10" type="stmt"/>
+        <line num="45" count="10" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="60" count="10" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="76" count="10" type="stmt"/>
+        <line num="82" count="3" type="stmt"/>
+        <line num="83" count="6" type="stmt"/>
+        <line num="96" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="97" count="1" type="stmt"/>
+        <line num="98" count="1" type="stmt"/>
+        <line num="99" count="1" type="stmt"/>
+        <line num="119" count="10" type="stmt"/>
+        <line num="120" count="1" type="stmt"/>
+        <line num="140" count="10" type="stmt"/>
+        <line num="144" count="3" type="stmt"/>
+        <line num="145" count="3" type="stmt"/>
+        <line num="158" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="159" count="1" type="stmt"/>
+        <line num="160" count="1" type="stmt"/>
+        <line num="177" count="10" type="stmt"/>
+        <line num="179" count="0" type="stmt"/>
+        <line num="193" count="10" type="stmt"/>
         <line num="194" count="2" type="stmt"/>
         <line num="195" count="2" type="stmt"/>
-        <line num="210" count="9" type="stmt"/>
-        <line num="213" count="2" type="stmt"/>
-        <line num="214" count="2" type="cond" truecount="4" falsecount="0"/>
-        <line num="215" count="1" type="stmt"/>
-        <line num="224" count="2" type="stmt"/>
+        <line num="203" count="2" type="stmt"/>
+        <line num="204" count="2" type="stmt"/>
+        <line num="219" count="10" type="stmt"/>
+        <line num="222" count="2" type="stmt"/>
+        <line num="223" count="2" type="cond" truecount="4" falsecount="0"/>
+        <line num="224" count="1" type="stmt"/>
+        <line num="233" count="2" type="stmt"/>
       </file>
       <file name="reducer.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/property-list/reducer.tsx">
-        <metrics statements="27" coveredstatements="0" conditionals="11" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="26" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="57" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="72" count="0" type="stmt"/>
-        <line num="77" count="0" type="stmt"/>
-        <line num="82" count="0" type="stmt"/>
-        <line num="87" count="0" type="stmt"/>
+        <metrics statements="27" coveredstatements="27" conditionals="11" coveredconditionals="11" methods="3" coveredmethods="3"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="31" count="10" type="stmt"/>
+        <line num="32" count="10" type="stmt"/>
+        <line num="33" count="10" type="stmt"/>
+        <line num="34" count="10" type="stmt"/>
+        <line num="36" count="10" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="40" count="2" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="48" count="3" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="58" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="60" count="2" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="68" count="1" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+        <line num="78" count="1" type="stmt"/>
+        <line num="83" count="2" type="stmt"/>
+        <line num="88" count="2" type="stmt"/>
       </file>
     </package>
     <package name="state.service">
       <metrics statements="25" coveredstatements="7" conditionals="8" coveredconditionals="0" methods="6" coveredmethods="0"/>
       <file name="actions.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/service/actions.tsx">
         <metrics statements="13" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
-        <line num="1" count="8" type="stmt"/>
-        <line num="14" count="8" type="stmt"/>
-        <line num="22" count="8" type="stmt"/>
+        <line num="1" count="9" type="stmt"/>
+        <line num="14" count="9" type="stmt"/>
+        <line num="22" count="9" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
         <line num="29" count="0" type="stmt"/>
-        <line num="35" count="8" type="stmt"/>
+        <line num="35" count="9" type="stmt"/>
         <line num="37" count="0" type="stmt"/>
-        <line num="43" count="8" type="stmt"/>
+        <line num="43" count="9" type="stmt"/>
         <line num="45" count="0" type="stmt"/>
-        <line num="51" count="8" type="stmt"/>
+        <line num="51" count="9" type="stmt"/>
         <line num="53" count="0" type="stmt"/>
-        <line num="59" count="8" type="stmt"/>
+        <line num="59" count="9" type="stmt"/>
         <line num="61" count="0" type="stmt"/>
       </file>
       <file name="reducer.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/service/reducer.tsx">
