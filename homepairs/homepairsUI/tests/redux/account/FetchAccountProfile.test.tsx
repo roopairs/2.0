@@ -154,28 +154,28 @@ describe('FetchAccountProfile Action Test', () => {
     testStore = mockStore(storeContents);
   });
 
-  it('Test PM without Roopairs Token', () => {
-    testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.PM_WITHOUT_TOKEN));
+  it('Test PM without Roopairs Token', async () => {
+    await testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.PM_WITHOUT_TOKEN));
     expect(testStore.getActions()[0]).toStrictEqual(expectedResults.PM_WITHOUT_TOKEN);
   });
 
-  it('Test PM with Roopairs Token', () => {
-    testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.PM_WITH_TOKEN));
+  it('Test PM with Roopairs Token', async () => {
+    await testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.PM_WITH_TOKEN));
     expect(testStore.getActions()[0]).toStrictEqual(expectedResults.PM_WITH_TOKEN);
   });
 
-  it('Test Tenant with Roopairs Token', () => {
-    testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.TENANT_WITH_TOKEN));
+  it('Test Tenant with Roopairs Token', async () => {
+    await testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.TENANT_WITH_TOKEN));
     expect(testStore.getActions()[0]).toStrictEqual(expectedResults.TENANT_WITH_TOKEN);
   });
 
-  it('Test Tenant without Roopairs Token', () => {
-    testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.TENANT_WITHOUT_TOKEN));
+  it('Test Tenant without Roopairs Token', async () => {
+    await testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.TENANT_WITHOUT_TOKEN));
     expect(testStore.getActions()[0]).toStrictEqual(expectedResults.TENANT_WITHOUT_TOKEN);
   });
 
-  it('Test Account without any Token', () => {
-    testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.NO_TOKEN_DEFINED));
+  it('Test Account without any Token', async () => {
+    await testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.NO_TOKEN_DEFINED));
     expect(testStore.getActions()[0]).toStrictEqual(expectedResults.NO_TOKEN_DEFINED);
   });
  });
