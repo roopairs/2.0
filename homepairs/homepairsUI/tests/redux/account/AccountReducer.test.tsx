@@ -22,108 +22,66 @@ const prevState: AccountState = {
     manId: 102449555,
 };
 
-const expectedResults: { [id: string]: AccountState } = {
-    PM: {
-        accountType: AccountTypes.Landlord,
-        firstName: 'Jack',
-        streetAddress: undefined,
-        city: undefined,
-        lastName: 'profile[accountKeys.LASTNAME]',
-        email: 'jacklame@gmail.com',
-        phone: '555555555',
-        roopairsToken: '',
-        manId: 102449555,
-    },
-    TENANT: {
-        accountType: AccountTypes.Tenant,
-        firstName: 'Kyle',
-        streetAddress: undefined,
-        city: undefined,
-        lastName: 'Lion',
-        email: 'kylelion@gmail.com',
-        phone: '555555555',
-        roopairsToken: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
-        tenantId: 20,
-        propId: 99,
-    },
+const newPMState: AccountState = {
+    accountType: AccountTypes.Landlord,
+    firstName: 'Jack',
+    streetAddress: undefined,
+    city: undefined,
+    lastName: 'profile[accountKeys.LASTNAME]',
+    email: 'jacklame@gmail.com',
+    phone: '555555555',
+    roopairsToken: '',
+    manId: 102449555,
 };
-
-const testActions: { [id: string]: AccountStateAction } = {
-    FETCH_PM: {
-        // PM Account w/out token
-        type: FETCH_PROFILE,
-        profile: {
-            accountType: AccountTypes.Landlord,
-            firstName: 'Jack',
-            streetAddress: undefined,
-            city: undefined,
-            lastName: 'profile[accountKeys.LASTNAME]',
-            email: 'jacklame@gmail.com',
-            phone: '555555555',
-            roopairsToken: '',
-            manId: 102449555,
-        },
-    },
-    ACTION_WITH_NO_TYPE: {
-        // PM Account with token
-        type: undefined,
-        profile: {
-            accountType: AccountTypes.Landlord,
-            firstName: 'Jack',
-            streetAddress: 'lifelike line Apt. 3',
-            city: undefined,
-            lastName: 'profile[accountKeys.LASTNAME]',
-            email: 'jacklame@gmail.com',
-            phone: '555555555',
-            roopairsToken: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
-            manId: 102449555,
-        },
-    },
-    FETCH_TENANT: {
-        // Tenant account with Token
-        type: FETCH_PROFILE,
-        profile: {
-            accountType: AccountTypes.Tenant,
-            firstName: 'Kyle',
-            streetAddress: undefined,
-            city: undefined,
-            lastName: 'Lion',
-            email: 'kylelion@gmail.com',
-            phone: '555555555',
-            roopairsToken: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
-            tenantId: 20,
-            propId: 99,
-        },
-    },
+const newTenantState: AccountState = {
+    accountType: AccountTypes.Tenant,
+    firstName: 'Kyle',
+    streetAddress: undefined,
+    city: undefined,
+    lastName: 'Lion',
+    email: 'kylelion@gmail.com',
+    phone: '555555555',
+    roopairsToken: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
+    tenantId: 20,
+    propId: 99,
 };
 
 describe('AccountProfile Reducer Test', () => {
     it('Test action with FETCH_PROFILE type: Default State', () => {
-        const updatedProfile = accountProfile(undefined, testActions.FETCH_PM);
-        expect(updatedProfile).toStrictEqual(expectedResults.PM);
+        const testAction = {
+            type: FETCH_PROFILE,
+            profile: newPMState,
+        };
+        const expectedResults = newPMState;
+        const updatedProfile = accountProfile(undefined, testAction);
+        expect(updatedProfile).toStrictEqual(expectedResults);
     });
 
     it('Test action with no type: Default State', () => {
-        const updatedProfile = accountProfile(
-            undefined,
-            testActions.ACTION_WITH_NO_TYPE,
-        );
+        const testAction = {
+            type: undefined,
+            profile: newPMState,
+        };
+        const updatedProfile = accountProfile(undefined, testAction);
         expect(updatedProfile).toStrictEqual(EMPTY);
     });
 
     it('Test action with no type: Defined State', () => {
-        const updatedProfile = accountProfile(
-            prevState,
-            testActions.ACTION_WITH_NO_TYPE,
-        );
+        const testAction = {
+            type: undefined,
+            profile: newTenantState,
+        };
+        const updatedProfile = accountProfile(prevState, testAction);
         expect(updatedProfile).toStrictEqual(prevState);
     });
 
-    it('Test action with FETCH_PROFILE type: Defined State', () => {
-        const updatedProfile = accountProfile(
-            prevState,
-            testActions.FETCH_TENANT,
-        );
-        expect(updatedProfile).toStrictEqual(expectedResults.TENANT);
+    it('Test action with FETCH_PROFILE (Tenant) type: Defined State', () => {
+        const testAction: AccountStateAction = {
+            type: FETCH_PROFILE,
+            profile: newTenantState,
+        };
+        const expectedResults = newTenantState;
+        const updatedProfile = accountProfile(prevState, testAction);
+        expect(updatedProfile).toStrictEqual(expectedResults);
     });
 });
