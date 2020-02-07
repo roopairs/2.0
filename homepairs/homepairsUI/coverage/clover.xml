@@ -1,75 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1580778955556" clover="3.2.0">
-  <project timestamp="1580778955556" name="All files">
-    <metrics statements="1566" coveredstatements="594" conditionals="350" coveredconditionals="55" methods="360" coveredmethods="79" elements="2276" coveredelements="728" complexity="0" loc="1566" ncloc="1566" packages="48" files="85" classes="85"/>
-    <package name="res">
-      <metrics statements="33" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
-      <file name="colors.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/res/colors.tsx">
-        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="7" type="stmt"/>
-        <line num="34" count="7" type="stmt"/>
-        <line num="66" count="7" type="stmt"/>
-        <line num="67" count="7" type="stmt"/>
-      </file>
-      <file name="fonts.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/res/fonts.tsx">
-        <metrics statements="4" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="7" type="stmt"/>
-        <line num="3" count="7" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="22" count="7" type="stmt"/>
-      </file>
-      <file name="fonts.web.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/res/fonts.web.tsx">
-        <metrics statements="17" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="50" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-      </file>
-      <file name="images.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/res/images.tsx">
-        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="7" type="stmt"/>
-        <line num="2" count="7" type="stmt"/>
-        <line num="3" count="7" type="stmt"/>
-        <line num="4" count="7" type="stmt"/>
-        <line num="5" count="7" type="stmt"/>
-      </file>
-      <file name="strings.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/res/strings.tsx">
-        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="102" count="1" type="stmt"/>
-      </file>
-    </package>
-    <package name="res.Styles">
-      <metrics statements="8" coveredstatements="8" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
-      <file name="base.ts" path="/Users/eerongrant/2.0/homepairs/homepairsUI/res/Styles/base.ts">
-        <metrics statements="8" coveredstatements="8" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="29" count="1" type="stmt"/>
-        <line num="42" count="1" type="stmt"/>
-        <line num="57" count="1" type="stmt"/>
-        <line num="71" count="1" type="stmt"/>
-        <line num="82" count="1" type="stmt"/>
-      </file>
-    </package>
-    <package name="src.Elements">
+<coverage generated="1580975701456" clover="3.2.0">
+  <project timestamp="1580975701456" name="All files">
+    <metrics statements="1512" coveredstatements="679" conditionals="342" coveredconditionals="96" methods="351" coveredmethods="116" elements="2205" coveredelements="891" complexity="0" loc="1512" ncloc="1512" packages="46" files="79" classes="79"/>
+    <package name="Elements">
       <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="index.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Elements/index.tsx">
+      <file name="index.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Elements/index.tsx">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="24" count="7" type="stmt"/>
         <line num="25" count="7" type="stmt"/>
@@ -79,9 +14,9 @@
         <line num="34" count="7" type="stmt"/>
       </file>
     </package>
-    <package name="src.Elements.Buttons">
+    <package name="Elements.Buttons">
       <metrics statements="46" coveredstatements="46" conditionals="2" coveredconditionals="1" methods="12" coveredmethods="12"/>
-      <file name="HamburgerButton.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Elements/Buttons/HamburgerButton.tsx">
+      <file name="HamburgerButton.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Elements/Buttons/HamburgerButton.tsx">
         <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="3"/>
         <line num="1" count="7" type="stmt"/>
         <line num="2" count="7" type="stmt"/>
@@ -93,7 +28,7 @@
         <line num="95" count="2" type="stmt"/>
         <line num="108" count="7" type="stmt"/>
       </file>
-      <file name="LoginButton.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Elements/Buttons/LoginButton.tsx">
+      <file name="LoginButton.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Elements/Buttons/LoginButton.tsx">
         <metrics statements="15" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="7" type="stmt"/>
         <line num="2" count="7" type="stmt"/>
@@ -111,7 +46,7 @@
         <line num="70" count="7" type="stmt"/>
         <line num="101" count="7" type="stmt"/>
       </file>
-      <file name="ThinButton.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Elements/Buttons/ThinButton.tsx">
+      <file name="ThinButton.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Elements/Buttons/ThinButton.tsx">
         <metrics statements="22" coveredstatements="22" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
         <line num="1" count="7" type="stmt"/>
         <line num="2" count="7" type="stmt"/>
@@ -137,9 +72,9 @@
         <line num="122" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.Elements.Cards">
+    <package name="Elements.Cards">
       <metrics statements="26" coveredstatements="26" conditionals="6" coveredconditionals="6" methods="5" coveredmethods="5"/>
-      <file name="Card.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Elements/Cards/Card.tsx">
+      <file name="Card.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Elements/Cards/Card.tsx">
         <metrics statements="26" coveredstatements="26" conditionals="6" coveredconditionals="6" methods="5" coveredmethods="5"/>
         <line num="1" count="7" type="stmt"/>
         <line num="2" count="7" type="stmt"/>
@@ -169,9 +104,9 @@
         <line num="164" count="7" type="stmt"/>
       </file>
     </package>
-    <package name="src.Elements.Forms">
+    <package name="Elements.Forms">
       <metrics statements="35" coveredstatements="35" conditionals="4" coveredconditionals="4" methods="12" coveredmethods="12"/>
-      <file name="InputForm.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Elements/Forms/InputForm.tsx">
+      <file name="InputForm.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Elements/Forms/InputForm.tsx">
         <metrics statements="35" coveredstatements="35" conditionals="4" coveredconditionals="4" methods="12" coveredmethods="12"/>
         <line num="1" count="7" type="stmt"/>
         <line num="2" count="7" type="stmt"/>
@@ -210,9 +145,9 @@
         <line num="136" count="2" type="stmt"/>
       </file>
     </package>
-    <package name="src.Elements.Stickers">
+    <package name="Elements.Stickers">
       <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <file name="Sticker.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Elements/Stickers/Sticker.tsx">
+      <file name="Sticker.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Elements/Stickers/Sticker.tsx">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="7" type="stmt"/>
         <line num="2" count="7" type="stmt"/>
@@ -222,14 +157,14 @@
         <line num="35" count="7" type="stmt"/>
       </file>
     </package>
-    <package name="src.Routes">
+    <package name="Routes">
       <metrics statements="23" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
-      <file name="RouteConstants.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Routes/RouteConstants.tsx">
+      <file name="RouteConstants.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Routes/RouteConstants.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="28" count="1" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="28" count="3" type="stmt"/>
       </file>
-      <file name="Routes.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Routes/Routes.tsx">
+      <file name="Routes.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Routes/Routes.tsx">
         <metrics statements="21" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -254,9 +189,9 @@
         <line num="104" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens">
+    <package name="Screens">
       <metrics statements="20" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="5" coveredmethods="0"/>
-      <file name="LoadingScreen.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/LoadingScreen.tsx">
+      <file name="LoadingScreen.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/LoadingScreen.tsx">
         <metrics statements="16" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="5" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -275,7 +210,7 @@
         <line num="43" count="0" type="stmt"/>
         <line num="50" count="0" type="stmt"/>
       </file>
-      <file name="index.ts" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/index.ts">
+      <file name="index.ts" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/index.ts">
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -283,9 +218,9 @@
         <line num="4" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Auth">
+    <package name="Screens.Auth">
       <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="index.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Auth/index.tsx">
+      <file name="index.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Auth/index.tsx">
         <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -294,9 +229,9 @@
         <line num="6" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Auth.LoginScreen">
+    <package name="Screens.Auth.LoginScreen">
       <metrics statements="66" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="13" coveredmethods="0"/>
-      <file name="LoginScreen.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Auth/LoginScreen/LoginScreen.tsx">
+      <file name="LoginScreen.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Auth/LoginScreen/LoginScreen.tsx">
         <metrics statements="16" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -315,7 +250,7 @@
         <line num="35" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
       </file>
-      <file name="LoginScreenBase.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Auth/LoginScreen/LoginScreenBase.tsx">
+      <file name="LoginScreenBase.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Auth/LoginScreen/LoginScreenBase.tsx">
         <metrics statements="50" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="11" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -369,9 +304,9 @@
         <line num="166" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Auth.RoopairsLogin">
+    <package name="Screens.Auth.RoopairsLogin">
       <metrics statements="65" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="13" coveredmethods="0"/>
-      <file name="RoopairsLogin.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Auth/RoopairsLogin/RoopairsLogin.tsx">
+      <file name="RoopairsLogin.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Auth/RoopairsLogin/RoopairsLogin.tsx">
         <metrics statements="21" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -395,7 +330,7 @@
         <line num="69" count="0" type="stmt"/>
         <line num="70" count="0" type="stmt"/>
       </file>
-      <file name="RoopairsLoginBase.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Auth/RoopairsLogin/RoopairsLoginBase.tsx">
+      <file name="RoopairsLoginBase.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Auth/RoopairsLogin/RoopairsLoginBase.tsx">
         <metrics statements="44" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="11" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -443,9 +378,9 @@
         <line num="161" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Auth.SignUpScreen">
+    <package name="Screens.Auth.SignUpScreen">
       <metrics statements="149" coveredstatements="0" conditionals="52" coveredconditionals="0" methods="25" coveredmethods="0"/>
-      <file name="SignUpScreen.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Auth/SignUpScreen/SignUpScreen.tsx">
+      <file name="SignUpScreen.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Auth/SignUpScreen/SignUpScreen.tsx">
         <metrics statements="19" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -467,7 +402,7 @@
         <line num="42" count="0" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
       </file>
-      <file name="SignUpScreenBase.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Auth/SignUpScreen/SignUpScreenBase.tsx">
+      <file name="SignUpScreenBase.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Auth/SignUpScreen/SignUpScreenBase.tsx">
         <metrics statements="130" coveredstatements="0" conditionals="50" coveredconditionals="0" methods="23" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -601,9 +536,9 @@
         <line num="405" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components">
+    <package name="Screens.Components">
       <metrics statements="18" coveredstatements="18" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="index.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/index.tsx">
+      <file name="index.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/index.tsx">
         <metrics statements="18" coveredstatements="18" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="9" count="1" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
@@ -625,9 +560,9 @@
         <line num="49" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.AccounttypeRadioButton">
+    <package name="Screens.Components.AccounttypeRadioButton">
       <metrics statements="35" coveredstatements="13" conditionals="14" coveredconditionals="0" methods="8" coveredmethods="1"/>
-      <file name="AccountTypeRadioButton.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/AccounttypeRadioButton/AccountTypeRadioButton.tsx">
+      <file name="AccountTypeRadioButton.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/AccounttypeRadioButton/AccountTypeRadioButton.tsx">
         <metrics statements="35" coveredstatements="13" conditionals="14" coveredconditionals="0" methods="8" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -666,9 +601,9 @@
         <line num="173" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.AddressSticker">
+    <package name="Screens.Components.AddressSticker">
       <metrics statements="10" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-      <file name="AddressSticker.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/AddressSticker/AddressSticker.tsx">
+      <file name="AddressSticker.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/AddressSticker/AddressSticker.tsx">
         <metrics statements="10" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -682,9 +617,9 @@
         <line num="58" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.AuthPage">
+    <package name="Screens.Components.AuthPage">
       <metrics statements="50" coveredstatements="43" conditionals="16" coveredconditionals="8" methods="15" coveredmethods="11"/>
-      <file name="WithAuthPage.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/AuthPage/WithAuthPage.tsx">
+      <file name="WithAuthPage.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/AuthPage/WithAuthPage.tsx">
         <metrics statements="50" coveredstatements="43" conditionals="16" coveredconditionals="8" methods="15" coveredmethods="11"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -738,9 +673,9 @@
         <line num="342" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.AuthenticationCards">
+    <package name="Screens.Components.AuthenticationCards">
       <metrics statements="28" coveredstatements="14" conditionals="6" coveredconditionals="0" methods="5" coveredmethods="0"/>
-      <file name="AccountConnectedCard.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/AuthenticationCards/AccountConnectedCard.tsx">
+      <file name="AccountConnectedCard.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/AuthenticationCards/AccountConnectedCard.tsx">
         <metrics statements="11" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -754,7 +689,7 @@
         <line num="26" count="0" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
       </file>
-      <file name="ConnectAccountCard.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/AuthenticationCards/ConnectAccountCard.tsx">
+      <file name="ConnectAccountCard.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/AuthenticationCards/ConnectAccountCard.tsx">
         <metrics statements="11" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -768,7 +703,7 @@
         <line num="24" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
       </file>
-      <file name="ConnectCardStyles.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/AuthenticationCards/ConnectCardStyles.tsx">
+      <file name="ConnectCardStyles.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/AuthenticationCards/ConnectCardStyles.tsx">
         <metrics statements="6" coveredstatements="4" conditionals="6" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -778,9 +713,9 @@
         <line num="8" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.GeneralHomeInfo">
+    <package name="Screens.Components.GeneralHomeInfo">
       <metrics statements="21" coveredstatements="9" conditionals="7" coveredconditionals="0" methods="5" coveredmethods="0"/>
-      <file name="GeneralHomeInfo.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/GeneralHomeInfo/GeneralHomeInfo.tsx">
+      <file name="GeneralHomeInfo.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/GeneralHomeInfo/GeneralHomeInfo.tsx">
         <metrics statements="21" coveredstatements="9" conditionals="7" coveredconditionals="0" methods="5" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -805,9 +740,9 @@
         <line num="166" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.HomePairsHeader">
+    <package name="Screens.Components.HomePairsHeader">
       <metrics statements="89" coveredstatements="40" conditionals="24" coveredconditionals="0" methods="22" coveredmethods="2"/>
-      <file name="HomePairsHeader.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/HomePairsHeader/HomePairsHeader.tsx">
+      <file name="HomePairsHeader.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/HomePairsHeader/HomePairsHeader.tsx">
         <metrics statements="14" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -824,7 +759,7 @@
         <line num="32" count="1" type="stmt"/>
         <line num="37" count="1" type="stmt"/>
       </file>
-      <file name="HomePairsHeaderBase.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/HomePairsHeader/HomePairsHeaderBase.tsx">
+      <file name="HomePairsHeaderBase.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/HomePairsHeader/HomePairsHeaderBase.tsx">
         <metrics statements="45" coveredstatements="21" conditionals="18" coveredconditionals="0" methods="9" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
@@ -872,7 +807,7 @@
         <line num="167" count="1" type="stmt"/>
         <line num="168" count="1" type="stmt"/>
       </file>
-      <file name="HomePairsHeaderTemplate.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/HomePairsHeader/HomePairsHeaderTemplate.tsx">
+      <file name="HomePairsHeaderTemplate.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/HomePairsHeader/HomePairsHeaderTemplate.tsx">
         <metrics statements="30" coveredstatements="11" conditionals="6" coveredconditionals="0" methods="7" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -906,9 +841,9 @@
         <line num="86" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.HomePairsHeader.HomePairsHeaderMenu">
+    <package name="Screens.Components.HomePairsHeader.HomePairsHeaderMenu">
       <metrics statements="52" coveredstatements="18" conditionals="20" coveredconditionals="0" methods="11" coveredmethods="1"/>
-      <file name="HomePairsHeaderMenu.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/HomePairsHeader/HomePairsHeaderMenu/HomePairsHeaderMenu.tsx">
+      <file name="HomePairsHeaderMenu.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/HomePairsHeader/HomePairsHeaderMenu/HomePairsHeaderMenu.tsx">
         <metrics statements="52" coveredstatements="18" conditionals="20" coveredconditionals="0" methods="11" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -964,9 +899,9 @@
         <line num="189" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.HomePairsHeader.HomePairsHeaderTitle">
+    <package name="Screens.Components.HomePairsHeader.HomePairsHeaderTitle">
       <metrics statements="20" coveredstatements="11" conditionals="6" coveredconditionals="0" methods="5" coveredmethods="1"/>
-      <file name="HomePairsHeaderTitle.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/HomePairsHeader/HomePairsHeaderTitle/HomePairsHeaderTitle.tsx">
+      <file name="HomePairsHeaderTitle.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/HomePairsHeader/HomePairsHeaderTitle/HomePairsHeaderTitle.tsx">
         <metrics statements="20" coveredstatements="11" conditionals="6" coveredconditionals="0" methods="5" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
@@ -990,9 +925,9 @@
         <line num="102" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.Modals">
+    <package name="Screens.Components.Modals">
       <metrics statements="11" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
-      <file name="AuthenticationModals.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/AuthenticationModals.tsx">
+      <file name="AuthenticationModals.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/AuthenticationModals.tsx">
         <metrics statements="5" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -1000,7 +935,7 @@
         <line num="6" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
       </file>
-      <file name="LoadingModal.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/LoadingModal.tsx">
+      <file name="LoadingModal.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/LoadingModal.tsx">
         <metrics statements="6" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -1010,9 +945,9 @@
         <line num="37" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.Modals.AddNewPropertyModal">
+    <package name="Screens.Components.Modals.AddNewPropertyModal">
       <metrics statements="71" coveredstatements="29" conditionals="13" coveredconditionals="0" methods="20" coveredmethods="1"/>
-      <file name="AddNewPropertyModal.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/AddNewPropertyModal/AddNewPropertyModal.tsx">
+      <file name="AddNewPropertyModal.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/AddNewPropertyModal/AddNewPropertyModal.tsx">
         <metrics statements="7" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -1022,7 +957,7 @@
         <line num="14" count="0" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
       </file>
-      <file name="AddNewPropertyModalBase.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/AddNewPropertyModal/AddNewPropertyModalBase.tsx">
+      <file name="AddNewPropertyModalBase.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/AddNewPropertyModal/AddNewPropertyModalBase.tsx">
         <metrics statements="64" coveredstatements="24" conditionals="13" coveredconditionals="0" methods="17" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -1090,9 +1025,9 @@
         <line num="312" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.Modals.EditPropertyModal">
+    <package name="Screens.Components.Modals.EditPropertyModal">
       <metrics statements="74" coveredstatements="28" conditionals="18" coveredconditionals="0" methods="20" coveredmethods="1"/>
-      <file name="EditPropertyModal.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/EditPropertyModal/EditPropertyModal.tsx">
+      <file name="EditPropertyModal.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/EditPropertyModal/EditPropertyModal.tsx">
         <metrics statements="8" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -1103,7 +1038,7 @@
         <line num="14" count="0" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
       </file>
-      <file name="EditPropertyModalBase.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/EditPropertyModal/EditPropertyModalBase.tsx">
+      <file name="EditPropertyModalBase.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/EditPropertyModal/EditPropertyModalBase.tsx">
         <metrics statements="66" coveredstatements="23" conditionals="18" coveredconditionals="0" methods="17" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -1173,9 +1108,9 @@
         <line num="319" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.Modals.ServiceRequestModal">
+    <package name="Screens.Components.Modals.ServiceRequestModal">
       <metrics statements="4" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-      <file name="PrefferedProviderModal.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/ServiceRequestModal/PrefferedProviderModal.tsx">
+      <file name="PrefferedProviderModal.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/ServiceRequestModal/PrefferedProviderModal.tsx">
         <metrics statements="4" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -1183,9 +1118,9 @@
         <line num="12" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.Modals.WithModal">
+    <package name="Screens.Components.Modals.WithModal">
       <metrics statements="25" coveredstatements="13" conditionals="4" coveredconditionals="1" methods="9" coveredmethods="2"/>
-      <file name="WithModal.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/WithModal/WithModal.tsx">
+      <file name="WithModal.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/Modals/WithModal/WithModal.tsx">
         <metrics statements="25" coveredstatements="13" conditionals="4" coveredconditionals="1" methods="9" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
@@ -1214,9 +1149,9 @@
         <line num="134" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.SceneHeader">
+    <package name="Screens.Components.SceneHeader">
       <metrics statements="63" coveredstatements="20" conditionals="14" coveredconditionals="0" methods="17" coveredmethods="2"/>
-      <file name="SceneHeader.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/SceneHeader/SceneHeader.tsx">
+      <file name="SceneHeader.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/SceneHeader/SceneHeader.tsx">
         <metrics statements="18" coveredstatements="4" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -1237,7 +1172,7 @@
         <line num="91" count="0" type="stmt"/>
         <line num="94" count="0" type="stmt"/>
       </file>
-      <file name="WithSceneHeader.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/SceneHeader/WithSceneHeader.tsx">
+      <file name="WithSceneHeader.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/SceneHeader/WithSceneHeader.tsx">
         <metrics statements="45" coveredstatements="16" conditionals="10" coveredconditionals="0" methods="13" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -1286,9 +1221,9 @@
         <line num="182" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.ViewPropertyCard">
+    <package name="Screens.Components.ViewPropertyCard">
       <metrics statements="18" coveredstatements="9" conditionals="4" coveredconditionals="1" methods="3" coveredmethods="0"/>
-      <file name="ViewPropertyCard.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/ViewPropertyCard/ViewPropertyCard.tsx">
+      <file name="ViewPropertyCard.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/ViewPropertyCard/ViewPropertyCard.tsx">
         <metrics statements="18" coveredstatements="9" conditionals="4" coveredconditionals="1" methods="3" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -1310,9 +1245,9 @@
         <line num="174" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Components.WithDarkMode">
+    <package name="Screens.Components.WithDarkMode">
       <metrics statements="12" coveredstatements="7" conditionals="4" coveredconditionals="0" methods="5" coveredmethods="2"/>
-      <file name="WithDarkMode.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Components/WithDarkMode/WithDarkMode.tsx">
+      <file name="WithDarkMode.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Components/WithDarkMode/WithDarkMode.tsx">
         <metrics statements="12" coveredstatements="7" conditionals="4" coveredconditionals="0" methods="5" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -1328,9 +1263,9 @@
         <line num="36" count="2" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Main">
+    <package name="Screens.Main">
       <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="index.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/index.tsx">
+      <file name="index.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/index.tsx">
         <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -1339,18 +1274,18 @@
         <line num="6" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Main.Account">
+    <package name="Screens.Main.Account">
       <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="index.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/Account/index.tsx">
+      <file name="index.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/Account/index.tsx">
         <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Main.Account.AccountScreen">
+    <package name="Screens.Main.Account.AccountScreen">
       <metrics statements="27" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="10" coveredmethods="0"/>
-      <file name="AccountScreen.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/Account/AccountScreen/AccountScreen.tsx">
+      <file name="AccountScreen.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/Account/AccountScreen/AccountScreen.tsx">
         <metrics statements="10" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="2" count="0" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
@@ -1363,7 +1298,7 @@
         <line num="32" count="0" type="stmt"/>
         <line num="37" count="0" type="stmt"/>
       </file>
-      <file name="AccountScreenBase.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/Account/AccountScreen/AccountScreenBase.tsx">
+      <file name="AccountScreenBase.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/Account/AccountScreen/AccountScreenBase.tsx">
         <metrics statements="17" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -1384,9 +1319,9 @@
         <line num="56" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Main.Properties">
+    <package name="Screens.Main.Properties">
       <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="index.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/Properties/index.tsx">
+      <file name="index.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/Properties/index.tsx">
         <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -1395,9 +1330,9 @@
         <line num="6" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Main.Properties.DetailedPropertiesScreen">
+    <package name="Screens.Main.Properties.DetailedPropertiesScreen">
       <metrics statements="27" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="6" coveredmethods="0"/>
-      <file name="DetailedPropertyScreen.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/Properties/DetailedPropertiesScreen/DetailedPropertyScreen.tsx">
+      <file name="DetailedPropertyScreen.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/Properties/DetailedPropertiesScreen/DetailedPropertyScreen.tsx">
         <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -1409,7 +1344,7 @@
         <line num="17" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
       </file>
-      <file name="DetailedPropertyScreenBase.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/Properties/DetailedPropertiesScreen/DetailedPropertyScreenBase.tsx">
+      <file name="DetailedPropertyScreenBase.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/Properties/DetailedPropertiesScreen/DetailedPropertyScreenBase.tsx">
         <metrics statements="18" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="5" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -1431,9 +1366,9 @@
         <line num="159" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Main.Properties.PropertiesScreen">
+    <package name="Screens.Main.Properties.PropertiesScreen">
       <metrics statements="31" coveredstatements="15" conditionals="2" coveredconditionals="0" methods="9" coveredmethods="1"/>
-      <file name="PropertiesScreen.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/Properties/PropertiesScreen/PropertiesScreen.tsx">
+      <file name="PropertiesScreen.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/Properties/PropertiesScreen/PropertiesScreen.tsx">
         <metrics statements="12" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -1448,7 +1383,7 @@
         <line num="41" count="1" type="stmt"/>
         <line num="46" count="1" type="stmt"/>
       </file>
-      <file name="PropertiesScreenBase.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/Properties/PropertiesScreen/PropertiesScreenBase.tsx">
+      <file name="PropertiesScreenBase.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/Properties/PropertiesScreen/PropertiesScreenBase.tsx">
         <metrics statements="19" coveredstatements="6" conditionals="2" coveredconditionals="0" methods="5" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -1471,9 +1406,9 @@
         <line num="60" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Main.Properties.TenantPropertyScreen">
+    <package name="Screens.Main.Properties.TenantPropertyScreen">
       <metrics statements="28" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="6" coveredmethods="0"/>
-      <file name="TenantPropertyScreen.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/Properties/TenantPropertyScreen/TenantPropertyScreen.tsx">
+      <file name="TenantPropertyScreen.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/Properties/TenantPropertyScreen/TenantPropertyScreen.tsx">
         <metrics statements="10" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -1486,7 +1421,7 @@
         <line num="21" count="0" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
       </file>
-      <file name="TenantPropertyScreenBase.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/Properties/TenantPropertyScreen/TenantPropertyScreenBase.tsx">
+      <file name="TenantPropertyScreenBase.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/Properties/TenantPropertyScreen/TenantPropertyScreenBase.tsx">
         <metrics statements="18" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -1508,9 +1443,9 @@
         <line num="123" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Main.ServiceRequest">
+    <package name="Screens.Main.ServiceRequest">
       <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="index.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/ServiceRequest/index.tsx">
+      <file name="index.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/ServiceRequest/index.tsx">
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -1518,9 +1453,9 @@
         <line num="5" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Main.ServiceRequest.NewRequest">
+    <package name="Screens.Main.ServiceRequest.NewRequest">
       <metrics statements="14" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
-      <file name="NewRequestScreen.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/ServiceRequest/NewRequest/NewRequestScreen.tsx">
+      <file name="NewRequestScreen.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/ServiceRequest/NewRequest/NewRequestScreen.tsx">
         <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -1532,7 +1467,7 @@
         <line num="28" count="0" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
       </file>
-      <file name="NewRequestScreenBase.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/ServiceRequest/NewRequest/NewRequestScreenBase.tsx">
+      <file name="NewRequestScreenBase.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/ServiceRequest/NewRequest/NewRequestScreenBase.tsx">
         <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
@@ -1541,9 +1476,9 @@
         <line num="16" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.Screens.Main.ServiceRequest.ServiceRequestScreen">
+    <package name="Screens.Main.ServiceRequest.ServiceRequestScreen">
       <metrics statements="17" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
-      <file name="ServiceRequestScreen.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/ServiceRequest/ServiceRequestScreen/ServiceRequestScreen.tsx">
+      <file name="ServiceRequestScreen.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/ServiceRequest/ServiceRequestScreen/ServiceRequestScreen.tsx">
         <metrics statements="13" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -1559,7 +1494,7 @@
         <line num="35" count="0" type="stmt"/>
         <line num="40" count="0" type="stmt"/>
       </file>
-      <file name="ServiceRequestScreenBase.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/Screens/Main/ServiceRequest/ServiceRequestScreen/ServiceRequestScreenBase.tsx">
+      <file name="ServiceRequestScreenBase.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/Screens/Main/ServiceRequest/ServiceRequestScreen/ServiceRequestScreenBase.tsx">
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
@@ -1567,17 +1502,17 @@
         <line num="16" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.state">
+    <package name="state">
       <metrics statements="71" coveredstatements="62" conditionals="16" coveredconditionals="16" methods="8" coveredmethods="8"/>
-      <file name="actions.ts" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/state/actions.ts">
+      <file name="actions.ts" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/actions.ts">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="3" count="3" type="stmt"/>
-        <line num="4" count="3" type="stmt"/>
-        <line num="8" count="3" type="stmt"/>
+        <line num="1" count="9" type="stmt"/>
+        <line num="2" count="9" type="stmt"/>
+        <line num="3" count="9" type="stmt"/>
+        <line num="4" count="9" type="stmt"/>
+        <line num="8" count="9" type="stmt"/>
       </file>
-      <file name="store.ts" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/state/store.ts">
+      <file name="store.ts" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/store.ts">
         <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -1589,298 +1524,285 @@
         <line num="9" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
       </file>
-      <file name="types.ts" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/state/types.ts">
+      <file name="types.ts" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/types.ts">
         <metrics statements="57" coveredstatements="57" conditionals="16" coveredconditionals="16" methods="8" coveredmethods="8"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="59" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="60" count="3" type="stmt"/>
-        <line num="61" count="3" type="stmt"/>
-        <line num="108" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="109" count="3" type="stmt"/>
-        <line num="110" count="3" type="stmt"/>
-        <line num="111" count="3" type="stmt"/>
-        <line num="114" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="115" count="3" type="stmt"/>
-        <line num="116" count="3" type="stmt"/>
-        <line num="117" count="3" type="stmt"/>
-        <line num="118" count="3" type="stmt"/>
-        <line num="119" count="3" type="stmt"/>
-        <line num="270" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="271" count="3" type="stmt"/>
-        <line num="272" count="3" type="stmt"/>
-        <line num="273" count="3" type="stmt"/>
-        <line num="274" count="3" type="stmt"/>
-        <line num="275" count="3" type="stmt"/>
-        <line num="276" count="3" type="stmt"/>
-        <line num="277" count="3" type="stmt"/>
-        <line num="278" count="3" type="stmt"/>
-        <line num="281" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="282" count="3" type="stmt"/>
-        <line num="283" count="3" type="stmt"/>
-        <line num="284" count="3" type="stmt"/>
-        <line num="285" count="3" type="stmt"/>
-        <line num="286" count="3" type="stmt"/>
-        <line num="287" count="3" type="stmt"/>
-        <line num="288" count="3" type="stmt"/>
-        <line num="289" count="3" type="stmt"/>
-        <line num="290" count="3" type="stmt"/>
-        <line num="291" count="3" type="stmt"/>
-        <line num="292" count="3" type="stmt"/>
-        <line num="293" count="3" type="stmt"/>
-        <line num="294" count="3" type="stmt"/>
-        <line num="295" count="3" type="stmt"/>
-        <line num="296" count="3" type="stmt"/>
-        <line num="299" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="300" count="3" type="stmt"/>
-        <line num="301" count="3" type="stmt"/>
-        <line num="304" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="305" count="3" type="stmt"/>
-        <line num="306" count="3" type="stmt"/>
-        <line num="307" count="3" type="stmt"/>
-        <line num="308" count="3" type="stmt"/>
-        <line num="309" count="3" type="stmt"/>
-        <line num="310" count="3" type="stmt"/>
-        <line num="313" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="314" count="3" type="stmt"/>
-        <line num="315" count="3" type="stmt"/>
-        <line num="316" count="3" type="stmt"/>
-        <line num="317" count="3" type="stmt"/>
-        <line num="318" count="3" type="stmt"/>
-        <line num="319" count="3" type="stmt"/>
-        <line num="322" count="3" type="stmt"/>
+        <line num="1" count="10" type="stmt"/>
+        <line num="59" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="60" count="10" type="stmt"/>
+        <line num="61" count="10" type="stmt"/>
+        <line num="108" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="109" count="10" type="stmt"/>
+        <line num="110" count="10" type="stmt"/>
+        <line num="111" count="10" type="stmt"/>
+        <line num="114" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="115" count="10" type="stmt"/>
+        <line num="116" count="10" type="stmt"/>
+        <line num="117" count="10" type="stmt"/>
+        <line num="118" count="10" type="stmt"/>
+        <line num="119" count="10" type="stmt"/>
+        <line num="270" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="271" count="10" type="stmt"/>
+        <line num="272" count="10" type="stmt"/>
+        <line num="273" count="10" type="stmt"/>
+        <line num="274" count="10" type="stmt"/>
+        <line num="275" count="10" type="stmt"/>
+        <line num="276" count="10" type="stmt"/>
+        <line num="277" count="10" type="stmt"/>
+        <line num="278" count="10" type="stmt"/>
+        <line num="281" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="282" count="10" type="stmt"/>
+        <line num="283" count="10" type="stmt"/>
+        <line num="284" count="10" type="stmt"/>
+        <line num="285" count="10" type="stmt"/>
+        <line num="286" count="10" type="stmt"/>
+        <line num="287" count="10" type="stmt"/>
+        <line num="288" count="10" type="stmt"/>
+        <line num="289" count="10" type="stmt"/>
+        <line num="290" count="10" type="stmt"/>
+        <line num="291" count="10" type="stmt"/>
+        <line num="292" count="10" type="stmt"/>
+        <line num="293" count="10" type="stmt"/>
+        <line num="294" count="10" type="stmt"/>
+        <line num="295" count="10" type="stmt"/>
+        <line num="296" count="10" type="stmt"/>
+        <line num="299" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="300" count="10" type="stmt"/>
+        <line num="301" count="10" type="stmt"/>
+        <line num="304" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="305" count="10" type="stmt"/>
+        <line num="306" count="10" type="stmt"/>
+        <line num="307" count="10" type="stmt"/>
+        <line num="308" count="10" type="stmt"/>
+        <line num="309" count="10" type="stmt"/>
+        <line num="310" count="10" type="stmt"/>
+        <line num="313" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="314" count="10" type="stmt"/>
+        <line num="315" count="10" type="stmt"/>
+        <line num="316" count="10" type="stmt"/>
+        <line num="317" count="10" type="stmt"/>
+        <line num="318" count="10" type="stmt"/>
+        <line num="319" count="10" type="stmt"/>
+        <line num="322" count="10" type="stmt"/>
       </file>
     </package>
-    <package name="src.state.account">
-      <metrics statements="80" coveredstatements="34" conditionals="28" coveredconditionals="9" methods="26" coveredmethods="8"/>
-      <file name="actions.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/state/account/actions.tsx">
-        <metrics statements="71" coveredstatements="34" conditionals="24" coveredconditionals="9" methods="25" coveredmethods="8"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="12" count="3" type="stmt"/>
-        <line num="14" count="3" type="stmt"/>
-        <line num="15" count="3" type="stmt"/>
-        <line num="16" count="3" type="stmt"/>
-        <line num="17" count="3" type="stmt"/>
-        <line num="18" count="3" type="stmt"/>
-        <line num="20" count="3" type="stmt"/>
-        <line num="34" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="36" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="54" count="7" type="cond" truecount="2" falsecount="0"/>
-        <line num="55" count="3" type="stmt"/>
-        <line num="57" count="4" type="stmt"/>
-        <line num="71" count="3" type="stmt"/>
-        <line num="72" count="5" type="stmt"/>
-        <line num="73" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="75" count="5" type="stmt"/>
-        <line num="85" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="86" count="3" type="stmt"/>
-        <line num="90" count="3" type="stmt"/>
-        <line num="91" count="3" type="stmt"/>
-        <line num="93" count="2" type="stmt"/>
-        <line num="97" count="2" type="stmt"/>
-        <line num="100" count="5" type="stmt"/>
-        <line num="126" count="3" type="stmt"/>
-        <line num="127" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="128" count="2" type="stmt"/>
-        <line num="129" count="2" type="stmt"/>
-        <line num="131" count="4" type="stmt"/>
+    <package name="state.account">
+      <metrics statements="67" coveredstatements="67" conditionals="22" coveredconditionals="22" methods="21" coveredmethods="20"/>
+      <file name="actions.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/account/actions.tsx">
+        <metrics statements="58" coveredstatements="58" conditionals="18" coveredconditionals="18" methods="20" coveredmethods="19"/>
+        <line num="1" count="10" type="stmt"/>
+        <line num="2" count="10" type="stmt"/>
+        <line num="12" count="10" type="stmt"/>
+        <line num="14" count="10" type="stmt"/>
+        <line num="15" count="10" type="stmt"/>
+        <line num="16" count="10" type="stmt"/>
+        <line num="17" count="10" type="stmt"/>
+        <line num="18" count="10" type="stmt"/>
+        <line num="20" count="10" type="stmt"/>
+        <line num="41" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="42" count="2" type="stmt"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="59" count="12" type="cond" truecount="2" falsecount="0"/>
+        <line num="60" count="6" type="stmt"/>
+        <line num="62" count="6" type="stmt"/>
+        <line num="77" count="10" type="stmt"/>
+        <line num="78" count="9" type="stmt"/>
+        <line num="79" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="81" count="9" type="stmt"/>
+        <line num="91" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="92" count="5" type="stmt"/>
+        <line num="96" count="5" type="stmt"/>
+        <line num="97" count="5" type="stmt"/>
+        <line num="99" count="4" type="stmt"/>
+        <line num="103" count="4" type="stmt"/>
+        <line num="106" count="9" type="stmt"/>
+        <line num="125" count="10" type="stmt"/>
+        <line num="126" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="127" count="4" type="stmt"/>
+        <line num="129" count="8" type="stmt"/>
+        <line num="134" count="3" type="stmt"/>
+        <line num="135" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="136" count="2" type="stmt"/>
-        <line num="137" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="138" count="0" type="stmt"/>
-        <line num="139" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="140" count="0" type="stmt"/>
-        <line num="142" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="143" count="0" type="stmt"/>
-        <line num="146" count="0" type="stmt"/>
-        <line num="148" count="0" type="stmt"/>
-        <line num="150" count="2" type="stmt"/>
-        <line num="155" count="0" type="stmt"/>
-        <line num="162" count="3" type="stmt"/>
-        <line num="163" count="0" type="stmt"/>
-        <line num="164" count="0" type="stmt"/>
-        <line num="169" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="170" count="0" type="stmt"/>
-        <line num="171" count="0" type="stmt"/>
-        <line num="172" count="0" type="stmt"/>
-        <line num="174" count="0" type="stmt"/>
-        <line num="178" count="0" type="stmt"/>
-        <line num="184" count="3" type="stmt"/>
-        <line num="185" count="0" type="stmt"/>
-        <line num="186" count="0" type="stmt"/>
-        <line num="196" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="197" count="0" type="stmt"/>
-        <line num="198" count="0" type="stmt"/>
-        <line num="199" count="0" type="stmt"/>
-        <line num="201" count="0" type="stmt"/>
-        <line num="206" count="0" type="stmt"/>
-        <line num="211" count="3" type="stmt"/>
-        <line num="212" count="0" type="stmt"/>
-        <line num="213" count="0" type="stmt"/>
-        <line num="221" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="222" count="0" type="stmt"/>
-        <line num="223" count="0" type="stmt"/>
-        <line num="224" count="0" type="stmt"/>
-        <line num="226" count="0" type="stmt"/>
-        <line num="231" count="0" type="stmt"/>
+        <line num="137" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="138" count="1" type="stmt"/>
+        <line num="141" count="1" type="stmt"/>
+        <line num="143" count="2" type="stmt"/>
+        <line num="145" count="1" type="stmt"/>
+        <line num="150" count="1" type="stmt"/>
+        <line num="169" count="10" type="stmt"/>
+        <line num="170" count="3" type="stmt"/>
+        <line num="171" count="6" type="stmt"/>
+        <line num="181" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="182" count="1" type="stmt"/>
+        <line num="183" count="1" type="stmt"/>
+        <line num="184" count="1" type="stmt"/>
+        <line num="186" count="1" type="stmt"/>
+        <line num="191" count="1" type="stmt"/>
+        <line num="208" count="10" type="stmt"/>
+        <line num="209" count="3" type="stmt"/>
+        <line num="210" count="6" type="stmt"/>
+        <line num="218" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="219" count="1" type="stmt"/>
+        <line num="220" count="1" type="stmt"/>
+        <line num="221" count="1" type="stmt"/>
+        <line num="223" count="1" type="stmt"/>
+        <line num="227" count="1" type="stmt"/>
       </file>
-      <file name="reducer.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/state/account/reducer.tsx">
-        <metrics statements="9" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
+      <file name="reducer.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/account/reducer.tsx">
+        <metrics statements="9" coveredstatements="9" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="34" count="4" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
       </file>
     </package>
-    <package name="src.state.header">
-      <metrics statements="36" coveredstatements="9" conditionals="11" coveredconditionals="2" methods="7" coveredmethods="1"/>
-      <file name="actions.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/state/header/actions.tsx">
-        <metrics statements="13" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="5" coveredmethods="1"/>
-        <line num="9" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="10" count="3" type="stmt"/>
-        <line num="11" count="3" type="stmt"/>
-        <line num="12" count="3" type="stmt"/>
-        <line num="13" count="3" type="stmt"/>
-        <line num="16" count="3" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="23" count="3" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="30" count="3" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="37" count="3" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
+    <package name="state.header">
+      <metrics statements="36" coveredstatements="35" conditionals="11" coveredconditionals="10" methods="7" coveredmethods="7"/>
+      <file name="actions.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/header/actions.tsx">
+        <metrics statements="13" coveredstatements="13" conditionals="2" coveredconditionals="2" methods="5" coveredmethods="5"/>
+        <line num="9" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="10" count="10" type="stmt"/>
+        <line num="11" count="10" type="stmt"/>
+        <line num="12" count="10" type="stmt"/>
+        <line num="13" count="10" type="stmt"/>
+        <line num="24" count="10" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="38" count="10" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="52" count="10" type="stmt"/>
+        <line num="53" count="2" type="stmt"/>
+        <line num="67" count="10" type="stmt"/>
+        <line num="68" count="1" type="stmt"/>
       </file>
-      <file name="reducer.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/state/header/reducer.tsx">
-        <metrics statements="23" coveredstatements="0" conditionals="9" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="23" count="0" type="stmt"/>
+      <file name="reducer.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/header/reducer.tsx">
+        <metrics statements="23" coveredstatements="22" conditionals="9" coveredconditionals="8" methods="2" coveredmethods="2"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="24" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="41" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="45" count="0" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="46" count="5" type="stmt"/>
+        <line num="47" count="5" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="state.property-list">
+      <metrics statements="69" coveredstatements="67" conditionals="21" coveredconditionals="21" methods="21" coveredmethods="19"/>
+      <file name="actions.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/property-list/actions.tsx">
+        <metrics statements="42" coveredstatements="40" conditionals="10" coveredconditionals="10" methods="18" coveredmethods="16"/>
+        <line num="1" count="10" type="stmt"/>
+        <line num="2" count="10" type="stmt"/>
+        <line num="15" count="10" type="stmt"/>
+        <line num="16" count="10" type="stmt"/>
+        <line num="27" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="28" count="10" type="stmt"/>
+        <line num="29" count="10" type="stmt"/>
+        <line num="30" count="10" type="stmt"/>
+        <line num="31" count="10" type="stmt"/>
+        <line num="32" count="10" type="stmt"/>
+        <line num="33" count="10" type="stmt"/>
+        <line num="45" count="10" type="stmt"/>
         <line num="46" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
-      </file>
-    </package>
-    <package name="src.state.property-list">
-      <metrics statements="69" coveredstatements="19" conditionals="21" coveredconditionals="2" methods="21" coveredmethods="1"/>
-      <file name="actions.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/state/property-list/actions.tsx">
-        <metrics statements="42" coveredstatements="19" conditionals="10" coveredconditionals="2" methods="18" coveredmethods="1"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="15" count="3" type="stmt"/>
-        <line num="16" count="3" type="stmt"/>
-        <line num="18" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="19" count="3" type="stmt"/>
-        <line num="20" count="3" type="stmt"/>
-        <line num="21" count="3" type="stmt"/>
-        <line num="22" count="3" type="stmt"/>
-        <line num="23" count="3" type="stmt"/>
-        <line num="24" count="3" type="stmt"/>
-        <line num="27" count="3" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="34" count="3" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="41" count="3" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="63" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="69" count="0" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
-        <line num="71" count="0" type="stmt"/>
+        <line num="60" count="10" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="76" count="10" type="stmt"/>
         <line num="82" count="3" type="stmt"/>
-        <line num="83" count="0" type="stmt"/>
-        <line num="90" count="3" type="stmt"/>
-        <line num="94" count="0" type="stmt"/>
-        <line num="95" count="0" type="stmt"/>
-        <line num="108" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="109" count="0" type="stmt"/>
-        <line num="110" count="0" type="stmt"/>
-        <line num="119" count="3" type="stmt"/>
-        <line num="121" count="0" type="stmt"/>
-        <line num="126" count="3" type="stmt"/>
-        <line num="127" count="0" type="stmt"/>
-        <line num="128" count="0" type="stmt"/>
-        <line num="136" count="0" type="stmt"/>
-        <line num="137" count="0" type="stmt"/>
-        <line num="143" count="3" type="stmt"/>
-        <line num="146" count="0" type="stmt"/>
-        <line num="147" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="148" count="0" type="stmt"/>
-        <line num="157" count="0" type="stmt"/>
+        <line num="83" count="6" type="stmt"/>
+        <line num="96" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="97" count="1" type="stmt"/>
+        <line num="98" count="1" type="stmt"/>
+        <line num="99" count="1" type="stmt"/>
+        <line num="119" count="10" type="stmt"/>
+        <line num="120" count="1" type="stmt"/>
+        <line num="140" count="10" type="stmt"/>
+        <line num="144" count="3" type="stmt"/>
+        <line num="145" count="3" type="stmt"/>
+        <line num="158" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="159" count="1" type="stmt"/>
+        <line num="160" count="1" type="stmt"/>
+        <line num="177" count="10" type="stmt"/>
+        <line num="179" count="0" type="stmt"/>
+        <line num="193" count="10" type="stmt"/>
+        <line num="194" count="2" type="stmt"/>
+        <line num="195" count="2" type="stmt"/>
+        <line num="203" count="2" type="stmt"/>
+        <line num="204" count="2" type="stmt"/>
+        <line num="219" count="10" type="stmt"/>
+        <line num="222" count="2" type="stmt"/>
+        <line num="223" count="2" type="cond" truecount="4" falsecount="0"/>
+        <line num="224" count="1" type="stmt"/>
+        <line num="233" count="2" type="stmt"/>
       </file>
-      <file name="reducer.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/state/property-list/reducer.tsx">
-        <metrics statements="27" coveredstatements="0" conditionals="11" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="26" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="57" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="72" count="0" type="stmt"/>
-        <line num="77" count="0" type="stmt"/>
-        <line num="82" count="0" type="stmt"/>
-        <line num="87" count="0" type="stmt"/>
+      <file name="reducer.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/property-list/reducer.tsx">
+        <metrics statements="27" coveredstatements="27" conditionals="11" coveredconditionals="11" methods="3" coveredmethods="3"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="31" count="10" type="stmt"/>
+        <line num="32" count="10" type="stmt"/>
+        <line num="33" count="10" type="stmt"/>
+        <line num="34" count="10" type="stmt"/>
+        <line num="36" count="10" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="40" count="2" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="48" count="3" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="58" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="60" count="2" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="68" count="1" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+        <line num="78" count="1" type="stmt"/>
+        <line num="83" count="2" type="stmt"/>
+        <line num="88" count="2" type="stmt"/>
       </file>
     </package>
-    <package name="src.state.service">
+    <package name="state.service">
       <metrics statements="25" coveredstatements="7" conditionals="8" coveredconditionals="0" methods="6" coveredmethods="0"/>
-      <file name="actions.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/state/service/actions.tsx">
+      <file name="actions.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/service/actions.tsx">
         <metrics statements="13" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="14" count="3" type="stmt"/>
-        <line num="22" count="3" type="stmt"/>
+        <line num="1" count="9" type="stmt"/>
+        <line num="14" count="9" type="stmt"/>
+        <line num="22" count="9" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
         <line num="29" count="0" type="stmt"/>
-        <line num="35" count="3" type="stmt"/>
+        <line num="35" count="9" type="stmt"/>
         <line num="37" count="0" type="stmt"/>
-        <line num="43" count="3" type="stmt"/>
+        <line num="43" count="9" type="stmt"/>
         <line num="45" count="0" type="stmt"/>
-        <line num="51" count="3" type="stmt"/>
+        <line num="51" count="9" type="stmt"/>
         <line num="53" count="0" type="stmt"/>
-        <line num="59" count="3" type="stmt"/>
+        <line num="59" count="9" type="stmt"/>
         <line num="61" count="0" type="stmt"/>
       </file>
-      <file name="reducer.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/state/service/reducer.tsx">
+      <file name="reducer.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/service/reducer.tsx">
         <metrics statements="12" coveredstatements="0" conditionals="8" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="5" count="0" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
@@ -1896,9 +1818,9 @@
         <line num="35" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.state.settings">
+    <package name="state.settings">
       <metrics statements="16" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="3" coveredmethods="0"/>
-      <file name="actions.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/state/settings/actions.tsx">
+      <file name="actions.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/settings/actions.tsx">
         <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="6" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
@@ -1906,7 +1828,7 @@
         <line num="18" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
       </file>
-      <file name="reducer.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/state/settings/reducer.tsx">
+      <file name="reducer.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/state/settings/reducer.tsx">
         <metrics statements="11" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="7" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
@@ -1921,15 +1843,15 @@
         <line num="27" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.utility">
+    <package name="utility">
       <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-      <file name="ParameterChecker.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/utility/ParameterChecker.tsx">
+      <file name="ParameterChecker.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/utility/ParameterChecker.tsx">
         <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="10" count="4" type="cond" truecount="2" falsecount="0"/>
         <line num="23" count="3" type="stmt"/>
         <line num="24" count="3" type="stmt"/>
       </file>
-      <file name="index.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/utility/index.tsx">
+      <file name="index.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/utility/index.tsx">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -1939,29 +1861,29 @@
         <line num="6" count="3" type="stmt"/>
       </file>
     </package>
-    <package name="src.utility.SyntaxVerification">
-      <metrics statements="10" coveredstatements="9" conditionals="4" coveredconditionals="2" methods="6" coveredmethods="5"/>
-      <file name="AlphaCharacterVerification.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/utility/SyntaxVerification/AlphaCharacterVerification.tsx">
+    <package name="utility.SyntaxVerification">
+      <metrics statements="10" coveredstatements="10" conditionals="4" coveredconditionals="4" methods="6" coveredmethods="6"/>
+      <file name="AlphaCharacterVerification.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/utility/SyntaxVerification/AlphaCharacterVerification.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="2" count="3" type="stmt"/>
         <line num="13" count="15" type="stmt"/>
       </file>
-      <file name="EmailSyntaxVerification.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/utility/SyntaxVerification/EmailSyntaxVerification.tsx">
+      <file name="EmailSyntaxVerification.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/utility/SyntaxVerification/EmailSyntaxVerification.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="4" count="3" type="stmt"/>
         <line num="23" count="6" type="stmt"/>
       </file>
-      <file name="EmptyStringVerification.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/utility/SyntaxVerification/EmptyStringVerification.tsx">
-        <metrics statements="2" coveredstatements="1" conditionals="4" coveredconditionals="2" methods="2" coveredmethods="1"/>
+      <file name="EmptyStringVerification.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/utility/SyntaxVerification/EmptyStringVerification.tsx">
+        <metrics statements="2" coveredstatements="2" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
         <line num="12" count="16" type="cond" truecount="2" falsecount="0"/>
-        <line num="26" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="26" count="11" type="cond" truecount="2" falsecount="0"/>
       </file>
-      <file name="PasswordVerification.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/utility/SyntaxVerification/PasswordVerification.tsx">
+      <file name="PasswordVerification.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/utility/SyntaxVerification/PasswordVerification.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="3" type="stmt"/>
         <line num="15" count="10" type="stmt"/>
       </file>
-      <file name="PhoneNumberVerification.tsx" path="/Users/eerongrant/2.0/homepairs/homepairsUI/src/utility/SyntaxVerification/PhoneNumberVerification.tsx">
+      <file name="PhoneNumberVerification.tsx" path="/Users/eerongrant/csc402/2.0/homepairs/homepairsUI/src/utility/SyntaxVerification/PhoneNumberVerification.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="4" count="3" type="stmt"/>
         <line num="25" count="23" type="stmt"/>

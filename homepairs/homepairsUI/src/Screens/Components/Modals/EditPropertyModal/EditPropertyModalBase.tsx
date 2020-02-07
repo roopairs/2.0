@@ -5,7 +5,7 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, EditPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
+import {isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
 import { DarkModeInjectedProps } from '../../WithDarkMode/WithDarkMode';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 
@@ -210,7 +210,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
     validateForms() {
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
         if (!isEmptyOrSpaces(address) && !isEmptyOrSpaces(city) && !isEmptyOrSpaces(state)) {
-            if (isNumber(bedrooms) && isNumber(bathrooms) && isNumber(tenants)) {
+            if (isPositiveWholeNumber(bedrooms) && isPositiveWholeNumber(bathrooms) && isPositiveWholeNumber(tenants)) {
                 return true;
             }
             // alert that must be integer
