@@ -11,7 +11,6 @@ import * as HeaderActions from '../../../src/state/header/actions';
 const types = HeaderActions.HEADER_ACTION_TYPES;
 
 describe('Test suite for header Actions', () => {
-    
     describe('Test Toggle Menu', () => {
         const type = types.TOGGLE_MENU;
         const expectedValues: {[id:string] : ToggleMenuAction} = {

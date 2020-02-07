@@ -1,9 +1,12 @@
 import { AccountTypes, AccountStateAction, AccountState } from 'homepairs-types';
+import { AccountActions } from 'homepairs-redux-actions'; 
 import { accountProfile } from '../../../src/state/account/reducer';
 
 
-const TYPE = 'ACCOUNT/FETCH_PROFILE';
+const {FETCH_PROFILE} = AccountActions.FETCH_PROFILE_ACTION_TYPES;
+
 const EMPTY = {};
+
 const prevState: AccountState = { 
     accountType: AccountTypes.Landlord,
     firstName: 'Jack',
@@ -43,8 +46,8 @@ const expectedResults: {[id:string]: AccountState} = {
 };
 
 const testActions: {[id:string]: AccountStateAction} = {
-  PM: { // PM Account w/out token 
-    type: TYPE,
+  FETCH_PM: { // PM Account w/out token 
+    type: FETCH_PROFILE,
     profile: {
       accountType: AccountTypes.Landlord,
       firstName: 'Jack',
@@ -71,8 +74,8 @@ const testActions: {[id:string]: AccountStateAction} = {
       manId: 102449555,
     },
   },
-  TENANT: { // Tenant account with Token 
-    type: TYPE,
+  FETCH_TENANT: { // Tenant account with Token 
+    type: FETCH_PROFILE,
     profile: {
       accountType: AccountTypes.Tenant,
       firstName: 'Kyle',
@@ -90,7 +93,7 @@ const testActions: {[id:string]: AccountStateAction} = {
 
 describe('AccountProfile Reducer Test', () => {
   it('Test action with FETCH_PROFILE type: Default State', () => {
-    const updatedProfile = accountProfile(undefined , testActions.PM);
+    const updatedProfile = accountProfile(undefined , testActions.FETCH_PM);
     expect(updatedProfile).toStrictEqual(expectedResults.PM);
   });
 
@@ -105,7 +108,7 @@ describe('AccountProfile Reducer Test', () => {
   });
 
   it('Test action with FETCH_PROFILE type: Defined State', () => {
-    const updatedProfile = accountProfile(prevState, testActions.TENANT);
+    const updatedProfile = accountProfile(prevState, testActions.FETCH_TENANT);
     expect(updatedProfile).toStrictEqual(expectedResults.TENANT);
   });
 

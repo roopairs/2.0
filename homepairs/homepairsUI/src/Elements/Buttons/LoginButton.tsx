@@ -33,14 +33,6 @@ export type LoginButtonProps = {
   * properties image and imageStyle.
   * 
   * @param {LoginButtonProps} props 
-  * key?: any
-  * name?: String
-  * onClick?: () => any
-  * image?: ImageSourcePropType
-  * imageStyle?: ImageStyle
-  * containerStyle?: ViewStyle
-  * buttonStyle?: ViewStyle
-  * buttonTextStyle?: TextStyle
   */
 export default function LoginButton(props: LoginButtonProps) {
     const {

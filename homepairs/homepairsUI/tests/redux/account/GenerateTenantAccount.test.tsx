@@ -1,5 +1,5 @@
 import { AccountActions, PropertyListActions } from 'homepairs-redux-actions';
-import { AccountTypes, AccountStateAction, Account, Property, FetchPropertyAction} from 'homepairs-types';
+import { AccountTypes, AccountStateAction, Account, FetchPropertyAction} from 'homepairs-types';
 import { NavigationSwitchProp } from 'react-navigation';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
@@ -115,7 +115,6 @@ describe('generateAccountForTenant Action', () => {
     });
 
     describe('Tests Action when account created successfully', () => {
-        
         it('Test when the role is a PM', async () => {
           const data = { 
               status: 'success',
