@@ -53,6 +53,7 @@ describe("test withAuth Page", () => {
     const authObj = <AuthHOC navigation={null} onChangeModalVisibility={()=>{}}/>;
   
     const PropertiesMock = <Provider store={store}>{newNavStack}</Provider>;
+    
     const wrapper = shallow(authObj);
     const tree = render(PropertiesMock).toJSON();
     console.log(tree);

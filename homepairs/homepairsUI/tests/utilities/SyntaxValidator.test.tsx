@@ -4,6 +4,7 @@ import {
     isPhoneNumberValid,
     isAlphaCharacterOnly,
     isEmptyOrSpaces,
+    isPositiveWholeNumber,
 } from 'homepairs-utilities';
 
 
@@ -151,12 +152,42 @@ const nonEmptyString: string[] = [
 
 describe('Test isEmptyOrSpaces Function', () =>{
     test.each(emptyStrings)('This value should return true', (value) => {
-        // All results are expected to be true for the first values
         expect(isEmptyOrSpaces(value)).toBeTruthy();
     });
     test.each(nonEmptyString)('This value should return false', (value) => {
-        // All results are expected to be true for the first values
         expect(isEmptyOrSpaces(value)).toBeFalsy();
+    });
+
+});
+
+
+
+/** isPositiveWholeNumber Test * */
+const positiveWholeNumbers: string[] = [
+    '1',
+    '12345678910',
+    '90',
+    '10000',
+    '00000000',
+];
+
+const nonPositiveWholeNumbers: string[] = [
+    '1.0',
+    '-12345678910',
+    '994.44',
+    'Hello',
+    ' 99 ',
+    '-10.3',
+    '-0.007',
+    '0.0008',
+];
+
+describe('Test isPositiveWholeNumber Function', () =>{
+    test.each(positiveWholeNumbers)('This value should return true', (value) => {
+        expect(isPositiveWholeNumber(value)).toBeTruthy();
+    });
+    test.each(nonPositiveWholeNumbers)('This value should return false', (value) => {
+        expect(isPositiveWholeNumber(value)).toBeFalsy();
     });
 
 });
