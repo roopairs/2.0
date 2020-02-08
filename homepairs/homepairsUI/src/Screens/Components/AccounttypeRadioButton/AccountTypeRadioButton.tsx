@@ -13,6 +13,7 @@ import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 export type AccountTypeRadioProps = DarkModeInjectedProps & {
   name?: String,
   parentCallBack? : (childData : AccountTypes) => any, // Define a funtion with parameters
+  resetForms?: any,
 }
 
 type AccountTypeRadioState = {
@@ -103,7 +104,12 @@ function setStyle(colorTheme: BaseStyles.ColorTheme){
 }
 
 export default class AccountTypeRadioButton extends React.Component<AccountTypeRadioProps, AccountTypeRadioState> {
-  static defaultProps: { name: AccountTypes; parentCallBack: (childData: AccountTypes) => void; primaryColorTheme: BaseStyles.ColorTheme };
+  static defaultProps: { 
+    name: AccountTypes; 
+    parentCallBack: (childData: AccountTypes) => void; 
+    primaryColorTheme: BaseStyles.ColorTheme;
+    resetForms: any;
+  };
 
   constructor(props: Readonly<AccountTypeRadioProps>) {
     super(props);
@@ -115,16 +121,19 @@ export default class AccountTypeRadioButton extends React.Component<AccountTypeR
   }
 
   onPressLandLord() {
-    const {parentCallBack} = this.props;
+    const {parentCallBack, resetForms} = this.props;
+    resetForms();
     this.setState({ landLordSelected : true });
     parentCallBack(AccountTypes.Landlord);
   }
 
   onPressTenant() {
-    const {parentCallBack} = this.props;
+    const {parentCallBack, resetForms} = this.props;
+    resetForms();
     this.setState({ landLordSelected : false });
     parentCallBack(AccountTypes.Tenant);
   }
+
 
   renderName(style){
     const {name} = this.props;
@@ -171,5 +180,6 @@ export default class AccountTypeRadioButton extends React.Component<AccountTypeR
 AccountTypeRadioButton.defaultProps = {
   name: AccountTypes.Tenant,
   parentCallBack: (childData : AccountTypes) => {return childData;}, 
+  resetForms: null,
   primaryColorTheme: BaseStyles.LightColorTheme,
 };

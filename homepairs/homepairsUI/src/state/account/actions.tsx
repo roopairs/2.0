@@ -77,7 +77,6 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
         firstName: profile[accountKeys.FIRSTNAME],
         lastName: profile[accountKeys.LASTNAME],
         email: profile[accountKeys.EMAIL],
-        phone: profile[accountKeys.PHONE],
         streetAddress: profile[accountKeys.ADDRESS], 
         city: profile[accountKeys.CITY],
         roopairsToken: accountJSON[responseKeys.ROOPAIRS_TOKEN],
@@ -133,52 +132,31 @@ export const fetchAccount = (
             password: Password,
           })
           .then((response) => {
-            console.log(response)
-            const accountType = getAccountType(response[responseKeys.DATA])
+            console.log(response);
+            const accountType = getAccountType(response[responseKeys.DATA]);
             if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
-              dispatch(fetchAccountProfile(response[responseKeys.DATA]))
+              dispatch(fetchAccountProfile(response[responseKeys.DATA]));
               if(response[responseKeys.DATA][responseKeys.ROLE] === rolePM){
-                dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
+                dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
               }
               else if(response[responseKeys.DATA][responseKeys.ROLE] === roleTenant){
-                dispatch(fetchProperty(response[responseKeys.DATA][TENANT][responseKeys.PLACE]))
+                dispatch(fetchProperty(response[responseKeys.DATA][TENANT][responseKeys.PLACE]));
               }
               else{
-                throw new Error("Role type not implemented!")
+                throw new Error("Role type not implemented!");
               }
-              ChooseMainPage(accountType, navigation)
+              ChooseMainPage(accountType, navigation);
             }else{
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
             }
           })
           .catch((error) => {
-            // console.log(error);
+            console.log(error);
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
           })
           .finally(() => {
           });};
    
-};
-
-export const loginForPM = (Email: String, Password: String, modalSetOffCallBack?: (error?:String) => void, navigateMainCallBack?: () => void) => {
-  return async (dispatch: (arg0: any) => void) => {
-    await axios.post('', {
-      email: Email, 
-      password: Password,
-    })
-    .then((response) => {
-      if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
-        dispatch(fetchAccountProfile(response[responseKeys.DATA]));
-        dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
-        navigateMainCallBack();
-      }else{
-        modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
-      }
-    }).catch((error) => {
-      // console.log(error);
-      modalSetOffCallBack("Connection to the server could not be established.");
-    });
-  };
 };
 
 
@@ -188,47 +166,46 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
         email: accountDetails.email, 
-        phone: accountDetails.phone,
         streetAddress: accountDetails.streetAddress, 
         city: accountDetails.city,
         password, 
       })
       .then((response) => {
         if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
-          dispatch(fetchAccountProfile(response[responseKeys.DATA]))
-          dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
+          dispatch(fetchAccountProfile(response[responseKeys.DATA]));
+          dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
           ChooseMainPage(AccountTypes.Tenant, navigation);
         } else {
           modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
         }
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
         modalSetOffCallBack("Connection to the server could not be established.");
       });
   };
 };
 
+// this needs to send address too???
 export const generateAccountForPM = (accountDetails: Account, password: String, navigation: NavigationPropType, modalSetOffCallBack?: (error?:String) => void) => {
     return async (dispatch: (arg0: any) => void) => {
       await axios.post('http://homepairs-alpha.herokuapp.com/API/register/pm/', {
           firstName: accountDetails.firstName, 
           lastName: accountDetails.lastName,
           email: accountDetails.email, 
-          phone: accountDetails.phone,
           password,
         })
         .then((response) => {
           if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
-            dispatch(fetchAccountProfile(response[responseKeys.DATA]))
-            dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]))
-            ChooseMainPage(AccountTypes.Landlord, navigation)
+            dispatch(fetchAccountProfile(response[responseKeys.DATA]));
+            dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
+            ChooseMainPage(AccountTypes.Landlord, navigation);
           }else{
             modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
           }
         })
         .catch((error) => {
-          // console.log(error);
+          console.log(error);
           modalSetOffCallBack("Connection to the server could not be established.");
         });
     };
