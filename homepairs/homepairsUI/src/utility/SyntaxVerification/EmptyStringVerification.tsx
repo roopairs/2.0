@@ -15,13 +15,13 @@ export default function isEmptyOrSpaces(str:String) : boolean {
 
 /**
  * -------------------------------------------------
- * isNumberString
+ * isPositiveWholeNumber
  * -------------------------------------------------
  * @param {String} str
  * Test to see if the string is a string of digits. 
  * Returns a boolean based on the results
  * 
  */
-export function isNumber(str: String) : boolean {
+export function isPositiveWholeNumber(str: String) : boolean {
     return str === null || str.match(/^[0-9]*$/) !== null;
 }
