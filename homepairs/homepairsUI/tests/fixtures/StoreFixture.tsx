@@ -1,6 +1,5 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { properties } from '../../src/state/property-list/reducer';
 import {
     LandlordAccount,
     AccountTypes,
@@ -12,6 +11,7 @@ import {
     ServiceState,
     PropertyListState,
 } from 'homepairs-types';
+import { properties } from '../../src/state/property-list/reducer';
 
 const middleWares = [thunk];
 const mockStore = configureMockStore(middleWares);
