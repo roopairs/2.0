@@ -10,7 +10,7 @@ import {
   withModal,
 } from "homepairs-components";
 import HomePairColors from "res/colors";
-import { withNavigation } from "react-navigation";
+import { withNavigation, NavigationSwitchProp } from 'react-navigation';
 import SignUpScreenBase, { SignUpViewDispatchProps } from "./SignUpScreenBase";
 
 
@@ -25,7 +25,7 @@ const authPageParam: AuthPassProps = {
 };
 const mapDispatchToProps : (dispatch: any) => SignUpViewDispatchProps = (dispatch: any) => ({
     // TODO: Finish sign up when backend is ready 
-    generateHomePairsAccount: (details: Account, password: String, modalSetOff: () => any, navigation: any) => {
+    generateHomePairsAccount: (details: Account, password: String, modalSetOff: () => any, navigation: NavigationSwitchProp) => {
         // TODO: Remember to Call dispatch when sign up is ready in backend
         if (details.accountType === AccountTypes.Landlord) {
             dispatch(AccountActions.generateAccountForPM(details, password, navigation, modalSetOff));

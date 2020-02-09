@@ -7,63 +7,49 @@ import {
 } from 'homepairs-components';
 import strings from 'homepairs-strings';
 import { AccountTypes, Account } from 'homepairs-types';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet, View, Text } from 'react-native';
-import { isNullOrUndefined, isPasswordValid, isPhoneNumberValid, isEmailSyntaxValid, isAlphaCharacterOnly } from 'homepairs-utilities';
+import { isNullOrUndefined, isPasswordValid, isEmailSyntaxValid, isAlphaCharacterOnly, isEmptyOrSpaces } from 'homepairs-utilities';
+import { NavigationSwitchProp, NavigationSwitchScreenProps } from 'react-navigation';
 
 export type SignUpViewDispatchProps = {
     generateHomePairsAccount: (
         details: Account,
         password: String,
         modalSetOff: () => any,
-        navigation: any,
+        navigation: NavigationSwitchProp,
     ) => any;
 };
 
 export type SignUpProps = DarkModeInjectedProps &
     SignUpViewDispatchProps &
     AuthPageInjectedProps &
-    NavigationStackScreenProps<any, any>;
+    NavigationSwitchScreenProps;
 
 type SignUpState = {
     accountType: AccountTypes;
     firstName: string;
     lastName: string;
     email: string;
-    phone: string;
     streetAddress: string;
     city: string;
-    companyName: string;
     password: string;
     cPassword: string;
-    error: {[id:string] : boolean};
 };
 
-const initalError : {[id:string] : boolean} = {
-    firstName: false,
-    lastName: false,
-    email: false,
-    phone: false,
-    streetAddress: false,
-    city: false,
-    companyName: false,
-    password: false,
-    cPassword: false,
+const baseState = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    streetAddress: '',
+    city: '',
+    password: '',
+    cPassword: '',
 };
 
 const initalState : SignUpState = {
     accountType: AccountTypes.Tenant,
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    streetAddress: '',
-    city: '',
-    companyName: '',
-    password: '',
-    cPassword: '',
-    error: {...initalError},
+    ...baseState,
 };
 const signUpScreenStrings = strings.signUpPage;
 
@@ -120,6 +106,20 @@ export default class SignUpScreenBase extends React.Component<
 > {
     inputFormStyle;
 
+    firstNameRef;
+
+    lastNameRef;
+
+    emailRef;
+
+    addressRef;
+
+    cityRef;
+
+    passwordRef;
+
+    cPasswordRef;
+
     constructor(props: Readonly<SignUpProps>) {
         super(props);
         this.inputFormStyle = setInputStyles(props.primaryColorTheme);
@@ -127,16 +127,24 @@ export default class SignUpScreenBase extends React.Component<
         this.getFormFirstName = this.getFormFirstName.bind(this);
         this.getFormLastName = this.getFormLastName.bind(this);
         this.getFormEmail = this.getFormEmail.bind(this);
-        this.getFormPhone = this.getFormPhone.bind(this);
         this.getFormPassword = this.getFormPassword.bind(this);
         this.getFormCPassword = this.getFormCPassword.bind(this);
         this.getFormAddress = this.getFormAddress.bind(this);
         this.getFormCity = this.getFormCity.bind(this);
-        this.getFormCompanyName = this.getFormCompanyName.bind(this);
         this.setModalOff = this.setModalOff.bind(this);
         this.navigateMain = this.navigateMain.bind(this);
+        this.resetForms = this.resetForms.bind(this);
+        this.resetState = this.resetState.bind(this);
 
         this.state = {...initalState};
+        this.firstNameRef = React.createRef();
+        this.lastNameRef = React.createRef();
+        this.emailRef = React.createRef();
+        this.passwordRef = React.createRef();
+        this.cPasswordRef = React.createRef();
+        this.addressRef = React.createRef();
+        this.cityRef = React.createRef();
+        
 
         props.clickButton(this.clickSignUp);
         props.clickHighlightedText(this.clickSignIn);
@@ -164,10 +172,6 @@ export default class SignUpScreenBase extends React.Component<
         this.setState({ email: childData });
     }
 
-    getFormPhone(childData: string) {
-        this.setState({ phone: childData });
-    }
-
     getFormPassword(childData: string) {
         this.setState({ password: childData });
     }
@@ -184,69 +188,6 @@ export default class SignUpScreenBase extends React.Component<
         this.setState({ city: childData });
     }
 
-    getFormCompanyName(childData: string) {
-        this.setState({ companyName: childData });
-    }
-
-    validateCredentials: () => boolean = () => {
-        const { onChangeModalVisibility, setErrorState } = this.props;
-        const {
-            firstName,
-            lastName,
-            password,
-            cPassword,
-            email,
-            phone,
-        } = this.state;
-        const newErrorState: {[id:string]: boolean} = {...initalError};
-        let isValid:boolean = true;
-        const errorMessages: string[] = [];
-        
-        // TODO: Add verfication for Company Type, Address, and others
-        if(!isAlphaCharacterOnly(firstName)){
-            isValid = false;
-            newErrorState.firstName=true;
-            errorMessages.push('You have entered an invalid first name!');
-        }
-        if(!isAlphaCharacterOnly(lastName)){
-            isValid = false;
-            newErrorState.lastName=true;
-            errorMessages.push('You have entered an invalid last name!');
-        }
-        if(!isEmailSyntaxValid(email)){
-            isValid = false;
-            newErrorState.email=true;
-            errorMessages.push('You have entered an invalid email!');
-        }
-        if(!isPhoneNumberValid(phone)){
-            isValid = false;
-            newErrorState.phone=true;
-            errorMessages.push('You have entered an invalid phone number!');
-
-        }
-        if(!(password === cPassword)){
-            isValid = false;
-            newErrorState.password=true;
-            newErrorState.cPassword=true;
-            errorMessages.push("You're passwords do not match! Please enter them again.");
-        }else if (!isPasswordValid(password)){
-            isValid = false;
-            newErrorState.password=true;
-            newErrorState.cPassword=true;
-            // TODO: Create a message that tells the user what values their password should have.
-            errorMessages.push("You have entered an invalid password");
-        } 
-
-        this.setState({error: newErrorState});
-        if(!isValid){
-            const message = errorMessages.length > 1 ? 'Please fix the problems below' : errorMessages[0];
-            setErrorState(true, message);
-            onChangeModalVisibility(false);
-        }
-
-        return isValid;
-    };
-
     /**
      * Event methods for when something occurs on this component.
      */
@@ -258,15 +199,11 @@ export default class SignUpScreenBase extends React.Component<
     clickSignUp = () => {
         const { onChangeModalVisibility, generateHomePairsAccount, navigation } = this.props;
         const { password } = this.state;
-        onChangeModalVisibility(true);
-        const details: Account = { ...this.state, roopairsToken: '' };
-        if (this.validateCredentials()) {
-            generateHomePairsAccount(
-                details,
-                password,
-                this.setModalOff,
-                navigation,
-            );
+        this.resetForms();
+        if (this.validateForms()) {
+            onChangeModalVisibility(true);
+            const details: Account = { ...this.state, roopairsToken: '' };
+            generateHomePairsAccount(details, password, this.setModalOff, navigation);
             onChangeModalVisibility(false);
         }
     };
@@ -276,97 +213,151 @@ export default class SignUpScreenBase extends React.Component<
         navigation.navigate('Connect');
     };
 
+    validateForms() {
+        const {firstName, lastName, password, cPassword, email, city, streetAddress, accountType} = this.state;
+        let check = true;
+        if (!isAlphaCharacterOnly(firstName)) {
+            check = false;
+            this.firstNameRef.current.setError(true);
+        }
+        if (!isAlphaCharacterOnly(lastName)) {
+            check = false;
+            this.lastNameRef.current.setError(true);
+        }
+        if (!isEmailSyntaxValid(email)) {
+            check = false;
+            this.emailRef.current.setError(true);
+        }
+        if (!isPasswordValid(password)) {
+            check = false;
+            this.passwordRef.current.setError(true);
+        }
+        if (!(password === cPassword)) {
+            check = false;
+            this.cPasswordRef.current.setError(true);
+        }
+        if (isEmptyOrSpaces(streetAddress) && accountType === AccountTypes.Tenant) {
+            check = false;
+            this.addressRef.current.setError(true);
+        }
+        if (isEmptyOrSpaces(city) && accountType === AccountTypes.Tenant) {
+            check = false;
+            this.cityRef.current.setError(true);
+        }
+        return check;
+    }
+
+    resetForms() {
+        const {accountType} = this.state;
+        if (accountType === AccountTypes.Tenant) {
+            this.addressRef.current.setError(false);
+            this.cityRef.current.setError(false);
+        }
+        this.firstNameRef.current.setError(false);
+        this.lastNameRef.current.setError(false);
+        this.emailRef.current.setError(false);
+        this.passwordRef.current.setError(false);
+        this.cPasswordRef.current.setError(false);
+    }
+
     navigateMain() {
         const { navigation } = this.props;
         navigation.navigate('Main');
     }
 
-    renderAllInputForms() {
-        const {error} = this.state;
-        const {firstName, lastName, email, password, cPassword, phone} = error;
-        const {formTitle, input, errorFormTitle, errorInput} = this.inputFormStyle;
+    resetState() {
+        this.setState(baseState);
+    }
+
+    renderInputForms() {
+        const {formTitle, input } = this.inputFormStyle;
+        const {accountType} = this.state;
         const inputFormProps = [
             {
+                ref: this.firstNameRef,
                 key: signUpScreenStrings.inputForms.firstName,
                 name: signUpScreenStrings.inputForms.firstName,
                 parentCallBack: this.getFormFirstName,
-                formTitleStyle: !firstName ? formTitle : errorFormTitle,
-                inputStyle: !firstName ? input : errorInput,
+                formTitleStyle: formTitle,
+                inputStyle: input,
+                errorMessage: 'First Name cannot be empty',
             },
             {
+                ref: this.lastNameRef,
                 key: signUpScreenStrings.inputForms.lastName,
                 name: signUpScreenStrings.inputForms.lastName,
                 parentCallBack: this.getFormLastName,
-                formTitleStyle: !lastName ? formTitle : errorFormTitle,
-                inputStyle: !lastName ? input : errorInput,
+                formTitleStyle: formTitle,
+                inputStyle: input,
+                errorMessage: 'Last Name cannot be empty',
             },
             {
-                key: signUpScreenStrings.inputForms.email,
-                name: signUpScreenStrings.inputForms.email,
-                parentCallBack: this.getFormEmail,
-                formTitleStyle: !email ? formTitle : errorFormTitle,
-                inputStyle: !email ? input : errorInput,
-            },
-            {
-                key: signUpScreenStrings.inputForms.phone,
-                name: signUpScreenStrings.inputForms.phone,
-                parentCallBack: this.getFormPhone,
-                formTitleStyle: !phone? formTitle : errorFormTitle,
-                inputStyle: !phone ? input : errorInput,
-            },
-            {
-                key: signUpScreenStrings.inputForms.password,
-                name: signUpScreenStrings.inputForms.password,
-                parentCallBack: this.getFormPassword,
-                formTitleStyle: !password ? formTitle : errorFormTitle,
-                inputStyle: !password ? input : errorInput,
-                secureTextEntry: true,
-            },
-            {
-                key: signUpScreenStrings.inputForms.confirmPassword,
-                name: signUpScreenStrings.inputForms.confirmPassword,
-                parentCallBack: this.getFormCPassword,
-                formTitleStyle: !cPassword ? formTitle : errorFormTitle,
-                inputStyle: !cPassword ? input : errorInput,
-                secureTextEntry: true,
-            },
-            {
+                ref: this.addressRef,
                 key: signUpScreenStrings.inputForms.address,
                 name: signUpScreenStrings.inputForms.address,
                 parentCallBack: this.getFormAddress,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
+                formTitleStyle: formTitle,
+                inputStyle: input,
+                errorMessage: 'Address cannot be empty',
             },
             {
+                ref: this.cityRef,
                 key: signUpScreenStrings.inputForms.city,
                 name: signUpScreenStrings.inputForms.city,
                 parentCallBack: this.getFormCity,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
+                formTitleStyle: formTitle,
+                inputStyle: input,
+                errorMessage: 'City cannot be empty',
             },
             {
-                key: signUpScreenStrings.inputForms.companyName,
-                name: signUpScreenStrings.inputForms.companyName,
-                parentCallBack: this.getFormCompanyName,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
+                ref: this.emailRef,
+                key: signUpScreenStrings.inputForms.email,
+                name: signUpScreenStrings.inputForms.email,
+                parentCallBack: this.getFormEmail,
+                formTitleStyle: formTitle,
+                inputStyle: input,
+                errorMessage: 'Invalid email',
+            },
+            {
+                ref: this.passwordRef,
+                key: signUpScreenStrings.inputForms.password,
+                name: signUpScreenStrings.inputForms.password,
+                parentCallBack: this.getFormPassword,
+                formTitleStyle: formTitle,
+                inputStyle: input,
+                secureTextEntry: true,
+                errorMessage: 'Password is invalid! Must be at least 6 characters',
+            },
+            {
+                ref: this.cPasswordRef,
+                key: signUpScreenStrings.inputForms.confirmPassword,
+                name: signUpScreenStrings.inputForms.confirmPassword,
+                parentCallBack: this.getFormCPassword,
+                formTitleStyle: formTitle,
+                inputStyle: input,
+                secureTextEntry: true,
+                errorMessage: 'Passwords do not match',
             },
         ];
-        return inputFormProps.map(properties => {
+        const pmForms = (inputFormProps.filter(inputForm => (inputForm.name !== signUpScreenStrings.inputForms.address && inputForm.name !== signUpScreenStrings.inputForms.city)));
+        const forms = accountType === AccountTypes.Landlord ? pmForms : inputFormProps;
+        return forms.map(properties => {
             return (
                 <InputForm
+                    ref={properties.ref}
                     key={properties.key}
                     name={properties.name}
                     parentCallBack={properties.parentCallBack}
                     formTitleStyle={properties.formTitleStyle}
                     inputStyle={properties.inputStyle}
                     secureTextEntry={properties.secureTextEntry}
+                    errorMessage={properties.errorMessage}
                 />
             );
         });
     }
 
-    renderRoopairsLoginPage() {
+    renderRoopairsLoginButton() {
         const { accountType } = this.state;
         return accountType === AccountTypes.Landlord ? (
             <View style={{ marginTop: BaseStyles.MarginPadding.large }}>
@@ -389,16 +380,19 @@ export default class SignUpScreenBase extends React.Component<
         );
     }
 
+
+    // how to reset error messages when switch back and forth from radio button
     render() {
         const { primaryColorTheme } = this.props;
         return (
             <>
                 <AccountTypeRadioButton
                     parentCallBack={this.getAccountType}
+                    resetForms={this.resetForms}
                     primaryColorTheme={primaryColorTheme}
                 />
-                {this.renderRoopairsLoginPage()}
-                {this.renderAllInputForms()}
+                {this.renderRoopairsLoginButton()}
+                {this.renderInputForms()}
             </>
         );
     }

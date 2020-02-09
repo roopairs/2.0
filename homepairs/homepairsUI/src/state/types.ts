@@ -1,4 +1,6 @@
 import { Dimensions } from 'react-native';
+import { NavigationSwitchProp } from 'react-navigation';
+import { NavigationStackProp } from 'react-navigation-stack';
 
 /* *-------------------Property Types-------------------* */
 export type Property = {
@@ -64,7 +66,6 @@ export type Account = {
     firstName: string;
     lastName: string;
     email: string;
-    phone: string;
     streetAddress: string;
     city: string;
     roopairsToken: string;
@@ -251,6 +252,8 @@ export type AppState = {
 
 
 /* *-------------------Misc Types-------------------* */
+export type NavigationPropType = NavigationSwitchProp | NavigationStackProp
+
 export type AddNewPropertyState = {
     email : string;
     roopairsToken: string;
@@ -283,13 +286,11 @@ enum HOMEPAIRS_ACCOUNT_KEYS{
     EMAIL = 'email',
     MANID = 'manId',
     PASSWORD = 'password',
-    PHONE = 'phone',
     ADDRESS = 'streetAddress', 
     CITY = 'city',
     PLACE = 'place', 
     PROPID = 'propId',
-    TENANTID = 'tenantID', 
-    COMPANY_NAME= 'companyName'
+    TENANTID = 'tenantID',
 }
 
 enum HOMEPAIRS_LOGIN_STATUS {
