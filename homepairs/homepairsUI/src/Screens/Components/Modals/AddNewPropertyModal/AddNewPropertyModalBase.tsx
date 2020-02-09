@@ -262,6 +262,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                 parentCallBack: this.getFormMaxTenants,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
+                value: tenants,
             },
             {
                 key: inputFormStrings.bedrooms,
