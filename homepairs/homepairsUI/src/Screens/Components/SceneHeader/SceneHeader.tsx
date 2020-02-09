@@ -25,6 +25,7 @@ function setStyle(
             flexDirection: 'row',
         },
         pageTitle: {
+            marginLeft: BaseStyles.MarginPadding.small,
             fontSize: 32,
             maxWidth: 450,
             color: colorTheme.tertiary,

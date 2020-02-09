@@ -20,6 +20,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import PropertiesScreen from '../../../src/Screens/Main/Properties/PropertiesScreen/PropertiesScreen';
 import {AppNavigator} from "../../../src/Routes/Routes";
 import * as Mocks from '../../fixtures/StoreFixture';
+
 /**
  * Here we will test the HOC of withAuthPage. We will pass in some dum parameters
  * and test to see if the component renders. This will be wrapped within a Shallow Wrapper.
@@ -36,6 +37,13 @@ const passProps1: AuthPassProps = {
   underButtonText: "This is something to think about",
   highlightedText: "I am highlighted",
 };
+
+describe("test withAuthPage", ()=> {
+  describe("", ()=>{
+
+  });
+
+});
 
 describe("test withAuth Page", () => {
   let store: any;

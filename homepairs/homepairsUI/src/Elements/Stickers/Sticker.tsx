@@ -2,6 +2,9 @@ import React, { ReactElement } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 
 export type StickerProps = {
+    /** 
+     * React elements passed into the sticker to be rendered with a background
+     */
     children?: ReactElement[] | ReactElement;
     style?: ViewStyle;
 };
@@ -25,7 +28,6 @@ const styles = StyleSheet.create({
  * A simple component whose purpose is to present text with a background.
  * It takes in a regular viewStyle and is capable of rendering ReactComponents
  * in standard React fashion.
- * 
  * */
 export default function Sticker(props: StickerProps) {
     const { style, children } = props;

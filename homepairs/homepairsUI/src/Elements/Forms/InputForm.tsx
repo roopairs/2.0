@@ -131,7 +131,16 @@ InputForm.defaultProps = {
     placeholder: null,
 };
 
+
+/**
+ * ------------------------------------------------------------
+ * renderInputForm (deprecated)
+ * ------------------------------------------------------------
+ * @deprecated Please do not use this function. We are going to remove it in 
+ * future use. 
+ */
 export function renderInputForm(formProps: InputFormProps) {
+    console.log("Warning: renderInputForm is deprecated and will be removed upon the next release.");
     const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, onRef, value, placeholder, key} = formProps;
     return (
         <InputForm

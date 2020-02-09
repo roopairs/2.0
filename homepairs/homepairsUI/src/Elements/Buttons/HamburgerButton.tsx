@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   * onPressIn?: () => any;
   * onPressOut?: () => any;
   */
-export default function ThinButton(props: HamburgerButtonProps) {
+export default function HamburgerButton(props: HamburgerButtonProps) {
     // This function will call the parent callback function.
     const {onClick} = props;
 
@@ -105,7 +105,7 @@ export default function ThinButton(props: HamburgerButtonProps) {
     );
 }
 
-ThinButton.defaultProps = {
+HamburgerButton.defaultProps = {
     onClick: () => {},
 };
 
