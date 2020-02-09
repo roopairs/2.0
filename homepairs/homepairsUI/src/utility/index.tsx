@@ -1,8 +1,8 @@
 import isEmailSyntaxValid from './SyntaxVerification/EmailSyntaxVerification';
-import isEmptyOrSpaces, {isNumber}  from './SyntaxVerification/EmptyStringVerification';
+import isEmptyOrSpaces, {isPositiveWholeNumber}  from './SyntaxVerification/EmptyStringVerification';
 import isPasswordValid from './SyntaxVerification/PasswordVerification';
 import isPhoneNumberValid from './SyntaxVerification/PhoneNumberVerification';
-import isAlphaCharacterOnly from './SyntaxVerification/AlphaCharacterVerfication';
+import isAlphaCharacterOnly from './SyntaxVerification/AlphaCharacterVerification';
 import { isNullOrUndefined } from './ParameterChecker';
 
 /**
@@ -13,5 +13,5 @@ import { isNullOrUndefined } from './ParameterChecker';
  * specific based logic. Functions such long conditional checks, parsers, 
  * and validators should be included in this package. 
  */
-export {isEmailSyntaxValid, isPasswordValid, isEmptyOrSpaces, isPhoneNumberValid, isAlphaCharacterOnly, isNullOrUndefined, isNumber};
+export {isEmailSyntaxValid, isPasswordValid, isEmptyOrSpaces, isPhoneNumberValid, isAlphaCharacterOnly, isNullOrUndefined, isPositiveWholeNumber};
 

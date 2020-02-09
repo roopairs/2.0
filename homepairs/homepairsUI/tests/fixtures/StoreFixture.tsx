@@ -1,24 +1,37 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { LandlordAccount, AccountTypes, AppState, Property, Header, MainAppStackType, ConfigurationSettings, ServiceState } from 'homepairs-types';
+import {
+    LandlordAccount,
+    AccountTypes,
+    AppState,
+    Property,
+    Header,
+    MainAppStackType,
+    ConfigurationSettings,
+    ServiceState,
+    PropertyListState,
+} from 'homepairs-types';
+import { properties } from '../../src/state/property-list/reducer';
 
 const middleWares = [thunk];
 const mockStore = configureMockStore(middleWares);
-const MainAppStack : Array<MainAppStackType> = [
-    { 
-        title: 'Properties', 
+const MainAppStack: Array<MainAppStackType> = [
+    {
+        title: 'Properties',
         navigate: 'AccountProperties',
         key: 'Properties',
         button: 'Add Property',
-        onButtonClick: () => {return true;},
+        onButtonClick: () => {
+            return true;
+        },
     },
-    { 
-        title: 'Service Request', 
+    {
+        title: 'Service Request',
         navigate: 'ServiceRequest',
         key: 'ServiceRequest',
         button: 'Request Service',
     },
-    {  
+    {
         title: 'Account Settings',
         navigate: 'Account',
         key: 'AccountSettings',
@@ -29,7 +42,7 @@ const MainAppStack : Array<MainAppStackType> = [
         key: 'LogOut',
     },
 ];
-const navigationMenu : string[] = [
+const navigationMenu: string[] = [
     'Properties',
     'Service Requests',
     'Account',
@@ -37,42 +50,48 @@ const navigationMenu : string[] = [
 ];
 
 /** User Account data for testing! */
-const PropertyManagerAcount : LandlordAccount = {
+const PropertyManagerAcount: LandlordAccount = {
     accountType: AccountTypes.Landlord,
     firstName: 'Darrel',
     lastName: 'Williams',
     email: 'dWilliams@SpeechGrammarList.com',
     phone: '51059344423',
-    address: '21 Macalister Drive', 
+    streetAddress: '21 Macalister Drive',
     city: 'Oakland',
-    companyName: "Peet's Coffee and Tea", 
-    companyType: 'Retail', 
     roopairsToken: '',
     manId: 1000,
 };
 /** User Account data for testing! */
 
 /** Property data for testing! */
-const PropertyList1 : Property[] = [
+const PropertyList1: Property[] = [
     {
-        address: '560 Hathway Ap. San Luis Obispo', 
-        tenants : 3, 
-        bedrooms: 3, 
+        streetAddress: '560 Hathway Ap. 2',
+        city: 'San Luis Obispo',
+        state: 'Ca',
+        tenants: 3,
+        bedrooms: 3,
         bathrooms: 3,
     },
     {
-        address: '481 Del Sur Way, San Luis Obispo', 
-        tenants : 5, 
-        bedrooms: 3, 
+        streetAddress: '481 Del Sur Way',
+        city: 'San Luis Obispo',
+        state: 'Ca',
+        tenants: 5,
+        bedrooms: 3,
         bathrooms: 2,
     },
 ];
+
+const propertyListState : PropertyListState = {
+    selectedPropertyIndex: 0,
+    properties: PropertyList1,
+};
 /** Property data for testing! */
 
-
 /** Header data for testing! */
-const HeaderState1 : Header = {
-    showMenu : false,
+const HeaderState1: Header = {
+    showMenu: false,
     isDropDown: true,
     currentPage: MainAppStack[1],
     showBackButton: false,
@@ -80,30 +99,27 @@ const HeaderState1 : Header = {
 };
 /** Header data for testing! */
 
-
-
 /** Service Request data for testing! */
 const serviceRequest1: ServiceState = {
     requested: [],
     accepted: [],
-    closed:[],
+    closed: [],
 };
 /** Service Request  data for testing! */
 
-
 /** Settings data for testing! */
-const ConfigurationSettings1 : ConfigurationSettings = {
+const ConfigurationSettings1: ConfigurationSettings = {
     areNotificationsActive: true,
     isDarkModeActive: false,
 };
 /** Settings data for testing! */
 
-export const testStore1 : AppState = {
-    propertyList: PropertyList1,
+export const testStore1: AppState = {
+    properties: propertyListState,
     accountProfile: PropertyManagerAcount,
     header: HeaderState1,
     serviceRequests: serviceRequest1,
-    settings: ConfigurationSettings1,    
+    settings: ConfigurationSettings1,
 };
 
 export const propertyManagerMock1 = mockStore(testStore1);

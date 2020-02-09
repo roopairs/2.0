@@ -11,6 +11,7 @@ import {
 } from '../types';
 import { HEADER_ACTION_TYPES } from './actions';
 import MainAppStack from '../../Routes/RouteConstants';
+
 /**
  * This function is intended be called when the application first loads. It 
  * will insure the that header is rendered correctly based on the dimensions 
@@ -42,7 +43,7 @@ export const header = (
     action: HeaderAction, 
 ) => {
     /* * NOTE: USE IMMUTABLE UPDATE FUNCTIONS FOR REDUCERS OR ELSE REDUX WILL NOT UPDATE!!! * */
-    const newState = {...state, modalOpen: true };
+    const newState = {...state};
     switch (action.type){
         case HEADER_ACTION_TYPES.TOGGLE_MENU:
             newState.showMenu = (action as ToggleMenuAction).showMenu;

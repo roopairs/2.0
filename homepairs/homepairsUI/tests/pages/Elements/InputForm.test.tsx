@@ -98,9 +98,6 @@ describe("InputForm", () => {
     expect(testClass.reference).toBeDefined();
     testClass.reference.clearText();
     expect(testClass.reference.state.value).toBe('');
-
-    // Test to make sure no unexpected changes occured. This is an element so this should always pass
-    expect(rendered.toJSON()).toMatchSnapshot();
   });
   
 });

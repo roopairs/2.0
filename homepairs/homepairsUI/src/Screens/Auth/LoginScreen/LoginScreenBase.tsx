@@ -1,13 +1,13 @@
 import React from 'react';
 import { InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import {
     AuthPageInjectedProps,
     DarkModeInjectedProps,
 } from 'homepairs-components';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
+import { NavigationSwitchProp, NavigationSwitchScreenProps} from 'react-navigation';
 import {
     isEmailSyntaxValid,
     isPasswordValid,
@@ -19,14 +19,15 @@ export type LoginViewDispatchProps = {
         username: string,
         password: string,
         modalSetOff: () => any,
-        navigation: any
+        navigation: NavigationSwitchProp
     ) => void;
 };
 
 export type LoginProps = DarkModeInjectedProps &
     LoginViewDispatchProps &
     AuthPageInjectedProps &
-    NavigationStackScreenProps<any, any>;
+    NavigationSwitchScreenProps;
+
 export type LoginState = {
     username: string;
     password: string;
@@ -64,11 +65,12 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
     });
 }
 
-export default class LoginScreenBase extends React.Component<
-    LoginProps,
-    LoginState
-> {
+export default class LoginScreenBase extends React.Component<LoginProps,LoginState> {
     protected inputFormStyle;
+
+    loginRef;
+
+    passwordRef;
 
     constructor(props: Readonly<LoginProps>) {
         super(props);
@@ -80,6 +82,8 @@ export default class LoginScreenBase extends React.Component<
         this.clickButton = this.clickButton.bind(this);
         this.clickHighlightedText = this.clickHighlightedText.bind(this);
         this.state = initialState;
+        this.loginRef = React.createRef();
+        this.passwordRef = React.createRef();
 
         props.clickButton(this.clickButton);
         props.clickHighlightedText(this.clickHighlightedText);
@@ -108,21 +112,31 @@ export default class LoginScreenBase extends React.Component<
         navigation.navigate('SignUp');
     }
 
+    validateForms(username: string, password: string) {
+        let check = true;
+        if (!isEmailSyntaxValid(username)) {
+            this.loginRef.current.setError(true);
+            check = false;
+        }
+        if (!isPasswordValid(password)) {
+            this.passwordRef.current.setError(true);
+            check = false;
+        }
+        return check;
+    }
+
+    resetForms() {
+        this.loginRef.current.setError(false);
+        this.passwordRef.current.setError(false);
+    }
+
     clickButton() {
         const { onChangeModalVisibility, onFetchAccountProfile, navigation } = this.props;
         const { username, password } = this.state;
-        onChangeModalVisibility(true);
-        if (!isEmailSyntaxValid(username)) {
-            this.setModalOff('Invalid Username! Must be an email');
-        } else if (!isPasswordValid(password)) {
-            this.setModalOff('You have entered an invalid password.');
-        } else {
-            onFetchAccountProfile(
-                username,
-                password,
-                this.setModalOff,
-                navigation,
-            );
+        this.resetForms();
+        if (this.validateForms(username, password)) {
+            onChangeModalVisibility(true);
+            onFetchAccountProfile(username, password, this.setModalOff, navigation);
         }
     }
 
@@ -134,30 +148,36 @@ export default class LoginScreenBase extends React.Component<
     render() {
         const inputFormProps = [
             {
+                ref: this.loginRef,
                 key: signInStrings.inputForms.email,
                 name: signInStrings.inputForms.email,
                 parentCallBack: this.getFormUsername,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
+                errorMessage: 'Invalid Username! Must be an email',
             },
             {
+                ref: this.passwordRef,
                 key: signInStrings.inputForms.password,
                 name: signInStrings.inputForms.password,
                 parentCallBack: this.getFormPassword,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 secureTextEntry: true,
+                errorMessage: 'Invalid password. Must be at least 6 characters',
             },
         ];
         return inputFormProps.map(properties => {
             return (
                 <InputForm
+                    ref={properties.ref}
                     key={properties.key}
                     name={properties.name}
                     parentCallBack={properties.parentCallBack}
                     formTitleStyle={properties.formTitleStyle}
                     inputStyle={properties.inputStyle}
                     secureTextEntry={properties.secureTextEntry}
+                    errorMessage={properties.errorMessage}
                 />
             );
         });

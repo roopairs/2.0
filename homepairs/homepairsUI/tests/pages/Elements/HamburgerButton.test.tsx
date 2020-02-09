@@ -5,8 +5,7 @@
 import {HamburgerButton} from 'homepairs-elements';
 import { shallow} from 'enzyme';
 import * as React from 'react';
-import { View, TouchableOpacity, Text, Image} from 'react-native';
-import { roopairsLogo, defaultProperty } from 'homepairs-images';
+import { View, TouchableOpacity, Text} from 'react-native';
 import { fireEvent, render } from 'react-native-testing-library';
 
 
@@ -42,9 +41,6 @@ describe("HamburgerButton", () => {
 
     expect(spyFunction.mock.calls).toHaveLength(2);
     expect(spyFunction.mock.results[1].value).toBe(message);
-
-    // Test to make sure no unexpected changes occured. This is an element so this should always pass
-    expect(rendered.toJSON()).toMatchSnapshot();
   });
   
 });
