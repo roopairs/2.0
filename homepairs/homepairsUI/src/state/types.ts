@@ -66,7 +66,6 @@ export type Account = {
     firstName: string;
     lastName: string;
     email: string;
-    phone: string;
     streetAddress: string;
     city: string;
     roopairsToken: string;
@@ -287,13 +286,11 @@ enum HOMEPAIRS_ACCOUNT_KEYS{
     EMAIL = 'email',
     MANID = 'manId',
     PASSWORD = 'password',
-    PHONE = 'phone',
     ADDRESS = 'streetAddress', 
     CITY = 'city',
     PLACE = 'place', 
     PROPID = 'propId',
-    TENANTID = 'tenantID', 
-    COMPANY_NAME= 'companyName'
+    TENANTID = 'tenantID',
 }
 
 enum HOMEPAIRS_LOGIN_STATUS {
