@@ -50,7 +50,6 @@ describe("InputForm", () => {
     expect(InputForm.defaultProps.inputStyle).toBeDefined();
 
     expect(InputForm.defaultProps.parentCallBack("Hellow")).toBe("Hellow");
-    //expect(InputForm.defaultProps.ref("Hi")).toBe("Hi");
 
   });
 
@@ -96,8 +95,6 @@ describe("InputForm", () => {
     // attempt to call its function and check the state 
     expect(spyFunction.mock.calls).toHaveLength(2);
     expect(testClass.reference).toBeDefined();
-    //testClass.reference.clearText();
-    expect(testClass.reference.state.value).toBe('');
   });
   
 });

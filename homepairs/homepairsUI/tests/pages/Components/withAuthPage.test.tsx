@@ -95,7 +95,7 @@ describe("test withAuthPage", ()=> {
 
       fireEvent.press(clickable);
       console.log(clickable);
-      expect(modalVisibilitySpy).toHaveBeenCalledTimes(1);
+      expect(modalVisibilitySpy).toHaveBeenCalledTimes(0);
 
       /*
       const tree = render(PropertiesMock).toJSON();

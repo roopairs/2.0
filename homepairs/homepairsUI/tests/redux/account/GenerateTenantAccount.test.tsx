@@ -18,7 +18,6 @@ const testTenantAccount1: Account = {
     firstName: 'Jacky',
     lastName: 'Lynne',
     email: 'jackyLynne@gmail.com',
-    // phone: '924-555-5555',
     streetAddress: 'ABC Street',
     city: 'Foster Town',
     roopairsToken: '',
@@ -32,7 +31,6 @@ const testJsonValue1 = {
         streetAddress: 'ABC Street',
         city: 'Foster Town',
         email: 'jackyLynne@gmail.com',
-        // phone: '924-555-5555',
         propId: 100,
         tenantID: 15,
         place:{
@@ -55,7 +53,6 @@ const expectedFetchResult1: AccountStateAction = {
         firstName: 'Jacky',
         lastName: 'Lynne',
         email: 'jackyLynne@gmail.com',
-        // phone: '924-555-5555',
         streetAddress: 'ABC Street',
         city: 'Foster Town',
         roopairsToken: '',
