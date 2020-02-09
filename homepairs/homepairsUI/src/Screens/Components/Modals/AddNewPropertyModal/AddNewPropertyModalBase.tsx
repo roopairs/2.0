@@ -5,7 +5,7 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, AddNewPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isPositiveWholeNumber} from 'homepairs-utilities';
+import {isPositiveWholeNumber, isEmptyOrSpaces} from 'homepairs-utilities';
 import {DarkModeInjectedProps} from '../../WithDarkMode/WithDarkMode';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 
@@ -131,6 +131,18 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
 export default class AddNewPropertyModalBase extends React.Component<Props,CreateState> {
     inputFormStyle;
 
+    addressRef;
+
+    stateRef;
+
+    cityRef;
+
+    bedRef;
+
+    bathRef;
+
+    tenantRef;
+
     submitButton : ThinButtonProps = {
         name: addPropertyStrings.button, 
         onClick: () => {this.clickSubmitButton();}, 
@@ -159,8 +171,6 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         },
     };
 
-    inputs;
-
     constructor(props: Readonly<Props>) {
         super(props);
         this.inputFormStyle = setInputStyles(props.primaryColorTheme);
@@ -171,8 +181,14 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         this.getFormNumBath = this.getFormNumBath.bind(this);
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
+        this.resetForms = this.resetForms.bind(this);
         this.state = initialState;
-        this.inputs = [];
+        this.addressRef = React.createRef();
+        this.stateRef = React.createRef();
+        this.cityRef = React.createRef();
+        this.bedRef = React.createRef();
+        this.bathRef = React.createRef();
+        this.tenantRef = React.createRef();
     }
 
     getFormAddress(childData : string) {
@@ -203,19 +219,50 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         this.setState(initialState);
     }
 
-    validateNums() {
-        const {bedrooms, bathrooms, tenants} = this.state;
-        // isPositiveWholeNumber function is bugged. It is accepting strings as numbers
-        if (isPositiveWholeNumber(bedrooms) && isPositiveWholeNumber(bathrooms) && isPositiveWholeNumber(tenants)) {
-            return true;
+    validateForms() {
+        const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
+        let check = true;
+        if (isEmptyOrSpaces(address)) {
+            this.addressRef.current.setError(true);
+            check = false;
         } 
-        return false;
+        if (isEmptyOrSpaces(city)) {
+            this.cityRef.current.setError(true);
+            check = false;
+        } 
+        if (isEmptyOrSpaces(state)) {
+            this.stateRef.current.setError(true);
+            check = false;
+        } 
+        if (!isPositiveWholeNumber(bedrooms) || isEmptyOrSpaces(bedrooms)) {
+            this.bedRef.current.setError(true);
+            check = false;
+        } 
+        if (!isPositiveWholeNumber(bathrooms) || isEmptyOrSpaces(bathrooms)) {
+            this.bathRef.current.setError(true);
+            check = false;
+        }
+        if (!isPositiveWholeNumber(tenants) || isEmptyOrSpaces(tenants)) {
+            this.tenantRef.current.setError(true);
+            check = false;
+        }
+        return check;
+    }
+
+    resetForms() {
+        this.addressRef.current.setError(false);
+        this.cityRef.current.setError(false);
+        this.stateRef.current.setError(false);
+        this.tenantRef.current.setError(false);
+        this.bedRef.current.setError(false);
+        this.bathRef.current.setError(false);
     }
 
     clickSubmitButton() {
         const {address, city, state, tenants, bathrooms, bedrooms} = this.state;
         const {email, onChangeModalVisibility, onCreateProperty, roopairsToken} = this.props;
-        if (this.validateNums()) {
+        this.resetForms();
+        if (this.validateForms()) {
             const newProperty : Property = {
                 streetAddress: address, city, state,
                 tenants: Number(tenants),
@@ -224,8 +271,6 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
             };
             const info : AddNewPropertyState = {email, roopairsToken};
             onCreateProperty(newProperty, info, this.setInitialState, onChangeModalVisibility);
-        } else {
-            // throw error
         }
     }
 
@@ -233,51 +278,64 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
         const inputForms  = [
              {
+                ref: this.addressRef,
                 key: inputFormStrings.address,
                 name: inputFormStrings.address,
                 parentCallBack: this.getFormAddress,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: address,
+                errorMessage: 'Address cannot be empty',
             }, 
             {
+                ref: this.cityRef,
                 key: inputFormStrings.city,
                 name: inputFormStrings.city,
                 parentCallBack: this.getFormCity,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                value: city, 
+                value: city,
+                errorMessage: 'City cannot be empty',
             }, 
             {
+                ref: this.stateRef,
                 key: inputFormStrings.state,
                 name: inputFormStrings.state,
                 parentCallBack: this.getFormState,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: state, 
+                errorMessage: 'State cannot be empty',
             }, 
             {
+                ref: this.tenantRef,
                 key: inputFormStrings.maxTenants,
                 name: inputFormStrings.maxTenants,
                 parentCallBack: this.getFormMaxTenants,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
+                value: tenants,
+                errorMessage: 'Tenants must be a number',
             },
             {
+                ref: this.bedRef,
                 key: inputFormStrings.bedrooms,
                 name: inputFormStrings.bedrooms,
                 parentCallBack: this.getFormNumBed,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: bedrooms,
+                errorMessage: 'Bedrooms must be a number',
             }, 
             {
+                ref: this.bathRef,
                 key: inputFormStrings.bathrooms,
                 name: inputFormStrings.bathrooms,
                 parentCallBack: this.getFormNumBath,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: bathrooms,
+                errorMessage: 'Bathrooms must be a number',
             }, 
         ];
 
@@ -298,7 +356,11 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                     containerStyle={this.inputFormStyle.cardContainer}
                     showCloseButton={showCloseButton}
                     title={addPropertyStrings.title} 
-                    closeButtonPressedCallBack={() => onChangeModalVisibility(false)}
+                    closeButtonPressedCallBack={() => { 
+                        onChangeModalVisibility(false);
+                        this.setInitialState();
+                        this.resetForms();
+                    }} 
                     titleStyle={this.inputFormStyle.cardTitle}
                     titleContainerStyle={this.inputFormStyle.cardTitleContainer}
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}

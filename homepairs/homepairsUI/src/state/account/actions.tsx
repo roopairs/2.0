@@ -83,7 +83,6 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
         firstName: profile[accountKeys.FIRSTNAME],
         lastName: profile[accountKeys.LASTNAME],
         email: profile[accountKeys.EMAIL],
-        phone: profile[accountKeys.PHONE],
         streetAddress: profile[accountKeys.ADDRESS], 
         city: profile[accountKeys.CITY],
         roopairsToken: accountJSON[responseKeys.ROOPAIRS_TOKEN],
@@ -146,7 +145,7 @@ export const fetchAccount = (
             }
           })
           .catch((error) => {
-            // console.log(error);
+            console.log(error);
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
           })
           .finally(() => {
@@ -172,7 +171,6 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
         email: accountDetails.email, 
-        phone: accountDetails.phone,
         streetAddress: accountDetails.streetAddress, 
         city: accountDetails.city,
         password, 
@@ -187,7 +185,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
         }
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
         modalSetOffCallBack("Connection to the server could not be established.");
       });
   };
@@ -211,7 +209,6 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
           firstName: accountDetails.firstName, 
           lastName: accountDetails.lastName,
           email: accountDetails.email, 
-          phone: accountDetails.phone,
           password,
         })
         .then((response) => {
