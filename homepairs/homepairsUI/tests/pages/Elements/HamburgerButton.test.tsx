@@ -5,8 +5,7 @@
 import {HamburgerButton} from 'homepairs-elements';
 import { shallow} from 'enzyme';
 import * as React from 'react';
-import { View, TouchableOpacity, Text, Image} from 'react-native';
-import { roopairsLogo, defaultProperty } from 'homepairs-images';
+import { View, TouchableOpacity, Text} from 'react-native';
 import { fireEvent, render } from 'react-native-testing-library';
 
 

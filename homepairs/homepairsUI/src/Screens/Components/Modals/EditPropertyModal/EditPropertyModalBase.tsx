@@ -5,7 +5,7 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, EditPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
+import {isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
 import { DarkModeInjectedProps } from '../../WithDarkMode/WithDarkMode';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 
@@ -245,15 +245,15 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
             this.stateRef.current.setError(true);
             check = false;
         } 
-        if (!isNumber(bedrooms)) {
+        if (!isPositiveWholeNumber(bedrooms)) {
             this.bedRef.current.setError(true);
             check = false;
         } 
-        if (!isNumber(bathrooms)) {
+        if (!isPositiveWholeNumber(bathrooms)) {
             this.bathRef.current.setError(true);
             check = false;
         }
-        if (!isNumber(tenants)) {
+        if (!isPositiveWholeNumber(tenants)) {
             this.tenantRef.current.setError(true);
             check = false;
         }

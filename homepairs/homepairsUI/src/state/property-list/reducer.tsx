@@ -17,6 +17,7 @@ import { PROPERTY_LIST_ACTION_TYPES } from './actions';
  * throughout our app as it changes.
  * */
 
+ 
 export const initialState: PropertyListState = {
     selectedPropertyIndex: null,
     properties: [],

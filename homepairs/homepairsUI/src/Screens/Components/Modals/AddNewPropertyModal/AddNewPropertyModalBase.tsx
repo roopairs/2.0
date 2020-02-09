@@ -5,7 +5,7 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, AddNewPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isNumber, isEmptyOrSpaces} from 'homepairs-utilities';
+import {isPositiveWholeNumber} from 'homepairs-utilities';
 import {DarkModeInjectedProps} from '../../WithDarkMode/WithDarkMode';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 
@@ -219,6 +219,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         this.setState(initialState);
     }
 
+
     validateForms() {
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
         let check = true;
@@ -234,15 +235,15 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
             this.stateRef.current.setError(true);
             check = false;
         } 
-        if (!isNumber(bedrooms) || isEmptyOrSpaces(bedrooms)) {
+        if (!isPositiveWholeNumber(bedrooms) || isEmptyOrSpaces(bedrooms)) {
             this.bedRef.current.setError(true);
             check = false;
         } 
-        if (!isNumber(bathrooms) || isEmptyOrSpaces(bathrooms)) {
+        if (!isPositiveWholeNumber(bathrooms) || isEmptyOrSpaces(bathrooms)) {
             this.bathRef.current.setError(true);
             check = false;
         }
-        if (!isNumber(tenants) || isEmptyOrSpaces(tenants)) {
+        if (!isPositiveWholeNumber(tenants) || isEmptyOrSpaces(tenants)) {
             this.tenantRef.current.setError(true);
             check = false;
         }
