@@ -29,16 +29,6 @@ class Property(models.Model):
    def __str__(self):
       return "%s, %s, %s" % (self.streetAddress, self.city, self.state)
 
-   def toDictNoRecurs(self):
-      return {
-                "streetAddress": self.streetAddress,
-                "city": self.city,
-                "state": self.state,
-                "numBath": self.numBath,
-                "numBed": self.numBed,
-                "maxTenants": self.maxTenants,
-                "pm": str(self.pm)
-             }
    def toDict(self):
       return {
                 "streetAddress": self.streetAddress,
@@ -47,7 +37,7 @@ class Property(models.Model):
                 "numBath": self.numBath,
                 "numBed": self.numBed,
                 "maxTenants": self.maxTenants,
-                "pm": self.pm.toDict()
+                "pm": str(self.pm)
              }
 
 class Tenant(models.Model):
@@ -62,14 +52,11 @@ class Tenant(models.Model):
       return self.firstName + " " + self.lastName
 
    def toDict(self):
-      editPlace = self.place.toDict()
-      editPlace.pop('pm', None)
-      editPlace['pm'] = str(self.pm)
+      property = [self.place.toDict()]
       return {
                 "firstName": self.firstName,
                 "lastName": self.lastName,
                 "email": self.email,
                 "password": self.password,
-                "place": editPlace,
                 "pm": self.pm.toDict()
              }

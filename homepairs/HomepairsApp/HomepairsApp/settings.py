@@ -143,5 +143,6 @@ prod_db  =  dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 
 # Hopefully this works
+# It did. I am a genius for doing very basic programming things
 TEST_URL = 'https://homepairs-alpha.herokuapp.com/API/'
 TEST_URL = 'http://localhost:8000/API/'

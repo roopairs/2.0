@@ -78,7 +78,7 @@ class PMRegistration(TestCase):
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": firstName")
 
    def test_pm_missing_lastName(self):
       randEmail = "fakeEmail.@gmail.com"
@@ -92,7 +92,7 @@ class PMRegistration(TestCase):
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": lastName")
 
    def test_pm_missing_email(self):
       randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
@@ -105,7 +105,7 @@ class PMRegistration(TestCase):
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": email")
 
    def test_pm_missing_password(self):
       randEmail = "fakeEmail.@gmail.com"
@@ -119,7 +119,8 @@ class PMRegistration(TestCase):
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": password")
+
 
 # Property Manager Login Tests with Roopairs
 class PMRegistrationRoopairs(TestCase):
@@ -169,7 +170,7 @@ class PMRegistrationRoopairs(TestCase):
 
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": email")
 
    def test_pm_noPass(self):
       pmEmail = "testForRoopairsRegistration@gmail.com"
@@ -185,7 +186,7 @@ class PMRegistrationRoopairs(TestCase):
 
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": password")
 
    # They already have properties
    def test_pm_allCorrectPlusProps(self):

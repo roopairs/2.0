@@ -33,18 +33,28 @@ BASE_URL = 'https://capstone.api.roopairs.com/v0/'
 ################################################################################
 # Functions
 #
+
+def checkRequired(required, request):
+   missingFields = []
+   for term in required:
+      if(not term in request.data):
+         missingFields.append(term)
+      
+   return missingFields
+
 def returnError(error):
    return {STATUS: FAIL, ERROR: error}
 
-def getPropertyManager(pmEmail):
-   pmList = PropertyManager.objects.filter(email=pmEmail)
+def getPropertyManager(email):
+   # Gets the list of propety managers with that email
+   pmList = PropertyManager.objects.filter(email=email)
    if pmList.exists():
       if pmList.count() == 1:
          thisPM = pmList[0]
          propertyList = Property.objects.filter(pm=thisPM)
          sendPropList = []
          for prop in propertyList:
-            tempProp = prop.toDictNoRecurs()
+            tempProp = prop.toDict()
             sendPropList.append(tempProp)
          return {
                    STATUS: SUCCESS,
@@ -63,12 +73,13 @@ def getTenant(tenantEmail, tenantPassword):
          return {
                    STATUS: SUCCESS,
                    'tenant': tenant.toDict(),
+                   'properties': [tenant.place.toDict()]
                 }
       return {STATUS: FAIL, ERROR: MULTIPLE_ACCOUNTS}
    return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
 
-def getProperty(pmEmail, streetAddress, city, state):
-    pmList = PropertyManager.objects.filter(email=pmEmail)
+def getProperty(email, streetAddress, city, state):
+    pmList = PropertyManager.objects.filter(email=email)
     if pmList.exists() and pmList.count() == 1:
       pm = pmList[0]
       propList = Property.objects.filter(streetAddress=streetAddress, city=city, state=state, pm=pm)
@@ -77,13 +88,13 @@ def getProperty(pmEmail, streetAddress, city, state):
             prop = propList[0]
             return {
                       STATUS: SUCCESS,
-                      'prop': prop.toDictNoRecurs(),
+                      'prop': prop.toDict(),
                    }
          return {STATUS: FAIL, ERROR: MULTIPLE_PROPERTIES}
       return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
     return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
 
-def addNewProperties(pmEmail, token):
+def addNewProperties(email, token):
    # This is for requesting properties from them
    url = BASE_URL + "service-locations/"
    tokenSend = "Token " + token
@@ -105,7 +116,7 @@ def addNewProperties(pmEmail, token):
          # We know the pm account exists in our database and only ours
          # since we checked earlier and it didn't fail so we don't have
          # to check it
-         tempPM = PropertyManager.objects.filter(email=pmEmail)[0]
+         tempPM = PropertyManager.objects.filter(email=email)[0]
 
          # That means the property is not already in the database
          prop = Property(streetAddress=tempStreetAddress,
@@ -117,54 +128,50 @@ def addNewProperties(pmEmail, token):
                          pm = tempPM)
          prop.save()
 
-def pmLogin(request):
+def pmLogin(email, password):
    url = BASE_URL + 'auth/login/'
 
-   if 'email' in request.data and 'password' in request.data:
-      pmEmail = request.data.get('email')
-      pmPass = request.data.get('password')
-      data = {
-                'username': pmEmail,
-                'password': pmPass
-             }
-      response = requests.post(url, json=data)
+   data = {
+             'username': email,
+             'password': password
+          }
+   response = requests.post(url, json=data)
 
-      info = json.loads(response.text)
+   info = json.loads(response.text)
 
-      if NON_FIELD_ERRORS in info:
-         return returnError(info.get(NON_FIELD_ERRORS))
-      elif TOKEN in info:
+   if NON_FIELD_ERRORS in info:
+      return returnError(info.get(NON_FIELD_ERRORS))
+   elif TOKEN in info:
 
-         if(not PropertyManager.objects.filter(email=pmEmail).exists()):
-            # THen they don't exist in our database
-            pmFirstName = info.get('first_name')
-            pmLastName = info.get('last_name')
-            pmEmail = info.get('email')
-            tempPM = PropertyManager(firstName=pmFirstName,
-                                     lastName=pmLastName,
-                                     email=pmEmail)
-            tempPM.save()
+      if(not PropertyManager.objects.filter(email=email).exists()):
+         # THen they don't exist in our database
+         firstName = info.get('first_name')
+         lastName = info.get('last_name')
+         email = info.get('email')
+         tempPM = PropertyManager(firstName=firstName,
+                                  lastName=lastName,
+                                  email=email)
+         tempPM.save()
 
-         tempDict = getPropertyManager(pmEmail)
+      tempDict = getPropertyManager(email)
 
-         if tempDict[STATUS] == FAIL:
-            return returnError('%s: %s' % (HOMEPAIRS_ACCOUNT_CREATION_FAILED, tempDict[ERROR]))
+      if tempDict[STATUS] == FAIL:
+         return returnError('%s: %s' % (HOMEPAIRS_ACCOUNT_CREATION_FAILED, tempDict[ERROR]))
 
-         addNewProperties(pmEmail, info.get(TOKEN))
+      addNewProperties(email, info.get(TOKEN))
 
-         tempDict = getPropertyManager(pmEmail)
-         tempDict[TOKEN] = info.get(TOKEN)
-         return tempDict
-   else:
-      return returnError(INCORRECT_FIELDS)
+      tempDict = getPropertyManager(email)
+      tempDict[TOKEN] = info.get(TOKEN)
+      return tempDict
 
-def tenantLogin(request):
-   if 'email' in request.data and 'password' in request.data:
-      tenantEmail = request.data.get('email')
-      tenantPass = request.data.get('password')
-      return getTenant(tenantEmail, tenantPass)
-   else:
-      return returnError(INCORRECT_FIELDS)
+def tenantLogin(email, password):
+   return getTenant(email, password)
+
+def missingError(missingFields):
+   finalErrorString = INCORRECT_FIELDS + ": "
+   for field in missingFields:
+      finalErrorString += field + " "
+   return returnError(finalErrorString.strip())
 
 ################################################################################
 # Views / API Endpoints
@@ -172,66 +179,77 @@ def tenantLogin(request):
 
 @api_view(['GET', 'POST'])
 def login(request):
-   tenantTest = tenantLogin(request)
-   if tenantTest.get(STATUS) == SUCCESS:
-      tenantTest['role'] = 'tenant'
-      return Response(data=tenantTest)
+   required = ['email', 'password']
+   missingFields = checkRequired(required, request)
 
-   pmTest = pmLogin(request)
-   if pmTest.get(STATUS) == SUCCESS:
-      pmTest['role'] = 'pm'
+   if(len(missingFields) == 0):
+      email = request.data.get('email')
+      password = request.data.get('password')
 
-   return Response(data=pmTest)
+      tenantTest = tenantLogin(email, password)
+      if tenantTest.get(STATUS) == SUCCESS:
+         tenantTest['role'] = 'tenant'
+         return Response(data=tenantTest)
+
+      pmTest = pmLogin(email, password)
+      if pmTest.get(STATUS) == SUCCESS:
+         pmTest['role'] = 'pm'
+
+      return Response(data=pmTest)
+   else:
+      return Response(data=missingError(missingFields))
 
 @api_view(['GET', 'POST'])
 def tenantRegister(request):
-   if ('firstName' in request.data and 'lastName' in request.data and
-       'email' in request.data and
-       'password' in request.data and 'streetAddress' in request.data and
-       'city' in request.data):
-      tenFirstName = request.data.get('firstName')
-      tenLastName = request.data.get('lastName')
-      tenEmail = request.data.get('email')
-      tenStreet = request.data.get('streetAddress')
-      tenCity = request.data.get('city')
-      tenPass = request.data.get('password')
-      tenPropList = Property.objects.filter(streetAddress=tenStreet, city=tenCity)
-      if tenPropList.exists():
-         if tenPropList.count() < 2:
-            tenProp = tenPropList[0]
-            tenPM = tenProp.pm
-            ten = Tenant(firstName=tenFirstName,
-                         lastName=tenLastName,
-                         email=tenEmail,
-                         password=tenPass,
-                         place=tenProp,
-                         pm = tenPM)
-            ten.save()
+   required = ['firstName', 'lastName', 'email', 'password', 'streetAddress', 'city']
+   missingFields = checkRequired(required, request)
 
-            return Response(data=tenantLogin(request))
+   if(len(missingFields) == 0):
+      firstName = request.data.get('firstName')
+      lastName = request.data.get('lastName')
+      email = request.data.get('email')
+      streetAddress = request.data.get('streetAddress')
+      city = request.data.get('city')
+      password = request.data.get('password')
+      propertyList = Property.objects.filter(streetAddress=streetAddress, city=city)
+
+      if propertyList.exists():
+         if propertyList.count() < 2:
+            tenantsProp = propertyList[0]
+            tenantsPM = tenantsProp.pm
+            ten = Tenant(firstName = firstName,
+                         lastName  = lastName,
+                         email     = email,
+                         password  = password,
+                         place     = tenantsProp,
+                         pm        = tenantsPM)
+            ten.save()
+            return Response(data=tenantLogin(email, password))
          else:
             return Response(data=returnError(TOO_MANY_PROPERTIES))
       else:
          return Response(data=returnError(INVALID_PROPERTY))
    else:
-      return Response(data=returnError(INCORRECT_FIELDS))
+      return Response(data=missingError(missingFields))
 
 @api_view(['GET', 'POST'])
 def pmRegister(request):
    url = BASE_URL + 'auth/register/'
 
-   if ('firstName' in request.data and 'lastName' in request.data and
-       'email' in request.data and 'password' in request.data):
-      pmFirstName = request.data.get('firstName')
-      pmLastName = request.data.get('lastName')
-      pmEmail = request.data.get('email')
-      pmPass = request.data.get('password')
-      pmCompanyName = '%s %s Property Rental' % (pmFirstName, pmLastName)
+   required = ['firstName', 'lastName', 'email', 'password']
+   missingFields = checkRequired(required, request)
+
+   if(len(missingFields) == 0):
+      firstName = request.data.get('firstName')
+      lastName = request.data.get('lastName')
+      email = request.data.get('email')
+      password = request.data.get('password')
+      pmCompanyName = '%s %s Property Rental' % (firstName, lastName)
       data = {
-                'first_name': pmFirstName,
-                'last_name': pmLastName,
-                'email': pmEmail,
-                'password': pmPass,
+                'first_name': firstName,
+                'last_name': lastName,
+                'email': email,
+                'password': password,
                 'internal_client': {
                                       'name': pmCompanyName,
                                       'industry_type': RESIDENTIAL_CODE
@@ -244,11 +262,11 @@ def pmRegister(request):
          return Response(returnError(ROOPAIR_ACCOUNT_CREATION_FAILED))
       elif TOKEN in info:
          tempPM = PropertyManager(
-                                    firstName=pmFirstName,
-                                    lastName=pmLastName,
-                                    email=pmEmail)
+                                    firstName=firstName,
+                                    lastName=lastName,
+                                    email=email)
          tempPM.save()
-         tempDict = getPropertyManager(pmEmail)
+         tempDict = getPropertyManager(email)
          if tempDict[STATUS] == FAIL:
             return Response(data=returnError(HOMEPAIRS_ACCOUNT_CREATION_FAILED))
          tempDict[TOKEN] = info.get(TOKEN)
@@ -256,15 +274,18 @@ def pmRegister(request):
       else:
          return Response(data=info)
    else:
-      return Response(data=returnError(INCORRECT_FIELDS))
+      return Response(data=missingError(missingFields))
+
 
 @api_view(['GET', 'POST'])
 def createProperty(request):
    url = BASE_URL + 'service-locations/'
 
-   if ('streetAddress' in request.data and 'city' in request.data and 'state' in request.data
-    and 'pm' in request.data and 'numBed' in request.data and 'numBath' in request.data
-    and 'maxTenants' in request.data and 'token' in request.data):
+   required = ['streetAddress', 'city', 'state', 'pm', 'numBed', 'numBath', 'maxTenants', 'token']
+
+   missingFields = checkRequired(required, request)
+
+   if(len(missingFields) == 0):
       streetAddress = request.data.get('streetAddress')
       city = request.data.get('city')
       state = request.data.get('state')
@@ -275,45 +296,41 @@ def createProperty(request):
       token = request.data.get('token')
       sendAddress = streetAddress + ", " + city + ", " + state
 
-      #data = {
-      #          'physical_address': sendAddress
-      #       }
-      #sendToken = "Token " + token
-      #response = requests.post(url, json=data, headers={"Authorization": sendToken})
-      #print("HERE 1")
-      #print(response.text)
-      #print("HERE 2")
-      #info = json.loads(response.text)
-      #print("HERE 3")
-      #if NON_FIELD_ERRORS in info:
-      #    return Response(returnError(info.get(NON_FIELD_ERRORS)))
-      #elif TOKEN in info:
-      #    addy = response.get('physical_address_formatted').split(',')
-      #    tempStreetAddress = addy[0].strip()
-      #    tempCity = addy[1].strip()
-      #    tempState = addy[2].strip().split(' ')[0].strip()
-      #    isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
-      #    if not isMade.exists():
-      #      pmList = PropertyManager.objects.filter(email=pm)
-      #      if pmList.exists() and pmList.count() == 1:
-      #        pm = pmList[0]
-      #        prop = Property(streetAddress=streetAddress,
-      #                   city=city,
-      #                   state=state,
-      #                   numBed=numBed,
-      #                   numBath=numBath,
-      #                   maxTenants=maxTenants,
-      #                   pm = pm)
-      #        prop.save()
-      #        data = {
-      #                STATUS: SUCCESS
-      #               }
-      #        return Response(data=data)
-      #      else:
+      data = {
+                'physical_address': sendAddress
+             }
+      sendToken = "Token " + token
+      response = requests.post(url, json=data, headers={"Authorization": sendToken})
+      info = json.loads(response.text)
+      if NON_FIELD_ERRORS in info:
+          return Response(returnError(info.get(NON_FIELD_ERRORS)))
+      elif TOKEN in info:
+          addy = response.get('physical_address_formatted').split(',')
+          tempStreetAddress = addy[0].strip()
+          tempCity = addy[1].strip()
+          tempState = addy[2].strip().split(' ')[0].strip()
+          isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
+          if not isMade.exists():
+            pmList = PropertyManager.objects.filter(email=pm)
+            if pmList.exists() and pmList.count() == 1:
+              pm = pmList[0]
+              prop = Property(streetAddress=streetAddress,
+                         city=city,
+                         state=state,
+                         numBed=numBed,
+                         numBath=numBath,
+                         maxTenants=maxTenants,
+                         pm = pm)
+              prop.save()
+              data = {
+                      STATUS: SUCCESS
+                     }
+              return Response(data=data)
+            else:
 
-      #        return Response(data=returnError(INCORRECT_FIELDS))
-      #    else:
-      #      return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
+              return Response(data=returnError(INCORRECT_FIELDS))
+          else:
+            return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
 
       isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
       if not isMade.exists():
@@ -333,19 +350,18 @@ def createProperty(request):
                  }
           return Response(data=data)
         else:
-
           return Response(data=returnError(INCORRECT_FIELDS))
       else:
         return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
    else:
-      return Response(data=returnError(INCORRECT_FIELDS))
+      return Response(data=missingError(missingFields))
 
 @api_view(['GET', 'POST'])
 def updateProperty(request):
-   if ('streetAddress' in request.data and 'city' in request.data and 'state' in request.data
-    and 'pm' in request.data and 'numBed' in request.data and 'numBath' in request.data
-    and 'maxTenants' in request.data and 'oldStreetAddress' in request.data
-    and 'oldCity' in request.data):
+   required = ['streetAddress', 'city', 'state', 'pm', 'numBed', 'numBath', 'maxTenants', 'oldStreetAddress', 'oldCity']
+   missingFields = checkRequired(required, request)
+
+   if(len(missingFields) == 0):
       oldStreetAddress = request.data.get('oldStreetAddress')
       oldCity = request.data.get('oldCity')
       streetAddress = request.data.get('streetAddress')
@@ -378,22 +394,29 @@ def updateProperty(request):
       else:
         return Response(data=returnError(PROPERTY_DOESNT_EXIST))
    else:
-      return Response(data=returnError(INCORRECT_FIELDS))
+      return Response(data=missingError(missingFields))
 
 @api_view(['GET', 'POST'])
 def viewProperty(request):
-   if ('streetAddress' in request.data and 'city' in request.data and 'state' in request.data
-    and 'pm' in request.data):
+   required = ['streetAddress', 'city', 'state', 'pm']
+   missingFields = checkRequired(required, request)
+
+   if(len(missingFields) == 0):
       streetAddress = request.data.get('streetAddress')
       city = request.data.get('city')
       state = request.data.get('state')
-      pmEmail = request.data.get('pm')
-      prop = getProperty(pmEmail, streetAddress, city, state)
+      email = request.data.get('pm')
+      prop = getProperty(email, streetAddress, city, state)
       return Response(data=prop)
+   else:
+      return Response(data=missingError(missingFields))
 
 @api_view(['GET', 'POST'])
 def setUpTests(request):
-   if ('email' in request.data and 'password' in request.data):
+   required = ['email', 'password']
+   missingFields = checkRequired(required, request)
+
+   if(len(missingFields) == 0):
       inEmail = request.data.get('email')
       inPass = request.data.get('password')
       if(inEmail=='adamkberard@gmail.com' and inPass == 'pass4testing'):
@@ -429,14 +452,22 @@ def setUpTests(request):
          tempTenant.save()
 
       return Response()
+   else:
+      return Response(data=missingError(missingFields))
+      
 
 @api_view(['GET', 'POST'])
 def tearDownTests(request):
-   if ('email' in request.data and 'password' in request.data):
+   required = ['email', 'password']
+   missingFields = checkRequired(required, request)
+
+   if(len(missingFields) == 0):
       inEmail = request.data.get('email')
       inPass = request.data.get('password')
       if(inEmail=='adamkberard@gmail.com' and inPass == 'pass4testing'):
          PropertyManager.objects.all().delete()
          Property.objects.all().delete()
          Tenant.objects.all().delete()
-   return Response()
+      return Response()
+   else:
+      return Response(data=missingError(missingFields))

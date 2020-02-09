@@ -66,14 +66,14 @@ class TenantLogin(TestCase):
       self.assertEqual(tenant.get('lastName'), 'Berard')
       self.assertEqual(tenant.get('email'), 'adamkberard@gmail.com')
       self.assertEqual(tenant.get('password'), 'pass4adam')
-      place = tenant.get('place')
-      self.assertEqual(place.get('streetAddress'), '200 N. Santa Rosa')
-      self.assertEqual(place.get('city'), 'San Luis Obispo')
-      self.assertEqual(place.get('state'), 'CA')
-      self.assertEqual(place.get('numBath'), 2)
-      self.assertEqual(place.get('numBed'), 3)
-      self.assertEqual(place.get('maxTenants'), 5)
-      self.assertEqual(place.get('pm'), 'Eeron Grant')
+      tenProp = info.get('properties')[0]
+      self.assertEqual(tenProp.get('streetAddress'), '200 N. Santa Rosa')
+      self.assertEqual(tenProp.get('city'), 'San Luis Obispo')
+      self.assertEqual(tenProp.get('state'), 'CA')
+      self.assertEqual(tenProp.get('numBath'), 2)
+      self.assertEqual(tenProp.get('numBed'), 3)
+      self.assertEqual(tenProp.get('maxTenants'), 5)
+      self.assertEqual(tenProp.get('pm'), 'Eeron Grant')
       pm = tenant.get('pm')
       self.assertEqual(pm.get('firstName'), 'Eeron')
       self.assertEqual(pm.get('lastName'), 'Grant')
@@ -114,7 +114,7 @@ class TenantLogin(TestCase):
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": email")
 
    # No Pass Field
    def test_tenant_incorrectPassField(self):
@@ -123,7 +123,7 @@ class TenantLogin(TestCase):
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": password")
 
    # No Correct Fields
    def test_tenant_incorrectFields(self):
@@ -132,5 +132,5 @@ class TenantLogin(TestCase):
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": email password")
 

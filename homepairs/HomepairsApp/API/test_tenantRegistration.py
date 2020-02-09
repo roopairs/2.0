@@ -62,15 +62,17 @@ class TenantRegistration(TestCase):
                 }
       url = globUrl + TEN_REG_URL
       x = requests.post(url, json=data)
+      print("THIS IS IT")
+      print(x.text)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), SUCCESS)
       ten = info.get('tenant')
       self.assertEqual(ten.get('firstName'), 'Fake')
       self.assertEqual(ten.get('lastName'), 'Name')
       self.assertEqual(ten.get('email'), tenEmail)
-      prop = ten.get('place')
-      self.assertEqual(prop.get('streetAddress'), '537 Couper Dr.')
-      self.assertEqual(prop.get('numBath'), 2)
+      tenProp = info.get('properties')[0]
+      self.assertEqual(tenProp.get('streetAddress'), '537 Couper Dr.')
+      self.assertEqual(tenProp.get('numBath'), 2)
 
    # Not all fields supplied
    def test_tenant_noLastName(self):
@@ -86,7 +88,7 @@ class TenantRegistration(TestCase):
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": lastName")
 
    def test_tenant_noFirstName(self):
       tenEmail = 'fakeEmail@gmail.com'
@@ -101,7 +103,7 @@ class TenantRegistration(TestCase):
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": firstName")
 
    def test_tenant_Email(self):
       tenEmail = 'fakeEmail@gmail.com'
@@ -116,11 +118,12 @@ class TenantRegistration(TestCase):
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": email")
 
    def test_tenant_noPassword(self):
       tenEmail = 'fakeEmail@gmail.com'
       data = {
+                'firstName': 'Fake',
                 'lastName': 'Name',
                 'email': tenEmail,
                 'streetAddress': '537 Couper Dr.',
@@ -130,4 +133,4 @@ class TenantRegistration(TestCase):
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": password")

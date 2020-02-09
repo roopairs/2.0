@@ -10,6 +10,7 @@ from .views import INCORRECT_FIELDS, MULTIPLE_ACCOUNTS, STATUS
 from .views import SUCCESS, FAIL, ERROR, ROOPAIR_ACCOUNT_CREATION_FAILED
 from .views import HOMEPAIRS_ACCOUNT_CREATION_FAILED, TOO_MANY_PROPERTIES
 from .views import INVALID_PROPERTY, NON_FIELD_ERRORS, TOKEN, RESIDENTIAL_CODE
+from .views import PROPERTY_ALREADY_EXISTS
 
 ################################################################################
 # Vars
@@ -137,6 +138,7 @@ class CreateProperty(TestCase):
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), PROPERTY_ALREADY_EXISTS)
    
    # Property manager fills in the form incorrectly
    def test_create_property_bad_fields(self):
@@ -159,10 +161,11 @@ class CreateProperty(TestCase):
                 'pm': pmEmail,
              }
       url = globUrl + CRE_PROP_URL
-      #fails because numBath is an incorrect field
+      #fails because numBth is an incorrect field
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), "Incorrect fields: numBath token")
 
 class UpdateProperty(TestCase):
    def setUp(self):
@@ -297,4 +300,4 @@ class UpdateProperty(TestCase):
       info = json.loads(x.text)
 
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": streetAddress")

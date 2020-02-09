@@ -1,5 +1,6 @@
-
 # macOS
 .DS_Store
 .idea
 .DS_Store
+node_modules/
+package-lock.json

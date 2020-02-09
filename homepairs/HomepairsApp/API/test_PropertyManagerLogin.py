@@ -92,7 +92,7 @@ class PropertyManagerLogin(TestCase):
       x = requests.post(url, json=data)
       info = x.json()
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": email")
 
    # No Pass Field
    def test_pm_incorrectPassField(self):
@@ -101,7 +101,7 @@ class PropertyManagerLogin(TestCase):
       x = requests.post(url, json=data)
       info = x.json()
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": password")
 
    # No Correct Fields
    def test_pm_incorrectFields(self):
@@ -110,7 +110,7 @@ class PropertyManagerLogin(TestCase):
       x = requests.post(url, json=data)
       info = x.json()
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS)
+      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": email password")
 
    # Has a property on Roopairs not in Homepairs
    def test_pm_propOnRoopairs(self):
