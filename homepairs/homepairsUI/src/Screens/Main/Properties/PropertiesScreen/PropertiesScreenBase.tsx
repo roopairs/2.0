@@ -21,9 +21,7 @@ export type PropertiesScreenProps = SceneInjectedProps &
     PropertiesScreenDispatchProps &
     DarkModeInjectedProps & { store: any };
 
-export default class PropertiesScreenBase extends React.Component<
-    PropertiesScreenProps
-> {
+export default class PropertiesScreenBase extends React.Component<PropertiesScreenProps> {
     constructor(props: Readonly<PropertiesScreenProps>) {
         super(props);
         this.navigateToDetiailedProperty = this.navigateToDetiailedProperty.bind(
@@ -48,9 +46,7 @@ export default class PropertiesScreenBase extends React.Component<
             return (
                 <ViewPropertyCard
                     key={curIndex}
-                    viewButtonSelectedCallBack={
-                        this.navigateToDetiailedProperty
-                    }
+                    viewButtonSelectedCallBack={this.navigateToDetiailedProperty}
                     property={property}
                     propertyIndex={curIndex}
                 />

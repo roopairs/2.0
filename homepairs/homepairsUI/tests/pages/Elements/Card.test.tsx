@@ -19,7 +19,7 @@ describe("Card", () => {
   const message = 'Hello World!';
   const message2= 'Im Pressed But not for the card!';
   const testfunc = () => {return message;};
-  const testButtonfunc = () => {return message2};
+  const testButtonfunc = () => {return message2;};
 
   const spyFunction = jest.fn(testfunc);
   const spyFunction2 = jest.fn(testfunc);

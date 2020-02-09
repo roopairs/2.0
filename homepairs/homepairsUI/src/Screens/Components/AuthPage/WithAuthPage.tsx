@@ -4,7 +4,6 @@ import {
     View,
     Text,
     ScrollView,
-    SafeAreaView,
     StyleSheet,
     StatusBar,
     Dimensions,
@@ -12,7 +11,6 @@ import {
 import {
     ThinButtonProps,
     Card,
-    renderThinButton,
 } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import { HomePairFonts } from 'homepairs-fonts';
@@ -21,6 +19,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { isNullOrUndefined } from 'homepairs-utilities';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 import { ModalInjectedProps } from '../Modals/WithModal/WithModal';
+import ThinButton from '../../../Elements/Buttons/ThinButton';
 
 
 export type AuthPassProps = {
@@ -321,9 +320,15 @@ export function withAuthPage(
 
         renderSignInButton() {
             const { thinButtonStyle } = this.state;
+            const {name, onClick, containerStyle, buttonStyle, buttonTextStyle} = thinButtonStyle;
             return (
                 <View style={styles.submitSection}>
-                    {renderThinButton(thinButtonStyle)}
+                    <ThinButton
+                    name={name}
+                    onClick={onClick}
+                    containerStyle={containerStyle}
+                    buttonStyle={buttonStyle}
+                    buttonTextStyle={buttonTextStyle}/>
                 </View>
             );
         }

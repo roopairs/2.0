@@ -1,22 +1,27 @@
 import React from 'react';
 import { Text, View, TextInput, ViewStyle, StyleSheet } from 'react-native';
+import {HelperText} from 'react-native-paper';
+import {FontTheme} from 'homepairs-base-styles';
 
 export type InputFormProps = {
     key?: any,
     name?: string;
-    onRef?: (ref:any) => any,
+    ref?: any,
     parentCallBack?: (child: string) => any;
     secureTextEntry?: boolean;
     formTitleStyle?: ViewStyle;
     containerStyle?: ViewStyle;
     inputStyle?: ViewStyle;
+    errorStyle?: any;
     placeholder?: string;
     value?: string;
+    errorMessage?: string;
 };
 type InputFormState = {
     value?: string;
+    error?: boolean;
 };
-const initialState: InputFormState = { value: '' };
+const initialState: InputFormState = { value: '', error: false};
 
 const DefaultInputFormStyle = StyleSheet.create({
     container: {
@@ -44,6 +49,10 @@ const DefaultInputFormStyle = StyleSheet.create({
         borderRadius: 4,
         paddingHorizontal: 10,
     },
+    errorStyle: {
+        fontFamily: FontTheme.secondary, 
+        fontSize: 14,
+    },
 });
 
 
@@ -67,20 +76,16 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
     constructor(props){
         super(props);
         this.state = {...initialState};
+        this.setError = this.setError.bind(this);
     }
 
-    componentDidMount(){
-        const {onRef} = this.props;
-        onRef(this);
+    setError(input: boolean) {
+        this.setState({error: input});
     }
 
     passInputValue(text: string): void {
         const {parentCallBack} = this.props;
         parentCallBack(text);
-    }
-
-    clearText(){
-        this.textInput.setNativeProps({text: ''});
     }
 
     renderName() {
@@ -94,32 +99,42 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
             secureTextEntry,
             containerStyle,
             inputStyle,
+            errorStyle,
             placeholder,
             value,
+            errorMessage,
         } = this.props;
-    return (
-        <View style={containerStyle}>
-            {this.renderName()}
-            <TextInput
-                testID='userTextInput'
-                ref={(ref)=> {this.textInput = ref;}}
-                style={inputStyle}
-                underlineColorAndroid="transparent"
-                autoCapitalize="none"
-                value={value}
-                placeholder={placeholder}
-                secureTextEntry={secureTextEntry}
-                onChangeText={text => {this.passInputValue(text);}}
-            />
-        </View>
-    );
+        const {error} = this.state;
+
+        return (
+            <View style={containerStyle}>
+                {this.renderName()}
+                <TextInput
+                    testID='userTextInput'
+                    style={inputStyle}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                    value={value}
+                    placeholder={placeholder}
+                    secureTextEntry={secureTextEntry}
+                    onChangeText={text => {this.passInputValue(text);}}
+                />
+                <HelperText
+                    type= 'error'
+                    visible={error}
+                    style={errorStyle}
+                >
+                {errorMessage}
+                </HelperText>
+            </View>
+        );
     }
 }
 
 InputForm.defaultProps = {
+    ref: undefined,
     key: null,
     name: null,
-    onRef: ref => {return ref;},
     parentCallBack: (child: string) => {
         return child;
     },
@@ -127,8 +142,10 @@ InputForm.defaultProps = {
     formTitleStyle: DefaultInputFormStyle.formTitle,
     containerStyle: DefaultInputFormStyle.container,
     inputStyle: DefaultInputFormStyle.input,
-    value: null,
+    errorStyle: DefaultInputFormStyle.errorStyle,
+    value: undefined,
     placeholder: null,
+    errorMessage: 'Placeholder error message',
 };
 
 
@@ -141,18 +158,20 @@ InputForm.defaultProps = {
  */
 export function renderInputForm(formProps: InputFormProps) {
     console.log("Warning: renderInputForm is deprecated and will be removed upon the next release.");
-    const { name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, onRef, value, placeholder, key} = formProps;
+    const {ref, name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, value, placeholder, key, errorStyle, errorMessage} = formProps;
     return (
         <InputForm
+            ref={ref}
             key={key}
             name={name}
-            onRef={onRef}
             parentCallBack={parentCallBack}
             formTitleStyle={formTitleStyle}
             inputStyle={inputStyle}
+            errorStyle={errorStyle}
             secureTextEntry={secureTextEntry}
             value={value}
             placeholder={placeholder}
+            errorMessage={errorMessage}
         />
     );
 }

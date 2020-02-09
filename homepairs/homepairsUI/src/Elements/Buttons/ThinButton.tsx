@@ -45,7 +45,7 @@ export default function ThinButton(props: ThinButtonProps) {
         buttonTextStyle,
     } = props;
 
-    function onPress() {
+    function handleClick() {
         onClick();
     }
 
@@ -54,7 +54,7 @@ export default function ThinButton(props: ThinButtonProps) {
             <TouchableOpacity
                 testID='click-thin-button'
                 style={buttonStyle}
-                onPress={onPress}
+                onPress={handleClick}
                 onPressIn={onPressIn}
                 onPressOut={onPressOut}
             >
