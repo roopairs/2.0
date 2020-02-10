@@ -316,10 +316,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: tenants,
-<<<<<<< HEAD
-=======
                 errorMessage: 'Tenants must be a number',
->>>>>>> 650488b55bd7f9dcaa252bf5e21f6b37e57bbacc
             },
             {
                 ref: this.bedRef,

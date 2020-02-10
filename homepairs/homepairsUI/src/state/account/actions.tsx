@@ -134,10 +134,10 @@ export const fetchAccount = (
             const accountType = getAccountType(response[responseKeys.DATA]);
             if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
               dispatch(fetchAccountProfile(response[responseKeys.DATA]));
-              if(response[responseKeys.DATA][responseKeys.ROLE] === rolePM){
+              if(response[responseKeys.DATA][responseKeys.ROLE] === PM){
                 dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
               }
-              else if(response[responseKeys.DATA][responseKeys.ROLE] === roleTenant){
+              else if(response[responseKeys.DATA][responseKeys.ROLE] === TENANT){
                 dispatch(fetchProperty(response[responseKeys.DATA][TENANT][responseKeys.PLACE]));
               }
               else{
