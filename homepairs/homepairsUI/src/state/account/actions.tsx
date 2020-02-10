@@ -130,19 +130,30 @@ export const fetchAccount = (
             password: Password,
           })
           .then((response) => {
+<<<<<<< HEAD
             console.log(response);
             const accountType = getAccountType(response[responseKeys.DATA]);
             if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
+=======
+            const accountType = getAccountType(response[responseKeys.DATA]);
+            if(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.SUCCESS){
+>>>>>>> 33656c170523c905ad4c6e3d24377a21abf845b6
               dispatch(fetchAccountProfile(response[responseKeys.DATA]));
               if(response[responseKeys.DATA][responseKeys.ROLE] === PM){
                 dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
               }
+<<<<<<< HEAD
               else if(response[responseKeys.DATA][responseKeys.ROLE] === TENANT){
                 dispatch(fetchProperty(response[responseKeys.DATA][TENANT][responseKeys.PLACE]));
               }
               else{
                 throw new Error("Role type not implemented!");
               }
+=======
+              else { // Assume the role of the tenant 
+                dispatch(fetchProperty(response[responseKeys.DATA][TENANT][responseKeys.PLACE]));
+              }
+>>>>>>> 33656c170523c905ad4c6e3d24377a21abf845b6
               ChooseMainPage(accountType, navigation);
             }else{
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
@@ -153,10 +164,29 @@ export const fetchAccount = (
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
           })
           .finally(() => {
+<<<<<<< HEAD
           });};
    
 };
 
+=======
+          });
+        }; 
+};
+
+/**
+ * ----------------------------------------------------
+ * generateAccountForTenant
+ * ----------------------------------------------------
+ * Takes in information from the component and sends a request to the 
+ * homepairs django api. This specifically will generate a tenant account and 
+ * then return a response allowing the user access to the API.
+ * @param {Account} accountDetails - Details passed from user input 
+ * @param {String} password - Password input that the user want for their account
+ * @param {NavigationPropType} navigation - navigation prop passed from component
+ * @param {modalSetOffCallBack} modalSetOffCallBack - *optional callback
+ */
+>>>>>>> 33656c170523c905ad4c6e3d24377a21abf845b6
 export const generateAccountForTenant = (accountDetails: Account, password: String, navigation: NavigationPropType, modalSetOffCallBack?: (error?:String) => void) => {
   return async (dispatch: (arg0: any) => void) => {
       await axios.post('http://homepairs-alpha.herokuapp.com/API/register/tenant/', {
@@ -168,9 +198,15 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
         password, 
       })
       .then((response) => {
+<<<<<<< HEAD
         if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
           dispatch(fetchAccountProfile(response[responseKeys.DATA]));
           dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
+=======
+        if(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.SUCCESS){
+          dispatch(fetchAccountProfile(response[responseKeys.DATA]));
+          dispatch(fetchProperty(response[responseKeys.DATA][TENANT][responseKeys.PLACE]));
+>>>>>>> 33656c170523c905ad4c6e3d24377a21abf845b6
           ChooseMainPage(AccountTypes.Tenant, navigation);
         } else {
           modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
@@ -183,7 +219,22 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
   };
 };
 
+<<<<<<< HEAD
 // this needs to send address too???
+=======
+/**
+ * ----------------------------------------------------
+ * generateAccountForPM
+ * ----------------------------------------------------
+ * Takes in information from the component and sends a request to the 
+ * homepairs django api. This specifically will generate a property manager account and 
+ * then return a response allowing the user access to the API.
+ * @param {Account} accountDetails - Details passed from user input 
+ * @param {String} password - Password input that the user want for their account
+ * @param {NavigationPropType} navigation - navigation prop passed from component
+ * @param {modalSetOffCallBack} modalSetOffCallBack - *optional callback
+ */
+>>>>>>> 33656c170523c905ad4c6e3d24377a21abf845b6
 export const generateAccountForPM = (accountDetails: Account, password: String, navigation: NavigationPropType, modalSetOffCallBack?: (error?:String) => void) => {
     return async (dispatch: (arg0: any) => void) => {
       await axios.post('http://homepairs-alpha.herokuapp.com/API/register/pm/', {
@@ -193,7 +244,11 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
           password,
         })
         .then((response) => {
+<<<<<<< HEAD
           if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
+=======
+          if(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.SUCCESS){
+>>>>>>> 33656c170523c905ad4c6e3d24377a21abf845b6
             dispatch(fetchAccountProfile(response[responseKeys.DATA]));
             dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
             ChooseMainPage(AccountTypes.Landlord, navigation);
@@ -202,7 +257,10 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
           }
         })
         .catch((error) => {
+<<<<<<< HEAD
           console.log(error);
+=======
+>>>>>>> 33656c170523c905ad4c6e3d24377a21abf845b6
           modalSetOffCallBack("Connection to the server could not be established.");
         });
     };

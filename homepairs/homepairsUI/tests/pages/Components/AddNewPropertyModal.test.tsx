@@ -10,7 +10,6 @@ import renderer from 'react-test-renderer';
 import { AddNewPropertyModalBase } from "homepairs-components";
 import {AddNewPropertyState, Property} from 'homepairs-types';
 import {ColorTheme} from 'homepairs-base-styles';
-import { on } from "events";
 
 
 type Props = ModalInjectedProps &
@@ -51,7 +50,7 @@ describe("Add New Property Modal", () => {
         expect(wrapper.find(Card)).toHaveLength(1);
     });
 
-    it("Method", () => {
+    it("Test that methods are being called", () => {
         rendered.root.props.onChangeModalVisibility();
         rendered.root.props.onCreateProperty();
         expect(modalFunction.mock.calls).toHaveLength(1);

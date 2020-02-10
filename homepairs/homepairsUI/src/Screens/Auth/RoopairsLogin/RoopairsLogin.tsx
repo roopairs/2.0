@@ -64,7 +64,7 @@ const mapDispatchToProps: (dispatch: any) => RoopairsLoginDispatchProps = (
 });
 
 const RoopairsLogin = connect(null, mapDispatchToProps)(RoopairsLoginBase);
-const AuthPage = withAuthPage(RoopairsLogin, authPageParam);
-const AuthPageWithNav = withNavigation(AuthPage);
-const AuthWithModal = withModal(AuthPageWithNav, LoggingInModal);
+const RoopairsLoginWithNav = withNavigation(RoopairsLogin);
+const AuthPage = withAuthPage(RoopairsLoginWithNav, authPageParam);
+const AuthWithModal = withModal(AuthPage, LoggingInModal);
 export default withDarkMode(AuthWithModal);

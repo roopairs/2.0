@@ -12,7 +12,7 @@ import { AccountTypeRadioProps as ATRBP } from "./AccounttypeRadioButton/Account
 import { ViewPropertyCardProps as VPCP } from "./ViewPropertyCard/ViewPropertyCard";
 import { AccountConnectedCardProps as ACCP } from "./AuthenticationCards/AccountConnectedCard";
 import { ConnectAccountCardProps as CACP } from "./AuthenticationCards/ConnectAccountCard";
-import * as HomePairsHeaderProps from "./HomePairsHeader/HomePairsHeaderTemplate";
+import * as HomePairsHeaderProps from "./HomePairsHeader/HomePairsHeaderBase";
 import { LoggingInModal, CreatingAccountModal } from './Modals/AuthenticationModals';
 import { LoadingModal, LoadingModalProps as LMP} from './Modals/LoadingModal';
 

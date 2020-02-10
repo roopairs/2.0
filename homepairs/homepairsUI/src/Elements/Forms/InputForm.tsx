@@ -6,7 +6,7 @@ import {FontTheme} from 'homepairs-base-styles';
 export type InputFormProps = {
     key?: any,
     name?: string;
-    ref: any,
+    ref?: any,
     parentCallBack?: (child: string) => any;
     secureTextEntry?: boolean;
     formTitleStyle?: ViewStyle;
@@ -67,8 +67,6 @@ const DefaultInputFormStyle = StyleSheet.create({
  *
  * 
  * */
-
-
 export default class InputForm extends React.Component<InputFormProps, InputFormState> {
 
     textInput
@@ -150,8 +148,17 @@ InputForm.defaultProps = {
     errorMessage: 'Placeholder error message',
 };
 
+
+/**
+ * ------------------------------------------------------------
+ * renderInputForm (deprecated)
+ * ------------------------------------------------------------
+ * @deprecated Please do not use this function. We are going to remove it in 
+ * future use. 
+ */
 export function renderInputForm(formProps: InputFormProps) {
-    const {ref, name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, value, placeholder, key, errorMessage, errorStyle} = formProps;
+    console.log("Warning: renderInputForm is deprecated and will be removed upon the next release.");
+    const {ref, name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, value, placeholder, key, errorStyle, errorMessage} = formProps;
     return (
         <InputForm
             ref={ref}
