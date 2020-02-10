@@ -4,7 +4,6 @@ import {
     View,
     Text,
     ScrollView,
-    SafeAreaView,
     StyleSheet,
     StatusBar,
     Dimensions,
@@ -12,34 +11,70 @@ import {
 import {
     ThinButtonProps,
     Card,
-    renderThinButton,
-    InputFormProps,
 } from 'homepairs-elements';
-import { NavigationInjectedProps } from 'react-navigation';
 import strings from 'homepairs-strings';
 import { HomePairFonts } from 'homepairs-fonts';
 import { HomePairsDimensions } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
+import { isNullOrUndefined } from 'homepairs-utilities';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 import { ModalInjectedProps } from '../Modals/WithModal/WithModal';
+import ThinButton from '../../../Elements/Buttons/ThinButton';
+
 
 export type AuthPassProps = {
-    button: String;
+    /**
+     * Text of the button rendered at the bottom of the component 
+     */
+    button: string;
+
+    /**
+     * Color of the button rendered at the bottom of the component
+     */
     buttonColor: string;
-    subtitle: String | React.ReactElement;
-    loadingModalText: String;
-    underButtonText: String;
-    highlightedText: String;
+
+    /**
+     * Contents of the subtitle, renders a TextInput if a string is passed.
+     * Otherwise, the reactElement is used
+     */
+    subtitle: string | React.ReactElement;
+
+    /**
+     * Text presented when the modal is visible 
+     */
+    loadingModalText: string;
+
+    /**
+     * Text for the unclickable content below the button
+     */
+    underButtonText: string;
+
+    /**
+     * Text for the clickable content below the button
+     */
+    highlightedText: string;
 };
 
-export type AuthPageInjectedProps = DarkModeInjectedProps &
-    NavigationInjectedProps &
-    ModalInjectedProps & {
-        inputFormProps?: { [id: string]: InputFormProps };
-        clickHighlightedText?: (arg?: any) => any;
-        clickButton?: (arg: any) => any;
-        setErrorState?: (arg1: boolean, arg2?: string) => any;
-    };
+export type AuthPageInjectedProps = ModalInjectedProps & {
+    /**
+     * Callback Function that invokes after the highlighted text has been clicked. 
+     */
+    clickHighlightedText?: (arg?: any) => any;
+
+    /**
+     * Callback Function that invokes after the thin button has been clicked. 
+     */
+    clickButton?: (arg: any) => any;
+
+    /**
+     * Callback Function the Base component invokes in order to change toggle the 
+     * error state of withAuthPage component. Also takes in an optional string 
+     * parameter
+     */
+    setErrorState?: (arg1: boolean, arg2?: string) => any;
+};
+
+type AuthPageProps = DarkModeInjectedProps & ModalInjectedProps
 
 type DefaultAuthPageState = {
     username: String;
@@ -63,7 +98,7 @@ const initalState: DefaultAuthPageState = {
     clickHighlightedText: () => {},
 };
 
-function setStyles(buttonColor: string, colorTheme: BaseStyles.ColorTheme) {
+function setStyles(buttonColor: string, colorTheme: BaseStyles.ColorTheme = BaseStyles.LightColorTheme) {
     return StyleSheet.create({
         container: {
             alignItems: 'center',
@@ -193,43 +228,61 @@ function setStyles(buttonColor: string, colorTheme: BaseStyles.ColorTheme) {
     });
 }
 
+/**
+ * ------------------------------------------------------------
+ * withAuthPage
+ * ------------------------------------------------------------
+ * A High Order Component (HOC) that renders a smaller component into the homepairs 
+ * authorization page styles. It will inject into the wrapped component, callback functions
+ * for error presentation, clicking the highlighted text, clicking the button, and for 
+ * toggling the visibility of the modal. Please refer to the AuthPassProps Type for information
+ * regarding the data presented by this modal
+ * @param {ReactElement} WrappedComponent 
+ * @param {AuthPassProps} defaultAuthPassProps  */
 export function withAuthPage(
     WrappedComponent: any,
     defaultAuthPassProps: AuthPassProps,
 ) {
     let styles: any = null;
+
     function renderSubtitle() {
+        // The subtitle passed is a simple string. We render a new Text Element for it
         if (typeof defaultAuthPassProps.subtitle === 'string') {
             return (
-                <Text style={styles.subTitleText}>Sign into your account</Text>
+                <Text testID='auth-subtitle' style={styles.subTitleText}>{defaultAuthPassProps.subtitle}</Text>
             );
         }
+        // If the subtitle is an actual component, render the component then. 
         if (React.isValidElement(defaultAuthPassProps.subtitle)) {
             return defaultAuthPassProps.subtitle;
         }
+        // Default case, we return essentially nothing. 
         return <></>;
     }
     return class ComponentBase extends React.Component<
-        AuthPageInjectedProps,
+        AuthPageProps,
         DefaultAuthPageState
     > {
         colors: BaseStyles.ColorTheme;
 
-        constructor(props: Readonly<AuthPageInjectedProps>) {
+        constructor(props: Readonly<AuthPageProps>) {
             super(props);
-            this.colors = typeof props.primaryColorTheme === 'undefined' ? BaseStyles.LightColorTheme : props.primaryColorTheme;
+            this.colors = isNullOrUndefined(props.primaryColorTheme) ? BaseStyles.LightColorTheme : props.primaryColorTheme;
             styles = setStyles(
                 defaultAuthPassProps.buttonColor,
                 this.colors,
             );
-            this.showError = this.showError.bind(this);
+
+            // Bind methods that are called outside of this class
             this.setThinButtonClick = this.setThinButtonClick.bind(this);
             this.setHighlightedClick = this.setHighlightedClick.bind(this);
             this.setErrorFlag = this.setErrorFlag.bind(this);
-            this.renderSignInButton = this.renderSignInButton.bind(this);
+
             this.state = initalState;
         }
 
+
+        /* ******** Methods that will be injected into the Wrapped Component ******* */
         setHighlightedClick(arg: () => void): void {
             this.setState({
                 clickHighlightedText: arg,
@@ -254,89 +307,84 @@ export function withAuthPage(
                 errorMessage: message,
             });
         }
+        /* ******** Methods that will be injected into the Wrapped Component ******* */
+
 
         showError() {
             const { error, errorMessage } = this.state;
             if (!error) {
                 return <></>;
             }
-            return <Text style={styles.errorText}>{errorMessage}</Text>;
-        }
-
-        renderContents() {
-          const {navigation, onChangeModalVisibility} = this.props;
-          const {clickHighlightedText} = this.state;
-            return (
-                <View style={styles.container}>
-                    {renderSubtitle()}
-                    {this.showError()}
-                    <WrappedComponent
-                        navigation={navigation}
-                        onChangeModalVisibility={onChangeModalVisibility}
-                        primaryColorTheme={this.colors}
-                        clickButton={this.setThinButtonClick}
-                        clickHighlightedText={this.setHighlightedClick}
-                        setErrorState={this.setErrorFlag}
-                    />
-                    {this.renderSignInButton()}
-                    <View style={styles.signUpSection}>
-                        <Text style={styles.standardText}>
-                            {defaultAuthPassProps.underButtonText}
-                            <Text
-                                style={{
-                                    color: this.colors.primary,
-                                }}
-                                onPress={clickHighlightedText}
-                            >
-                                {defaultAuthPassProps.highlightedText}
-                            </Text>
-                        </Text>
-                    </View>
-                </View>
-            );
-        }
-
-        renderCard() {
-            return (
-                <Card
-                    title={strings.title}
-                    titleStyle={styles.cardTitleStyle}
-                    titleContainerStyle={styles.cardTitleContainerStyle}
-                    containerStyle={styles.cardContainerStyle}
-                    wrapperStyle={styles.cardWrapperStyle}
-                >
-                    {this.renderContents()}
-                </Card>
-            );
-        }
-
-        renderScrollView() {
-            return (
-                <ScrollView
-                    style={styles.scrollStyle}
-                    contentContainerStyle={styles.scrollContentContainerStyle}
-                    directionalLockEnabled
-                    automaticallyAdjustContentInsets
-                >
-                    {this.renderCard()}
-                </ScrollView>
-            );
+            return <Text testID='auth-error' style={styles.errorText}>{errorMessage}</Text>;
         }
 
         renderSignInButton() {
             const { thinButtonStyle } = this.state;
+            const {name, onClick, containerStyle, buttonStyle, buttonTextStyle} = thinButtonStyle;
             return (
                 <View style={styles.submitSection}>
-                    {renderThinButton(thinButtonStyle)}
+                    <ThinButton
+                    name={name}
+                    onClick={onClick}
+                    containerStyle={containerStyle}
+                    buttonStyle={buttonStyle}
+                    buttonTextStyle={buttonTextStyle}/>
                 </View>
             );
         }
 
-        render() {
+        renderUnderButtonText() {
+            const {clickHighlightedText} = this.state;
             return (
-                <SafeAreaView style={styles.pallet}>
-                    {this.renderScrollView()}
-                </SafeAreaView>
+                <View style={styles.signUpSection}>
+                    <Text style={styles.standardText}>
+                        {defaultAuthPassProps.underButtonText}
+                        <Text
+                        style={{color: this.colors.primary}}
+                        onPress={clickHighlightedText}>
+                            {defaultAuthPassProps.highlightedText}
+                        </Text>
+                    </Text>
+                </View>
+            );
+        }
+
+        renderContents() {
+          const {onChangeModalVisibility} = this.props;
+          return (
+            <View style={styles.container}>
+                {renderSubtitle()}
+                {this.showError()}
+                <WrappedComponent
+                onChangeModalVisibility={onChangeModalVisibility}
+                clickButton={this.setThinButtonClick}
+                clickHighlightedText={this.setHighlightedClick}
+                setErrorState={this.setErrorFlag}/>
+                {this.renderSignInButton()}
+                {this.renderUnderButtonText()}
+            </View>);
+        }
+
+        render() {
+            const directionalLockEnabled = true; 
+            const automaticallyAdjustContentInsets = false;
+            return (
+                <View style={styles.pallet}>
+                    <ScrollView
+                    style={styles.scrollStyle}
+                    contentContainerStyle={styles.scrollContentContainerStyle}
+                    directionalLockEnabled={directionalLockEnabled}
+                    automaticallyAdjustContentInsets={automaticallyAdjustContentInsets}>
+                        <Card
+                        title={strings.title}
+                        titleStyle={styles.cardTitleStyle}
+                        titleContainerStyle={styles.cardTitleContainerStyle}
+                        containerStyle={styles.cardContainerStyle}
+                        wrapperStyle={styles.cardWrapperStyle}>
+                            {this.renderContents()}
+                        </Card>
+                    </ScrollView>
+                </View>
             );
         }
     };

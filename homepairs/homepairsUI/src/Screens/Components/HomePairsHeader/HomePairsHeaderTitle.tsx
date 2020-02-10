@@ -6,7 +6,7 @@ import {
 import React from 'react';
 import HomePairColors from 'homepairs-colors';
 import { HomePairFonts } from 'homepairs-fonts';
-import { DarkModeInjectedProps } from '../../WithDarkMode/WithDarkMode';
+import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 
 export type HomePairsHeaderTitleProps = DarkModeInjectedProps & {
     /**
