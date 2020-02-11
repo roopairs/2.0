@@ -219,10 +219,6 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         this.setState(initialState);
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 33656c170523c905ad4c6e3d24377a21abf845b6
     validateForms() {
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
         let check = true;
