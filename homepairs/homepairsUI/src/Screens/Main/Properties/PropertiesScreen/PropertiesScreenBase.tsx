@@ -34,9 +34,7 @@ export type PropertiesScreenProps = SceneInjectedProps & NavigationStackScreenPr
 export default class PropertiesScreenBase extends React.Component<PropertiesScreenProps> {
     constructor(props: Readonly<PropertiesScreenProps>) {
         super(props);
-        this.navigateToDetiailedProperty = this.navigateToDetiailedProperty.bind(
-            this,
-        );
+        this.navigateToDetiailedProperty = this.navigateToDetiailedProperty.bind(this);
     }
 
     navigateToDetiailedProperty(index: number) {

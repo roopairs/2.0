@@ -156,7 +156,7 @@ export default function ViewPropertyCard(props: ViewPropertyCardProps) {
      */
     function sendIndexToParent() {
         viewButtonSelectedCallBack(propertyIndex);
-    }
+    };
 
 
     function renderImageContent() {
@@ -176,7 +176,7 @@ export default function ViewPropertyCard(props: ViewPropertyCardProps) {
                 </View>
             </ImageBackground>
         );
-    }
+    };
 
     function renderThinButton() {
         return (
