@@ -5,7 +5,6 @@ import {
     View,
     TouchableWithoutFeedback,
     ScrollView,
-    ScrollViewProps,
     SafeAreaView,
     StyleSheet,
 } from 'react-native';
@@ -15,17 +14,20 @@ import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 import {isNullOrUndefined} from 'homepairs-utilities';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
-import { SceneHeaderProps, renderSceneHeader } from './SceneHeader';
+import SceneHeader from './SceneHeader';
 import { ModalInjectedProps } from '../Modals/WithModal/WithModal';
 
 type SceneDispatchProps = {
     onSetHeaderGoBackButton?: (isSet: boolean) => any;
     onCloseHeaderMenu?: () => any;
 };
-export type SceneInjectedProps = NavigationStackScreenProps<any, any> &
-    SceneDispatchProps &
-    DarkModeInjectedProps &
-    ModalInjectedProps;
+
+export type SceneInjectedProps = SceneDispatchProps 
+
+type Props = NavigationStackScreenProps<any, any> &
+SceneDispatchProps &
+DarkModeInjectedProps &
+ModalInjectedProps;
 type State = {
     showModal: boolean;
 };
@@ -61,21 +63,10 @@ function setStyle(colorTheme: BaseStyles.ColorTheme) {
 export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
     let styles: any;
 
-    function scrollViewProps(): ScrollViewProps {
-        return {
-            contentContainerStyle: styles.scrollViewContentContainer,
-            directionalLockEnabled: true,
-            automaticallyAdjustContentInsets: false,
-        };
-    }
-
-    const ReduxComponent = class ReduxComponentBase extends React.Component<
-        SceneInjectedProps,
-        State
-    > {
+    const ReduxComponent = class ReduxComponentBase extends React.Component<Props,State> {
         colorScheme: any;
 
-        constructor(props: Readonly<SceneInjectedProps>) {
+        constructor(props: Readonly<Props>) {
             super(props);
             this.colorScheme =
                 isNullOrUndefined(props.primaryColorTheme)
@@ -93,16 +84,6 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
                 : onChangeModalVisibility(true);
         }
 
-        sceneHeaderProps(): SceneHeaderProps & DarkModeInjectedProps {
-            const { primaryColorTheme } = this.props;
-            return {
-                title: Page.title,
-                buttonTitle: Page.button,
-                onButtonPress: this.onPressButton,
-                primaryColorTheme,
-            };
-        }
-
         renderTouchArea() {
             const { onCloseHeaderMenu } = this.props;
             return !(Platform.OS === 'web') ? (
@@ -118,35 +99,23 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
         }
 
         renderContents() {
-            const {
-                contentContainerStyle,
-                directionalLockEnabled,
-                automaticallyAdjustContentInsets,
-            } = scrollViewProps();
-            const {
-                navigation,
-                onSetHeaderGoBackButton,
-                onCloseHeaderMenu,
-                onChangeModalVisibility,
-                primaryColorTheme,
-            } = this.props;
+            const {onSetHeaderGoBackButton,onCloseHeaderMenu, primaryColorTheme} = this.props;
+            const directionalLockEnabled = true;
+            const automaticallyAdjustContentInsets = false;
             return (
                 <>
-                    {renderSceneHeader(this.sceneHeaderProps())}
+                    <SceneHeader
+                        title={Page.title}
+                        buttonTitle={Page.button}
+                        onButtonPress={this.onPressButton}
+                        primaryColorTheme={primaryColorTheme}/>
                     <ScrollView
-                        contentContainerStyle={contentContainerStyle}
+                        contentContainerStyle={styles.scrollViewContentContainer}
                         directionalLockEnabled={directionalLockEnabled}
-                        automaticallyAdjustContentInsets={
-                            automaticallyAdjustContentInsets
-                        }
-                    >
+                        automaticallyAdjustContentInsets={automaticallyAdjustContentInsets}>
                         <WrappedComponent
                             onSetHeaderGoBackButton={onSetHeaderGoBackButton}
-                            onCloseHeaderMenu={onCloseHeaderMenu}
-                            navigation={navigation}
-                            onChangeModalVisibility={onChangeModalVisibility}
-                            primaryColorTheme={primaryColorTheme}
-                        />
+                            onCloseHeaderMenu={onCloseHeaderMenu}/>
                     </ScrollView>
                 </>
             );

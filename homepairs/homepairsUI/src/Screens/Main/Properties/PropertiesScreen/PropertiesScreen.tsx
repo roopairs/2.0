@@ -43,4 +43,8 @@ const PropertiesScreen = connect(
     mapDispatchToProps,
 )(PropertiesScreenBase);
 
-export default withDarkMode(withModal(withNavigation(withSceneHeader(PropertiesScreen, sceneParams)), AddNewPropertyModal));
+const PropertiesScreenWithNavigation = withNavigation(PropertiesScreen);
+const PropertiesScreenWithHeader = withSceneHeader(PropertiesScreenWithNavigation, sceneParams);
+const PropertiesScreenWithModal = withModal(PropertiesScreenWithHeader, AddNewPropertyModal);
+
+export default PropertiesScreenWithModal;

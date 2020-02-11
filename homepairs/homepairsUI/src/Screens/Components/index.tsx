@@ -6,7 +6,7 @@
  * then export it.
  */
 import { AddressStickerProps as ASP } from "./AddressSticker/AddressSticker";
-import { SceneHeaderProps as SHP, renderSceneHeader } from './SceneHeader/SceneHeader';
+import { SceneHeaderProps as SHP} from './SceneHeader/SceneHeader';
 import { GeneralHomeInfoProps as GHIP } from "./GeneralHomeInfo/GeneralHomeInfo";
 import { AccountTypeRadioProps as ATRBP } from "./AccounttypeRadioButton/AccountTypeRadioButton";
 import { ViewPropertyCardProps as VPCP } from "./ViewPropertyCard/ViewPropertyCard";
@@ -72,7 +72,6 @@ export {
   withSceneHeader,
   withDarkMode,
   withModal,
-  renderSceneHeader,
   LoggingInModal,
   CreatingAccountModal,
   LoadingModal,

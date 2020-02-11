@@ -8,10 +8,7 @@ import {
     StatusBar,
     Dimensions,
 } from 'react-native';
-import {
-    ThinButtonProps,
-    Card,
-} from 'homepairs-elements';
+import {Card} from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import { HomePairFonts } from 'homepairs-fonts';
 import { HomePairsDimensions } from 'homepairs-types';
@@ -76,25 +73,36 @@ export type AuthPageInjectedProps = ModalInjectedProps & {
 
 type AuthPageProps = DarkModeInjectedProps & ModalInjectedProps
 
-type DefaultAuthPageState = {
-    username: String;
-    password: String;
-    modalVisible: boolean;
-    modalMessage: string;
+type AuthPageState = {
+    /**
+     * Indicates if an error message should be displayed by the card. This should be set to true
+     * if authorization fails. Do not set this for invalid input.
+     */
     error: boolean;
+
+    /**
+     * The error message to display on the card. This should be interpreted from error messages 
+     * recieved from the Homepairs API or if a 400/500 error occurs. 
+     */
     errorMessage: string;
-    thinButtonStyle: ThinButtonProps;
+
+    /**
+     * Callback function that is intended to get defined by the wrapped component. This will
+     * invoke a method when the thin button has been clicked.
+     */
+    clickThinButton:() => void;
+
+    /**
+     * Callback function that is intended to get defined by the wrapped component. This will
+     * invoke a method when the highlighted text underneath the button has been clicked.
+     */
     clickHighlightedText: () => void;
 };
 
-const initalState: DefaultAuthPageState = {
-    username: '',
-    password: '',
+const initalState: AuthPageState = {
     error: false,
     errorMessage: '',
-    modalVisible: false,
-    modalMessage: strings.signInPage.modal,
-    thinButtonStyle: {},
+    clickThinButton: () => {},
     clickHighlightedText: () => {},
 };
 
@@ -237,12 +245,9 @@ function setStyles(buttonColor: string, colorTheme: BaseStyles.ColorTheme = Base
  * for error presentation, clicking the highlighted text, clicking the button, and for 
  * toggling the visibility of the modal. Please refer to the AuthPassProps Type for information
  * regarding the data presented by this modal
- * @param {ReactElement} WrappedComponent 
+ * @param {React.ReactElement} WrappedComponent 
  * @param {AuthPassProps} defaultAuthPassProps  */
-export function withAuthPage(
-    WrappedComponent: any,
-    defaultAuthPassProps: AuthPassProps,
-) {
+export function withAuthPage(WrappedComponent: any,defaultAuthPassProps: AuthPassProps) {
     let styles: any = null;
 
     function renderSubtitle() {
@@ -254,15 +259,12 @@ export function withAuthPage(
         }
         // If the subtitle is an actual component, render the component then. 
         if (React.isValidElement(defaultAuthPassProps.subtitle)) {
-            return defaultAuthPassProps.subtitle;
+            return <View testID='auth-subtitle-element'>{defaultAuthPassProps.subtitle}</View>;
         }
         // Default case, we return essentially nothing. 
         return <></>;
     }
-    return class ComponentBase extends React.Component<
-        AuthPageProps,
-        DefaultAuthPageState
-    > {
+    return class ComponentBase extends React.Component<AuthPageProps,AuthPageState> {
         colors: BaseStyles.ColorTheme;
 
         constructor(props: Readonly<AuthPageProps>) {
@@ -291,13 +293,7 @@ export function withAuthPage(
 
         setThinButtonClick(arg: () => void): void {
             this.setState({
-                thinButtonStyle: {
-                    name: defaultAuthPassProps.button,
-                    onClick: arg,
-                    buttonStyle: styles.thinButton,
-                    buttonTextStyle: styles.thinButtonText,
-                    containerStyle: styles.thinButtonContainer,
-                },
+                clickThinButton: arg,
             });
         }
 
@@ -319,16 +315,15 @@ export function withAuthPage(
         }
 
         renderSignInButton() {
-            const { thinButtonStyle } = this.state;
-            const {name, onClick, containerStyle, buttonStyle, buttonTextStyle} = thinButtonStyle;
+            const { clickThinButton } = this.state;
             return (
                 <View style={styles.submitSection}>
                     <ThinButton
-                    name={name}
-                    onClick={onClick}
-                    containerStyle={containerStyle}
-                    buttonStyle={buttonStyle}
-                    buttonTextStyle={buttonTextStyle}/>
+                    name={defaultAuthPassProps.button}
+                    onClick={clickThinButton}
+                    containerStyle={styles.thinButtonContainer}
+                    buttonStyle={styles.thinButton}
+                    buttonTextStyle={styles.thinButtonText}/>
                 </View>
             );
         }

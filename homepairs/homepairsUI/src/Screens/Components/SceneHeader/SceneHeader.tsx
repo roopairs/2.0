@@ -5,8 +5,19 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 
 export type SceneHeaderProps = DarkModeInjectedProps & {
+    /**
+     * String that will be rendered at the top of the page 
+     */
     title: String;
+
+    /**
+     * Name of the button at the right side of the header 
+     */
     buttonTitle?: String;
+
+    /**
+     * Callback function for the button rendered
+     */
     onButtonPress?: (arg0?: any) => any;
 };
 
@@ -81,23 +92,5 @@ export default function SceneHeader(props: SceneHeaderProps) {
             <Text style={styles.pageTitle}>{title}</Text>
             {renderButton()}
         </View>
-    );
-}
-
-export function renderSceneHeader(sceneHeaderProps: SceneHeaderProps) {
-    const {
-        title,
-        buttonTitle,
-        onButtonPress,
-        primaryColorTheme,
-    } = sceneHeaderProps;
-
-    return (
-        <SceneHeader
-            title={title}
-            buttonTitle={buttonTitle}
-            onButtonPress={onButtonPress}
-            primaryColorTheme={primaryColorTheme}
-        />
     );
 }

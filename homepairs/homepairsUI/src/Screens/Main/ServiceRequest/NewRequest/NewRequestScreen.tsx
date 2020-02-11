@@ -30,4 +30,10 @@ const ServiceRequestScreen = connect(
     mapDispatchToProps,
 )(NewRequestScreenBase);
 
-export default withDarkMode(withNavigation(withSceneHeader(ServiceRequestScreen, sceneParam)));
+
+// Make sure the base also has Navigation Props, this is not passed down in withSceneHeader
+const ServiceRequestScreenWithNavigation = withNavigation(ServiceRequestScreen);
+
+// Now render the component with the SceneHeader. This way, if the child needs to the use the 
+// navigator, it is not reliant on the parent. 
+export default withNavigation(withSceneHeader(ServiceRequestScreenWithNavigation, sceneParam));

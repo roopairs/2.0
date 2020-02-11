@@ -20,7 +20,7 @@ const MainAppStack: Array<MainAppStackType> = [
         title: 'Properties',
         navigate: 'AccountProperties',
         key: 'Properties',
-        button: 'Add Property',
+        button: 'Add Property',          
         onButtonClick: () => {
             return true;
         },
@@ -55,7 +55,6 @@ const PropertyManagerAcount: LandlordAccount = {
     firstName: 'Darrel',
     lastName: 'Williams',
     email: 'dWilliams@SpeechGrammarList.com',
-    phone: '51059344423',
     streetAddress: '21 Macalister Drive',
     city: 'Oakland',
     roopairsToken: '',

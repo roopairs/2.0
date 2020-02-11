@@ -18,8 +18,7 @@ export type AccountScreenDispatchProps = {
     onConnectRoopairsAccount: () => void;
     onDisconnectRoopairsAccount: () => void;
 };
-type Props = SceneInjectedProps &
-    AccountScreenStateProps &
+type Props = AccountScreenStateProps &
     AccountScreenDispatchProps &
     DarkModeInjectedProps;
 
