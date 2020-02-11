@@ -28,6 +28,7 @@ type Props = NavigationStackScreenProps<any, any> &
 SceneDispatchProps &
 DarkModeInjectedProps &
 ModalInjectedProps;
+
 type State = {
     showModal: boolean;
 };
@@ -77,6 +78,9 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
             this.onPressButton = this.onPressButton.bind(this);
         }
 
+        // Based on the passed input, this invokes the change modal visibility for this 
+        // HOC or it passes in the neccessary properties of this component to allow for 
+        // navigation. NOTE: REMEMBER TO CALL withNavigation if a navigator is to be used. 
         onPressButton() {
             const { onChangeModalVisibility } = this.props;
             return Page.doesButtonUseNavigate

@@ -4,7 +4,6 @@ import { NavigationStackScreenProps } from 'react-navigation-stack';
 import {
     ViewPropertyCard,
     SceneInjectedProps,
-    DarkModeInjectedProps,
 } from 'homepairs-components';
 
 export type PropertiesScreenStateProps = {
@@ -19,9 +18,19 @@ export type PropertiesScreenDispatchProps = {
 
 export type PropertiesScreenProps = SceneInjectedProps & NavigationStackScreenProps &
     PropertiesScreenStateProps &
-    PropertiesScreenDispatchProps &
-    DarkModeInjectedProps & { store: any };
+    PropertiesScreenDispatchProps 
 
+/**
+ * ---------------------------------------------------
+ * Properties Screen Base
+ * ---------------------------------------------------
+ * A component that renders a list of selectable cards that will navigate the user to 
+ * details about a specified property. This component is intended to be connected with 
+ * the Navigator, Homepairs Redux Store, and is intened to be wrapped with a withSceneHeader
+ * High Order Component.
+ * Child Components: 
+ *  -ViewPropertyCard
+ */
 export default class PropertiesScreenBase extends React.Component<PropertiesScreenProps> {
     constructor(props: Readonly<PropertiesScreenProps>) {
         super(props);

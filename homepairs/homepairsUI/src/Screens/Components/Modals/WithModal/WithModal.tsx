@@ -5,7 +5,7 @@ import {
     StyleSheet,
     Dimensions,
 } from 'react-native';
-import React, { Component } from 'react';
+import React from 'react';
 import WebModal from 'modal-enhanced-react-native-web';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions } from 'src/state/types';
@@ -17,6 +17,10 @@ type State = {
 };
 
 export type ModalInjectedProps = {
+    /**
+     * A callback function that changes the visibility of the modal. By default, the visiblity
+     * will be set to false if not parameter is passed in.
+     */
     onChangeModalVisibility: (isVisible?: boolean) => void;
 };
 
@@ -40,6 +44,12 @@ function setStyle() {
             backgroundColor: '#00000080',
             height,
             width,
+        },
+        contentPallet: {
+            width: HomePairsDimensions.MAX_PALLET, 
+            flex: 1, 
+            justifyContent:'center', 
+            alignSelf:'center',
         },
         scrollContainer: {
             flex: 1,
@@ -75,7 +85,7 @@ function setStyle() {
  *  
  */
 export function withModal(BaseComponent: React.ElementType, ModalComponent: React.ElementType) {
-    return class extends Component<Props, State> {
+    return class extends React.Component<Props, State> {
         constructor(props: Readonly<Props>) {
             super(props);
             this.state = {
@@ -118,11 +128,10 @@ export function withModal(BaseComponent: React.ElementType, ModalComponent: Reac
                 <View style={styles.container}>
                     <Modal animationType="fade" transparent visible={isVisible}>
                         <View style={styles.modalPallet}>
-                            <ModalComponent
-                                onChangeModalVisibility={
-                                    this.onChangeModalVisibility
-                                }
-                            />
+                            <View style={styles.contentPallet}>
+                                <ModalComponent
+                                    onChangeModalVisibility={this.onChangeModalVisibility}/>
+                            </View>
                         </View>
                     </Modal>
                     <BaseComponent

@@ -11,7 +11,6 @@ import {
     ServiceState,
     PropertyListState,
 } from 'homepairs-types';
-import { properties } from '../../src/state/property-list/reducer';
 
 const middleWares = [thunk];
 const mockStore = configureMockStore(middleWares);
