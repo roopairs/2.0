@@ -2,20 +2,16 @@
 # Imports
 import json
 import random
-
 import psycopg2
 import requests
 from django.conf import settings
 from django.test import TestCase
-
 from .views import ERROR, FAIL, INCORRECT_FIELDS, STATUS, SUCCESS
-
 
 ################################################################################
 # Vars
 
 globUrl = settings.TEST_URL
-
 # EXTRA URLS
 LOGIN_URL = 'login/'
 PM_REG_URL = 'register/pm/'
@@ -23,20 +19,22 @@ PM_REG_URL = 'register/pm/'
 ################################################################################
 # Helper Functions
 
+
 def setUpHelper():
     email = 'adamkberard@gmail.com'
     password = 'pass4testing'
     data = {'email': email, 'password': password}
     url = globUrl + 'setUpTests/'
     requests.post(url, json=data)
- 
+
+
 def tearDownHelper():
     email = 'adamkberard@gmail.com'
     password = 'pass4testing'
     data = {'email': email, 'password': password}
     url = globUrl + 'tearDownTests/'
     requests.post(url, json=data)
- 
+
 ################################################################################
 # Tests
  
@@ -49,7 +47,7 @@ class PMRegistration(TestCase):
     @classmethod
     def tearDownClass(self):
         setUpHelper()
- 
+
     # Everything is correct
     def test_pm_allCorrect(self):
         randEmail = "fakeEmail{0}@gmail.com".format(str(random.randint(0, 10000000)))
@@ -69,7 +67,7 @@ class PMRegistration(TestCase):
         self.assertEqual(pm.get('firstName'), randName)
         self.assertEqual(pm.get('lastName'), 'Ugly Boi')
         self.assertEqual(pm.get('email'), randEmail)
- 
+
     # PM Missing fields
     def test_pm_missing_firstName(self):
         data = {
@@ -82,7 +80,7 @@ class PMRegistration(TestCase):
         info = json.loads(x.text)
         self.assertEqual(info.get(STATUS), FAIL)
         self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": firstName")
- 
+
     def test_pm_missing_lastName(self):
         randEmail = "fakeEmail.@gmail.com"
         randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
@@ -96,7 +94,7 @@ class PMRegistration(TestCase):
         info = json.loads(x.text)
         self.assertEqual(info.get(STATUS), FAIL)
         self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": lastName")
- 
+
     def test_pm_missing_email(self):
         randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
         data = {
@@ -109,7 +107,7 @@ class PMRegistration(TestCase):
         info = json.loads(x.text)
         self.assertEqual(info.get(STATUS), FAIL)
         self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": email")
- 
+
     def test_pm_missing_password(self):
         randEmail = "fakeEmail.@gmail.com"
         randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
@@ -123,8 +121,8 @@ class PMRegistration(TestCase):
         info = json.loads(x.text)
         self.assertEqual(info.get(STATUS), FAIL)
         self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": password")
- 
- 
+
+
 # Property Manager Login Tests with Roopairs
 class PMRegistrationRoopairs(TestCase):
     def setUp(self):
@@ -134,22 +132,22 @@ class PMRegistrationRoopairs(TestCase):
     @classmethod
     def tearDownClass(self):
         setUpHelper()
- 
+
     # Everything is correct
     #def test_pm_allCorrect(self):
     #   pmEmail = "testForRoopairsRegistration@gmail.com"
     #   pmPass = "pass4test"
     #   pmFirstName = 'Test'
     #   pmLastName = 'RooRegistration'
- 
+
     #   data = {
     #             'email': pmEmail,
     #             'password': pmPass,
     #          }
- 
+
     #   url = globUrl + LOGIN_URL
     #   x = requests.post(url, json=data)
- 
+
     #   info = json.loads(x.text)
     #   print(":LDSKFJ")
     #   print(x.text)
@@ -158,54 +156,46 @@ class PMRegistrationRoopairs(TestCase):
     #   self.assertEqual(pm.get('firstName'), pmFirstName)
     #   self.assertEqual(pm.get('lastName'), pmLastName)
     #   self.assertEqual(pm.get('email'), pmEmail)
- 
+
     def test_pm_noEmail(self):
-        pmPass = "pass4test"
-        pmFirstName = 'Test'
-        pmLastName = 'RooRegistration'
- 
         data = {
                   'password': 'pass4test',
                }
- 
+
         url = globUrl + LOGIN_URL
         x = requests.post(url, json=data)
- 
+
         info = json.loads(x.text)
         self.assertEqual(info.get(STATUS), FAIL)
         self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": email")
- 
+
     def test_pm_noPass(self):
-        pmEmail = "testForRoopairsRegistration@gmail.com"
-        pmFirstName = 'Test'
-        pmLastName = 'RooRegistration'
- 
         data = {
-                  'email': pmEmail,
+                  'email': 'test@gmail.com'
                }
- 
+
         url = globUrl + LOGIN_URL
         x = requests.post(url, json=data)
- 
+
         info = json.loads(x.text)
         self.assertEqual(info.get(STATUS), FAIL)
         self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": password")
- 
+
     # They already have properties
     def test_pm_allCorrectPlusProps(self):
         pmEmail = "syncCheckRegister@gmail.com"
         pmPass = "nisbyb-sidvUz-6qonve"
         pmFirstName = 'Sync'
         pmLastName = 'CheckRegister'
- 
+
         data = {
                   'email': pmEmail,
                   'password': pmPass,
                }
- 
+
         url = globUrl + LOGIN_URL
         x = requests.post(url, json=data)
- 
+
         info = json.loads(x.text)
         self.assertEqual(info.get(STATUS), SUCCESS)
         pm = info.get('pm')
