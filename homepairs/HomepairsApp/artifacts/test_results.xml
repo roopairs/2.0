@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-	<testsuite errors="1" failures="0" file="API/test_PropertyCRUD.py" name="API.test_PropertyCRUD.UpdateProperty-20200211234451" skipped="0" tests="5" time="0.012" timestamp="2020-02-11T23:44:53">
-		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="342" name="test_create_property_bad_field_bath" time="0.002" timestamp="2020-02-11T23:44:53">
+	<testsuite errors="1" failures="0" file="API/test_PropertyCRUD.py" name="API.test_PropertyCRUD.UpdateProperty-20200212015707" skipped="0" tests="5" time="0.011" timestamp="2020-02-12T01:57:08">
+		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="342" name="test_create_property_bad_field_bath" time="0.002" timestamp="2020-02-12T01:57:08">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="322" name="test_create_property_bad_field_city" time="0.002" timestamp="2020-02-11T23:44:53">
+		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="322" name="test_create_property_bad_field_city" time="0.001" timestamp="2020-02-12T01:57:08">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="363" name="test_create_property_bad_field_mult" time="0.001" timestamp="2020-02-11T23:44:53">
+		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="363" name="test_create_property_bad_field_mult" time="0.001" timestamp="2020-02-12T01:57:08">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="302" name="test_create_property_bad_field_street" time="0.002" timestamp="2020-02-11T23:44:53">
+		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="302" name="test_create_property_bad_field_street" time="0.001" timestamp="2020-02-12T01:57:08">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="230" name="test_update_property_allCorrect" time="0.006" timestamp="2020-02-11T23:44:53">
+		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="230" name="test_update_property_allCorrect" time="0.005" timestamp="2020-02-12T01:57:08">
 			<error message="name 'x' is not defined" type="NameError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -42,38 +42,38 @@ NameError: name 'x' is not defined
 <![CDATA[]]>			</system-err>
 		</testcase>
 	</testsuite>
-	<testsuite errors="1" failures="0" file="API/test_PropertyCRUD.py" name="API.test_PropertyCRUD.CreateProperty-20200211234451" skipped="0" tests="6" time="0.013" timestamp="2020-02-11T23:44:57">
-		<testcase classname="API.test_PropertyCRUD.CreateProperty" file="API/test_PropertyCRUD.py" line="64" name="test_create_property_allCorrect" time="0.004" timestamp="2020-02-11T23:44:57">
+	<testsuite errors="1" failures="0" file="API/test_PropertyCRUD.py" name="API.test_PropertyCRUD.CreateProperty-20200212015707" skipped="0" tests="6" time="0.012" timestamp="2020-02-12T01:57:11">
+		<testcase classname="API.test_PropertyCRUD.CreateProperty" file="API/test_PropertyCRUD.py" line="64" name="test_create_property_allCorrect" time="0.004" timestamp="2020-02-12T01:57:11">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyCRUD.CreateProperty" file="API/test_PropertyCRUD.py" line="188" name="test_create_property_bad_field_bath" time="0.001" timestamp="2020-02-11T23:44:57">
+		<testcase classname="API.test_PropertyCRUD.CreateProperty" file="API/test_PropertyCRUD.py" line="188" name="test_create_property_bad_field_bath" time="0.001" timestamp="2020-02-12T01:57:11">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyCRUD.CreateProperty" file="API/test_PropertyCRUD.py" line="171" name="test_create_property_bad_field_city" time="0.001" timestamp="2020-02-11T23:44:57">
+		<testcase classname="API.test_PropertyCRUD.CreateProperty" file="API/test_PropertyCRUD.py" line="171" name="test_create_property_bad_field_city" time="0.001" timestamp="2020-02-12T01:57:11">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyCRUD.CreateProperty" file="API/test_PropertyCRUD.py" line="206" name="test_create_property_bad_field_mult" time="0.001" timestamp="2020-02-11T23:44:57">
+		<testcase classname="API.test_PropertyCRUD.CreateProperty" file="API/test_PropertyCRUD.py" line="206" name="test_create_property_bad_field_mult" time="0.001" timestamp="2020-02-12T01:57:11">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyCRUD.CreateProperty" file="API/test_PropertyCRUD.py" line="154" name="test_create_property_bad_field_street" time="0.001" timestamp="2020-02-11T23:44:57">
+		<testcase classname="API.test_PropertyCRUD.CreateProperty" file="API/test_PropertyCRUD.py" line="154" name="test_create_property_bad_field_street" time="0.001" timestamp="2020-02-12T01:57:11">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyCRUD.CreateProperty" file="API/test_PropertyCRUD.py" line="119" name="test_create_property_duplicate" time="0.003" timestamp="2020-02-11T23:44:57">
+		<testcase classname="API.test_PropertyCRUD.CreateProperty" file="API/test_PropertyCRUD.py" line="119" name="test_create_property_duplicate" time="0.003" timestamp="2020-02-12T01:57:11">
 			<error message="name 'HTTP_STATUS_OK' is not defined" type="NameError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -90,8 +90,8 @@ NameError: name 'HTTP_STATUS_OK' is not defined
 <![CDATA[]]>			</system-err>
 		</testcase>
 	</testsuite>
-	<testsuite errors="4" failures="0" file="API/test_PropertyManagerRegistration.py" name="API.test_PropertyManagerRegistration.PMRegistrationRoopairs-20200211234451" skipped="0" tests="4" time="0.040" timestamp="2020-02-11T23:44:52">
-		<testcase classname="API.test_PropertyManagerRegistration.PMRegistrationRoopairs" file="API/test_PropertyManagerRegistration.py" line="195" name="test_pm_allCorrectPlusProps" time="0.036" timestamp="2020-02-11T23:44:52">
+	<testsuite errors="4" failures="0" file="API/test_PropertyManagerRegistration.py" name="API.test_PropertyManagerRegistration.PMRegistrationRoopairs-20200212015707" skipped="0" tests="4" time="0.034" timestamp="2020-02-12T01:57:08">
+		<testcase classname="API.test_PropertyManagerRegistration.PMRegistrationRoopairs" file="API/test_PropertyManagerRegistration.py" line="195" name="test_pm_allCorrectPlusProps" time="0.031" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -119,7 +119,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyManagerRegistration.PMRegistrationRoopairs" file="API/test_PropertyManagerRegistration.py" line="162" name="test_pm_noEmail" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_PropertyManagerRegistration.PMRegistrationRoopairs" file="API/test_PropertyManagerRegistration.py" line="162" name="test_pm_noEmail" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -147,7 +147,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyManagerRegistration.PMRegistrationRoopairs" file="API/test_PropertyManagerRegistration.py" line="178" name="test_pm_noPass" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_PropertyManagerRegistration.PMRegistrationRoopairs" file="API/test_PropertyManagerRegistration.py" line="178" name="test_pm_noPass" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -202,8 +202,8 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 <![CDATA[]]>			</system-err>
 		</testcase>
 	</testsuite>
-	<testsuite errors="6" failures="0" file="API/test_PropertyManagerRegistration.py" name="API.test_PropertyManagerRegistration.PMRegistration-20200211234451" skipped="0" tests="6" time="0.014" timestamp="2020-02-11T23:44:52">
-		<testcase classname="API.test_PropertyManagerRegistration.PMRegistration" file="API/test_PropertyManagerRegistration.py" line="54" name="test_pm_allCorrect" time="0.007" timestamp="2020-02-11T23:44:52">
+	<testsuite errors="6" failures="0" file="API/test_PropertyManagerRegistration.py" name="API.test_PropertyManagerRegistration.PMRegistration-20200212015707" skipped="0" tests="6" time="0.018" timestamp="2020-02-12T01:57:08">
+		<testcase classname="API.test_PropertyManagerRegistration.PMRegistration" file="API/test_PropertyManagerRegistration.py" line="54" name="test_pm_allCorrect" time="0.010" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -231,7 +231,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyManagerRegistration.PMRegistration" file="API/test_PropertyManagerRegistration.py" line="100" name="test_pm_missing_email" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_PropertyManagerRegistration.PMRegistration" file="API/test_PropertyManagerRegistration.py" line="100" name="test_pm_missing_email" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -259,7 +259,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyManagerRegistration.PMRegistration" file="API/test_PropertyManagerRegistration.py" line="74" name="test_pm_missing_firstName" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_PropertyManagerRegistration.PMRegistration" file="API/test_PropertyManagerRegistration.py" line="74" name="test_pm_missing_firstName" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -287,7 +287,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyManagerRegistration.PMRegistration" file="API/test_PropertyManagerRegistration.py" line="86" name="test_pm_missing_lastName" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_PropertyManagerRegistration.PMRegistration" file="API/test_PropertyManagerRegistration.py" line="86" name="test_pm_missing_lastName" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -315,7 +315,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyManagerRegistration.PMRegistration" file="API/test_PropertyManagerRegistration.py" line="113" name="test_pm_missing_password" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_PropertyManagerRegistration.PMRegistration" file="API/test_PropertyManagerRegistration.py" line="113" name="test_pm_missing_password" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -370,8 +370,8 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 <![CDATA[]]>			</system-err>
 		</testcase>
 	</testsuite>
-	<testsuite errors="6" failures="0" file="API/test_tenantRegistration.py" name="API.test_tenantRegistration.TenantRegistration-20200211234451" skipped="0" tests="6" time="0.010" timestamp="2020-02-11T23:44:52">
-		<testcase classname="API.test_tenantRegistration.TenantRegistration" file="API/test_tenantRegistration.py" line="111" name="test_tenant_Email" time="0.002" timestamp="2020-02-11T23:44:52">
+	<testsuite errors="6" failures="0" file="API/test_tenantRegistration.py" name="API.test_tenantRegistration.TenantRegistration-20200212015707" skipped="0" tests="6" time="0.010" timestamp="2020-02-12T01:57:08">
+		<testcase classname="API.test_tenantRegistration.TenantRegistration" file="API/test_tenantRegistration.py" line="111" name="test_tenant_Email" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -399,7 +399,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_tenantRegistration.TenantRegistration" file="API/test_tenantRegistration.py" line="56" name="test_tenant_allCorrect" time="0.003" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_tenantRegistration.TenantRegistration" file="API/test_tenantRegistration.py" line="56" name="test_tenant_allCorrect" time="0.003" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -427,7 +427,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_tenantRegistration.TenantRegistration" file="API/test_tenantRegistration.py" line="96" name="test_tenant_noFirstName" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_tenantRegistration.TenantRegistration" file="API/test_tenantRegistration.py" line="96" name="test_tenant_noFirstName" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -455,7 +455,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_tenantRegistration.TenantRegistration" file="API/test_tenantRegistration.py" line="81" name="test_tenant_noLastName" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_tenantRegistration.TenantRegistration" file="API/test_tenantRegistration.py" line="81" name="test_tenant_noLastName" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -483,7 +483,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_tenantRegistration.TenantRegistration" file="API/test_tenantRegistration.py" line="126" name="test_tenant_noPassword" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_tenantRegistration.TenantRegistration" file="API/test_tenantRegistration.py" line="126" name="test_tenant_noPassword" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -538,8 +538,8 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 <![CDATA[]]>			</system-err>
 		</testcase>
 	</testsuite>
-	<testsuite errors="8" failures="0" file="API/test_tenantLogin.py" name="API.test_tenantLogin.TenantLogin-20200211234451" skipped="0" tests="8" time="0.014" timestamp="2020-02-11T23:44:52">
-		<testcase classname="API.test_tenantLogin.TenantLogin" file="API/test_tenantLogin.py" line="57" name="test_tenant_allCorrect" time="0.005" timestamp="2020-02-11T23:44:52">
+	<testsuite errors="8" failures="0" file="API/test_tenantLogin.py" name="API.test_tenantLogin.TenantLogin-20200212015707" skipped="0" tests="8" time="0.014" timestamp="2020-02-12T01:57:08">
+		<testcase classname="API.test_tenantLogin.TenantLogin" file="API/test_tenantLogin.py" line="57" name="test_tenant_allCorrect" time="0.005" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -567,7 +567,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_tenantLogin.TenantLogin" file="API/test_tenantLogin.py" line="87" name="test_tenant_incorrectEmail" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_tenantLogin.TenantLogin" file="API/test_tenantLogin.py" line="87" name="test_tenant_incorrectEmail" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -595,7 +595,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_tenantLogin.TenantLogin" file="API/test_tenantLogin.py" line="114" name="test_tenant_incorrectEmailField" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_tenantLogin.TenantLogin" file="API/test_tenantLogin.py" line="114" name="test_tenant_incorrectEmailField" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -623,7 +623,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_tenantLogin.TenantLogin" file="API/test_tenantLogin.py" line="132" name="test_tenant_incorrectFields" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_tenantLogin.TenantLogin" file="API/test_tenantLogin.py" line="132" name="test_tenant_incorrectFields" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -651,7 +651,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_tenantLogin.TenantLogin" file="API/test_tenantLogin.py" line="96" name="test_tenant_incorrectPass" time="0.001" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_tenantLogin.TenantLogin" file="API/test_tenantLogin.py" line="96" name="test_tenant_incorrectPass" time="0.001" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -679,7 +679,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_tenantLogin.TenantLogin" file="API/test_tenantLogin.py" line="105" name="test_tenant_incorrectPassAndEmail" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_tenantLogin.TenantLogin" file="API/test_tenantLogin.py" line="105" name="test_tenant_incorrectPassAndEmail" time="0.001" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -707,7 +707,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_tenantLogin.TenantLogin" file="API/test_tenantLogin.py" line="123" name="test_tenant_incorrectPassField" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_tenantLogin.TenantLogin" file="API/test_tenantLogin.py" line="123" name="test_tenant_incorrectPassField" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -762,8 +762,8 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 <![CDATA[]]>			</system-err>
 		</testcase>
 	</testsuite>
-	<testsuite errors="10" failures="0" file="API/test_PropertyManagerLogin.py" name="API.test_PropertyManagerLogin.PropertyManagerLogin-20200211234451" skipped="0" tests="10" time="0.017" timestamp="2020-02-11T23:44:52">
-		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="51" name="test_pm_allCorrect" time="0.002" timestamp="2020-02-11T23:44:52">
+	<testsuite errors="10" failures="0" file="API/test_PropertyManagerLogin.py" name="API.test_PropertyManagerLogin.PropertyManagerLogin-20200212015707" skipped="0" tests="10" time="0.017" timestamp="2020-02-12T01:57:08">
+		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="51" name="test_pm_allCorrect" time="0.003" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -791,7 +791,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="91" name="test_pm_incorrectEmailField" time="0.001" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="91" name="test_pm_incorrectEmailField" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -819,7 +819,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="109" name="test_pm_incorrectFields" time="0.001" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="109" name="test_pm_incorrectFields" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -847,7 +847,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="100" name="test_pm_incorrectPassField" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="100" name="test_pm_incorrectPassField" time="0.001" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -875,7 +875,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="118" name="test_pm_propOnRoopairs" time="0.003" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="118" name="test_pm_propOnRoopairs" time="0.003" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -903,7 +903,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="139" name="test_pm_propOnRoopairsXFour" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="139" name="test_pm_propOnRoopairsXFour" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -931,7 +931,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="64" name="test_pm_wrongEmail" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="64" name="test_pm_wrongEmail" time="0.001" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -959,7 +959,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="73" name="test_pm_wrongPass" time="0.002" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="73" name="test_pm_wrongPass" time="0.001" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
@@ -987,7 +987,7 @@ requests.exceptions.ConnectionError: None: Max retries exceeded with url: /API/s
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="82" name="test_pm_wrongPassAndEmail" time="0.001" timestamp="2020-02-11T23:44:52">
+		<testcase classname="API.test_PropertyManagerLogin.PropertyManagerLogin" file="API/test_PropertyManagerLogin.py" line="82" name="test_pm_wrongPassAndEmail" time="0.002" timestamp="2020-02-12T01:57:08">
 			<error message="None: Max retries exceeded with url: /API/setUpTests/ (Caused by None)" type="ConnectionError">
 <![CDATA[Traceback (most recent call last):
   File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
