@@ -404,19 +404,20 @@ def updateProperty(request):
                     theProperty.save()
                     return Response(data={STATUS: SUCCESS})
                 else:
-                   return Response(data=returnError(NOT_PROP_OWNER))
+                    return Response(data=returnError(NOT_PROP_OWNER))
             else:
-              return Response(data=returnError(PROPERTY_SQUISH))
+                return Response(data=returnError(PROPERTY_SQUISH))
         else:
-          return Response(data=returnError(PROPERTY_DOESNT_EXIST))
+            return Response(data=returnError(PROPERTY_DOESNT_EXIST))
     else:
-       return Response(data=missingError(missingFields))
- 
+        return Response(data=missingError(missingFields))
+
+
 @api_view(['GET', 'POST'])
 def viewProperty(request):
     required = ['streetAddress', 'city', 'state', 'pm']
     missingFields = checkRequired(required, request)
- 
+
     if(len(missingFields) == 0):
         streetAddress = request.data.get('streetAddress')
         city = request.data.get('city')
@@ -426,20 +427,21 @@ def viewProperty(request):
         return Response(data=prop)
     else:
         return Response(data=missingError(missingFields))
- 
+
 ################################################################################
 # Setup/Tear Down Methods
 #
- 
+
+
 @api_view(['GET', 'POST'])
 def setUpTests(request):
     required = ['email', 'password']
     missingFields = checkRequired(required, request)
- 
+
     if(len(missingFields) == 0):
         inEmail = request.data.get('email')
         inPass = request.data.get('password')
-        if(inEmail=='adamkberard@gmail.com' and inPass == 'pass4testing'):
+        if(inEmail == 'adamkberard@gmail.com' and inPass == 'pass4testing'):
             PropertyManager.objects.all().delete()
             Property.objects.all().delete()
             Tenant.objects.all().delete()
@@ -470,21 +472,21 @@ def setUpTests(request):
             tempProperty1.save()
             tempProperty2.save()
             tempTenant.save()
- 
+
         return Response()
     else:
         return Response(data=missingError(missingFields))
-       
- 
+
+
 @api_view(['GET', 'POST'])
 def tearDownTests(request):
     required = ['email', 'password']
     missingFields = checkRequired(required, request)
- 
+
     if(len(missingFields) == 0):
         inEmail = request.data.get('email')
         inPass = request.data.get('password')
-        if(inEmail=='adamkberard@gmail.com' and inPass == 'pass4testing'):
+        if(inEmail == 'adamkberard@gmail.com' and inPass == 'pass4testing'):
             PropertyManager.objects.all().delete()
             Property.objects.all().delete()
             Tenant.objects.all().delete()
