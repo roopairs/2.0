@@ -1,16 +1,19 @@
 ################################################################################
 # Imports
-from django.test import TestCase
-from django.conf import settings
-import psycopg2
-import requests
 import json
 import random
-from .views import INCORRECT_FIELDS, MULTIPLE_ACCOUNTS, STATUS
-from .views import SUCCESS, FAIL, ERROR, ROOPAIR_ACCOUNT_CREATION_FAILED
-from .views import HOMEPAIRS_ACCOUNT_CREATION_FAILED, TOO_MANY_PROPERTIES
-from .views import INVALID_PROPERTY, NON_FIELD_ERRORS, TOKEN, RESIDENTIAL_CODE
-from .views import INCORRECT_CREDENTIALS
+
+import psycopg2
+import requests
+from django.conf import settings
+from django.test import TestCase
+
+from .views import (
+    ERROR, FAIL, HOMEPAIRS_ACCOUNT_CREATION_FAILED, INCORRECT_CREDENTIALS, INCORRECT_FIELDS,
+    INVALID_PROPERTY, MULTIPLE_ACCOUNTS, NON_FIELD_ERRORS, RESIDENTIAL_CODE,
+    ROOPAIR_ACCOUNT_CREATION_FAILED, STATUS, SUCCESS, TOKEN, TOO_MANY_PROPERTIES
+)
+
 
 ################################################################################
 # Vars
@@ -133,4 +136,3 @@ class TenantLogin(TestCase):
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
       self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": email password")
-

@@ -1,9 +1,12 @@
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework.authentication import TokenAuthentication
-from .models import PropertyManager, Tenant, Property
-import requests
 import json
+
+import requests
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from .models import Property, PropertyManager, Tenant
+
 
 ################################################################################
 # CONSTANTS
@@ -22,7 +25,7 @@ PROPERTY_SQUISH = 'This address and city are associated with more than one prope
 INVALID_PROPERTY = 'Invalid property'
 PROPERTY_ALREADY_EXISTS = 'Property given already exists'
 NON_FIELD_ERRORS = 'non_field_errors'
-PROPERTY_DOESNT_EXIST = 'Property does not exists.'
+PROPERTY_DOESNT_EXIST = 'Property does not exist.'
 NOT_PROP_OWNER = 'You are not the property owner'
 TOKEN = 'token'
 RESIDENTIAL_CODE = 1
@@ -31,7 +34,7 @@ INCORRECT_CREDENTIALS = ['Unable to log in with provided credentials.']
 BASE_URL = 'https://capstone.api.roopairs.com/v0/'
 
 ################################################################################
-# Functions
+# Helper Functions
 #
 
 def checkRequired(required, request):
@@ -44,6 +47,16 @@ def checkRequired(required, request):
 
 def returnError(error):
    return {STATUS: FAIL, ERROR: error}
+
+def missingError(missingFields):
+   finalErrorString = INCORRECT_FIELDS + ": "
+   for field in missingFields:
+      finalErrorString += field + " "
+   return returnError(finalErrorString.strip())
+
+################################################################################
+# Getter Functions
+#
 
 def getPropertyManager(email):
    # Gets the list of propety managers with that email
@@ -94,6 +107,10 @@ def getProperty(email, streetAddress, city, state):
       return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
     return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
 
+################################################################################
+# Adding Functions
+#
+
 def addNewProperties(email, token):
    # This is for requesting properties from them
    url = BASE_URL + "service-locations/"
@@ -127,6 +144,11 @@ def addNewProperties(email, token):
                          maxTenants=1,
                          pm = tempPM)
          prop.save()
+   
+
+################################################################################
+# Login Helpers
+#
 
 def pmLogin(email, password):
    url = BASE_URL + 'auth/login/'
@@ -166,12 +188,6 @@ def pmLogin(email, password):
 
 def tenantLogin(email, password):
    return getTenant(email, password)
-
-def missingError(missingFields):
-   finalErrorString = INCORRECT_FIELDS + ": "
-   for field in missingFields:
-      finalErrorString += field + " "
-   return returnError(finalErrorString.strip())
 
 ################################################################################
 # Views / API Endpoints
@@ -358,7 +374,7 @@ def createProperty(request):
 
 @api_view(['GET', 'POST'])
 def updateProperty(request):
-   required = ['streetAddress', 'city', 'state', 'pm', 'numBed', 'numBath', 'maxTenants', 'oldStreetAddress', 'oldCity']
+   required = ['streetAddress', 'city', 'state', 'pm', 'numBed', 'numBath', 'maxTenants', 'oldStreetAddress', 'oldCity', 'token']
    missingFields = checkRequired(required, request)
 
    if(len(missingFields) == 0):
@@ -410,6 +426,10 @@ def viewProperty(request):
       return Response(data=prop)
    else:
       return Response(data=missingError(missingFields))
+
+################################################################################
+# Setup/Tear Down Methods
+#
 
 @api_view(['GET', 'POST'])
 def setUpTests(request):

@@ -1,12 +1,15 @@
 ################################################################################
 # Imports
-from django.test import TestCase
-from django.conf import settings
-import psycopg2
-import requests
 import json
 import random
-from .views import INCORRECT_FIELDS, STATUS, SUCCESS, FAIL, ERROR
+
+import psycopg2
+import requests
+from django.conf import settings
+from django.test import TestCase
+
+from .views import ERROR, FAIL, INCORRECT_FIELDS, STATUS, SUCCESS
+
 
 ################################################################################
 # Vars

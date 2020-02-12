@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import sys
+
 import dj_database_url
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -146,3 +148,6 @@ DATABASES['default'].update(prod_db)
 # It did. I am a genius for doing very basic programming things
 TEST_URL = 'https://homepairs-alpha.herokuapp.com/API/'
 TEST_URL = 'http://localhost:8000/API/'
+
+# This should be for coverage I think
+#TEST_RUNNER = 'HomepairsApp' + ".runners.CoverageLintingXMLTestRunner"

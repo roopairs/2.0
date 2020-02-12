@@ -1,11 +1,13 @@
 ################################################################################
 # Imports
-from django.test import TestCase
-from django.conf import settings
 import requests
-from .views import INCORRECT_FIELDS, STATUS, SUCCESS, FAIL, ERROR
-from .views import ROOPAIR_ACCOUNT_CREATION_FAILED, TOKEN
-from .views import INCORRECT_CREDENTIALS
+from django.conf import settings
+from django.test import TestCase
+
+from .views import (
+    ERROR, FAIL, INCORRECT_CREDENTIALS, INCORRECT_FIELDS, ROOPAIR_ACCOUNT_CREATION_FAILED, STATUS, SUCCESS, TOKEN
+)
+
 
 ################################################################################
 # Vars

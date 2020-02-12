@@ -1,16 +1,22 @@
 ################################################################################
 # Imports
-from django.test import TestCase
-from django.conf import settings
-import psycopg2
-import requests
 import json
 import random
-from .views import INCORRECT_FIELDS, MULTIPLE_ACCOUNTS, STATUS
-from .views import SUCCESS, FAIL, ERROR, ROOPAIR_ACCOUNT_CREATION_FAILED
-from .views import HOMEPAIRS_ACCOUNT_CREATION_FAILED, TOO_MANY_PROPERTIES
-from .views import INVALID_PROPERTY, NON_FIELD_ERRORS, TOKEN, RESIDENTIAL_CODE
-from .views import PROPERTY_ALREADY_EXISTS
+
+import psycopg2
+import requests
+from django.conf import settings
+from django.test import TestCase
+from django.urls import reverse
+from rest_framework.status import *
+from rest_framework.test import APIClient
+
+from .views import (
+    ERROR, FAIL, HOMEPAIRS_ACCOUNT_CREATION_FAILED, INCORRECT_FIELDS, INVALID_PROPERTY,
+    MULTIPLE_ACCOUNTS, NON_FIELD_ERRORS, PROPERTY_ALREADY_EXISTS, RESIDENTIAL_CODE,
+    ROOPAIR_ACCOUNT_CREATION_FAILED, STATUS, SUCCESS, TOKEN, TOO_MANY_PROPERTIES
+)
+
 
 ################################################################################
 # Vars
@@ -30,15 +36,17 @@ def setUpHelper():
    email = 'adamkberard@gmail.com'
    password = 'pass4testing'
    data = {'email': email, 'password': password}
-   url = globUrl + 'setUpTests/'
-   requests.post(url, json=data)
+
+   client = APIClient()
+   response = client.post(path=reverse('setup'), data=data, format="json")
 
 def tearDownHelper():
    email = 'adamkberard@gmail.com'
    password = 'pass4testing'
    data = {'email': email, 'password': password}
-   url = globUrl + 'tearDownTests/'
-   requests.post(url, json=data)
+
+   client = APIClient()
+   response = client.post(path=reverse('teardown'), data=data, format="json")
 
 ################################################################################
 # Tests
@@ -54,7 +62,7 @@ class CreateProperty(TestCase):
 
    # Everything is correct
    def test_create_property_allCorrect(self):
-      #setup()
+      streetAddress = "{0} Grand Ave".format(str(random.randint(0, 10000)))
       streetAddress = '1 Grand Ave'
       city = 'SLO'
       state = 'CA'
@@ -68,9 +76,10 @@ class CreateProperty(TestCase):
                 'email': pmEmail,
                 'password': pmPass
              }
-      url = globUrl + LOGIN_URL
-      x = requests.post(url, json=data)
-      info = x.json()
+      client = APIClient()
+
+      response = client.post(path=reverse('login'), data=data, format="json")
+      info = response.json()
 
       data = {
                 'streetAddress': streetAddress,
@@ -83,10 +92,9 @@ class CreateProperty(TestCase):
                 'token': info.get('token')
              }
 
-      url = globUrl + CRE_PROP_URL
-      x = requests.post(url, json=data)
+      response = client.post(path=reverse('create_prop'), data=data, format="json")
 
-      info = x.json()
+      info = response.json()
       self.assertEqual(info.get(STATUS), SUCCESS)
 
       data = {
@@ -95,10 +103,10 @@ class CreateProperty(TestCase):
                 'state': state,
                 'pm': pmEmail,
              }
-      url = globUrl + VIEW_PROP_URL
-      x = requests.post(url, json=data)
 
-      info = json.loads(x.text)
+      response = client.post(path=reverse('view_prop'), data=data, format='json')
+      info = response.json()
+
       self.assertEqual(info.get(STATUS), SUCCESS)
       prop = info.get('prop')
       self.assertEqual(prop.get('streetAddress'), streetAddress)
@@ -107,9 +115,9 @@ class CreateProperty(TestCase):
       self.assertEqual(prop.get('numBed'), numBed)
       self.assertEqual(prop.get('numBath'), numBath)
 
-   # Property manager tries to add the same property twice
+
    def test_create_property_duplicate(self):
-      #setup()
+      '''Property manager tries to add the same property twice.'''
       streetAddress = '1 Grand Ave'
       city = 'SLO'
       state = 'CA'
@@ -128,44 +136,86 @@ class CreateProperty(TestCase):
                 'pm': pmEmail,
                 'token': 'hello'
              }
-      url = globUrl + CRE_PROP_URL
+      client = APIClient()
+      response = client.post(path=reverse('create_prop'), data=data, format='json')
+
+      self.assertEqual(HTTP_STATUS_OK, response.status)
+
+      info = response.json()
 
       #succeeds the first time the property is created
-      x = requests.post(url, json=data)
-      info = json.loads(x.text)
-      self.assertEqual(info.get(STATUS), SUCCESS)
       #fails the second time trying to create the same property
       x = requests.post(url, json=data)
       info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), FAIL)
       self.assertEqual(info.get(ERROR), PROPERTY_ALREADY_EXISTS)
    
-   # Property manager fills in the form incorrectly
-   def test_create_property_bad_fields(self):
-      #setup()
-      streetAddress = '1 Grand Ave'
-      city = 'SLO'
-      state = 'CA'
-      numBed = 3
-      numBath = 3
-      maxTenants = 3
-      pmEmail = 'eerongrant@gmail.com'
-   
+   # Incorrect Fields Being Sent
+   def test_create_property_bad_field_street(self):
       data = {
-                'streetAddress': streetAddress,
-                'city': city,
-                'state': state,
-                'numBed': numBed,
-                'numBth': numBath,
-                'maxTenants': maxTenants,
-                'pm': pmEmail,
+                'city': 'test',
+                'state': 'test',
+                'numBed': 1,
+                'numBath': 2,
+                'maxTenants': 2,
+                'pm': 'test',
+                'token': 'asasdfasdf'
              }
-      url = globUrl + CRE_PROP_URL
-      #fails because numBth is an incorrect field
-      x = requests.post(url, json=data)
-      info = json.loads(x.text)
+      client = APIClient()
+      response = client.post(path=reverse('create_prop'), data=data, format='json')
+      info = response.json()
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), "Incorrect fields: numBath token")
+      self.assertEqual(info.get(ERROR), "Incorrect fields: streetAddress")
+
+   # Incorrect Fields Being Sent
+   def test_create_property_bad_field_city(self):
+      data = {
+                'streetAddress': 'Test',
+                'state': 'test',
+                'numBed': 1,
+                'numBath': 2,
+                'maxTenants': 2,
+                'pm': 'test',
+                'token': 'asasdfasdf'
+             }
+      client = APIClient()
+      response = client.post(path=reverse('create_prop'), data=data, format='json')
+      info = response.json()
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), "Incorrect fields: city")
+
+   # Incorrect Fields Being Sent
+   def test_create_property_bad_field_bath(self):
+      data = {
+                'streetAddress': 'Test',
+                'state': 'test',
+                'city': 'test',
+                'numBed': 1,
+                'numBth': 2,
+                'maxTenants': 2,
+                'pm': 'test',
+                'token': 'asasdfasdf'
+             }
+      client = APIClient()
+      response = client.post(path=reverse('create_prop'), data=data, format='json')
+      info = response.json()
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), "Incorrect fields: numBath")
+
+   # Incorrect Fields Being Sent
+   def test_create_property_bad_field_mult(self):
+      data = {
+                'streetAddress': 'Test',
+                'city': 'test',
+                'numBath': 2,
+                'maxTenants': 2,
+                'pm': 'test',
+             }
+      client = APIClient()
+      response = client.post(path=reverse('create_prop'), data=data, format='json')
+      info = response.json()
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), "Incorrect fields: state numBed token")
 
 class UpdateProperty(TestCase):
    def setUp(self):
@@ -185,7 +235,6 @@ class UpdateProperty(TestCase):
       numBath = 1
       maxTenants = 3
       pmEmail = 'eerongrant@gmail.com'
-      #setup()
 
       data = {
                 'streetAddress': streetAddress,
@@ -197,9 +246,9 @@ class UpdateProperty(TestCase):
                 'pm': pmEmail,
                 'token': 'hello'
              }
-      url = globUrl + CRE_PROP_URL
-      x = requests.post(url, json=data)
-      info = json.loads(x.text)
+      client = APIClient()
+      response = client.post(path=reverse('create_prop'), data=data, format='json')
+      info = response.json()
       self.assertEqual(info.get(STATUS), SUCCESS)
 
       # NOW UPDATE IT
@@ -222,12 +271,13 @@ class UpdateProperty(TestCase):
                 'numBath': numBath,
                 'maxTenants': maxTenants,
                 'pm': pmEmail,
+                'token': 'token'
              }
 
-      url = globUrl + UPDATE_PROP_URL
-      x = requests.post(url, json=data)
-      info = json.loads(x.text)
+      response = client.post(path=reverse('update_prop'), data=data, format='json')
+      info = response.json()
 
+      print(x.text)
       self.assertEqual(info.get(STATUS), SUCCESS)
 
       data = {
@@ -237,10 +287,9 @@ class UpdateProperty(TestCase):
                 'pm': pmEmail,
              }
 
-      url = globUrl + VIEW_PROP_URL
-      x = requests.post(url, json=data)
+      response = client.post(path=reverse('view_prop'), data=data, format='json')
+      info = response.json()
 
-      info = json.loads(x.text)
       self.assertEqual(info.get(STATUS), SUCCESS)
       prop = info.get('prop')
       self.assertEqual(prop.get('streetAddress'), streetAddress)
@@ -249,55 +298,81 @@ class UpdateProperty(TestCase):
       self.assertEqual(prop.get('numBed'), numBed)
       self.assertEqual(prop.get('numBath'), numBath)
 
-   # The street address dict entry will be wrong
-   def test_update_property_wrongStreetAddress(self):
-      streetAddress = '1 Grand Ave'
-      city = 'SLO'
-      state = 'CA'
-      numBed = 3
-      numBath = 1
-      maxTenants = 3
-      pmEmail = 'eerongrant@gmail.com'
+   # Incorrect Fields Being Sent
+   def test_create_property_bad_field_street(self):
       data = {
-                'streetAddress': streetAddress,
-                'city': city,
-                'state': state,
-                'numBed': numBed,
-                'numBath': numBath,
-                'maxTenants': maxTenants,
-                'pm': pmEmail,
-                'token': 'haha'
+                'oldStreetAddress': 'test',
+                'oldCity': 'test',
+                'city': 'test',
+                'state': 'test',
+                'numBed': 1,
+                'numBath': 2,
+                'maxTenants': 2,
+                'pm': 'test',
+                'token': 'asasdfasdf'
              }
-      url = globUrl + CRE_PROP_URL
-      x = requests.post(url, json=data)
-      info = json.loads(x.text)
-      self.assertEqual(info.get(STATUS), SUCCESS)
-
-      # NOW UPDATE IT
-
-      oldStreetAddress = '1 Grand Ave'
-      oldCity = 'SLO'
-      streetAddress = '1054 Saint James Ct.'
-      city = 'San Dimas'
-      state = 'CA'
-      numBed = 6
-      numBath = 4
-      maxTenants = 4
-      data = {
-                'oldStreetAddress': oldStreetAddress,
-                'oldCity': oldCity,
-                'stretAddress': streetAddress,
-                'city': city,
-                'state': state,
-                'numBed': numBed,
-                'numBath': numBath,
-                'maxTenants': maxTenants,
-                'pm': pmEmail,
-             }
-
-      url = globUrl + UPDATE_PROP_URL
-      x = requests.post(url, json=data)
-      info = json.loads(x.text)
+      client = APIClient()
+      response = client.post(path=reverse('update_prop'), data=data, format='json')
+      info = response.json()
 
       self.assertEqual(info.get(STATUS), FAIL)
-      self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": streetAddress")
+      self.assertEqual(info.get(ERROR), "Incorrect fields: streetAddress")
+
+   # Incorrect Fields Being Sent
+   def test_create_property_bad_field_city(self):
+      data = {
+                'oldStreetAddress': 'test',
+                'oldCity': 'test',
+                'streetAddress': 'Test',
+                'state': 'test',
+                'numBed': 1,
+                'numBath': 2,
+                'maxTenants': 2,
+                'pm': 'test',
+                'token': 'asasdfasdf'
+             }
+      client = APIClient()
+      response = client.post(path=reverse('update_prop'), data=data, format='json')
+      info = response.json()
+
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), "Incorrect fields: city")
+
+   # Incorrect Fields Being Sent
+   def test_create_property_bad_field_bath(self):
+      data = {
+                'oldStreetAddress': 'test',
+                'oldCity': 'test',
+                'streetAddress': 'Test',
+                'state': 'test',
+                'city': 'test',
+                'numBed': 1,
+                'numBth': 2,
+                'maxTenants': 2,
+                'pm': 'test',
+                'token': 'asasdfasdf'
+             }
+      client = APIClient()
+      response = client.post(path=reverse('update_prop'), data=data, format='json')
+      info = response.json()
+
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), "Incorrect fields: numBath")
+
+   # Incorrect Fields Being Sent
+   def test_create_property_bad_field_mult(self):
+      data = {
+                'oldStreetAddress': 'test',
+                'oldCity': 'test',
+                'streetAddress': 'Test',
+                'city': 'test',
+                'numBath': 2,
+                'maxTenants': 2,
+                'pm': 'test',
+             }
+      client = APIClient()
+      response = client.post(path=reverse('update_prop'), data=data, format='json')
+      info = response.json()
+
+      self.assertEqual(info.get(STATUS), FAIL)
+      self.assertEqual(info.get(ERROR), "Incorrect fields: state numBed token")
