@@ -86,7 +86,6 @@ describe("InputForm", () => {
     fireEvent.changeText(getByTestId('userTextInput'), messageText);
     expect(spyFunction).toHaveBeenCalledWith(messageText);
     
-
     renderedForm.props.parentCallBack(messageText2);
     expect(spyFunction).toHaveBeenCalledWith(messageText2);
     expect(spyFunction.mock.calls).toHaveLength(2);
