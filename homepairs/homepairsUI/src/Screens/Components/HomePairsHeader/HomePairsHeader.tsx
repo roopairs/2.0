@@ -2,8 +2,7 @@ import { AppState, MainAppStackType } from "homepairs-types";
 import { connect } from "react-redux";
 import { HeaderActions } from 'homepairs-redux-actions';
 import { withNavigation } from "react-navigation";
-import HomePairsHeaderBase from "./HomePairsHeaderBase";
-import { HomePairsHeaderStateProps, HomePairsHeaderDispatchProps } from "./HomePairsHeaderTemplate";
+import HomePairsHeaderBase , { HomePairsHeaderStateProps, HomePairsHeaderDispatchProps } from "./HomePairsHeaderBase";
 import { withDarkMode } from '../WithDarkMode/WithDarkMode';
 
 function mapStateToProps(state: AppState): HomePairsHeaderStateProps{ 

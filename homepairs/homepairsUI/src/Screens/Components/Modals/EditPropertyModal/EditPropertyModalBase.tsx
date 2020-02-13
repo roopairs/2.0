@@ -180,9 +180,11 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.resetForms = this.resetForms.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
         const {oldProp} = this.props;
-        const {streetAddress: address, city, state, bedrooms, bathrooms, tenants} = oldProp;
+        const {streetAddress, city, state, bedrooms, bathrooms, tenants} = oldProp;
         this.state = {
-            address, city, state, 
+            address: streetAddress, 
+            city, 
+            state, 
             bedrooms: bedrooms.toString(), 
             bathrooms: bathrooms.toString(),
             tenants: tenants.toString(),

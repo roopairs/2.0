@@ -6,13 +6,13 @@
  * then export it.
  */
 import { AddressStickerProps as ASP } from "./AddressSticker/AddressSticker";
-import { SceneHeaderProps as SHP, renderSceneHeader } from './SceneHeader/SceneHeader';
+import { SceneHeaderProps as SHP} from './SceneHeader/SceneHeader';
 import { GeneralHomeInfoProps as GHIP } from "./GeneralHomeInfo/GeneralHomeInfo";
 import { AccountTypeRadioProps as ATRBP } from "./AccounttypeRadioButton/AccountTypeRadioButton";
 import { ViewPropertyCardProps as VPCP } from "./ViewPropertyCard/ViewPropertyCard";
 import { AccountConnectedCardProps as ACCP } from "./AuthenticationCards/AccountConnectedCard";
 import { ConnectAccountCardProps as CACP } from "./AuthenticationCards/ConnectAccountCard";
-import * as HomePairsHeaderProps from "./HomePairsHeader/HomePairsHeaderTemplate";
+import * as HomePairsHeaderProps from "./HomePairsHeader/HomePairsHeaderBase";
 import { LoggingInModal, CreatingAccountModal } from './Modals/AuthenticationModals';
 import { LoadingModal, LoadingModalProps as LMP} from './Modals/LoadingModal';
 
@@ -45,7 +45,9 @@ export { default as AccountConnectedCard } from './AuthenticationCards/AccountCo
 export { default as ConnectAccountCard } from './AuthenticationCards/ConnectAccountCard';
 export { default as HomePairsHeader } from './HomePairsHeader/HomePairsHeader';
 export { default as AddNewPropertyModal } from './Modals/AddNewPropertyModal/AddNewPropertyModal';
+export { default as AddNewPropertyModalBase } from './Modals/AddNewPropertyModal/AddNewPropertyModalBase';
 export { default as EditPropertyModal } from './Modals/EditPropertyModal/EditPropertyModal';
+export { default as EditPropertyModalBase } from './Modals/EditPropertyModal/EditPropertyModalBase';
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
 
 /**
@@ -72,7 +74,6 @@ export {
   withSceneHeader,
   withDarkMode,
   withModal,
-  renderSceneHeader,
   LoggingInModal,
   CreatingAccountModal,
   LoadingModal,

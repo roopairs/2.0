@@ -13,6 +13,6 @@ web-report/
 # macOS
 .DS_Store
 .jest/
-coverage/
+**/coverage
 node_modules/
-package-logck.json
+package-lock.json

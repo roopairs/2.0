@@ -176,4 +176,4 @@ Card.defaultProps = {
     showCloseButton: false,
     closeButtonPressedCallBack: () => {},
 };
-/** Removed renderCardFunction. We should NOT be using this! */
+

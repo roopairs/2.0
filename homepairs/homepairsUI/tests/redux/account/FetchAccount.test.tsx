@@ -4,9 +4,10 @@ import { NavigationSwitchProp } from 'react-navigation';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
+import { mockSwitchNavigation, navigationSwitchSpyFunction } from '../../fixtures/DummyComponents';
 
 const TYPE = 'ACCOUNT/FETCH_PROFILE';
-const spyFunction = jest.fn((arg:string) => {return arg;});
+const spyFunction = navigationSwitchSpyFunction;
 
 const expectedResults: {[id:string]: AccountStateAction} = {
   PM_WITHOUT_TOKEN: { // PM Account w/out token 
@@ -18,7 +19,6 @@ const expectedResults: {[id:string]: AccountStateAction} = {
       city: undefined,
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
-      phone: '555555555',
       roopairsToken: '',
       manId: 102449555,
     },
@@ -32,7 +32,6 @@ const expectedResults: {[id:string]: AccountStateAction} = {
       city: undefined,
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
-      phone: '555555555',
       roopairsToken: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
       manId: 102449555,
     },
@@ -46,7 +45,6 @@ const expectedResults: {[id:string]: AccountStateAction} = {
       city: undefined,
       lastName: 'Lion',
       email: 'kylelion@gmail.com',
-      phone: '555555555',
       roopairsToken: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
       tenantId: 20,
       propId: 99,
@@ -61,7 +59,6 @@ const expectedResults: {[id:string]: AccountStateAction} = {
       city: 'San Luis Obispo',
       lastName: 'Lion',
       email: 'kylelion@gmail.com',
-      phone: '555555555',
       roopairsToken: '',
       tenantId: 20,
       propId: 99,
@@ -76,7 +73,6 @@ const expectedResults: {[id:string]: AccountStateAction} = {
       city: undefined,
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
-      phone: '555555555',
       roopairsToken: undefined,
       manId: 102449555,
     },
@@ -108,7 +104,6 @@ const testJsonValues: {[id:string]: any} =
       firstName: 'Jack',
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
-      phone: '555555555',
       manId: 102449555,
     },
     token: '',
@@ -120,7 +115,6 @@ const testJsonValues: {[id:string]: any} =
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
       streetAddress: 'lifelike line Apt. 3',
-      phone: '555555555',
       manId: 102449555,
     },
     token: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
@@ -131,7 +125,6 @@ const testJsonValues: {[id:string]: any} =
       firstName: 'Kyle',
       lastName: 'Lion',
       email: 'kylelion@gmail.com',
-      phone: '555555555',
       propId: 99,
       tenantID: 20,
       place:{
@@ -154,7 +147,6 @@ const testJsonValues: {[id:string]: any} =
       streetAddress: 'lifelike line Apt. 3',
       city: 'San Luis Obispo',
       email: 'kylelion@gmail.com',
-      phone: '555555555',
       propId: 99,
       tenantID: 20,
     },
@@ -166,7 +158,6 @@ const testJsonValues: {[id:string]: any} =
       firstName: 'Jack',
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
-      phone: '555555555',
       manId: 102449555,
     },
   },
@@ -174,27 +165,7 @@ const testJsonValues: {[id:string]: any} =
 
 
 
-const mockNavigation: NavigationSwitchProp = {
-  navigate: (routeNameOrOptions)=>{
-    spyFunction(routeNameOrOptions);
-    return true;
-  },
-  state: undefined,
-  dispatch: undefined, 
-  goBack: undefined,
-  dismiss: undefined,
-  openDrawer:undefined,
-  closeDrawer: undefined, 
-  toggleDrawer: undefined, 
-  getParam: undefined,
-  setParams: undefined,
-  emit: undefined, 
-  addListener: undefined, 
-  isFocused: undefined, 
-  isFirstRouteInParent: undefined, 
-  dangerouslyGetParent: undefined,
-  jumpTo: undefined,
-};
+const mockNavigation: NavigationSwitchProp = mockSwitchNavigation;
 
 const createTestProps = (props: Object) => ({
   navigation: mockNavigation,

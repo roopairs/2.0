@@ -22,7 +22,7 @@ export type ThinButtonProps = {
 
 
 /**
- * * ------------------------------------------------------------
+ * ------------------------------------------------------------
  * Thin Button
  * ------------------------------------------------------------
  * A component that renders a clickable space
@@ -32,14 +32,6 @@ export type ThinButtonProps = {
  * next steps to take.
  * 
  * @param {ThinButtonProps} props 
- * key?: any
- * name?: String
- * onClick?: () => any
- * onPressIn?: () => any;
- * onPressOut?: () => any;
- * containerStyle?: ViewStyle
- * buttonStyle?: ViewStyle
- * buttonTextStyle?: TextStyle
  */
 export default function ThinButton(props: ThinButtonProps) {
     // This function will call the parent callback function.
@@ -53,7 +45,7 @@ export default function ThinButton(props: ThinButtonProps) {
         buttonTextStyle,
     } = props;
 
-    function onPress() {
+    function handleClick() {
         onClick();
     }
 
@@ -62,7 +54,7 @@ export default function ThinButton(props: ThinButtonProps) {
             <TouchableOpacity
                 testID='click-thin-button'
                 style={buttonStyle}
-                onPress={onPress}
+                onPress={handleClick}
                 onPressIn={onPressIn}
                 onPressOut={onPressOut}
             >
@@ -108,7 +100,15 @@ ThinButton.defaultProps = {
 };
 
 
+/**
+ * ------------------------------------------------------------
+ * renderThinButton (deprecated)
+ * ------------------------------------------------------------
+ * @deprecated Please do not use this function. We are going to remove it in 
+ * future use. 
+ */
 export function renderThinButton(thinButtonProps: ThinButtonProps) {
+    console.log("Warning: renderThinButton is deprecated and will be removed upon the next release.");
     const {
         key,
         name,

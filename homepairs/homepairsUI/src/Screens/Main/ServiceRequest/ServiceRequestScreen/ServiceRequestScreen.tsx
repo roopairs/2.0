@@ -1,10 +1,11 @@
 import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
-import { withSceneHeader, withDarkMode, SceneInjectedProps } from 'homepairs-components';
+import { withSceneHeader} from 'homepairs-components';
 import strings from 'homepairs-strings';
 import { withNavigation } from 'react-navigation';
 import ServiceRequestScreenBase, {
     ServiceRequestScreenStateProps,
+    ServiceRequestScreenProps,
 } from './ServiceRequestScreenBase';
 
 const serviceRequestStrings = strings.serviceRequestPage;
@@ -13,9 +14,9 @@ const sceneParam: MainAppStackType = {
     navigate: 'ServiceRequest',
     key: 'ServiceRequest',
     button: serviceRequestStrings.button,
-    onButtonClick: (props: SceneInjectedProps) => {
+    onNavButtonClick: (props: ServiceRequestScreenProps) => {
         props.navigation.push('NewRequest');
-        props.onSetHeaderGoBackButton(true);
+        props.onSetNavHeaderGoBackButton(true);
     },
     doesButtonUseNavigate: true,
 };
@@ -37,4 +38,10 @@ const ServiceRequestScreen = connect(
     mapDispatchToProps,
 )(ServiceRequestScreenBase);
 
-export default withDarkMode(withNavigation(withSceneHeader(ServiceRequestScreen, sceneParam)));
+
+// Make sure the base also has Navigation Props, this is not passed down in withSceneHeader
+const ServiceRequestScreenWithNavigation = withNavigation(ServiceRequestScreen);
+
+// Now render the component with the SceneHeader. This way, if the child needs to the use the 
+// navigator, it is not reliant on the parent. 
+export default withNavigation(withSceneHeader(ServiceRequestScreenWithNavigation, sceneParam));
