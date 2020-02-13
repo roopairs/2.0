@@ -38,7 +38,7 @@ export type ModalInjectedProps = {
  * Modals for websites are not offered in default React Native libraries. Therefore, we must use 
  * a separate library (we can define our own) for the web. 
  * */ 
-const Modal = Platform.OS === 'web' ? WebModal : MobileModal;
+const Modal = (Platform.OS === 'web') ? WebModal : MobileModal;
 
 /**
  * This sets the style to adjust the width and height of the modal shadow to lay over the entire 
