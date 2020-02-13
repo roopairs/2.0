@@ -17,7 +17,7 @@ import { HomePairsDimensions, Property } from 'homepairs-types';
 /**
  * Main App Components will have similar functionality to the parent components ONLY
  * in terms of Presentation. These are NOT SMART COMPONENTS. These components should never
- * have access the store. They should send information back to the parent class and allow
+ * have access to the store. They should send information back to the parent class and allow
  * the parent to take care of logic related to the global state.
  */
 
@@ -140,10 +140,11 @@ const viewPropertyButtonText = strings.propertiesPage.viewPropertyCardButton;
  * ---------------------------------------------------
  * View Property Card
  * ---------------------------------------------------
- * A component that provides very high level information about a property. It is is intended 
+ * A component that provides very high level information about a property. It is intended 
  * to be passed a callback function from its parent to permit it to navigate to a detailed property 
- * screen with the the card's assigned Property. It is also capable of being passed an image, which will 
- * be recieved from the Google Maps API. 
+ * screen with the the card's assigned Property. It is also capable of being passed an image.
+ * 
+ * TODO: Set Google Maps API to fetch address images.
  * @param {ViewPropertyCardProps} props 
  */
 export default function ViewPropertyCard(props: ViewPropertyCardProps) {
@@ -202,6 +203,6 @@ export default function ViewPropertyCard(props: ViewPropertyCardProps) {
 }
 
 ViewPropertyCard.defaultProps = {
-    viewButtonSelectedCallBack: (arg0?: number, arg1?: any) => {return {arg0, arg1};},
+    viewButtonSelectedCallBack: (propertyIndex: number, navigation?: any) => {return {propertyIndex, navigation};},
     image: defaultProperty,
 };

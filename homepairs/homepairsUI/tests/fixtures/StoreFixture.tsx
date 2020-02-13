@@ -20,7 +20,7 @@ const MainAppStack: Array<MainAppStackType> = [
         navigate: 'AccountProperties',
         key: 'Properties',
         button: 'Add Property',          
-        onButtonClick: () => {
+        onNavButtonClick: () => {
             return true;
         },
     },

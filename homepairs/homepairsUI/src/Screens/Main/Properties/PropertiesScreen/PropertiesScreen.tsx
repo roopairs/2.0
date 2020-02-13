@@ -29,9 +29,11 @@ function mapStateToProps(state: AppState): PropertiesScreenStateProps {
 const mapDispatchToProps: (
     dispatch: any
 ) => PropertiesScreenDispatchProps = dispatch => ({
+    // Changes the header to render a back button 
     onRevealGoBack: (showBackButton: boolean) => {
         dispatch(HeaderActions.showGoBackButton(showBackButton));
     },
+    // Sets the selectedProperty to the position of the value in the property[]
     onSelectProperty: (selectedPropertyIndex: number) => {
         dispatch(PropertyListActions.setSelectedProperty(selectedPropertyIndex));
     },
