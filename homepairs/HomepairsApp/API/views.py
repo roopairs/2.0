@@ -1,11 +1,15 @@
-import requests
 import json
-from rest_framework.authentication import TokenAuthentication
+
+import requests
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Property, PropertyManager, Tenant, Appliance
+from .models import Appliance, Property, PropertyManager, Tenant
 
+
+# You might need this Tommy but it was pissing of the linter since it is
+# currently unused
+# from rest_framework.authentication import TokenAuthentication
 
 ################################################################################
 # CONSTANTS
@@ -85,7 +89,6 @@ def getTenant(tenantEmail, tenantPassword):
     if tenantList.exists():
         if tenantList.count() == 1:
             tenant = tenantList[0]
-            tenantProperty = tenant.place
             return {
                         STATUS: SUCCESS,
                         'tenant': tenant.toDict(),
@@ -339,9 +342,9 @@ def createProperty(request):
                 pmList = PropertyManager.objects.filter(email=pm)
                 if pmList.exists() and pmList.count() == 1:
                     pm = pmList[0]
-                    prop = Property(streetAddress=streetAddress,
-                                    city=city,
-                                    state=state,
+                    prop = Property(streetAddress=tempStreetAddress,
+                                    city=tempCity,
+                                    state=tempState,
                                     numBed=numBed,
                                     numBath=numBath,
                                     maxTenants=maxTenants,
@@ -353,8 +356,8 @@ def createProperty(request):
                     return Response(data=data)
                 else:
                     return Response(data=returnError(INCORRECT_FIELDS))
-             else:
-                 return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
+            else:
+                return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
 
         isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
         if not isMade.exists():

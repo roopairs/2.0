@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import sys
 
 import dj_database_url
 
@@ -129,8 +128,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
-STATIC_ROOT  =   os.path.join(BASE_DIR, 'staticfiles')
+PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 # Extra lookup directories for collectstatic to find static files
@@ -141,7 +140,7 @@ STATICFILES_DIRS = (
 #  Add configuration for static files storage using whitenoise
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-prod_db  =  dj_database_url.config(conn_max_age=500)
+prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 
 # Hopefully this works
@@ -150,4 +149,4 @@ TEST_URL = 'https://homepairs-alpha.herokuapp.com/API/'
 TEST_URL = 'http://localhost:8000/API/'
 
 # This should be for coverage I think
-#TEST_RUNNER = 'HomepairsApp' + ".runners.CoverageLintingXMLTestRunner"
+TEST_RUNNER = 'HomepairsApp' + ".runners.CoverageLintingXMLTestRunner"

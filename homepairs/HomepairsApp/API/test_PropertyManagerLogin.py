@@ -4,9 +4,7 @@ import requests
 from django.conf import settings
 from django.test import TestCase
 
-from .views import (
-    ERROR, FAIL, INCORRECT_CREDENTIALS, INCORRECT_FIELDS, ROOPAIR_ACCOUNT_CREATION_FAILED, STATUS, SUCCESS, TOKEN
-)
+from .views import ERROR, FAIL, INCORRECT_CREDENTIALS, INCORRECT_FIELDS, STATUS, SUCCESS, TOKEN
 
 
 ################################################################################
@@ -20,33 +18,38 @@ LOGIN_URL = 'login/'
 ################################################################################
 # Helper Functions
 
+
 def setUpHelper():
     email = 'adamkberard@gmail.com'
     password = 'pass4testing'
     data = {'email': email, 'password': password}
     url = globUrl + 'setUpTests/'
     requests.post(url, json=data)
- 
+
+
 def tearDownHelper():
     email = 'adamkberard@gmail.com'
     password = 'pass4testing'
     data = {'email': email, 'password': password}
     url = globUrl + 'tearDownTests/'
     requests.post(url, json=data)
- 
+
 ################################################################################
 # Tests
- 
 # Property Manager Login Tests
+
+
 class PropertyManagerLogin(TestCase):
     def setUp(self):
         setUpHelper()
+
     def tearDown(self):
         tearDownHelper()
+
     @classmethod
     def tearDownClass(self):
         setUpHelper()
- 
+
     # Everything is correct
     def test_pm_allCorrect(self):
         data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
@@ -59,7 +62,7 @@ class PropertyManagerLogin(TestCase):
         self.assertEqual(pm.get('firstName'), 'Eeron')
         self.assertEqual(pm.get('lastName'), 'Grant')
         self.assertEqual(pm.get('email'), 'eerongrant@gmail.com')
- 
+
     # Email is wrong
     def test_pm_wrongEmail(self):
         data = {'email': 'erongrant@gmail.com', 'password': 'pass4eeron'}
@@ -68,7 +71,7 @@ class PropertyManagerLogin(TestCase):
         info = x.json()
         self.assertEqual(info.get(STATUS), FAIL)
         self.assertEqual(info.get(ERROR), INCORRECT_CREDENTIALS)
- 
+
     # Pass is wrong
     def test_pm_wrongPass(self):
         data = {'email': 'eerongrant@gmail.com', 'password': 'passeeron'}
@@ -77,7 +80,7 @@ class PropertyManagerLogin(TestCase):
         info = x.json()
         self.assertEqual(info.get(STATUS), FAIL)
         self.assertEqual(info.get(ERROR), INCORRECT_CREDENTIALS)
- 
+
     # Pass is wrong and email is wrong
     def test_pm_wrongPassAndEmail(self):
         data = {'email': 'eerongant@gmail.com', 'password': 'passeeron'}
@@ -86,7 +89,7 @@ class PropertyManagerLogin(TestCase):
         info = x.json()
         self.assertEqual(info.get(STATUS), FAIL)
         self.assertEqual(info.get(ERROR), INCORRECT_CREDENTIALS)
- 
+
     # No Email Field
     def test_pm_incorrectEmailField(self):
         data = {'gmail': 'adam@m.com', 'password': 'adamisNOTcool'}
@@ -95,7 +98,7 @@ class PropertyManagerLogin(TestCase):
         info = x.json()
         self.assertEqual(info.get(STATUS), FAIL)
         self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": email")
- 
+
     # No Pass Field
     def test_pm_incorrectPassField(self):
         data = {'email': 'adam@m.com', 'assword': 'adamisNOTcool'}
@@ -104,7 +107,7 @@ class PropertyManagerLogin(TestCase):
         info = x.json()
         self.assertEqual(info.get(STATUS), FAIL)
         self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": password")
- 
+
     # No Correct Fields
     def test_pm_incorrectFields(self):
         data = {'gmail': 'adam@m.com', 'assword': 'adamisNOTcool'}
@@ -113,14 +116,14 @@ class PropertyManagerLogin(TestCase):
         info = x.json()
         self.assertEqual(info.get(STATUS), FAIL)
         self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": email password")
- 
+
     # Has a property on Roopairs not in Homepairs
     def test_pm_propOnRoopairs(self):
         data = {'email': 'syncCheck@gmail.com', 'password': 'nisbyb-sidvUz-6qonve'}
         url = globUrl + LOGIN_URL
         x = requests.post(url, json=data)
         info = x.json()
- 
+
         self.assertEqual(info.get(STATUS), SUCCESS)
         self.assertTrue(TOKEN in info)
         pm = info.get('pm')
@@ -134,14 +137,14 @@ class PropertyManagerLogin(TestCase):
         self.assertEqual(properties[0].get('numBath'), 1)
         self.assertEqual(properties[0].get('numBed'), 1)
         self.assertEqual(properties[0].get('maxTenants'), 1)
- 
+
     # Has four properties on Roopairs not in Homepairs
     def test_pm_propOnRoopairsXFour(self):
         data = {'email': 'syncCheckFour@gmail.com', 'password': 'nisbyb-sidvUz-6qonve'}
         url = globUrl + LOGIN_URL
         x = requests.post(url, json=data)
         info = x.json()
- 
+
         self.assertEqual(info.get(STATUS), SUCCESS)
         self.assertTrue(TOKEN in info)
         pm = info.get('pm')

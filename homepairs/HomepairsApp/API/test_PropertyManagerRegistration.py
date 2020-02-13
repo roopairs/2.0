@@ -2,11 +2,13 @@
 # Imports
 import json
 import random
-import psycopg2
+
 import requests
 from django.conf import settings
 from django.test import TestCase
+
 from .views import ERROR, FAIL, INCORRECT_FIELDS, STATUS, SUCCESS
+
 
 ################################################################################
 # Vars
@@ -37,13 +39,16 @@ def tearDownHelper():
 
 ################################################################################
 # Tests
- 
 # Property Manager Registration Tests
+
+
 class PMRegistration(TestCase):
     def setUp(self):
         setUpHelper()
+
     def tearDown(self):
         tearDownHelper()
+
     @classmethod
     def tearDownClass(self):
         setUpHelper()
@@ -82,8 +87,6 @@ class PMRegistration(TestCase):
         self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": firstName")
 
     def test_pm_missing_lastName(self):
-        randEmail = "fakeEmail.@gmail.com"
-        randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
         data = {
                   'firstName': 'Test',
                   'email': 'fakeEmail@gmail.com',
@@ -96,9 +99,8 @@ class PMRegistration(TestCase):
         self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": lastName")
 
     def test_pm_missing_email(self):
-        randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
         data = {
-                  'firstName': randName,
+                  'firstName': 'Adam',
                   'lastName': 'Ugly Boi',
                   'password': 'pass4fake',
                }
@@ -127,14 +129,16 @@ class PMRegistration(TestCase):
 class PMRegistrationRoopairs(TestCase):
     def setUp(self):
         setUpHelper()
+
     def tearDown(self):
         tearDownHelper()
+
     @classmethod
     def tearDownClass(self):
         setUpHelper()
 
     # Everything is correct
-    #def test_pm_allCorrect(self):
+    # def test_pm_allCorrect(self):
     #   pmEmail = "testForRoopairsRegistration@gmail.com"
     #   pmPass = "pass4test"
     #   pmFirstName = 'Test'
