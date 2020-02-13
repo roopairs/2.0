@@ -25,6 +25,7 @@ ROOPAIR_ACCOUNT_CREATION_FAILED = 'Failed to create a Roopairs account'
 HOMEPAIRS_ACCOUNT_CREATION_FAILED = 'Failed to create a Homepairs account'
 TOO_MANY_PROPERTIES = 'Too many properties associated with tenant'
 PROPERTY_SQUISH = 'This address and city are associated with more than one property'
+PM_SQUISH = 'This email is associated with more than one pm'
 INVALID_PROPERTY = 'Invalid property'
 PROPERTY_ALREADY_EXISTS = 'Property given already exists'
 NON_FIELD_ERRORS = 'non_field_errors'
@@ -110,9 +111,11 @@ def getProperty(email, streetAddress, city, state):
                            STATUS: SUCCESS,
                            'prop': prop.toDict(),
                        }
-            return {STATUS: FAIL, ERROR: MULTIPLE_PROPERTIES}
-        return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
-    return {STATUS: FAIL, ERROR: INCORRECT_FIELDS}
+            else:
+                return {STATUS: FAIL, ERROR: PROPERTY_SQUISH}
+        else:
+            return {STATUS: FAIL, ERROR: PROPERTY_DOESNT_EXIST}
+    return {STATUS: FAIL, ERROR: PM_SQUISH}
 
 ################################################################################
 # Adding Functions
@@ -129,6 +132,10 @@ def addNewProperties(email, token):
     # any of them are new
     # For now we will just assign them a default bed, bath and tenants
     # of 1 since front end is not set up to ask them yet
+    temp = properties.json()
+    if isinstance(temp, dict):
+        if(temp.get('detail') == 'Invalid token.'):
+            return returnError("Invalid token.")
     for prop in properties.json():
         addy = prop.get('physical_address_formatted').split(',')
         tempStreetAddress = addy[0].strip()
@@ -330,10 +337,13 @@ def createProperty(request):
         sendToken = "Token " + token
         response = requests.post(url, json=data, headers={"Authorization": sendToken})
         info = json.loads(response.text)
+
         if NON_FIELD_ERRORS in info:
             return Response(returnError(info.get(NON_FIELD_ERRORS)))
-        elif TOKEN in info:
-            addy = response.get('physical_address_formatted').split(',')
+        elif(info.get('detail') == 'Invalid token.'):
+            return Response(returnError(info.get('detail')))
+        else:
+            addy = info.get('physical_address_formatted').split(',')
             tempStreetAddress = addy[0].strip()
             tempCity = addy[1].strip()
             tempState = addy[2].strip().split(' ')[0].strip()
@@ -358,28 +368,6 @@ def createProperty(request):
                     return Response(data=returnError(INCORRECT_FIELDS))
             else:
                 return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
-
-        isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
-        if not isMade.exists():
-            pmList = PropertyManager.objects.filter(email=pm)
-            if pmList.exists() and pmList.count() == 1:
-                pm = pmList[0]
-                prop = Property(streetAddress=streetAddress,
-                                city=city,
-                                state=state,
-                                numBed=numBed,
-                                numBath=numBath,
-                                maxTenants=maxTenants,
-                                pm=pm)
-                prop.save()
-                data = {
-                        STATUS: SUCCESS
-                       }
-                return Response(data=data)
-            else:
-                return Response(data=returnError(INCORRECT_FIELDS))
-        else:
-            return Response(data=returnError(PROPERTY_ALREADY_EXISTS))
     else:
         return Response(data=missingError(missingFields))
 
@@ -538,6 +526,7 @@ def tearDownTests(request):
         inEmail = request.data.get('email')
         inPass = request.data.get('password')
         if(inEmail == 'adamkberard@gmail.com' and inPass == 'pass4testing'):
+            Appliance.objects.all().delete()
             PropertyManager.objects.all().delete()
             Property.objects.all().delete()
             Tenant.objects.all().delete()

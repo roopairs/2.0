@@ -1,12 +1,11 @@
 ################################################################################
 # Imports
-import json
 import random
 
-import requests
 from django.conf import settings
 from django.test import TestCase
 
+from .helperFuncsForTesting import getInfo, setUpHelper, tearDownHelper
 from .views import ERROR, FAIL, INCORRECT_FIELDS, STATUS, SUCCESS
 
 
@@ -15,27 +14,8 @@ from .views import ERROR, FAIL, INCORRECT_FIELDS, STATUS, SUCCESS
 
 globUrl = settings.TEST_URL
 # EXTRA URLS
-LOGIN_URL = 'login/'
-PM_REG_URL = 'register/pm/'
-
-################################################################################
-# Helper Functions
-
-
-def setUpHelper():
-    email = 'adamkberard@gmail.com'
-    password = 'pass4testing'
-    data = {'email': email, 'password': password}
-    url = globUrl + 'setUpTests/'
-    requests.post(url, json=data)
-
-
-def tearDownHelper():
-    email = 'adamkberard@gmail.com'
-    password = 'pass4testing'
-    data = {'email': email, 'password': password}
-    url = globUrl + 'tearDownTests/'
-    requests.post(url, json=data)
+LOGIN = 'login'
+PM_REG = 'pm_registration'
 
 ################################################################################
 # Tests
@@ -64,11 +44,10 @@ class PMRegistration(TestCase):
                   'password': 'pass4fake',
                   'companyName': randName + " Rentals",
                }
-        url = globUrl + PM_REG_URL
-        x = requests.post(url, json=data)
-        info = json.loads(x.text)
-        self.assertEqual(info.get(STATUS), SUCCESS)
-        pm = info.get('pm')
+        responseData = getInfo(PM_REG, data)
+
+        self.assertEqual(responseData.get(STATUS), SUCCESS)
+        pm = responseData.get('pm')
         self.assertEqual(pm.get('firstName'), randName)
         self.assertEqual(pm.get('lastName'), 'Ugly Boi')
         self.assertEqual(pm.get('email'), randEmail)
@@ -80,11 +59,10 @@ class PMRegistration(TestCase):
                   'email': 'fakeEmail@gmail.com',
                   'password': 'pass4fake',
                }
-        url = globUrl + PM_REG_URL
-        x = requests.post(url, json=data)
-        info = json.loads(x.text)
-        self.assertEqual(info.get(STATUS), FAIL)
-        self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": firstName")
+        responseData = getInfo(PM_REG, data)
+
+        self.assertEqual(responseData.get(STATUS), FAIL)
+        self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": firstName")
 
     def test_pm_missing_lastName(self):
         data = {
@@ -92,11 +70,10 @@ class PMRegistration(TestCase):
                   'email': 'fakeEmail@gmail.com',
                   'password': 'pass4fake',
                }
-        url = globUrl + PM_REG_URL
-        x = requests.post(url, json=data)
-        info = json.loads(x.text)
-        self.assertEqual(info.get(STATUS), FAIL)
-        self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": lastName")
+        responseData = getInfo(PM_REG, data)
+
+        self.assertEqual(responseData.get(STATUS), FAIL)
+        self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": lastName")
 
     def test_pm_missing_email(self):
         data = {
@@ -104,11 +81,10 @@ class PMRegistration(TestCase):
                   'lastName': 'Ugly Boi',
                   'password': 'pass4fake',
                }
-        url = globUrl + PM_REG_URL
-        x = requests.post(url, json=data)
-        info = json.loads(x.text)
-        self.assertEqual(info.get(STATUS), FAIL)
-        self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": email")
+        responseData = getInfo(PM_REG, data)
+
+        self.assertEqual(responseData.get(STATUS), FAIL)
+        self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": email")
 
     def test_pm_missing_password(self):
         randEmail = "fakeEmail.@gmail.com"
@@ -118,11 +94,10 @@ class PMRegistration(TestCase):
                   'lastName': 'Ugly Boi',
                   'email': randEmail,
                }
-        url = globUrl + PM_REG_URL
-        x = requests.post(url, json=data)
-        info = json.loads(x.text)
-        self.assertEqual(info.get(STATUS), FAIL)
-        self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": password")
+        responseData = getInfo(PM_REG, data)
+
+        self.assertEqual(responseData.get(STATUS), FAIL)
+        self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": password")
 
 
 # Property Manager Login Tests with Roopairs
@@ -152,11 +127,11 @@ class PMRegistrationRoopairs(TestCase):
     #   url = globUrl + LOGIN_URL
     #   x = requests.post(url, json=data)
 
-    #   info = json.loads(x.text)
+    #   responseData = json.loads(x.text)
     #   print(":LDSKFJ")
     #   print(x.text)
-    #   self.assertEqual(info.get(STATUS), SUCCESS)
-    #   pm = info.get('pm')
+    #   self.assertEqual(responseData.get(STATUS), SUCCESS)
+    #   pm = responseData.get('pm')
     #   self.assertEqual(pm.get('firstName'), pmFirstName)
     #   self.assertEqual(pm.get('lastName'), pmLastName)
     #   self.assertEqual(pm.get('email'), pmEmail)
@@ -165,25 +140,19 @@ class PMRegistrationRoopairs(TestCase):
         data = {
                   'password': 'pass4test',
                }
+        responseData = getInfo(LOGIN, data)
 
-        url = globUrl + LOGIN_URL
-        x = requests.post(url, json=data)
-
-        info = json.loads(x.text)
-        self.assertEqual(info.get(STATUS), FAIL)
-        self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": email")
+        self.assertEqual(responseData.get(STATUS), FAIL)
+        self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": email")
 
     def test_pm_noPass(self):
         data = {
                   'email': 'test@gmail.com'
                }
+        responseData = getInfo(LOGIN, data)
 
-        url = globUrl + LOGIN_URL
-        x = requests.post(url, json=data)
-
-        info = json.loads(x.text)
-        self.assertEqual(info.get(STATUS), FAIL)
-        self.assertEqual(info.get(ERROR), INCORRECT_FIELDS + ": password")
+        self.assertEqual(responseData.get(STATUS), FAIL)
+        self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": password")
 
     # They already have properties
     def test_pm_allCorrectPlusProps(self):
@@ -196,17 +165,14 @@ class PMRegistrationRoopairs(TestCase):
                   'email': pmEmail,
                   'password': pmPass,
                }
+        responseData = getInfo(LOGIN, data)
 
-        url = globUrl + LOGIN_URL
-        x = requests.post(url, json=data)
-
-        info = json.loads(x.text)
-        self.assertEqual(info.get(STATUS), SUCCESS)
-        pm = info.get('pm')
+        self.assertEqual(responseData.get(STATUS), SUCCESS)
+        pm = responseData.get('pm')
         self.assertEqual(pm.get('firstName'), pmFirstName)
         self.assertEqual(pm.get('lastName'), pmLastName)
         self.assertEqual(pm.get('email'), pmEmail)
-        properties = info.get('properties')
+        properties = responseData.get('properties')
         self.assertEqual(properties[0].get('streetAddress'), '1170 W Branch St')
         self.assertEqual(properties[0].get('city'), 'Arroyo Grande')
         self.assertEqual(properties[0].get('state'), 'CA')
