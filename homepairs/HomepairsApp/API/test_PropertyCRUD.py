@@ -84,7 +84,7 @@ class CreateProperty(TestCase):
         data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
         responseData = getInfo(LOGIN, data)
 
-        streetAddress = '1 Grand Ave'
+        streetAddress = '353 Grand Ave'
         city = 'San Luis Obispo'
         state = 'CA'
         numBed = 3
@@ -109,7 +109,6 @@ class CreateProperty(TestCase):
         # succeeds the first time the property is created
         # fails the second time trying to create the same property
         responseData = getInfo(CREATE_PROP, data)
-        print(responseData)
 
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), PROPERTY_ALREADY_EXISTS)
@@ -191,13 +190,17 @@ class UpdateProperty(TestCase):
 
     # Everything is correct, I create the property first, then update it.
     def test_update_property_allCorrect(self):
-        streetAddress = '1 Grand Ave'
-        city = 'SLO'
+        data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
+        responseData = getInfo(LOGIN, data)
+
+        streetAddress = '395 Grand Ave'
+        city = 'San Luis Obispo'
         state = 'CA'
         numBed = 3
         numBath = 1
         maxTenants = 3
         pmEmail = 'eerongrant@gmail.com'
+        token = responseData.get('token')
 
         data = {
                   'streetAddress': streetAddress,
@@ -207,7 +210,7 @@ class UpdateProperty(TestCase):
                   'numBath': numBath,
                   'maxTenants': maxTenants,
                   'pm': pmEmail,
-                  'token': 'hello'
+                  'token': token
                }
         responseData = getInfo(CREATE_PROP, data)
 
@@ -215,8 +218,8 @@ class UpdateProperty(TestCase):
 
         # NOW UPDATE IT
 
-        oldStreetAddress = '1 Grand Ave'
-        oldCity = 'SLO'
+        oldStreetAddress = '395 Grand Ave'
+        oldCity = 'San Luis Obispo'
         streetAddress = '1054 Saint James Ct.'
         city = 'San Dimas'
         state = 'CA'
@@ -233,7 +236,7 @@ class UpdateProperty(TestCase):
                   'numBath': numBath,
                   'maxTenants': maxTenants,
                   'pm': pmEmail,
-                  'token': 'token'
+                  'token': token
                }
 
         responseData = getInfo(UPDATE_PROP, data)

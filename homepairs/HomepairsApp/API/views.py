@@ -361,7 +361,8 @@ def createProperty(request):
                                     pm=pm)
                     prop.save()
                     data = {
-                            STATUS: SUCCESS
+                            STATUS: SUCCESS,
+                            'property': info
                            }
                     return Response(data=data)
                 else:
@@ -374,6 +375,8 @@ def createProperty(request):
 
 @api_view(['GET', 'POST'])
 def updateProperty(request):
+    url = BASE_URL + 'service-locations/'
+
     required = ['streetAddress', 'city', 'state', 'pm', 'numBed', 'numBath']
     required.append('maxTenants')
     required.append('oldStreetAddress')
@@ -391,9 +394,32 @@ def updateProperty(request):
         numBed = request.data.get('numBed')
         numBath = request.data.get('numBath')
         maxTenants = request.data.get('maxTenants')
+        token = request.data.get('token')
 
         # The Property
         thePropertyList = Property.objects.filter(streetAddress=oldStreetAddress, city=oldCity)
+
+        sendToken = "Token " + token
+        response = requests.get(url, headers={"Authorization": sendToken})
+        temp = response.json()
+        if isinstance(temp, dict):
+            if(temp.get('detail') == 'Invalid token.'):
+                return returnError("Invalid token.")
+        for prop in temp:
+            myAddy = oldStreetAddress + ", " + oldCity
+            if prop.get('physical_address_formatted').startswith(myAddy):
+                changeID = prop.get('id')
+                break
+
+        url = url + changeID + '/'
+        print(url)
+        sendAddress = streetAddress + ", " + city + ", " + state
+        data = {
+                   'physical_address': sendAddress
+               }
+        response = requests.put(url, json=data, headers={"Authorization": sendToken})
+        print(response.text)
+
 
         if thePropertyList.exists():
             if thePropertyList.count() == 1:
