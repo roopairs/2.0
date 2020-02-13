@@ -172,11 +172,39 @@ export type ServiceAction =
 
 /* *-------------------Header Types-------------------* */
 export type MainAppStackType = {
+    /**
+     * Text that will be presented in the header
+     */
     title: string;
+
+    /**
+     * Value that allows the navigator to navigate to this page if 
+     * a collection of these pages were to be stored.
+     */
     navigate: string;
+
+    /**
+     * Unique value intended to distinguish each instance of this object
+     */
     key: string;
+
+    /**
+     * Name of the button in the header. If none is defined, a button will not 
+     * be rendered.
+     */
     button?: string;
-    onButtonClick?: (arg0?: any) => any;
+
+    /**
+     * Callback method for when the button is clicked. This callback is intended for 
+     * page navigation when the button is clicked as opposed to revealing a modal. 
+     * To override modal visibility, set the doesButtonUseNavigate prop to true
+     */
+    onNavButtonClick?: (arg0?: any) => any;
+
+    /**
+     * Value that indicates to the page that a defined button should use onNavButtonClick
+     * instead of onChangeModalVisibility
+     */
     doesButtonUseNavigate?: boolean;
 };
 

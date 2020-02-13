@@ -4,13 +4,14 @@ import { NavigationSwitchProp } from 'react-navigation';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
+import { mockSwitchNavigation, navigationSwitchSpyFunction } from '../../fixtures/DummyComponents';
 
 
 const {FETCH_PROFILE} = AccountActions.FETCH_PROFILE_ACTION_TYPES;
 const {FETCH_PROPERTY} = PropertyListActions.PROPERTY_LIST_ACTION_TYPES;
 
 const URL = 'http://homepairs-alpha.herokuapp.com/API/register/tenant/';
-const navSpyFunction = jest.fn((arg:string) => {return arg;});
+const navSpyFunction = navigationSwitchSpyFunction;
 const TenantPropertyPageKey = 'TenantProperties';
 
 const testTenantAccount1: Account = {
@@ -72,27 +73,7 @@ const expectedTenantProperty1: FetchPropertyAction = {
       streetAddress: "ABC Street",
     }]};
 
-const mockNavigation: NavigationSwitchProp = {
-  navigate: (routeNameOrOptions)=>{
-    navSpyFunction(routeNameOrOptions);
-    return true;
-  },
-  state: undefined,
-  dispatch: undefined, 
-  goBack: undefined,
-  dismiss: undefined,
-  openDrawer:undefined,
-  closeDrawer: undefined, 
-  toggleDrawer: undefined, 
-  getParam: undefined,
-  setParams: undefined,
-  emit: undefined, 
-  addListener: undefined, 
-  isFocused: undefined, 
-  isFirstRouteInParent: undefined, 
-  dangerouslyGetParent: undefined,
-  jumpTo: undefined,
-};
+const mockNavigation: NavigationSwitchProp = mockSwitchNavigation;
 
 const createTestProps = (props: Object) => ({
   navigation: mockNavigation,

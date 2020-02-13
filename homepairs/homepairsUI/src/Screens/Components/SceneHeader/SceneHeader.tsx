@@ -1,12 +1,24 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text, View } from 'react-native';
-import { ThinButtonProps, renderThinButton } from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
+import { isNullOrUndefined } from 'homepairs-utilities';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
+import ThinButton from '../../../Elements/Buttons/ThinButton';
 
 export type SceneHeaderProps = DarkModeInjectedProps & {
+    /**
+     * String that will be rendered at the top of the page 
+     */
     title: String;
+
+    /**
+     * Name of the button at the right side of the header 
+     */
     buttonTitle?: String;
+
+    /**
+     * Callback function for the button rendered
+     */
     onButtonPress?: (arg0?: any) => any;
 };
 
@@ -61,19 +73,17 @@ export default function SceneHeader(props: SceneHeaderProps) {
     const { primaryColorTheme, buttonTitle, onButtonPress, title } = props;
 
     const styles = setStyle(primaryColorTheme);
-    const thinButtonProps: ThinButtonProps = {
-        name: buttonTitle,
-        containerStyle: styles.thinButtonContainer,
-        buttonStyle: styles.thinButton,
-        buttonTextStyle: styles.thinButtonText,
-        onClick: onButtonPress,
-    };
-
+    
     function renderButton() {
-        if (!(buttonTitle == null)) {
-            return renderThinButton(thinButtonProps);
-        }
-        return <></>;
+        return !isNullOrUndefined(buttonTitle) ?
+            <ThinButton 
+                name={buttonTitle}
+                containerStyle={styles.thinButtonContainer}
+                buttonStyle={styles.thinButton}
+                buttonTextStyle={styles.thinButtonText}
+                onClick={onButtonPress}/> 
+        :
+            <></>;
     }
 
     return (
@@ -84,20 +94,7 @@ export default function SceneHeader(props: SceneHeaderProps) {
     );
 }
 
-export function renderSceneHeader(sceneHeaderProps: SceneHeaderProps) {
-    const {
-        title,
-        buttonTitle,
-        onButtonPress,
-        primaryColorTheme,
-    } = sceneHeaderProps;
-
-    return (
-        <SceneHeader
-            title={title}
-            buttonTitle={buttonTitle}
-            onButtonPress={onButtonPress}
-            primaryColorTheme={primaryColorTheme}
-        />
-    );
-}
+SceneHeader.defaultProps = {
+    buttonTitle: null,
+    onButtonPress: () => {},
+};

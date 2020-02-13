@@ -1,9 +1,9 @@
 import React from 'react';
 import { PropertyListState, HeaderState } from 'homepairs-types';
+import { NavigationStackScreenProps } from 'react-navigation-stack';
 import {
     ViewPropertyCard,
     SceneInjectedProps,
-    DarkModeInjectedProps,
 } from 'homepairs-components';
 
 export type PropertiesScreenStateProps = {
@@ -16,20 +16,28 @@ export type PropertiesScreenDispatchProps = {
     onSelectProperty: (index: number) => any;
 };
 
-export type PropertiesScreenProps = SceneInjectedProps &
+export type PropertiesScreenProps = SceneInjectedProps & NavigationStackScreenProps &
     PropertiesScreenStateProps &
-    PropertiesScreenDispatchProps &
-    DarkModeInjectedProps & { store: any };
+    PropertiesScreenDispatchProps 
 
+/**
+ * ---------------------------------------------------
+ * Properties Screen Base
+ * ---------------------------------------------------
+ * A component that renders a list of selectable cards that will navigate the user to 
+ * details about a specified property. This component is intended to be connected with 
+ * the Navigator, Homepairs Redux Store, and is intended to be wrapped with a withSceneHeader
+ * High Order Component.
+ * Child Components: 
+ *  -ViewPropertyCard
+ */
 export default class PropertiesScreenBase extends React.Component<PropertiesScreenProps> {
     constructor(props: Readonly<PropertiesScreenProps>) {
         super(props);
-        this.navigateToDetiailedProperty = this.navigateToDetiailedProperty.bind(
-            this,
-        );
+        this.navigateToDetailedProperty = this.navigateToDetailedProperty.bind(this);
     }
 
-    navigateToDetiailedProperty(index: number) {
+    navigateToDetailedProperty(index: number) {
         const {navigation, onSelectProperty, onRevealGoBack} = this.props;
         onSelectProperty(index);
         onRevealGoBack(true);
@@ -46,7 +54,7 @@ export default class PropertiesScreenBase extends React.Component<PropertiesScre
             return (
                 <ViewPropertyCard
                     key={curIndex}
-                    viewButtonSelectedCallBack={this.navigateToDetiailedProperty}
+                    viewButtonSelectedCallBack={this.navigateToDetailedProperty}
                     property={property}
                     propertyIndex={curIndex}
                 />

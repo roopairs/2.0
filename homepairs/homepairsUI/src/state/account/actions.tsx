@@ -144,8 +144,7 @@ export const fetchAccount = (
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
             }
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
           })
           .finally(() => {
@@ -184,8 +183,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
           modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         modalSetOffCallBack("Connection to the server could not be established.");
       });
   };
@@ -220,7 +218,7 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
             modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
           }
         })
-        .catch((error) => {
+        .catch(() => {
           modalSetOffCallBack("Connection to the server could not be established.");
         });
     };

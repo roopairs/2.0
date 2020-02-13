@@ -11,7 +11,6 @@ import {
     ServiceState,
     PropertyListState,
 } from 'homepairs-types';
-import { properties } from '../../src/state/property-list/reducer';
 
 const middleWares = [thunk];
 const mockStore = configureMockStore(middleWares);
@@ -20,8 +19,8 @@ const MainAppStack: Array<MainAppStackType> = [
         title: 'Properties',
         navigate: 'AccountProperties',
         key: 'Properties',
-        button: 'Add Property',
-        onButtonClick: () => {
+        button: 'Add Property',          
+        onNavButtonClick: () => {
             return true;
         },
     },

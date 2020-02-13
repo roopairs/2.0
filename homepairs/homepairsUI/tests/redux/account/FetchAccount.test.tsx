@@ -4,9 +4,10 @@ import { NavigationSwitchProp } from 'react-navigation';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
+import { mockSwitchNavigation, navigationSwitchSpyFunction } from '../../fixtures/DummyComponents';
 
 const TYPE = 'ACCOUNT/FETCH_PROFILE';
-const spyFunction = jest.fn((arg:string) => {return arg;});
+const spyFunction = navigationSwitchSpyFunction;
 
 const expectedResults: {[id:string]: AccountStateAction} = {
   PM_WITHOUT_TOKEN: { // PM Account w/out token 
@@ -164,27 +165,7 @@ const testJsonValues: {[id:string]: any} =
 
 
 
-const mockNavigation: NavigationSwitchProp = {
-  navigate: (routeNameOrOptions)=>{
-    spyFunction(routeNameOrOptions);
-    return true;
-  },
-  state: undefined,
-  dispatch: undefined, 
-  goBack: undefined,
-  dismiss: undefined,
-  openDrawer:undefined,
-  closeDrawer: undefined, 
-  toggleDrawer: undefined, 
-  getParam: undefined,
-  setParams: undefined,
-  emit: undefined, 
-  addListener: undefined, 
-  isFocused: undefined, 
-  isFirstRouteInParent: undefined, 
-  dangerouslyGetParent: undefined,
-  jumpTo: undefined,
-};
+const mockNavigation: NavigationSwitchProp = mockSwitchNavigation;
 
 const createTestProps = (props: Object) => ({
   navigation: mockNavigation,
