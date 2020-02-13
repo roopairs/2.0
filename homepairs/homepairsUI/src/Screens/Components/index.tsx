@@ -45,7 +45,9 @@ export { default as AccountConnectedCard } from './AuthenticationCards/AccountCo
 export { default as ConnectAccountCard } from './AuthenticationCards/ConnectAccountCard';
 export { default as HomePairsHeader } from './HomePairsHeader/HomePairsHeader';
 export { default as AddNewPropertyModal } from './Modals/AddNewPropertyModal/AddNewPropertyModal';
+export { default as AddNewPropertyModalBase } from './Modals/AddNewPropertyModal/AddNewPropertyModalBase';
 export { default as EditPropertyModal } from './Modals/EditPropertyModal/EditPropertyModal';
+export { default as EditPropertyModalBase } from './Modals/EditPropertyModal/EditPropertyModalBase';
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
 
 /**
