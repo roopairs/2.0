@@ -8,8 +8,7 @@ import {
     ImageSourcePropType,
 } from 'react-native';
 import {
-    ThinButtonProps,
-    renderThinButton,
+    ThinButton,
 } from 'homepairs-elements';
 import { defaultProperty } from 'homepairs-images';
 import strings from 'homepairs-strings';
@@ -18,7 +17,7 @@ import { HomePairsDimensions, Property } from 'homepairs-types';
 /**
  * Main App Components will have similar functionality to the parent components ONLY
  * in terms of Presentation. These are NOT SMART COMPONENTS. These components should never
- * have access the store. They should send information back to the parent class and allow
+ * have access to the store. They should send information back to the parent class and allow
  * the parent to take care of logic related to the global state.
  */
 
@@ -112,65 +111,98 @@ const styles = StyleSheet.create({
     },
 });
 
+
+
 export type ViewPropertyCardProps = {
+    /**
+     * Callback that will navigate to the DetailedProperty Screen
+     */
     viewButtonSelectedCallBack?: (arg0?: number, arg1?: any) => any;
+
+    /**
+     * The position of the property contents in the redux Store. This value will
+     * be assigned to the store selectedProperty member when the detailed page is rendered
+     */
     propertyIndex: number;
+
     property: Property;
+
+    /**
+     * An optional image that is used when the card is rendered. If none is provided, a default 
+     * image will be used instead.
+     */
     image?: ImageSourcePropType;
 };
 
 const viewPropertyButtonText = strings.propertiesPage.viewPropertyCardButton;
+
+/**
+ * ---------------------------------------------------
+ * View Property Card
+ * ---------------------------------------------------
+ * A component that provides very high level information about a property. It is intended 
+ * to be passed a callback function from its parent to permit it to navigate to a detailed property 
+ * screen with the the card's assigned Property. It is also capable of being passed an image.
+ * 
+ * TODO: Set Google Maps API to fetch address images.
+ * @param {ViewPropertyCardProps} props 
+ */
 export default function ViewPropertyCard(props: ViewPropertyCardProps) {
-    const {
-        viewButtonSelectedCallBack,
-        property,
-        propertyIndex,
-        image,
-    } = props;
+    const { viewButtonSelectedCallBack, property, propertyIndex, image} = props;
     const {streetAddress, city, state} = property;
+    
     /**
-     * This function is inteded to invoke the callback to its parent function. It will return the index of the
+     * This function is intended to invoke the callback to its parent function. It will return the index of the
      * the Property found in global store's PropertyState which an array of Properties, Property[]
      */
     function sendIndexToParent() {
         viewButtonSelectedCallBack(propertyIndex);
-    }
+    };
 
-    const thinButtonProps: ThinButtonProps = {
-        name: viewPropertyButtonText,
-        containerStyle: styles.thinButtonContainer,
-        buttonStyle: styles.thinButton,
-        buttonTextStyle: styles.thinButtonText,
-        onClick: sendIndexToParent,
+
+    function renderImageContent() {
+        return (
+            <ImageBackground
+                source={image}
+                style={
+                    Platform.OS === 'web'
+                    ? styles.homePairsPropertiesImageWeb
+                    : styles.homePairsPropertiesImage
+                }
+                imageStyle={styles.imageStyle}
+                resizeMode="cover">
+                <View style={styles.propertyAddressContainer}>
+                    <Text style={styles.streetText}>{streetAddress}</Text>
+                        <Text style={styles.cityText}> {city},{" "}{state}</Text>
+                </View>
+            </ImageBackground>
+        );
+    };
+
+    function renderThinButton() {
+        return (
+            <ThinButton 
+                name={viewPropertyButtonText}
+                containerStyle={styles.thinButtonContainer}
+                buttonStyle={styles.thinButton}
+                buttonTextStyle={styles.thinButtonText}
+                onClick={sendIndexToParent} />
+        );
     };
 
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
-                <ImageBackground
-                    source={image}
-                    style={
-                        Platform.OS === 'web'
-                            ? styles.homePairsPropertiesImageWeb
-                            : styles.homePairsPropertiesImage
-                    }
-                    imageStyle={styles.imageStyle}
-                    resizeMode="cover"
-                >
-                    <View style={styles.propertyAddressContainer}>
-                        <Text style={styles.streetText}>{streetAddress}</Text>
-                            <Text style={styles.cityText}> {city},{" "}{state}</Text>
-                    </View>
-                </ImageBackground>
+                {renderImageContent()}
             </View>
             <View style={styles.remainingContainer}>
-                {renderThinButton(thinButtonProps)}
+                {renderThinButton()}
             </View>
         </View>
     );
 }
 
 ViewPropertyCard.defaultProps = {
-    viewButtonSelectedCallBack: (arg0?: number, arg1?: any) => {return {arg0, arg1};},
+    viewButtonSelectedCallBack: (propertyIndex: number, navigation?: any) => {return {propertyIndex, navigation};},
     image: defaultProperty,
 };

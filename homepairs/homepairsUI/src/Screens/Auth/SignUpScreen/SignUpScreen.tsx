@@ -36,8 +36,8 @@ const mapDispatchToProps : (dispatch: any) => SignUpViewDispatchProps = (dispatc
 });
 
 const SignUpScreen = connect(null, mapDispatchToProps)(SignUpScreenBase);
+const SignUpScreenWithNav = withNavigation(SignUpScreen);
 
-const AuthPage = withAuthPage(SignUpScreen, authPageParam);
-const AuthPageWithNav = withNavigation(AuthPage);
-const AuthWithModal = withModal(AuthPageWithNav, CreatingAccountModal);
+const AuthPage = withAuthPage(SignUpScreenWithNav, authPageParam);
+const AuthWithModal = withModal(AuthPage, CreatingAccountModal);
 export default withDarkMode(AuthWithModal);

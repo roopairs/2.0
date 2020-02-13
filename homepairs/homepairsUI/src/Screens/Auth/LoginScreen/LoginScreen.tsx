@@ -29,8 +29,13 @@ const mapDispatchToProps : (dispatch: any) => LoginViewDispatchProps = (dispatch
     },
 });
 
+/* * Inject the HOCs for the base login screen * */
 const LoginScreen = connect(null, mapDispatchToProps)(LoginScreenBase);
-const AuthPage = withAuthPage(LoginScreen, authPageParam);
-const AuthPageWithNav = withNavigation(AuthPage);
-const AuthWithModal = withModal(AuthPageWithNav, LoggingInModal);
+const LoginScreenWithNav = withNavigation(LoginScreen);
+
+/* * Now that the Base is prepared, wrap the base to get a complete Homepairs AuthScreen * */
+const AuthPage = withAuthPage(LoginScreenWithNav, authPageParam);
+
+/* * Now that the Screen is ready, we may add a modal* */
+const AuthWithModal = withModal(AuthPage, LoggingInModal);
 export default withDarkMode(AuthWithModal);
