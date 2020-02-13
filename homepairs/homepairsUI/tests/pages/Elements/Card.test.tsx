@@ -49,10 +49,10 @@ describe("Card", () => {
         <View/><Text>Nadie</Text><Button testID='child-button' title='' onPress={spyFunctionButton}/></Card>);
 
 // Testing the card components title 
-const testComponent7 = <Card title={message}/>;
-const testComponent8 = <Card subtitle={message2}/>;
-const testComponent9 = <Card title={message} subtitle={message2}/>;
-const testComponent10 = <Card title={message} subtitle={message2}><View/></Card>;
+  const testComponent7 = <Card title={message}/>;
+  const testComponent8 = <Card subtitle={message2}/>;
+  const testComponent9 = <Card title={message} subtitle={message2}/>;
+  const testComponent10 = <Card title={message} subtitle={message2}><View/></Card>;
 
   // All properties filled *excluding key
   const testComponent11 = 

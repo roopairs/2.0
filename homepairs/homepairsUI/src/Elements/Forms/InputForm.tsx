@@ -4,9 +4,10 @@ import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 
 export type InputFormProps = {
-    key?: any,
+    key?: any;
     name?: string;
-    ref?: any,
+    ref?: any;
+    testID?: string;
     parentCallBack?: (child: string) => any;
     secureTextEntry?: boolean;
     formTitleStyle?: ViewStyle;
@@ -120,6 +121,7 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
                     onChangeText={text => {this.passInputValue(text);}}
                 />
                 <HelperText
+                    testID= 'helper text'
                     type= 'error'
                     visible={error}
                     style={errorStyle}
@@ -138,6 +140,7 @@ InputForm.defaultProps = {
     parentCallBack: (child: string) => {
         return child;
     },
+    testID: null,
     secureTextEntry: false,
     formTitleStyle: DefaultInputFormStyle.formTitle,
     containerStyle: DefaultInputFormStyle.container,
