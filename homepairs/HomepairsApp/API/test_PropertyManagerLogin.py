@@ -31,8 +31,8 @@ class PropertyManagerLogin(TestCase):
     def tearDownClass(self):
         setUpHelper()
 
-    # Everything is correct
     def test_pm_allCorrect(self):
+        '''Everything is correct'''
         data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
         responseData = getInfo(LOGIN, data)
 
@@ -43,56 +43,56 @@ class PropertyManagerLogin(TestCase):
         self.assertEqual(pm.get('lastName'), 'Grant')
         self.assertEqual(pm.get('email'), 'eerongrant@gmail.com')
 
-    # Email is wrong
     def test_pm_wrongEmail(self):
+        '''Email is wrong'''
         data = {'email': 'erongrant@gmail.com', 'password': 'pass4eeron'}
         responseData = getInfo(LOGIN, data)
 
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_CREDENTIALS)
 
-    # Pass is wrong
     def test_pm_wrongPass(self):
+        '''Pass is wrong'''
         data = {'email': 'eerongrant@gmail.com', 'password': 'passeeron'}
         responseData = getInfo(LOGIN, data)
 
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_CREDENTIALS)
 
-    # Pass is wrong and email is wrong
     def test_pm_wrongPassAndEmail(self):
+        '''Pass is wrong and email is wrong'''
         data = {'email': 'eerongant@gmail.com', 'password': 'passeeron'}
         responseData = getInfo(LOGIN, data)
 
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_CREDENTIALS)
 
-    # No Email Field
     def test_pm_incorrectEmailField(self):
+        '''No Email Field'''
         data = {'gmail': 'adam@m.com', 'password': 'adamisNOTcool'}
         responseData = getInfo(LOGIN, data)
 
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": email")
 
-    # No Pass Field
     def test_pm_incorrectPassField(self):
+        '''No Pass Field'''
         data = {'email': 'adam@m.com', 'assword': 'adamisNOTcool'}
         responseData = getInfo(LOGIN, data)
 
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": password")
 
-    # No Correct Fields
     def test_pm_incorrectFields(self):
+        '''No Correct Fields'''
         data = {'gmail': 'adam@m.com', 'assword': 'adamisNOTcool'}
         responseData = getInfo(LOGIN, data)
 
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": email password")
 
-    # Has a property on Roopairs not in Homepairs
     def test_pm_propOnRoopairs(self):
+        '''Has a property on Roopairs not in Homepairs'''
         data = {'email': 'syncCheck@gmail.com', 'password': 'nisbyb-sidvUz-6qonve'}
         responseData = getInfo(LOGIN, data)
 
@@ -110,8 +110,8 @@ class PropertyManagerLogin(TestCase):
         self.assertEqual(properties[0].get('numBed'), 1)
         self.assertEqual(properties[0].get('maxTenants'), 1)
 
-    # Has four properties on Roopairs not in Homepairs
     def test_pm_propOnRoopairsXFour(self):
+        '''Has four properties on Roopairs not in Homepairs'''
         data = {'email': 'syncCheckFour@gmail.com', 'password': 'nisbyb-sidvUz-6qonve'}
         responseData = getInfo(LOGIN, data)
 

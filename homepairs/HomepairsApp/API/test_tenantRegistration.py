@@ -31,8 +31,8 @@ class TenantRegistration(TestCase):
     def tearDownClass(self):
         setUpHelper()
 
-    # Everything is correct
     def test_tenant_allCorrect(self):
+        '''Everything is correct'''
         tenEmail = 'fakeEmail@gmail.com'
         data = {
                   'firstName': 'Fake',
@@ -53,8 +53,8 @@ class TenantRegistration(TestCase):
         self.assertEqual(tenProp.get('streetAddress'), '537 Couper Dr.')
         self.assertEqual(tenProp.get('numBath'), 2)
 
-    # Not all fields supplied
     def test_tenant_noLastName(self):
+        '''Not all fields supplied'''
         tenEmail = 'fakeEmail@gmail.com'
         data = {
                   'firstName': 'Fake',

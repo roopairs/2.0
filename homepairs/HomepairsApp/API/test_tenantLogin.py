@@ -32,8 +32,8 @@ class TenantLogin(TestCase):
     def tearDownClass(self):
         setUpHelper()
 
-    # Everything is correct
     def test_tenant_allCorrect(self):
+        '''Everything is correct'''
         email = 'adamkberard@gmail.com'
         password = 'pass4adam'
         data = {'email': email, 'password': password}
@@ -59,48 +59,48 @@ class TenantLogin(TestCase):
         self.assertEqual(pm.get('lastName'), 'Grant')
         self.assertEqual(pm.get('email'), 'eerongrant@gmail.com')
 
-    # Incorrect Email
     def test_tenant_incorrectEmail(self):
+        '''Incorrect Email'''
         data = {'email': 'damkberard@gmail.com', 'password': 'pass4adam'}
         responseData = getInfo(LOGIN, data)
 
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_CREDENTIALS)
 
-    # Incorrect Pass
     def test_tenant_incorrectPass(self):
+        '''Incorrect Pass'''
         data = {'email': 'adamkberard@gmail.com', 'password': 'adamisNOTcool'}
         responseData = getInfo(LOGIN, data)
 
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_CREDENTIALS)
 
-    # Incorrect Pass & Email
     def test_tenant_incorrectPassAndEmail(self):
+        '''Incorrect Pass & Email'''
         data = {'email': 'adam@m.com', 'password': 'adamisNOTcool'}
         responseData = getInfo(LOGIN, data)
 
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_CREDENTIALS)
 
-    # No Email Field
     def test_tenant_incorrectEmailField(self):
+        '''No Email Field'''
         data = {'gmail': 'adam@m.com', 'password': 'adamisNOTcool'}
         responseData = getInfo(LOGIN, data)
 
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": email")
 
-    # No Pass Field
     def test_tenant_incorrectPassField(self):
+        '''No Pass Field'''
         data = {'email': 'adam@m.com', 'assword': 'adamisNOTcool'}
         responseData = getInfo(LOGIN, data)
 
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": password")
 
-    # No Correct Fields
     def test_tenant_incorrectFields(self):
+        '''No Correct Fields'''
         data = {'gmail': 'adam@m.com', 'assword': 'adamisNOTcool'}
         responseData = getInfo(LOGIN, data)
 

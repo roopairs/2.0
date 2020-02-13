@@ -33,8 +33,8 @@ class CreateProperty(TestCase):
     def tearDownClass(self):
         setUpHelper()
 
-    # Everything is correct
     def test_create_property_allCorrect(self):
+        '''Everything is correct'''
         streetAddress = "130 Grand Ave"
         city = 'San Luis Obispo'
         state = 'CA'
@@ -106,15 +106,13 @@ class CreateProperty(TestCase):
 
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        # succeeds the first time the property is created
-        # fails the second time trying to create the same property
         responseData = getInfo(CREATE_PROP, data)
 
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), PROPERTY_ALREADY_EXISTS)
 
-    # Incorrect Fields Being Sent
     def test_create_property_bad_field_street(self):
+        '''Incorrect Fields Being Sent'''
         data = {
                   'city': 'test',
                   'state': 'test',
@@ -129,8 +127,8 @@ class CreateProperty(TestCase):
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": streetAddress")
 
-    # Incorrect Fields Being Sent
     def test_create_property_bad_field_city(self):
+        '''Incorrect Fields Being Sent'''
         data = {
                   'streetAddress': 'Test',
                   'state': 'test',
@@ -145,8 +143,8 @@ class CreateProperty(TestCase):
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": city")
 
-    # Incorrect Fields Being Sent
     def test_create_property_bad_field_bath(self):
+        '''Incorrect Fields Being Sent'''
         data = {
                   'streetAddress': 'Test',
                   'state': 'test',
@@ -162,8 +160,8 @@ class CreateProperty(TestCase):
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": numBath")
 
-    # Incorrect Fields Being Sent
     def test_create_property_bad_field_mult(self):
+        '''Incorrect Fields Being Sent'''
         data = {
                   'streetAddress': 'Test',
                   'city': 'test',
@@ -188,8 +186,8 @@ class UpdateProperty(TestCase):
     def tearDownClass(self):
         setUpHelper()
 
-    # Everything is correct, I create the property first, then update it.
     def test_update_property_allCorrect(self):
+        '''Everything is correct, I create the property first, then update it.'''
         data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
         responseData = getInfo(LOGIN, data)
 
@@ -215,8 +213,6 @@ class UpdateProperty(TestCase):
         responseData = getInfo(CREATE_PROP, data)
 
         self.assertEqual(responseData.get(STATUS), SUCCESS)
-
-        # NOW UPDATE IT
 
         oldStreetAddress = '395 Grand Ave'
         oldCity = 'San Luis Obispo'
@@ -260,8 +256,8 @@ class UpdateProperty(TestCase):
         self.assertEqual(prop.get('numBed'), numBed)
         self.assertEqual(prop.get('numBath'), numBath)
 
-    # Incorrect Fields Being Sent
     def test_create_property_bad_field_street(self):
+        '''Incorrect Fields Being Sent'''
         data = {
                   'oldStreetAddress': 'test',
                   'oldCity': 'test',
@@ -278,8 +274,8 @@ class UpdateProperty(TestCase):
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": streetAddress")
 
-    # Incorrect Fields Being Sent
     def test_create_property_bad_field_city(self):
+        '''Incorrect Fields Being Sent'''
         data = {
                   'oldStreetAddress': 'test',
                   'oldCity': 'test',
@@ -296,8 +292,8 @@ class UpdateProperty(TestCase):
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": city")
 
-    # Incorrect Fields Being Sent
     def test_create_property_bad_field_bath(self):
+        '''Incorrect Fields Being Sent'''
         data = {
                   'oldStreetAddress': 'test',
                   'oldCity': 'test',
@@ -315,8 +311,8 @@ class UpdateProperty(TestCase):
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": numBath")
 
-    # Incorrect Fields Being Sent
     def test_create_property_bad_field_mult(self):
+        '''Incorrect Fields Being Sent'''
         data = {
                   'oldStreetAddress': 'test',
                   'oldCity': 'test',

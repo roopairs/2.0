@@ -33,8 +33,8 @@ class PMRegistration(TestCase):
     def tearDownClass(self):
         setUpHelper()
 
-    # Everything is correct
     def test_pm_allCorrect(self):
+        '''Everything is correct'''
         randEmail = "fakeEmail{0}@gmail.com".format(str(random.randint(0, 10000000)))
         randName = "BBNo{0}".format(str(random.randint(0, 10000000)))
         data = {
@@ -52,8 +52,8 @@ class PMRegistration(TestCase):
         self.assertEqual(pm.get('lastName'), 'Ugly Boi')
         self.assertEqual(pm.get('email'), randEmail)
 
-    # PM Missing fields
     def test_pm_missing_firstName(self):
+        '''PM Missing fields'''
         data = {
                   'lastName': 'Ugly Boi',
                   'email': 'fakeEmail@gmail.com',
@@ -100,8 +100,8 @@ class PMRegistration(TestCase):
         self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": password")
 
 
-# Property Manager Login Tests with Roopairs
 class PMRegistrationRoopairs(TestCase):
+    '''Property Manager Login Tests with Roopairs'''
     def setUp(self):
         setUpHelper()
 
@@ -154,8 +154,8 @@ class PMRegistrationRoopairs(TestCase):
         self.assertEqual(responseData.get(STATUS), FAIL)
         self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": password")
 
-    # They already have properties
     def test_pm_allCorrectPlusProps(self):
+        '''They already have properties'''
         pmEmail = "syncCheckRegister@gmail.com"
         pmPass = "nisbyb-sidvUz-6qonve"
         pmFirstName = 'Sync'

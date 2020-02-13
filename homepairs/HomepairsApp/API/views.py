@@ -412,14 +412,11 @@ def updateProperty(request):
                 break
 
         url = url + changeID + '/'
-        print(url)
         sendAddress = streetAddress + ", " + city + ", " + state
         data = {
                    'physical_address': sendAddress
                }
         response = requests.put(url, json=data, headers={"Authorization": sendToken})
-        print(response.text)
-
 
         if thePropertyList.exists():
             if thePropertyList.count() == 1:

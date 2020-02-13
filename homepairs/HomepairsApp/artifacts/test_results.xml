@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-	<testsuite errors="0" failures="0" file="API/test_PropertyCRUD.py" name="API.test_PropertyCRUD.UpdateProperty-20200213073612" skipped="0" tests="1" time="3.081" timestamp="2020-02-13T07:36:15">
-		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="192" name="test_update_property_allCorrect" time="3.081" timestamp="2020-02-13T07:36:15">
+	<testsuite errors="0" failures="0" file="API/test_PropertyCRUD.py" name="API.test_PropertyCRUD.UpdateProperty-20200213182336" skipped="0" tests="5" time="4.692" timestamp="2020-02-13T18:23:41">
+		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="300" name="test_create_property_bad_field_bath" time="0.042" timestamp="2020-02-13T18:23:36">
 			<system-out>
-<![CDATA[https://capstone.api.roopairs.com/v0/service-locations/g1Z8XkL/
-{"id":"g1Z8XkL","name":"","phone":"","physical_address":"1054 Saint James Ct., San Dimas, CA","physical_address_formatted":"1054 St James Ct, San Dimas, CA 91773, USA","__str__":"1054 Saint James Ct., San Dimas, CA","internal_client":{"name":"Berger Houses","slug":"berger-houses","email":"","phone":"","website":"","logo":null,"industry_type":1,"industry_type_label":"Residential"},"external_client":null}
-]]>			</system-out>
+<![CDATA[]]>			</system-out>
+			<system-err>
+<![CDATA[]]>			</system-err>
+		</testcase>
+		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="282" name="test_create_property_bad_field_city" time="0.016" timestamp="2020-02-13T18:23:36">
+			<system-out>
+<![CDATA[]]>			</system-out>
+			<system-err>
+<![CDATA[]]>			</system-err>
+		</testcase>
+		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="319" name="test_create_property_bad_field_mult" time="0.015" timestamp="2020-02-13T18:23:36">
+			<system-out>
+<![CDATA[]]>			</system-out>
+			<system-err>
+<![CDATA[]]>			</system-err>
+		</testcase>
+		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="264" name="test_create_property_bad_field_street" time="0.016" timestamp="2020-02-13T18:23:36">
+			<system-out>
+<![CDATA[]]>			</system-out>
+			<system-err>
+<![CDATA[]]>			</system-err>
+		</testcase>
+		<testcase classname="API.test_PropertyCRUD.UpdateProperty" file="API/test_PropertyCRUD.py" line="192" name="test_update_property_allCorrect" time="4.604" timestamp="2020-02-13T18:23:41">
+			<system-out>
+<![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
