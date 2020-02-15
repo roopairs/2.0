@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'HomepairsApp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'testDB',
+        'NAME': 'testdb',
         'USER': 'dummy',
         'PASSWORD': 'pass4dummy',
         'HOST': 'localhost',
