@@ -37,6 +37,8 @@ export default class PropertiesScreenBase extends React.Component<PropertiesScre
         this.navigateToDetailedProperty = this.navigateToDetailedProperty.bind(this);
     }
 
+    static path = "properties"
+
     navigateToDetailedProperty(index: number) {
         const {navigation, onSelectProperty, onRevealGoBack} = this.props;
         onSelectProperty(index);

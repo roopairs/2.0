@@ -1,13 +1,13 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text, View } from 'react-native';
-import { ThinButtonProps, renderThinButton } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property } from 'homepairs-types';
-import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
+import { isNullOrUndefined } from 'src/utility/ParameterChecker';
+import ThinButton from 'src/Elements/Buttons/ThinButton';
 
-export type GeneralHomeInfoProps = DarkModeInjectedProps & {
+export type GeneralHomeInfoProps = {
     property: Property;
     hasEdit?: boolean;
     onClick?: () => any;
@@ -16,7 +16,7 @@ export type GeneralHomeInfoProps = DarkModeInjectedProps & {
 const generalHomeStrings = strings.detailedPropertyPage.generalHomeInfo;
 
 function setStyles(colorTheme?: BaseStyles.ColorTheme) {
-    const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;
+    const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
     return StyleSheet.create({
         container: {
             backgroundColor: colors.secondary,
@@ -105,20 +105,12 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
 
 export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
     const {
-        primaryColorTheme,
         property,
         hasEdit,
         onClick,
     } = props;
     const {streetAddress, tenants, bedrooms, bathrooms, city, state} = property;
-    const styles = setStyles(primaryColorTheme);
-
-    const thinButtonProps: ThinButtonProps = {
-        name: generalHomeStrings.button,
-        buttonStyle: styles.editButton,
-        buttonTextStyle: styles.editButtonText,
-        onClick,
-    };
+    const styles = setStyles(null);
 
     function detailBox(arg0: String, arg1: number) {
         return (
@@ -151,10 +143,12 @@ export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
                 </View>
                 {livingSpace()}
 
-                {typeof hasEdit === 'undefined' ||
-                hasEdit == null ||
-                hasEdit ? (
-                    renderThinButton(thinButtonProps)
+                {isNullOrUndefined(hasEdit) || hasEdit ? (
+                    <ThinButton 
+                        name={generalHomeStrings.button}
+                        buttonStyle={styles.editButton}
+                        buttonTextStyle={styles.editButtonText}
+                        onClick={onClick}/>
                 ) : (
                     <></>
                 )}

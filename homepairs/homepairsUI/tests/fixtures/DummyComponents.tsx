@@ -4,8 +4,8 @@ import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
 
 export const SingleViewComponent = <View style={{height: '25%', width: '25%', backgroundColor: 'black'}}/>;
-export const navigationSwitchSpyFunction = jest.fn((arg:string) => {return arg;});
-export const navigationStackSpyFunction = jest.fn((arg:any) => {return arg;});
+export const navigationSwitchSpyFunction = jest.fn((arg?:string) => {return arg;});
+export const navigationStackSpyFunction = jest.fn((arg?:any) => {return arg;});
 
 export const mockSwitchNavigation: NavigationSwitchProp = {
     navigate: (routeNameOrOptions)=>{
@@ -14,7 +14,10 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
     },
     state: undefined,
     dispatch: undefined, 
-    goBack: undefined,
+    goBack: ()=> {
+      navigationSwitchSpyFunction();
+      return true;
+    },
     dismiss: undefined, 
     getParam: undefined,
     setParams: undefined,
@@ -33,7 +36,10 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
       },
       state: undefined,
       dispatch: undefined, 
-      goBack: undefined,
+      goBack: ()=>{
+        navigationStackSpyFunction();
+        return true;
+      },
       dismiss: undefined,
       getParam: undefined,
       setParams: undefined,

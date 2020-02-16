@@ -33,5 +33,5 @@ export const HomePairFonts = {
     nunito_lightitalic: 'nunito-lightitalic',
     nunito_regular: 'nunito-regular',
     nunito_semibold: 'nunito-semibold',
-    nunito_semibolditalic: 'nunito-semibolditalic'
+    nunito_semibolditalic: 'nunito-semibolditalic',
 };

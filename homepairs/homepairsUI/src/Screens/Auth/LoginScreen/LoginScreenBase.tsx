@@ -8,6 +8,8 @@ import {
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
 import { NavigationSwitchProp, NavigationSwitchScreenProps} from 'react-navigation';
+import { navigationKeys } from 'homepairs-routes';
+
 import {
     isEmailSyntaxValid,
     isPasswordValid,
@@ -94,8 +96,8 @@ export default class LoginScreenBase extends React.Component<LoginProps,LoginSta
      * defaults to 'Error Message'
      */
     setModalOff(error: string = 'There was an error logging in.') {
-        const { onChangeModalVisibility, setErrorState } = this.props;
-        onChangeModalVisibility(false);
+        const { navigation, setErrorState } = this.props;
+        navigation.navigate(navigationKeys.LoginScreen);
         setErrorState(true, error);
     }
 
@@ -131,11 +133,11 @@ export default class LoginScreenBase extends React.Component<LoginProps,LoginSta
     }
 
     clickButton() {
-        const { onChangeModalVisibility, onFetchAccountProfile, navigation } = this.props;
+        const { onFetchAccountProfile, navigation } = this.props;
         const { username, password } = this.state;
         this.resetForms();
         if (this.validateForms(username, password)) {
-            onChangeModalVisibility(true);
+            navigation.navigate(navigationKeys.LoggingInModal);
             onFetchAccountProfile(username, password, this.setModalOff, navigation);
         }
     }

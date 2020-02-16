@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import { shallow} from "enzyme";
 import * as React from "react";
 import { View, Text, Button } from "react-native";
@@ -40,19 +36,17 @@ const passProps3: AuthPassProps = {
   subtitle: undefined,
 };
 
-const modalVisibilitySpy = jest.fn();
 const onClickButtonSpy = jest.fn();
 const onClickHighlightedTextSpy = jest.fn();
 
 function testComponent(props: AuthPageInjectedProps ) {
-  const {clickButton, clickHighlightedText, setErrorState, onChangeModalVisibility} = props;
+  const {clickButton, clickHighlightedText, setErrorState} = props;
 
   // Single function will call all injected methods for the test. 
   function invokeInjected(){
     clickButton(onClickButtonSpy);
     clickHighlightedText(onClickHighlightedTextSpy);
     setErrorState(true, 'Error');
-    onChangeModalVisibility(true);
   }
 
   return(
@@ -69,12 +63,11 @@ describe("test withAuthPage", ()=> {
     const store = mockStore(testStore1);
     beforeEach(() => {
       store.clearActions();
-      modalVisibilitySpy.mockClear();
     });
 
     it("Should render the property and have behavior we should examine", () => {
       const AuthHOC = withAuthPage(View, passProps1);
-      const authObj = <AuthHOC onChangeModalVisibility={modalVisibilitySpy}/>;
+      const authObj = <AuthHOC />;
       const renderedComponent1 = render(authObj);
 
       const wrapper = shallow(authObj);
@@ -95,13 +88,13 @@ describe("test withAuthPage", ()=> {
       // Test if the button invokes a function. Since this HOC's click functions all 
       // rely on the wrapped components, this should be false. 
       fireEvent.press(clickable);
-      expect(modalVisibilitySpy).toHaveBeenCalledTimes(0);
+      expect(onClickButtonSpy).toHaveBeenCalledTimes(0);
 
     });
 
     it("Test to if we can succesfully pass a React.Element into the button", () => {
       const AuthHOC = withAuthPage(View, passProps2);
-      const authObj = <AuthHOC onChangeModalVisibility={modalVisibilitySpy}/>;
+      const authObj = <AuthHOC />;
       const renderedComponent1 = render(authObj);
       const {getByTestId} = renderedComponent1;
 
@@ -111,7 +104,7 @@ describe("test withAuthPage", ()=> {
 
     it("Test to see if what occurs when the button is not defined", () => {
       const AuthHOC = withAuthPage(View, passProps3);
-      const authObj = <AuthHOC onChangeModalVisibility={modalVisibilitySpy}/>;
+      const authObj = <AuthHOC />;
       const renderedComponent1 = render(authObj);
       const {queryByTestId} = renderedComponent1;
 
@@ -122,7 +115,7 @@ describe("test withAuthPage", ()=> {
 
     it("Test for an actual component that invokes the functions", () => {
       const AuthHOC = withAuthPage(testComponent, passProps1);
-      const authObj = <AuthHOC onChangeModalVisibility={modalVisibilitySpy}/>;
+      const authObj = <AuthHOC />;
       const renderedComponent1 = render(authObj);
 
 
@@ -135,7 +128,6 @@ describe("test withAuthPage", ()=> {
 
       // Error message and Modal should be not be shown. In this case error should be undefined
       expect(queryByTestId('auth-error')).toBeFalsy();
-      expect(modalVisibilitySpy).toHaveBeenCalledTimes(0);
 
 
       // Check if the wrapped component renders. 
@@ -147,9 +139,7 @@ describe("test withAuthPage", ()=> {
 
 
       // The injected functions should now be called. 
-      expect(modalVisibilitySpy).toHaveBeenCalledTimes(1);
       expect(onClickButtonSpy).toHaveBeenCalledTimes(1);
-
       // Error message should be defined now
       expect(getByTestId('auth-error')).toBeDefined();
 

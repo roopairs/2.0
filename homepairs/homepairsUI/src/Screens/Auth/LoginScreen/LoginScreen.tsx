@@ -36,6 +36,4 @@ const LoginScreenWithNav = withNavigation(LoginScreen);
 /* * Now that the Base is prepared, wrap the base to get a complete Homepairs AuthScreen * */
 const AuthPage = withAuthPage(LoginScreenWithNav, authPageParam);
 
-/* * Now that the Screen is ready, we may add a modal* */
-const AuthWithModal = withModal(AuthPage, LoggingInModal);
-export default withDarkMode(AuthWithModal);
+export default AuthPage;

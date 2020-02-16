@@ -1,15 +1,15 @@
 import React from 'react';
-import { InputForm, InputFormProps } from 'homepairs-elements';
+import { InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import {
     AuthPageInjectedProps,
-    DarkModeInjectedProps,
 } from 'homepairs-components';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
 import { isNullOrUndefined, isEmailSyntaxValid, isPasswordValid} from 'homepairs-utilities';
 import { NavigationSwitchProp, NavigationSwitchScreenProps } from 'react-navigation';
-import { validate } from 'json-schema';
+import { InputFormProps } from 'src/Elements/Forms/InputForm';
+import { navigationKeys } from 'homepairs-routes';
 
 export type RoopairsLoginDispatchProps = {
     onFetchAccountProfile: (
@@ -20,7 +20,7 @@ export type RoopairsLoginDispatchProps = {
     ) => void
 }
 
-export type LoginProps = DarkModeInjectedProps &
+export type LoginProps = 
     RoopairsLoginDispatchProps &
     AuthPageInjectedProps &
     NavigationSwitchScreenProps;
@@ -75,7 +75,7 @@ export default class RoopairsLoginBase extends React.Component<
 
     constructor(props: Readonly<LoginProps>) {
         super(props);
-        this.inputFormStyle = setInputStyles(props.primaryColorTheme);
+        this.inputFormStyle = setInputStyles(null);
         this.getFormUsername = this.getFormUsername.bind(this);
         this.getFormPassword = this.getFormPassword.bind(this);
         this.setModalOff = this.setModalOff.bind(this);
@@ -91,8 +91,8 @@ export default class RoopairsLoginBase extends React.Component<
     }
 
     setModalOff(error: string = 'Error Message') {
-        const { onChangeModalVisibility, setErrorState } = this.props;
-        onChangeModalVisibility(false);
+        const { navigation, setErrorState } = this.props;
+        navigation.navigate(navigationKeys.RoopairsLogin);
         setErrorState(true, error);
     }
 
@@ -128,17 +128,17 @@ export default class RoopairsLoginBase extends React.Component<
     }
 
     clickButton() {
-        const {onChangeModalVisibility, onFetchAccountProfile, navigation} = this.props;
+        const {onFetchAccountProfile, navigation} = this.props;
         const {username, password} = this.state;
         this.resetForms();
         if (this.validateForms(username, password)) {
-            onChangeModalVisibility(true);
+            navigation.navigate(navigationKeys.RoopairsLoggingInModal);
             onFetchAccountProfile(username, password, navigation, this.setModalOff);
         }
     } 
 
     render() {
-        const inputFormProps = [
+        const inputFormProps: InputFormProps[] = [
             {   
                 ref: this.loginRef,
                 key: 'email',

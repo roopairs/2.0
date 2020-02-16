@@ -1,29 +1,19 @@
 import React from "react";
 import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from "react-native";
-import {ThinButton, renderInputForm, ThinButtonProps, Card } from 'homepairs-elements';
+import {ThinButton, ThinButtonProps, Card, InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, EditPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
-import { DarkModeInjectedProps } from '../../WithDarkMode/WithDarkMode';
-import {ModalInjectedProps} from '../WithModal/WithModal';
+import { NavigationStackProp, NavigationStackScreenProps } from 'react-navigation-stack';
+import { InputFormProps } from 'src/Elements/Forms/InputForm';
 
 export type EditPropertyDispatchProps = {
-    onEditProperty: (newProperty: Property, info: EditPropertyState, onChangeModalVisibility: (check: boolean) => void) => void
-}
+    onEditProperty: (newProperty: Property, info: EditPropertyState, navigation: NavigationStackProp) => void
+};
 
-/** NOTE: 
- *  I moved this type to src/state/types.tsx in order to prevent a dependency cycle
-        export type EditPropertyState = {
-            email : string;
-            index: number;
-            oldProp: Property;
-            roopairsToken: string;
-        }
- */
-
-type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyState;
+type Props =  NavigationStackScreenProps & EditPropertyDispatchProps & EditPropertyState;
 
 type EditState = {
     address: string, 
@@ -170,7 +160,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
 
     constructor(props: Readonly<Props>) {
         super(props);
-        this.inputFormStyle = setInputStyles(props.primaryColorTheme);
+        this.inputFormStyle = setInputStyles(null);
         this.getFormAddress = this.getFormAddress.bind(this);
         this.getFormCity = this.getFormCity.bind(this);
         this.getFormState = this.getFormState.bind(this);
@@ -272,7 +262,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
     }
 
     clickSubmitButton() {
-        const {email, onChangeModalVisibility, onEditProperty, index, oldProp, roopairsToken} = this.props;
+        const {email, navigation, onEditProperty, index, oldProp, roopairsToken} = this.props;
         const {address, state, city, bedrooms, bathrooms, tenants} = this.state;
         this.resetForms();
         if (this.validateForms()) {
@@ -283,13 +273,13 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                 tenants: Number(tenants),
             };
             const info : EditPropertyState = { email, index, oldProp, roopairsToken};
-            onEditProperty(newProperty, info, onChangeModalVisibility);
+            onEditProperty(newProperty, info, navigation);
         } 
     }
 
     renderInputForms() {
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
-        const inputForms  = [
+        const inputForms: InputFormProps[]  = [
             {
                 ref: this.addressRef,
                 key: inputFormStrings.address,
@@ -352,13 +342,29 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
             }, 
         ];
 
-        return inputForms.map(inputFromProp => {
-            return renderInputForm(inputFromProp);
+        /**
+         * NOTE: As with AddNewProperty Modal I have also changed the EditPropertyModal to use the actual Inputform instead 
+         * of the helper function. 
+         */
+        return inputForms.map(inputFormProp => {
+            const {ref, key, name, parentCallBack, formTitleStyle, inputStyle,errorMessage, secureTextEntry, errorStyle, value, placeholder} = inputFormProp;
+            return <InputForm
+                        ref={ref}
+                        key={key}
+                        name={name}
+                        parentCallBack={parentCallBack}
+                        formTitleStyle={formTitleStyle}
+                        inputStyle={inputStyle}
+                        errorStyle={errorStyle}
+                        secureTextEntry={secureTextEntry}
+                        value={value}
+                        placeholder={placeholder}
+                        errorMessage={errorMessage}/>;
         });
     }
     
     render() {
-        const {onChangeModalVisibility} = this.props;
+        const {navigation} = this.props;
         const showCloseButton = true;
         return(
             <SafeAreaView style={this.inputFormStyle.modalContainer}>
@@ -373,7 +379,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     title={editPropertyStrings.title}
                     closeButtonPressedCallBack={() => {
-                        onChangeModalVisibility(false);
+                        navigation.goBack();
                         this.setInitialState();
                         this.resetForms();
                     }}

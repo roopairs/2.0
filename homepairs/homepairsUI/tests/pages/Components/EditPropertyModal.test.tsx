@@ -1,35 +1,25 @@
-/**
- * @jest-environment jsdom
- */
+/* eslint-disable react/jsx-props-no-spreading */
 
 import { shallow} from "enzyme";
 import * as React from "react";
 import {InputForm, Card} from 'homepairs-elements';
 import {fireEvent, render} from "react-native-testing-library";
-import renderer from 'react-test-renderer';
 import { EditPropertyModalBase } from "homepairs-components";
 import {EditPropertyState, Property} from 'homepairs-types';
-import {ColorTheme} from 'homepairs-base-styles';
+import { NavigationStackProp } from 'react-navigation-stack';
+import { mockStackNavigation, navigationStackSpyFunction } from 'tests/fixtures/DummyComponents';
+import { TextInput } from 'react-native';
 
 
-type Props = ModalInjectedProps & DarkModeInjectedProps & EditPropertyDispatchProps & EditPropertyState;
+type Props = NavigationStackProp & EditPropertyDispatchProps & EditPropertyState;
 
-export type ModalInjectedProps = {
-    onChangeModalVisibility: (isVisible?: boolean) => void;
-};
-
-export type DarkModeInjectedProps = {
-    primaryColorTheme?: ColorTheme,
-};
 
 export type EditPropertyDispatchProps = {
-    onEditProperty: (newProperty: Property, info: EditPropertyState, onChangeModalVisibility: (check: boolean) => void) => void
+    onEditProperty: (newProperty: Property, info: EditPropertyState, navigation: NavigationStackProp) => void
 }
 
-
-
 const props : Props = {
-    onChangeModalVisibility: undefined,
+    navigation: mockStackNavigation,
     onEditProperty: undefined,
     email: undefined, 
     index: undefined, 
@@ -45,38 +35,31 @@ const props : Props = {
 };
 
 describe("Edit Property Modal", () => {
-    const onChangeModalVisibility = () => {return 'onChange is invoked';};
-    const onEditProperty = () => {return 'onCreate is invoked';};
-    const modalFunction = jest.fn(onChangeModalVisibility);
-    const modalFunction2 = jest.fn(onChangeModalVisibility);
-    const modalFunction3 = jest.fn(onChangeModalVisibility);
-    const modalFunction4 = jest.fn(onChangeModalVisibility);
+    const onEditProperty: (newProperty: Property, info: EditPropertyState, 
+        navigation: NavigationStackProp) => void = 
+        (newProperty, info, navigation ) => {return navigation.navigate('onCreate is invoked');};
     const editFunction = jest.fn(onEditProperty);
     const editFunction2 = jest.fn(onEditProperty);
     const editFunction3 = jest.fn(onEditProperty);
     const editFunction4 = jest.fn(onEditProperty);
 
-    const wrapper = shallow(<EditPropertyModalBase {...props} onChangeModalVisibility={modalFunction} onEditProperty={editFunction}/>);
-    const rendered = renderer.create(<EditPropertyModalBase {...props} onChangeModalVisibility={modalFunction} onEditProperty={editFunction}/>);
-    const rendered1 = render(<EditPropertyModalBase {...props} onChangeModalVisibility={modalFunction2} onEditProperty={editFunction2}/>);
-    const rendered2 = render(<EditPropertyModalBase {...props} onChangeModalVisibility={modalFunction3} onEditProperty={editFunction3}/>);
-    const rendered3 = render(<EditPropertyModalBase {...props} onChangeModalVisibility={modalFunction4} onEditProperty={editFunction4}/>);
+    const wrapper = shallow(<EditPropertyModalBase {...props} onEditProperty={editFunction}/>);
+    const rendered1 = render(<EditPropertyModalBase {...props} onEditProperty={editFunction2}/>);
+    const rendered2 = render(<EditPropertyModalBase {...props} onEditProperty={editFunction3}/>);
+    const rendered3 = render(<EditPropertyModalBase {...props} onEditProperty={editFunction4}/>);
+
+    beforeEach(() => {
+        navigationStackSpyFunction.mockClear();
+    });
 
     it("Test for proper components", () => {
         expect(wrapper.find(InputForm)).toHaveLength(6);
         expect(wrapper.find(Card)).toHaveLength(1);
     });
 
-    it("Test that methods are being called", () => {
-        rendered.root.props.onChangeModalVisibility();
-        rendered.root.props.onEditProperty();
-        expect(modalFunction.mock.calls).toHaveLength(1);
-        expect(editFunction.mock.calls).toHaveLength(1);
-    });
-
     it ("Test validate forms", () => {
-        const {getAllByTestId, getByType} = rendered3;
-        const inputs = getAllByTestId('userTextInput');
+        const {getAllByType, getByType, getByTestId} = rendered3;
+        const inputs = getAllByType(TextInput);
         const modal = getByType(EditPropertyModalBase);
         const address = inputs[0];
         const city = inputs[1];
@@ -92,7 +75,9 @@ describe("Edit Property Modal", () => {
         fireEvent.changeText(bedrooms, 'asdf');
         fireEvent.changeText(bathrooms, 'asdf');
 
+        fireEvent.press(getByTestId('click-thin-button'));
         expect(modal.instance.validateForms()).toBeFalsy();
+        expect(navigationStackSpyFunction).toHaveBeenCalledTimes(0);
 
         fireEvent.changeText(address, '123 Testing St.');
         fireEvent.changeText(city, 'San Luis Obispo');
@@ -107,12 +92,32 @@ describe("Edit Property Modal", () => {
     it("Test behavior when closed", () => {
         const {getByTestId} = rendered1;
         fireEvent.press(getByTestId('click-card-close-button'));
-        expect(modalFunction.mock.calls).toHaveLength(1);
+        expect(navigationStackSpyFunction).toHaveBeenCalled();
     });
 
     it("Test when submitted behavior", () => {
-        const {getByTestId} = rendered2;
+        const {getByTestId, getAllByType} = rendered2;
         fireEvent.press(getByTestId('click-thin-button'));
-        expect(modalFunction.mock.calls).toHaveLength(1);
+        expect(navigationStackSpyFunction).toHaveBeenCalledTimes(1);
+
+        const inputs = getAllByType(TextInput);
+        const address = inputs[0];
+        const city = inputs[1];
+        const state = inputs[2];
+        const tenants = inputs[3];
+        const bedrooms = inputs[4];
+        const bathrooms = inputs[5];
+
+        fireEvent.changeText(address, '123 Testing St.');
+        fireEvent.changeText(city, 'San Luis Obispo');
+        fireEvent.changeText(state, 'CA');
+        fireEvent.changeText(tenants, '5');
+        fireEvent.changeText(bedrooms, '4');
+        fireEvent.changeText(bathrooms, '2');
+
+        fireEvent.press(getByTestId('click-thin-button'));
+        expect(navigationStackSpyFunction).toHaveBeenCalledTimes(2);
+        expect(navigationStackSpyFunction).toHaveBeenCalledWith('onCreate is invoked');
+
     });
 });

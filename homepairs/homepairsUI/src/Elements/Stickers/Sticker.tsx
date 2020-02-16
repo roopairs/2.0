@@ -36,5 +36,5 @@ export default function Sticker(props: StickerProps) {
 
 Sticker.defaultProps = {
     children: <></>,
-    style: styles,
+    style: styles.container,
 };

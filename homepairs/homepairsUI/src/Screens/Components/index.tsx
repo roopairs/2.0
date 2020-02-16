@@ -31,10 +31,7 @@ import {
     DarkModeInjectedProps as DMIP,
     withDarkMode,
 } from './WithDarkMode/WithDarkMode';
-import {
-    ModalInjectedProps as MIP,
-    withModal,
-} from './Modals/WithModal/WithModal';
+
 
 export { default as AddressSticker } from './AddressSticker/AddressSticker';
 export { default as SceneHeader } from './SceneHeader/SceneHeader';
@@ -65,7 +62,6 @@ export type SceneInjectedProps = SIP;
 export type AuthPageInjectedProps = APIP;
 export type AuthPassProps = APP;
 export type DarkModeInjectedProps = DMIP;
-export type ModalInjectedProps = MIP;
 export type LoadingModalProps = LMP;
 
 export {
@@ -73,7 +69,6 @@ export {
   withAuthPage,
   withSceneHeader,
   withDarkMode,
-  withModal,
   LoggingInModal,
   CreatingAccountModal,
   LoadingModal,
