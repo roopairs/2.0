@@ -9,6 +9,7 @@ import PropertiesScreenBase, {
     PropertiesScreenStateProps,
     PropertiesScreenDispatchProps,
 } from './PropertiesScreenBase';
+import { navigationPages } from 'src/Routes/RouteConstants';
 
 const sceneParams: MainAppStackType = {
     title: 'Properties',
@@ -16,7 +17,7 @@ const sceneParams: MainAppStackType = {
     key: 'Properties',
     button: 'Add Property',
     onNavButtonClick: (props:any)=> {
-        props.navigation.navigate('AddNewPropertyModal');
+        props.navigation.navigate(navigationPages.AddNewPropertyModal);
     },
     doesButtonUseNavigate: true,
 };

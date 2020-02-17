@@ -16,7 +16,6 @@ import * as HomePairsHeaderProps from "./HomePairsHeader/HomePairsHeaderBase";
 import { LoggingInModal, CreatingAccountModal } from './Modals/AuthenticationModals';
 import { LoadingModal, LoadingModalProps as LMP} from './Modals/LoadingModal';
 
-
 import {
     SceneInjectedProps as SIP,
     withSceneHeader,
@@ -46,6 +45,7 @@ export { default as AddNewPropertyModalBase } from './Modals/AddNewPropertyModal
 export { default as EditPropertyModal } from './Modals/EditPropertyModal/EditPropertyModal';
 export { default as EditPropertyModalBase } from './Modals/EditPropertyModal/EditPropertyModalBase';
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
+export { default as CurrentTenantCard} from './CurrentTenantCard/CurrentTenantCard';
 
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows

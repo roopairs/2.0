@@ -35,20 +35,6 @@ const ModalStack = createStackNavigator({
     ...navigationConfiguration,
 });
 
-const AccountPropertiesStack = createStackNavigator({
-    [navigationKeys.PropertiesScreen]: MainAppPages.PropertyPages.PropertiesScreen,
-},
-{
-    ...navigationConfiguration,
-});
-
-const SinglePropertyStack = createStackNavigator({
-    [navigationKeys.SingleProperty]: MainAppPages.PropertyPages.DetailedPropertyScreen,
-},
-{
-    ...navigationConfiguration,
-});
-
 
 const SignInStack = createStackNavigator({
     [navigationKeys.LoginScreen]: AuthenticationPages.LoginScreen,

@@ -10,7 +10,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet, View, Text } from 'react-native';
 import { isNullOrUndefined, isPasswordValid, isEmailSyntaxValid, isAlphaCharacterOnly, isEmptyOrSpaces } from 'homepairs-utilities';
 import { NavigationSwitchProp, NavigationSwitchScreenProps } from 'react-navigation';
-import { navigationKeys } from 'homepairs-routes';
+import { navigationPages, navigationKeys } from 'src/Routes/RouteConstants';
 
 export type SignUpViewDispatchProps = {
     generateHomePairsAccount: (
@@ -132,7 +132,6 @@ export default class SignUpScreenBase extends React.Component<
         this.getFormAddress = this.getFormAddress.bind(this);
         this.getFormCity = this.getFormCity.bind(this);
         this.setModalOff = this.setModalOff.bind(this);
-        this.navigateMain = this.navigateMain.bind(this);
         this.resetForms = this.resetForms.bind(this);
         this.resetState = this.resetState.bind(this);
 
@@ -152,7 +151,7 @@ export default class SignUpScreenBase extends React.Component<
 
     setModalOff(error: string = 'Error Message') {
         const { navigation, setErrorState } = this.props;
-        navigation.navigate(navigationKeys.SignUpScreen);
+        navigation.navigate(navigationPages.SignUpScreen);
         setErrorState(true, error);
     }
 
@@ -193,7 +192,7 @@ export default class SignUpScreenBase extends React.Component<
      */
     clickSignIn = () => {
         const { navigation } = this.props;
-        navigation.navigate('Login');
+        navigation.navigate(navigationPages.LoginScreen);
     };
 
     clickSignUp = () => {
@@ -201,7 +200,7 @@ export default class SignUpScreenBase extends React.Component<
         const { password } = this.state;
         this.resetForms();
         if (this.validateForms()) {
-            navigation.navigate(navigationKeys.CreatingAccountModal);
+            navigation.navigate(navigationPages.CreatingAccountModal);
             const details: Account = { ...this.state, roopairsToken: '' };
             generateHomePairsAccount(details, password, this.setModalOff, navigation);     
         }
@@ -209,7 +208,7 @@ export default class SignUpScreenBase extends React.Component<
 
     toRoopairsLogin = () => {
         const { navigation } = this.props;
-        navigation.navigate('Connect');
+        navigation.navigate(navigationPages.RoopairsLogin);
     };
 
     validateForms() {
@@ -257,11 +256,6 @@ export default class SignUpScreenBase extends React.Component<
         this.emailRef.current.setError(false);
         this.passwordRef.current.setError(false);
         this.cPasswordRef.current.setError(false);
-    }
-
-    navigateMain() {
-        const { navigation } = this.props;
-        navigation.navigate('Main');
     }
 
     resetState() {

@@ -6,6 +6,8 @@ import { NavigationStackProp } from 'react-navigation-stack';
 export const SingleViewComponent = <View style={{height: '25%', width: '25%', backgroundColor: 'black'}}/>;
 export const navigationSwitchSpyFunction = jest.fn((arg?:string) => {return arg;});
 export const navigationStackSpyFunction = jest.fn((arg?:any) => {return arg;});
+export const navigationSetParamsSpyFunction = jest.fn((params?:any) => {return params;});
+
 
 export const mockSwitchNavigation: NavigationSwitchProp = {
     navigate: (routeNameOrOptions)=>{
@@ -20,7 +22,10 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
     },
     dismiss: undefined, 
     getParam: undefined,
-    setParams: undefined,
+    setParams: (params) => {
+      navigationSetParamsSpyFunction(params);
+      return true;
+    },
     emit: undefined, 
     addListener: undefined, 
     isFocused: undefined, 
@@ -42,7 +47,10 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
       },
       dismiss: undefined,
       getParam: undefined,
-      setParams: undefined,
+      setParams: (params) => {
+        navigationSetParamsSpyFunction(params);
+        return true;
+      },
       emit: undefined, 
       addListener: undefined, 
       isFocused: undefined, 

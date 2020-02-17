@@ -10,7 +10,7 @@ const App = () => {
     const [dataLoaded, setDataLoaded] = useState(false);
 
     return !dataLoaded ?  
-    <AppLoading startAsync={LoadFonts} onFinish={() => setDataLoaded(true)}>
+    <AppLoading startAsync={LoadFonts} onFinish={() => setDataLoaded(true)} onError={(error) => console.log(error)}>
         <ActivityIndicator />
           <StatusBar barStyle="default" />
         </AppLoading>

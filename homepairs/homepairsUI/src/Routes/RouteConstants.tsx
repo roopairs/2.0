@@ -1,30 +1,5 @@
 import { MainAppStackType } from 'homepairs-types';
 
-const MainAppStack: Array<MainAppStackType> = [
-    {
-        title: 'Properties',
-        navigate: 'AccountProperties',
-        key: 'Properties',
-        button: 'Add Property',
-    },
-    {
-        title: 'Service Request',
-        navigate: 'ServiceRequest',
-        key: 'ServiceRequest',
-        button: 'Request Service',
-    },
-    {
-        title: 'Account Settings',
-        navigate: 'Account',
-        key: 'AccountSettings',
-    },
-    {
-        title: 'Log Out',
-        navigate: 'Auth',
-        key: 'LogOut',
-    },
-];
-
 /**
  * All keys that can be mapped to any page in the react navigator should 
  * be stored here. This is so there changes to one key can be affect by all
@@ -35,7 +10,6 @@ export const navigationKeys: {[id:string]: string} = {
     AddNewPropertyModal: 'AddNewPropertyModal',
     Loading: 'Loading',
     Main: 'Main',
-    MainStack: 'MainStack',
     Auth: 'Auth',
     AuthStack: 'AuthStack',
     LoadingScreen: 'LoadingScreen',
@@ -46,11 +20,11 @@ export const navigationKeys: {[id:string]: string} = {
     Properties: 'Properties',
     PropertyStack: 'PropertyStack',
     ServiceRequest: 'ServiceRequest',
-    ServiceRequestStack: 'ServiceRequestStack',
-    Account: 'Account', 
-    AccountStack: 'AccountStack',
+    ServiceRequestScreen: 'ServiceRequestScreen',
+    AccountSettings: 'AccountSettings', 
+    Account: 'AccountStack',
     NewRequest: 'NewRequest',
-    TenantProperties: 'TenantProperties',
+    TenantProperty: 'TenantProperty',
     AccountProperties: 'AccountProperties',
     DetailedProperty: 'DetailedProperty',
     SingleProperty: 'SingleProperty',
@@ -66,6 +40,69 @@ export const navigationKeys: {[id:string]: string} = {
     LoggingInModal: 'LoggingInModal',
 
     ModalStack: 'ModalStack',
+
+    AddTenantModal: 'AddTenantModal',
+    EditTenantModal: 'EditTenantModal',
 };
 
+/**
+ * These are were all leaves will be stored for quick reference. This should be used when 
+ * directly navigating to a page. These leaves should also be stored in the navigationKeys 
+ * object as well. 
+ */
+export const navigationPages = {
+    // Property Pages
+    PropertiesScreen: 'PropertiesScreen',
+    TenantProperty: 'TenantProperty',
+    SingleProperty: 'SingleProperty',
+    // Property Stack Modals 
+    AddNewPropertyModal: 'AddNewPropertyModal',
+    EditPropertyModal: 'EditPropertyModal',
+    AddTenantModal: 'AddTenantModal',
+    EditTenantModal: 'EditTenantModal',
+
+    // Service Request Pages
+    ServiceRequestScreen: 'ServiceRequestScreen',
+    NewRequest: 'NewRequest',
+
+    // Account Settings Pages 
+    AccountSettings: 'AccountSettings', 
+
+    // Authentication Pages
+    LoginScreen: 'LoginScreen',
+    RoopairsLogin: 'RoopairsLogin',
+    SignUpScreen: 'SignUpScreen',
+
+    // Authentication Modals
+    RoopairsLoggingInModal: 'RoopairsLoggingInModal',
+    CreatingAccountModal: 'CreatingAccountModal',
+    LoggingInModal: 'LoggingInModal', 
+
+};
+
+
+const MainAppStack: Array<MainAppStackType> = [
+    {
+        title: 'Properties',
+        navigate: navigationPages.PropertiesScreen,
+        key: 'Properties',
+        button: 'Add Property',
+    },
+    {
+        title: 'Service Request',
+        navigate: navigationPages.ServiceRequestScreen,
+        key: 'ServiceRequest',
+        button: 'Request Service',
+    },
+    {
+        title: 'Account Settings',
+        navigate: navigationPages.AccountSettings,
+        key: 'AccountSettings',
+    },
+    {
+        title: 'Log Out',
+        navigate: navigationPages.LoginScreen,
+        key: 'LogOut',
+    },
+];
 export default MainAppStack; 

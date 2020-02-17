@@ -99,6 +99,7 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
         },
         editButtonText: {
             color: colors.lightGray,
+            fontSize: 20,
         },
     });
 }

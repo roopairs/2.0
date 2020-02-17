@@ -1,16 +1,16 @@
 import React from 'react';
 
 import {createBrowserApp} from '@react-navigation/web';
-import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
+import { createAppContainer, SafeAreaView, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator, NavigationStackConfig, NavigationStackOptions } from 'react-navigation-stack';
 import {
-    MainAppPages,
+    MainAppPages, AuthenticationPages,
 } from 'homepairs-pages';
 import { Platform } from 'react-native';
-import { HomePairsHeader, AddNewPropertyModal, EditPropertyModal} from 'homepairs-components';
+import { HomePairsHeader, AddNewPropertyModal, EditPropertyModal, LoggingInModal, CreatingAccountModal} from 'homepairs-components';
 import { LightColorTheme} from 'homepairs-base-styles';
 import { navigationKeys } from './RouteConstants';
-import {AccountPropertiesStack, SinglePropertyStack, SignUpStack, SignInStack, RoopairsSignInStack, ModalStack}from './ModalStacks'; 
+import { navigationPages } from 'src/Routes/RouteConstants';
 
 const isWeb = Platform.OS === 'web';
 
@@ -20,6 +20,7 @@ const defaultNavigationOptions: NavigationStackOptions = {
         backgroundColor: 'rgba(0,0,0,.4)',
      },
     gestureEnabled: false,
+    animationEnabled:false,
 };
 
 const modalStackConfig: NavigationStackConfig = {
@@ -46,23 +47,8 @@ const navigationHeader = () => ({
         backgroundColor: LightColorTheme.primary,
     },
     headerMode: 'float',
-    gestureEnabled: true,
+    gestureEnabled: false,
 });
-
-
-const mainStackConfig: any = {
-    // defaultNavigationOptions: navigationHeader,
-    headerMode: 'none',
-    initialRouteName: navigationKeys.Properties,
-    animationEnabled:false,
-    transitionConfig: () => ({
-        transitionSpec: {
-          duration:0,
-          timing: 0,
-        },
-    }),
-    mode: 'modal',
-};
 
 const innerStackConfig: any = {
     defaultNavigationOptions: navigationHeader,
@@ -71,36 +57,36 @@ const innerStackConfig: any = {
 
 // These should be separated into different files for each Route (AccountProperties, Service Request, Account)
 const propertyStackConfig = {
-    initialRouteName: navigationKeys.AccountProperties,
+    initialRouteName: navigationPages.PropertiesScreen,
     ...innerStackConfig,
 };
 
 const serviceRequestStackConfig = {
-    initialRouteName: navigationKeys.ServiceRequest,
+    initialRouteName: navigationPages.ServiceRequestScreen,
     ...innerStackConfig,
 };
 const accountStackConfig = {
-    initialRouteName: navigationKeys.Account,
+    initialRouteName: navigationPages.AccountSettings,
     ...innerStackConfig,
 };
 
 const PropertyStack = createStackNavigator(
     {
-        [navigationKeys.AccountProperties]: AccountPropertiesStack,
-        [navigationKeys.TenantProperties]: MainAppPages.PropertyPages.TenantPropertiesScreen,
-        [navigationKeys.DetailedProperty]: SinglePropertyStack,
+        [navigationKeys.PropertiesScreen]: MainAppPages.PropertyPages.PropertiesScreen,
+        [navigationKeys.TenantProperty]: MainAppPages.PropertyPages.TenantPropertiesScreen,
+        [navigationKeys.SingleProperty]: MainAppPages.PropertyPages.DetailedPropertyScreen,
     },
     propertyStackConfig,
 );
 const ServiceRequestStack = createStackNavigator(
     {
-      [navigationKeys.ServiceRequest]: MainAppPages.ServiceRequestPages.ServiceRequestScreen, 
+      [navigationKeys.ServiceRequestScreen]: MainAppPages.ServiceRequestPages.ServiceRequestScreen, 
       [navigationKeys.NewRequest]: MainAppPages.ServiceRequestPages.NewRequestScreen,
     }, 
   serviceRequestStackConfig);
 const AccountStack = createStackNavigator(
     {
-        [navigationKeys.Account]: MainAppPages.AccountPages.AccountScreen,
+        [navigationKeys.AccountSettings]: MainAppPages.AccountPages.AccountScreen,
     },
   accountStackConfig);
 
@@ -114,17 +100,29 @@ const MainStack = createStackNavigator(
         [navigationKeys.Properties]: PropertyStack,
         [navigationKeys.ServiceRequest]: ServiceRequestStack,
         [navigationKeys.Account]: AccountStack,
+
+        // Add all modals here. This way, the page will overlay the entire page including the header
         [navigationKeys.AddNewPropertyModal]: AddNewPropertyModal,
         [navigationKeys.EditPropertyModal]: EditPropertyModal,
     },
-    navigationConfiguration,
+    {
+        initialRouteName: navigationKeys.Properties,
+        ...navigationConfiguration,
+    },
 );
 
-const AuthStack = createSwitchNavigator(
+const AuthStack = createStackNavigator(
     {
-        [navigationKeys.Login]: SignInStack,
-        [navigationKeys.SignUp]: SignUpStack,
-        [navigationKeys.Connect]: RoopairsSignInStack,
+        [navigationKeys.LoginScreen]: AuthenticationPages.LoginScreen,
+        [navigationKeys.LoggingInModal]: LoggingInModal,
+        [navigationKeys.RoopairsLogin]: AuthenticationPages.RoopairsLogin,
+        [navigationKeys.RoopairsLoggingInModal]: LoggingInModal,
+        [navigationKeys.SignUpScreen]: AuthenticationPages.SignUpScreen,
+        [navigationKeys.CreatingAccountModal]: CreatingAccountModal,
+    },
+    {
+        initialRouteName: navigationKeys.LoginScreen,
+        ...navigationConfiguration,
     },
 );
 
@@ -139,7 +137,6 @@ const container = createStackNavigator(
     },
     
 );
-
 
 export const AppNavigator = isWeb ? createBrowserApp(container): createAppContainer(container);
 

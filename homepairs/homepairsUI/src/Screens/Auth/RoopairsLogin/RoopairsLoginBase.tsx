@@ -10,6 +10,7 @@ import { isNullOrUndefined, isEmailSyntaxValid, isPasswordValid} from 'homepairs
 import { NavigationSwitchProp, NavigationSwitchScreenProps } from 'react-navigation';
 import { InputFormProps } from 'src/Elements/Forms/InputForm';
 import { navigationKeys } from 'homepairs-routes';
+import { navigationPages } from 'src/Routes/RouteConstants';
 
 export type RoopairsLoginDispatchProps = {
     onFetchAccountProfile: (
@@ -92,7 +93,7 @@ export default class RoopairsLoginBase extends React.Component<
 
     setModalOff(error: string = 'Error Message') {
         const { navigation, setErrorState } = this.props;
-        navigation.navigate(navigationKeys.RoopairsLogin);
+        navigation.navigate(navigationPages.RoopairsLogin);
         setErrorState(true, error);
     }
 
@@ -106,7 +107,7 @@ export default class RoopairsLoginBase extends React.Component<
 
     clickHighlightedText() {
         const {navigation} = this.props;
-        navigation.navigate('SignUp');
+        navigation.navigate(navigationPages.SignUpScreen);
     }
 
     validateForms(username: string, password: string) {

@@ -8,7 +8,7 @@ import Colors from 'homepairs-colors';
 import {isPositiveWholeNumber, isEmptyOrSpaces} from 'homepairs-utilities';
 import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
-import { navigationKeys } from 'src/Routes/RouteConstants';
+import { navigationKeys, navigationPages } from 'src/Routes/RouteConstants';
 
 export type AddNewPropertyDispatchProps = {
     onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, navigation: NavigationStackProp) => void
@@ -366,7 +366,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                     showCloseButton={showCloseButton}
                     title={addPropertyStrings.title} 
                     closeButtonPressedCallBack={() => { 
-                        navigation.navigate(navigationKeys.PropertiesScreen);
+                        navigation.navigate(navigationPages.PropertiesScreen);
                         this.setInitialState();
                         this.resetForms();
                     }} 

@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from "react-native";
+import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions } from "react-native";
 import {ThinButton, ThinButtonProps, Card, InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -29,6 +29,7 @@ const editPropertyStrings = strings.detailedPropertyPage.editProperty;
 const inputFormStrings = editPropertyStrings.inputForm;
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
+    const {width} = Dimensions.get('window');
     const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
     return StyleSheet.create({
         formTitle: {
@@ -51,7 +52,8 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
         },
         modalContainer: {
             flex: 1,
-            width: '100%',
+            maxWidth: HomePairsDimensions.MAX_PALLET,
+            width: Platform.OS === 'web' ? width : BaseStyles.ContentWidth.max,
             justifyContent: 'center',
             alignItems: 'center',
             alignSelf:'center',
