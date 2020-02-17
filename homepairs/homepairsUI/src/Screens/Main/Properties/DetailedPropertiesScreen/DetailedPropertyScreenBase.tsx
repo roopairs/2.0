@@ -111,28 +111,6 @@ const fakeTenants: TenantAccount[] = [
         city: 'San Luis Obispo',
         roopairsToken: '000000',
     },
-    {
-        propId: 1,
-        tenantId: 2,
-        firstName: 'David',
-        lastName: 'Bartolomucci',
-        accountType: AccountTypes.Tenant,
-        email: 'david@roopairs.com',
-        streetAddress: '1111 Some Street',
-        city: 'San Luis Obispo',
-        roopairsToken: '000000',
-    },
-    {
-        propId: 1,
-        tenantId: 3,
-        firstName: 'Ray',
-        lastName: 'Bartolomucci',
-        accountType: AccountTypes.Tenant,
-        email: 'ray@roopairs.com',
-        streetAddress: '1111 Some Street',
-        city: 'San Luis Obispo',
-        roopairsToken: '000000',
-    },
 ];
 
 export default function DetailedPropertyScreenBase(props: Props) {

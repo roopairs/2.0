@@ -93,8 +93,8 @@ const AccountStack = createStackNavigator(
 
 /**
  * If you wish to add a modal to the stack, do so HERE!
- * TODO: Refactor the routes modules to be cleaner!!
  */
+//
 const MainStack = createStackNavigator(
     {
         [navigationKeys.Properties]: PropertyStack,
