@@ -4,8 +4,8 @@ import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import { FontTheme, ColorTheme } from 'homepairs-base-styles';
 import { MainAppStackType } from 'homepairs-types';
 import HomePairColors from 'homepairs-colors';
-import MainAppStack from '../../../../Routes/RouteConstants';
-import { DarkModeInjectedProps } from '../../WithDarkMode/WithDarkMode';
+import MainAppStack from '../../../Routes/RouteConstants';
+import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 
 
 export type HomePairsMenuProps = DarkModeInjectedProps & {

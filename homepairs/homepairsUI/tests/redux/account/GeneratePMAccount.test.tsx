@@ -5,11 +5,11 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
 import { PROPERTY_LIST_ACTION_TYPES } from '../../../src/state/property-list/actions';
-
+import { mockSwitchNavigation, navigationSwitchSpyFunction } from '../../fixtures/DummyComponents';
 
 const TYPE = 'ACCOUNT/FETCH_PROFILE';
 const URL = 'http://homepairs-alpha.herokuapp.com/API/register/pm/';
-const navSpyFunction = jest.fn((arg:string) => {return arg;});
+const navSpyFunction = navigationSwitchSpyFunction;
 const AccountPropertiesPageKey = 'AccountProperties';
 const {FETCH_PROPERTIES} = PROPERTY_LIST_ACTION_TYPES;
 const testPMAccount1: Account = {
@@ -17,7 +17,6 @@ const testPMAccount1: Account = {
     firstName: 'Jacky',
     lastName: 'Lynne',
     email: 'jackyLynne@gmail.com',
-    phone: '924-555-5555',
     streetAddress: 'ABC Street',
     city: 'Foster Town',
     roopairsToken: '',
@@ -30,7 +29,6 @@ const testJsonValue1 = {
         email: 'jackyLynne@gmail.com',
         city: 'Foster Town',
         manId: 100,
-        phone: '924-555-5555',
         streetAddress: 'ABC Street',
       },
     token: '1d9f80e98e9b16b94bf76c2dc49fe15b8b30d1a2',
@@ -52,7 +50,6 @@ const expectedFetchResult1: AccountStateAction = {
         firstName: 'Jacky',
         lastName: 'Lynne',
         email: 'jackyLynne@gmail.com',
-        phone: '924-555-5555',
         streetAddress: 'ABC Street',
         city: 'Foster Town',
         roopairsToken: '1d9f80e98e9b16b94bf76c2dc49fe15b8b30d1a2',
@@ -72,27 +69,7 @@ const expectedProperties: FetchPropertiesAction ={
     }],
 };
 
-const mockNavigation: NavigationSwitchProp = {
-  navigate: (routeNameOrOptions)=>{
-    navSpyFunction(routeNameOrOptions);
-    return true;
-  },
-  state: undefined,
-  dispatch: undefined, 
-  goBack: undefined,
-  dismiss: undefined,
-  openDrawer:undefined,
-  closeDrawer: undefined, 
-  toggleDrawer: undefined, 
-  getParam: undefined,
-  setParams: undefined,
-  emit: undefined, 
-  addListener: undefined, 
-  isFocused: undefined, 
-  isFirstRouteInParent: undefined, 
-  dangerouslyGetParent: undefined,
-  jumpTo: undefined,
-};
+const mockNavigation: NavigationSwitchProp = mockSwitchNavigation;
 
 const createTestProps = (props: Object) => ({
   navigation: mockNavigation,

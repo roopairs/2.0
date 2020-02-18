@@ -18,4 +18,6 @@ const DetailedPropertyScreen = connect(
     mapStateToProps,
 )(DetailedPropertyScreenBase);
 
-export default withModal(withNavigation(DetailedPropertyScreen), EditPropertyModal);
+const DetailedPropertyScreenWithNavigation = withNavigation(DetailedPropertyScreen);
+const ScreenWithModal = withModal(DetailedPropertyScreenWithNavigation, EditPropertyModal);
+export default ScreenWithModal;

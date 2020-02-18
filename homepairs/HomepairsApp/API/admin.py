@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import PropertyManager, Property, Tenant
+
+from .models import Property, PropertyManager, Tenant
+
 
 # Register your models here.
 

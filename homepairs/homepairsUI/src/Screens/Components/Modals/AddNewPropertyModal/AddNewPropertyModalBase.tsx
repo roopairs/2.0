@@ -5,7 +5,7 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, AddNewPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isPositiveWholeNumber} from 'homepairs-utilities';
+import {isPositiveWholeNumber, isEmptyOrSpaces} from 'homepairs-utilities';
 import {DarkModeInjectedProps} from '../../WithDarkMode/WithDarkMode';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 
@@ -218,7 +218,6 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
     setInitialState() {
         this.setState(initialState);
     }
-
 
     validateForms() {
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;

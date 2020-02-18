@@ -13,6 +13,7 @@ import { HomepairsPropertyAttributes, PropertyListState, Property, HomePairsDime
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
+import { isNullOrUndefined } from '../../../../utility/ParameterChecker';
 
 const navParams = strings.detailedPropertyPage.navigationParams;
 export type TenantPropertyStateProps = DarkModeInjectedProps & {
@@ -27,7 +28,7 @@ type Props = NavigationStackScreenProps & TenantPropertyStateProps // & TenantPr
 const propertyKeys = HomepairsPropertyAttributes;
 
 function setStyles(colorTheme?:BaseStyles.ColorTheme) { 
-    const colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme;
+    const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
     return (    
         StyleSheet.create({
             container : {

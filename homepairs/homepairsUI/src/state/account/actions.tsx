@@ -130,33 +130,40 @@ export const fetchAccount = (
             password: Password,
           })
           .then((response) => {
-            console.log(response);
             const accountType = getAccountType(response[responseKeys.DATA]);
-            if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
+            if(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.SUCCESS){
               dispatch(fetchAccountProfile(response[responseKeys.DATA]));
-              if(response[responseKeys.DATA][responseKeys.ROLE] === rolePM){
+              if(response[responseKeys.DATA][responseKeys.ROLE] === PM){
                 dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
               }
-              else if(response[responseKeys.DATA][responseKeys.ROLE] === roleTenant){
+              else { // Assume the role of the tenant 
                 dispatch(fetchProperty(response[responseKeys.DATA][TENANT][responseKeys.PLACE]));
-              }
-              else{
-                throw new Error("Role type not implemented!");
               }
               ChooseMainPage(accountType, navigation);
             }else{
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
             }
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
           })
           .finally(() => {
-          });};
-   
+          });
+        }; 
 };
 
+/**
+ * ----------------------------------------------------
+ * generateAccountForTenant
+ * ----------------------------------------------------
+ * Takes in information from the component and sends a request to the 
+ * homepairs django api. This specifically will generate a tenant account and 
+ * then return a response allowing the user access to the API.
+ * @param {Account} accountDetails - Details passed from user input 
+ * @param {String} password - Password input that the user want for their account
+ * @param {NavigationPropType} navigation - navigation prop passed from component
+ * @param {modalSetOffCallBack} modalSetOffCallBack - *optional callback
+ */
 export const generateAccountForTenant = (accountDetails: Account, password: String, navigation: NavigationPropType, modalSetOffCallBack?: (error?:String) => void) => {
   return async (dispatch: (arg0: any) => void) => {
       await axios.post('http://homepairs-alpha.herokuapp.com/API/register/tenant/', {
@@ -168,22 +175,32 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
         password, 
       })
       .then((response) => {
-        if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
+        if(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.SUCCESS){
           dispatch(fetchAccountProfile(response[responseKeys.DATA]));
-          dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
+          dispatch(fetchProperty(response[responseKeys.DATA][TENANT][responseKeys.PLACE]));
           ChooseMainPage(AccountTypes.Tenant, navigation);
         } else {
           modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         modalSetOffCallBack("Connection to the server could not be established.");
       });
   };
 };
 
-// this needs to send address too???
+/**
+ * ----------------------------------------------------
+ * generateAccountForPM
+ * ----------------------------------------------------
+ * Takes in information from the component and sends a request to the 
+ * homepairs django api. This specifically will generate a property manager account and 
+ * then return a response allowing the user access to the API.
+ * @param {Account} accountDetails - Details passed from user input 
+ * @param {String} password - Password input that the user want for their account
+ * @param {NavigationPropType} navigation - navigation prop passed from component
+ * @param {modalSetOffCallBack} modalSetOffCallBack - *optional callback
+ */
 export const generateAccountForPM = (accountDetails: Account, password: String, navigation: NavigationPropType, modalSetOffCallBack?: (error?:String) => void) => {
     return async (dispatch: (arg0: any) => void) => {
       await axios.post('http://homepairs-alpha.herokuapp.com/API/register/pm/', {
@@ -193,7 +210,7 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
           password,
         })
         .then((response) => {
-          if(!(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.FAILURE)){
+          if(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.SUCCESS){
             dispatch(fetchAccountProfile(response[responseKeys.DATA]));
             dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
             ChooseMainPage(AccountTypes.Landlord, navigation);
@@ -201,8 +218,7 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
             modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           modalSetOffCallBack("Connection to the server could not be established.");
         });
     };

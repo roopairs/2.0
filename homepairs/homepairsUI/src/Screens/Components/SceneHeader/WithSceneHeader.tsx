@@ -5,7 +5,6 @@ import {
     View,
     TouchableWithoutFeedback,
     ScrollView,
-    ScrollViewProps,
     SafeAreaView,
     StyleSheet,
 } from 'react-native';
@@ -14,23 +13,26 @@ import { connect } from 'react-redux';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 import {isNullOrUndefined} from 'homepairs-utilities';
-import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
-import { SceneHeaderProps, renderSceneHeader } from './SceneHeader';
+import SceneHeader from './SceneHeader';
 import { ModalInjectedProps } from '../Modals/WithModal/WithModal';
 
 type SceneDispatchProps = {
-    onSetHeaderGoBackButton?: (isSet: boolean) => any;
-    onCloseHeaderMenu?: () => any;
+    onSetNavHeaderGoBackButton?: (isSet: boolean) => any;
+    onCloseNavHeaderMenu?: () => any;
 };
-export type SceneInjectedProps = NavigationStackScreenProps<any, any> &
-    SceneDispatchProps &
-    DarkModeInjectedProps &
-    ModalInjectedProps;
+
+export type SceneInjectedProps = SceneDispatchProps 
+
+type Props = NavigationStackScreenProps<any, any> &
+SceneDispatchProps &
+ModalInjectedProps;
+
 type State = {
     showModal: boolean;
 };
 
-function setStyle(colorTheme: BaseStyles.ColorTheme) {
+function setStyle(primaryColorTheme?: BaseStyles.ColorTheme) {
+    const colorTheme = isNullOrUndefined(primaryColorTheme) ? BaseStyles.LightColorTheme : primaryColorTheme;
     return StyleSheet.create({
         container: {
             alignItems: 'center',
@@ -58,58 +60,48 @@ function setStyle(colorTheme: BaseStyles.ColorTheme) {
     });
 }
 
+
+/**
+ * ---------------------------------------------------
+ * withSceneHeader
+ * ---------------------------------------------------
+ * A HOC that renders content based off of the Page parameter into a  
+ * component. It will provide the component with a title, potentially a button,
+ * a background, and a maximum width. Please refer to MainAppStackType for information
+ * regarding configuring the button.  
+ * 
+ * @param {any} WrappedComponent -Base component that will be contained 
+ * @param {MainAppStackType} Page -Parameters that determine title, button, and button behavior 
+ */
 export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
     let styles: any;
 
-    function scrollViewProps(): ScrollViewProps {
-        return {
-            contentContainerStyle: styles.scrollViewContentContainer,
-            directionalLockEnabled: true,
-            automaticallyAdjustContentInsets: false,
-        };
-    }
+    const ReduxComponent = class ReduxComponentBase extends React.Component<Props,State> {
 
-    const ReduxComponent = class ReduxComponentBase extends React.Component<
-        SceneInjectedProps,
-        State
-    > {
-        colorScheme: any;
-
-        constructor(props: Readonly<SceneInjectedProps>) {
+        constructor(props: Readonly<Props>) {
             super(props);
-            this.colorScheme =
-                isNullOrUndefined(props.primaryColorTheme)
-                    ? BaseStyles.LightColorTheme
-                    : props.primaryColorTheme;
-            styles = setStyle(this.colorScheme);
-            this.renderContents = this.renderContents.bind(this);
+            styles = setStyle(null);
             this.onPressButton = this.onPressButton.bind(this);
         }
 
+        // Based on the passed input, this invokes the change modal visibility for this 
+        // HOC or it passes in the neccessary props of this component to allow for 
+        // navigation. NOTE: REMEMBER TO CALL withNavigation if a navigator is to be used. 
         onPressButton() {
             const { onChangeModalVisibility } = this.props;
             return Page.doesButtonUseNavigate
-                ? Page.onButtonClick(this.props)
+                ? Page.onNavButtonClick(this.props)
                 : onChangeModalVisibility(true);
         }
 
-        sceneHeaderProps(): SceneHeaderProps & DarkModeInjectedProps {
-            const { primaryColorTheme } = this.props;
-            return {
-                title: Page.title,
-                buttonTitle: Page.button,
-                onButtonPress: this.onPressButton,
-                primaryColorTheme,
-            };
-        }
-
+        // TODO: Either remove this entirely or get the navigation header (when on drop down) to 
+        // close whenever content is selected on mobile devices. 
         renderTouchArea() {
-            const { onCloseHeaderMenu } = this.props;
+            const { onCloseNavHeaderMenu } = this.props;
             return !(Platform.OS === 'web') ? (
                 <TouchableWithoutFeedback
-                    onPressIn={onCloseHeaderMenu}
-                    style={{ flex: 1 }}
-                >
+                    onPressIn={onCloseNavHeaderMenu}
+                    style={{ flex: 1 }}>
                     {this.renderContents()}
                 </TouchableWithoutFeedback>
             ) : (
@@ -118,44 +110,34 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
         }
 
         renderContents() {
-            const {
-                contentContainerStyle,
-                directionalLockEnabled,
-                automaticallyAdjustContentInsets,
-            } = scrollViewProps();
-            const {
-                navigation,
-                onSetHeaderGoBackButton,
-                onCloseHeaderMenu,
-                onChangeModalVisibility,
-                primaryColorTheme,
-            } = this.props;
+            const {onSetNavHeaderGoBackButton,onCloseNavHeaderMenu} = this.props;
+            const directionalLockEnabled = true;
+            const automaticallyAdjustContentInsets = false;
             return (
                 <>
-                    {renderSceneHeader(this.sceneHeaderProps())}
+                    <SceneHeader
+                        title={Page.title}
+                        buttonTitle={Page.button}
+                        onButtonPress={this.onPressButton}/>
                     <ScrollView
-                        contentContainerStyle={contentContainerStyle}
+                        contentContainerStyle={styles.scrollViewContentContainer}
                         directionalLockEnabled={directionalLockEnabled}
-                        automaticallyAdjustContentInsets={
-                            automaticallyAdjustContentInsets
-                        }
-                    >
+                        automaticallyAdjustContentInsets={automaticallyAdjustContentInsets}>
                         <WrappedComponent
-                            onSetHeaderGoBackButton={onSetHeaderGoBackButton}
-                            onCloseHeaderMenu={onCloseHeaderMenu}
-                            navigation={navigation}
-                            onChangeModalVisibility={onChangeModalVisibility}
-                            primaryColorTheme={primaryColorTheme}
-                        />
+                            testID='with-scene-header-wrapped-component'
+                            onSetNavHeaderGoBackButton={onSetNavHeaderGoBackButton}
+                            onCloseNavHeaderMenu={onCloseNavHeaderMenu}/>
                     </ScrollView>
                 </>
             );
         }
 
         render() {
-            return Platform.OS === 'android' ? (
+            return !(Platform.OS === 'ios') ? (
                 <View style={styles.container}>
-                    <View style={styles.pallet}>{this.renderTouchArea()}</View>
+                    <View style={styles.pallet}>
+                        {this.renderTouchArea()}
+                    </View>
                 </View>
             ) : (
                 <View style={styles.container}>
@@ -166,18 +148,21 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
             );
         }
     };
-
+    
+    // Connects dispatch props to this component since all these pages will have the 
+    // capability of navigating to a different page. 
     function mapDispatchToProps(dispatch: any): SceneDispatchProps {
         return {
-            onSetHeaderGoBackButton: (isSet: boolean) => {
+            onSetNavHeaderGoBackButton: (isSet: boolean) => {
                 dispatch(HeaderActions.showGoBackButton(isSet));
                 dispatch(HeaderActions.toggleMenu(false));
             },
-            onCloseHeaderMenu: () => {
+            onCloseNavHeaderMenu: () => {
                 dispatch(HeaderActions.toggleMenu(false));
             },
         };
     }
 
-    return connect(null, mapDispatchToProps)(ReduxComponent);
+    const WithSceneHeaderComponent = connect(null, mapDispatchToProps)(ReduxComponent);
+    return WithSceneHeaderComponent;
 }

@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+import logging
 import os
-import sys
+
 import dj_database_url
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,11 +28,20 @@ SECRET_KEY = 'f93-=xap982nr==_ydsen_maqdf8_3=1j56^68s76abb+57)2%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'homepairs-alpha.herokuapp.com',
-    'localhost',
+# SHIT FROM ALEX
+ALLOWED_HOSTS = ["*"]
+
+DEFAULT_FILE_STORAGE = "inmemorystorage.InMemoryStorage"
+TEST_OUTPUT_DIR = "artifacts"
+TEST_OUTPUT_FILE_NAME = "test_results.xml"
+
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.MD5PasswordHasher",
 ]
 
+AUTH_PASSWORD_VALIDATORS = [{"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"}]
+
+logging.disable(logging.WARNING)
 
 # Application definition
 
@@ -47,7 +58,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -82,7 +92,7 @@ WSGI_APPLICATION = 'HomepairsApp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'testboop',
+        'NAME': 'testdb',
         'USER': 'dummy',
         'PASSWORD': 'pass4dummy',
         'HOST': 'localhost',
@@ -127,8 +137,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
-STATIC_ROOT  =   os.path.join(BASE_DIR, 'staticfiles')
+PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 # Extra lookup directories for collectstatic to find static files
@@ -139,10 +149,13 @@ STATICFILES_DIRS = (
 #  Add configuration for static files storage using whitenoise
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-prod_db  =  dj_database_url.config(conn_max_age=500)
+prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 
 # Hopefully this works
 # It did. I am a genius for doing very basic programming things
 TEST_URL = 'https://homepairs-alpha.herokuapp.com/API/'
 TEST_URL = 'http://localhost:8000/API/'
+
+# This should be for coverage I think
+TEST_RUNNER = 'HomepairsApp' + ".runners.CoverageLintingXMLTestRunner"
