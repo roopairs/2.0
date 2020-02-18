@@ -1,13 +1,15 @@
 import { connect } from "react-redux";
 import { PropertyListActions } from 'homepairs-redux-actions';
 import { Property, AppState, EditPropertyState } from 'homepairs-types';
+import { NavigationStackProp } from 'react-navigation-stack';
+import { withNavigation } from "react-navigation";
 import EditPropertyModalBase, {EditPropertyDispatchProps} from './EditPropertyModalBase';
 
 const mapDispatchToProps : (dispatch: any) => EditPropertyDispatchProps = (dispatch: any) => ({
     onEditProperty: (editProperty: Property, info: EditPropertyState, 
-        onChangeModalVisiblity: (check: boolean) => void, displayError: (msg: string) => void) => 
+         displayError: (msg: string) => void, navigation: NavigationStackProp) => 
         {
-            dispatch(PropertyListActions.postUpdatedProperty(editProperty, info, onChangeModalVisiblity, displayError));
+            dispatch(PropertyListActions.postUpdatedProperty(editProperty, info, displayError, navigation));
         },
 });
 
@@ -20,7 +22,7 @@ function mapStateToProps(state: AppState) : EditPropertyState {
     };
 }
 
-export default connect(
+export default withNavigation(connect(
     mapStateToProps, 
-    mapDispatchToProps)(EditPropertyModalBase);
+    mapDispatchToProps)(EditPropertyModalBase));
 

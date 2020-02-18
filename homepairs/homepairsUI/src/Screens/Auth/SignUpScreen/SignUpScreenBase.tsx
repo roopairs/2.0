@@ -2,7 +2,6 @@ import React from 'react';
 import { InputForm, LoginButton} from 'homepairs-elements';
 import {
     AccountTypeRadioButton,
-    DarkModeInjectedProps,
     AuthPageInjectedProps,
 } from 'homepairs-components';
 import strings from 'homepairs-strings';
@@ -11,6 +10,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet, View, Text } from 'react-native';
 import { isNullOrUndefined, isPasswordValid, isEmailSyntaxValid, isAlphaCharacterOnly, isEmptyOrSpaces } from 'homepairs-utilities';
 import { NavigationSwitchProp, NavigationSwitchScreenProps } from 'react-navigation';
+import { navigationPages, navigationKeys } from 'src/Routes/RouteConstants';
 
 export type SignUpViewDispatchProps = {
     generateHomePairsAccount: (
@@ -21,7 +21,7 @@ export type SignUpViewDispatchProps = {
     ) => any;
 };
 
-export type SignUpProps = DarkModeInjectedProps &
+export type SignUpProps =
     SignUpViewDispatchProps &
     AuthPageInjectedProps &
     NavigationSwitchScreenProps;
@@ -122,7 +122,7 @@ export default class SignUpScreenBase extends React.Component<
 
     constructor(props: Readonly<SignUpProps>) {
         super(props);
-        this.inputFormStyle = setInputStyles(props.primaryColorTheme);
+        this.inputFormStyle = setInputStyles(null);
         this.getAccountType = this.getAccountType.bind(this);
         this.getFormFirstName = this.getFormFirstName.bind(this);
         this.getFormLastName = this.getFormLastName.bind(this);
@@ -132,7 +132,6 @@ export default class SignUpScreenBase extends React.Component<
         this.getFormAddress = this.getFormAddress.bind(this);
         this.getFormCity = this.getFormCity.bind(this);
         this.setModalOff = this.setModalOff.bind(this);
-        this.navigateMain = this.navigateMain.bind(this);
         this.resetForms = this.resetForms.bind(this);
         this.resetState = this.resetState.bind(this);
 
@@ -151,8 +150,8 @@ export default class SignUpScreenBase extends React.Component<
     }
 
     setModalOff(error: string = 'Error Message') {
-        const { onChangeModalVisibility, setErrorState } = this.props;
-        onChangeModalVisibility(false);
+        const { navigation, setErrorState } = this.props;
+        navigation.navigate(navigationPages.SignUpScreen);
         setErrorState(true, error);
     }
 
@@ -193,24 +192,23 @@ export default class SignUpScreenBase extends React.Component<
      */
     clickSignIn = () => {
         const { navigation } = this.props;
-        navigation.navigate('Login');
+        navigation.navigate(navigationPages.LoginScreen);
     };
 
     clickSignUp = () => {
-        const { onChangeModalVisibility, generateHomePairsAccount, navigation } = this.props;
+        const { generateHomePairsAccount, navigation } = this.props;
         const { password } = this.state;
         this.resetForms();
         if (this.validateForms()) {
-            onChangeModalVisibility(true);
+            navigation.navigate(navigationPages.CreatingAccountModal);
             const details: Account = { ...this.state, roopairsToken: '' };
-            generateHomePairsAccount(details, password, this.setModalOff, navigation);
-            onChangeModalVisibility(false);
+            generateHomePairsAccount(details, password, this.setModalOff, navigation);     
         }
     };
 
     toRoopairsLogin = () => {
         const { navigation } = this.props;
-        navigation.navigate('Connect');
+        navigation.navigate(navigationPages.RoopairsLogin);
     };
 
     validateForms() {
@@ -258,11 +256,6 @@ export default class SignUpScreenBase extends React.Component<
         this.emailRef.current.setError(false);
         this.passwordRef.current.setError(false);
         this.cPasswordRef.current.setError(false);
-    }
-
-    navigateMain() {
-        const { navigation } = this.props;
-        navigation.navigate('Main');
     }
 
     resetState() {
@@ -383,14 +376,11 @@ export default class SignUpScreenBase extends React.Component<
 
     // how to reset error messages when switch back and forth from radio button
     render() {
-        const { primaryColorTheme } = this.props;
         return (
             <>
                 <AccountTypeRadioButton
                     parentCallBack={this.getAccountType}
-                    resetForms={this.resetForms}
-                    primaryColorTheme={primaryColorTheme}
-                />
+                    resetForms={this.resetForms}/>
                 {this.renderRoopairsLoginButton()}
                 {this.renderInputForms()}
             </>

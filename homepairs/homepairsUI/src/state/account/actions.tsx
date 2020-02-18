@@ -10,6 +10,7 @@ import {
   NavigationPropType,
 } from '../types';
 import { fetchProperty, fetchProperties } from '../property-list/actions';
+import { navigationPages } from 'src/Routes/RouteConstants';
 
 const responseKeys = HomePairsResponseKeys;
 const accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
@@ -39,10 +40,10 @@ export const FETCH_PROFILE_ACTION_TYPES = {
 export function ChooseMainPage(accountType: AccountTypes, 
   navigation: NavigationPropType) {
   if(accountType === AccountTypes.Landlord){
-    navigation.navigate('AccountProperties');  
+    navigation.navigate(navigationPages.PropertiesScreen);  
     return;
   }
-  navigation.navigate('TenantProperties');
+  navigation.navigate(navigationPages.TenantProperty);
 }
 
 
@@ -144,7 +145,8 @@ export const fetchAccount = (
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
             }
           })
-          .catch(() => {
+          .catch((error) => {
+            console.log(error)
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
           })
           .finally(() => {

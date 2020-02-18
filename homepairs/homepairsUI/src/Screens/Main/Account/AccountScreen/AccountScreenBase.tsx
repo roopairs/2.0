@@ -2,7 +2,6 @@ import React from 'react';
 import {
     AccountConnectedCard,
     ConnectAccountCard,
-    SceneInjectedProps,
     DarkModeInjectedProps,
 } from 'homepairs-components';
 import strings from 'homepairs-strings';

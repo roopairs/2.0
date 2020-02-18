@@ -5,9 +5,6 @@ import strings from "homepairs-strings";
 import {
   AuthPassProps,
   withAuthPage,
-  withDarkMode,
-  CreatingAccountModal,
-  withModal,
 } from "homepairs-components";
 import HomePairColors from "res/colors";
 import { withNavigation, NavigationSwitchProp } from 'react-navigation';
@@ -39,5 +36,4 @@ const SignUpScreen = connect(null, mapDispatchToProps)(SignUpScreenBase);
 const SignUpScreenWithNav = withNavigation(SignUpScreen);
 
 const AuthPage = withAuthPage(SignUpScreenWithNav, authPageParam);
-const AuthWithModal = withModal(AuthPage, CreatingAccountModal);
-export default withDarkMode(AuthWithModal);
+export default AuthPage;

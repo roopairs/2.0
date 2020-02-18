@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { NavigationStackProp } from 'react-navigation-stack';
 import {
     AddPropertyAction,
     UpdatePropertyAction, 
@@ -77,8 +78,8 @@ export const postNewProperty = (
     newProperty: Property,
     info: AddNewPropertyState,
     setInitialState: () => void,
-    onChangeModalVisibility: (check: boolean) => void,
     displayError: (msg: string) => void,
+    navigation: NavigationStackProp,
 ) => {
     return async (dispatch: (arg0: any) => void) => {
         await axios
@@ -97,7 +98,7 @@ export const postNewProperty = (
                 if (response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.SUCCESS) {
                     dispatch(addProperty(newProperty));
                     setInitialState();
-                    onChangeModalVisibility(false);
+                    navigation.goBack();
                 } else {
                     displayError(response[responseKeys.DATA][responseKeys.ERROR]);
                 }
@@ -139,8 +140,8 @@ export const updateProperty = (propertyIndex: number, updatedProperty: Property)
 export const postUpdatedProperty = ( 
     editProperty: Property, 
     info: EditPropertyState,
-    onChangeModalVisibility: (check: boolean) => void,
     displayError: (msg: string) => void, 
+    navigation: NavigationStackProp,
     ) => {
   return async (dispatch: (arg0: any) => void) => {
     return axios.post('https://homepairs-alpha.herokuapp.com/API/property/update/', {
@@ -158,12 +159,12 @@ export const postUpdatedProperty = (
     .then((response) => {
       if(response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.SUCCESS){
         dispatch(updateProperty(info.index, editProperty));
-        onChangeModalVisibility(false);
+        navigation.goBack();
       } else {
         displayError(response[responseKeys.DATA][responseKeys.ERROR]);
         // TODO: Send back error status to modal, this can be done by sending another callback as a parameter
       }
-    }).catch();
+    }).catch(() => {});
   };
 };
 

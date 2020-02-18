@@ -6,6 +6,7 @@ import {
 } from 'homepairs-types';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import { mockStackNavigation, navigationStackSpyFunction } from 'tests/fixtures/DummyComponents';
 import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
 
 const URL = 'https://homepairs-alpha.herokuapp.com/API/property/create/';
@@ -31,10 +32,10 @@ describe('postNewProperty Action', () => {
 
     describe('Tests Action when response returned is success', () => {
         const setInitialStateSpy = jest.fn();
-        const onChangeModalVisibilitySpy = jest.fn((arg: boolean) => {});
 
         beforeEach(() => {
             propertyManagerMock1.clearActions();
+            navigationStackSpyFunction.mockClear();
         });
 
         it('Test the dispatch and callback methods', async () => {
@@ -60,30 +61,25 @@ describe('postNewProperty Action', () => {
                         newPropertyTest,
                         newPropertyCredentials,
                         setInitialStateSpy,
-                        onChangeModalVisibilitySpy,
+                        mockStackNavigation,
                     ),
                 )
                 .then(() => {
                     expect(setInitialStateSpy.mock.calls).toHaveLength(1);
-                    expect(onChangeModalVisibilitySpy.mock.calls).toHaveLength(1);
-                    expect(onChangeModalVisibilitySpy).toHaveBeenCalledWith(
-                        false,
-                    );
                     const actionResults = propertyManagerMock1.getActions();
                     expect(actionResults).toHaveLength(1);
                     expect(actionResults[0]).toStrictEqual(expectedResult);
+                    expect(navigationStackSpyFunction).toHaveBeenCalledTimes(1);                    
                 });
         });
     });
 
     describe('Tests Action when on failure', () => {
         const setInitialStateSpy = jest.fn();
-        const onChangeModalVisibilitySpy = jest.fn((arg: boolean) => {});
 
         beforeEach(() => {
             propertyManagerMock1.clearActions();
-            setInitialStateSpy.mockClear();
-            onChangeModalVisibilitySpy.mockClear();
+            navigationStackSpyFunction.mockClear();
         });
 
         it('Test when failure to get response', async () => {
@@ -94,14 +90,14 @@ describe('postNewProperty Action', () => {
                         newPropertyTest,
                         newPropertyCredentials,
                         setInitialStateSpy,
-                        onChangeModalVisibilitySpy,
+                        mockStackNavigation,
                     ),
                 )
                 .then(() => {
                     expect(setInitialStateSpy.mock.calls).toHaveLength(0);
-                    expect(onChangeModalVisibilitySpy.mock.calls).toHaveLength(0);
                     const actionResults = propertyManagerMock1.getActions();
                     expect(actionResults).toHaveLength(0);
+                    expect(navigationStackSpyFunction).toHaveBeenCalledTimes(0);                    
                 });
         });
 
@@ -116,14 +112,14 @@ describe('postNewProperty Action', () => {
                         newPropertyTest,
                         newPropertyCredentials,
                         setInitialStateSpy,
-                        onChangeModalVisibilitySpy,
+                        mockStackNavigation,
                     ),
                 )
                 .then(() => {
                     expect(setInitialStateSpy.mock.calls).toHaveLength(0);
-                    expect(onChangeModalVisibilitySpy.mock.calls).toHaveLength(0);
                     const actionResults = propertyManagerMock1.getActions();
                     expect(actionResults).toHaveLength(0);
+                    expect(navigationStackSpyFunction).toHaveBeenCalledTimes(0);                    
                 });
         });
     });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropertyListState, HeaderState } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
+import { navigationPages } from 'src/Routes/RouteConstants';
 import {
     ViewPropertyCard,
     SceneInjectedProps,
@@ -37,11 +38,13 @@ export default class PropertiesScreenBase extends React.Component<PropertiesScre
         this.navigateToDetailedProperty = this.navigateToDetailedProperty.bind(this);
     }
 
+    static path = "properties"
+
     navigateToDetailedProperty(index: number) {
         const {navigation, onSelectProperty, onRevealGoBack} = this.props;
         onSelectProperty(index);
         onRevealGoBack(true);
-        navigation.push('DetailedProperty');
+        navigation.push(navigationPages.SingleProperty);
     }
 
     render() {

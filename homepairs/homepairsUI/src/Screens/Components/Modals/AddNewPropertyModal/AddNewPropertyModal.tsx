@@ -1,14 +1,16 @@
 import { connect } from "react-redux";
 import { PropertyListActions } from 'homepairs-redux-actions';
 import { Property, AppState, AddNewPropertyState } from 'homepairs-types';
+import { withNavigation } from "react-navigation";
+import { NavigationStackProp } from "react-navigation-stack";
 import  AddNewPropertyModalBase, { AddNewPropertyDispatchProps} from './AddNewPropertyModalBase';
 
 
 const mapDispatchToProps : (dispatch: any) => AddNewPropertyDispatchProps = (dispatch: any) => ({
     onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, 
-        onChangeModalVisiblity: (check: boolean) => void, displayError: (msg: string) => void) => 
+         displayError: (msg: string) => void, navigation: NavigationStackProp) => 
     {
-        dispatch(PropertyListActions.postNewProperty(newProperty, info, setInitialState, onChangeModalVisiblity, displayError));
+        dispatch(PropertyListActions.postNewProperty(newProperty, info, setInitialState, displayError, navigation));
     },
 });
 
@@ -19,7 +21,7 @@ function mapStateToProps(state: AppState) : any {
     };
 }
 
-export default connect(
+export default withNavigation(connect(
   mapStateToProps, 
-  mapDispatchToProps)(AddNewPropertyModalBase);
+  mapDispatchToProps)(AddNewPropertyModalBase));
 

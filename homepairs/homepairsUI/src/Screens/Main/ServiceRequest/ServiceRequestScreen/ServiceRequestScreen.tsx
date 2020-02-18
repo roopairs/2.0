@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withSceneHeader} from 'homepairs-components';
 import strings from 'homepairs-strings';
 import { withNavigation } from 'react-navigation';
+import { navigationPages } from 'src/Routes/RouteConstants';
 import ServiceRequestScreenBase, {
     ServiceRequestScreenStateProps,
     ServiceRequestScreenProps,
@@ -15,7 +16,7 @@ const sceneParam: MainAppStackType = {
     key: 'ServiceRequest',
     button: serviceRequestStrings.button,
     onNavButtonClick: (props: ServiceRequestScreenProps) => {
-        props.navigation.push('NewRequest');
+        props.navigation.push(navigationPages.NewRequest);
         props.onSetNavHeaderGoBackButton(true);
     },
     doesButtonUseNavigate: true,
