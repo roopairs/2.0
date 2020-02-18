@@ -99,36 +99,3 @@ ThinButton.defaultProps = {
     buttonTextStyle: DefaultThinButtonStyles.buttonText,
 };
 
-
-/**
- * ------------------------------------------------------------
- * renderThinButton (deprecated)
- * ------------------------------------------------------------
- * @deprecated Please do not use this function. We are going to remove it in 
- * future use. 
- */
-export function renderThinButton(thinButtonProps: ThinButtonProps) {
-    console.log("Warning: renderThinButton is deprecated and will be removed upon the next release.");
-    const {
-        key,
-        name,
-        onClick,
-        onPressIn,
-        onPressOut,
-        containerStyle,
-        buttonStyle,
-        buttonTextStyle,
-    } = thinButtonProps;
-    return (
-        <ThinButton
-            key={key}
-            name={name}
-            onClick={onClick}
-            onPressIn={onPressIn}
-            onPressOut={onPressOut}
-            containerStyle={containerStyle}
-            buttonStyle={buttonStyle}
-            buttonTextStyle={buttonTextStyle}
-        />
-    );
-}

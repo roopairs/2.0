@@ -1,11 +1,13 @@
 import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
-import { NavigationInjectedProps, withNavigation } from 'react-navigation';
+import { NavigationInjectedProps, withNavigation, NavigationActions, StackActions} from 'react-navigation';
 import { FontTheme, ColorTheme } from 'homepairs-base-styles';
 import { MainAppStackType } from 'homepairs-types';
 import HomePairColors from 'homepairs-colors';
 import MainAppStack from '../../../Routes/RouteConstants';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
+import { navigationKeys } from 'src/Routes/RouteConstants';
+import * as BaseStyles from 'homepairs-base-styles';
 
 
 export type HomePairsMenuProps = DarkModeInjectedProps & {
@@ -92,10 +94,7 @@ class HomePairsMenu extends React.Component<Props> {
         this.buttonFormat = this.buttonFormat.bind(this);
         this.displayCorrectMenu = this.displayCorrectMenu.bind(this);
 
-        this.colorScheme =
-            props.primaryColorTheme == null
-                ? HomePairColors.LightModeColors
-                : props.primaryColorTheme;
+        this.colorScheme = BaseStyles.LightColorTheme;
         styles = setColorScheme(this.colorScheme, baseStyles, props.isDropDown);
     }
 
