@@ -39,6 +39,7 @@ import {
 export { default as AddressSticker } from './AddressSticker/AddressSticker';
 export { default as SceneHeader } from './SceneHeader/SceneHeader';
 export { default as GeneralHomeInfo } from './GeneralHomeInfo/GeneralHomeInfo';
+export { default as ApplianceInfo } from './ApplianceInfo/ApplianceInfo';
 export { default as AccountTypeRadioButton } from './AccounttypeRadioButton/AccountTypeRadioButton';
 export { default as ViewPropertyCard } from './ViewPropertyCard/ViewPropertyCard';
 export { default as AccountConnectedCard } from './AuthenticationCards/AccountConnectedCard';

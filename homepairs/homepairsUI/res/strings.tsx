@@ -97,6 +97,32 @@ const strings = {
         modal: 'Signing Up...',
     },
     logOut: 'Log Out',
+    applianceInfo: {
+        title: 'Appliances', 
+        applianceModal: {
+            title: 'Add Appliance',
+            category: 'CATEGORY', 
+            name: 'DISPLAY NAME', 
+            manufacturer: 'MANUFACTURER (optional)', 
+            modelNum: 'MODEL NUMBER (optional)', 
+            serialNum: 'SERIAL NUMBER (optional)', 
+            location: 'LOCATION (optional)',
+            add: 'Add', 
+            editSave: 'Save', 
+            
+        },
+        button: {
+            title: 'Add Appliance',
+        },
+        details: {
+            manufacturer: 'MANUFACTURER', 
+            modelNum: 'MODEL NUMBER', 
+            location: 'LOCATION', 
+            serialNum: 'SERIAL NUMBER', 
+            lastServiceBy: 'LAST SERVICE BY', 
+            lastServiceDate: 'LAST SERVICE DATE',
+        },
+    },
 };
 
 export default strings;

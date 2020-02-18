@@ -5,8 +5,10 @@ import  AddNewPropertyModalBase, { AddNewPropertyDispatchProps} from './AddNewPr
 
 
 const mapDispatchToProps : (dispatch: any) => AddNewPropertyDispatchProps = (dispatch: any) => ({
-    onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, onChangeModalVisiblity: (check: boolean) => void) => {
-        dispatch(PropertyListActions.postNewProperty(newProperty, info, setInitialState, onChangeModalVisiblity));
+    onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, 
+        onChangeModalVisiblity: (check: boolean) => void, displayError: (msg: string) => void) => 
+    {
+        dispatch(PropertyListActions.postNewProperty(newProperty, info, setInitialState, onChangeModalVisiblity, displayError));
     },
 });
 

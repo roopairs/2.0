@@ -4,9 +4,11 @@ import { Property, AppState, EditPropertyState } from 'homepairs-types';
 import EditPropertyModalBase, {EditPropertyDispatchProps} from './EditPropertyModalBase';
 
 const mapDispatchToProps : (dispatch: any) => EditPropertyDispatchProps = (dispatch: any) => ({
-    onEditProperty: (editProperty: Property, info: EditPropertyState, onChangeModalVisiblity: (check: boolean) => void) => {
-        dispatch(PropertyListActions.postUpdatedProperty(editProperty, info, onChangeModalVisiblity));
-    },
+    onEditProperty: (editProperty: Property, info: EditPropertyState, 
+        onChangeModalVisiblity: (check: boolean) => void, displayError: (msg: string) => void) => 
+        {
+            dispatch(PropertyListActions.postUpdatedProperty(editProperty, info, onChangeModalVisiblity, displayError));
+        },
 });
 
 function mapStateToProps(state: AppState) : EditPropertyState {

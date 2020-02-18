@@ -78,6 +78,7 @@ export const postNewProperty = (
     info: AddNewPropertyState,
     setInitialState: () => void,
     onChangeModalVisibility: (check: boolean) => void,
+    displayError: (msg: string) => void,
 ) => {
     return async (dispatch: (arg0: any) => void) => {
         await axios
@@ -98,12 +99,10 @@ export const postNewProperty = (
                     setInitialState();
                     onChangeModalVisibility(false);
                 } else {
-                    //console.log('error');
+                    displayError(response[responseKeys.DATA][responseKeys.ERROR]);
                 }
             })
-            .catch(error => {
-                //console.log(error);
-            });
+            .catch();
     };
 };
 
@@ -140,7 +139,9 @@ export const updateProperty = (propertyIndex: number, updatedProperty: Property)
 export const postUpdatedProperty = ( 
     editProperty: Property, 
     info: EditPropertyState,
-    onChangeModalVisibility: (check: boolean) => void) => {
+    onChangeModalVisibility: (check: boolean) => void,
+    displayError: (msg: string) => void, 
+    ) => {
   return async (dispatch: (arg0: any) => void) => {
     return axios.post('https://homepairs-alpha.herokuapp.com/API/property/update/', {
       oldStreetAddress: info.oldProp.streetAddress,
@@ -159,10 +160,10 @@ export const postUpdatedProperty = (
         dispatch(updateProperty(info.index, editProperty));
         onChangeModalVisibility(false);
       } else {
+        displayError(response[responseKeys.DATA][responseKeys.ERROR]);
         // TODO: Send back error status to modal, this can be done by sending another callback as a parameter
       }
-    }).catch((error) => {
-    });
+    }).catch();
   };
 };
 

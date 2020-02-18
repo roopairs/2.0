@@ -1,16 +1,18 @@
 import React from "react";
-import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar } from "react-native";
+import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, View } from "react-native";
 import {ThinButton, renderInputForm, ThinButtonProps, Card } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, EditPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
+import {HelperText} from 'react-native-paper';
 import {isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
 import { DarkModeInjectedProps } from '../../WithDarkMode/WithDarkMode';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 
 export type EditPropertyDispatchProps = {
-    onEditProperty: (newProperty: Property, info: EditPropertyState, onChangeModalVisibility: (check: boolean) => void) => void
+    onEditProperty: (newProperty: Property, info: EditPropertyState, 
+        onChangeModalVisibility: (check: boolean) => void, displayError: (msg: string) => void) => void
 }
 
 /** NOTE: 
@@ -32,6 +34,8 @@ type EditState = {
     bedrooms: string, 
     bathrooms: string, 
     tenants: string,
+    errorMsg: string,
+    errorCheck: boolean,
 };
 
 
@@ -177,6 +181,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.getFormNumBed = this.getFormNumBed.bind(this);
         this.getFormNumBath = this.getFormNumBath.bind(this);
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
+        this.displayError = this.displayError.bind(this);
         this.resetForms = this.resetForms.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
         const {oldProp} = this.props;
@@ -188,6 +193,9 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
             bedrooms: bedrooms.toString(), 
             bathrooms: bathrooms.toString(),
             tenants: tenants.toString(),
+            errorMsg: '',
+            errorCheck: false,
+
         };
         this.addressRef = React.createRef();
         this.stateRef = React.createRef();
@@ -271,6 +279,10 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.bathRef.current.setError(false);
     }
 
+    displayError(msg: string) {
+        this.setState({errorMsg: msg, errorCheck: true});
+    }
+
     clickSubmitButton() {
         const {email, onChangeModalVisibility, onEditProperty, index, oldProp, roopairsToken} = this.props;
         const {address, state, city, bedrooms, bathrooms, tenants} = this.state;
@@ -283,7 +295,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                 tenants: Number(tenants),
             };
             const info : EditPropertyState = { email, index, oldProp, roopairsToken};
-            onEditProperty(newProperty, info, onChangeModalVisibility);
+            onEditProperty(newProperty, info, onChangeModalVisibility, this.displayError);
         } 
     }
 
@@ -356,6 +368,13 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
             return renderInputForm(inputFromProp);
         });
     }
+
+    renderError () {
+        const {errorMsg, errorCheck} = this.state;
+        return <View style={{alignSelf:'center'}}>
+            <HelperText type='error' visible={errorCheck} style={this.inputFormStyle.errorStyle}>{errorMsg}</HelperText>
+        </View>;
+    }
     
     render() {
         const {onChangeModalVisibility} = this.props;
@@ -379,6 +398,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                     }}
                     >
                     <>{this.renderInputForms()}</>
+                    {this.renderError()}
                     {ThinButton(this.submitButton)}
                 </Card>
             </ScrollView>

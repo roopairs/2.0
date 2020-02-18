@@ -1,11 +1,13 @@
 import React from "react";
-import {  ScrollView, StyleSheet, SafeAreaView, StatusBar, Platform } from "react-native";
+import {  ScrollView, StyleSheet, SafeAreaView, StatusBar, Platform, View } from "react-native";
 import { renderInputForm, ThinButton, ThinButtonProps, Card } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, AddNewPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {isPositiveWholeNumber, isEmptyOrSpaces} from 'homepairs-utilities';
+import {HelperText} from 'react-native-paper';
+import {FontTheme} from 'homepairs-base-styles';
 import {DarkModeInjectedProps} from '../../WithDarkMode/WithDarkMode';
 import {ModalInjectedProps} from '../WithModal/WithModal';
 
@@ -19,7 +21,8 @@ import {ModalInjectedProps} from '../WithModal/WithModal';
 
 
 export type AddNewPropertyDispatchProps = {
-    onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => void
+    onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, 
+        onChangeModalVisibility: (check: boolean) => void, displayError: (msg: string) => void) => void
 }
 
 type Props = ModalInjectedProps &
@@ -34,6 +37,8 @@ type CreateState = {
     bedrooms: string, 
     bathrooms: string, 
     tenants: string,
+    errorMsg: string,
+    errorCheck: boolean,
 };
 
 const addPropertyStrings = strings.propertiesPage.addProperty;
@@ -46,6 +51,8 @@ const initialState : CreateState = {
     bedrooms: '', 
     bathrooms: '',
     tenants: '',
+    errorMsg: '',
+    errorCheck: false,
 };
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
@@ -125,6 +132,10 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             alignSelf: 'center',
             justifyContent: 'center',
         },
+        errorStyle: {
+            fontFamily: FontTheme.secondary, 
+            fontSize: 16,
+        },
     });
 }
 
@@ -182,6 +193,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
         this.resetForms = this.resetForms.bind(this);
+        this.displayError = this.displayError.bind(this);
         this.state = initialState;
         this.addressRef = React.createRef();
         this.stateRef = React.createRef();
@@ -258,10 +270,15 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         this.bathRef.current.setError(false);
     }
 
+    displayError(msg: string) {
+        this.setState({errorMsg: msg, errorCheck: true});
+    }
+
     clickSubmitButton() {
         const {address, city, state, tenants, bathrooms, bedrooms} = this.state;
         const {email, onChangeModalVisibility, onCreateProperty, roopairsToken} = this.props;
         this.resetForms();
+        this.setState({errorCheck: false});
         if (this.validateForms()) {
             const newProperty : Property = {
                 streetAddress: address, city, state,
@@ -270,7 +287,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                 bathrooms: Number(bathrooms),
             };
             const info : AddNewPropertyState = {email, roopairsToken};
-            onCreateProperty(newProperty, info, this.setInitialState, onChangeModalVisibility);
+            onCreateProperty(newProperty, info, this.setInitialState, onChangeModalVisibility, this.displayError);
         }
     }
 
@@ -344,6 +361,13 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         });
     }
 
+    renderError () {
+        const {errorMsg, errorCheck} = this.state;
+        return <View style={{alignSelf:'center'}}>
+            <HelperText type='error' visible={errorCheck} style={this.inputFormStyle.errorStyle}>{errorMsg}</HelperText>
+        </View>;
+    }
+
     render() {
         const {onChangeModalVisibility} = this.props;
         const showCloseButton = true;
@@ -366,6 +390,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     >
                     <>{this.renderInputForms()}</>
+                    {this.renderError()}
                     {ThinButton(this.submitButton)}
                 </Card>
             </ScrollView>

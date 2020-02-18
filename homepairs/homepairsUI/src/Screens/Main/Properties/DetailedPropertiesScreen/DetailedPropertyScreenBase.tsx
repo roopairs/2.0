@@ -14,6 +14,7 @@ import {
     AddressSticker,
     DarkModeInjectedProps,
     ModalInjectedProps,
+    ApplianceInfo,
 } from 'homepairs-components';
 import {
     HomepairsPropertyAttributes,
@@ -122,6 +123,12 @@ export default function DetailedPropertyScreenBase(props: Props) {
         );
     }
 
+    function renderApplianceInfo() {
+        return (
+            <ApplianceInfo/>
+        );
+    }
+
     function renderContents() {
         return (
             <ScrollView style={{ flexGrow: 1 }}>
@@ -138,6 +145,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
                         </View>
                     </View>
                     {renderGeneralHomeInfo()}
+                    {renderApplianceInfo()}
                 </View>
             </ScrollView>
         );

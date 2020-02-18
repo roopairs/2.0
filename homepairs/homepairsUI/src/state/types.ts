@@ -54,6 +54,26 @@ export type PropertyListAction =
     | FetchPropertiesAction;
 /* *-------------------Property Types-------------------* */
 
+/* *-------------------Appliances-------------------* */
+
+export enum ApplianceType {
+    // find all types
+    Plumbing, HotEquipment, 
+};
+
+export type Appliance = {
+    category: ApplianceType,
+    name: string,
+    manufacturer: string, 
+    modelNum: string, 
+    serialNum: string, 
+    location: string,
+};
+
+/* *-------------------Appliances-------------------* */
+
+
+
 /* *-------------------Account Types-------------------* */
 
 export enum AccountTypes {
@@ -354,6 +374,7 @@ export const HomePairsResponseKeys = {
     ROOPAIRS_TOKEN: 'token',
     STATUS: 'status',
     STATUS_RESULTS: HOMEPAIRS_LOGIN_STATUS,
+    ERROR: 'error',
 };
 
 export type DarkModeProperties = {
