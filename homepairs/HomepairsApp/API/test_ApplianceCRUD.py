@@ -5,6 +5,7 @@ from django.test import TestCase
 
 from .helperFuncsForTesting import getInfo, setUpHelper, tearDownHelper
 from .views import ERROR, FAIL, APPLIANCE_DOESNT_EXIST, PROPERTY_DOESNT_EXIST, STATUS, SUCCESS
+# from .views import createAppliance, viewAppliance, updateAppliance
 from .models import Property
 
 
@@ -44,10 +45,6 @@ class CreateAppliance(TestCase):
         location = 'Garage'
         propId = Property.objects.filter()[0].id
 
-        #data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
-        #responseData = getInfo(LOGIN, data)
-        #self.assertEqual(responseData.get(STATUS), SUCCESS)
-
         data = {
                   'name': name,
                   'manufacturer': manufacturer,
@@ -55,10 +52,10 @@ class CreateAppliance(TestCase):
                   'modelNum': modelNum,
                   'serialNum': serialNum,
                   'location': location,
-                  'propId': propId
+                  'propId': propId,
                }
 
-        print(data)
+        print('create all correct: ', data, '\n')
         responseData = getInfo(CREATE_APP, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
@@ -117,12 +114,6 @@ class UpdateAppliance(TestCase):
 
     def test_update_appliance_allCorrect(self):
         '''Everything is correct, I create the property first, then update it.'''
-        data = {
-                'email': 'eerongrant@gmail.com',
-                'password': 'pass4eeron'
-               }
-        responseData = getInfo(LOGIN, data)
-
         name = 'Fridge'
         manufacturer = 'Company'
         category = 'cool'
@@ -138,8 +129,9 @@ class UpdateAppliance(TestCase):
                   'modelNum': modelNum,
                   'serialNum': serialNum,
                   'location': location,
-                  'propId': propId
+                  'propId': propId,
                }
+        print('update all correct: ', data, '\n')
         responseData = getInfo(CREATE_APP, data)
 
         self.assertEqual(responseData.get(STATUS), SUCCESS)
@@ -158,7 +150,7 @@ class UpdateAppliance(TestCase):
                   'newModelNum': newModelNum,
                   'newSerialNum': newSerialNum,
                   'newLocation': newLocation,
-                  'appId': appId
+                  'appId': appId,
                }
 
         responseData = getInfo(UPDATE_APP, data)
@@ -182,12 +174,6 @@ class UpdateAppliance(TestCase):
 
     def test_update_app_bad_app_id(self):
         '''Incorrect Fields Being Sent'''
-        data = {
-                'email': 'eerongrant@gmail.com',
-                'password': 'pass4eeron'
-               }
-        responseData = getInfo(LOGIN, data)
-
         name = 'Fridge'
         manufacturer = 'Company'
         category = 'cool'
@@ -203,7 +189,7 @@ class UpdateAppliance(TestCase):
                   'modelNum': modelNum,
                   'serialNum': serialNum,
                   'location': location,
-                  'propId': propId
+                  'propId': propId,
                }
         responseData = getInfo(CREATE_APP, data)
 
@@ -223,7 +209,7 @@ class UpdateAppliance(TestCase):
                   'newModelNum': newModelNum,
                   'newSerialNum': newSerialNum,
                   'newLocation': newLocation,
-                  'appId': appId
+                  'appId': appId,
                }
 
         responseData = getInfo(UPDATE_APP, data)
