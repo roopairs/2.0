@@ -10,6 +10,9 @@ import {
     SetSelectedPropertyAction, 
     EditPropertyState,
     AddNewPropertyState,
+    FetchPropertyAndPropertyManagerAction,
+    AccountTypes,
+    Contact,
 } from '../types';
 
 const responseKeys = HomePairsResponseKeys;
@@ -29,6 +32,7 @@ export enum PROPERTY_LIST_ACTION_TYPES {
     REMOVE_PROPERTY = 'PROPERTY_LIST/REMOVE_PROPERTY',
     UPDATE_PROPERTY = 'PROPERTY_LIST/UPDATE_PROPERTY',
     FETCH_PROPERTY = 'PROPERTY_LIST/FETCH_PROPERTY',
+    FETCH_PROPERTY_AND_PROPERTY_MANAGER = 'PROPERTY_LIST/FETCH_PROPERTY_AND_PROPERTY_MANAGER',
     FETCH_PROPERTIES = 'PROPERTY_LIST/FETCH_PROPERTIES',
     SET_SELECTED_PROPERTY = 'PROPERTY_LIST/SET_SELECTED_PROPERTY',
 }
@@ -205,6 +209,39 @@ export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => 
       type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
       property: fetchedProperties,
     };
+};
+
+/**
+ * ----------------------------------------------------
+ * fetchPropertyManager
+ * ----------------------------------------------------
+ * Function used to extract a single property and its owner from fetching an account profile. 
+ * This should be called after generating a new account or authentication for specifically
+ * TENANTS
+ * @param {Contact} linkedPropertyManager -Property Manager recieved from the homepairs servers  
+ */
+export const fetchPropertyAndPropertyManager = (linkedProperty: Property, linkedPropertyManager: Contact): FetchPropertyAndPropertyManagerAction => {
+      const fetchedPropertyManager: Contact = {
+          email: linkedPropertyManager[propertyKeys.ADDRESS],
+          firstName: linkedPropertyManager[propertyKeys.CITY],
+          lastName: linkedPropertyManager[propertyKeys.STATE],
+          accountType: AccountTypes.PropertyManager,
+      };
+      const fetchedProperties: Property[] = [];
+      const fetchedProperty = {
+              streetAddress: linkedProperty[propertyKeys.ADDRESS],
+              city: linkedProperty[propertyKeys.CITY],
+              state: linkedProperty[propertyKeys.STATE],
+              tenants: linkedProperty[propertyKeys.TENANTS],
+              bedrooms : linkedProperty[propertyKeys.BEDROOMS],
+              bathrooms : linkedProperty[propertyKeys.BATHROOMS],
+          };
+      fetchedProperties.push(fetchedProperty);
+  return {
+    type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_AND_PROPERTY_MANAGER,
+    property: fetchedProperties,
+    propertyManager: fetchedPropertyManager,
+  };
 };
 
 /**

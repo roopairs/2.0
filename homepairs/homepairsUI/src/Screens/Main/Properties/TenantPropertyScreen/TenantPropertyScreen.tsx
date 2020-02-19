@@ -9,7 +9,7 @@ import TenantPropertyScreenBase, { TenantPropertyStateProps, TenantPropertyDispa
 function mapStateToProps(state: AppState) : TenantPropertyStateProps {
     return { propertyState: state.properties};
 };
-  
+
 const mapDispatchToProps: (
     dispatch: any
   ) => TenantPropertyDispatchProps = dispatch => ({
@@ -18,9 +18,9 @@ const mapDispatchToProps: (
     },
   });
 
-const DetailedPropertyScreen = connect(
+const TenantPropertyScreen = connect(
   mapStateToProps,
   // mapDispatchToProps,
 )(TenantPropertyScreenBase);
 
-export default withDarkMode(withNavigation(DetailedPropertyScreen));
+export default withDarkMode(withNavigation(TenantPropertyScreen));

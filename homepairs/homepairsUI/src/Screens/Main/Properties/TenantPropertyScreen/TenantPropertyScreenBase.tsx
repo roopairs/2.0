@@ -8,7 +8,7 @@ import {
     StyleSheet, 
 } from 'react-native';
 import { defaultProperty } from 'homepairs-images';
-import {GeneralHomeInfo, AddressSticker , DarkModeInjectedProps } from 'homepairs-components';
+import {GeneralHomeInfo, AddressSticker , DarkModeInjectedProps, PrimaryContactInfo } from 'homepairs-components';
 import { HomepairsPropertyAttributes, PropertyListState, Property, HomePairsDimensions as HomepairsDimensions } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import strings from 'homepairs-strings';
@@ -16,6 +16,8 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { isNullOrUndefined } from '../../../../utility/ParameterChecker';
 
 const navParams = strings.detailedPropertyPage.navigationParams;
+const canEditProps = false; //tenants cannot edit properties
+
 export type TenantPropertyStateProps = DarkModeInjectedProps & {
   propertyState: PropertyListState,
 }
@@ -93,15 +95,13 @@ function setStyles(colorTheme?:BaseStyles.ColorTheme) {
 
 export default function TenantPropertyScreenBase(props:Props){
     const {propertyState, primaryColorTheme} = props;
-    const {properties} = propertyState;
+    const {properties, propertyManager} = propertyState;
 
     const property: Property = properties[0]; // THIS IS BAD CODING, ASSUMING AN ARRAY IS OF SIZE 1
     const styles = setStyles(primaryColorTheme);
 
     function renderContents(){
-        const hasEdit = false;
         return(
-        // TO DO (line 65-66 ADD TENANT COMPONENT)
         <ScrollView style={{flexGrow: 1}}>
             <View style={styles.addBottomMargin}>
                 <AddressSticker
@@ -114,7 +114,8 @@ export default function TenantPropertyScreenBase(props:Props){
                     style={Platform.OS === 'web' ? styles.homepairsPropertiesImageWeb : styles.homepairsPropertiesImage}
                     resizeMode='cover'/>
                     </View>
-                    <GeneralHomeInfo property={property} primaryColorTheme={primaryColorTheme} hasEdit={hasEdit} />
+                    <GeneralHomeInfo property={property} primaryColorTheme={primaryColorTheme} hasEdit={canEditProps} />
+                    <PrimaryContactInfo propertyManager={propertyManager} primaryColorTheme={primaryColorTheme}/>
                 </View>
             </View>
         </ScrollView>

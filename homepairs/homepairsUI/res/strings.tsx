@@ -57,6 +57,13 @@ const strings = {
             inputForm: propertyMutationForm,
             button: 'Save',
         },
+        primaryContact: {
+            title: 'Primary Contact',
+            subtitle: 'Questions about this property? Contact the landlord:',
+            name: 'NAME',
+            email: 'EMAIL',
+            phone: 'PHONE',
+        },
     },
     signInPage: {
         subtitle: 'Sign in to your Account',
@@ -74,7 +81,7 @@ const strings = {
         accountTypeRadioButton: {
             name: 'ACCOUNT TYPE',
             tenant: 'Tenant',
-            landlord: 'Property Manager',
+            propertyManager: 'Property Manager',
         },
         inputForms: {
             firstName: 'FIRST NAME',

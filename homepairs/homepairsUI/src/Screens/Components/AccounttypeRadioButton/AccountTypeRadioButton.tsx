@@ -17,7 +17,7 @@ export type AccountTypeRadioProps = DarkModeInjectedProps & {
 }
 
 type AccountTypeRadioState = {
-  landLordSelected : boolean
+  propertyManagerSelected : boolean
 }
 
 const accountRadioStrings = strings.signUpPage.accountTypeRadioButton;
@@ -113,24 +113,24 @@ export default class AccountTypeRadioButton extends React.Component<AccountTypeR
 
   constructor(props: Readonly<AccountTypeRadioProps>) {
     super(props);
-    this.onPressLandLord = this.onPressLandLord.bind(this);
+    this.onPressPropertyManager = this.onPressPropertyManager.bind(this);
     this.onPressTenant = this.onPressTenant.bind(this);
 
-    this.state = { landLordSelected : false};
+    this.state = { propertyManagerSelected : false};
     props.parentCallBack(AccountTypes.Tenant);
   }
 
-  onPressLandLord() {
+  onPressPropertyManager() {
     const {parentCallBack, resetForms} = this.props;
     resetForms();
-    this.setState({ landLordSelected : true });
-    parentCallBack(AccountTypes.Landlord);
+    this.setState({ propertyManagerSelected : true });
+    parentCallBack(AccountTypes.PropertyManager);
   }
 
   onPressTenant() {
     const {parentCallBack, resetForms} = this.props;
     resetForms();
-    this.setState({ landLordSelected : false });
+    this.setState({ propertyManagerSelected : false });
     parentCallBack(AccountTypes.Tenant);
   }
 
@@ -146,10 +146,10 @@ export default class AccountTypeRadioButton extends React.Component<AccountTypeR
 
  render() {
    const {primaryColorTheme} = this.props;
-   const {landLordSelected} = this.state;
+   const {propertyManagerSelected} = this.state;
    const style = setStyle(primaryColorTheme);
-   const leftButtonStyle = landLordSelected ? style.unselectedLeftButton : style.selectedLeftButton;
-   const rightButtonStyle = landLordSelected ? style.selectedRightButton : style.unselectedRightButton;
+   const leftButtonStyle = propertyManagerSelected ? style.unselectedLeftButton : style.selectedLeftButton;
+   const rightButtonStyle = propertyManagerSelected ? style.selectedRightButton : style.unselectedRightButton;
    return (
      <>
      {this.renderName(style)}
@@ -157,17 +157,17 @@ export default class AccountTypeRadioButton extends React.Component<AccountTypeR
         <TouchableOpacity
           style={leftButtonStyle}
           onPress={this.onPressTenant}>
-          <Text style={landLordSelected ? 
+          <Text style={propertyManagerSelected ? 
             style.unselectedText : style.selectedText}>
               {accountRadioStrings.tenant}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={rightButtonStyle}
-          onPress={this.onPressLandLord}>
-          <Text style={landLordSelected ? 
+          onPress={this.onPressPropertyManager}>
+          <Text style={propertyManagerSelected ? 
             style.selectedText : style.unselectedText }>
-              {accountRadioStrings.landlord}
+              {accountRadioStrings.propertyManager}
           </Text>
         </TouchableOpacity>
         </View>

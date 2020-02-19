@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import {
-    LandlordAccount,
+    PropertyManagerAccount,
     AccountTypes,
     AppState,
     Property,
@@ -49,8 +49,8 @@ const navigationMenu: string[] = [
 ];
 
 /** User Account data for testing! */
-const PropertyManagerAcount: LandlordAccount = {
-    accountType: AccountTypes.Landlord,
+const PropertyManagerAcount: PropertyManagerAccount = {
+    accountType: AccountTypes.PropertyManager,
     firstName: 'Darrel',
     lastName: 'Williams',
     email: 'dWilliams@SpeechGrammarList.com',

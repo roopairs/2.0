@@ -27,7 +27,7 @@ const mapDispatchToProps : (dispatch: any) => SignUpViewDispatchProps = (dispatc
     // TODO: Finish sign up when backend is ready 
     generateHomePairsAccount: (details: Account, password: String, modalSetOff: () => any, navigation: NavigationSwitchProp) => {
         // TODO: Remember to Call dispatch when sign up is ready in backend
-        if (details.accountType === AccountTypes.Landlord) {
+        if (details.accountType === AccountTypes.PropertyManager) {
             dispatch(AccountActions.generateAccountForPM(details, password, navigation, modalSetOff));
         } else {
             dispatch(AccountActions.generateAccountForTenant(details, password, navigation, modalSetOff));
