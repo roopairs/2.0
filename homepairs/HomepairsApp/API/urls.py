@@ -11,6 +11,8 @@ urlpatterns = [
     path('property/view/', views.viewProperty, name='view_prop'),
     path('property/update/', views.updateProperty, name='update_prop'),
     path('appliance/create/', views.createAppliance, name='create_appliance'),
+    path('appliance/view/', views.viewAppliance, name='view_appliance'),
+    path('appliance/update/', views.updateAppliance, name='update_appliance'),
     path('setUpTests/', views.setUpTests, name='setup'),
     path('tearDownTests/', views.tearDownTests, name='teardown'),
 ]

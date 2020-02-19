@@ -65,10 +65,13 @@ class Tenant(models.Model):
 
 
 class Appliance(models.Model):
+    category = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=255)
-    rooAppId = models.IntegerField()
+    manufacturer = models.CharField(max_length=100)
+    modelNum = models.IntegerField()
+    serialNum = models.IntegerField()
     location = models.CharField(max_length=100)
+    rooAppId = models.IntegerField()
     place = models.ForeignKey(Property, on_delete=models.CASCADE)
 
     def __str__(self):
