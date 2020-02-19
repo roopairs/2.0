@@ -3,22 +3,23 @@
  */
 
 import {LoginButton} from 'homepairs-elements';
-import { shallow} from 'enzyme';
+import { shallow, mount} from 'enzyme';
 import * as React from 'react';
 import { View, TouchableOpacity, Text, Image} from 'react-native';
-import { roopairsLogo, defaultProperty } from 'homepairs-images';
+import { roopairsLogo } from 'homepairs-images';
 import { fireEvent, render } from 'react-native-testing-library';
 
+jest.mock('homepairs-images')
 
 describe("LoginButton", () => {
   const message = 'Hello World!';
   const testfunc = () => {return message;};
   const spyFunction = jest.fn(testfunc);
 
-
   const wrapper = shallow(<LoginButton key={1}/>);
-  const wrapper2 = shallow(<LoginButton key={1} name='Test' onClick={spyFunction} image={defaultProperty}/>);
-  const rendered = render(<LoginButton key={1} name='Test' onClick={spyFunction}  image={defaultProperty}/>);
+  const wrapper2 = shallow(<LoginButton key={1} name='Test' onClick={spyFunction} image={roopairsLogo}/>);
+  const testRender = render(<Image source={undefined}/>);
+  const rendered = render(<LoginButton key={1} name='Test' onClick={spyFunction}  image={roopairsLogo}/>);
 
   it('Test defaultProps for LoginButton', () =>{
     // We test the default property functions in here

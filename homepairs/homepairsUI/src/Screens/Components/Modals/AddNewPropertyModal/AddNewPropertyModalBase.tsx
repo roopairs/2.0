@@ -1,29 +1,20 @@
 import React from "react";
-import {  ScrollView, StyleSheet, SafeAreaView, StatusBar, Platform } from "react-native";
-import { renderInputForm, ThinButton, ThinButtonProps, Card } from 'homepairs-elements';
+import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions } from 'react-native';
+import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, AddNewPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {isPositiveWholeNumber, isEmptyOrSpaces} from 'homepairs-utilities';
-import {DarkModeInjectedProps} from '../../WithDarkMode/WithDarkMode';
-import {ModalInjectedProps} from '../WithModal/WithModal';
-
-/** NOTE:
- *  I moved this type to src/state/types.tsx in order to prevent a dependency cycle
-        export type AddNewPropertyState = {
-            email : string;
-            roopairsToken: string;
-        }
-*/
-
+import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
+import { isNullOrUndefined } from 'src/utility/ParameterChecker';
+import { navigationKeys, navigationPages } from 'src/Routes/RouteConstants';
 
 export type AddNewPropertyDispatchProps = {
-    onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, onChangeModalVisibility: (check: boolean) => void) => void
+    onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, navigation: NavigationStackProp) => void
 }
 
-type Props = ModalInjectedProps &
-    DarkModeInjectedProps &
+type Props = NavigationStackScreenProps &
     AddNewPropertyDispatchProps &
     AddNewPropertyState;
 
@@ -49,7 +40,8 @@ const initialState : CreateState = {
 };
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
-    const colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme;
+    const {width} = Dimensions.get('window');
+    const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
     return StyleSheet.create({
         formTitle: {
             marginVertical: '3.5%',
@@ -71,7 +63,8 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
         },
         modalContainer: {
             flex:1,
-            width: '100%',
+            maxWidth: HomePairsDimensions.MAX_PALLET,
+            width: Platform.OS === 'web' ? width : BaseStyles.ContentWidth.max,
             alignSelf: 'center',
         },
         scrollStyle: {
@@ -128,6 +121,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
     });
 }
 
+
 export default class AddNewPropertyModalBase extends React.Component<Props,CreateState> {
     inputFormStyle;
 
@@ -173,7 +167,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
 
     constructor(props: Readonly<Props>) {
         super(props);
-        this.inputFormStyle = setInputStyles(props.primaryColorTheme);
+        this.inputFormStyle = setInputStyles(null);
         this.getFormAddress = this.getFormAddress.bind(this);
         this.getFormCity = this.getFormCity.bind(this);
         this.getFormState = this.getFormState.bind(this);
@@ -260,7 +254,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
 
     clickSubmitButton() {
         const {address, city, state, tenants, bathrooms, bedrooms} = this.state;
-        const {email, onChangeModalVisibility, onCreateProperty, roopairsToken} = this.props;
+        const {email, navigation, onCreateProperty, roopairsToken} = this.props;
         this.resetForms();
         if (this.validateForms()) {
             const newProperty : Property = {
@@ -270,13 +264,13 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                 bathrooms: Number(bathrooms),
             };
             const info : AddNewPropertyState = {email, roopairsToken};
-            onCreateProperty(newProperty, info, this.setInitialState, onChangeModalVisibility);
+            onCreateProperty(newProperty, info, this.setInitialState, navigation);
         }
     }
 
     renderInputForms() {
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
-        const inputForms  = [
+        const inputForms: InputFormProps[]  = [
              {
                 ref: this.addressRef,
                 key: inputFormStrings.address,
@@ -339,16 +333,31 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
             }, 
         ];
 
-        return inputForms.map(inputFromProp => {
-            return renderInputForm(inputFromProp);
+        /**
+         * I updated this. We are not using the render methods found in the functions anymore. 
+         */
+        return inputForms.map(inputFormProp => {
+            const {ref, key, name, parentCallBack, formTitleStyle, inputStyle,errorMessage, secureTextEntry, errorStyle, value, placeholder} = inputFormProp;
+            return <InputForm
+                        ref={ref}
+                        key={key}
+                        name={name}
+                        parentCallBack={parentCallBack}
+                        formTitleStyle={formTitleStyle}
+                        inputStyle={inputStyle}
+                        errorStyle={errorStyle}
+                        secureTextEntry={secureTextEntry}
+                        value={value}
+                        placeholder={placeholder}
+                        errorMessage={errorMessage}/>;
         });
     }
 
     render() {
-        const {onChangeModalVisibility} = this.props;
+        const {navigation} = this.props;
         const showCloseButton = true;
         return(
-            <SafeAreaView style={this.inputFormStyle.modalContainer}>
+            <View style={this.inputFormStyle.modalContainer}>
             <ScrollView style={this.inputFormStyle.scrollStyle}
             contentContainerStyle={this.inputFormStyle.scrollContentContainerStyle}
             showsHorizontalScrollIndicator={false}>
@@ -357,7 +366,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                     showCloseButton={showCloseButton}
                     title={addPropertyStrings.title} 
                     closeButtonPressedCallBack={() => { 
-                        onChangeModalVisibility(false);
+                        navigation.navigate(navigationPages.PropertiesScreen);
                         this.setInitialState();
                         this.resetForms();
                     }} 
@@ -369,6 +378,6 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                     {ThinButton(this.submitButton)}
                 </Card>
             </ScrollView>
-        </SafeAreaView>);
+        </View>);
     }
 }

@@ -33,4 +33,4 @@ const HomePairsHeader = connect(
   mapDispatchToProps,
 )(HomePairsHeaderBase);
 
-export default withDarkMode(withNavigation(HomePairsHeader));
+export default withNavigation(HomePairsHeader);

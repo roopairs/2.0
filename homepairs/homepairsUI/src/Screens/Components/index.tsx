@@ -16,7 +16,6 @@ import * as HomePairsHeaderProps from "./HomePairsHeader/HomePairsHeaderBase";
 import { LoggingInModal, CreatingAccountModal } from './Modals/AuthenticationModals';
 import { LoadingModal, LoadingModalProps as LMP} from './Modals/LoadingModal';
 
-
 import {
     SceneInjectedProps as SIP,
     withSceneHeader,
@@ -31,10 +30,7 @@ import {
     DarkModeInjectedProps as DMIP,
     withDarkMode,
 } from './WithDarkMode/WithDarkMode';
-import {
-    ModalInjectedProps as MIP,
-    withModal,
-} from './Modals/WithModal/WithModal';
+
 
 export { default as AddressSticker } from './AddressSticker/AddressSticker';
 export { default as SceneHeader } from './SceneHeader/SceneHeader';
@@ -49,6 +45,7 @@ export { default as AddNewPropertyModalBase } from './Modals/AddNewPropertyModal
 export { default as EditPropertyModal } from './Modals/EditPropertyModal/EditPropertyModal';
 export { default as EditPropertyModalBase } from './Modals/EditPropertyModal/EditPropertyModalBase';
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
+export { default as CurrentTenantCard} from './CurrentTenantCard/CurrentTenantCard';
 
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows
@@ -65,7 +62,6 @@ export type SceneInjectedProps = SIP;
 export type AuthPageInjectedProps = APIP;
 export type AuthPassProps = APP;
 export type DarkModeInjectedProps = DMIP;
-export type ModalInjectedProps = MIP;
 export type LoadingModalProps = LMP;
 
 export {
@@ -73,7 +69,6 @@ export {
   withAuthPage,
   withSceneHeader,
   withDarkMode,
-  withModal,
   LoggingInModal,
   CreatingAccountModal,
   LoadingModal,

@@ -121,7 +121,7 @@ export type ViewPropertyCardProps = {
 
     /**
      * The position of the property contents in the redux Store. This value will
-     * be assigned to the store selectedProperty member when the detailed page is rendered
+     * be assigned to the store's selectedProperty member when the detailed page is rendered
      */
     propertyIndex: number;
 
