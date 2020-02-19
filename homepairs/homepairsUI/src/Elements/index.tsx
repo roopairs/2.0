@@ -22,7 +22,7 @@
  */
 
 import { InputFormProps as IFP, renderInputForm } from './Forms/InputForm';
-import { ThinButtonProps as TBP, renderThinButton } from './Buttons/ThinButton';
+import { ThinButtonProps as TBP } from './Buttons/ThinButton';
 import { CardProps as CP} from './Cards/Card';
 import { StickerProps as SP} from './Stickers/Sticker';
 
@@ -39,4 +39,4 @@ export type ThinButtonProps = TBP;
 export type CardProps =  CP;
 export type StickerProps = SP;
 
-export {renderInputForm, renderThinButton};
+export {renderInputForm};

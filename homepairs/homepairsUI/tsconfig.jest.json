@@ -3,5 +3,21 @@
     "compilerOptions": {
         "jsx": "react",
         "module": "commonjs"
-    }
+    },
+    "moduleNameMapper": {
+        "^[@./a-zA-Z0-9$_-]+\\.(png|jpg|gif)$": "RelativeImageStub",
+        "homepairs-fonts": "./res/fonts",
+        "homepairs-images": "./res/images.tsx",
+        "homepairs-strings": "./res/strings.tsx",
+        "homepairs-colors": "./res/colors.tsx",
+        "homepairs-types": "./src/state/types.ts",
+        "homepairs-elements": "./src/Elements/index.tsx",
+        "homepairs-redux-actions": "./src/state/actions.ts",
+        "homepairs-pages": "./src/Screens/index.ts",
+        "homepairs-base-styles": "./res/Styles/base.ts",
+        "homepairs-components":
+            "./src/Screens/Components/index.tsx",
+        "homepairs-utilities": "./src/utility/index.tsx",
+        "homepairs-routes" : "./src/Routes/index.tsx",
+    },
 }

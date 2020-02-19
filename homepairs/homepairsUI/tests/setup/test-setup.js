@@ -1,10 +1,11 @@
 import Enzyme, { shallow, render, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import mocks from 'react-native-jest-mocks';
-import {JSDOM} from 'jsdom';
+import {ReactDOM} from 'react-dom';
 
-const jsdom = new JSDOM('<!doctype html><html><body></body></html>');
-const { window } = jsdom;
+const jsDOM = new ReactDOM('<!doctype html><html><body></body></html>');
+// const jsdom = new JSDOM('<!doctype html><html><body></body></html>');
+const { window } = jsDOM;
 
 function copyProps(src, target) {
   Object.defineProperties(target, {
@@ -25,6 +26,7 @@ global.cancelAnimationFrame = function (id) {
   clearTimeout(id);
 };
 copyProps(window, global);
+
 
 // React 16 Enzyme adapter
 mocks.initAll();

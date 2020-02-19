@@ -83,7 +83,7 @@ describe("InputForm", () => {
     // only unit test when not dealing with direct components. 
     const renderedForm = getByType(InputForm);
     // We will need to go into elements that we want to examine and give them test ids
-    fireEvent.changeText(getByTestId('userTextInput'), messageText);
+    fireEvent.changeText(getByTestId('user-text-input'), messageText);
     expect(spyFunction).toHaveBeenCalledWith(messageText);
     
     renderedForm.props.parentCallBack(messageText2);
@@ -102,7 +102,7 @@ describe("InputForm", () => {
 
     const renderedForm = getByType(InputForm);
     renderedForm.instance.setError(true);
-    const helperText = getByTestId('helper text');
+    const helperText = getByTestId('helper-text');
     expect(helperText.props.visible).toBeTruthy();
     renderedForm.instance.setError(false);
     expect(helperText.props.visible).toBeFalsy();

@@ -1,5 +1,5 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { Card, renderThinButton } from 'homepairs-elements';
+import { Card, ThinButton } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import setStyles from './ConnectCardStyles';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
@@ -21,14 +21,6 @@ export default function ConnectAccountCard(props: ConnectAccountCardProps) {
         );
     }
 
-    const buttonProps = {
-        name: cardStrings.button,
-        containerStyle: styles.thinButtonContainer,
-        buttonStyle: styles.thinButton,
-        buttonTextStyle: styles.thinButtonText,
-        onClick: connectAccount,
-    };
-
     return (
         <Card
             containerStyle={styles.accountContainer}
@@ -39,7 +31,12 @@ export default function ConnectAccountCard(props: ConnectAccountCardProps) {
             subtitleStyle={styles.cardDescription}
             wrapperStyle={styles.wrapper}
         >
-            {renderThinButton(buttonProps)}
+            <ThinButton
+                name={cardStrings.button}
+                containerStyle={styles.thinButtonContainer}
+                buttonStyle={styles.thinButton}
+                buttonTextStyle={styles.thinButtonText}
+                onClick={connectAccount}/>
         </Card>
     );
 }

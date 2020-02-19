@@ -3,6 +3,7 @@ import { AccountTypes, AccountStateAction, Account, FetchPropertyAction} from 'h
 import { NavigationSwitchProp } from 'react-navigation';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import { navigationPages } from 'src/Routes/RouteConstants';
 import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
 import { mockSwitchNavigation, navigationSwitchSpyFunction } from '../../fixtures/DummyComponents';
 
@@ -12,7 +13,7 @@ const {FETCH_PROPERTY} = PropertyListActions.PROPERTY_LIST_ACTION_TYPES;
 
 const URL = 'http://homepairs-alpha.herokuapp.com/API/register/tenant/';
 const navSpyFunction = navigationSwitchSpyFunction;
-const TenantPropertyPageKey = 'TenantProperties';
+const TenantPropertyPageKey = navigationPages.TenantProperty;
 
 const testTenantAccount1: Account = {
     accountType: AccountTypes.Tenant,

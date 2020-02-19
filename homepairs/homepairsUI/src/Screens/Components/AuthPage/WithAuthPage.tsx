@@ -52,7 +52,7 @@ export type AuthPassProps = {
     highlightedText: string;
 };
 
-export type AuthPageInjectedProps = ModalInjectedProps & {
+export type AuthPageInjectedProps = {
     /**
      * Callback Function that invokes after the highlighted text has been clicked. 
      */
@@ -345,13 +345,11 @@ export function withAuthPage(WrappedComponent: any,defaultAuthPassProps: AuthPas
         }
 
         renderContents() {
-          const {onChangeModalVisibility} = this.props;
           return (
             <View style={styles.container}>
                 {renderSubtitle()}
                 {this.showError()}
                 <WrappedComponent
-                onChangeModalVisibility={onChangeModalVisibility}
                 clickButton={this.setThinButtonClick}
                 clickHighlightedText={this.setHighlightedClick}
                 setErrorState={this.setErrorFlag}/>
