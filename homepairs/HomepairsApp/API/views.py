@@ -493,6 +493,7 @@ def createAppliance(request):
     else:
         return Response(data=missingError(missingFields))
 
+
 @api_view(['GET', 'POST'])
 def viewAppliance(request):
     required = ['appId']
@@ -513,6 +514,7 @@ def viewAppliance(request):
     else:
         return Response(data=missingError(missingFields))
 
+
 @api_view(['GET', 'POST'])
 def updateAppliance(request):
     required = ['appId', 'newName', 'newCategory', 'newManufacturer', 'newModelNum', 'newSerialNum', 'newLocation']
@@ -532,7 +534,6 @@ def updateAppliance(request):
         if appList.exists():
             app = appList[0]
             app.name == newName
-            app.description == newDescription
             app.location = newLocation
             app.category = newCategory
             app.manufacturer = newManufacturer
