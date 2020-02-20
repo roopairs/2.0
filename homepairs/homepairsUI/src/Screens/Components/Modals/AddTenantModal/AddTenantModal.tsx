@@ -1,17 +1,16 @@
 import React from "react";
-import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions, View } from "react-native";
+import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions} from "react-native";
 import {ThinButton, Card, InputForm } from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairsDimensions, TenantInfo} from 'homepairs-types';
+import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { isEmailSyntaxValid } from 'homepairs-utilities';
-import {  NavigationStackScreenProps } from 'react-navigation-stack';
+import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { InputFormProps } from 'homepairs-elements';
 import isAlphaCharacterOnly from 'src/utility/SyntaxVerification/AlphaCharacterVerification';
 import isPhoneNumberValid from 'src/utility/SyntaxVerification/PhoneNumberVerification';
 
 
-
-type Props =  NavigationStackScreenProps
+type Props =  NavigationStackScreenProps;
 
 type EditTenantState = TenantInfo
 
@@ -91,9 +90,13 @@ const styles = StyleSheet.create({
     },
     cardWrapperStyle: {
         width: BaseStyles.ContentWidth.thin,
+        marginTop: BaseStyles.MarginPadding.small,
         marginBottom: BaseStyles.MarginPadding.smallConst,
         alignSelf: 'center',
+        justifyContent: 'center',
     },
+
+
     editTenantButtonStyle: {
         alignItems: 'center',
         backgroundColor: BaseStyles.LightColorTheme.transparent,
@@ -136,7 +139,7 @@ const styles = StyleSheet.create({
 });
 
 
-export default class EditTenantModalBase extends React.Component<Props, EditTenantState> {
+export default class EditTenantModal extends React.Component<Props, EditTenantState> {
     firstNameRef;
 
     lastNameRef;
@@ -145,7 +148,6 @@ export default class EditTenantModalBase extends React.Component<Props, EditTena
 
     phoneNumberRef;
 
-    currentTenant: TenantInfo;
 
     propertyId : number;
   
@@ -156,15 +158,12 @@ export default class EditTenantModalBase extends React.Component<Props, EditTena
         this.getFormEmail = this.getFormEmail.bind(this);
         this.getFormPhoneNumber = this.getFormPhoneNumber.bind(this);
         this.resetForms = this.resetForms.bind(this);
-        this.setInitialState = this.setInitialState.bind(this);
-        this.currentTenant = props.navigation.getParam('tenant');
         this.propertyId = props.navigation.getParam('propId');
-        const {firstName, lastName, email, phoneNumber} = this.currentTenant;
         this.state = {
-            firstName, 
-            lastName, 
-            email, 
-            phoneNumber, 
+            firstName : '', 
+            lastName: '', 
+            email: '', 
+            phoneNumber: '', 
         };
         this.firstNameRef = React.createRef();
         this.lastNameRef = React.createRef();
@@ -186,16 +185,6 @@ export default class EditTenantModalBase extends React.Component<Props, EditTena
 
     getFormPhoneNumber(phoneNumber: string) {
         this.setState({phoneNumber});
-    }
-
-    setInitialState() {
-        const {firstName, lastName, email, phoneNumber} = this.currentTenant;
-        this.setState({
-            firstName,
-            lastName,
-            email,
-            phoneNumber,
-        });
     }
 
     validateForms() {
@@ -236,7 +225,6 @@ export default class EditTenantModalBase extends React.Component<Props, EditTena
         this.lastNameRef.current.setError(false);
         this.emailRef.current.setError(false);
         this.phoneNumberRef.current.setError(false);
-
     }
 
     clickSubmitButton() {
@@ -244,21 +232,12 @@ export default class EditTenantModalBase extends React.Component<Props, EditTena
         this.resetForms();
         if (this.validateForms()) {
             const newTenantInfo : TenantInfo = this.generateNewTenantInfo();
-            // TODO: set up fetch request for editing tenant.
-            alert('We need the backend to set up an endpoint to Edit the Tenant');
+            alert('We need the backend to create the endpoint in order to edit this tenant');
             navigation.goBack();
         } 
     }
 
-    clickRemoveButton() {
-        const {navigation} = this.props;
-        this.resetForms();
-        alert('We need the backend to create the endpoint in order to remove this tenant');
-        navigation.goBack();
-    }
-
     renderInputForms() {
-        const {firstName, lastName, email, phoneNumber } = this.state;
         const inputForms: InputFormProps[]  = [
             {
                 ref: this.firstNameRef,
@@ -267,7 +246,6 @@ export default class EditTenantModalBase extends React.Component<Props, EditTena
                 parentCallBack: this.getFormFirstName,
                 formTitleStyle: styles.formTitle,
                 inputStyle: styles.input,
-                value: firstName,
                 errorMessage: 'Tenant must have a first name.',
             }, 
             {
@@ -277,7 +255,6 @@ export default class EditTenantModalBase extends React.Component<Props, EditTena
                 parentCallBack: this.getFormLastName,
                 formTitleStyle: styles.formTitle,
                 inputStyle: styles.input,
-                value: lastName,
                 errorMessage: 'Tenant must have a last name.',
             }, 
             {
@@ -287,7 +264,6 @@ export default class EditTenantModalBase extends React.Component<Props, EditTena
                 parentCallBack: this.getFormEmail,
                 formTitleStyle: styles.formTitle,
                 inputStyle: styles.input,
-                value: email, 
                 errorMessage: 'Tenant must have an email.',
             }, 
             {
@@ -297,7 +273,6 @@ export default class EditTenantModalBase extends React.Component<Props, EditTena
                 parentCallBack: this.getFormPhoneNumber,
                 formTitleStyle: styles.formTitle,
                 inputStyle: styles.input,
-                value: phoneNumber,
                 errorMessage: 'Tenant must have a phone number',
             }, 
         ];
@@ -320,23 +295,6 @@ export default class EditTenantModalBase extends React.Component<Props, EditTena
         });
     }
 
-    renderThinButtons() {
-        return (<View style={{flexDirection: 'row', alignItems:'center', alignSelf:'center'}}>
-            <ThinButton 
-                name='Edit'
-                onClick={() => {this.clickSubmitButton();}} 
-                buttonStyle={styles.editTenantButtonStyle}
-                buttonTextStyle={styles.editTenantButtonTextStyle}
-                containerStyle={styles.buttonContainerStyle}/>
-            <ThinButton 
-                name='Remove'
-                onClick={() => {this.clickRemoveButton();}} 
-                buttonStyle={styles.removeTenantButtonStyle}
-                buttonTextStyle={styles.removeTenantButtonTextStyle}
-                containerStyle={styles.buttonContainerStyle}/>
-        </View>);
-    }
-    
     render() {
         const {navigation} = this.props;
         const showCloseButton = true;
@@ -351,15 +309,19 @@ export default class EditTenantModalBase extends React.Component<Props, EditTena
                     titleStyle={styles.cardTitle}
                     titleContainerStyle={styles.cardTitleContainer}
                     wrapperStyle={styles.cardWrapperStyle}
-                    title='Edit Tenant'
+                    title='Add Tenant'
                     closeButtonPressedCallBack={() => {
                         navigation.goBack();
-                        this.setInitialState();
                         this.resetForms();
                     }}
                     >
                     <>{this.renderInputForms()}</>
-                    {this.renderThinButtons()}
+                    <ThinButton 
+                        name='Add'
+                        onClick={() => {this.clickSubmitButton();}} 
+                        buttonStyle={styles.editTenantButtonStyle}
+                        buttonTextStyle={styles.editTenantButtonTextStyle}
+                        containerStyle={styles.buttonContainerStyle}/>
                 </Card>
             </ScrollView>
         </SafeAreaView>);

@@ -26,4 +26,3 @@ function mapStateToProps(state: AppState) : EditPropertyState {
 export default withNavigation(connect(
     mapStateToProps, 
     mapDispatchToProps)(EditPropertyModalBase));
-

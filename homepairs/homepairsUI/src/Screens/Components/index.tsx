@@ -32,20 +32,16 @@ import {
 export { default as AddressSticker } from './AddressSticker/AddressSticker';
 export { default as SceneHeader } from './SceneHeader/SceneHeader';
 export { default as GeneralHomeInfo } from './GeneralHomeInfo/GeneralHomeInfo';
-<<<<<<< HEAD
 export { default as ApplianceInfo } from './ApplianceInfo/ApplianceInfo';
 export { default as ApplianceCategorizer } from './ApplianceInfo/ApplianceCategorizer';
-=======
 export { default as PrimaryContactInfo } from './PrimaryContactInfo/PrimaryContactInfo';
 export { default as ServiceRequestCount } from "./ServiceRequestCount/ServiceRequestCount";
->>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 export { default as AccountTypeRadioButton } from './AccounttypeRadioButton/AccountTypeRadioButton';
 export { default as ViewPropertyCard } from './ViewPropertyCard/ViewPropertyCard';
 export { default as AccountConnectedCard } from './AuthenticationCards/AccountConnectedCard';
 export { default as ConnectAccountCard } from './AuthenticationCards/ConnectAccountCard';
 export { default as HomePairsHeader } from './HomePairsHeader/HomePairsHeader';
 export { default as AddNewPropertyModal } from './Modals/AddNewPropertyModal/AddNewPropertyModal';
-export { default as AddNewPropertyModalBase } from './Modals/AddNewPropertyModal/AddNewPropertyModalBase';
 export { default as EditPropertyModal } from './Modals/EditPropertyModal/EditPropertyModal';
 export { default as EditPropertyModalBase } from './Modals/EditPropertyModal/EditPropertyModalBase';
 export { default as AddApplianceModal } from './Modals/AddApplianceModal/AddApplianceModal';
@@ -55,6 +51,7 @@ export { default as EditApplianceModalBase } from './Modals/EditApplianceModal/E
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
 export { default as CurrentTenantCard} from './CurrentTenantCard/CurrentTenantCard';
 export { default as EditTenantModal} from './Modals/EditTenantModal/EditTenantModal';
+export {default as AddTenantModal} from './Modals/AddTenantModal/AddTenantModal';
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows
  * singular exporting for each module. This is a simple workaround.
