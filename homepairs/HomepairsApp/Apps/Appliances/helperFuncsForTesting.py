@@ -1,11 +1,10 @@
 from django.urls import reverse
 from rest_framework.test import APIClient
 
-from .models import Appliance
-from ..PropertyManagers.models import PropertyManager
 from ..Properties.models import Property
+from ..PropertyManagers.models import PropertyManager
 from ..Tenants.models import Tenant
-
+from .models import Appliance
 
 
 def setUpHelper():

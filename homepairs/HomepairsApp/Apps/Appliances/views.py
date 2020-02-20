@@ -1,8 +1,9 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Appliance
 from ..Properties.models import Property
+from .models import Appliance
+
 
 ################################################################################
 # CONSTANTS
@@ -34,23 +35,25 @@ BASE_URL = 'https://capstone.api.roopairs.com/v0/'
 ################################################################################
 # Helper Functions
 #
+
+
 def checkRequired(required, request):
-   missingFields = []
-   for term in required:
-       if(term not in request.data):
-           missingFields.append(term)
-   return missingFields
+    missingFields = []
+    for term in required:
+        if(term not in request.data):
+            missingFields.append(term)
+    return missingFields
 
 
 def returnError(error):
-   return {STATUS: FAIL, ERROR: error}
+    return {STATUS: FAIL, ERROR: error}
 
 
 def missingError(missingFields):
-   finalErrorString = INCORRECT_FIELDS + ": "
-   for field in missingFields:
-       finalErrorString += field + " "
-   return returnError(finalErrorString.strip())
+    finalErrorString = INCORRECT_FIELDS + ": "
+    for field in missingFields:
+        finalErrorString += field + " "
+    return returnError(finalErrorString.strip())
 
 ##############################################################
 @api_view(['GET', 'POST'])
@@ -79,12 +82,14 @@ def createAppliance(request):
             app.save()
             data = {
                     STATUS: SUCCESS,
-                    id: app.id
+                    'id': app.id
                    }
             return Response(data=data)
         else:
+            print('property doesnt exist')
             return Response(data=returnError(PROPERTY_DOESNT_EXIST))
     else:
+        print(missingFields)
         return Response(data=missingError(missingFields))
 
 
@@ -103,8 +108,10 @@ def viewAppliance(request):
                    }
             return Response(data=data)
         else:
+            print('app doesnt exist')
             return Response(data=returnError(APPLIANCE_DOESNT_EXIST))
     else:
+        print(missingFields)
         return Response(data=missingError(missingFields))
 
 
@@ -120,21 +127,25 @@ def updateAppliance(request):
         newModelNum = request.data.get('newModelNum')
         newSerialNum = request.data.get('newSerialNum')
         newLocation = request.data.get('newLocation')
+        print('newName: ', newName)
         # The Appliance
         appList = Appliance.objects.filter(id=appId)
         if appList.exists():
             app = appList[0]
-            app.name == newName
+            app.name = newName
             app.location = newLocation
             app.category = newCategory
             app.manufacturer = newManufacturer
             app.serialNum = newSerialNum
             app.modelNum = newModelNum
             app.save()
+            print('current name', app.name)
             return Response(data={STATUS: SUCCESS})
         else:
+            print('app doesnt exist')
             return Response(data=returnError(APPLIANCE_DOESNT_EXIST))
     else:
+        print(missingFields)
         return Response(data=missingError(missingFields))
 
 
