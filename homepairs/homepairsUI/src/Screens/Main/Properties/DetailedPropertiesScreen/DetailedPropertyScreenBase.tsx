@@ -32,6 +32,7 @@ import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { navigationKeys, navigationPages } from 'src/Routes/RouteConstants';
 import { withNavigation } from 'react-navigation';
 import axios from 'axios';
+import strings from 'homepairs-strings';
 
 
 export type DetailedPropertyStateProps = {
@@ -41,6 +42,7 @@ export type DetailedPropertyStateProps = {
 type Props = NavigationStackScreenProps & DetailedPropertyStateProps;
 const CurrentTenants = withNavigation(CurrentTenantCard);
 const propertyKeys = HomepairsPropertyAttributes;
+const categoryStrings = strings.applianceInfo.categories;
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -129,6 +131,20 @@ export default function DetailedPropertyScreenBase(props: Props) {
     const [tenantInfoState, setTenantInfo] = useState([]);
     const [applianceInfoState, setApplianceInfo] = useState([]);
 
+    function selectCategory(selected: string) {
+        let appType = ApplianceType.None;
+        if (selected === categoryStrings.PLUMBING) {
+            appType = ApplianceType.Plumbing;
+        } else if (selected === categoryStrings.GA) {
+            appType = ApplianceType.GeneralAppliance;
+        } else if (selected === categoryStrings.HVAC) {
+            appType = ApplianceType.HVAC;
+        } else if (selected === categoryStrings.LE) {
+            appType = ApplianceType.LightingAndElectric;
+        }
+        return appType;
+    }
+
     useEffect(() => {
         const fetchTenantsAndAppliances = async () => {
             const result = await axios.get('https://homepairs-alpha.herokuapp.com/API/property/list/');
@@ -150,7 +166,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
                 const {category, name, manufacturer, modelNum, serialNum, location} = appliance;
                 applianceInfo.push({
                     applianceId: serialNum, 
-                    category, 
+                    category: selectCategory(category), 
                     appName: name, manufacturer, modelNum, serialNum, location,
                 });
             });

@@ -11,10 +11,8 @@ import { ThinButtonProps, ThinButton } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairsDimensions, Appliance, ApplianceType } from 'homepairs-types';
+import { ApplianceType, Appliance } from 'homepairs-types';
 import { upArrow, downArrow } from 'homepairs-images';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { navigationPages } from '../../Routes/RouteConstants';
 
 
 export type PanelState = {
@@ -38,7 +36,7 @@ const initialState: PanelState = {
 
 type CategoryPanelProps = {
     parentCallBack: (appType: ApplianceType) => any,
-    initialValue: ApplianceType,
+    initialCategory: ApplianceType,
 };
 
 const categoryStrings = strings.applianceInfo.categories;
@@ -104,7 +102,10 @@ export default class CategoryPanel extends React.Component<CategoryPanelProps, P
     constructor(props: Readonly<CategoryPanelProps>) {
         super(props);
         this.styles = setStyles();
-        this.state = {...initialState, animation: new Animated.Value(0)};
+        this.state = {...initialState, 
+            selectedCategoryString: this.categoryToString(),
+            animation: new Animated.Value(0)};
+        this.categoryToString = this.categoryToString.bind(this);
         this.toggle = this.toggle.bind(this);
         this.setMaxHeight = this.setMaxHeight.bind(this);
         this.setMinHeight = this.setMinHeight.bind(this);
@@ -131,6 +132,23 @@ export default class CategoryPanel extends React.Component<CategoryPanelProps, P
 
         animation.setValue(initialValue);
         Animated.spring(animation, { toValue: finalValue }).start();
+    }
+
+    categoryToString() {
+        const {initialCategory} = this.props;
+        let appTypeString: string;
+        if (initialCategory === ApplianceType.Plumbing) {
+            appTypeString = categoryStrings.PLUMBING;
+        } else if (initialCategory === ApplianceType.GeneralAppliance) {
+            appTypeString = categoryStrings.GA;
+        } else if (initialCategory === ApplianceType.HVAC) {
+            appTypeString = categoryStrings.HVAC;
+        } else if (initialCategory=== ApplianceType.LightingAndElectric) {
+            appTypeString = categoryStrings.LE;
+        } else {
+            appTypeString = 'Choose a category';
+        }
+        return appTypeString;
     }
 
     selectCategory(selected: string) {
@@ -185,7 +203,6 @@ export default class CategoryPanel extends React.Component<CategoryPanelProps, P
         const { up, down } = this.icons;
         const { expanded, animation, selectedCategoryString } = this.state;
         let icon = down;
-
         if (expanded) {
             icon = up;
         }

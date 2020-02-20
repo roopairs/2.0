@@ -3,24 +3,22 @@ import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions, Text } f
 import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm, CategoryPanel } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairsDimensions, Appliance, EditApplianceState, ApplianceType } from 'homepairs-types';
+import { HomePairsDimensions, Appliance, ApplianceType } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {isPositiveWholeNumber, isEmptyOrSpaces} from 'homepairs-utilities';
 import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
-import { navigationKeys, navigationPages } from 'src/Routes/RouteConstants';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 
 
 export type EditApplianceDispatchProps = {
-    onEditAppliance: (newAppliance: Appliance, info: EditApplianceState,
+    onEditAppliance: (newAppliance: Appliance,
          displayError: (msg: string) => void, navigation: NavigationStackProp) => void
 }
 
 type Props = NavigationStackScreenProps &
-    EditApplianceDispatchProps &
-    EditApplianceState;
+    EditApplianceDispatchProps;
 
 type EditState = {
     applianceId: number, 
@@ -139,10 +137,10 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
 
     locationRef;
 
-    oldAppliance;
+    oldAppliance: Appliance;
 
     submitButton : ThinButtonProps = {
-        name: addApplianceStrings.add, 
+        name: addApplianceStrings.editSave, 
         onClick: () => {this.clickSubmitButton();}, 
         buttonStyle: {
             alignItems: 'center',
@@ -184,6 +182,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
         this.displayError = this.displayError.bind(this);
         this.oldAppliance = props.navigation.getParam('appliance');
         const {category, manufacturer, appName, modelNum, serialNum, location} = this.oldAppliance;
+        // switch to actual app id
         this.state = {
             applianceId: serialNum, category, manufacturer, appName, 
             modelNum: modelNum.toString(), 
@@ -223,8 +222,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
     }
 
     setInitialState() {
-        const {oldAppliance} = this.props;
-        const {category, manufacturer, appName, modelNum, serialNum, location} = oldAppliance;
+        const {category, manufacturer, appName, modelNum, serialNum, location} = this.oldAppliance;
         this.setState ({
             category, manufacturer, appName, 
             modelNum: modelNum.toString(), 
@@ -269,7 +267,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
 
     clickSubmitButton() {
         const {applianceId, category, appName, manufacturer, modelNum, serialNum, location} = this.state;
-        const {email, navigation, onEditAppliance, roopairsToken, oldAppliance, /* propId ,*/ index} = this.props;
+        const {navigation, onEditAppliance} = this.props;
         this.resetForms();
         this.setState({errorCheck: false});
         if (this.validateForms()) {
@@ -279,8 +277,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                 serialNum: Number(serialNum), 
                 location,
             };
-            const info : EditApplianceState = {email, roopairsToken, oldAppliance, /* propId ,*/ index};
-            onEditAppliance(newAppliance, info, this.displayError, navigation);
+            onEditAppliance(newAppliance, this.displayError, navigation);
         }
     }
 
@@ -364,7 +361,9 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
 
     render() {
         const {navigation} = this.props;
+        const {category} = this.state;
         const showCloseButton = true;
+        console.log(category.toString());
         return(
             <View style={this.inputFormStyle.modalContainer}>
             <ScrollView style={this.inputFormStyle.scrollStyle}
@@ -373,7 +372,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                 <Card
                     containerStyle={this.inputFormStyle.cardContainer}
                     showCloseButton={showCloseButton}
-                    title={addApplianceStrings.addTitle} 
+                    title={addApplianceStrings.editTitle} 
                     closeButtonPressedCallBack={() => { 
                         navigation.goBack();
                         this.setInitialState();
@@ -384,7 +383,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     >
                     <Text style={this.inputFormStyle.formTitle}>{addApplianceStrings.category}</Text>
-                    <CategoryPanel initialValue={this.oldAppliance.category} parentCallBack={this.getFormCategory}/>
+                    <CategoryPanel initialCategory={category} parentCallBack={this.getFormCategory}/>
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
                     {ThinButton(this.submitButton)}

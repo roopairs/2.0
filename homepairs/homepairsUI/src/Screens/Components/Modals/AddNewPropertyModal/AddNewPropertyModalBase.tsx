@@ -8,7 +8,7 @@ import Colors from 'homepairs-colors';
 import {isPositiveWholeNumber, isEmptyOrSpaces} from 'homepairs-utilities';
 import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
-import { navigationKeys, navigationPages } from 'src/Routes/RouteConstants';
+import { navigationPages } from 'src/Routes/RouteConstants';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 
@@ -276,7 +276,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         this.setState({errorCheck: false});
         if (this.validateForms()) {
             const newProperty : Property = {
-                propertyID: undefined,
+                propId: undefined,
                 streetAddress: address, city, state,
                 tenants: Number(tenants),
                 bedrooms: Number(bedrooms), 

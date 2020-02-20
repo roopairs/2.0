@@ -282,7 +282,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.resetForms();
         if (this.validateForms()) {
             const newProperty : Property = {
-                propertyID: oldProp.propertyID,
+                propId: oldProp.propId,
                 streetAddress: address, state, city, 
                 bedrooms: Number(bedrooms), 
                 bathrooms: Number(bathrooms), 

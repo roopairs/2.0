@@ -341,17 +341,12 @@ export type EditPropertyState = {
 }
 
 export type AddApplianceState = {
-    email: string;
-    roopairsToken: string;
     property: Property;
 }
 
 export type EditApplianceState = {
-    email: string;
-    roopairsToken: string;
     oldAppliance: Appliance;
-    // propId: number;
-    index: number;
+    // propId: number;d
 }
 
 export enum HomePairsDimensions {

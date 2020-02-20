@@ -8,12 +8,8 @@ import Colors from 'homepairs-colors';
 import {isPositiveWholeNumber, isEmptyOrSpaces} from 'homepairs-utilities';
 import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
-import { navigationKeys, navigationPages } from 'src/Routes/RouteConstants';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
-import DropdownMenu from 'react-native-dropdown-menu';
-import { upArrow, downArrow } from 'homepairs-images';
-import HomePairColors from "homepairs-colors";
 
 
 export type AddApplianceDispatchProps = {
@@ -22,8 +18,7 @@ export type AddApplianceDispatchProps = {
 }
 
 type Props = NavigationStackScreenProps &
-    AddApplianceDispatchProps &
-    AddApplianceState;
+    AddApplianceDispatchProps;
 
 type CreateState = {
     category: ApplianceType, 
@@ -169,6 +164,8 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
 
     locationRef;
 
+    property;
+
     submitButton : ThinButtonProps = {
         name: addApplianceStrings.add, 
         onClick: () => {this.clickSubmitButton();}, 
@@ -209,6 +206,7 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
         this.setInitialState = this.setInitialState.bind(this);
         this.resetForms = this.resetForms.bind(this);
         this.displayError = this.displayError.bind(this);
+        this.property = props.navigation.getParam('property');
         this.state = initialState;
         this.categoryRef = React.createRef();
         this.nameRef = React.createRef();
@@ -286,7 +284,7 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
 
     clickSubmitButton() {
         const {category, appName, manufacturer, modelNum, serialNum, location} = this.state;
-        const {email, navigation, onCreateAppliance, roopairsToken, property} = this.props;
+        const { navigation, onCreateAppliance} = this.props;
         this.resetForms();
         this.setState({errorCheck: false});
         if (this.validateForms()) {
@@ -297,7 +295,7 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                 serialNum: Number(serialNum), 
                 location,
             };
-            const info : AddApplianceState = {email, roopairsToken, property};
+            const info : AddApplianceState = {property: this.property};
             onCreateAppliance(newAppliance, info, this.setInitialState, this.displayError, navigation);
         }
     }
@@ -382,6 +380,7 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
 
     render() {
         const {navigation} = this.props;
+        const {category} = this.state;
         const showCloseButton = true;
         return(
             <View style={this.inputFormStyle.modalContainer}>
@@ -402,7 +401,7 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     >
                     <Text style={this.inputFormStyle.formTitle}>{addApplianceStrings.category}</Text>
-                    <CategoryPanel parentCallBack={this.getFormCategory}/>
+                    <CategoryPanel initialCategory={category} parentCallBack={this.getFormCategory}/>
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
                     {ThinButton(this.submitButton)}

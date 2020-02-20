@@ -16,7 +16,6 @@ import {
     EditPropertyState,
     AddNewPropertyState,
     AddApplianceState,
-    EditApplianceState,
 } from '../types';
 
 const responseKeys = HomePairsResponseKeys;
@@ -397,7 +396,6 @@ export const updateAppliance = (
  */
 export const postUpdatedAppliance = (
     editAppliance: Appliance,
-    info: EditApplianceState,
     displayError: (msg: string) => void,
     navigation: NavigationStackProp,
 ) => {
