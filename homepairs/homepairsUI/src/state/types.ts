@@ -3,10 +3,20 @@ import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
 
 /* *-------------------Property Types-------------------* */
+
+// TODO: Collaborate with Adam to make sure this is the correct info recieved 
+// from the response 
+export type TenantInfo = {
+    firstName: string,
+    lastName: string,
+    email: string,
+    phoneNumber: string,
+}
+
 export type Property = {
-    propertyId?: number, //make this non-nullable later
-    streetAddress: string,
-    city: string,
+    propId: number,
+    streetAddress: string, 
+    city: string, 
     state: string,
     tenants: number,
     bedrooms: number,
@@ -349,6 +359,7 @@ enum HOMEPAIRS_PROPERTY_KEYS {
     TENANTS = 'maxTenants',
     BEDROOMS = 'numBed',
     BATHROOMS = 'numBath',
+    PROPERTYID = 'propID'
 }
 
 export enum HomepairsPropertyAttributes {

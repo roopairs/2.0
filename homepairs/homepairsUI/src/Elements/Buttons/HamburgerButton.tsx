@@ -9,9 +9,29 @@ import {
 } from 'react-native';
 
 export type HamburgerButtonProps = {
+    /**
+     * Used to find an instance of the component when testing
+     */
+    testID?: string,
+
+    /**
+     * Unique indicator for when many of these instances are created
+     */
     key?: any;
+
+    /**
+     * Callback button that invokes when a full press/click (click and release) has been invoked
+     */
     onClick?: () => any;
+
+    /**
+     * Callback button that invokes when a button has been pressed.
+     */
     onPressIn?: () => any;
+
+    /**
+     * Callback button that invokes when a button has been released from a press/click
+     */
     onPressOut?: () => any;
 };
 
@@ -69,7 +89,7 @@ const styles = StyleSheet.create({
     },
 });
 
- /* *
+ /**
   * ------------------------------------------------------------
   * Hamburger Button
   * ------------------------------------------------------------
@@ -77,11 +97,7 @@ const styles = StyleSheet.create({
   * hamburger (congruence) symbol. This is intended to be used with
   * navigation menus.
   *  
-  * @param props 
-  * key?: any;
-  * onClick?: () => any;
-  * onPressIn?: () => any;
-  * onPressOut?: () => any;
+  * @param {HamburgerButtonProps} props 
   */
 export default function HamburgerButton(props: HamburgerButtonProps) {
     // This function will call the parent callback function.

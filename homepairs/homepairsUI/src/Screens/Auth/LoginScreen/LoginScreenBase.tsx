@@ -1,20 +1,14 @@
 import React from 'react';
 import { InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
-import {
-    AuthPageInjectedProps,
-    DarkModeInjectedProps,
-} from 'homepairs-components';
+import {AuthPageInjectedProps} from 'homepairs-components';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
 import { NavigationSwitchProp, NavigationSwitchScreenProps} from 'react-navigation';
-import { navigationKeys } from 'homepairs-routes';
 import { navigationPages } from 'src/Routes/RouteConstants';
-
 import {
     isEmailSyntaxValid,
     isPasswordValid,
-    isNullOrUndefined,
 } from 'homepairs-utilities';
 
 export type LoginViewDispatchProps = {
@@ -26,8 +20,7 @@ export type LoginViewDispatchProps = {
     ) => void;
 };
 
-export type LoginProps = DarkModeInjectedProps &
-    LoginViewDispatchProps &
+export type LoginProps = LoginViewDispatchProps &
     AuthPageInjectedProps &
     NavigationSwitchScreenProps;
 
@@ -42,34 +35,39 @@ const initialState: LoginState = {
     password: '',
 };
 
-function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
-    const colors = isNullOrUndefined(colorTheme)
-        ? BaseStyles.LightColorTheme
-        : colorTheme;
-    return StyleSheet.create({
-        formTitle: {
-            marginVertical: '3.5%',
-            fontFamily: BaseStyles.FontTheme.primary,
-            color: colors.lightGray,
-        },
-        input: {
-            alignItems: 'center',
-            alignSelf: 'center',
-            margin: BaseStyles.MarginPadding.xsmallConst,
-            minWidth: 40,
-            width: BaseStyles.ContentWidth.max,
-            height: 40,
-            color: colors.tertiary,
-            borderColor: colors.lightGray,
-            borderWidth: 1,
-            borderRadius: BaseStyles.BorderRadius.small,
-            paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
-        },
-    });
-}
+const colors = BaseStyles.LightColorTheme;
+const styles = StyleSheet.create({
+    formTitle: {
+        marginVertical: '3.5%',
+        fontFamily: BaseStyles.FontTheme.primary,
+        color: colors.lightGray,
+    },
+    input: {
+        alignItems: 'center',
+        alignSelf: 'center',
+        margin: BaseStyles.MarginPadding.xsmallConst,
+        minWidth: 40,
+        width: BaseStyles.ContentWidth.max,
+        height: 40,
+        color: colors.tertiary,
+        borderColor: colors.lightGray,
+        borderWidth: 1,
+        borderRadius: BaseStyles.BorderRadius.small,
+        paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
+    },
+});
 
+/**
+ * ---------------------------------------------------
+ * Login Screen Base
+ * ---------------------------------------------------
+ * Basic forms used to when the user navigates to the homepairs website. These forms are intended
+ * to have very basic authentication and assumes that the user has an account with Homepairs and 
+ * Roopairs. Upon, failure to authenticate, this with set the error state of the parent component 
+ * (withAuth) and will show errors within its input forms. This is intended to be used with the 
+ * withAuth High Order Component and the redux store for full functionality.
+ */
 export default class LoginScreenBase extends React.Component<LoginProps,LoginState> {
-    protected inputFormStyle;
 
     loginRef;
 
@@ -77,7 +75,6 @@ export default class LoginScreenBase extends React.Component<LoginProps,LoginSta
 
     constructor(props: Readonly<LoginProps>) {
         super(props);
-        this.inputFormStyle = setInputStyles(props.primaryColorTheme);
         this.getFormUsername = this.getFormUsername.bind(this);
         this.getFormPassword = this.getFormPassword.bind(this);
         this.setModalOff = this.setModalOff.bind(this);
@@ -95,7 +92,7 @@ export default class LoginScreenBase extends React.Component<LoginProps,LoginSta
      * Sets the state of the modal to hidden and then displays an error message. If none is passed
      * defaults to 'Error Message'
      */
-    setModalOff(error: string = 'There was an error logging in.') {
+    setModalOff(error?:string) {
         const { navigation, setErrorState } = this.props;
         navigation.navigate(navigationPages.LoginScreen);
         setErrorState(true, error);
@@ -149,8 +146,8 @@ export default class LoginScreenBase extends React.Component<LoginProps,LoginSta
                 key: signInStrings.inputForms.email,
                 name: signInStrings.inputForms.email,
                 parentCallBack: this.getFormUsername,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
+                formTitleStyle: styles.formTitle,
+                inputStyle: styles.input,
                 errorMessage: 'Invalid Username! Must be an email',
             },
             {
@@ -158,15 +155,17 @@ export default class LoginScreenBase extends React.Component<LoginProps,LoginSta
                 key: signInStrings.inputForms.password,
                 name: signInStrings.inputForms.password,
                 parentCallBack: this.getFormPassword,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
+                formTitleStyle: styles.formTitle,
+                inputStyle: styles.input,
                 secureTextEntry: true,
                 errorMessage: 'Invalid password. Must be at least 6 characters',
             },
         ];
-        return inputFormProps.map(properties => {
+        return inputFormProps.map((properties, index) => {
+            const testID = `login-screen-input-form-${index.toString()}`;
             return (
                 <InputForm
+                    testID={testID}
                     ref={properties.ref}
                     key={properties.key}
                     name={properties.name}

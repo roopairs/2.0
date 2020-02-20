@@ -2,6 +2,8 @@ import React from 'react';
 import {View} from 'react-native';
 import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
+import { MainAppStackType } from 'src/state/types';
+import { navigationPages } from 'src/Routes/RouteConstants';
 
 export const SingleViewComponent = <View style={{height: '25%', width: '25%', backgroundColor: 'black'}}/>;
 export const navigationSwitchSpyFunction = jest.fn((arg?:string) => {return arg;});
@@ -39,7 +41,13 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
         navigationStackSpyFunction(routeNameOrOptions);
         return true;
       },
-      state: undefined,
+      state: {
+        key: 'iamatestkey',
+        index: 1,
+        routeName: 'Properties',
+        routes: undefined,
+        isTransitioning: false,
+      },
       dispatch: undefined, 
       goBack: ()=>{
         navigationStackSpyFunction();
@@ -78,7 +86,82 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
       },
   };
 
+  export const mockStackNavigationFirstRoute: NavigationStackProp = {
+    navigate: (routeNameOrOptions)=>{
+      navigationStackSpyFunction(routeNameOrOptions);
+      return true;
+    },
+    state: {
+      key: 'iamatestkey',
+      index: 0,
+      routeName: 'Properties',
+      routes: undefined,
+      isTransitioning: false,
+    },
+    dispatch: undefined, 
+    goBack: ()=>{
+      navigationStackSpyFunction();
+      return true;
+    },
+    dismiss: undefined,
+    getParam: undefined,
+    setParams: (params) => {
+      navigationSetParamsSpyFunction(params);
+      return true;
+    },
+    emit: undefined, 
+    addListener: undefined, 
+    isFocused: undefined, 
+    isFirstRouteInParent: undefined, 
+    dangerouslyGetParent: undefined,
+    push: (routeNameOrOptions)=>{
+        navigationStackSpyFunction(routeNameOrOptions);
+        return true;
+    }, 
+    replace:(routeNameOrOptions)=>{
+        navigationStackSpyFunction(routeNameOrOptions);
+        return true;
+    }, 
+    reset: (routeNameOrOptions)=>{
+        navigationStackSpyFunction(routeNameOrOptions);
+        return true;
+    }, 
+    pop: (routeNameOrOptions)=>{
+        navigationStackSpyFunction(routeNameOrOptions);
+        return true;
+    }, 
+    popToTop: (routeNameOrOptions)=>{
+        navigationStackSpyFunction(routeNameOrOptions);
+        return true;
+    },
+};
+
   export const thinButtonFireEventTestId = {
     onClick: 'click-thin-button',
     onPress: 'click-thin-button',
   };
+
+  export const MainAppStackTest: Array<MainAppStackType> = [
+    {
+        title: 'Properties',
+        navigate: navigationPages.PropertiesScreen,
+        key: 'Properties',
+        button: 'Add Property',
+    },
+    {
+        title: 'Service Request',
+        navigate: navigationPages.ServiceRequestScreen,
+        key: 'ServiceRequest',
+        button: 'Request Service',
+    },
+    {
+        title: 'Account Settings',
+        navigate: navigationPages.AccountSettings,
+        key: 'AccountSettings',
+    },
+    {
+        title: 'Log Out',
+        navigate: navigationPages.LoginScreen,
+        key: 'LogOut',
+    },
+];

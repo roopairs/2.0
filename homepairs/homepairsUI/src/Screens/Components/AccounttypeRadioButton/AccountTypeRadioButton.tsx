@@ -1,3 +1,4 @@
+/* eslint-disable react/static-property-placement */
 import React from 'react';
 import { AccountTypes } from 'homepairs-types';
 import strings from 'homepairs-strings';
@@ -8,12 +9,25 @@ import {
   StyleSheet,
 } from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
+
 
 export type AccountTypeRadioProps = {
-  name?: String,
-  parentCallBack? : (childData : AccountTypes) => any, // Define a funtion with parameters
-  resetForms?: any,
+  /**
+   * Used to find this component when testing.
+   */
+  testID?: String,
+
+  /**
+   * Function that invokes when an option has been selected. This is intended to 
+   * tell the parent which AccountType has been selected.
+   */
+  parentCallBack?: (childData : AccountTypes) => any, 
+
+  /**
+   * Callback function that is intended to remove user input of the forms of sibling 
+   * components. This should only be used when switching between 
+   */
+  resetForms?: (resetform?:boolean, ...others:any[] ) => any,
 }
 
 type AccountTypeRadioState = {
@@ -21,10 +35,9 @@ type AccountTypeRadioState = {
 }
 
 const accountRadioStrings = strings.signUpPage.accountTypeRadioButton;
+const colors = BaseStyles.LightColorTheme;
 
-function setStyle(colorTheme: BaseStyles.ColorTheme){
-  const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
-  return StyleSheet.create({
+const styles = StyleSheet.create({
     buttonContainer: {
       flexDirection: 'row',
       marginBottom: BaseStyles.MarginPadding.inputForm, 
@@ -101,14 +114,20 @@ function setStyle(colorTheme: BaseStyles.ColorTheme){
       alignSelf: 'center',
     },
   });
-}
 
+/**
+ * ---------------------------------------------------
+ * Account Type Radio Button
+ * ---------------------------------------------------
+ * A simple component that permits the user to select between a Tenant or 
+ * Landlord account. It contains an optional name prop if a title is needed 
+ * for this component.   
+ */
 export default class AccountTypeRadioButton extends React.Component<AccountTypeRadioProps, AccountTypeRadioState> {
-  static defaultProps: { 
-    name: AccountTypes; 
-    parentCallBack: (childData: AccountTypes) => void; 
-    primaryColorTheme: BaseStyles.ColorTheme;
-    resetForms: any;
+  static defaultProps: AccountTypeRadioProps = {
+    testID: null,
+    parentCallBack: (childData : AccountTypes) => {return childData;}, 
+    resetForms: () => {},
   };
 
   constructor(props: Readonly<AccountTypeRadioProps>) {
@@ -133,27 +152,20 @@ export default class AccountTypeRadioButton extends React.Component<AccountTypeR
     parentCallBack(AccountTypes.Tenant);
   }
 
-
-  renderName(style){
-    const {name} = this.props;
-    return name == null ? <></> : <View style={style.titleContainer}>
-    <Text style={style.title}>
-      {accountRadioStrings.name}
-      </Text>
-   </View>;
-  }
-
  render() {
-   const {primaryColorTheme} = this.props;
    const {propertyManagerSelected} = this.state;
-   const style = setStyle(primaryColorTheme);
-   const leftButtonStyle = propertyManagerSelected ? style.unselectedLeftButton : style.selectedLeftButton;
-   const rightButtonStyle = propertyManagerSelected ? style.selectedRightButton : style.unselectedRightButton;
+   const leftButtonStyle = landLordSelected ? styles.unselectedLeftButton : styles.selectedLeftButton;
+   const rightButtonStyle = landLordSelected ? styles.selectedRightButton : styles.unselectedRightButton;
    return (
      <>
-     {this.renderName(style)}
-      <View style={style.buttonContainer}>
+     <View style={styles.titleContainer}>
+        <Text style={styles.title}>
+          {accountRadioStrings.name}
+        </Text>
+    </View>
+      <View style={styles.buttonContainer}>
         <TouchableOpacity
+          testID='account-radio-tenant'
           style={leftButtonStyle}
           onPress={this.onPressTenant}>
           <Text style={propertyManagerSelected ? 
@@ -162,11 +174,13 @@ export default class AccountTypeRadioButton extends React.Component<AccountTypeR
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
+          testID='account-radio-landlord'
           style={rightButtonStyle}
           onPress={this.onPressPropertyManager}>
           <Text style={propertyManagerSelected ? 
             style.selectedText : style.unselectedText }>
               {accountRadioStrings.propertyManager}
+
           </Text>
         </TouchableOpacity>
         </View>
@@ -174,11 +188,3 @@ export default class AccountTypeRadioButton extends React.Component<AccountTypeR
     );
   }
 }
-
-/** VSCode does not recognize this notation. This works for setting default props in a class */
-AccountTypeRadioButton.defaultProps = {
-  name: AccountTypes.Tenant,
-  parentCallBack: (childData : AccountTypes) => {return childData;}, 
-  resetForms: null,
-  primaryColorTheme: BaseStyles.LightColorTheme,
-};

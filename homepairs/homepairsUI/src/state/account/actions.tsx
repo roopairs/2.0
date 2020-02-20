@@ -146,8 +146,7 @@ export const fetchAccount = (
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
             }
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
           })
           .finally(() => {

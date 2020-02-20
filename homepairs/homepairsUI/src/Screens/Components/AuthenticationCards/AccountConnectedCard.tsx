@@ -1,20 +1,30 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { Card } from 'homepairs-elements';
 import strings from 'homepairs-strings';
-import setStyles from './ConnectCardStyles';
-import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 import ThinButton from 'src/Elements/Buttons/ThinButton';
+import styles from './ConnectCardStyles';
 
-export type AccountConnectedCardProps = DarkModeInjectedProps & {
+export type AccountConnectedCardProps = {
+    /**
+     * Callback function that will disconnect the account from roopairs
+     */
     disconnectAccountCallBack?: (arg0?: any) => any;
 };
 
 const cardStrings =
     strings.connectAccountPage.accountConnected.accountConnectedCard;
 
+/**
+ * ------------------------------------------------------------
+ * Account Connected Card
+ * ------------------------------------------------------------
+ * A small component that will be able to disconnect a users account 
+ * from the Roopairs Backend.
+ * *Note: This will most likely be removed in the future.
+ * @param {AccountConnectedCardProps} props 
+ */
 export default function AccountConnectedCard(props: AccountConnectedCardProps) {
-    const { primaryColorTheme, disconnectAccountCallBack } = props;
-    const styles = setStyles(primaryColorTheme);
+    const {disconnectAccountCallBack } = props;
 
     function disconnectAccount() {
         // TODO: Call asyncronous fetch (From fetch or axios) to connect Roopairs account
@@ -31,8 +41,7 @@ export default function AccountConnectedCard(props: AccountConnectedCardProps) {
             titleStyle={styles.textContainer}
             subtitle={cardStrings.subtitle}
             subtitleStyle={styles.cardDescription}
-            wrapperStyle={styles.wrapper}
-        >
+            wrapperStyle={styles.wrapper}>
             <ThinButton
                 name={cardStrings.button}
                 containerStyle={styles.thinButtonContainer}
@@ -42,3 +51,7 @@ export default function AccountConnectedCard(props: AccountConnectedCardProps) {
         </Card>
     );
 }
+
+AccountConnectedCard.defaultProps = {
+    disconnectAccountCallBack: () => {},
+};

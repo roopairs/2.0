@@ -8,16 +8,15 @@ import {
     StyleSheet, 
 } from 'react-native';
 import { defaultProperty } from 'homepairs-images';
-import {GeneralHomeInfo, AddressSticker , DarkModeInjectedProps, PrimaryContactInfo } from 'homepairs-components';
+import {GeneralHomeInfo, AddressSticker, PrimaryContactInfo } from 'homepairs-components';
 import { HomepairsPropertyAttributes, PropertyListState, Property, HomePairsDimensions as HomepairsDimensions } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
-import { isNullOrUndefined } from '../../../../utility/ParameterChecker';
 
 /* tenants cannot edit properties */
 const canEditProps = false;
-
-export type TenantPropertyStateProps = DarkModeInjectedProps & {
+    
+export type TenantPropertyStateProps = {
   propertyState: PropertyListState,
 }
 
@@ -26,78 +25,76 @@ export type TenantPropertyDispatchProps = {
   }
 
 type Props = NavigationStackScreenProps & TenantPropertyStateProps // & TenantPropertyDispatchProps
-const propertyKeys = HomepairsPropertyAttributes;
+const colors = BaseStyles.LightColorTheme;
 
-function setStyles(colorTheme?:BaseStyles.ColorTheme) { 
-    const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
-    return (    
-        StyleSheet.create({
-            container : {
-                alignItems: 'center',
-                backgroundColor: colors.space,
-                width: BaseStyles.ContentWidth.max,
-                flex:1,
-            },
-            pallet:{
-                backgroundColor: colors.secondary,
-                width: BaseStyles.ContentWidth.max,
-                flex: 1,
-                maxWidth: HomepairsDimensions.MAX_CONTENT_SIZE,
-                alignSelf: 'center',
-            },
-            imageContainer: {
-                width: BaseStyles.ContentWidth.max, 
-                height: '100%',
-                overflow: 'hidden',
-                borderRadius: BaseStyles.BorderRadius.large,  
-            },
-            imageWrapper: {
-                width: BaseStyles.ContentWidth.thin, 
-                height: '50%',
-                maxHeight: 200,
-                borderRadius: BaseStyles.BorderRadius.large,
-                backgroundColor: 'white',
-                alignSelf:'center',
-                alignContent: 'center',
-                shadowColor: colors.shadow,
-                shadowRadius: 10,
-                shadowOffset: {width : 1, height: 1},
-                shadowOpacity: .25,
-                elevation: 9,
-            },
-            scrollViewContentContainer: {
-                maxWidth: HomepairsDimensions.MAX_CONTENT_SIZE,
-                backgroundColor: colors.secondary,
-                alignSelf: 'center',
-                width: BaseStyles.ContentWidth.max,
-                flexGrow: 1,
-            },
-            addBottomMargin: {
-                flex: 1,
-                marginBottom: BaseStyles.MarginPadding.largeConst,
-            },
-            homepairsPropertiesImage: {
-                flex: 1,
-                alignSelf:'center', 
-                width: BaseStyles.ContentWidth.max,
-                height: '100%',
-                overflow: 'hidden',
-            },
-            homepairsPropertiesImageWeb: {
-                alignSelf:'center', 
-                width: BaseStyles.ContentWidth.max,
-                height: '100%',
-                overflow: 'hidden',
-            },
-        })
-    );};
+const styles =  StyleSheet.create({
+    container : {
+        alignItems: 'center',
+        backgroundColor: colors.space,
+        width: BaseStyles.ContentWidth.max,
+        flex:1,
+    },
+    pallet:{
+        backgroundColor: colors.secondary,
+        width: BaseStyles.ContentWidth.max,
+        flex: 1,
+        maxWidth: HomepairsDimensions.MAX_CONTENT_SIZE,
+        alignSelf: 'center',
+    },
+    imageContainer: {
+        width: BaseStyles.ContentWidth.max, 
+        height: '100%',
+        overflow: 'hidden',
+        borderRadius: BaseStyles.BorderRadius.large,  
+    },
+    imageWrapper: {
+        width: BaseStyles.ContentWidth.thin, 
+        height: '50%',
+        maxHeight: 200,
+        borderRadius: BaseStyles.BorderRadius.large,
+        backgroundColor: 'white',
+        alignSelf:'center',
+        alignContent: 'center',
+        shadowColor: colors.shadow,
+        shadowRadius: 10,
+        shadowOffset: {width : 1, height: 1},
+        shadowOpacity: .25,
+        elevation: 9,
+    },
+    scrollViewContentContainer: {
+        maxWidth: HomepairsDimensions.MAX_CONTENT_SIZE,
+        backgroundColor: colors.secondary,
+        alignSelf: 'center',
+        width: BaseStyles.ContentWidth.max,
+        flexGrow: 1,
+    },
+    addBottomMargin: {
+        flex: 1,
+        marginBottom: BaseStyles.MarginPadding.largeConst,
+    },
+    homepairsPropertiesImage: {
+        flex: 1,
+        alignSelf:'center', 
+        width: BaseStyles.ContentWidth.max,
+        height: '100%',
+        overflow: 'hidden',
+    },
+    homepairsPropertiesImageWeb: {
+        alignSelf:'center', 
+        width: BaseStyles.ContentWidth.max,
+        height: '100%',
+        overflow: 'hidden',
+    },
+});
+    
 
 export default function TenantPropertyScreenBase(props:Props){
-    const {propertyState, primaryColorTheme} = props;
+    const {propertyState} = props;
     const {properties, propertyManager} = propertyState;
 
+
     const property: Property = properties[0]; // THIS IS BAD CODING, ASSUMING AN ARRAY IS OF SIZE 1
-    const styles = setStyles(primaryColorTheme);
+    const {streetAddress, city, state} = property;
 
     /* BEWARE: styles.addBottomMargin doesn't always work, had to add it manually 
         / overlapping styles aen't currently supported by react
@@ -107,15 +104,16 @@ export default function TenantPropertyScreenBase(props:Props){
         <ScrollView style={{flexGrow: 1}}>
             <View style={styles.addBottomMargin}>
                 <AddressSticker
-                address={property[propertyKeys.ADDRESS]}
-                primaryColorTheme={primaryColorTheme}/>
+                address={streetAddress}
+                city={city}
+                state={state}/>
                 <View style={styles.imageWrapper}>
-                <View style={styles.imageContainer}>
-                    <Image 
-                    source={defaultProperty}
-                    style={Platform.OS === 'web' ? styles.homepairsPropertiesImageWeb : styles.homepairsPropertiesImage}
-                    resizeMode='cover'/>
-                </View>
+                  <View style={styles.imageContainer}>
+                      <Image 
+                      source={defaultProperty}
+                      style={Platform.OS === 'web' ? styles.homepairsPropertiesImageWeb : styles.homepairsPropertiesImage}
+                      resizeMode='cover'/>
+                  </View>
                 </View>
                 <GeneralHomeInfo property={property} hasEdit={canEditProps} />
                 <PrimaryContactInfo propertyManager={propertyManager} primaryColorTheme={primaryColorTheme}/>

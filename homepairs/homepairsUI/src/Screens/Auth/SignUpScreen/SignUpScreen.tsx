@@ -7,7 +7,7 @@ import {
   withAuthPage,
 } from "homepairs-components";
 import HomePairColors from "res/colors";
-import { withNavigation, NavigationSwitchProp } from 'react-navigation';
+import { NavigationSwitchProp } from 'react-navigation';
 import SignUpScreenBase, { SignUpViewDispatchProps } from "./SignUpScreenBase";
 
 
@@ -33,7 +33,6 @@ const mapDispatchToProps : (dispatch: any) => SignUpViewDispatchProps = (dispatc
 });
 
 const SignUpScreen = connect(null, mapDispatchToProps)(SignUpScreenBase);
-const SignUpScreenWithNav = withNavigation(SignUpScreen);
 
-const AuthPage = withAuthPage(SignUpScreenWithNav, authPageParam);
+const AuthPage = withAuthPage(SignUpScreen, authPageParam);
 export default AuthPage;
