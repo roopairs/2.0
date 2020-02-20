@@ -19,5 +19,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path('dungeon/', admin.site.urls),
-    path('API/', include('API.urls')),
+    path('pm/', include('Apps.PropertyManagers.urls')),
+    path('properties/', include('Apps.Properties.urls')),
+    path('tenant/', include('Apps.Tenants.urls')),
 ]
