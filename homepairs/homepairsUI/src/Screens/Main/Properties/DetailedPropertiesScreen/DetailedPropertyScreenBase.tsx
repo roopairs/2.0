@@ -163,7 +163,16 @@ export default function DetailedPropertyScreenBase(props: Props) {
     };
 
     function navigateModal() {
-        navigation.navigate(navigationPages.EditPropertyModal);
+        const {streetAddress, city, state, bedrooms, bathrooms, tenants} = property;
+        const oldProp = {
+            address: streetAddress,
+            city,
+            state,
+            bedrooms,
+            bathrooms,
+            tenants, 
+        }
+        navigation.navigate(navigationPages.EditPropertyModal, {oldProp});
     }
 
     function renderImage() {

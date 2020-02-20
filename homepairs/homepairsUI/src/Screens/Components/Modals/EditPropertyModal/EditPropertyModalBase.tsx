@@ -1,17 +1,20 @@
 import React from "react";
-import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions } from "react-native";
+import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions, View } from "react-native";
 import {ThinButton, ThinButtonProps, Card, InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, EditPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
+import {HelperText} from 'react-native-paper';
 import {isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
 import { NavigationStackProp, NavigationStackScreenProps } from 'react-navigation-stack';
 import { InputFormProps } from 'src/Elements/Forms/InputForm';
 
 export type EditPropertyDispatchProps = {
-    onEditProperty: (newProperty: Property, info: EditPropertyState, navigation: NavigationStackProp) => void
-};
+    onEditProperty: (newProperty: Property, info: EditPropertyState, 
+        displayError: (msg: string) => void, navigation: NavigationStackProp) => void
+}
+
 
 type Props =  NavigationStackScreenProps & EditPropertyDispatchProps & EditPropertyState;
 
@@ -22,6 +25,8 @@ type EditState = {
     bedrooms: string, 
     bathrooms: string, 
     tenants: string,
+    errorMsg: string,
+    errorCheck: boolean,
 };
 
 
@@ -169,6 +174,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.getFormNumBed = this.getFormNumBed.bind(this);
         this.getFormNumBath = this.getFormNumBath.bind(this);
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
+        this.displayError = this.displayError.bind(this);
         this.resetForms = this.resetForms.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
         const {oldProp} = this.props;
@@ -180,6 +186,9 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
             bedrooms: bedrooms.toString(), 
             bathrooms: bathrooms.toString(),
             tenants: tenants.toString(),
+            errorMsg: '',
+            errorCheck: false,
+
         };
         this.addressRef = React.createRef();
         this.stateRef = React.createRef();
@@ -263,19 +272,24 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.bathRef.current.setError(false);
     }
 
+    displayError(msg: string) {
+        this.setState({errorMsg: msg, errorCheck: true});
+    }
+
     clickSubmitButton() {
         const {email, navigation, onEditProperty, index, oldProp, roopairsToken} = this.props;
         const {address, state, city, bedrooms, bathrooms, tenants} = this.state;
         this.resetForms();
         if (this.validateForms()) {
             const newProperty : Property = {
+                propId: oldProp.propId,
                 streetAddress: address, state, city, 
                 bedrooms: Number(bedrooms), 
                 bathrooms: Number(bathrooms), 
                 tenants: Number(tenants),
             };
             const info : EditPropertyState = { email, index, oldProp, roopairsToken};
-            onEditProperty(newProperty, info, navigation);
+            onEditProperty(newProperty, info, this.displayError, navigation);
         } 
     }
 
@@ -364,6 +378,13 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                         errorMessage={errorMessage}/>;
         });
     }
+
+    renderError () {
+        const {errorMsg, errorCheck} = this.state;
+        return <View style={{alignSelf:'center'}}>
+            <HelperText type='error' visible={errorCheck} style={this.inputFormStyle.errorStyle}>{errorMsg}</HelperText>
+        </View>;
+    }
     
     render() {
         const {navigation} = this.props;
@@ -387,6 +408,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                     }}
                     >
                     <>{this.renderInputForms()}</>
+                    {this.renderError()}
                     {ThinButton(this.submitButton)}
                 </Card>
             </ScrollView>
