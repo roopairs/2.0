@@ -138,12 +138,18 @@ class LoginView(View):
         required = ['email', 'password']
         missingFields = checkRequired(required, inData)
 
+
         if(len(missingFields) == 0):
             email = inData.get('email')
             password = inData.get('password')
 
+            tenantTest = tenantLogin(request)
+            if(tenantTest.get(STATUS) == SUCCESS):
+               tenantTest['role'] = 'tenant'
+               return Response(data=tenantTest)
+
             pmTest = pmLogin(email, password)
-            if pmTest.get(STATUS) == SUCCESS:
+            if(pmTest.get(STATUS) == SUCCESS):
                 pmTest['role'] = 'pm'
 
             return JsonResponse(pmTest, status=200)
