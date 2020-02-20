@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { navigationPages } from 'src/Routes/RouteConstants';
 import { 
   FetchUserAccountProfileAction, 
   PropertyManagerAccount, 
@@ -10,7 +11,6 @@ import {
   NavigationPropType,
 } from '../types';
 import { fetchProperty, fetchProperties, fetchPropertyAndPropertyManager } from '../property-list/actions';
-import { navigationPages } from 'src/Routes/RouteConstants';
 
 const responseKeys = HomePairsResponseKeys;
 const accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
@@ -147,7 +147,7 @@ export const fetchAccount = (
             }
           })
           .catch((error) => {
-            console.log(error)
+            console.log(error);
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
           })
           .finally(() => {
