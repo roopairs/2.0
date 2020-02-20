@@ -26,7 +26,6 @@ export const initialState: PropertyListState = {
     properties: [],
     appliances: [],
     propertyManager: null,
->>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 };
 
 export const properties = (
