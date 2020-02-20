@@ -99,6 +99,9 @@ export default function TenantPropertyScreenBase(props:Props){
     const property: Property = properties[0]; // THIS IS BAD CODING, ASSUMING AN ARRAY IS OF SIZE 1
     const styles = setStyles(primaryColorTheme);
 
+    /* BEWARE: styles.addBottomMargin doesn't always work, had to add it manually 
+        / overlapping styles aen't currently supported by react
+        see ref: https://github.com/facebook/react/issues/2231 */
     function renderContents(){
         return(
         <ScrollView style={{flexGrow: 1}}>

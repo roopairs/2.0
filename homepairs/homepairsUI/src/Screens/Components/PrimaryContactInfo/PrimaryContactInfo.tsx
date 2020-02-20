@@ -52,10 +52,6 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
             maxWidth: 450,
             fontFamily: BaseStyles.FontTheme.secondary,
         },
-        cardDescription: {
-            fontFamily: BaseStyles.FontTheme.primary,
-            fontSize: 16,
-        },
         textContainer: {
             width: BaseStyles.ContentWidth.reg,
             borderBottomColor: colors.veryLightGray,
@@ -78,15 +74,27 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
             alignSelf: 'center',
             flex: 1,
         },
-        detailsTitle: {
-            color: colors.tertiary,
+        detailsLabel: {
+            color: colors.lightGray,
             fontFamily: 'nunito-regular',
             fontSize: 12,
+        },
+        detailsValue: {
+            fontFamily: BaseStyles.FontTheme.primary,
+            fontSize: 16,
         },
         detailsWrapperStyle: {
             width: BaseStyles.ContentWidth.thin,
             marginTop: BaseStyles.MarginPadding.small,
             marginBottom: BaseStyles.MarginPadding.smallConst,
+            alignSelf: 'flex-start',
+            justifyContent: 'flex-start',
+        },
+        contactWrapperStyle: {
+            width: BaseStyles.ContentWidth.thin,
+            marginHorizontal: BaseStyles.MarginPadding.medium,
+            marginTop: BaseStyles.MarginPadding.mediumConst,
+            marginBottom: BaseStyles.MarginPadding.medium,
             alignSelf: 'flex-start',
             justifyContent: 'flex-start',
         },
@@ -99,23 +107,31 @@ export default function PrimaryContactInfo(props: PrimaryContactInfoProps) {
         propertyManager,
     } = props;
 
-    const {firstName, lastName, email} = propertyManager;
+    const { firstName, lastName, email } = propertyManager;
     const styles = setStyles(primaryColorTheme);
 
     function labeledItem(label: string, value: string) {
         return (
-            <View style={styles.detailsWrapperStyle}>
-                <Text style={styles.detailsTitle}>{label}</Text>
-                <Text style={styles.cardDescription}>{value}</Text>
+            <View>
+                <View style={styles.detailsWrapperStyle}>
+                    <Text style={styles.detailsLabel}>{label}</Text>
+                </View>
+                <View style={styles.detailsWrapperStyle}>
+                    <Text style={styles.detailsValue}>{value}</Text>
+                </View>
             </View>
         );
     }
 
     function ContactInfo() {
         return (
-            <View style={styles.detailsWrapperStyle}>
-                {labeledItem(primaryContactStrings.name, (`${firstName} ${lastName}`))}
-                {labeledItem(primaryContactStrings.email, (`${email}`))}
+            <View>
+                <View style={styles.contactWrapperStyle}>
+                    {labeledItem(primaryContactStrings.name, (`${firstName} ${lastName}`))}
+                </View>
+                <View style={styles.contactWrapperStyle}>
+                    {labeledItem(primaryContactStrings.email, (`${email}`))}
+                </View>
             </View>
         );
     }
