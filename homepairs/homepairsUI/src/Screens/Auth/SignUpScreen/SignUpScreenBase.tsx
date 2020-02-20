@@ -333,7 +333,7 @@ export default class SignUpScreenBase extends React.Component<
             },
         ];
         const pmForms = (inputFormProps.filter(inputForm => (inputForm.name !== signUpScreenStrings.inputForms.address && inputForm.name !== signUpScreenStrings.inputForms.city)));
-        const forms = accountType === AccountTypes.Landlord ? pmForms : inputFormProps;
+        const forms = accountType === AccountTypes.PropertyManager ? pmForms : inputFormProps;
         return forms.map(properties => {
             return (
                 <InputForm
@@ -352,7 +352,7 @@ export default class SignUpScreenBase extends React.Component<
 
     renderRoopairsLoginButton() {
         const { accountType } = this.state;
-        return accountType === AccountTypes.Landlord ? (
+        return accountType === AccountTypes.PropertyManager ? (
             <View style={{ marginTop: BaseStyles.MarginPadding.large }}>
                 <LoginButton
                     name="Login with your Roopairs Account"

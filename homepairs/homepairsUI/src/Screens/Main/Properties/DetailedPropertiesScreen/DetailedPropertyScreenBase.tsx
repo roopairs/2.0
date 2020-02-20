@@ -13,8 +13,12 @@ import {
     GeneralHomeInfo,
     AddressSticker,
     CurrentTenantCard,
+<<<<<<< HEAD
     ApplianceInfo,
     
+=======
+    ServiceRequestCount,
+>>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 } from 'homepairs-components';
 import {
     HomepairsPropertyAttributes,
@@ -218,6 +222,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
                     <CurrentTenants 
                     propertyId={1 /**TODO: get property id from key when backend has support this */} 
                     tenants={tenantInfoState}/>
+                    <ServiceRequestCount property={property}/>
                 </View>
             </ScrollView>
         );

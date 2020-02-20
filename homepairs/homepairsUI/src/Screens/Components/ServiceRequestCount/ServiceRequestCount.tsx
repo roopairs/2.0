@@ -7,7 +7,7 @@ import { HomePairsDimensions, Property } from 'homepairs-types';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import ThinButton from 'src/Elements/Buttons/ThinButton';
 
-export type GeneralHomeInfoProps = {
+export type ServiceRequestCountProps = {
     /**
      * The individual property that gives this card the information to present 
      */
@@ -26,7 +26,7 @@ export type GeneralHomeInfoProps = {
     onClick?: () => any;
 };
 
-const generalHomeStrings = strings.detailedPropertyPage.generalHomeInfo;
+const serviceRequestStrings = strings.detailedPropertyPage.serviceRequestCount;
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
     container: {
@@ -55,13 +55,16 @@ const styles = StyleSheet.create({
         width: BaseStyles.ContentWidth.wide,
         paddingVertical: BaseStyles.MarginPadding.mediumConst,
     },
-    addressContainer: {
+    titleContainer: {
         borderBottomColor: colors.veryLightGray,
         borderBottomWidth: 1,
         paddingBottom: BaseStyles.MarginPadding.mediumConst,
         marginBottom: BaseStyles.MarginPadding.mediumConst,
     },
-    streetAddress: {
+    buttonContainer: {
+        marginTop: BaseStyles.MarginPadding.mediumConst,
+    },
+    title: {
         color: colors.tertiary,
         fontSize: BaseStyles.FontTheme.reg,
         fontFamily: HomePairFonts.nunito_bold,
@@ -117,16 +120,17 @@ const styles = StyleSheet.create({
 
 /**
  * ---------------------------------------------------
- * General Home Info 
+ * Service Request Count Info 
  * ---------------------------------------------------
  * A child component for the Detailed Property Card that presents details about 
- * the conditions of the living space. It presents an adress, the maximum amount 
- * of tenants, number of bedrooms, and the number of bathrooms.  
- * @param {GeneralHomeInfoProps} props 
+ * the current service requests. It presents pending, scheduled, and in progress.  
+ * @param {ServiceRequestCountProps} props 
  */
-export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
+export default function ServiceRequestCount(props: ServiceRequestCountProps) {
     const { property, hasEdit, onClick } = props;
-    const {streetAddress, tenants, bedrooms, bathrooms, city, state} = property;
+    const pending = 2;
+    const scheduled = 3;
+    const inProgress = 1;
 
     function renderDetailBox(arg0: String, arg1: number) {
         return (
@@ -140,9 +144,9 @@ export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
     function renderLivingSpace() {
         return (
             <View style={styles.livingSpaceContainer}>
-                {renderDetailBox(generalHomeStrings.tenants, tenants)}
-                {renderDetailBox(generalHomeStrings.bedrooms, bedrooms)}
-                {renderDetailBox(generalHomeStrings.bathrooms, bathrooms)}
+                {renderDetailBox(serviceRequestStrings.pending, pending)}
+                {renderDetailBox(serviceRequestStrings.scheduled, scheduled)}
+                {renderDetailBox(serviceRequestStrings.inProgress, inProgress)}
             </View>
         );
     }
@@ -150,29 +154,27 @@ export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
     return (
         <View>
             <View style={styles.container}>
-                <View style={styles.addressContainer}>
-                    <Text style={styles.streetAddress}>{streetAddress}</Text>
-                    <Text style={styles.cityStateText}>
-                        {city},{" "}{state}
-                    </Text>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>{serviceRequestStrings.title}</Text>
                 </View>
-                {renderLivingSpace()}
-
-                {isNullOrUndefined(hasEdit) || hasEdit ? (
-                    <ThinButton 
-                        name={generalHomeStrings.button}
-                        buttonStyle={styles.editButton}
-                        buttonTextStyle={styles.editButtonText}
-                        onClick={onClick}/>
-                ) : (
-                    <></>
-                )}
+                    {renderLivingSpace()}
+                <View style={styles.buttonContainer}>
+                    {isNullOrUndefined(hasEdit) || hasEdit ? (
+                        <ThinButton
+                            name={serviceRequestStrings.button}
+                            buttonStyle={styles.editButton}
+                            buttonTextStyle={styles.editButtonText}
+                            onClick={onClick} />
+                    ) : (
+                            <></>
+                        )}
+                </View>
             </View>
         </View>
     );
 }
 
-GeneralHomeInfo.defaultProps = {
+ServiceRequestCount.defaultProps = {
     hasEdit: true,
-    onClick: () => {},
+    onClick: () => { },
 };

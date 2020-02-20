@@ -8,6 +8,8 @@
 import { AddressStickerProps as ASP } from "./AddressSticker/AddressSticker";
 import { SceneHeaderProps as SHP} from './SceneHeader/SceneHeader';
 import { GeneralHomeInfoProps as GHIP } from "./GeneralHomeInfo/GeneralHomeInfo";
+import { PrimaryContactInfoProps as PCIP } from "./PrimaryContactInfo/PrimaryContactInfo";
+import { ServiceRequestCountProps as SRCP } from "./ServiceRequestCount/ServiceRequestCount";
 import { AccountTypeRadioProps as ATRBP } from "./AccounttypeRadioButton/AccountTypeRadioButton";
 import { ViewPropertyCardProps as VPCP } from "./ViewPropertyCard/ViewPropertyCard";
 import { AccountConnectedCardProps as ACCP } from "./AuthenticationCards/AccountConnectedCard";
@@ -30,8 +32,13 @@ import {
 export { default as AddressSticker } from './AddressSticker/AddressSticker';
 export { default as SceneHeader } from './SceneHeader/SceneHeader';
 export { default as GeneralHomeInfo } from './GeneralHomeInfo/GeneralHomeInfo';
+<<<<<<< HEAD
 export { default as ApplianceInfo } from './ApplianceInfo/ApplianceInfo';
 export { default as ApplianceCategorizer } from './ApplianceInfo/ApplianceCategorizer';
+=======
+export { default as PrimaryContactInfo } from './PrimaryContactInfo/PrimaryContactInfo';
+export { default as ServiceRequestCount } from "./ServiceRequestCount/ServiceRequestCount";
+>>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 export { default as AccountTypeRadioButton } from './AccounttypeRadioButton/AccountTypeRadioButton';
 export { default as ViewPropertyCard } from './ViewPropertyCard/ViewPropertyCard';
 export { default as AccountConnectedCard } from './AuthenticationCards/AccountConnectedCard';
@@ -55,6 +62,8 @@ export { default as EditTenantModal} from './Modals/EditTenantModal/EditTenantMo
 export type SceneHeaderProps = SHP;
 export type AddressStickerProps = ASP;
 export type GeneralHomeInfoProps = GHIP;
+export type PrimaryContactInfoProps = PCIP;
+export type ServiceRequestCountProps = SRCP;
 export type AccountTypeRadioProps = ATRBP;
 export type ViewPropertyCardProps = VPCP;
 export type AccountConnectedCardProps = ACCP;

@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { navigationPages } from 'src/Routes/RouteConstants';
 import { 
   FetchUserAccountProfileAction, 
-  LandlordAccount, 
+  PropertyManagerAccount, 
   Account, 
   TenantAccount, 
   AccountState, 
@@ -9,8 +10,7 @@ import {
   HomePairsResponseKeys, 
   NavigationPropType,
 } from '../types';
-import { fetchProperty, fetchProperties } from '../property-list/actions';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import { fetchProperty, fetchProperties, fetchPropertyAndPropertyManager } from '../property-list/actions';
 
 const responseKeys = HomePairsResponseKeys;
 const accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
@@ -39,7 +39,7 @@ export const FETCH_PROFILE_ACTION_TYPES = {
  * @param {NavigationPropType} navigation -navigator passed from calling component */
 export function ChooseMainPage(accountType: AccountTypes, 
   navigation: NavigationPropType) {
-  if(accountType === AccountTypes.Landlord){
+  if(accountType === AccountTypes.PropertyManager){
     navigation.navigate(navigationPages.PropertiesScreen);  
     return;
   }
@@ -58,7 +58,7 @@ export function ChooseMainPage(accountType: AccountTypes,
  * */
 function getAccountType(accountJSON : any): AccountTypes{
   if(accountJSON[accountKeys.PM] != null){ 
-    return AccountTypes.Landlord;
+    return AccountTypes.PropertyManager;
   }
     return AccountTypes.Tenant; 
 }
@@ -77,7 +77,7 @@ function getAccountType(accountJSON : any): AccountTypes{
  * */
 export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileAction => {
   const accountType: AccountTypes = getAccountType(accountJSON) ;
-  const profile = (accountType === AccountTypes.Landlord) ? accountJSON[accountKeys.PM] : accountJSON[accountKeys.TENANT]; 
+  const profile = (accountType === AccountTypes.PropertyManager) ? accountJSON[accountKeys.PM] : accountJSON[accountKeys.TENANT]; 
   let fetchedProfile : AccountState ;
   const baseProfile : Account = {
         accountType,
@@ -89,11 +89,11 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
         roopairsToken: accountJSON[responseKeys.ROOPAIRS_TOKEN],
     };
     if(profile[accountKeys.TENANTID] == null){
-        const landLordProfile : LandlordAccount = { ...baseProfile,
+        const landLordProfile : PropertyManagerAccount = { ...baseProfile,
             manId: profile[accountKeys.MANID],
         };
         // Make sure to change from Tenant Account to Landlord
-        landLordProfile[accountKeys.TYPE] = AccountTypes.Landlord;
+        landLordProfile[accountKeys.TYPE] = AccountTypes.PropertyManager;
         fetchedProfile = landLordProfile;
     }else{
         const tenantProfile : TenantAccount = { ...baseProfile,
@@ -134,18 +134,19 @@ export const fetchAccount = (
             const accountType = getAccountType(response[responseKeys.DATA]);
             if(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.SUCCESS){
               dispatch(fetchAccountProfile(response[responseKeys.DATA]));
-              if(response[responseKeys.DATA][responseKeys.ROLE] === PM){
+              if(response[responseKeys.DATA][responseKeys.ROLE] === PM){ // role = property manager
                 dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
               }
-              else { // Assume the role of the tenant 
-                dispatch(fetchProperty(response[responseKeys.DATA][TENANT][responseKeys.PLACE]));
+              else { // Assume role = tenant
+                dispatch(fetchPropertyAndPropertyManager(response[responseKeys.DATA][TENANT][responseKeys.PLACE],
+                  response[responseKeys.DATA][TENANT][responseKeys.ACCOUNT_KEYS.PM]));
               }
               ChooseMainPage(accountType, navigation);
             }else{
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
             }
           })
-          .catch((error) => {
+          .catch(() => {
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
           })
           .finally(() => {
@@ -214,7 +215,7 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
           if(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.SUCCESS){
             dispatch(fetchAccountProfile(response[responseKeys.DATA]));
             dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
-            ChooseMainPage(AccountTypes.Landlord, navigation);
+            ChooseMainPage(AccountTypes.PropertyManager, navigation);
           }else{
             modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
           }

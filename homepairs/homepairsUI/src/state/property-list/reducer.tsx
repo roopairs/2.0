@@ -7,7 +7,8 @@ import {
     RemovePropertyAction,
     UpdatePropertyAction,
     FetchPropertyAction,
-    SetSelectedPropertyAction, 
+    FetchPropertyAndPropertyManagerAction,
+    SetSelectedPropertyAction,
     FetchPropertiesAction,
 } from '../types';
 import { PROPERTY_LIST_ACTION_TYPES } from './actions';
@@ -19,11 +20,15 @@ import { PROPERTY_LIST_ACTION_TYPES } from './actions';
  * throughout our app as it changes.
  * */
 
- 
+
 export const initialState: PropertyListState = {
     selectedPropertyIndex: null,
     properties: [],
+<<<<<<< HEAD
     appliances: [],
+=======
+    propertyManager: null,
+>>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 };
 
 export const properties = (
@@ -106,6 +111,12 @@ export const properties = (
             return {
                 selectedPropertyIndex: null,
                 properties: (action as FetchPropertyAction).property,
+            };
+        case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_AND_PROPERTY_MANAGER:
+            return {
+                selectedPropertyIndex: null,
+                properties: (action as FetchPropertyAndPropertyManagerAction).property,
+                propertyManager: (action as FetchPropertyAndPropertyManagerAction).propertyManager,
             };
         case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES:
             return {

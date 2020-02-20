@@ -14,21 +14,34 @@ export type TenantInfo = {
 }
 
 export type Property = {
+<<<<<<< HEAD
     propId: number, 
+=======
+    propId: number,
+>>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
     streetAddress: string, 
     city: string, 
     state: string,
-    tenants : number, 
-    bedrooms: number, 
+    tenants: number,
+    bedrooms: number,
     bathrooms: number,
 }
 
+<<<<<<< HEAD
 export type PropertyListState = 
 {
     selectedPropertyIndex?: number, 
     properties: Property[],
     appliances: Appliance[],
 };
+=======
+export type PropertyListState =
+    {
+        selectedPropertyIndex?: number,
+        properties: Property[],
+        propertyManager?: Contact,
+    };
+>>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 
 export type AddPropertyAction = {
     type: string;
@@ -62,6 +75,12 @@ export type RemovePropertyAction = {
 export type FetchPropertyAction = {
     type: string;
     property: Property[];
+};
+/* fetch the property along with the property manager that owns a given property (used for tenant login to fill PrimaryContactInfo) */
+export type FetchPropertyAndPropertyManagerAction = {
+    type: string;
+    property: Property[];
+    propertyManager: Contact;
 };
 export type FetchPropertiesAction = {
     type: string;
@@ -103,8 +122,8 @@ export type Appliance = {
 /* *-------------------Account Types-------------------* */
 
 export enum AccountTypes {
-    Tenant, 
-    Landlord
+    Tenant,
+    PropertyManager
 }
 
 export type Account = {
@@ -117,7 +136,7 @@ export type Account = {
     roopairsToken: string;
 };
 
-export type LandlordAccount = Account & {
+export type PropertyManagerAccount = Account & {
     manId: number;
 };
 
@@ -126,7 +145,7 @@ export type TenantAccount = Account & {
     tenantId: number;
 };
 
-export type AccountState = LandlordAccount | TenantAccount;
+export type AccountState = PropertyManagerAccount | TenantAccount;
 
 export type FetchUserAccountAction = {
     type: string;
@@ -142,6 +161,13 @@ export type FetchUserAccountProfileAction = {
 export type AccountStateAction =
     | FetchUserAccountProfileAction
     | FetchUserAccountProfileAction;
+
+export type Contact = {
+    accountType: AccountTypes;
+    firstName: string;
+    lastName: string;
+    email: string;
+}
 /* *-------------------Account Types-------------------* */
 
 /* *-------------------Service Types-------------------* */
@@ -150,9 +176,9 @@ export type ServiceProvider = {
     name: string;
 };
 
-export enum ServiceRequestStatus { 
-    Pending, 
-    Denied, 
+export enum ServiceRequestStatus {
+    Pending,
+    Denied,
     Accepted
 }
 
@@ -329,12 +355,12 @@ export type AppState = {
 export type NavigationPropType = NavigationSwitchProp | NavigationStackProp
 
 export type AddNewPropertyState = {
-    email : string;
+    email: string;
     roopairsToken: string;
 }
 
 export type EditPropertyState = {
-    email : string;
+    email: string;
     index: number;
     oldProp: Property;
     roopairsToken: string;
@@ -360,7 +386,7 @@ export enum HomePairsDimensions {
     MIN_PALLET_HEIGHT = Dimensions.get('window').height
 }
 
-enum HOMEPAIRS_ACCOUNT_KEYS{
+enum HOMEPAIRS_ACCOUNT_KEYS {
     TYPE = 'accountType',
     PM = 'pm',
     TENANT = 'tenant',
@@ -369,9 +395,9 @@ enum HOMEPAIRS_ACCOUNT_KEYS{
     EMAIL = 'email',
     MANID = 'manId',
     PASSWORD = 'password',
-    ADDRESS = 'streetAddress', 
+    ADDRESS = 'streetAddress',
     CITY = 'city',
-    PLACE = 'place', 
+    PLACE = 'place',
     PROPID = 'propId',
     TENANTID = 'tenantID',
 }
@@ -382,8 +408,9 @@ enum HOMEPAIRS_LOGIN_STATUS {
 }
 
 enum HOMEPAIRS_PROPERTY_KEYS {
+    PROPERTYID = 'propID',
     ADDRESS = 'streetAddress',
-    CITY = 'city', 
+    CITY = 'city',
     STATE = 'state',
     TENANTS = 'maxTenants',
     BEDROOMS = 'numBed',
@@ -391,9 +418,9 @@ enum HOMEPAIRS_PROPERTY_KEYS {
     PROPERTYID = 'propId'
 }
 
-export enum HomepairsPropertyAttributes{
+export enum HomepairsPropertyAttributes {
     ADDRESS = 'streetAddress',
-    CITY = 'city', 
+    CITY = 'city',
     STATE = 'state',
     TENANTS = 'tenants',
     BEDROOMS = 'bedrooms',
@@ -403,7 +430,7 @@ export enum HomepairsPropertyAttributes{
 export const HomePairsResponseKeys = {
     DATA: 'data',
     ACCOUNT_KEYS: HOMEPAIRS_ACCOUNT_KEYS,
-    PLACE : 'place',
+    PLACE: 'place',
     PROPERTIES: 'properties',
     PROPERTY_KEYS: HOMEPAIRS_PROPERTY_KEYS,
     ROLE: 'role',
