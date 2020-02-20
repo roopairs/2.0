@@ -10,7 +10,7 @@ const propertyMutationForm = {
 const strings = {
     title: 'HomePairs',
     serviceRequestPage: {
-        title: 'Service Request',
+        title: 'Service Requests',
         button: 'New Request',
     },
     connectAccountPage: {
@@ -57,6 +57,20 @@ const strings = {
             inputForm: propertyMutationForm,
             button: 'Save',
         },
+        primaryContact: {
+            title: 'Primary Contact',
+            subtitle: 'Questions about this property? Contact the landlord:',
+            name: 'NAME',
+            email: 'EMAIL',
+            phone: 'PHONE',
+        },
+        serviceRequestCount: {
+            title: 'Service Requests',
+            pending: 'Pending',
+            scheduled: 'Scheduled',
+            inProgress: 'In Progress', 
+            button: 'View Requests',
+        },
     },
     signInPage: {
         subtitle: 'Sign in to your Account',
@@ -74,7 +88,7 @@ const strings = {
         accountTypeRadioButton: {
             name: 'ACCOUNT TYPE',
             tenant: 'Tenant',
-            landlord: 'Property Manager',
+            propertyManager: 'Property Manager',
         },
         inputForms: {
             firstName: 'FIRST NAME',

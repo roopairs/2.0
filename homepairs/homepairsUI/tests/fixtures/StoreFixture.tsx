@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import {
-    LandlordAccount,
+    PropertyManagerAccount,
     AccountTypes,
     AppState,
     Property,
@@ -10,6 +10,7 @@ import {
     ConfigurationSettings,
     ServiceState,
     PropertyListState,
+    Contact,
 } from 'homepairs-types';
 
 const middleWares = [thunk];
@@ -49,8 +50,8 @@ const navigationMenu: string[] = [
 ];
 
 /** User Account data for testing! */
-const PropertyManagerAcount: LandlordAccount = {
-    accountType: AccountTypes.Landlord,
+const PropertyManagerAcount: PropertyManagerAccount = {
+    accountType: AccountTypes.PropertyManager,
     firstName: 'Darrel',
     lastName: 'Williams',
     email: 'dWilliams@SpeechGrammarList.com',
@@ -81,9 +82,19 @@ export const PropertyList1: Property[] = [
     },
 ];
 
+/** Property data for testing! */
+const PropertyManager1: Contact  =
+    {
+        accountType: AccountTypes.PropertyManager,
+        firstName: 'Darrel',
+        lastName: 'Williams',
+        email: 'dWilliams@SpeechGrammarList.com',
+    };
+
 const propertyListState : PropertyListState = {
     selectedPropertyIndex: 0,
     properties: PropertyList1,
+    propertyManager: PropertyManager1,
 };
 /** Property data for testing! */
 
