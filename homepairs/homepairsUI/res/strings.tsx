@@ -10,7 +10,7 @@ const propertyMutationForm = {
 const strings = {
     title: 'HomePairs',
     serviceRequestPage: {
-        title: 'Service Request',
+        title: 'Service Requests',
         button: 'New Request',
     },
     connectAccountPage: {
@@ -63,6 +63,13 @@ const strings = {
             name: 'NAME',
             email: 'EMAIL',
             phone: 'PHONE',
+        },
+        serviceRequestCount: {
+            title: 'Service Requests',
+            pending: 'Pending',
+            scheduled: 'Scheduled',
+            inProgress: 'In Progress', 
+            button: 'View Requests',
         },
     },
     signInPage: {
