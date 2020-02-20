@@ -12,6 +12,7 @@ class Property(models.Model):
     numBath = models.FloatField()
     numBed = models.IntegerField()
     maxTenants = models.IntegerField()
+    rooId = models.CharField(max_length=10, blank=True)
     pm = models.ForeignKey(PropertyManager, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -25,5 +26,6 @@ class Property(models.Model):
                   "numBath": self.numBath,
                   "numBed": self.numBed,
                   "maxTenants": self.maxTenants,
+                  "rooId": self.rooId,
                   "pm": str(self.pm)
                }

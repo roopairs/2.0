@@ -99,28 +99,32 @@ def addNewProperties(email, token):
         if(properties.get('detail') == 'Invalid token.'):
             return returnError("Invalid token.")
     for prop in properties:
-        addy = prop.get('physical_address_formatted').split(',')
-        tempStreetAddress = addy[0].strip()
-        tempCity = addy[1].strip()
-        tempState = addy[2].strip().split(' ')[0].strip()
-        others = Property.objects.filter(streetAddress=tempStreetAddress,
-                                         city=tempCity,
-                                         state=tempState)
+        propId = prop.get('id')
+        print("PROPID")
+        print(propId)
+        others = Property.objects.filter(rooId=propId)
         if not others.exists():
             # We know the pm account exists in our database and only ours
             # since we checked earlier and it didn't fail so we don't have
             # to check it
             tempPM = PropertyManager.objects.filter(email=email)[0]
+            addy = prop.get('physical_address_formatted').split(',')
+            tempStreetAddress = addy[0].strip()
+            tempCity = addy[1].strip()
+            tempState = addy[2].strip().split(' ')[0].strip()
 
-            # That means the property is not already in the database
+            # This means the property is not already in the database
             prop = Property(streetAddress=tempStreetAddress,
                             city=tempCity,
                             state=tempState,
                             numBed=1,
                             numBath=1,
                             maxTenants=1,
+                            rooId=propId,
                             pm=tempPM)
             prop.save()
+            print("WHACK")
+            print(prop.rooId)
 
 
 ################################################################################
@@ -147,24 +151,14 @@ class PropertyView(View):
             sendAddress = streetAddress + ", " + city + ", " + state
 
             # FIRST NEED TO SEE IF IT ALREADY EXISTS
-            # Since properties get synched when you login, we only have to
+            # Since properties get synced when you login, we only have to
             # check our database
             isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
             if not isMade.exists():
                 # If it doesn't exist in our database, add it to ours, then to
                 # Roopairs
                 pmList = PropertyManager.objects.filter(email=pm)
-                if pmList.exists() and pmList.count() == 1:
-                    pm = pmList[0]
-                    prop = Property(streetAddress=streetAddress,
-                                    city=city,
-                                    state=state,
-                                    numBed=numBed,
-                                    numBath=numBath,
-                                    maxTenants=maxTenants,
-                                    pm=pm)
-                    prop.save()
-                else:
+                if not(pmList.exists() and pmList.count() == 1):
                     return JsonResponse(data=returnError(PM_SQUISH))
 
                 # If we get to here, then adding it to our database was successfull
@@ -178,6 +172,16 @@ class PropertyView(View):
                 elif(info.get('detail') == 'Invalid token.'):
                     return JsonResponse(data=returnError(info.get('detail')))
                 else:
+                    pm = pmList[0]
+                    prop = Property(streetAddress=streetAddress,
+                                    city=city,
+                                    state=state,
+                                    numBed=numBed,
+                                    numBath=numBath,
+                                    maxTenants=maxTenants,
+                                    rooId=info.get('id'),
+                                    pm=pm)
+                    prop.save()
                     data = {
                                STATUS: SUCCESS,
                                'propertyID': info.get('id')
@@ -198,7 +202,7 @@ class PropertyView(View):
         required.append('oldStreetAddress')
         required.append('oldCity')
         required.append('token')
-        required.append('propID')
+        required.append('propId')
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) == 0):

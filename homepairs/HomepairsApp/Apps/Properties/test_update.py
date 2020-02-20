@@ -50,6 +50,7 @@ class UpdateProperty(TestCase):
                                  numBath=2,
                                  numBed=5,
                                  maxTenants=8,
+                                 rooId='lmnopqrs',
                                  pm=tempPM)
         tempPM.save()
         tempProperty1.save()

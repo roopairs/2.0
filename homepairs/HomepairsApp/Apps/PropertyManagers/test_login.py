@@ -29,9 +29,13 @@ class Login(TestCase):
     def tearDown(self):
         tearDownHelper()
 
+
     mockVal = {"token": "cb3e47056453b655d9f9052f7368dfe170e91f39"}
+    mockVal2 = [{'id': 'abcdef'}]
+
     @mock.patch('Apps.PropertyManagers.views.postRooAPI', return_value=mockVal, autospec=True)
-    def test_login_correct(self, mocked):
+    @mock.patch('Apps.Properties.views.getRooTokenAPI', return_value=mockVal2, autospec=True)
+    def test_login_correct(self, mocked, mocked2):
         data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
         responseData = getInfoPost(LOGIN, data)
 
@@ -50,12 +54,14 @@ class Login(TestCase):
         self.assertEqual(prop1.get('numBath'), 2)
         self.assertEqual(prop1.get('numBed'), 5)
         self.assertEqual(prop1.get('maxTenants'), 8)
+        self.assertEqual(prop1.get('rooId'), 'abcdef')
         self.assertEqual(prop2.get('streetAddress'), '200 N. Santa Rosa')
         self.assertEqual(prop2.get('city'), 'San Luis Obispo')
         self.assertEqual(prop2.get('state'), 'CA')
         self.assertEqual(prop2.get('numBath'), 2)
         self.assertEqual(prop2.get('numBed'), 3)
         self.assertEqual(prop2.get('maxTenants'), 5)
+        self.assertEqual(prop2.get('rooId'), 'ghijkl')
 
     def test_pm_wrongEmail(self):
         '''Email is wrong'''
@@ -106,7 +112,8 @@ class Login(TestCase):
         self.assertEqual(responseData.get(ERROR), INCORRECT_FIELDS + ": email password")
 
     mockVal1 = {"token": "cb3e47056453b655d9f9052f7368dfe170e91f39"}
-    mockVal2 = [{'physical_address_formatted': '1 Grand Ave, San Luis Obispo, CA 93405, USA'}]
+    mockVal2 = [{'id': 'jsjkji',
+                 'physical_address_formatted': '1 Grand Ave, San Luis Obispo, CA 93405, USA'}]
 
     @mock.patch('Apps.PropertyManagers.views.postRooAPI', return_value=mockVal1, autospec=True)
     @mock.patch('Apps.Properties.views.getRooTokenAPI', return_value=mockVal2, autospec=True)
@@ -128,29 +135,33 @@ class Login(TestCase):
         self.assertEqual(properties[2].get('numBath'), 1)
         self.assertEqual(properties[2].get('numBed'), 1)
         self.assertEqual(properties[2].get('maxTenants'), 1)
+        self.assertEqual(properties[2].get('rooId'), 'jsjkji')
 
     mockVal1 = {"token": "cb3e47056453b655d9f9052f7368dfe170e91f39"}
-    mockVal2 = [{'physical_address_formatted': '1 Grand Ave, San Luis Obispo, CA 93405, USA'},
-                {'physical_address_formatted': '1661 McCollum St, San Luis Obispo, CA 93405, USA'}]
+    mockVal2 = [{'id': 'thisis',
+                 'physical_address_formatted': '1 Grand Ave, San Luis Obispo, CA 93405, USA'},
+                {'id': 'thatid',
+                 'physical_address_formatted': '1661 McCollum St, San Luis Obispo, CA 93405, USA'}]
 
-#    @mock.patch('Apps.helperFuncs.postRooAPI', return_value=mockVal1, autospec=True)
-#    @mock.patch('Apps.helperFuncs.getRooTokenAPI', return_value=mockVal2, autospec=True)
-#    def test_pm_propOnRoopairsXFour(self, mocked, mocked2):
-#        '''Has four properties on Roopairs not in Homepairs'''
-#        data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
-#        responseData = getInfoPost(LOGIN, data)
-#
-#        self.assertEqual(responseData.get(STATUS), SUCCESS)
-#        self.assertTrue(TOKEN in responseData)
-#        pm = responseData.get('pm')
-#        self.assertEqual(pm.get('firstName'), 'Eeron')
-#        self.assertEqual(pm.get('lastName'), 'Grant')
-#        self.assertEqual(pm.get('email'), 'eerongrant@gmail.com')
-#        properties = responseData.get('properties')
-#        self.assertEqual(len(properties), 4)
-#        self.assertEqual(properties[3].get('streetAddress'), '1661 McCollum St')
-#        self.assertEqual(properties[3].get('city'), 'San Luis Obispo')
-#        self.assertEqual(properties[3].get('state'), 'CA')
-#        self.assertEqual(properties[3].get('numBath'), 1)
-#        self.assertEqual(properties[3].get('numBed'), 1)
-#        self.assertEqual(properties[3].get('maxTenants'), 1)
+    @mock.patch('Apps.PropertyManagers.views.postRooAPI', return_value=mockVal1, autospec=True)
+    @mock.patch('Apps.Properties.views.getRooTokenAPI', return_value=mockVal2, autospec=True)
+    def test_pm_propOnRoopairsXFour(self, mocked, mocked2):
+        '''Has four properties on Roopairs not in Homepairs'''
+        data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
+        responseData = getInfoPost(LOGIN, data)
+
+        self.assertEqual(responseData.get(STATUS), SUCCESS)
+        self.assertTrue(TOKEN in responseData)
+        pm = responseData.get('pm')
+        self.assertEqual(pm.get('firstName'), 'Eeron')
+        self.assertEqual(pm.get('lastName'), 'Grant')
+        self.assertEqual(pm.get('email'), 'eerongrant@gmail.com')
+        properties = responseData.get('properties')
+        self.assertEqual(len(properties), 4)
+        self.assertEqual(properties[3].get('streetAddress'), '1661 McCollum St')
+        self.assertEqual(properties[3].get('city'), 'San Luis Obispo')
+        self.assertEqual(properties[3].get('state'), 'CA')
+        self.assertEqual(properties[3].get('numBath'), 1)
+        self.assertEqual(properties[3].get('numBed'), 1)
+        self.assertEqual(properties[3].get('maxTenants'), 1)
+        self.assertEqual(properties[3].get('rooId'), 'thatid')

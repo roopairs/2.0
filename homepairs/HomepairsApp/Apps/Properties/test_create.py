@@ -65,6 +65,7 @@ class CreateProperty(TestCase):
 
         self.assertEqual(responseData.get(STATUS), SUCCESS)
         self.assertTrue('propertyID' in responseData)
+        self.assertEqual(responseData.get('propertyID'), 'd1oDOK5')
 
     mockVal = {"token": "cb3e47056453b655d9f9052f7368dfe170e91f39"}
     @mock.patch('Apps.PropertyManagers.views.postRooAPI', return_value=mockVal, autospec=True)

@@ -73,6 +73,8 @@ def getPropertyManager(email):
             sendPropList = []
             for prop in propertyList:
                 tempProp = prop.toDict()
+                print("TEMP RPOP")
+                print(tempProp)
                 sendPropList.append(tempProp)
             return {
                        STATUS: SUCCESS,
