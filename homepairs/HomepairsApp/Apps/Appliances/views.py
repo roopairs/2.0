@@ -60,6 +60,41 @@ def missingError(missingFields):
        finalErrorString += field + " "
    return returnError(finalErrorString.strip())
 
+@api_view(['GET', 'POST'])
+def createAppliance(request):
+   # roopairs api does not have a section for appliances yet
+   # url = BASE_URL + 'service-locations/'
+
+   required = ['name', 'description', 'location', 'address', 'city', 'state', 'token']
+
+   missingFields = checkRequired(required, request)
+
+   if(len(missingFields) == 0):
+       name = request.data.get('name')
+       description = request.data.get('description')
+       location = request.data.get('location')
+       streetAddress = request.data.get('address')
+       city = request.data.get('city')
+       state = request.data.get('state')
+
+       propList = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
+       if propList.exists():
+           prop = propList[0]
+           app = Appliance(name=name,
+                           description=description,
+                           location=location,
+                           place=prop)
+           app.save()
+           data = {
+                   STATUS: SUCCESS
+                  }
+           return Response(data=data)
+       else:
+           return Response(data=returnError(PROPERTY_DOESNT_EXIST))
+   else:
+       return Response(data=missingError(missingFields))
+
+
 ##############################################################
 @api_view(['GET', 'POST'])
 def createAppliance(request):
