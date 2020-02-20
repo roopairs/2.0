@@ -16,12 +16,11 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
     return StyleSheet.create({
         container: {
             backgroundColor: colors.secondary,
-            marginHorizontal: BaseStyles.MarginPadding.large,
-            marginTop: BaseStyles.MarginPadding.largeConst,
-            marginBottom: BaseStyles.MarginPadding.large,
+            marginHorizontal: BaseStyles.MarginPadding.medium,
+            marginTop: BaseStyles.MarginPadding.mediumConst,
+            marginBottom: BaseStyles.MarginPadding.medium,
             borderRadius: BaseStyles.BorderRadius.large,
             borderBottomColor: colors.veryLightGray,
-            borderBottomWidth: 1,
             padding: BaseStyles.MarginPadding.large,
             width: BaseStyles.ContentWidth.thin,
             alignSelf: 'center',

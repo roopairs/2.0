@@ -8,8 +8,8 @@ import {
     StyleSheet, 
 } from 'react-native';
 import { defaultProperty } from 'homepairs-images';
-import {GeneralHomeInfo, AddressSticker, PrimaryContactInfo } from 'homepairs-components';
-import { HomepairsPropertyAttributes, PropertyListState, Property, HomePairsDimensions as HomepairsDimensions } from 'homepairs-types';
+import { GeneralHomeInfo, AddressSticker, PrimaryContactInfo, ServiceRequestCount } from 'homepairs-components';
+import { PropertyListState, Property, HomePairsDimensions as HomepairsDimensions } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 
@@ -116,7 +116,8 @@ export default function TenantPropertyScreenBase(props:Props){
                   </View>
                 </View>
                 <GeneralHomeInfo property={property} hasEdit={canEditProps} />
-                <PrimaryContactInfo propertyManager={propertyManager} primaryColorTheme={BaseStyles.LightColorTheme}/>
+                <PrimaryContactInfo propertyManager={propertyManager}/>
+                <ServiceRequestCount property={property}/>
             </View>
         </ScrollView>
         );
