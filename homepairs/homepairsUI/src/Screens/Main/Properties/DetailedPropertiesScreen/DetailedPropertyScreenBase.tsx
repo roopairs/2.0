@@ -199,7 +199,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
 
     function renderApplianceInfo() {
         return (
-            <ApplianceInfo onClick={() => {}} appliances={fakeAppliances}/>
+            <ApplianceInfo navigation={navigation} appliances={fakeAppliances}/>
         );
     }
 

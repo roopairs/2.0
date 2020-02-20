@@ -19,8 +19,9 @@ function mapStateToProps(state: AppState) : any {
     return {
         email: state.accountProfile.email, 
         roopairsToken: state.accountProfile.roopairsToken,
-        index: propIndex, 
         oldAppliance: state.properties.appliances[propIndex],
+        propId: state.properties.properties[propIndex].propId,
+        index: propIndex, 
     };
 }
 

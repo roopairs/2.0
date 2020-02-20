@@ -110,6 +110,8 @@ export const postNewProperty = (
                     response[responseKeys.DATA][responseKeys.STATUS] ===
                     responseKeys.STATUS_RESULTS.SUCCESS
                 ) {
+                    console.log(response[responseKeys.DATA]);
+                    // add in propertyID
                     dispatch(addProperty(newProperty));
                     setInitialState();
                     navigation.goBack();
@@ -190,7 +192,6 @@ export const postUpdatedProperty = (
                     displayError(
                         response[responseKeys.DATA][responseKeys.ERROR],
                     );
-                    // TODO: Send back error status to modal, this can be done by sending another callback as a parameter
                 }
             })
             .catch(() => {});
@@ -226,6 +227,7 @@ export const fetchProperty = (
 ): FetchPropertyAction => {
     const fetchedProperties: Property[] = [];
     const fetchedProperty = {
+        propId: linkedProperty[propertyKeys.PROPERTYID],
         streetAddress: linkedProperty[propertyKeys.ADDRESS],
         city: linkedProperty[propertyKeys.CITY],
         state: linkedProperty[propertyKeys.STATE],
@@ -255,6 +257,7 @@ export const fetchProperties = (
     const fetchedProperties: Property[] = [];
     linkedProperties?.forEach(linkedProperty => {
         fetchedProperties.push({
+            propId: linkedProperties[propertyKeys.PROPERTYID],
             streetAddress: linkedProperty[propertyKeys.ADDRESS],
             city: linkedProperty[propertyKeys.CITY],
             state: linkedProperty[propertyKeys.STATE],
@@ -299,7 +302,14 @@ export const postNewAppliance = (
             .post(
                 'https://homepairs-alpha.herokuapp.com/API/appliance/create/',
                 {
-                    // pass in propID, appliance fields, PM email, and roopairs token?
+                    streetAddress: info.property.streetAddress, 
+                    city: info.property.city,
+                    name: newAppliance.appName, 
+                    manufacturer: newAppliance.manufacturer, 
+                    category: newAppliance.category,
+                    modelNum: newAppliance.modelNum, 
+                    serialNum: newAppliance.serialNum, 
+                    location: newAppliance.location, 
                 },
             )
             .then(response => {
@@ -307,8 +317,16 @@ export const postNewAppliance = (
                     response[responseKeys.DATA][responseKeys.STATUS] ===
                     responseKeys.STATUS_RESULTS.SUCCESS
                 ) {
-                    // catch appliance id
-                    dispatch(addAppliance(newAppliance));
+                    const newApp : Appliance = {
+                        applianceId: response[responseKeys.DATA][responseKeys.ID],
+                        category: newAppliance.category,
+                        appName: newAppliance.appName, 
+                        manufacturer: newAppliance.manufacturer, 
+                        modelNum: newAppliance.modelNum, 
+                        serialNum: newAppliance.serialNum, 
+                        location: newAppliance.location,
+                    };
+                    dispatch(addAppliance(newApp));
                     setInitialState();
                     navigation.goBack();
                 } else {
@@ -330,6 +348,7 @@ export const postNewAppliance = (
  * in the homepairs servers. Should be called after postUpdatedProperty.
  * @param {Property} updatedProperty -the new contents of the selected property
  */
+/*
 export const updateAppliance = (
     propertyIndex: number, 
     updatedAppliance: Appliance,
@@ -340,7 +359,7 @@ export const updateAppliance = (
         index: propertyIndex,
     };
 };
-
+*/
 /**
  * ----------------------------------------------------
  * postUpdatedProperty
@@ -365,7 +384,13 @@ export const postUpdatedAppliance = (
             .post(
                 'https://homepairs-alpha.herokuapp.com/API/appliance/update/',
                 {
-                    // pass in propID, appliance fields, PM email, and roopairs token?
+                    appId: editAppliance.applianceId,
+                    newName: editAppliance.appName, 
+                    newManufacturer: editAppliance.manufacturer, 
+                    newCategory: editAppliance.category,
+                    newModelNum: editAppliance.modelNum, 
+                    newSerialNum: editAppliance.serialNum, 
+                    newLocation: editAppliance.location,
                 },
             )
             .then(response => {
@@ -373,7 +398,7 @@ export const postUpdatedAppliance = (
                     response[responseKeys.DATA][responseKeys.STATUS] ===
                     responseKeys.STATUS_RESULTS.SUCCESS
                 ) {
-                    dispatch(updateAppliance(info.index, editAppliance));
+                    // dispatch(updateAppliance(info.index, editAppliance));
                     navigation.goBack();
                 } else {
                     displayError(

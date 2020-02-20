@@ -276,6 +276,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         this.setState({errorCheck: false});
         if (this.validateForms()) {
             const newProperty : Property = {
+                propertyID: undefined,
                 streetAddress: address, city, state,
                 tenants: Number(tenants),
                 bedrooms: Number(bedrooms), 

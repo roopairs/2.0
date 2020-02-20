@@ -99,6 +99,12 @@ const strings = {
     logOut: 'Log Out',
     applianceInfo: {
         title: 'Appliances', 
+        categories: {
+            HVAC: 'Heating, Ventilation, and AC', 
+            PLUMBING: 'Plumbing', 
+            GA: 'General Appliance', 
+            LE: 'Lighting and Electric',
+        },
         applianceModal: {
             addTitle: 'Add Appliance',
             editTitle: 'Edit Appliance',
@@ -107,7 +113,7 @@ const strings = {
             manufacturer: 'MANUFACTURER (optional)', 
             modelNum: 'MODEL NUMBER (optional)', 
             serialNum: 'SERIAL NUMBER (optional)', 
-            location: 'LOCATION (optional)',
+            location: 'LOCATION',
             add: 'Add', 
             editSave: 'Save', 
             

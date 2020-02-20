@@ -13,6 +13,8 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
 import { upArrow, downArrow } from 'homepairs-images';
+import { NavigationStackScreenProps } from 'react-navigation-stack';
+import { navigationPages } from '../../Routes/RouteConstants';
 
 export type PanelProps = {
     key?: string;
@@ -25,6 +27,8 @@ export type PanelState = {
     minHeight: number;
     maxHeight: number;
 };
+
+type Props = PanelProps & NavigationStackScreenProps;
 
 const initialState: PanelState = {
     expanded: false,
@@ -90,6 +94,7 @@ function setStyles() {
         },
         editButtonText: {
             color: colors.lightGray,
+            fontSize: 20,
         },
         buttonImage: {
             width: 20,
@@ -102,7 +107,7 @@ function setStyles() {
     });
 }
 
-export default class Panel extends React.Component<PanelProps, PanelState> {
+export default class Panel extends React.Component<Props, PanelState> {
     styles;
 
     icons;
@@ -121,10 +126,13 @@ export default class Panel extends React.Component<PanelProps, PanelState> {
         buttonTextStyle: {
             color: colors.lightGray,
         },
-        onClick: () => {},
+        onClick: () => {
+            const {navigation}= this.props;
+            navigation.push(navigationPages.AddApplianceModal);
+        },
     };
 
-    constructor(props: Readonly<PanelProps>) {
+    constructor(props: Readonly<Props>) {
         super(props);
         this.styles = setStyles();
         this.state = {...initialState, animation: new Animated.Value(0)};

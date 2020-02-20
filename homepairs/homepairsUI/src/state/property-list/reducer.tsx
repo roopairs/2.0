@@ -33,10 +33,10 @@ export const properties = (
     /* * NOTE: USE IMMUTABLE UPDATE FUNCTIONS FOR REDUCERS OR ELSE REDUX WILL NOT UPDATE!!! * */
     const newState = { ...state };
     let property = null;
-    let appliance = null;
+    // let appliance = null;
     let updateIndex: number = null;
     let updatedPropertyList = null;
-    let updatedApplianceList = null;
+    // let updatedApplianceList = null;
 
     switch (action.type) {
         case PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY:
@@ -74,6 +74,7 @@ export const properties = (
                 selectedPropertyIndex: updateIndex,
                 properties: updatedPropertyList,
             };
+        /*
         case PROPERTY_LIST_ACTION_TYPES.ADD_APPLIANCE:
             // pay attention to type-casting on action
             appliance = (action as AddApplianceAction).userData;
@@ -100,6 +101,7 @@ export const properties = (
                 selectedPropertyIndex: updateIndex,
                 appliances: updatedApplianceList,
             };
+            */
         case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY:
             return {
                 selectedPropertyIndex: null,

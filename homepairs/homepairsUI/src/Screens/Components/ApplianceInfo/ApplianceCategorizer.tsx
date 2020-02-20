@@ -3,13 +3,16 @@ import { StyleSheet, Text, View} from 'react-native';
 import { Panel } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import * as BaseStyles from 'homepairs-base-styles';
-import { Appliance, ApplianceType } from 'homepairs-types';
+import { Appliance } from 'homepairs-types';
+import { NavigationStackScreenProps } from 'react-navigation-stack';
 
 
 
 type ApplianceCategorizerProps = {
     appliances: Appliance[],
 }
+
+type Props = ApplianceCategorizerProps & NavigationStackScreenProps;
 
 function setStyles(colorTheme?: BaseStyles.ColorTheme) {
     const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;
@@ -42,9 +45,9 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
 }
 
 
-export default function ApplianceCategorizer(props: ApplianceCategorizerProps) {
+export default function ApplianceCategorizer(props: Props) {
 
-    const {appliances} = props;
+    const {appliances, navigation} = props;
 
     const styles = setStyles();
 
@@ -73,11 +76,12 @@ export default function ApplianceCategorizer(props: ApplianceCategorizerProps) {
         findCategories();
         categorizeAppliances();
         categories.forEach((value, locationKey) => {
+            const key = locationKey;
             finalApps.push(
-                <View key={locationKey} style={styles.categoryContainer}>
+                <View key={key} style={styles.categoryContainer}>
                     <Text style={styles.categoryText}>{locationKey}</Text>
                     {value.map((app) => {
-                        return <Panel key={app.applianceId.toString()} appliance={app}/>;
+                        return <Panel navigation={navigation} key={app.applianceId.toString()} appliance={app}/>;
                     })}
                 </View>);
         });

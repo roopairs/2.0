@@ -1,17 +1,20 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text, View } from 'react-native';
-import { ThinButtonProps, ThinButton, Panel } from 'homepairs-elements';
+import { ThinButtonProps, ThinButton } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
 import { ApplianceCategorizer } from 'homepairs-components';
+import { NavigationStackScreenProps } from 'react-navigation-stack';
+import { navigationPages } from '../../../Routes/RouteConstants';
 
 
 export type ApplianceInfoProps = {
-    onClick?: () => any,
     appliances?: Appliance[],
 }
+
+type Props = ApplianceInfoProps & NavigationStackScreenProps;
 
 const applianceInfoStrings = strings.applianceInfo;
 
@@ -72,19 +75,18 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
         },
         editButtonText: {
             color: colors.lightGray,
+            fontSize: 20,
         },
         details: {
             alignItems: 'center',
         },
-        
-
     });
 }
 
 
-export default function ApplianceInfo(props: ApplianceInfoProps) {
+export default function ApplianceInfo(props: Props) {
     const {
-        onClick,
+        navigation,
         appliances,
     } = props;
 
@@ -94,7 +96,7 @@ export default function ApplianceInfo(props: ApplianceInfoProps) {
         name: applianceInfoStrings.button.title,
         buttonStyle: styles.editButton,
         buttonTextStyle: styles.editButtonText,
-        onClick,
+        onClick: () => navigation.push(navigationPages.AddApplianceModal),
     };
 
     return (
@@ -105,7 +107,7 @@ export default function ApplianceInfo(props: ApplianceInfoProps) {
                 </Text>
             </View>
             <View style= {styles.details}>
-                <ApplianceCategorizer appliances={appliances}/>
+                <ApplianceCategorizer navigation={navigation }appliances={appliances}/>
                 <ThinButton 
                     name={thinButtonProps.name} 
                     buttonStyle={thinButtonProps.buttonStyle} 
@@ -116,7 +118,3 @@ export default function ApplianceInfo(props: ApplianceInfoProps) {
     );
 
 }
-
-ApplianceInfo.defaultProps = {
-    onClick: () => {},
-};

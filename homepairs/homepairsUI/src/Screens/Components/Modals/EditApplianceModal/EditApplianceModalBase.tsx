@@ -182,8 +182,10 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
         const {oldAppliance} = this.props;
         const {applianceId, category, manufacturer, appName, modelNum, serialNum, location} = oldAppliance;
         this.state = {
-            applianceId, category, manufacturer, appName, modelNum, 
-            serialNum, location, errorMsg: '', errorCheck: false,
+            applianceId, category, manufacturer, appName, 
+            modelNum: modelNum.toString(), 
+            serialNum: serialNum.toString(), 
+            location, errorMsg: '', errorCheck: false,
         };
         this.categoryRef = React.createRef();
         this.appNameRef = React.createRef();
@@ -221,8 +223,10 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
         const {oldAppliance} = this.props;
         const {category, manufacturer, appName, modelNum, serialNum, location} = oldAppliance;
         this.setState ({
-            category, manufacturer, appName, modelNum, 
-            serialNum, location, errorMsg: '', errorCheck: false,
+            category, manufacturer, appName, 
+            modelNum: modelNum.toString(), 
+            serialNum: serialNum.toString(), 
+            location, errorMsg: '', errorCheck: false,
         });
     }
 
@@ -271,15 +275,18 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
 
     clickSubmitButton() {
         const {applianceId, category, appName, manufacturer, modelNum, serialNum, location} = this.state;
-        const {email, navigation, onEditAppliance, roopairsToken, oldAppliance, index} = this.props;
+        const {email, navigation, onEditAppliance, roopairsToken, oldAppliance, propId, index} = this.props;
         this.resetForms();
         this.setState({errorCheck: false});
         if (this.validateForms()) {
             const newAppliance : Appliance = {
-                applianceId, category, appName, manufacturer, modelNum, serialNum, location,
+                applianceId, category, appName, manufacturer, 
+                modelNum: Number(modelNum), 
+                serialNum: Number(serialNum), 
+                location,
             };
-            const info : EditApplianceState = {email, roopairsToken, index, oldAppliance};
-            onEditAppliance(newAppliance, info, this.setInitialState, this.displayError, navigation);
+            const info : EditApplianceState = {email, roopairsToken, oldAppliance, propId, index};
+            onEditAppliance(newAppliance, info, this.displayError, navigation);
         }
     }
 
@@ -385,7 +392,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                     showCloseButton={showCloseButton}
                     title={addApplianceStrings.addTitle} 
                     closeButtonPressedCallBack={() => { 
-                        navigation.navigate(navigationPages.PropertiesScreen);
+                        navigation.goBack();
                         this.setInitialState();
                         this.resetForms();
                     }} 

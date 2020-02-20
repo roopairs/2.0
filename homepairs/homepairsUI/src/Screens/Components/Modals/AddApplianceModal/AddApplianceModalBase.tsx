@@ -1,6 +1,6 @@
 import React from "react";
-import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions } from 'react-native';
-import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm } from 'homepairs-elements';
+import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions, Text } from 'react-native';
+import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm, CategoryPanel } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance, AddApplianceState, ApplianceType } from 'homepairs-types';
@@ -11,6 +11,9 @@ import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { navigationKeys, navigationPages } from 'src/Routes/RouteConstants';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
+import DropdownMenu from 'react-native-dropdown-menu';
+import { upArrow, downArrow } from 'homepairs-images';
+import HomePairColors from "homepairs-colors";
 
 
 export type AddApplianceDispatchProps = {
@@ -129,6 +132,24 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             fontFamily: FontTheme.secondary, 
             fontSize: 16,
         },
+        menuStyle: {
+            backgroundColor: colors.secondary,
+            marginHorizontal: BaseStyles.MarginPadding.large,
+            borderRadius: BaseStyles.BorderRadius.large,
+            padding: BaseStyles.MarginPadding.large,
+            paddingTop: 10,
+            paddingBottom: 30,
+            width: BaseStyles.ContentWidth.thin,
+            alignSelf: 'center',
+            borderColor: colors.lightGray,
+            borderWidth: 1,
+            overflow: 'hidden',
+            marginBottom: 20,
+        },
+        titleText: {
+            fontSize: BaseStyles.FontTheme.reg,
+            fontFamily: 'nunito_regular',
+        },
     });
 }
 
@@ -197,8 +218,8 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
         this.locationRef = React.createRef();
     }
 
-    getFormCategory(childData : string) {
-        this.setState({category: ApplianceType[childData]});
+    getFormCategory(childData : ApplianceType) {
+        this.setState({category: childData});
     }
 
     getFormName(childData : string) {
@@ -226,28 +247,24 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
     }
 
     validateForms() {
-        const {category, appName, manufacturer, modelNum, serialNum, location} = this.state;
+        const {category, appName,  modelNum, serialNum, location} = this.state;
         let check = true;
-        if (isEmptyOrSpaces(category.toString())) {
-            this.categoryRef.current.setError(true);
+        if (category.toString() === 'None') {
+            console.log('Please select a category');
             check = false;
-        } 
+        }
         if (isEmptyOrSpaces(appName)) {
             this.nameRef.current.setError(true);
             check = false;
         } 
-        if (isEmptyOrSpaces(manufacturer)) {
-            this.manufacturerRef.current.setError(true);
-            check = false;
-        } 
-        if (isEmptyOrSpaces(modelNum)) {
+        if (!isPositiveWholeNumber(modelNum)) {
             this.modelNumRef.current.setError(true);
             check = false;
         } 
-        if (isEmptyOrSpaces(serialNum)) {
+        if (!isPositiveWholeNumber(serialNum)) {
             this.serialNumRef.current.setError(true);
             check = false;
-        }
+        } 
         if (isEmptyOrSpaces(location)) {
             this.locationRef.current.setError(true);
             check = false;
@@ -256,7 +273,6 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
     }
 
     resetForms() {
-        this.categoryRef.current.setError(false);
         this.nameRef.current.setError(false);
         this.manufacturerRef.current.setError(false);
         this.modelNumRef.current.setError(false);
@@ -270,32 +286,25 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
 
     clickSubmitButton() {
         const {category, appName, manufacturer, modelNum, serialNum, location} = this.state;
-        const {email, navigation, onCreateAppliance, roopairsToken} = this.props;
+        const {email, navigation, onCreateAppliance, roopairsToken, property} = this.props;
         this.resetForms();
         this.setState({errorCheck: false});
         if (this.validateForms()) {
             const newAppliance : Appliance = {
                 applianceId: undefined,
-                category, appName, manufacturer, modelNum, serialNum, location,
+                category, appName, manufacturer, 
+                modelNum: Number(modelNum), 
+                serialNum: Number(serialNum), 
+                location,
             };
-            const info : AddApplianceState = {email, roopairsToken};
+            const info : AddApplianceState = {email, roopairsToken, property};
             onCreateAppliance(newAppliance, info, this.setInitialState, this.displayError, navigation);
         }
     }
 
     renderInputForms() {
-        const {category, appName, manufacturer, modelNum, serialNum, location} = this.state;
+        const {appName, manufacturer, modelNum, serialNum, location} = this.state;
         const inputForms: InputFormProps[]  = [
-             {
-                ref: this.categoryRef,
-                key: addApplianceStrings.category,
-                name: addApplianceStrings.category,
-                parentCallBack: this.getFormCategory,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-                value: category.toString(),
-                errorMessage: 'Address cannot be empty',
-            }, 
             {
                 ref: this.nameRef,
                 key: addApplianceStrings.name,
@@ -304,7 +313,7 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: appName,
-                errorMessage: 'City cannot be empty',
+                errorMessage: 'Display name cannot be empty',
             }, 
             {
                 ref: this.manufacturerRef,
@@ -314,7 +323,6 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: manufacturer, 
-                errorMessage: 'State cannot be empty',
             }, 
             {
                 ref: this.modelNumRef,
@@ -324,7 +332,7 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: modelNum,
-                errorMessage: 'Tenants must be a number',
+                errorMessage: 'Model number must be a number',
             },
             {
                 ref: this.serialNumRef,
@@ -334,7 +342,7 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: serialNum,
-                errorMessage: 'Bedrooms must be a number',
+                errorMessage: 'Serial number must be a number',
             }, 
             {
                 ref: this.locationRef,
@@ -344,7 +352,7 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: location,
-                errorMessage: 'Bathrooms must be a number',
+                errorMessage: 'Location cannot be empty',
             }, 
         ];
 
@@ -385,7 +393,7 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                     showCloseButton={showCloseButton}
                     title={addApplianceStrings.addTitle} 
                     closeButtonPressedCallBack={() => { 
-                        navigation.navigate(navigationPages.PropertiesScreen);
+                        navigation.goBack();
                         this.setInitialState();
                         this.resetForms();
                     }} 
@@ -393,6 +401,8 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                     titleContainerStyle={this.inputFormStyle.cardTitleContainer}
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     >
+                    <Text style={this.inputFormStyle.formTitle}>{addApplianceStrings.category}</Text>
+                    <CategoryPanel parentCallBack={this.getFormCategory}/>
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
                     {ThinButton(this.submitButton)}

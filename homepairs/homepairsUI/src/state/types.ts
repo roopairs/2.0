@@ -4,6 +4,7 @@ import { NavigationStackProp } from 'react-navigation-stack';
 
 /* *-------------------Property Types-------------------* */
 export type Property = {
+    propId: number, 
     streetAddress: string, 
     city: string, 
     state: string,
@@ -72,8 +73,7 @@ export type PropertyListAction =
 /* *-------------------Appliances-------------------* */
 
 export enum ApplianceType {
-    // find all types
-    Plumbing, HotEquipment, None
+    Plumbing, LightingAndElectric, HVAC, GeneralAppliance, None
 };
 
 export type Appliance = {
@@ -81,8 +81,8 @@ export type Appliance = {
     category: ApplianceType,
     appName: string,
     manufacturer: string, 
-    modelNum: string, 
-    serialNum: string, 
+    modelNum: number, 
+    serialNum: number, 
     location: string,
 };
 
@@ -333,12 +333,14 @@ export type EditPropertyState = {
 export type AddApplianceState = {
     email: string;
     roopairsToken: string;
+    property: Property;
 }
 
 export type EditApplianceState = {
     email: string;
     roopairsToken: string;
     oldAppliance: Appliance;
+    propId: number;
     index: number;
 }
 
@@ -381,6 +383,7 @@ enum HOMEPAIRS_PROPERTY_KEYS {
     TENANTS = 'maxTenants',
     BEDROOMS = 'numBed',
     BATHROOMS = 'numBath',
+    PROPERTYID = 'propId'
 }
 
 export enum HomepairsPropertyAttributes{
@@ -403,6 +406,7 @@ export const HomePairsResponseKeys = {
     STATUS: 'status',
     STATUS_RESULTS: HOMEPAIRS_LOGIN_STATUS,
     ERROR: 'error',
+    ID: 'id',
 };
 
 export type DarkModeProperties = {
