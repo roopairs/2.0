@@ -1,58 +1,16 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text, View } from 'react-native';
 import strings from 'homepairs-strings';
-import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
-import { HomePairsDimensions, Contact, } from 'src/state/types';
+import { HomePairsDimensions, Contact } from 'src/state/types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairFonts } from 'homepairs-fonts';
+import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 
 export type PrimaryContactInfoProps = DarkModeInjectedProps & {
     propertyManager: Contact;
 };
 
 const primaryContactStrings = strings.detailedPropertyPage.primaryContact;
-
-export default function PrimaryContactInfo(props: PrimaryContactInfoProps) {
-    const {
-        primaryColorTheme,
-        propertyManager,
-    } = props;
-
-    const {firstName, lastName, email} = propertyManager;
-    const styles = setStyles(primaryColorTheme);
-
-    function labeledItem(label: string, value: string) {
-        return (
-            <View style={styles.detailsWrapperStyle}>
-                <Text style={styles.detailsTitle}>{label}</Text>
-                <Text style={styles.cardDescription}>{value}</Text>
-            </View>
-        );
-    }
-
-    function ContactInfo() {
-        return (
-            <View style={styles.detailsWrapperStyle}>
-                {labeledItem(primaryContactStrings.name, (firstName + " " + lastName))}
-                {labeledItem(primaryContactStrings.email, (email + ""))}
-            </View>
-        );
-    }
-
-    /* Need the wrapper View so iOS can render the content properly. I don't know why it does this. */
-    return (
-        <View>
-            <View style={styles.container}>
-                <View style={styles.primaryContactContainer}>
-                    <Text style={styles.title}>{primaryContactStrings.title}</Text>
-                    <Text style={styles.subtitle}>{primaryContactStrings.subtitle}</Text>
-                </View>
-                {ContactInfo()}
-            </View>
-        </View>
-    );
-
-}
 
 function setStyles(colorTheme?: BaseStyles.ColorTheme) {
     const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;
@@ -61,6 +19,7 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
             backgroundColor: colors.secondary,
             marginHorizontal: BaseStyles.MarginPadding.large,
             marginTop: BaseStyles.MarginPadding.largeConst,
+            marginBottom: BaseStyles.MarginPadding.large,
             borderRadius: BaseStyles.BorderRadius.large,
             borderBottomColor: colors.veryLightGray,
             borderBottomWidth: 1,
@@ -132,4 +91,46 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
             justifyContent: 'flex-start',
         },
     });
+}
+
+export default function PrimaryContactInfo(props: PrimaryContactInfoProps) {
+    const {
+        primaryColorTheme,
+        propertyManager,
+    } = props;
+
+    const {firstName, lastName, email} = propertyManager;
+    const styles = setStyles(primaryColorTheme);
+
+    function labeledItem(label: string, value: string) {
+        return (
+            <View style={styles.detailsWrapperStyle}>
+                <Text style={styles.detailsTitle}>{label}</Text>
+                <Text style={styles.cardDescription}>{value}</Text>
+            </View>
+        );
+    }
+
+    function ContactInfo() {
+        return (
+            <View style={styles.detailsWrapperStyle}>
+                {labeledItem(primaryContactStrings.name, (`${firstName} ${lastName}`))}
+                {labeledItem(primaryContactStrings.email, (`${email}`))}
+            </View>
+        );
+    }
+
+    /* Need the wrapper View so iOS can render the content properly. I don't know why it does this. */
+    return (
+        <View>
+            <View style={styles.container}>
+                <View style={styles.primaryContactContainer}>
+                    <Text style={styles.title}>{primaryContactStrings.title}</Text>
+                    <Text style={styles.subtitle}>{primaryContactStrings.subtitle}</Text>
+                </View>
+                {ContactInfo()}
+            </View>
+        </View>
+    );
+
 }

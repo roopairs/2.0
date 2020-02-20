@@ -4,6 +4,7 @@ import { NavigationStackProp } from 'react-navigation-stack';
 
 /* *-------------------Property Types-------------------* */
 export type Property = {
+    propertyId?: number, //make this non-nullable later
     streetAddress: string,
     city: string,
     state: string,
@@ -40,7 +41,7 @@ export type FetchPropertyAction = {
     type: string;
     property: Property[];
 };
-//fetch the property along with the property manager that owns a given property (used for tenant login to fill PrimaryContactInfo)
+/* fetch the property along with the property manager that owns a given property (used for tenant login to fill PrimaryContactInfo) */
 export type FetchPropertyAndPropertyManagerAction = {
     type: string;
     property: Property[];
@@ -341,6 +342,7 @@ enum HOMEPAIRS_LOGIN_STATUS {
 }
 
 enum HOMEPAIRS_PROPERTY_KEYS {
+    PROPERTYID = 'propID',
     ADDRESS = 'streetAddress',
     CITY = 'city',
     STATE = 'state',

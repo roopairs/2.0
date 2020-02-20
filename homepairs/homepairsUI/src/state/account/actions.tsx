@@ -137,9 +137,8 @@ export const fetchAccount = (
                 dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
               }
               else { // Assume role = tenant
-                console.log(response[responseKeys.DATA]);
                 dispatch(fetchPropertyAndPropertyManager(response[responseKeys.DATA][TENANT][responseKeys.PLACE],
-                  response[responseKeys.DATA][TENANT][responseKeys.ACCOUNT_KEYS.PM]))
+                  response[responseKeys.DATA][TENANT][responseKeys.ACCOUNT_KEYS.PM]));
               }
               ChooseMainPage(accountType, navigation);
             }else{

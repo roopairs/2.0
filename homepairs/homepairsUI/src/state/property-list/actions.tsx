@@ -1,22 +1,23 @@
 import axios from 'axios';
 import {
-    AddPropertyAction,
-    UpdatePropertyAction, 
-    RemovePropertyAction, 
-    FetchPropertyAction, 
-    FetchPropertiesAction,
-    Property,
-    HomePairsResponseKeys,
-    SetSelectedPropertyAction, 
-    EditPropertyState,
-    AddNewPropertyState,
-    FetchPropertyAndPropertyManagerAction,
-    AccountTypes,
-    Contact,
+  AddPropertyAction,
+  UpdatePropertyAction,
+  RemovePropertyAction,
+  FetchPropertyAction,
+  FetchPropertiesAction,
+  Property,
+  HomePairsResponseKeys,
+  SetSelectedPropertyAction,
+  EditPropertyState,
+  AddNewPropertyState,
+  FetchPropertyAndPropertyManagerAction,
+  AccountTypes,
+  Contact,
 } from '../types';
 
 const responseKeys = HomePairsResponseKeys;
 const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
+const accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
 
 /**
  * ----------------------------------------------------
@@ -28,13 +29,13 @@ const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
  * in. 
  */
 export enum PROPERTY_LIST_ACTION_TYPES {
-    ADD_PROPERTY = 'PROPERTY_LIST/ADD_PROPERTY',
-    REMOVE_PROPERTY = 'PROPERTY_LIST/REMOVE_PROPERTY',
-    UPDATE_PROPERTY = 'PROPERTY_LIST/UPDATE_PROPERTY',
-    FETCH_PROPERTY = 'PROPERTY_LIST/FETCH_PROPERTY',
-    FETCH_PROPERTY_AND_PROPERTY_MANAGER = 'PROPERTY_LIST/FETCH_PROPERTY_AND_PROPERTY_MANAGER',
-    FETCH_PROPERTIES = 'PROPERTY_LIST/FETCH_PROPERTIES',
-    SET_SELECTED_PROPERTY = 'PROPERTY_LIST/SET_SELECTED_PROPERTY',
+  ADD_PROPERTY = 'PROPERTY_LIST/ADD_PROPERTY',
+  REMOVE_PROPERTY = 'PROPERTY_LIST/REMOVE_PROPERTY',
+  UPDATE_PROPERTY = 'PROPERTY_LIST/UPDATE_PROPERTY',
+  FETCH_PROPERTY = 'PROPERTY_LIST/FETCH_PROPERTY',
+  FETCH_PROPERTY_AND_PROPERTY_MANAGER = 'PROPERTY_LIST/FETCH_PROPERTY_AND_PROPERTY_MANAGER',
+  FETCH_PROPERTIES = 'PROPERTY_LIST/FETCH_PROPERTIES',
+  SET_SELECTED_PROPERTY = 'PROPERTY_LIST/SET_SELECTED_PROPERTY',
 }
 
 /**
@@ -46,7 +47,7 @@ export enum PROPERTY_LIST_ACTION_TYPES {
  * being view
  * @param {number} index -position of the property in the array of the state  
  */
-export const setSelectedProperty = (index: number) : SetSelectedPropertyAction => {
+export const setSelectedProperty = (index: number): SetSelectedPropertyAction => {
   return {
     type: PROPERTY_LIST_ACTION_TYPES.SET_SELECTED_PROPERTY,
     index,
@@ -62,10 +63,10 @@ export const setSelectedProperty = (index: number) : SetSelectedPropertyAction =
  * waiting to be added to the store
  */
 export const addProperty = (newProperty: Property): AddPropertyAction => {
-    return {
-        type: PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY,
-        userData: newProperty,
-    };
+  return {
+    type: PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY,
+    userData: newProperty,
+  };
 };
 
 /**
@@ -78,37 +79,37 @@ export const addProperty = (newProperty: Property): AddPropertyAction => {
  * @param {onChangeModalVisibility} onChangeModalVisibility -changes the visibility of the modal of the calling component
  */
 export const postNewProperty = (
-    newProperty: Property,
-    info: AddNewPropertyState,
-    setInitialState: () => void,
-    onChangeModalVisibility: (check: boolean) => void,
+  newProperty: Property,
+  info: AddNewPropertyState,
+  setInitialState: () => void,
+  onChangeModalVisibility: (check: boolean) => void,
 ) => {
-    return async (dispatch: (arg0: any) => void) => {
-        await axios
-            .post('https://homepairs-alpha.herokuapp.com/API/property/create/',
-            {
-              streetAddress: newProperty.streetAddress,
-              city: newProperty.city,
-              state: newProperty.state,
-              numBed: newProperty.bedrooms,
-              numBath: newProperty.bathrooms,
-              maxTenants: newProperty.tenants,
-              pm: info.email,
-              token: info.roopairsToken,
-            })
-            .then(response => {
-                if (response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.SUCCESS) {
-                    dispatch(addProperty(newProperty));
-                    setInitialState();
-                    onChangeModalVisibility(false);
-                } else {
-                    //console.log('error');
-                }
-            })
-            .catch(error => {
-                //console.log(error);
-            });
-    };
+  return async (dispatch: (arg0: any) => void) => {
+    await axios
+      .post('https://homepairs-alpha.herokuapp.com/API/property/create/',
+        {
+          streetAddress: newProperty.streetAddress,
+          city: newProperty.city,
+          state: newProperty.state,
+          numBed: newProperty.bedrooms,
+          numBath: newProperty.bathrooms,
+          maxTenants: newProperty.tenants,
+          pm: info.email,
+          token: info.roopairsToken,
+        })
+      .then(response => {
+        if (response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.SUCCESS) {
+          dispatch(addProperty(newProperty));
+          setInitialState();
+          onChangeModalVisibility(false);
+        } else {
+          console.log('error');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 };
 
 /**
@@ -120,13 +121,13 @@ export const postNewProperty = (
  * @param {number} propertyIndex -location of the updated property in the redux-store 
  * @param {Property} updatedProperty -the new contents of the selected property 
  */
-export const updateProperty = (propertyIndex: number, updatedProperty: Property) : UpdatePropertyAction => {
-    return {
-      type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
-      index: propertyIndex,
-      userData: updatedProperty,
-    };
+export const updateProperty = (propertyIndex: number, updatedProperty: Property): UpdatePropertyAction => {
+  return {
+    type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
+    index: propertyIndex,
+    userData: updatedProperty,
   };
+};
 
 /**
  * ----------------------------------------------------
@@ -141,32 +142,33 @@ export const updateProperty = (propertyIndex: number, updatedProperty: Property)
  * @param {onChangeModalVisibility} onChangeModalVisibility -changes the visibility of the modal
  * of the calling component
  */
-export const postUpdatedProperty = ( 
-    editProperty: Property, 
-    info: EditPropertyState,
-    onChangeModalVisibility: (check: boolean) => void) => {
+export const postUpdatedProperty = (
+  editProperty: Property,
+  info: EditPropertyState,
+  onChangeModalVisibility: (check: boolean) => void) => {
   return async (dispatch: (arg0: any) => void) => {
     return axios.post('https://homepairs-alpha.herokuapp.com/API/property/update/', {
       oldStreetAddress: info.oldProp.streetAddress,
       oldCity: info.oldProp.city,
-      streetAddress: editProperty.streetAddress, 
-      city: editProperty.city, 
-      state: editProperty.state, 
-      numBed: editProperty.bedrooms, 
-      numBath: editProperty.bathrooms, 
+      streetAddress: editProperty.streetAddress,
+      city: editProperty.city,
+      state: editProperty.state,
+      numBed: editProperty.bedrooms,
+      numBath: editProperty.bathrooms,
       maxTenants: editProperty.tenants,
       pm: info.email,
       token: info.roopairsToken,
     })
-    .then((response) => {
-      if(response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.SUCCESS){
-        dispatch(updateProperty(info.index, editProperty));
-        onChangeModalVisibility(false);
-      } else {
-        // TODO: Send back error status to modal, this can be done by sending another callback as a parameter
-      }
-    }).catch((error) => {
-    });
+      .then((response) => {
+        if (response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.SUCCESS) {
+          dispatch(updateProperty(info.index, editProperty));
+          onChangeModalVisibility(false);
+        } else {
+          // TODO: Send back error status to modal, this can be done by sending another callback as a parameter
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
   };
 };
 
@@ -179,10 +181,10 @@ export const postUpdatedProperty = (
  * @param {number} propertyIndex -location of the property to remove from the store 
  */
 export const removeProperty = (
-    propertyIndex: number,
+  propertyIndex: number,
 ): RemovePropertyAction => ({
-    type: PROPERTY_LIST_ACTION_TYPES.REMOVE_PROPERTY,
-    index: propertyIndex,
+  type: PROPERTY_LIST_ACTION_TYPES.REMOVE_PROPERTY,
+  index: propertyIndex,
 });
 
 /**
@@ -195,20 +197,20 @@ export const removeProperty = (
  * @param {Property} linkedProperty -Property recieved from the homepairs servers  
  */
 export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => {
-    const fetchedProperties: Property[] = [];
-    const fetchedProperty = {
-            streetAddress: linkedProperty[propertyKeys.ADDRESS],
-            city: linkedProperty[propertyKeys.CITY],
-            state: linkedProperty[propertyKeys.STATE],
-            tenants: linkedProperty[propertyKeys.TENANTS],
-            bedrooms : linkedProperty[propertyKeys.BEDROOMS],
-            bathrooms : linkedProperty[propertyKeys.BATHROOMS],
-        };
-        fetchedProperties.push(fetchedProperty);
-    return {
-      type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
-      property: fetchedProperties,
-    };
+  const fetchedProperties: Property[] = [];
+  const fetchedProperty = {
+    streetAddress: linkedProperty[propertyKeys.ADDRESS],
+    city: linkedProperty[propertyKeys.CITY],
+    state: linkedProperty[propertyKeys.STATE],
+    tenants: linkedProperty[propertyKeys.TENANTS],
+    bedrooms: linkedProperty[propertyKeys.BEDROOMS],
+    bathrooms: linkedProperty[propertyKeys.BATHROOMS],
+  };
+  fetchedProperties.push(fetchedProperty);
+  return {
+    type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
+    property: fetchedProperties,
+  };
 };
 
 /**
@@ -221,22 +223,22 @@ export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => 
  * @param {Contact} linkedPropertyManager -Property Manager recieved from the homepairs servers  
  */
 export const fetchPropertyAndPropertyManager = (linkedProperty: Property, linkedPropertyManager: Contact): FetchPropertyAndPropertyManagerAction => {
-      const fetchedPropertyManager: Contact = {
-          email: linkedPropertyManager[propertyKeys.ADDRESS],
-          firstName: linkedPropertyManager[propertyKeys.CITY],
-          lastName: linkedPropertyManager[propertyKeys.STATE],
-          accountType: AccountTypes.PropertyManager,
-      };
-      const fetchedProperties: Property[] = [];
-      const fetchedProperty = {
-              streetAddress: linkedProperty[propertyKeys.ADDRESS],
-              city: linkedProperty[propertyKeys.CITY],
-              state: linkedProperty[propertyKeys.STATE],
-              tenants: linkedProperty[propertyKeys.TENANTS],
-              bedrooms : linkedProperty[propertyKeys.BEDROOMS],
-              bathrooms : linkedProperty[propertyKeys.BATHROOMS],
-          };
-      fetchedProperties.push(fetchedProperty);
+  const fetchedPropertyManager: Contact = {
+    email: linkedPropertyManager[accountKeys.EMAIL],
+    firstName: linkedPropertyManager[accountKeys.FIRSTNAME],
+    lastName: linkedPropertyManager[accountKeys.LASTNAME],
+    accountType: AccountTypes.PropertyManager,
+  };
+  const fetchedProperties: Property[] = [];
+  const fetchedProperty = {
+    streetAddress: linkedProperty[propertyKeys.ADDRESS],
+    city: linkedProperty[propertyKeys.CITY],
+    state: linkedProperty[propertyKeys.STATE],
+    tenants: linkedProperty[propertyKeys.TENANTS],
+    bedrooms: linkedProperty[propertyKeys.BEDROOMS],
+    bathrooms: linkedProperty[propertyKeys.BATHROOMS],
+  };
+  fetchedProperties.push(fetchedProperty);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_AND_PROPERTY_MANAGER,
     property: fetchedProperties,
@@ -254,32 +256,32 @@ export const fetchPropertyAndPropertyManager = (linkedProperty: Property, linked
  * @param linkedProperties -Array of objects that contain the data for properties 
  */
 export const fetchProperties = (
-    linkedProperties: Array<any>,
+  linkedProperties: Array<any>,
 ): FetchPropertiesAction => {
-    const fetchedProperties: Property[] = [];
-    linkedProperties?.forEach(linkedProperty => {
-        fetchedProperties.push({
-            streetAddress: linkedProperty[propertyKeys.ADDRESS],
-            city: linkedProperty[propertyKeys.CITY],
-            state: linkedProperty[propertyKeys.STATE],
-            tenants: linkedProperty[propertyKeys.TENANTS],
-            bedrooms: linkedProperty[propertyKeys.BEDROOMS],
-            bathrooms: linkedProperty[propertyKeys.BATHROOMS],
-        });
+  const fetchedProperties: Property[] = [];
+  linkedProperties?.forEach(linkedProperty => {
+    fetchedProperties.push({
+      streetAddress: linkedProperty[propertyKeys.ADDRESS],
+      city: linkedProperty[propertyKeys.CITY],
+      state: linkedProperty[propertyKeys.STATE],
+      tenants: linkedProperty[propertyKeys.TENANTS],
+      bedrooms: linkedProperty[propertyKeys.BEDROOMS],
+      bathrooms: linkedProperty[propertyKeys.BATHROOMS],
     });
-    return {
-      type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
-      properties: fetchedProperties,
-    };
+  });
+  return {
+    type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
+    properties: fetchedProperties,
+  };
 };
 
 /**
- * Callback is intended to set the input forms of the component used to send 
+ * Callback is intended to set the input forms of the component used to send
  * the request back to the base values. This could be empty or predetermined.
  * @callback setInitialState */
 /**
- * Callback is intended to change the state of a modal of the calling component 
- * after the request has been sent. This should be optional. 
+ * Callback is intended to change the state of a modal of the calling component
+ * after the request has been sent. This should be optional.
  * @callback onChangeModalVisibility
  * @param {boolean} check -determines if the components modal should be visible */
 

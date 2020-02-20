@@ -10,6 +10,7 @@ import {
     ConfigurationSettings,
     ServiceState,
     PropertyListState,
+    Contact,
 } from 'homepairs-types';
 
 const middleWares = [thunk];
@@ -81,9 +82,19 @@ const PropertyList1: Property[] = [
     },
 ];
 
+/** Property data for testing! */
+const PropertyManager1: Contact  =
+    {
+        accountType: AccountTypes.PropertyManager,
+        firstName: 'Darrel',
+        lastName: 'Williams',
+        email: 'dWilliams@SpeechGrammarList.com',
+    };
+
 const propertyListState : PropertyListState = {
     selectedPropertyIndex: 0,
     properties: PropertyList1,
+    propertyManager: PropertyManager1,
 };
 /** Property data for testing! */
 
