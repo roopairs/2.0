@@ -36,6 +36,7 @@ export { default as AddressSticker } from './AddressSticker/AddressSticker';
 export { default as SceneHeader } from './SceneHeader/SceneHeader';
 export { default as GeneralHomeInfo } from './GeneralHomeInfo/GeneralHomeInfo';
 export { default as ApplianceInfo } from './ApplianceInfo/ApplianceInfo';
+export { default as ApplianceCategorizer } from './ApplianceInfo/ApplianceCategorizer';
 export { default as AccountTypeRadioButton } from './AccounttypeRadioButton/AccountTypeRadioButton';
 export { default as ViewPropertyCard } from './ViewPropertyCard/ViewPropertyCard';
 export { default as AccountConnectedCard } from './AuthenticationCards/AccountConnectedCard';
@@ -45,6 +46,10 @@ export { default as AddNewPropertyModal } from './Modals/AddNewPropertyModal/Add
 export { default as AddNewPropertyModalBase } from './Modals/AddNewPropertyModal/AddNewPropertyModalBase';
 export { default as EditPropertyModal } from './Modals/EditPropertyModal/EditPropertyModal';
 export { default as EditPropertyModalBase } from './Modals/EditPropertyModal/EditPropertyModalBase';
+export { default as AddApplianceModal } from './Modals/AddApplianceModal/AddApplianceModal';
+export { default as AddApplianceModalBase } from './Modals/AddApplianceModal/AddApplianceModalBase';
+export { default as EditApplianceModal } from './Modals/EditApplianceModal/EditApplianceModal';
+export { default as EditApplianceModalBase } from './Modals/EditApplianceModal/EditApplianceModalBase';
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
 export { default as CurrentTenantCard} from './CurrentTenantCard/CurrentTenantCard';
 

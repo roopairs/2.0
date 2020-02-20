@@ -2,6 +2,8 @@ import {
     PropertyListState,
     PropertyListAction,
     AddPropertyAction,
+    AddApplianceAction, 
+    UpdateApplianceAction,
     RemovePropertyAction,
     UpdatePropertyAction,
     FetchPropertyAction,
@@ -21,6 +23,7 @@ import { PROPERTY_LIST_ACTION_TYPES } from './actions';
 export const initialState: PropertyListState = {
     selectedPropertyIndex: null,
     properties: [],
+    appliances: [],
 };
 
 export const properties = (
@@ -30,8 +33,10 @@ export const properties = (
     /* * NOTE: USE IMMUTABLE UPDATE FUNCTIONS FOR REDUCERS OR ELSE REDUX WILL NOT UPDATE!!! * */
     const newState = { ...state };
     let property = null;
+    let appliance = null;
     let updateIndex: number = null;
     let updatedPropertyList = null;
+    let updatedApplianceList = null;
 
     switch (action.type) {
         case PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY:
@@ -68,6 +73,32 @@ export const properties = (
             return {
                 selectedPropertyIndex: updateIndex,
                 properties: updatedPropertyList,
+            };
+        case PROPERTY_LIST_ACTION_TYPES.ADD_APPLIANCE:
+            // pay attention to type-casting on action
+            appliance = (action as AddApplianceAction).userData;
+            updatedApplianceList = [...state.appliances, appliance];
+            return {
+                selectedPropertyIndex: null,
+                properties: updatedApplianceList,
+            };
+        case PROPERTY_LIST_ACTION_TYPES.UPDATE_APPLIANCE:
+            appliance = (action as UpdateApplianceAction).userData;
+            updateIndex = (action as UpdateApplianceAction).index;
+            updatedApplianceList = state.appliances.map((item, index) => {
+                if (index !== updateIndex) {
+                    // This isn't the item we care about - keep it as-is
+                    return item;
+                }
+                // Otherwise, this is the one we want - return an updated value
+                return {
+                    ...item,
+                    ...appliance,
+                };
+            });
+            return {
+                selectedPropertyIndex: updateIndex,
+                appliances: updatedApplianceList,
             };
         case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY:
             return {

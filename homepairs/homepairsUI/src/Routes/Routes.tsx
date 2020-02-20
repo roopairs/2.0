@@ -7,7 +7,7 @@ import {
     MainAppPages, AuthenticationPages,
 } from 'homepairs-pages';
 import { Platform } from 'react-native';
-import { HomePairsHeader, AddNewPropertyModal, EditPropertyModal, LoggingInModal, CreatingAccountModal} from 'homepairs-components';
+import { HomePairsHeader, AddNewPropertyModal, EditPropertyModal, LoggingInModal, CreatingAccountModal, AddApplianceModal, EditApplianceModal} from 'homepairs-components';
 import { LightColorTheme} from 'homepairs-base-styles';
 import { navigationKeys } from './RouteConstants';
 import { navigationPages } from 'src/Routes/RouteConstants';
@@ -104,6 +104,8 @@ const MainStack = createStackNavigator(
         // Add all modals here. This way, the page will overlay the entire page including the header
         [navigationKeys.AddNewPropertyModal]: AddNewPropertyModal,
         [navigationKeys.EditPropertyModal]: EditPropertyModal,
+        [navigationKeys.AddApplianceModal]: AddApplianceModal, 
+        [navigationKeys.EditApplianceModal]: EditApplianceModal,
     },
     {
         initialRouteName: navigationKeys.Properties,
@@ -138,6 +140,6 @@ const container = createStackNavigator(
     
 );
 
-export const AppNavigator = isWeb ? createBrowserApp(container): createAppContainer(container);
+export const AppNavigator = /* isWeb ? createBrowserApp(container): */ createAppContainer(container);
 
 export { MainStack, AuthStack };

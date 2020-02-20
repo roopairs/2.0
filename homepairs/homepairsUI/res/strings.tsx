@@ -100,7 +100,8 @@ const strings = {
     applianceInfo: {
         title: 'Appliances', 
         applianceModal: {
-            title: 'Add Appliance',
+            addTitle: 'Add Appliance',
+            editTitle: 'Edit Appliance',
             category: 'CATEGORY', 
             name: 'DISPLAY NAME', 
             manufacturer: 'MANUFACTURER (optional)', 

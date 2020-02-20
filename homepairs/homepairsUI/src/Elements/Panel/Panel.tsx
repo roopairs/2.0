@@ -7,7 +7,7 @@ import {
     TouchableHighlight,
     Image,
 } from 'react-native';
-import { ThinButtonProps, ThinButton } from '../Buttons/ThinButton';
+import { ThinButtonProps, ThinButton } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -15,8 +15,8 @@ import { HomePairsDimensions, Appliance } from 'homepairs-types';
 import { upArrow, downArrow } from 'homepairs-images';
 
 export type PanelProps = {
+    key?: string;
     appliance?: Appliance;
-    animation?: Animated.Value,
 };
 
 export type PanelState = {
@@ -71,28 +71,13 @@ function setStyles() {
         },
         titleText: {
             fontSize: BaseStyles.FontTheme.reg,
-            fontFamily: HomePairFonts.nunito_bold,
+            fontFamily: HomePairFonts.nunito_regular,
         },
         textContainer: {
             width: BaseStyles.ContentWidth.reg,
             borderBottomColor: colors.veryLightGray,
             paddingBottom: BaseStyles.MarginPadding.mediumConst,
             borderBottomWidth: 1,
-        },
-        detailContainer: {
-            flex: 1,
-            alignSelf: 'center',
-            alignItems: 'center',
-        },
-        detailName: {
-            fontSize: BaseStyles.FontTheme.xsmal,
-            marginBottom: BaseStyles.MarginPadding.mediumConst,
-            color: colors.lightGray,
-        },
-        detail: {
-            color: colors.tertiary,
-            fontSize: BaseStyles.FontTheme.reg,
-            fontFamily: HomePairFonts.nunito_regular,
         },
         editButton: {
             alignItems: 'center',
@@ -231,7 +216,7 @@ export default class Panel extends React.Component<PanelProps, PanelState> {
         const { up, down } = this.icons;
         const { expanded, animation } = this.state;
         const { appliance } = this.props;
-        const { name } = appliance;
+        const { appName } = appliance;
         let icon = down;
 
         if (expanded) {
@@ -243,7 +228,7 @@ export default class Panel extends React.Component<PanelProps, PanelState> {
                 style={[this.styles.container, { height: animation}, {borderColor: expanded ? colors.primary : colors.lightGray}]}
             >
                 <View style={this.styles.titleContainer} onLayout={this.setMinHeight}>
-                    <Text style={[this.styles.titleText, {color: expanded ? colors.primary : colors.tertiary}]}>{name}</Text>
+                    <Text style={[this.styles.titleText, {color: expanded ? colors.primary : colors.tertiary}]}>{appName}</Text>
                     <TouchableHighlight
                         onPress={this.toggle}
                         underlayColor="#f1f1f1"

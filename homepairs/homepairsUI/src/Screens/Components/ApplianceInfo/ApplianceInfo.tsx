@@ -1,15 +1,16 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { StyleSheet, Text, View, Animated } from 'react-native';
-import { ThinButtonProps, ThinButton, Panel, PanelProps } from 'homepairs-elements';
+import { StyleSheet, Text, View } from 'react-native';
+import { ThinButtonProps, ThinButton, Panel } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairsDimensions, Appliance, ApplianceType } from 'homepairs-types';
+import { HomePairsDimensions, Appliance } from 'homepairs-types';
+import { ApplianceCategorizer } from 'homepairs-components';
 
 
 export type ApplianceInfoProps = {
     onClick?: () => any,
-    appliances?: [Appliance],
+    appliances?: Appliance[],
 }
 
 const applianceInfoStrings = strings.applianceInfo;
@@ -51,7 +52,7 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
         },
         titleText: {
             color: colors.tertiary,
-            fontSize: BaseStyles.FontTheme.reg,
+            fontSize: BaseStyles.FontTheme.reg + 2,
             fontFamily: HomePairFonts.nunito_bold,
         },
         textContainer: {
@@ -96,15 +97,6 @@ export default function ApplianceInfo(props: ApplianceInfoProps) {
         onClick,
     };
 
-    const appliance : Appliance = {
-        category: ApplianceType.Plumbing, 
-        name: 'Sink', 
-        manufacturer: 'Dels Sinks', 
-        modelNum: '12343421', 
-        serialNum: '412344312', 
-        location: 'Bathroom',
-    };
-    
     return (
         <View style={styles.container}>
             <View style= {styles.titleContainer}>
@@ -113,11 +105,7 @@ export default function ApplianceInfo(props: ApplianceInfoProps) {
                 </Text>
             </View>
             <View style= {styles.details}>
-                <Panel appliance={appliance}/>
-                <Panel appliance={appliance}/>
-                <Panel appliance={appliance}/>
-                <Panel appliance={appliance}/>
-                <Panel appliance={appliance}/>
+                <ApplianceCategorizer appliances={appliances}/>
                 <ThinButton 
                     name={thinButtonProps.name} 
                     buttonStyle={thinButtonProps.buttonStyle} 

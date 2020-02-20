@@ -22,6 +22,8 @@ import {
     HomePairsDimensions,
     AccountTypes,
     TenantAccount,
+    Appliance, 
+    ApplianceType,
 } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -115,6 +117,46 @@ const fakeTenants: TenantAccount[] = [
     },
 ];
 
+
+const fakeAppliances : Appliance[] = [
+    {
+        applianceId: 1,
+        category: ApplianceType.Plumbing, 
+        appName: 'Sink', 
+        manufacturer: 'Dels Sinks', 
+        modelNum: '12343421', 
+        serialNum: '412344312', 
+        location: 'Bathroom',
+    }, 
+    {
+        applianceId: 2,
+        category: ApplianceType.HotEquipment, 
+        appName: 'Fridge', 
+        manufacturer: 'Dels Fridges', 
+        modelNum: '12343421', 
+        serialNum: '412344312', 
+        location: 'Kitchen',
+    }, 
+    {
+        applianceId: 3,
+        category: ApplianceType.HotEquipment, 
+        appName: 'Water Heater', 
+        manufacturer: 'Dels Heaters', 
+        modelNum: '12343421', 
+        serialNum: '412344312', 
+        location: 'Garage',
+    }, 
+    {
+        applianceId: 4,
+        category: ApplianceType.HotEquipment, 
+        appName: 'Fridge', 
+        manufacturer: 'Dels Fridges', 
+        modelNum: '12343421', 
+        serialNum: '412344312', 
+        location: 'Garage',
+    }, 
+];
+
 export default function DetailedPropertyScreenBase(props: Props) {
     const { property, navigation } = props;
     const styles = setStyles(null);
@@ -157,7 +199,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
 
     function renderApplianceInfo() {
         return (
-            <ApplianceInfo/>
+            <ApplianceInfo onClick={() => {}} appliances={fakeAppliances}/>
         );
     }
 

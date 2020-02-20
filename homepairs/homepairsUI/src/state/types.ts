@@ -15,13 +15,26 @@ export type Property = {
 export type PropertyListState = 
 {
     selectedPropertyIndex?: number, 
-    properties: Property[]
+    properties: Property[],
+    appliances: Appliance[],
 };
 
 export type AddPropertyAction = {
     type: string;
     userData: Property;
 };
+
+export type AddApplianceAction = {
+    type: string;
+    userData: Appliance;
+};
+
+export type UpdateApplianceAction = {
+    type: string;
+    index: number;
+    userData: Appliance;
+};
+
 export type SetSelectedPropertyAction = {
     type: string;
     index: number;
@@ -47,6 +60,8 @@ export type FetchPropertiesAction = {
 /* Union type for the Property Lists. This will be used for the reducer. */
 export type PropertyListAction =
     | AddPropertyAction
+    | AddApplianceAction
+    | UpdateApplianceAction
     | UpdatePropertyAction
     | RemovePropertyAction
     | SetSelectedPropertyAction
@@ -58,12 +73,13 @@ export type PropertyListAction =
 
 export enum ApplianceType {
     // find all types
-    Plumbing, HotEquipment, 
+    Plumbing, HotEquipment, None
 };
 
 export type Appliance = {
+    applianceId: number,
     category: ApplianceType,
-    name: string,
+    appName: string,
     manufacturer: string, 
     modelNum: string, 
     serialNum: string, 
@@ -312,6 +328,18 @@ export type EditPropertyState = {
     index: number;
     oldProp: Property;
     roopairsToken: string;
+}
+
+export type AddApplianceState = {
+    email: string;
+    roopairsToken: string;
+}
+
+export type EditApplianceState = {
+    email: string;
+    roopairsToken: string;
+    oldAppliance: Appliance;
+    index: number;
 }
 
 export enum HomePairsDimensions {
