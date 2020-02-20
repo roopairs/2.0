@@ -40,7 +40,7 @@ export { default as AccountConnectedCard } from './AuthenticationCards/AccountCo
 export { default as ConnectAccountCard } from './AuthenticationCards/ConnectAccountCard';
 export { default as HomePairsHeader } from './HomePairsHeader/HomePairsHeader';
 export { default as AddNewPropertyModal } from './Modals/AddNewPropertyModal/AddNewPropertyModal';
-export { default as EditPropertyModal } from './Modals/EditPropertyModal/EditPropertyModalBase';
+export { default as EditPropertyModal } from './Modals/EditPropertyModal/EditPropertyModal';
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
 export { default as CurrentTenantCard} from './CurrentTenantCard/CurrentTenantCard';
 export { default as EditTenantModal} from './Modals/EditTenantModal/EditTenantModal';

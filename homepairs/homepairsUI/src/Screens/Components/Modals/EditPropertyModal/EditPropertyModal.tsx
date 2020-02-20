@@ -7,6 +7,7 @@ import EditPropertyModalBase, {EditPropertyDispatchProps} from './EditPropertyMo
 
 const mapDispatchToProps : (dispatch: any) => EditPropertyDispatchProps = (dispatch: any) => ({
     onEditProperty: (editProperty: Property, info: EditPropertyState, navigation: NavigationStackProp) => {
+        console.log('I am being called');
         dispatch(PropertyListActions.postUpdatedProperty(editProperty, info, navigation));
     },
 });

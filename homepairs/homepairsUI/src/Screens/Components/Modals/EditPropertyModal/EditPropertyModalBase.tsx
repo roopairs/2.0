@@ -6,11 +6,14 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, EditPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
+import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
 import { InputFormProps } from 'src/Elements/Forms/InputForm';
 
+export type EditPropertyDispatchProps = {
+    onEditProperty: (editProperty: Property, info: EditPropertyState, navigation: NavigationStackProp) => any;
+}
 
-type Props =  NavigationStackScreenProps & EditPropertyState;
+type Props =  NavigationStackScreenProps & EditPropertyState & EditPropertyDispatchProps;
 
 type EditState = {
     address: string, 
@@ -129,6 +132,8 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
 
     oldProperty: Property;
 
+    oldProp: EditState;
+
     submitButton : ThinButtonProps = {
         name: editPropertyStrings.title, 
         onClick: () => {this.clickSubmitButton();}, 
@@ -168,16 +173,29 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
         this.resetForms = this.resetForms.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
-        const {oldProp} = this.props;
-        const {streetAddress, city, state, bedrooms, bathrooms, tenants} = oldProp;
-        this.state = {
-            address: streetAddress, 
-            city, 
-            state, 
-            bedrooms: bedrooms.toString(), 
-            bathrooms: bathrooms.toString(),
-            tenants: tenants.toString(),
+        
+        // oldProp holds in the passed string value
+        const param = this.props.navigation.getParam('oldProp');
+        this.oldProp = {
+            address: param.address, 
+            city: param.city, 
+            state: param.state, 
+            bedrooms: param.bedrooms.toString(), 
+            bathrooms: param.bathrooms.toString(),
+            tenants: param.tenants.toString(),
         };
+
+        // oldProperty is oldProp in Property Type form
+        this.oldProperty = {
+            propId: null,
+            streetAddress: this.oldProp.address,
+            city: this.oldProp.city,
+            state: this.oldProp.state,
+            tenants: Number(this.oldProp.tenants),
+            bathrooms: Number(this.oldProp.tenants),
+            bedrooms: Number(this.oldProp.bedrooms),
+        };
+        this.state = {...this.oldProp};
         this.addressRef = React.createRef();
         this.stateRef = React.createRef();
         this.cityRef = React.createRef();
@@ -211,8 +229,7 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
     } 
 
     setInitialState() {
-        const {oldProp} = this.props;
-        const {streetAddress: address, city, state, bedrooms, bathrooms, tenants} = oldProp;
+        const {address, city, state, bedrooms, bathrooms, tenants} = this.oldProp;
         this.setState({
             address, city, state, 
             bedrooms: bedrooms.toString(), 
@@ -224,6 +241,7 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
     validateForms() {
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
         let check = true;
+  
         if (isEmptyOrSpaces(address)) {
             this.addressRef.current.setError(true);
             check = false;
@@ -236,6 +254,7 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
             this.stateRef.current.setError(true);
             check = false;
         } 
+
         if (!isPositiveWholeNumber(bedrooms)) {
             this.bedRef.current.setError(true);
             check = false;
@@ -261,23 +280,30 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
     }
 
     clickSubmitButton() {
-        const {email, navigation, onEditProperty, index, oldProp, roopairsToken} = this.props;
+        const {email, navigation, onEditProperty, index, roopairsToken} = this.props;
         const {address, state, city, bedrooms, bathrooms, tenants} = this.state;
         this.resetForms();
         if (this.validateForms()) {
             const newProperty : Property = {
+                propId: null,
                 streetAddress: address, state, city, 
                 bedrooms: Number(bedrooms), 
                 bathrooms: Number(bathrooms), 
                 tenants: Number(tenants),
             };
-            const info : EditPropertyState = { email, index, oldProp, roopairsToken};
+            const info : EditPropertyState = { 
+                email, 
+                index, 
+                oldProp: this.oldProperty, 
+                roopairsToken};
             onEditProperty(newProperty, info, navigation);
         } 
     }
 
     renderInputForms() {
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
+
+        console.log(`Type of state: ${typeof state}`);
         const inputForms: InputFormProps[]  = [
             {
                 ref: this.addressRef,
@@ -346,7 +372,9 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
          * of the helper function. 
          */
         return inputForms.map(inputFormProp => {
-            const {ref, key, name, parentCallBack, formTitleStyle, inputStyle,errorMessage, secureTextEntry, errorStyle, value, placeholder} = inputFormProp;
+            const {ref, key, name, parentCallBack, formTitleStyle, inputStyle, 
+                errorMessage, secureTextEntry, errorStyle, value, placeholder} = inputFormProp;
+            console.log(typeof value)
             return <InputForm
                         ref={ref}
                         key={key}
