@@ -2,8 +2,6 @@ import {
     PropertyListState,
     PropertyListAction,
     AddPropertyAction,
-    AddApplianceAction, 
-    UpdateApplianceAction,
     RemovePropertyAction,
     UpdatePropertyAction,
     FetchPropertyAction,
@@ -25,7 +23,6 @@ export const initialState: PropertyListState = {
     selectedPropertyIndex: null,
     properties: [],
     appliances: [],
->>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 };
 
 export const properties = (
