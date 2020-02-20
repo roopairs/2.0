@@ -17,6 +17,19 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+<<<<<<< HEAD
     path('admin/', admin.site.urls),
     path('API/', include('API.urls')),
+||||||| 2ab31044d
+    path('dungeon/', admin.site.urls),
+    path('pm/', include('Apps.PropertyManagers.urls')),
+    path('properties/', include('Apps.Properties.urls')),
+    path('tenant/', include('Apps.Tenants.urls')),
+=======
+    path('dungeon/', admin.site.urls),
+    path('pm/', include('Apps.PropertyManagers.urls')),
+    path('properties/', include('Apps.Properties.urls')),
+    path('tenant/', include('Apps.Tenants.urls')),
+    path('appliance/', include('Apps.Appliances.urls')),
+>>>>>>> 33ecc0cc18246aa3b2193cdbfd895e6626b7b737
 ]

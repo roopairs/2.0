@@ -5,7 +5,6 @@ from django.test import TestCase
 
 from .helperFuncsForTesting import getInfo, setUpHelper, tearDownHelper
 from .views import ERROR, FAIL, APPLIANCE_DOESNT_EXIST, PROPERTY_DOESNT_EXIST, STATUS, SUCCESS
-# from .views import createAppliance, viewAppliance, updateAppliance
 from .models import Property
 
 
@@ -191,6 +190,7 @@ class UpdateAppliance(TestCase):
                   'location': location,
                   'propId': propId,
                }
+        print('update bad id: ', data, '\n')
         responseData = getInfo(CREATE_APP, data)
 
         self.assertEqual(responseData.get(STATUS), SUCCESS)
