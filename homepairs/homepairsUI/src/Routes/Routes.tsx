@@ -7,7 +7,7 @@ import {
     MainAppPages, AuthenticationPages,
 } from 'homepairs-pages';
 import { Platform } from 'react-native';
-import { HomePairsHeader, AddNewPropertyModal, EditPropertyModal, LoggingInModal, CreatingAccountModal, EditTenantModal} from 'homepairs-components';
+import { HomePairsHeader, AddNewPropertyModal, EditPropertyModal, LoggingInModal, CreatingAccountModal, EditTenantModal, AddTenantModal} from 'homepairs-components';
 import { LightColorTheme} from 'homepairs-base-styles';
 import { navigationKeys, navigationPages } from './RouteConstants';
 
@@ -109,6 +109,7 @@ const MainStack = createStackNavigator(
         [navigationKeys.AddNewPropertyModal]: AddNewPropertyModal,
         [navigationKeys.EditPropertyModal]: EditPropertyModal,
         [navigationKeys.EditTenantModal]: EditTenantModal,
+        [navigationKeys.AddTenantModal]: AddTenantModal,
     },
     {
         initialRouteName: navigationKeys.Properties,

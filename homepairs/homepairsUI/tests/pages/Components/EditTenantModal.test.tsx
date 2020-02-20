@@ -15,8 +15,10 @@ describe('Test Edit Tenant Modal', () => {
     it('Test Edit Tenant Modal', () => {
         const {getAllByTestId, getAllByType, queryByType, queryAllByType} = rendered;
         const inputForms = getAllByType(InputForm);
+        const [firstName, lastName, email, phoneNumber] = inputForms;
 
-        expect(inputForms[0].instance.state.value).toBe('Alex');
+        console.log(lastName.props)
+        expect(firstName.props.value).toBe('Alex');
         expect(true).toBeFalsy();
     })
 ;});

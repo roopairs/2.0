@@ -6,14 +6,11 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, EditPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
-import { NavigationStackProp, NavigationStackScreenProps } from 'react-navigation-stack';
+import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { InputFormProps } from 'src/Elements/Forms/InputForm';
 
-export type EditPropertyDispatchProps = {
-    onEditProperty: (newProperty: Property, info: EditPropertyState, navigation: NavigationStackProp) => void
-};
 
-type Props =  NavigationStackScreenProps & EditPropertyDispatchProps & EditPropertyState;
+type Props =  NavigationStackScreenProps & EditPropertyState;
 
 type EditState = {
     address: string, 
@@ -115,7 +112,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
     });
 }
 
-export default class EditNewPropertyModalBase extends React.Component<Props, EditState> {
+export default class EditNewPropertyModal extends React.Component<Props, EditState> {
     inputFormStyle;
 
     addressRef;
