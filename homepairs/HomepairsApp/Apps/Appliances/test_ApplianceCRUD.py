@@ -5,7 +5,7 @@ from django.test import TestCase
 
 from .helperFuncsForTesting import getInfo, setUpHelper, tearDownHelper
 from .models import Property
-from .views import APPLIANCE_DOESNT_EXIST, ERROR, FAIL, PROPERTY_DOESNT_EXIST, STATUS, SUCCESS
+from .views import ERROR, FAIL, PROPERTY_DOESNT_EXIST, STATUS, SUCCESS
 
 
 ################################################################################
@@ -53,12 +53,10 @@ class CreateAppliance(TestCase):
                   'location': location,
                   'propId': propId,
                }
-
-        print('create all correct: ', data, '\n')
         responseData = getInfo(CREATE_APP, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        appId = responseData.get(id)
+        appId = responseData.get('id')
         data = {
                   'appId': appId
                }
@@ -93,7 +91,6 @@ class CreateAppliance(TestCase):
                   'location': location,
                   'propId': -1,
                }
-
         responseData = getInfo(CREATE_APP, data)
 
         self.assertEqual(responseData.get(STATUS), FAIL)
@@ -130,7 +127,6 @@ class UpdateAppliance(TestCase):
                   'location': location,
                   'propId': propId,
                }
-        print('update all correct: ', data, '\n')
         responseData = getInfo(CREATE_APP, data)
 
         self.assertEqual(responseData.get(STATUS), SUCCESS)
@@ -141,7 +137,7 @@ class UpdateAppliance(TestCase):
         newModelNum = 1
         newSerialNum = 2
         newLocation = 'bedroom'
-        appId = responseData.get(id)
+        appId = responseData.get('id')
         data = {
                   'newName': newName,
                   'newManufacturer': newManufacturer,
@@ -165,11 +161,11 @@ class UpdateAppliance(TestCase):
         self.assertEqual(responseData.get(STATUS), SUCCESS)
         app = responseData.get('app')
         self.assertEqual(app.get('name'), newName)
-        self.assertEqual(app.get('newManufacturer'), newManufacturer)
-        self.assertEqual(app.get('newCategory'), newCategory)
-        self.assertEqual(app.get('newModelNum'), newModelNum)
-        self.assertEqual(app.get('newSerialNum'), newSerialNum)
-        self.assertEqual(app.get('newLocation'), newLocation)
+        self.assertEqual(app.get('manufacturer'), newManufacturer)
+        self.assertEqual(app.get('category'), newCategory)
+        self.assertEqual(app.get('modelNum'), newModelNum)
+        self.assertEqual(app.get('serialNum'), newSerialNum)
+        self.assertEqual(app.get('location'), newLocation)
 
     def test_update_app_bad_app_id(self):
         '''Incorrect Fields Being Sent'''
@@ -190,7 +186,6 @@ class UpdateAppliance(TestCase):
                   'location': location,
                   'propId': propId,
                }
-        print('update bad id: ', data, '\n')
         responseData = getInfo(CREATE_APP, data)
 
         self.assertEqual(responseData.get(STATUS), SUCCESS)
@@ -201,7 +196,6 @@ class UpdateAppliance(TestCase):
         newModelNum = 1
         newSerialNum = 2
         newLocation = 'bedroom'
-        appId = responseData.get(id)
         data = {
                   'newName': newName,
                   'newManufacturer': newManufacturer,
@@ -209,18 +203,9 @@ class UpdateAppliance(TestCase):
                   'newModelNum': newModelNum,
                   'newSerialNum': newSerialNum,
                   'newLocation': newLocation,
-                  'appId': appId,
+                  'appId': -1,
                }
 
         responseData = getInfo(UPDATE_APP, data)
 
-        self.assertEqual(responseData.get(STATUS), SUCCESS)
-
-        data = {
-                  'appId': appId,
-               }
-
-        responseData = getInfo(VIEW_APP, data)
-
         self.assertEqual(responseData.get(STATUS), FAIL)
-        self.assertEqual(responseData.get(ERROR), APPLIANCE_DOESNT_EXIST)

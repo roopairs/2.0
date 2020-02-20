@@ -17,11 +17,15 @@ class Appliance(models.Model):
     place = models.ForeignKey(Property, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.firstName + " " + self.lastName
+        return self.name + " " + self.location
 
     def toDict(self):
         return {
                   "name": self.name,
                   "location": self.location,
+                  "manufacturer": self.manufacturer,
+                  "serialNum": self.serialNum,
+                  "modelNum": self.modelNum,
+                  "category": self.category,
                   "place": [self.place.toDict()]
                }
