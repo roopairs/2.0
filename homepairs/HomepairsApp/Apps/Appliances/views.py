@@ -4,7 +4,8 @@ import requests
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Appliance, Property, PropertyManager, Tenant
+from .models import Appliance
+from ..Properties.models import Property
 
 
 # You might need this Tommy but it was pissing of the linter since it is
@@ -40,13 +41,6 @@ BASE_URL = 'https://capstone.api.roopairs.com/v0/'
 ################################################################################
 # Helper Functions
 #
-
-
-class PropertyView(View):
-    def post(self, request):
-        inData = json.loads(request.body)
-        required = ['name', 'manufacturer', 'category', 'modelNum', 'serialNum', 'location', 'propId']
-        missingFields = checkRequired(required, request)
 
 
 @api_view(['GET', 'POST'])
