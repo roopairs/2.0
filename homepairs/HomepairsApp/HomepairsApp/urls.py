@@ -22,4 +22,5 @@ urlpatterns = [
     path('pm/', include('Apps.PropertyManagers.urls')),
     path('properties/', include('Apps.Properties.urls')),
     path('tenant/', include('Apps.Tenants.urls')),
+    path('appliance/', include('Apps.Appliances.urls')),
 ]
