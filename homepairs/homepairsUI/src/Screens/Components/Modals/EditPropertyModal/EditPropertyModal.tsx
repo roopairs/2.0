@@ -6,17 +6,19 @@ import { withNavigation } from "react-navigation";
 import EditPropertyModalBase, {EditPropertyDispatchProps} from './EditPropertyModalBase';
 
 const mapDispatchToProps : (dispatch: any) => EditPropertyDispatchProps = (dispatch: any) => ({
-    onEditProperty: (editProperty: Property, info: EditPropertyState, navigation: NavigationStackProp) => {
-        console.log('I am being called');
-        dispatch(PropertyListActions.postUpdatedProperty(editProperty, info, navigation));
-    },
+    onEditProperty: (editProperty: Property, info: EditPropertyState, 
+         displayError: (msg: string) => void, navigation: NavigationStackProp) => 
+        {
+            dispatch(PropertyListActions.postUpdatedProperty(editProperty, info, displayError, navigation));
+        },
 });
 
 function mapStateToProps(state: AppState) : EditPropertyState {
     const propIndex = state.properties.selectedPropertyIndex;
     return {
         email: state.accountProfile.email, 
-        index: propIndex, oldProp: state.properties.properties[propIndex],
+        index: propIndex, 
+        oldProp: state.properties.properties[propIndex],
         roopairsToken: state.accountProfile.roopairsToken,
     };
 }
@@ -24,4 +26,3 @@ function mapStateToProps(state: AppState) : EditPropertyState {
 export default withNavigation(connect(
     mapStateToProps, 
     mapDispatchToProps)(EditPropertyModalBase));
-

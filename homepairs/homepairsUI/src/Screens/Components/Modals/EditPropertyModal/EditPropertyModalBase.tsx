@@ -1,19 +1,22 @@
 import React from "react";
-import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions } from "react-native";
+import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions, View } from "react-native";
 import {ThinButton, ThinButtonProps, Card, InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, EditPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
+import {HelperText} from 'react-native-paper';
 import {isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
-import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
+import { NavigationStackProp, NavigationStackScreenProps } from 'react-navigation-stack';
 import { InputFormProps } from 'src/Elements/Forms/InputForm';
 
 export type EditPropertyDispatchProps = {
-    onEditProperty: (editProperty: Property, info: EditPropertyState, navigation: NavigationStackProp) => any;
+    onEditProperty: (newProperty: Property, info: EditPropertyState, 
+        displayError: (msg: string) => void, navigation: NavigationStackProp) => void
 }
 
-type Props =  NavigationStackScreenProps & EditPropertyState & EditPropertyDispatchProps;
+
+type Props =  NavigationStackScreenProps & EditPropertyDispatchProps & EditPropertyState;
 
 type EditState = {
     address: string, 
@@ -22,6 +25,8 @@ type EditState = {
     bedrooms: string, 
     bathrooms: string, 
     tenants: string,
+    errorMsg: string,
+    errorCheck: boolean,
 };
 
 
@@ -115,7 +120,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
     });
 }
 
-export default class EditNewPropertyModal extends React.Component<Props, EditState> {
+export default class EditNewPropertyModalBase extends React.Component<Props, EditState> {
     inputFormStyle;
 
     addressRef;
@@ -131,8 +136,6 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
     tenantRef;
 
     oldProperty: Property;
-
-    oldProp: EditState;
 
     submitButton : ThinButtonProps = {
         name: editPropertyStrings.title, 
@@ -171,31 +174,22 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
         this.getFormNumBed = this.getFormNumBed.bind(this);
         this.getFormNumBath = this.getFormNumBath.bind(this);
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
+        this.displayError = this.displayError.bind(this);
         this.resetForms = this.resetForms.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
-        
-        // oldProp holds in the passed string value
-        const param = this.props.navigation.getParam('oldProp');
-        this.oldProp = {
-            address: param.address, 
-            city: param.city, 
-            state: param.state, 
-            bedrooms: param.bedrooms.toString(), 
-            bathrooms: param.bathrooms.toString(),
-            tenants: param.tenants.toString(),
-        };
+        const {oldProp} = this.props;
+        const {streetAddress, city, state, bedrooms, bathrooms, tenants} = oldProp;
+        this.state = {
+            address: streetAddress, 
+            city, 
+            state, 
+            bedrooms: bedrooms.toString(), 
+            bathrooms: bathrooms.toString(),
+            tenants: tenants.toString(),
+            errorMsg: '',
+            errorCheck: false,
 
-        // oldProperty is oldProp in Property Type form
-        this.oldProperty = {
-            propId: null,
-            streetAddress: this.oldProp.address,
-            city: this.oldProp.city,
-            state: this.oldProp.state,
-            tenants: Number(this.oldProp.tenants),
-            bathrooms: Number(this.oldProp.tenants),
-            bedrooms: Number(this.oldProp.bedrooms),
         };
-        this.state = {...this.oldProp};
         this.addressRef = React.createRef();
         this.stateRef = React.createRef();
         this.cityRef = React.createRef();
@@ -229,7 +223,8 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
     } 
 
     setInitialState() {
-        const {address, city, state, bedrooms, bathrooms, tenants} = this.oldProp;
+        const {oldProp} = this.props;
+        const {streetAddress: address, city, state, bedrooms, bathrooms, tenants} = oldProp;
         this.setState({
             address, city, state, 
             bedrooms: bedrooms.toString(), 
@@ -241,7 +236,6 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
     validateForms() {
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
         let check = true;
-  
         if (isEmptyOrSpaces(address)) {
             this.addressRef.current.setError(true);
             check = false;
@@ -254,7 +248,6 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
             this.stateRef.current.setError(true);
             check = false;
         } 
-
         if (!isPositiveWholeNumber(bedrooms)) {
             this.bedRef.current.setError(true);
             check = false;
@@ -279,31 +272,29 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
         this.bathRef.current.setError(false);
     }
 
+    displayError(msg: string) {
+        this.setState({errorMsg: msg, errorCheck: true});
+    }
+
     clickSubmitButton() {
-        const {email, navigation, onEditProperty, index, roopairsToken} = this.props;
+        const {email, navigation, onEditProperty, index, oldProp, roopairsToken} = this.props;
         const {address, state, city, bedrooms, bathrooms, tenants} = this.state;
         this.resetForms();
         if (this.validateForms()) {
             const newProperty : Property = {
-                propId: null,
+                propId: oldProp.propId,
                 streetAddress: address, state, city, 
                 bedrooms: Number(bedrooms), 
                 bathrooms: Number(bathrooms), 
                 tenants: Number(tenants),
             };
-            const info : EditPropertyState = { 
-                email, 
-                index, 
-                oldProp: this.oldProperty, 
-                roopairsToken};
-            onEditProperty(newProperty, info, navigation);
+            const info : EditPropertyState = { email, index, oldProp, roopairsToken};
+            onEditProperty(newProperty, info, this.displayError, navigation);
         } 
     }
 
     renderInputForms() {
         const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
-
-        console.log(`Type of state: ${typeof state}`);
         const inputForms: InputFormProps[]  = [
             {
                 ref: this.addressRef,
@@ -372,9 +363,7 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
          * of the helper function. 
          */
         return inputForms.map(inputFormProp => {
-            const {ref, key, name, parentCallBack, formTitleStyle, inputStyle, 
-                errorMessage, secureTextEntry, errorStyle, value, placeholder} = inputFormProp;
-            console.log(typeof value)
+            const {ref, key, name, parentCallBack, formTitleStyle, inputStyle,errorMessage, secureTextEntry, errorStyle, value, placeholder} = inputFormProp;
             return <InputForm
                         ref={ref}
                         key={key}
@@ -388,6 +377,13 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
                         placeholder={placeholder}
                         errorMessage={errorMessage}/>;
         });
+    }
+
+    renderError () {
+        const {errorMsg, errorCheck} = this.state;
+        return <View style={{alignSelf:'center'}}>
+            <HelperText type='error' visible={errorCheck} style={this.inputFormStyle.errorStyle}>{errorMsg}</HelperText>
+        </View>;
     }
     
     render() {
@@ -412,6 +408,7 @@ export default class EditNewPropertyModal extends React.Component<Props, EditSta
                     }}
                     >
                     <>{this.renderInputForms()}</>
+                    {this.renderError()}
                     {ThinButton(this.submitButton)}
                 </Card>
             </ScrollView>
