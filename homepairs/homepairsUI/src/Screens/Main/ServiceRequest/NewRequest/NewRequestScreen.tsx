@@ -1,6 +1,6 @@
 import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
-import { withSceneHeader, withDarkMode } from 'homepairs-components';
+import { withSceneHeader} from 'homepairs-components';
 import { ServiceActions } from 'homepairs-redux-actions';
 import { withNavigation } from 'react-navigation';
 import NewRequestScreenBase, {

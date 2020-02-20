@@ -3,7 +3,7 @@
 const mockEventListener = jest.fn((type, handler) => {handler();});
 
 const Dimensions = {
-  get: jest.fn().mockReturnValue({width: 100, height:100}),
+  get: jest.fn().mockReturnValue({width: 500, height:500}),
   addEventListener: mockEventListener,
   removeEventListener: mockEventListener,
 };

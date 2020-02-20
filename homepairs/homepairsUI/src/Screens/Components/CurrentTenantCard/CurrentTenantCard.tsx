@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { TenantAccount, HomePairsDimensions } from 'homepairs-types';
+import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { Card } from 'homepairs-elements';
 import ThinButton from 'src/Elements/Buttons/ThinButton';
-import { navigationKeys } from 'src/Routes';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { View, Text, StyleSheet } from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -17,17 +16,23 @@ type CurrentTenantsCardProps = NavigationStackScreenProps & {
     testID?: string,
 
     /**
+     * Unique identifier for the property. This is how the component knows where to edit 
+     * the tenant.
+     */
+    propertyId: number,
+
+    /**
      * Maximum amount of tenants defined for the property. If somehow, the 
      * amount of tenants passed is large than this value, an error is raised. 
      * This will also prevent users from clicking Add Tenant if the maximum amount
      * has been reached.
      */
-    maxTenants: number,
+    maxTenants?: number,
 
     /**
      * The tenant information passed into this component. Used to present the information.
      */
-    tenants: TenantAccount[],
+    tenants?: TenantInfo[],
 }
 
 const colors = BaseStyles.LightColorTheme;
@@ -172,6 +177,7 @@ const styles = StyleSheet.create({
     
 });
 
+
 /**
  * ---------------------------------------------------
  * Current Tenants Card
@@ -185,7 +191,7 @@ const styles = StyleSheet.create({
  * @param {Props} props 
  */
 function CurrentTenantsCard(props: CurrentTenantsCardProps){
-    const {navigation, tenants, maxTenants} = props;
+    const {navigation, tenants, maxTenants, propertyId} = props;
     const [error, setError] = useState(null);
     const numTenants = isNullOrUndefined(tenants) ? 0 : tenants.length;
 
@@ -199,9 +205,9 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
         navigation.navigate(navigationPages.AddTenantModal);
     }
 
-    function navigateToEditTenantModal(tenant: TenantAccount){
-        navigation.setParams({tenant});
-        navigation.navigate(navigationPages.EditTenantModal);
+    function navigateToEditTenantModal(tenant: TenantInfo){
+        console.log(tenant);
+        navigation.navigate(navigationPages.EditTenantModal, {tenant, propertyId});
     }
 
     function renderError(){
@@ -210,7 +216,7 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
         );
     }
 
-    function renderTenantInfo(tenant : TenantAccount){
+    function renderTenantInfo(tenant : TenantInfo){
         const tenantInitals: string = tenant.firstName[0].concat(tenant.lastName[0]).toUpperCase(); 
         return (
         <View key={tenant.email} style={styles.tenantInfoContainer}>
@@ -222,9 +228,9 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
             <View style={styles.tenantContact}>
                 <Text style={{fontFamily: BaseStyles.FontTheme.secondary, fontSize: BaseStyles.FontTheme.small}}>{tenant.firstName}{' '}{tenant.lastName}</Text>
                 <Text style={{fontFamily: BaseStyles.FontTheme.tertiary, fontSize: BaseStyles.FontTheme.small, color: BaseStyles.LightColorTheme.lightGray}}>{tenant.email}</Text>
-                <Text style={{fontFamily: BaseStyles.FontTheme.tertiary, fontSize: BaseStyles.FontTheme.small, color: BaseStyles.LightColorTheme.lightGray}}>TODO: Recieve Tenant Phone Numbers</Text>
+                <Text style={{fontFamily: BaseStyles.FontTheme.tertiary, fontSize: BaseStyles.FontTheme.small, color: BaseStyles.LightColorTheme.lightGray}}>{tenant.phoneNumber}</Text>
             </View>
-            <ThinButton name='Edit' onClick={() => navigateToEditTenantModal(tenant)} buttonStyle={styles.editButton} buttonTextStyle={styles.editButtonText} containerStyle={styles.buttonContainer}/>
+            <ThinButton name='Edit' onClick={() => {navigateToEditTenantModal(tenant);}} buttonStyle={styles.editButton} buttonTextStyle={styles.editButtonText} containerStyle={styles.buttonContainer}/>
         </View>);
     }
 
@@ -249,6 +255,32 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
         </View>
     );
 } 
+
+CurrentTenantsCard.defaultProps = {
+    testID: 'current-tenant-card',
+    maxTenants: 100,
+    tenants: [
+        {
+            firstName: 'Alex',
+            lastName: 'Kavanaugh',
+            email: 'alex@roopairs.com',
+            phoneNumber: '838-0034-3333',
+        },
+        {
+            firstName: 'David',
+            lastName: 'Bartolomucci',
+            email: 'david@roopairs.com',
+            phoneNumber: '838-0034-3333',
+        },
+        {
+   
+            firstName: 'Ray',
+            lastName: 'Bartolomucci',
+            email: 'ray@roopairs.com',
+            phoneNumber: '838-0031-3333',
+        },
+   ],
+};
 
 export default CurrentTenantsCard;
 

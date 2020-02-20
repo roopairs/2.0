@@ -31,5 +31,5 @@
         }
     },
     "exclude": ["node_modules", "../tests", "build"],
-    "include": ["src", "res", "tests/redux/account/GenerateTenantAccount.test.tsx", "tests/pages/Components/SceneHeader.test.tsx"]
+    "include": ["src", "res", "tests/redux/account/GenerateTenantAccount.test.tsx", "tests/pages/Components/SceneHeader.test.tsx", "tests/pages/Components/HomePairsNavHeader/HomePairsHeaderDropDown.test.tsx"]
 }

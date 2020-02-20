@@ -9,7 +9,7 @@ import { View, TouchableOpacity, Text, Image} from 'react-native';
 import { roopairsLogo } from 'homepairs-images';
 import { fireEvent, render } from 'react-native-testing-library';
 
-jest.mock('homepairs-images')
+jest.mock('homepairs-images');
 
 describe("LoginButton", () => {
   const message = 'Hello World!';

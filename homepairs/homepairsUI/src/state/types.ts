@@ -3,6 +3,16 @@ import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
 
 /* *-------------------Property Types-------------------* */
+
+// TODO: Collaborate with Adam to make sure this is the correct info recieved 
+// from the response 
+export type TenantInfo = {
+    firstName: string,
+    lastName: string,
+    email: string,
+    phoneNumber: string,
+}
+
 export type Property = {
     propId: number, 
     streetAddress: string, 

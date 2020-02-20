@@ -1,4 +1,4 @@
-import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
+import React, { useEffect, useState } from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import {
     View,
     Platform,
@@ -24,12 +24,15 @@ import {
     TenantAccount,
     Appliance, 
     ApplianceType,
+    TenantInfo,
 } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { navigationKeys, navigationPages } from 'src/Routes/RouteConstants';
 import { withNavigation } from 'react-navigation';
+import axios from 'axios';
+
 
 export type DetailedPropertyStateProps = {
     property: Property;
@@ -39,127 +42,129 @@ type Props = NavigationStackScreenProps & DetailedPropertyStateProps;
 const CurrentTenants = withNavigation(CurrentTenantCard);
 const propertyKeys = HomepairsPropertyAttributes;
 
-function setStyles(colorTheme?: BaseStyles.ColorTheme) {
-    const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
-    return StyleSheet.create({
-        container: {
-            alignItems: 'center',
-            backgroundColor: colors.space,
-            width: BaseStyles.ContentWidth.max,
-            flex: 1,
-        },
-        pallet: {
-            backgroundColor: colors.secondary,
-            width: BaseStyles.ContentWidth.max,
-            flex: 1,
-            maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
-            alignSelf: 'center',
-        },
-        imageContainer: {
-            width: BaseStyles.ContentWidth.max,
-            height: '100%',
-            overflow: 'hidden',
-            borderRadius: BaseStyles.BorderRadius.large,
-        },
-        imageWrapper: {
-            width: BaseStyles.ContentWidth.thin,
-            height: '50%',
-            maxHeight: 200,
-            borderRadius: BaseStyles.BorderRadius.large,
-            backgroundColor: 'white',
-            alignSelf: 'center',
-            alignContent: 'center',
-            shadowColor: colors.shadow,
-            shadowRadius: 10,
-            shadowOffset: { width: 1, height: 1 },
-            shadowOpacity: 0.25,
-            elevation: 9,
-        },
-        scrollViewContentContainer: {
-            maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
-            backgroundColor: colors.secondary,
-            alignSelf: 'center',
-            width: BaseStyles.ContentWidth.max,
-            flexGrow: 1,
-        },
-        addBottomMargin: {
-            flex: 1,
-            marginBottom: BaseStyles.MarginPadding.largeConst,
-        },
-        homePairsPropertiesImage: {
-            flex: 1,
-            alignSelf: 'center',
-            width: BaseStyles.ContentWidth.max,
-            height: '100%',
-            overflow: 'hidden',
-        },
-        homePairsPropertiesImageWeb: {
-            alignSelf: 'center',
-            width: BaseStyles.ContentWidth.max,
-            height: '100%',
-            overflow: 'hidden',
-        },
+const colors = BaseStyles.LightColorTheme;
+const styles = StyleSheet.create({
+    container: {
+        alignItems: 'center',
+        backgroundColor: colors.space,
+        width: BaseStyles.ContentWidth.max,
+        flex: 1,
+    },
+    pallet: {
+        backgroundColor: colors.secondary,
+        width: BaseStyles.ContentWidth.max,
+        flex: 1,
+        maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+        alignSelf: 'center',
+    },
+    imageContainer: {
+        width: BaseStyles.ContentWidth.max,
+        height: '100%',
+        overflow: 'hidden',
+        borderRadius: BaseStyles.BorderRadius.large,
+    },
+    imageWrapper: {
+        width: BaseStyles.ContentWidth.thin,
+        height: '50%',
+        maxHeight: 200,
+        borderRadius: BaseStyles.BorderRadius.large,
+        backgroundColor: 'white',
+        alignSelf: 'center',
+        alignContent: 'center',
+        shadowColor: colors.shadow,
+        shadowRadius: 10,
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.25,
+        elevation: 9,
+    },
+    scrollViewContentContainer: {
+        maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+        backgroundColor: colors.secondary,
+        alignSelf: 'center',
+        width: BaseStyles.ContentWidth.max,
+        flexGrow: 1,
+    },
+    addBottomMargin: {
+        flex: 1,
+        marginBottom: BaseStyles.MarginPadding.largeConst,
+    },
+    homePairsPropertiesImage: {
+        flex: 1,
+        alignSelf: 'center',
+        width: BaseStyles.ContentWidth.max,
+        height: '100%',
+        overflow: 'hidden',
+    },
+    homePairsPropertiesImageWeb: {
+        alignSelf: 'center',
+        width: BaseStyles.ContentWidth.max,
+        height: '100%',
+        overflow: 'hidden',
+    },
+});
+
+/*
+async function getTenantInfo(propId: number){
+    await axios.get('https://homepairs-alpha.herokuapp.com/API/property/list/').then((response)=>{
+        console.log(response)
+        const {data} = response;
+        const {tenants} = data;
+        tenantInfo = [];
+
+        tenants.forEach(tenant => {
+            const {firstName, lastName, email} = tenant;
+            tenantInfo.push({
+                firstName,
+                lastName,
+                email,
+                phoneNumber: '888-999-3030',
+            });
+        });
     });
 }
-
-// TODO: Get list of tenants from property and pass information to currentTenantCard 
-const fakeTenants: TenantAccount[] = [
-    {
-        propId: 1,
-        tenantId: 1,
-        firstName: 'Alex',
-        lastName: 'Kavanaugh',
-        accountType: AccountTypes.Tenant,
-        email: 'alex@roopairs.com',
-        streetAddress: '1111 Some Street',
-        city: 'San Luis Obispo',
-        roopairsToken: '000000',
-    },
-];
-
-
-const fakeAppliances : Appliance[] = [
-    {
-        applianceId: 1,
-        category: ApplianceType.Plumbing, 
-        appName: 'Sink', 
-        manufacturer: 'Dels Sinks', 
-        modelNum: '12343421', 
-        serialNum: '412344312', 
-        location: 'Bathroom',
-    }, 
-    {
-        applianceId: 2,
-        category: ApplianceType.HotEquipment, 
-        appName: 'Fridge', 
-        manufacturer: 'Dels Fridges', 
-        modelNum: '12343421', 
-        serialNum: '412344312', 
-        location: 'Kitchen',
-    }, 
-    {
-        applianceId: 3,
-        category: ApplianceType.HotEquipment, 
-        appName: 'Water Heater', 
-        manufacturer: 'Dels Heaters', 
-        modelNum: '12343421', 
-        serialNum: '412344312', 
-        location: 'Garage',
-    }, 
-    {
-        applianceId: 4,
-        category: ApplianceType.HotEquipment, 
-        appName: 'Fridge', 
-        manufacturer: 'Dels Fridges', 
-        modelNum: '12343421', 
-        serialNum: '412344312', 
-        location: 'Garage',
-    }, 
-];
+*/
 
 export default function DetailedPropertyScreenBase(props: Props) {
     const { property, navigation } = props;
-    const styles = setStyles(null);
+    const [tenantInfoState, setTenantInfo] = useState([]);
+    const [applianceInfoState, setApplianceInfo] = useState([]);
+
+    useEffect(() => {
+        const fetchTenantsAndAppliances = async () => {
+            const result = await axios.get('https://homepairs-alpha.herokuapp.com/API/property/list/');
+            const {tenants, appliances} = result.data;
+            const tenantInfo: TenantInfo[] = [];
+            const applianceInfo: Appliance[] = [];
+
+            tenants.forEach(tenant => {
+                const {firstName, lastName, email} = tenant;
+                tenantInfo.push({
+                    firstName,
+                    lastName,
+                    email,
+                    phoneNumber: '888-999-3030',
+                });
+            });
+
+            appliances.forEach(appliance => {
+                const {applianceId, category, appName, manufacturer, modelNum, serialNum, location} = appliance;
+                applianceInfo.push({
+                    applianceId, category, appName, manufacturer, modelNum, serialNum, location,
+                });
+            });
+
+            
+
+            /**
+             * Add the logic here 
+             */
+            setApplianceInfo(applianceInfo);
+            setTenantInfo(tenantInfo);
+        };
+        fetchTenantsAndAppliances();
+      }, []);
+     
+    
 
     const imageProps: ImageProps = {
         source: defaultProperty,
@@ -179,30 +184,6 @@ export default function DetailedPropertyScreenBase(props: Props) {
         return <Image source={source} style={style} resizeMode={resizeMode} />;
     }
 
-    function renderGeneralHomeInfo() {
-        return (
-            <GeneralHomeInfo
-                property={property}
-                onClick={navigateModal}
-            />
-        );
-    }
-
-    function renderCurrentTenantInfo() {
-        return(
-            <CurrentTenantCard
-                tenants={fakeTenants}
-                maxTenants={property.tenants}
-            />
-        );
-    }
-
-    function renderApplianceInfo() {
-        return (
-            <ApplianceInfo navigation={navigation} appliances={fakeAppliances}/>
-        );
-    }
-
     function renderContents() {
         return (
             <ScrollView style={{ flexGrow: 1 }}>
@@ -217,9 +198,13 @@ export default function DetailedPropertyScreenBase(props: Props) {
                             {renderImage()}
                         </View>
                     </View>
-                    {renderGeneralHomeInfo()}
-                    {renderApplianceInfo()}
-                    {renderCurrentTenantInfo()}
+                    <GeneralHomeInfo
+                        property={property}
+                        onClick={navigateModal}/>
+                    <ApplianceInfo navigation={navigation} appliances={applianceInfoState}/>
+                    <CurrentTenants 
+                    propertyId={1 /**TODO: get property id from key when backend has support this */} 
+                    tenants={tenantInfoState}/>
                 </View>
             </ScrollView>
         );

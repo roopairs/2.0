@@ -3,16 +3,12 @@ import { AccountActions } from 'homepairs-redux-actions';
 import {
     withAuthPage,
     AuthPassProps,
-    withDarkMode,
-    LoggingInModal,
-    withModal,
 } from 'homepairs-components';
 import strings from 'homepairs-strings';
 import HomePairColors from 'homepairs-colors';
 import { Image, Text, View } from 'react-native';
 import { roopairsLogo } from 'homepairs-images';
 import React from 'react';
-import { withNavigation } from 'react-navigation';
 import RoopairsLoginBase , { RoopairsLoginDispatchProps } from './RoopairsLoginBase';
 
 const roopairsSubtitle = (
@@ -64,7 +60,6 @@ const mapDispatchToProps: (dispatch: any) => RoopairsLoginDispatchProps = (
 });
 
 const RoopairsLogin = connect(null, mapDispatchToProps)(RoopairsLoginBase);
-const RoopairsLoginWithNav = withNavigation(RoopairsLogin);
-const AuthPage = withAuthPage(RoopairsLoginWithNav, authPageParam);
+const AuthPage = withAuthPage(RoopairsLogin, authPageParam);
 
 export default AuthPage;

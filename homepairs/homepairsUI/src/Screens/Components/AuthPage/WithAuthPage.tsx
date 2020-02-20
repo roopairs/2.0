@@ -8,15 +8,12 @@ import {
     StatusBar,
     Dimensions,
 } from 'react-native';
-import {Card} from 'homepairs-elements';
+import {Card, ThinButton} from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import { HomePairFonts } from 'homepairs-fonts';
 import { HomePairsDimensions } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { isNullOrUndefined } from 'homepairs-utilities';
-import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
-import { ModalInjectedProps } from '../Modals/WithModal/WithModal';
-import ThinButton from '../../../Elements/Buttons/ThinButton';
+import { NavigationStackProp } from 'react-navigation-stack';
 
 
 export type AuthPassProps = {
@@ -69,9 +66,12 @@ export type AuthPageInjectedProps = {
      * parameter
      */
     setErrorState?: (arg1: boolean, arg2?: string) => any;
-};
 
-type AuthPageProps = DarkModeInjectedProps & ModalInjectedProps
+    /**
+     * Object used to navigate between the navigation stack. 
+     */
+    navigation?: NavigationStackProp;
+};
 
 type AuthPageState = {
     /**
@@ -106,7 +106,9 @@ const initalState: AuthPageState = {
     clickHighlightedText: () => {},
 };
 
-function setStyles(buttonColor: string, colorTheme: BaseStyles.ColorTheme = BaseStyles.LightColorTheme) {
+const colorTheme = BaseStyles.LightColorTheme;
+
+function setStyles(buttonColor: string) {
     return StyleSheet.create({
         container: {
             alignItems: 'center',
@@ -247,6 +249,7 @@ function setStyles(buttonColor: string, colorTheme: BaseStyles.ColorTheme = Base
  * regarding the data presented by this modal
  * @param {React.ReactElement} WrappedComponent 
  * @param {AuthPassProps} defaultAuthPassProps  */
+
 export function withAuthPage(WrappedComponent: any,defaultAuthPassProps: AuthPassProps) {
     let styles: any = null;
 
@@ -264,16 +267,11 @@ export function withAuthPage(WrappedComponent: any,defaultAuthPassProps: AuthPas
         // Default case, we return essentially nothing. 
         return <></>;
     }
-    return class ComponentBase extends React.Component<AuthPageProps,AuthPageState> {
-        colors: BaseStyles.ColorTheme;
-
-        constructor(props: Readonly<AuthPageProps>) {
+    
+    return class ComponentBase extends React.Component<any,AuthPageState> {
+        constructor(props: Readonly<any>) {
             super(props);
-            this.colors = isNullOrUndefined(props.primaryColorTheme) ? BaseStyles.LightColorTheme : props.primaryColorTheme;
-            styles = setStyles(
-                defaultAuthPassProps.buttonColor,
-                this.colors,
-            );
+            styles = setStyles(defaultAuthPassProps.buttonColor);
 
             // Bind methods that are called outside of this class
             this.setThinButtonClick = this.setThinButtonClick.bind(this);
@@ -335,7 +333,8 @@ export function withAuthPage(WrappedComponent: any,defaultAuthPassProps: AuthPas
                     <Text style={styles.standardText}>
                         {defaultAuthPassProps.underButtonText}
                         <Text
-                        style={{color: this.colors.primary}}
+                        testID='highlighted-pressable-text'
+                        style={{color: colorTheme.primary}}
                         onPress={clickHighlightedText}>
                             {defaultAuthPassProps.highlightedText}
                         </Text>
@@ -345,14 +344,16 @@ export function withAuthPage(WrappedComponent: any,defaultAuthPassProps: AuthPas
         }
 
         renderContents() {
+          const {navigation} = this.props;
           return (
             <View style={styles.container}>
                 {renderSubtitle()}
                 {this.showError()}
                 <WrappedComponent
-                clickButton={this.setThinButtonClick}
-                clickHighlightedText={this.setHighlightedClick}
-                setErrorState={this.setErrorFlag}/>
+                    clickButton={this.setThinButtonClick}
+                    clickHighlightedText={this.setHighlightedClick}
+                    setErrorState={this.setErrorFlag}
+                    navigation={navigation}/>
                 {this.renderSignInButton()}
                 {this.renderUnderButtonText()}
             </View>);

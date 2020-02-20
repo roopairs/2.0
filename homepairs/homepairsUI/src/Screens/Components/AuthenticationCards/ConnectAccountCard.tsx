@@ -1,18 +1,29 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { Card, ThinButton } from 'homepairs-elements';
 import strings from 'homepairs-strings';
-import setStyles from './ConnectCardStyles';
-import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
+import styles from './ConnectCardStyles';
 
-export type ConnectAccountCardProps = DarkModeInjectedProps & {
+export type ConnectAccountCardProps = {
+    /**
+     * Callback that will connect the card to Roopairs
+     */
     connectAccountCallBack?: (arg0?: any) => any;
 };
 
 const cardStrings =
     strings.connectAccountPage.accountNotConnected.connectAccountCard;
+
+/**
+ * ------------------------------------------------------------
+ * Connect Account Card
+ * ------------------------------------------------------------
+ * A small component that will be able to connect a users account 
+ * to the Roopairs Backend.
+ * *Note: This will most likely be removed in the future.
+ * @param {ConnectedAccountCardProps} props 
+ */
 export default function ConnectAccountCard(props: ConnectAccountCardProps) {
-    const { primaryColorTheme, connectAccountCallBack } = props;
-    const styles = setStyles(primaryColorTheme);
+    const { connectAccountCallBack } = props;
     function connectAccount() {
         // TODO: Call asyncronous fetch (From fetch or axios) to connect Roopairs account
         alert('I need to connect');
@@ -40,3 +51,7 @@ export default function ConnectAccountCard(props: ConnectAccountCardProps) {
         </Card>
     );
 }
+
+ConnectAccountCard.defaultProps = {
+    connectAccountCallBack: () => {},
+};

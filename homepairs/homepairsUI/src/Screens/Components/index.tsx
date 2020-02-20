@@ -26,11 +26,6 @@ import {
     AuthPassProps as APP,
     withAuthPage,
 } from './AuthPage/WithAuthPage';
-import {
-    DarkModeInjectedProps as DMIP,
-    withDarkMode,
-} from './WithDarkMode/WithDarkMode';
-
 
 export { default as AddressSticker } from './AddressSticker/AddressSticker';
 export { default as SceneHeader } from './SceneHeader/SceneHeader';
@@ -52,7 +47,7 @@ export { default as EditApplianceModal } from './Modals/EditApplianceModal/EditA
 export { default as EditApplianceModalBase } from './Modals/EditApplianceModal/EditApplianceModalBase';
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
 export { default as CurrentTenantCard} from './CurrentTenantCard/CurrentTenantCard';
-
+export { default as EditTenantModal} from './Modals/EditTenantModal/EditTenantModal';
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows
  * singular exporting for each module. This is a simple workaround.
@@ -67,14 +62,12 @@ export type ConnectAccountCardProps = CACP;
 export type SceneInjectedProps = SIP;
 export type AuthPageInjectedProps = APIP;
 export type AuthPassProps = APP;
-export type DarkModeInjectedProps = DMIP;
 export type LoadingModalProps = LMP;
 
 export {
   HomePairsHeaderProps,
   withAuthPage,
   withSceneHeader,
-  withDarkMode,
   LoggingInModal,
   CreatingAccountModal,
   LoadingModal,

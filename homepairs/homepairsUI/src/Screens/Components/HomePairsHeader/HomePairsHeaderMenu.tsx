@@ -1,46 +1,87 @@
+/* eslint-disable react/static-property-placement */
 import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
-import { NavigationInjectedProps, withNavigation, NavigationActions, StackActions} from 'react-navigation';
-import { FontTheme, ColorTheme } from 'homepairs-base-styles';
+import { FontTheme} from 'homepairs-base-styles';
 import { MainAppStackType } from 'homepairs-types';
-import HomePairColors from 'homepairs-colors';
-import MainAppStack from '../../../Routes/RouteConstants';
-import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
-import { navigationKeys } from 'src/Routes/RouteConstants';
 import * as BaseStyles from 'homepairs-base-styles';
+import { NavigationStackProp } from 'react-navigation-stack';
+import MainAppStack from '../../../Routes/RouteConstants';
 
+export type HomePairsMenuProps = {
 
-export type HomePairsMenuProps = DarkModeInjectedProps & {
+    /**
+     * Used to indicate an instance of this component during testing
+     */
+    testID?: string;
+
+    /**
+     * Navigator passed from the parent that will be used to navigate between
+     * the various stacks and screens of the application.
+     */
+    navigation: NavigationStackProp;
+
+    /**
+     * Value of the page that is currently navigated to and whose text is 
+     * slightly
+     */
     selectedPage: MainAppStackType;
+
+    /**
+     * Function intended invoke actions after navigation has occurred. 
+     */
     parentCallBack?: (arg0?: any) => any;
+
+    /**
+     * Indicates to component if the drop down menu should be rendered or if a 
+     * nav bar should be rendered
+     */
     isDropDown?: boolean;
+
+    /**
+     * If the component is a dropdown menu, this indicates if the drop down contents 
+     * should be revealed or not.
+     */
     showMenu?: boolean;
+
+    /**
+     * Callback function intended to change the state of the menu from hiding or showing
+     * the dropdown menu. 
+     */
     toggleMenu?: (arg0?: any) => any;
 };
 
-type Props = NavigationInjectedProps & HomePairsMenuProps;
+type Props = HomePairsMenuProps;
 
-const setColorScheme = (
-    colorScheme: ColorTheme,
-    baseStyles: any,
-    isDropDown: boolean,
-) => {
+const colorScheme = BaseStyles.LightColorTheme;
+
+const setStyles = (isDropDown: boolean) => {
     const newStyle = StyleSheet.create({
         container: {
-            ...baseStyles.container,
+            flexDirection: 'row',
+            width: '100%',
+            maxHeight: 150,
+            minWidth: 500,
             backgroundColor: colorScheme.secondary,
         },
         containerDropDown: {
-            ...baseStyles.containerDropDown,
+            flexDirection: 'column',
+            width: '100%',
+            minWidth: 500,
             backgroundColor: colorScheme.secondary,
         },
         menuText: {
-            ...baseStyles.menuText,
+            fontFamily: FontTheme.primary,
+            paddingVertical: 15,
+            maxHeight: 50,
+            fontSize: 16,
             color: colorScheme.tertiary,
             paddingLeft: isDropDown ? 33 : 15,
         },
         menuSelectedText: {
-            ...baseStyles.menuSelectedText,
+            fontFamily: FontTheme.primary,
+            paddingVertical: 15,
+            maxHeight: 50,
+            fontSize: 16,
             color: colorScheme.lightGray,
             paddingLeft: isDropDown ? 33 : 15,
         },
@@ -49,41 +90,29 @@ const setColorScheme = (
 };
 
 let styles = null;
+
 /**
- * Native Applications can read from the StyleSheet directly. However, react-native-web is unable to do this
- * so we will simply pass in a dictionary to stylize our color scheme.
+ * ---------------------------------------------------
+ * HomePairs Header Menu 
+ * ---------------------------------------------------
+ * A child component for the HomePairs header that will contain the navigation
+ * fields for the header. This component has the ability to navigate between 
+ * the different stacks. It also is capable of rendering as a dropdown or a 
+ * navigation bar based on a passed property of the state of the parent. 
+ * @param {HomePairsMenuProps} props 
  */
-const baseStyles = {
-    container: {
-        flexDirection: 'row',
-        width: '100%',
-        maxHeight: 150,
-        minWidth: 500,
-    },
-    containerDropDown: {
-        flexDirection: 'column',
-        width: '100%',
-        minWidth: 500,
-    },
-    menuText: {
-        fontFamily: FontTheme.primary,
-        paddingVertical: 15,
-        maxHeight: 50,
-        fontSize: 16,
-    },
-    menuSelectedText: {
-        fontFamily: FontTheme.primary,
-        paddingVertical: 15,
-        maxHeight: 50,
-        fontSize: 16,
-    },
-};
-
-
-class HomePairsMenu extends React.Component<Props> {
+export default class HomePairsMenu extends React.Component<Props> {
     pages: any[];
 
     colorScheme: any;
+
+    static defaultProps = {
+        testID: 'homepairs-header-menu',
+        parentCallBack: (page?: any) => {return page;},
+        isDropDown: false,
+        showMenu: false,
+        toggleMenu: (toggle?: boolean) => {return toggle;},
+    };
 
     constructor(props: Readonly<Props>) {
         super(props);
@@ -95,30 +124,35 @@ class HomePairsMenu extends React.Component<Props> {
         this.displayCorrectMenu = this.displayCorrectMenu.bind(this);
 
         this.colorScheme = BaseStyles.LightColorTheme;
-        styles = setColorScheme(this.colorScheme, baseStyles, props.isDropDown);
+        styles = setStyles(props.isDropDown);
     }
 
-    
+    /**
+     * After a user has clicked on a menu item, the item's information will invoke the 
+     * parent's callback function
+     * @param {MainAppStackType} value 
+     */
     setSelected(value: MainAppStackType) {
         const {parentCallBack} = this.props;
+        const [first] = MainAppStack; 
         let page = value;
         if (value.key === MainAppStack[MainAppStack.length - 1].key)
-            page = value;
+            page = first;
         parentCallBack(page);
     }
 
+    /**
+     * After a menu item has been clicked, the header is notified of change to be 
+     * rerendered. Then the user is navigated to the selcted page.
+     * @param {MainAppStackType} value 
+     */
     navigatePages(value: MainAppStackType) {
-            const {navigation} = this.props;
-
-            // Check to see if logout had been clicked. If so, set the selected value 
-            // to the Properties
-            if(value.key === MainAppStack[MainAppStack.length-1].key){
-                this.setSelected(MainAppStack[0]);
-            }else{
-                this.setSelected(value);
-            }
-            this.closeMenu();
-            navigation.navigate(value.navigate);
+        const {navigation} = this.props;
+        // Check to see if logout had been clicked. If so, set the selected value 
+        // to the Properties
+        this.setSelected(value);
+        this.closeMenu();
+        navigation.navigate(value.navigate);
     }
 
     closeMenu() {
@@ -126,6 +160,13 @@ class HomePairsMenu extends React.Component<Props> {
         toggleMenu();
     }
 
+    /**
+     * Renders the menu based on if the isDropDown value. On true, it renders
+     * a dropDown menu which can render the menu's contents based on the showMenu
+     * value. Otherwise, nothing is rendered and the menu is rendered with 
+     * the homepairs title. 
+     * @param {MainAppStackType} currentPage 
+     */
     displayCorrectMenu(currentPage: MainAppStackType) {
         const {isDropDown, showMenu} = this.props;
         if (isDropDown) {
@@ -136,26 +177,25 @@ class HomePairsMenu extends React.Component<Props> {
         return this.buttonFormat(currentPage);
     }
 
-    /** This function renders all the selections of a button in the format the we want.
-     * Notice the use of the maps function. This function requires that we iterate through a list
-     * of objects with a specific key. Each key must be unique in the array/list. */
 
+     /**
+      * This function renders all the selections of a button in the format the we want.
+      * Notice the use of the maps function. This function requires that we iterate through a list
+      * of objects with a specific key. Each key must be unique in the array/list.
+      * @param {MainAppStackType} currentPage 
+      */
     buttonFormat(currentPage: MainAppStackType) {
         return MainAppStack.map((page, i) => {
             return (
                 <View 
                     // eslint-disable-next-line react/no-array-index-key
                     key={i}
-                    style={{ marginHorizontal: 3, justifyContent: 'center' }}
-                >
-                    <TouchableOpacity onPress={() => this.navigatePages(page)}>
-                        <Text
-                            style={
-                                page === currentPage
-                                    ? styles.menuSelectedText
-                                    : styles.menuText
-                            }
-                        >
+                    style={{ marginHorizontal: 3, justifyContent: 'center' }}>
+                    <TouchableOpacity 
+                        testID='homepairs-header-menu-buttons' 
+                        onPress={() => this.navigatePages(page)}>
+                        <Text 
+                            style={ page === currentPage? styles.menuSelectedText : styles.menuText}>
                             {page.title}
                         </Text>
                     </TouchableOpacity>
@@ -166,23 +206,13 @@ class HomePairsMenu extends React.Component<Props> {
 
     render() {
         const {isDropDown, selectedPage} = this.props;
-        styles = setColorScheme(
-            this.colorScheme,
-            baseStyles,
-            isDropDown,
-        );
+        styles = setStyles(isDropDown);
 
         return (
             <View
-                style={
-                    !isDropDown
-                        ? styles.container
-                        : styles.containerDropDown
-                }
-            >
+                style={!isDropDown ? styles.container : styles.containerDropDown}>
                 {this.displayCorrectMenu(selectedPage)}
             </View>
         );
     }
 }
-export default withNavigation(HomePairsMenu);

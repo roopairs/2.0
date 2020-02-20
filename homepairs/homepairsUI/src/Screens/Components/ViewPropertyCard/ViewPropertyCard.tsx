@@ -117,7 +117,7 @@ export type ViewPropertyCardProps = {
     /**
      * Callback that will navigate to the DetailedProperty Screen
      */
-    viewButtonSelectedCallBack?: (arg0?: number, arg1?: any) => any;
+    viewButtonSelectedCallBack?: (propertyIndex: number, navigation?: any, ...propertyInfo: any) => any;
 
     /**
      * The position of the property contents in the redux Store. This value will
@@ -179,24 +179,18 @@ export default function ViewPropertyCard(props: ViewPropertyCardProps) {
         );
     };
 
-    function renderThinButton() {
-        return (
-            <ThinButton 
-                name={viewPropertyButtonText}
-                containerStyle={styles.thinButtonContainer}
-                buttonStyle={styles.thinButton}
-                buttonTextStyle={styles.thinButtonText}
-                onClick={sendIndexToParent} />
-        );
-    };
-
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
                 {renderImageContent()}
             </View>
             <View style={styles.remainingContainer}>
-                {renderThinButton()}
+                <ThinButton 
+                    name={viewPropertyButtonText}
+                    containerStyle={styles.thinButtonContainer}
+                    buttonStyle={styles.thinButton}
+                    buttonTextStyle={styles.thinButtonText}
+                    onClick={sendIndexToParent} />
             </View>
         </View>
     );

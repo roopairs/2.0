@@ -1,14 +1,11 @@
 import { AppState, MainAppStackType } from "homepairs-types";
 import { connect } from "react-redux";
 import { HeaderActions } from 'homepairs-redux-actions';
-import { withNavigation } from "react-navigation";
 import HomePairsHeaderBase , { HomePairsHeaderStateProps, HomePairsHeaderDispatchProps } from "./HomePairsHeaderBase";
-import { withDarkMode } from '../WithDarkMode/WithDarkMode';
 
 function mapStateToProps(state: AppState): HomePairsHeaderStateProps{ 
   return {
     header: state.header,
-    isDarkModeActive: state.settings.isDarkModeActive,
   };
 };
 
@@ -33,4 +30,20 @@ const HomePairsHeader = connect(
   mapDispatchToProps,
 )(HomePairsHeaderBase);
 
-export default withNavigation(HomePairsHeader);
+/**
+ * ---------------------------------------------------
+ * HomePairs Navigation Header
+ * ---------------------------------------------------
+ * A fully functional navigation header that is rendered based on the size of the 
+ * encapsulating window. It connects to the redux store to maintain a state of how 
+ * to render itself. It can present itself as navigation bar or a navigation 
+ * drop down menu. This is intended to be used on the Main App Stack of a react-native
+ * navigators although, it should be able to be rendered in all other components 
+ * provided it is able to invoke the proper dispatch actions from the store.
+ * 
+ * Children Components: 
+ *  HomePairsHeaderBase
+ *  HomePairsHeaderMenu
+ *  HomePairsTitle
+ */
+export default HomePairsHeader;

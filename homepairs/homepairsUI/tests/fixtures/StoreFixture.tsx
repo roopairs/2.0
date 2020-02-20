@@ -14,7 +14,7 @@ import {
 
 const middleWares = [thunk];
 const mockStore = configureMockStore(middleWares);
-const MainAppStack: Array<MainAppStackType> = [
+export const mockMainAppStack: Array<MainAppStackType> = [
     {
         title: 'Properties',
         navigate: 'AccountProperties',
@@ -62,7 +62,7 @@ const PropertyManagerAcount: LandlordAccount = {
 /** User Account data for testing! */
 
 /** Property data for testing! */
-const PropertyList1: Property[] = [
+export const PropertyList1: Property[] = [
     {
         streetAddress: '560 Hathway Ap. 2',
         city: 'San Luis Obispo',
@@ -88,13 +88,73 @@ const propertyListState : PropertyListState = {
 /** Property data for testing! */
 
 /** Header data for testing! */
+
+// Header should be rendered as a drop menu with no back button
+// and its contents hidden. 
 const HeaderState1: Header = {
     showMenu: false,
     isDropDown: true,
-    currentPage: MainAppStack[1],
+    currentPage: mockMainAppStack[1],
     showBackButton: false,
     menu: navigationMenu,
 };
+
+// Header should be rendered as a dropMenu with a back button and its 
+// contents hidden 
+const HeaderState2: Header = {
+    showMenu: false,
+    isDropDown: true,
+    currentPage: mockMainAppStack[1],
+    showBackButton: true,
+    menu: navigationMenu,
+};
+
+// Header should be rendered as a navHeader with not other buttons
+const HeaderState3: Header = {
+    showMenu: false,
+    isDropDown: false,
+    currentPage: mockMainAppStack[1],
+    showBackButton: false,
+    menu: navigationMenu,
+};
+
+// Header should be rendered as a navHeader with a back button
+const HeaderState4: Header = {
+    showMenu: false,
+    isDropDown: false,
+    currentPage: mockMainAppStack[1],
+    showBackButton: true,
+    menu: navigationMenu,
+};
+
+// Header should be rendered as a dropMenu with its menu revealed and a 
+// go back button rendered. 
+const HeaderState5: Header = {
+    showMenu: true,
+    isDropDown: true,
+    currentPage: mockMainAppStack[1],
+    showBackButton: true,
+    menu: navigationMenu,
+};
+
+// If on a change of Dimensions that sets the isDropDown to true, 
+// the header should render the showmenu as well.
+const HeaderState6: Header = {
+    showMenu: true,
+    isDropDown: false,
+    currentPage: mockMainAppStack[1],
+    showBackButton: true,
+    menu: navigationMenu,
+};
+
+const HeaderState7: Header = {
+    showMenu: true,
+    isDropDown: true,
+    currentPage: mockMainAppStack[1],
+    showBackButton: false,
+    menu: navigationMenu,
+};
+
 /** Header data for testing! */
 
 /** Service Request data for testing! */
@@ -121,3 +181,55 @@ export const testStore1: AppState = {
 };
 
 export const propertyManagerMock1 = mockStore(testStore1);
+
+export const HeaderMockStores = {
+    dropDownHiddenNoBack: mockStore({
+        properties: propertyListState,
+        accountProfile: PropertyManagerAcount,
+        header: HeaderState1,
+        serviceRequests: serviceRequest1,
+        settings: ConfigurationSettings1,
+    }),
+    dropDownHiddenWithBack: mockStore({
+        properties: propertyListState,
+        accountProfile: PropertyManagerAcount,
+        header: HeaderState2,
+        serviceRequests: serviceRequest1,
+        settings: ConfigurationSettings1,
+    }),
+    navBarNoBack: mockStore({
+        properties: propertyListState,
+        accountProfile: PropertyManagerAcount,
+        header: HeaderState3,
+        serviceRequests: serviceRequest1,
+        settings: ConfigurationSettings1,
+    }),
+    navBarWithBack: mockStore({
+        properties: propertyListState,
+        accountProfile: PropertyManagerAcount,
+        header: HeaderState4,
+        serviceRequests: serviceRequest1,
+        settings: ConfigurationSettings1,
+    }),
+    dropDownRevealedWithBack: mockStore({
+        properties: propertyListState,
+        accountProfile: PropertyManagerAcount,
+        header: HeaderState5,
+        serviceRequests: serviceRequest1,
+        settings: ConfigurationSettings1,
+    }),
+    navBarOnChangeDropDownRevealMenu: mockStore({
+        properties: propertyListState,
+        accountProfile: PropertyManagerAcount,
+        header: HeaderState6,
+        serviceRequests: serviceRequest1,
+        settings: ConfigurationSettings1,
+    }),
+    dropDownRevealedNoBack: mockStore({
+        properties: propertyListState,
+        accountProfile: PropertyManagerAcount,
+        header: HeaderState7,
+        serviceRequests: serviceRequest1,
+        settings: ConfigurationSettings1,
+    }),
+};
