@@ -7,6 +7,7 @@ import React from 'react';
 import HomePairColors from 'homepairs-colors';
 import { HomePairFonts } from 'homepairs-fonts';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
+import * as BaseStyles from 'homepairs-base-styles';
 
 export type HomePairsHeaderTitleProps = DarkModeInjectedProps & {
     /**
@@ -75,10 +76,7 @@ export class HomePairsHeaderTitle extends React.Component<
 
     constructor(props: Readonly<HomePairsHeaderTitleProps>) {
         super(props);
-        this.colorScheme =
-            props.primaryColorTheme == null
-                ? HomePairColors.LightModeColors
-                : props.primaryColorTheme;
+        this.colorScheme = BaseStyles.LightColorTheme;
         styles = setColorScheme(this.colorScheme, baseStyles);
         this.getProperTitleStyle = this.getProperTitleStyle.bind(this);
     }

@@ -48,7 +48,7 @@ export default function AddressSticker(props: AddressStickerProps) {
     return(
        <Sticker style={styles.container}>
             <Text style={styles.cityStateText}>
-            {city},{" "}{state} 
+            {city},{" "}{state}{" "} 
             <Text style={styles.streetText}>/{` ${address}`}</Text>
             </Text>
         </Sticker>

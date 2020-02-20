@@ -1,15 +1,37 @@
 import React from 'react';
-import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+
+import {createBrowserApp} from '@react-navigation/web';
+import { createAppContainer, SafeAreaView, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator, NavigationStackConfig, NavigationStackOptions } from 'react-navigation-stack';
 import {
-    MainAppPages,
-    LoadingScreen,
-    AuthenticationPages,
+    MainAppPages, AuthenticationPages,
 } from 'homepairs-pages';
 import { Platform } from 'react-native';
-import { HomePairsHeader } from 'homepairs-components';
+import { HomePairsHeader, AddNewPropertyModal, EditPropertyModal, LoggingInModal, CreatingAccountModal} from 'homepairs-components';
 import { LightColorTheme} from 'homepairs-base-styles';
-import { AccountTypes } from 'homepairs-types';
+import { navigationKeys } from './RouteConstants';
+import { navigationPages } from 'src/Routes/RouteConstants';
+
+const isWeb = Platform.OS === 'web';
+
+const defaultNavigationOptions: NavigationStackOptions = {
+    cardOverlayEnabled: true,
+    cardStyle: { 
+        backgroundColor: 'rgba(0,0,0,.4)',
+     },
+    gestureEnabled: false,
+    animationEnabled:false,
+};
+
+const modalStackConfig: NavigationStackConfig = {
+    mode: 'modal',
+    headerMode: 'none',
+};
+
+const navigationConfiguration = {
+    defaultNavigationOptions,
+    ...modalStackConfig,
+};
 
 
 // TODO: Render navigation header for andriod devices!!!
@@ -24,93 +46,98 @@ const navigationHeader = () => ({
     headerStyle: {
         backgroundColor: LightColorTheme.primary,
     },
-    gestureEnabled: true,
+    headerMode: 'float',
+    gestureEnabled: false,
 });
 
-const authStackConfig = {
-    defaultNavigationOptions: {
-        headerTintColor: '#fff',
-        headerStyle: {
-            backgroundColor: LightColorTheme.primary,
-        },
-        headerShown: false,
-        gestureEnabled: true,
-    },
-};
-
-const mainStackConfig: any = {
-    defaultNavigationOptions: navigationHeader,
-    initialRouteName: 'Properties',
-};
-
 const innerStackConfig: any = {
-    headerMode: 'none',
-    defaultNavigationOptions: {
-        gestureEnabled: true,
-    },
+    defaultNavigationOptions: navigationHeader,
+    animationEnabled:false,
 };
 
 // These should be separated into different files for each Route (AccountProperties, Service Request, Account)
 const propertyStackConfig = {
-    initialRouteName: 'AccountProperties',
+    initialRouteName: navigationPages.PropertiesScreen,
     ...innerStackConfig,
 };
 
 const serviceRequestStackConfig = {
-    initialRouteName: 'ServiceRequest',
+    initialRouteName: navigationPages.ServiceRequestScreen,
     ...innerStackConfig,
 };
 const accountStackConfig = {
-    initialRouteName: 'Account',
+    initialRouteName: navigationPages.AccountSettings,
     ...innerStackConfig,
 };
 
 const PropertyStack = createStackNavigator(
     {
-        AccountProperties: MainAppPages.PropertyPages.PropertiesScreen,
-        TenantProperties: MainAppPages.PropertyPages.TenantPropertiesScreen,
-        DetailedProperty: MainAppPages.PropertyPages.DetailedPropertyScreen,
+        [navigationKeys.PropertiesScreen]: MainAppPages.PropertyPages.PropertiesScreen,
+        [navigationKeys.TenantProperty]: MainAppPages.PropertyPages.TenantPropertiesScreen,
+        [navigationKeys.SingleProperty]: MainAppPages.PropertyPages.DetailedPropertyScreen,
     },
     propertyStackConfig,
 );
 const ServiceRequestStack = createStackNavigator(
-  {ServiceRequest: MainAppPages.ServiceRequestPages.ServiceRequestScreen, NewRequest: MainAppPages.ServiceRequestPages.NewRequestScreen}, 
+    {
+      [navigationKeys.ServiceRequestScreen]: MainAppPages.ServiceRequestPages.ServiceRequestScreen, 
+      [navigationKeys.NewRequest]: MainAppPages.ServiceRequestPages.NewRequestScreen,
+    }, 
   serviceRequestStackConfig);
 const AccountStack = createStackNavigator(
-  {Account: MainAppPages.AccountPages.AccountScreen},
+    {
+        [navigationKeys.AccountSettings]: MainAppPages.AccountPages.AccountScreen,
+    },
   accountStackConfig);
 
-/*
- * injects navigator objects into all these pages; if you make a new page that needs a navigator, add it to this stack
- * (example: SignUp navigates to SignUpScreen [syntax: SignUp: AuthenticationPages.SignUpScreen])
+
+/**
+ * If you wish to add a modal to the stack, do so HERE!
  */
+//
 const MainStack = createStackNavigator(
     {
-        Properties: PropertyStack,
-        ServiceRequest: ServiceRequestStack,
-        Account: AccountStack,
+        [navigationKeys.Properties]: PropertyStack,
+        [navigationKeys.ServiceRequest]: ServiceRequestStack,
+        [navigationKeys.Account]: AccountStack,
+
+        // Add all modals here. This way, the page will overlay the entire page including the header
+        [navigationKeys.AddNewPropertyModal]: AddNewPropertyModal,
+        [navigationKeys.EditPropertyModal]: EditPropertyModal,
     },
-    mainStackConfig,
-);
-const AuthStack = createSwitchNavigator(
     {
-        Login: AuthenticationPages.LoginScreen,
-        SignUp: AuthenticationPages.SignUpScreen,
-        Connect: AuthenticationPages.RoopairsLogin,
+        initialRouteName: navigationKeys.Properties,
+        ...navigationConfiguration,
     },
-    authStackConfig,
 );
 
-export const AppNavigator = createAppContainer(
-    createSwitchNavigator(
-        {
-            Main: MainStack,
-            Auth: AuthStack,
-            Loading: LoadingScreen,
-        },
-        {
-            initialRouteName: 'Loading',
-        },
-    ),
+const AuthStack = createStackNavigator(
+    {
+        [navigationKeys.LoginScreen]: AuthenticationPages.LoginScreen,
+        [navigationKeys.LoggingInModal]: LoggingInModal,
+        [navigationKeys.RoopairsLogin]: AuthenticationPages.RoopairsLogin,
+        [navigationKeys.RoopairsLoggingInModal]: LoggingInModal,
+        [navigationKeys.SignUpScreen]: AuthenticationPages.SignUpScreen,
+        [navigationKeys.CreatingAccountModal]: CreatingAccountModal,
+    },
+    {
+        initialRouteName: navigationKeys.LoginScreen,
+        ...navigationConfiguration,
+    },
 );
+
+const container = createStackNavigator(
+    {
+        [navigationKeys.Main]: MainStack,
+        [navigationKeys.Auth]: AuthStack,
+    },
+    {
+        initialRouteName: navigationKeys.Auth,
+        headerMode: 'none',
+    },
+    
+);
+
+export const AppNavigator = isWeb ? createBrowserApp(container): createAppContainer(container);
+
 export { MainStack, AuthStack };

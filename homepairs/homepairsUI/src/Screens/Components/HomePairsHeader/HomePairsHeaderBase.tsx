@@ -12,6 +12,7 @@ import {
     StackActions,
     NavigationInjectedProps,
     NavigationStackAction,
+    NavigationActions,
 } from 'react-navigation';
 import * as BaseStyles from 'homepairs-base-styles';
 import { isNullOrUndefined } from 'homepairs-utilities';
@@ -24,6 +25,7 @@ import {
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu';
 import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
+import { NavigationStackScreenProps } from 'react-navigation-stack';
 
 const popAction = StackActions.pop({
     n: 1,
@@ -44,13 +46,12 @@ export type HomePairsHeaderDispatchProps = {
 };
 export type HomePairsHeaderProps = HomePairsHeaderDispatchProps &
     HomePairsHeaderStateProps &
-    DarkModeInjectedProps &
-    NavigationInjectedProps &
+    NavigationStackScreenProps &
     NavigationStackAction;
 
 function setColorTheme(colorScheme?: BaseStyles.ColorTheme) {
     const colors =
-        colorScheme == null ? BaseStyles.LightColorTheme : colorScheme;
+        isNullOrUndefined(colorScheme) ? BaseStyles.LightColorTheme : colorScheme;
     return StyleSheet.create({
         container: {
             shadowOpacity: 0.1,
@@ -88,14 +89,11 @@ function setColorTheme(colorScheme?: BaseStyles.ColorTheme) {
 let styles = null;
 
 class HomePairsHeaderBase extends React.Component<HomePairsHeaderProps> {
-    colorScheme: BaseStyles.ColorTheme;
+    colorScheme: any;
 
     constructor(props: Readonly<HomePairsHeaderProps>) {
         super(props);
-        this.colorScheme =
-            props.primaryColorTheme == null
-                ? BaseStyles.LightColorTheme
-                : props.primaryColorTheme;
+        this.colorScheme = BaseStyles.LightColorTheme;
         styles = setColorTheme(this.colorScheme);
         this.toggleMenu = this.toggleMenu.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -151,10 +149,11 @@ class HomePairsHeaderBase extends React.Component<HomePairsHeaderProps> {
      * */
     goBack() {
         const { navigation, onToggleMenu, onShowGoBackbutton } = this.props;
-        navigation.dispatch(popAction);
+        navigation.pop();
+
+        // TODO: Bug here. Will need to adjust navigation to give us indices. Currently retuns undefined!!
         const navigationIndex = navigation.state.index;
-        const isFirst =
-            isNullOrUndefined(navigationIndex) || navigationIndex > 0;
+        const isFirst = isNullOrUndefined(navigationIndex) || navigationIndex > 0;
         if (isFirst) {
             onShowGoBackbutton(false);
         }
@@ -173,19 +172,18 @@ class HomePairsHeaderBase extends React.Component<HomePairsHeaderProps> {
     }
 
     renderHeaderTitle() {
-        const { header, primaryColorTheme } = this.props;
+        const { header } = this.props;
         return (
             <HomePairsHeaderTitle
                 showGoBackButton={header.showBackButton}
                 toggleMenuCallBack={this.toggleMenu}
                 isDropDown={header.isDropDown}
-                primaryColorTheme={primaryColorTheme}
             />
         );
     }
 
     renderMenu() {
-        const { header, primaryColorTheme } = this.props;
+        const { header } = this.props;
         return (
             <HomePairsMenu
                 selectedPage={header.currentPage}
@@ -193,7 +191,6 @@ class HomePairsHeaderBase extends React.Component<HomePairsHeaderProps> {
                 toggleMenu={this.toggleMenu}
                 isDropDown={header.isDropDown}
                 showMenu={header.showMenu}
-                primaryColorTheme={primaryColorTheme}
             />
         );
     }
@@ -219,20 +216,15 @@ class HomePairsHeaderBase extends React.Component<HomePairsHeaderProps> {
                         header.isDropDown
                             ? { flexDirection: 'column' }
                             : { flexDirection: 'row' }
-                    }
-                >
+                    }>
                     <View
                         style={{
                             flexDirection: 'row',
                             backgroundColor: this.colorScheme.secondary,
-                        }}
-                    >
+                        }}>
                         {this.showBackButton()}
                         <View
-                            style={{
-                                marginLeft: BaseStyles.MarginPadding.largeConst,
-                            }}
-                        >
+                            style={{marginLeft: BaseStyles.MarginPadding.largeConst}}>
                             {this.renderHeaderTitle()}
                         </View>
                         {this.renderHamburger()}

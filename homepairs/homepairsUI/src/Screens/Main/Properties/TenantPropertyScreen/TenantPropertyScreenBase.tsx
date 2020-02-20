@@ -117,7 +117,7 @@ export default function TenantPropertyScreenBase(props:Props){
                     resizeMode='cover'/>
                 </View>
                 </View>
-                <GeneralHomeInfo property={property} primaryColorTheme={primaryColorTheme} hasEdit={canEditProps} />
+                <GeneralHomeInfo property={property} hasEdit={canEditProps} />
                 <PrimaryContactInfo propertyManager={propertyManager} primaryColorTheme={primaryColorTheme}/>
             </View>
         </ScrollView>

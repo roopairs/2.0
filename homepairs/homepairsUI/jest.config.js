@@ -1,9 +1,21 @@
 // jest.config.js
 const { defaults: tsjPreset } = require('ts-jest/presets');
+const { withEnzyme } = require('jest-expo-enzyme');
+const iosPreset = require('jest-expo/ios/jest-preset');
+const androidPreset = require('jest-expo/android/jest-preset');
+const webPreset = require('jest-expo/web/jest-preset');
 
 module.exports = {
     ...tsjPreset,
-    preset: 'jest-expo',
+    projects: [
+        // Skipping Node because we want to test DOM presets only
+        withEnzyme(iosPreset),
+        withEnzyme(androidPreset),
+        // The Enzyme support added to web is different from that added to native, which `withEnzyme` handles
+        // Luckily you won't have to do anything special because it reads the platform from
+        // `haste.defaultPlatform` of the provided Jest config
+        withEnzyme(webPreset),
+    ],
     transform: {
         ...tsjPreset.transform,
         '\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
@@ -34,5 +46,5 @@ module.exports = {
     // This is the only part which you can keep
     // from the above linked tutorial's config:
     cacheDirectory: '.jest/cache',
-    setupFilesAfterEnv: ['<rootDir>/tests/setup.ts']
+    setupFilesAfterEnv: ['<rootDir>/tests/setup/test-setup.js'],
 };

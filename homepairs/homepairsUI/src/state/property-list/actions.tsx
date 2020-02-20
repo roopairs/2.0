@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { NavigationStackProp } from 'react-navigation-stack';
 import {
   AddPropertyAction,
   UpdatePropertyAction,
@@ -79,37 +80,35 @@ export const addProperty = (newProperty: Property): AddPropertyAction => {
  * @param {onChangeModalVisibility} onChangeModalVisibility -changes the visibility of the modal of the calling component
  */
 export const postNewProperty = (
-  newProperty: Property,
-  info: AddNewPropertyState,
-  setInitialState: () => void,
-  onChangeModalVisibility: (check: boolean) => void,
+    newProperty: Property,
+    info: AddNewPropertyState,
+    setInitialState: () => void,
+    navigation: NavigationStackProp,
 ) => {
-  return async (dispatch: (arg0: any) => void) => {
-    await axios
-      .post('https://homepairs-alpha.herokuapp.com/API/property/create/',
-        {
-          streetAddress: newProperty.streetAddress,
-          city: newProperty.city,
-          state: newProperty.state,
-          numBed: newProperty.bedrooms,
-          numBath: newProperty.bathrooms,
-          maxTenants: newProperty.tenants,
-          pm: info.email,
-          token: info.roopairsToken,
-        })
-      .then(response => {
-        if (response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.SUCCESS) {
-          dispatch(addProperty(newProperty));
-          setInitialState();
-          onChangeModalVisibility(false);
-        } else {
-          console.log('error');
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+    return async (dispatch: (arg0: any) => void) => {
+        await axios
+            .post('https://homepairs-alpha.herokuapp.com/API/property/create/',
+            {
+              streetAddress: newProperty.streetAddress,
+              city: newProperty.city,
+              state: newProperty.state,
+              numBed: newProperty.bedrooms,
+              numBath: newProperty.bathrooms,
+              maxTenants: newProperty.tenants,
+              pm: info.email,
+              token: info.roopairsToken,
+            })
+            .then(response => {
+                if (response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.SUCCESS) {
+                    dispatch(addProperty(newProperty));
+                    setInitialState();
+                    navigation.goBack();
+                } else {
+                  // TODO: Send back error status to modal, this can be done by sending another callback as a parameter
+                }
+            })
+            .catch(() => {});
+    };
 };
 
 /**
@@ -142,10 +141,10 @@ export const updateProperty = (propertyIndex: number, updatedProperty: Property)
  * @param {onChangeModalVisibility} onChangeModalVisibility -changes the visibility of the modal
  * of the calling component
  */
-export const postUpdatedProperty = (
-  editProperty: Property,
-  info: EditPropertyState,
-  onChangeModalVisibility: (check: boolean) => void) => {
+export const postUpdatedProperty = ( 
+    editProperty: Property, 
+    info: EditPropertyState,
+    navigation: NavigationStackProp) => {
   return async (dispatch: (arg0: any) => void) => {
     return axios.post('https://homepairs-alpha.herokuapp.com/API/property/update/', {
       oldStreetAddress: info.oldProp.streetAddress,
@@ -159,16 +158,14 @@ export const postUpdatedProperty = (
       pm: info.email,
       token: info.roopairsToken,
     })
-      .then((response) => {
-        if (response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.SUCCESS) {
-          dispatch(updateProperty(info.index, editProperty));
-          onChangeModalVisibility(false);
-        } else {
-          // TODO: Send back error status to modal, this can be done by sending another callback as a parameter
-        }
-      }).catch((error) => {
-        console.log(error);
-      });
+    .then((response) => {
+      if(response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.SUCCESS){
+        dispatch(updateProperty(info.index, editProperty));
+        navigation.goBack();
+      } else {
+        // TODO: Send back error status to modal, this can be done by sending another callback as a parameter
+      }
+    }).catch(() => {});
   };
 };
 

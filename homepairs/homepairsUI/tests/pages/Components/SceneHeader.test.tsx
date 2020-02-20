@@ -1,7 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/**
- * @jest-environment jsdom
- */
 
 import * as React from 'react';
 import { View, Button} from 'react-native';

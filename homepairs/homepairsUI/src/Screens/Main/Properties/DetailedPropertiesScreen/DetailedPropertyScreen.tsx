@@ -1,8 +1,6 @@
 import { AppState } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import {withModal} from 'homepairs-components';
-import EditPropertyModal from 'src/Screens/Components/Modals/EditPropertyModal/EditPropertyModal';
 import DetailedPropertyScreenBase, {
     DetailedPropertyStateProps,
 } from './DetailedPropertyScreenBase';
@@ -19,5 +17,4 @@ const DetailedPropertyScreen = connect(
 )(DetailedPropertyScreenBase);
 
 const DetailedPropertyScreenWithNavigation = withNavigation(DetailedPropertyScreen);
-const ScreenWithModal = withModal(DetailedPropertyScreenWithNavigation, EditPropertyModal);
-export default ScreenWithModal;
+export default DetailedPropertyScreenWithNavigation;

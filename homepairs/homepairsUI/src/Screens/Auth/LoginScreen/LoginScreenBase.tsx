@@ -8,6 +8,9 @@ import {
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
 import { NavigationSwitchProp, NavigationSwitchScreenProps} from 'react-navigation';
+import { navigationKeys } from 'homepairs-routes';
+import { navigationPages } from 'src/Routes/RouteConstants';
+
 import {
     isEmailSyntaxValid,
     isPasswordValid,
@@ -78,7 +81,6 @@ export default class LoginScreenBase extends React.Component<LoginProps,LoginSta
         this.getFormUsername = this.getFormUsername.bind(this);
         this.getFormPassword = this.getFormPassword.bind(this);
         this.setModalOff = this.setModalOff.bind(this);
-        this.navigateMain = this.navigateMain.bind(this);
         this.clickButton = this.clickButton.bind(this);
         this.clickHighlightedText = this.clickHighlightedText.bind(this);
         this.state = initialState;
@@ -94,8 +96,8 @@ export default class LoginScreenBase extends React.Component<LoginProps,LoginSta
      * defaults to 'Error Message'
      */
     setModalOff(error: string = 'There was an error logging in.') {
-        const { onChangeModalVisibility, setErrorState } = this.props;
-        onChangeModalVisibility(false);
+        const { navigation, setErrorState } = this.props;
+        navigation.navigate(navigationPages.LoginScreen);
         setErrorState(true, error);
     }
 
@@ -109,7 +111,7 @@ export default class LoginScreenBase extends React.Component<LoginProps,LoginSta
 
     clickHighlightedText() {
         const { navigation } = this.props;
-        navigation.navigate('SignUp');
+        navigation.navigate(navigationPages.SignUpScreen);
     }
 
     validateForms(username: string, password: string) {
@@ -131,18 +133,13 @@ export default class LoginScreenBase extends React.Component<LoginProps,LoginSta
     }
 
     clickButton() {
-        const { onChangeModalVisibility, onFetchAccountProfile, navigation } = this.props;
+        const { onFetchAccountProfile, navigation } = this.props;
         const { username, password } = this.state;
         this.resetForms();
         if (this.validateForms(username, password)) {
-            onChangeModalVisibility(true);
+            navigation.navigate(navigationPages.LoggingInModal);
             onFetchAccountProfile(username, password, this.setModalOff, navigation);
         }
-    }
-
-    navigateMain() {
-        const { navigation } = this.props;
-        navigation.navigate('Main');
     }
 
     render() {

@@ -111,7 +111,7 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
             <View style={containerStyle}>
                 {this.renderName()}
                 <TextInput
-                    testID='userTextInput'
+                    testID='user-text-input'
                     style={inputStyle}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
@@ -121,7 +121,7 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
                     onChangeText={text => {this.passInputValue(text);}}
                 />
                 <HelperText
-                    testID= 'helper text'
+                    testID= 'helper-text'
                     type= 'error'
                     visible={error}
                     style={errorStyle}

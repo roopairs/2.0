@@ -8,9 +8,9 @@ import {
   StyleSheet,
 } from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
-import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
+import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 
-export type AccountTypeRadioProps = DarkModeInjectedProps & {
+export type AccountTypeRadioProps = {
   name?: String,
   parentCallBack? : (childData : AccountTypes) => any, // Define a funtion with parameters
   resetForms?: any,
@@ -23,7 +23,7 @@ type AccountTypeRadioState = {
 const accountRadioStrings = strings.signUpPage.accountTypeRadioButton;
 
 function setStyle(colorTheme: BaseStyles.ColorTheme){
-  const colors = (colorTheme == null) ? BaseStyles.LightColorTheme : colorTheme;
+  const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
   return StyleSheet.create({
     buttonContainer: {
       flexDirection: 'row',
@@ -115,7 +115,6 @@ export default class AccountTypeRadioButton extends React.Component<AccountTypeR
     super(props);
     this.onPressPropertyManager = this.onPressPropertyManager.bind(this);
     this.onPressTenant = this.onPressTenant.bind(this);
-
     this.state = { propertyManagerSelected : false};
     props.parentCallBack(AccountTypes.Tenant);
   }

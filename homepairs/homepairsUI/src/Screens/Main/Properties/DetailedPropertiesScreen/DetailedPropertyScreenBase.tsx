@@ -12,27 +12,31 @@ import { defaultProperty } from 'homepairs-images';
 import {
     GeneralHomeInfo,
     AddressSticker,
-    DarkModeInjectedProps,
-    ModalInjectedProps,
+    CurrentTenantCard,
 } from 'homepairs-components';
 import {
     HomepairsPropertyAttributes,
     Property,
     HomePairsDimensions,
+    AccountTypes,
+    TenantAccount,
 } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
+import { isNullOrUndefined } from 'src/utility/ParameterChecker';
+import { navigationKeys, navigationPages } from 'src/Routes/RouteConstants';
+import { withNavigation } from 'react-navigation';
 
 export type DetailedPropertyStateProps = {
     property: Property;
 };
 
-type Props = NavigationStackScreenProps & DetailedPropertyStateProps & DarkModeInjectedProps & ModalInjectedProps;
-
+type Props = NavigationStackScreenProps & DetailedPropertyStateProps;
+const CurrentTenants = withNavigation(CurrentTenantCard);
 const propertyKeys = HomepairsPropertyAttributes;
 
 function setStyles(colorTheme?: BaseStyles.ColorTheme) {
-    const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;
+    const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
     return StyleSheet.create({
         container: {
             alignItems: 'center',
@@ -94,9 +98,24 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
     });
 }
 
+// TODO: Get list of tenants from property and pass information to currentTenantCard 
+const fakeTenants: TenantAccount[] = [
+    {
+        propId: 1,
+        tenantId: 1,
+        firstName: 'Alex',
+        lastName: 'Kavanaugh',
+        accountType: AccountTypes.Tenant,
+        email: 'alex@roopairs.com',
+        streetAddress: '1111 Some Street',
+        city: 'San Luis Obispo',
+        roopairsToken: '000000',
+    },
+];
+
 export default function DetailedPropertyScreenBase(props: Props) {
-    const { property, primaryColorTheme, onChangeModalVisibility } = props;
-    const styles = setStyles(primaryColorTheme);
+    const { property, navigation } = props;
+    const styles = setStyles(null);
 
     const imageProps: ImageProps = {
         source: defaultProperty,
@@ -107,6 +126,10 @@ export default function DetailedPropertyScreenBase(props: Props) {
         resizeMode: 'cover',
     };
 
+    function navigateModal() {
+        navigation.navigate(navigationPages.EditPropertyModal);
+    }
+
     function renderImage() {
         const { source, style, resizeMode } = imageProps;
         return <Image source={source} style={style} resizeMode={resizeMode} />;
@@ -116,8 +139,16 @@ export default function DetailedPropertyScreenBase(props: Props) {
         return (
             <GeneralHomeInfo
                 property={property}
-                onClick={onChangeModalVisibility}
-                primaryColorTheme={primaryColorTheme}
+                onClick={navigateModal}
+            />
+        );
+    }
+
+    function renderCurrentTenantInfo() {
+        return(
+            <CurrentTenants 
+                tenants={fakeTenants}
+                maxTenants={property.tenants}
             />
         );
     }
@@ -130,7 +161,6 @@ export default function DetailedPropertyScreenBase(props: Props) {
                         address={property[propertyKeys.ADDRESS]}
                         city={property[propertyKeys.CITY]}
                         state={property[propertyKeys.STATE]}
-                        primaryColorTheme={primaryColorTheme}
                     />
                     <View style={styles.imageWrapper}>
                         <View style={styles.imageContainer}>
@@ -138,6 +168,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
                         </View>
                     </View>
                     {renderGeneralHomeInfo()}
+                    {renderCurrentTenantInfo()}
                 </View>
             </ScrollView>
         );
