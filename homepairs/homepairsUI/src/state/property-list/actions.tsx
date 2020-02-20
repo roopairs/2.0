@@ -2,14 +2,11 @@ import axios from 'axios';
 import { NavigationStackProp } from 'react-navigation-stack';
 import { TenantInfo } from 'homepairs-types';
 import {
-<<<<<<< HEAD
     AddPropertyAction,
     UpdatePropertyAction,
     RemovePropertyAction,
     FetchPropertyAction,
     FetchPropertiesAction,
-    AddApplianceAction, 
-    UpdateApplianceAction,
     Property,
     Appliance,
     HomePairsResponseKeys,
@@ -17,21 +14,9 @@ import {
     EditPropertyState,
     AddNewPropertyState,
     AddApplianceState,
-=======
-  AddPropertyAction,
-  UpdatePropertyAction,
-  RemovePropertyAction,
-  FetchPropertyAction,
-  FetchPropertiesAction,
-  Property,
-  HomePairsResponseKeys,
-  SetSelectedPropertyAction,
-  EditPropertyState,
-  AddNewPropertyState,
-  FetchPropertyAndPropertyManagerAction,
-  AccountTypes,
-  Contact,
->>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
+    FetchPropertyAndPropertyManagerAction,
+    AccountTypes,
+    Contact,
 } from '../types';
 
 const responseKeys = HomePairsResponseKeys;
@@ -48,17 +33,6 @@ const accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
  * in.
  */
 export enum PROPERTY_LIST_ACTION_TYPES {
-<<<<<<< HEAD
-    ADD_PROPERTY = 'PROPERTY_LIST/ADD_PROPERTY',
-    REMOVE_PROPERTY = 'PROPERTY_LIST/REMOVE_PROPERTY',
-    UPDATE_PROPERTY = 'PROPERTY_LIST/UPDATE_PROPERTY',
-    FETCH_PROPERTY = 'PROPERTY_LIST/FETCH_PROPERTY',
-    FETCH_PROPERTIES = 'PROPERTY_LIST/FETCH_PROPERTIES',
-    SET_SELECTED_PROPERTY = 'PROPERTY_LIST/SET_SELECTED_PROPERTY',
-    ADD_APPLIANCE = 'PROPERTY_LIST/ADD_APPLIANCE', 
-    UPDATE_APPLIANCE = 'PROPERTY_LIST/UPDATE_APPLIANCE',
-    UPDATE_TENANT = 'PROPERTY_LIST/UPDATE_TENANT',
-=======
   ADD_PROPERTY = 'PROPERTY_LIST/ADD_PROPERTY',
   REMOVE_PROPERTY = 'PROPERTY_LIST/REMOVE_PROPERTY',
   UPDATE_PROPERTY = 'PROPERTY_LIST/UPDATE_PROPERTY',
@@ -67,7 +41,6 @@ export enum PROPERTY_LIST_ACTION_TYPES {
   FETCH_PROPERTIES = 'PROPERTY_LIST/FETCH_PROPERTIES',
   SET_SELECTED_PROPERTY = 'PROPERTY_LIST/SET_SELECTED_PROPERTY',
   UPDATE_TENANT = 'PROPERTY_LIST/UPDATE_TENANT' 
->>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 }
 
 /**
@@ -79,21 +52,11 @@ export enum PROPERTY_LIST_ACTION_TYPES {
  * being view
  * @param {number} index -position of the property in the array of the state
  */
-<<<<<<< HEAD
-export const setSelectedProperty = (
-    index: number,
-): SetSelectedPropertyAction => {
-    return {
-        type: PROPERTY_LIST_ACTION_TYPES.SET_SELECTED_PROPERTY,
-        index,
-    };
-=======
 export const setSelectedProperty = (index: number): SetSelectedPropertyAction => {
   return {
     type: PROPERTY_LIST_ACTION_TYPES.SET_SELECTED_PROPERTY,
     index,
   };
->>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 };
 
 /**
@@ -171,24 +134,12 @@ export const postNewProperty = (
  * @param {number} propertyIndex -location of the updated property in the redux-store
  * @param {Property} updatedProperty -the new contents of the selected property
  */
-<<<<<<< HEAD
-export const updateProperty = (
-    propertyIndex: number,
-    updatedProperty: Property,
-): UpdatePropertyAction => {
-    return {
-        type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
-        index: propertyIndex,
-        userData: updatedProperty,
-    };
-=======
 export const updateProperty = (propertyIndex: number, updatedProperty: Property): UpdatePropertyAction => {
   return {
     type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
     index: propertyIndex,
     userData: updatedProperty,
   };
->>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 };
 
 /**
@@ -207,43 +158,6 @@ export const updateProperty = (propertyIndex: number, updatedProperty: Property)
 export const postUpdatedProperty = (
     editProperty: Property,
     info: EditPropertyState,
-<<<<<<< HEAD
-    displayError: (msg: string) => void,
-    navigation: NavigationStackProp,
-) => {
-    return async (dispatch: (arg0: any) => void) => {
-        return axios
-            .post(
-                'https://homepairs-alpha.herokuapp.com/API/property/update/',
-                {
-                    oldStreetAddress: info.oldProp.streetAddress,
-                    oldCity: info.oldProp.city,
-                    streetAddress: editProperty.streetAddress,
-                    city: editProperty.city,
-                    state: editProperty.state,
-                    numBed: editProperty.bedrooms,
-                    numBath: editProperty.bathrooms,
-                    maxTenants: editProperty.tenants,
-                    pm: info.email,
-                    token: info.roopairsToken,
-                },
-            )
-            .then(response => {
-                if (
-                    response[responseKeys.DATA][responseKeys.STATUS] ===
-                    responseKeys.STATUS_RESULTS.SUCCESS
-                ) {
-                    dispatch(updateProperty(info.index, editProperty));
-                    navigation.goBack();
-                } else {
-                    displayError(
-                        response[responseKeys.DATA][responseKeys.ERROR],
-                    );
-                }
-            })
-            .catch(() => {});
-    };
-=======
     navigation: NavigationStackProp) => {
   return async (dispatch: (arg0: any) => void) => {
     return axios.post('https://homepairs-alpha.herokuapp.com/API/property/update/', {
@@ -267,7 +181,6 @@ export const postUpdatedProperty = (
       }
     }).catch(() => {});
   };
->>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 };
 
 /**
@@ -294,26 +207,6 @@ export const removeProperty = (
  * TENANTS
  * @param {Property} linkedProperty -Property recieved from the homepairs servers
  */
-<<<<<<< HEAD
-export const fetchProperty = (
-    linkedProperty: Property,
-): FetchPropertyAction => {
-    const fetchedProperties: Property[] = [];
-    const fetchedProperty = {
-        propId: linkedProperty[propertyKeys.PROPERTYID],
-        streetAddress: linkedProperty[propertyKeys.ADDRESS],
-        city: linkedProperty[propertyKeys.CITY],
-        state: linkedProperty[propertyKeys.STATE],
-        tenants: linkedProperty[propertyKeys.TENANTS],
-        bedrooms: linkedProperty[propertyKeys.BEDROOMS],
-        bathrooms: linkedProperty[propertyKeys.BATHROOMS],
-    };
-    fetchedProperties.push(fetchedProperty);
-    return {
-        type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
-        property: fetchedProperties,
-    };
-=======
 export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => {
   const fetchedProperties: Property[] = [];
   const fetchedProperty = {
@@ -364,7 +257,6 @@ export const fetchPropertyAndPropertyManager = (linkedProperty: Property, linked
     property: fetchedProperties,
     propertyManager: fetchedPropertyManager,
   };
->>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 };
 
 /**
@@ -379,24 +271,6 @@ export const fetchPropertyAndPropertyManager = (linkedProperty: Property, linked
 export const fetchProperties = (
   linkedProperties: Array<any>,
 ): FetchPropertiesAction => {
-<<<<<<< HEAD
-    const fetchedProperties: Property[] = [];
-    linkedProperties?.forEach(linkedProperty => {
-        fetchedProperties.push({
-            propId: linkedProperties[propertyKeys.PROPERTYID],
-            streetAddress: linkedProperty[propertyKeys.ADDRESS],
-            city: linkedProperty[propertyKeys.CITY],
-            state: linkedProperty[propertyKeys.STATE],
-            tenants: linkedProperty[propertyKeys.TENANTS],
-            bedrooms: linkedProperty[propertyKeys.BEDROOMS],
-            bathrooms: linkedProperty[propertyKeys.BATHROOMS],
-        });
-    });
-    return {
-        type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
-        properties: fetchedProperties,
-    };
-=======
   const fetchedProperties: Property[] = [];
   linkedProperties?.forEach(linkedProperty => {
     fetchedProperties.push({
@@ -413,7 +287,6 @@ export const fetchProperties = (
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
     properties: fetchedProperties,
   };
->>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 };
 
 

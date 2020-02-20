@@ -24,10 +24,7 @@ import { PROPERTY_LIST_ACTION_TYPES } from './actions';
 export const initialState: PropertyListState = {
     selectedPropertyIndex: null,
     properties: [],
-<<<<<<< HEAD
     appliances: [],
-=======
-    propertyManager: null,
 >>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 };
 
