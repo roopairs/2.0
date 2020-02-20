@@ -2,6 +2,7 @@ import json
 
 from django.http import JsonResponse
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 
 from ..helperFuncs import postRooAPI
 from ..Properties.models import Property
@@ -130,7 +131,9 @@ def pmLogin(email, password):
 
 class LoginView(View):
 
+    @csrf_exempt
     def post(self, request):
+        print("HOWLY CRAP WER GOT HERE")
         inData = json.loads(request.body)
         required = ['email', 'password']
         missingFields = checkRequired(required, inData)

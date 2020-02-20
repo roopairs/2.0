@@ -1,99 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-	<testsuite errors="0" failures="0" file="Apps/PropertyManagers/test_login.py" name="Apps.PropertyManagers.test_login.Login-20200220053015" skipped="0" tests="9" time="2.821" timestamp="2020-02-20T05:30:18">
-		<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="36" name="test_login_correct" time="0.054" timestamp="2020-02-20T05:30:16">
-			<system-out>
-<![CDATA[TEMP RPOP
-{'streetAddress': '537 Couper Dr.', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 2.0, 'numBed': 5, 'maxTenants': 8, 'rooId': 'abcdef', 'pm': 'Eeron Grant'}
-TEMP RPOP
-{'streetAddress': '200 N. Santa Rosa', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 2.0, 'numBed': 3, 'maxTenants': 5, 'rooId': 'ghijkl', 'pm': 'Eeron Grant'}
-PROPID
-abcdef
-TEMP RPOP
-{'streetAddress': '537 Couper Dr.', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 2.0, 'numBed': 5, 'maxTenants': 8, 'rooId': 'abcdef', 'pm': 'Eeron Grant'}
-TEMP RPOP
-{'streetAddress': '200 N. Santa Rosa', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 2.0, 'numBed': 3, 'maxTenants': 5, 'rooId': 'ghijkl', 'pm': 'Eeron Grant'}
-]]>			</system-out>
-			<system-err>
-<![CDATA[]]>			</system-err>
-		</testcase>
-		<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="90" name="test_pm_incorrectEmailField" time="0.012" timestamp="2020-02-20T05:30:16">
-			<system-out>
-<![CDATA[]]>			</system-out>
-			<system-err>
-<![CDATA[]]>			</system-err>
-		</testcase>
-		<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="106" name="test_pm_incorrectFields" time="0.013" timestamp="2020-02-20T05:30:16">
-			<system-out>
-<![CDATA[]]>			</system-out>
-			<system-err>
-<![CDATA[]]>			</system-err>
-		</testcase>
-		<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="98" name="test_pm_incorrectPassField" time="0.011" timestamp="2020-02-20T05:30:16">
-			<system-out>
-<![CDATA[]]>			</system-out>
-			<system-err>
-<![CDATA[]]>			</system-err>
-		</testcase>
-		<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="118" name="test_pm_propOnRoopairs" time="0.029" timestamp="2020-02-20T05:30:16">
-			<system-out>
-<![CDATA[TEMP RPOP
-{'streetAddress': '537 Couper Dr.', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 2.0, 'numBed': 5, 'maxTenants': 8, 'rooId': 'abcdef', 'pm': 'Eeron Grant'}
-TEMP RPOP
-{'streetAddress': '200 N. Santa Rosa', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 2.0, 'numBed': 3, 'maxTenants': 5, 'rooId': 'ghijkl', 'pm': 'Eeron Grant'}
-PROPID
-jsjkji
-WHACK
-jsjkji
-TEMP RPOP
-{'streetAddress': '537 Couper Dr.', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 2.0, 'numBed': 5, 'maxTenants': 8, 'rooId': 'abcdef', 'pm': 'Eeron Grant'}
-TEMP RPOP
-{'streetAddress': '200 N. Santa Rosa', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 2.0, 'numBed': 3, 'maxTenants': 5, 'rooId': 'ghijkl', 'pm': 'Eeron Grant'}
-TEMP RPOP
-{'streetAddress': '1 Grand Ave', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 1.0, 'numBed': 1, 'maxTenants': 1, 'rooId': 'jsjkji', 'pm': 'Eeron Grant'}
-]]>			</system-out>
-			<system-err>
-<![CDATA[]]>			</system-err>
-		</testcase>
-		<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="146" name="test_pm_propOnRoopairsXFour" time="0.033" timestamp="2020-02-20T05:30:16">
-			<system-out>
-<![CDATA[TEMP RPOP
-{'streetAddress': '537 Couper Dr.', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 2.0, 'numBed': 5, 'maxTenants': 8, 'rooId': 'abcdef', 'pm': 'Eeron Grant'}
-TEMP RPOP
-{'streetAddress': '200 N. Santa Rosa', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 2.0, 'numBed': 3, 'maxTenants': 5, 'rooId': 'ghijkl', 'pm': 'Eeron Grant'}
-PROPID
-thisis
-WHACK
-thisis
-PROPID
-thatid
-WHACK
-thatid
-TEMP RPOP
-{'streetAddress': '537 Couper Dr.', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 2.0, 'numBed': 5, 'maxTenants': 8, 'rooId': 'abcdef', 'pm': 'Eeron Grant'}
-TEMP RPOP
-{'streetAddress': '200 N. Santa Rosa', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 2.0, 'numBed': 3, 'maxTenants': 5, 'rooId': 'ghijkl', 'pm': 'Eeron Grant'}
-TEMP RPOP
-{'streetAddress': '1 Grand Ave', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 1.0, 'numBed': 1, 'maxTenants': 1, 'rooId': 'thisis', 'pm': 'Eeron Grant'}
-TEMP RPOP
-{'streetAddress': '1661 McCollum St', 'city': 'San Luis Obispo', 'state': 'CA', 'numBath': 1.0, 'numBed': 1, 'maxTenants': 1, 'rooId': 'thatid', 'pm': 'Eeron Grant'}
-]]>			</system-out>
-			<system-err>
-<![CDATA[]]>			</system-err>
-		</testcase>
-		<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="66" name="test_pm_wrongEmail" time="0.858" timestamp="2020-02-20T05:30:17">
-			<system-out>
-<![CDATA[]]>			</system-out>
-			<system-err>
-<![CDATA[]]>			</system-err>
-		</testcase>
-		<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="74" name="test_pm_wrongPass" time="0.890" timestamp="2020-02-20T05:30:17">
-			<system-out>
-<![CDATA[]]>			</system-out>
-			<system-err>
-<![CDATA[]]>			</system-err>
-		</testcase>
-		<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="82" name="test_pm_wrongPassAndEmail" time="0.921" timestamp="2020-02-20T05:30:18">
+	<testsuite errors="1" failures="0" file="unittest/loader.py" name="unittest.loader._FailedTest-20200220060952" skipped="0" tests="1" time="0.009" timestamp="2020-02-20T06:09:52">
+		<testcase classname="unittest.loader._FailedTest" file="/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py" line="33" name="test_ApplianceCRUD" time="0.009" timestamp="2020-02-20T06:09:52">
+			<error message="Failed to import test module: test_ApplianceCRUD
+Traceback (most recent call last):
+  File &quot;/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py&quot;, line 154, in loadTestsFromName
+    module = __import__(module_name)
+  File &quot;/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/Appliances/test_ApplianceCRUD.py&quot;, line 6, in &lt;module&gt;
+    from .helperFuncsForTesting import getInfo, setUpHelper, tearDownHelper
+  File &quot;/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/Appliances/helperFuncsForTesting.py&quot;, line 4, in &lt;module&gt;
+    from .models import Appliance, Property, PropertyManager, Tenant
+ImportError: cannot import name 'PropertyManager' from 'Apps.Appliances.models' (/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/Appliances/models.py)
+" type="ImportError">
+<![CDATA[ImportError: Failed to import test module: test_ApplianceCRUD
+Traceback (most recent call last):
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py", line 154, in loadTestsFromName
+    module = __import__(module_name)
+  File "/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/Appliances/test_ApplianceCRUD.py", line 6, in <module>
+    from .helperFuncsForTesting import getInfo, setUpHelper, tearDownHelper
+  File "/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/Appliances/helperFuncsForTesting.py", line 4, in <module>
+    from .models import Appliance, Property, PropertyManager, Tenant
+ImportError: cannot import name 'PropertyManager' from 'Apps.Appliances.models' (/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/Appliances/models.py)
+
+]]>			</error>
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>

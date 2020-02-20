@@ -26,6 +26,6 @@ class Property(models.Model):
                   "numBath": self.numBath,
                   "numBed": self.numBed,
                   "maxTenants": self.maxTenants,
-                  "rooId": self.rooId,
+                  "propID": self.rooId,
                   "pm": str(self.pm)
                }
