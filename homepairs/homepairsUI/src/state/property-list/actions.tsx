@@ -2,20 +2,24 @@ import axios from 'axios';
 import { NavigationStackProp } from 'react-navigation-stack';
 import { TenantInfo } from 'homepairs-types';
 import {
-    AddPropertyAction,
-    UpdatePropertyAction, 
-    RemovePropertyAction, 
-    FetchPropertyAction, 
-    FetchPropertiesAction,
-    Property,
-    HomePairsResponseKeys,
-    SetSelectedPropertyAction, 
-    EditPropertyState,
-    AddNewPropertyState,
+  AddPropertyAction,
+  UpdatePropertyAction,
+  RemovePropertyAction,
+  FetchPropertyAction,
+  FetchPropertiesAction,
+  Property,
+  HomePairsResponseKeys,
+  SetSelectedPropertyAction,
+  EditPropertyState,
+  AddNewPropertyState,
+  FetchPropertyAndPropertyManagerAction,
+  AccountTypes,
+  Contact,
 } from '../types';
 
 const responseKeys = HomePairsResponseKeys;
 const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
+const accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
 
 /**
  * ----------------------------------------------------
@@ -27,13 +31,14 @@ const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
  * in. 
  */
 export enum PROPERTY_LIST_ACTION_TYPES {
-    ADD_PROPERTY = 'PROPERTY_LIST/ADD_PROPERTY',
-    REMOVE_PROPERTY = 'PROPERTY_LIST/REMOVE_PROPERTY',
-    UPDATE_PROPERTY = 'PROPERTY_LIST/UPDATE_PROPERTY',
-    FETCH_PROPERTY = 'PROPERTY_LIST/FETCH_PROPERTY',
-    FETCH_PROPERTIES = 'PROPERTY_LIST/FETCH_PROPERTIES',
-    SET_SELECTED_PROPERTY = 'PROPERTY_LIST/SET_SELECTED_PROPERTY',
-    UPDATE_TENANT = 'PROPERTY_LIST/UPDATE_TENANT' 
+  ADD_PROPERTY = 'PROPERTY_LIST/ADD_PROPERTY',
+  REMOVE_PROPERTY = 'PROPERTY_LIST/REMOVE_PROPERTY',
+  UPDATE_PROPERTY = 'PROPERTY_LIST/UPDATE_PROPERTY',
+  FETCH_PROPERTY = 'PROPERTY_LIST/FETCH_PROPERTY',
+  FETCH_PROPERTY_AND_PROPERTY_MANAGER = 'PROPERTY_LIST/FETCH_PROPERTY_AND_PROPERTY_MANAGER',
+  FETCH_PROPERTIES = 'PROPERTY_LIST/FETCH_PROPERTIES',
+  SET_SELECTED_PROPERTY = 'PROPERTY_LIST/SET_SELECTED_PROPERTY',
+  UPDATE_TENANT = 'PROPERTY_LIST/UPDATE_TENANT' 
 }
 
 /**
@@ -45,7 +50,7 @@ export enum PROPERTY_LIST_ACTION_TYPES {
  * being view
  * @param {number} index -position of the property in the array of the state  
  */
-export const setSelectedProperty = (index: number) : SetSelectedPropertyAction => {
+export const setSelectedProperty = (index: number): SetSelectedPropertyAction => {
   return {
     type: PROPERTY_LIST_ACTION_TYPES.SET_SELECTED_PROPERTY,
     index,
@@ -61,10 +66,10 @@ export const setSelectedProperty = (index: number) : SetSelectedPropertyAction =
  * waiting to be added to the store
  */
 export const addProperty = (newProperty: Property): AddPropertyAction => {
-    return {
-        type: PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY,
-        userData: newProperty,
-    };
+  return {
+    type: PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY,
+    userData: newProperty,
+  };
 };
 
 /**
@@ -117,13 +122,13 @@ export const postNewProperty = (
  * @param {number} propertyIndex -location of the updated property in the redux-store 
  * @param {Property} updatedProperty -the new contents of the selected property 
  */
-export const updateProperty = (propertyIndex: number, updatedProperty: Property) : UpdatePropertyAction => {
-    return {
-      type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
-      index: propertyIndex,
-      userData: updatedProperty,
-    };
+export const updateProperty = (propertyIndex: number, updatedProperty: Property): UpdatePropertyAction => {
+  return {
+    type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
+    index: propertyIndex,
+    userData: updatedProperty,
   };
+};
 
 /**
  * ----------------------------------------------------
@@ -146,11 +151,11 @@ export const postUpdatedProperty = (
     return axios.post('https://homepairs-alpha.herokuapp.com/API/property/update/', {
       oldStreetAddress: info.oldProp.streetAddress,
       oldCity: info.oldProp.city,
-      streetAddress: editProperty.streetAddress, 
-      city: editProperty.city, 
-      state: editProperty.state, 
-      numBed: editProperty.bedrooms, 
-      numBath: editProperty.bathrooms, 
+      streetAddress: editProperty.streetAddress,
+      city: editProperty.city,
+      state: editProperty.state,
+      numBed: editProperty.bedrooms,
+      numBath: editProperty.bathrooms,
       maxTenants: editProperty.tenants,
       pm: info.email,
       token: info.roopairsToken,
@@ -175,10 +180,10 @@ export const postUpdatedProperty = (
  * @param {number} propertyIndex -location of the property to remove from the store 
  */
 export const removeProperty = (
-    propertyIndex: number,
+  propertyIndex: number,
 ): RemovePropertyAction => ({
-    type: PROPERTY_LIST_ACTION_TYPES.REMOVE_PROPERTY,
-    index: propertyIndex,
+  type: PROPERTY_LIST_ACTION_TYPES.REMOVE_PROPERTY,
+  index: propertyIndex,
 });
 
 /**
@@ -191,21 +196,55 @@ export const removeProperty = (
  * @param {Property} linkedProperty -Property recieved from the homepairs servers  
  */
 export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => {
-    const fetchedProperties: Property[] = [];
-    const fetchedProperty = {
-            propertyId: linkedProperty[propertyKeys.PROPERTYID],
-            streetAddress: linkedProperty[propertyKeys.ADDRESS],
-            city: linkedProperty[propertyKeys.CITY],
-            state: linkedProperty[propertyKeys.STATE],
-            tenants: linkedProperty[propertyKeys.TENANTS],
-            bedrooms : linkedProperty[propertyKeys.BEDROOMS],
-            bathrooms : linkedProperty[propertyKeys.BATHROOMS],
-        };
-        fetchedProperties.push(fetchedProperty);
-    return {
-      type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
-      property: fetchedProperties,
-    };
+  const fetchedProperties: Property[] = [];
+  const fetchedProperty = {
+    propId: linkedProperty[propertyKeys.PROPERTYID],
+    streetAddress: linkedProperty[propertyKeys.ADDRESS],
+    city: linkedProperty[propertyKeys.CITY],
+    state: linkedProperty[propertyKeys.STATE],
+    tenants: linkedProperty[propertyKeys.TENANTS],
+    bedrooms: linkedProperty[propertyKeys.BEDROOMS],
+    bathrooms: linkedProperty[propertyKeys.BATHROOMS],
+  };
+  fetchedProperties.push(fetchedProperty);
+  return {
+    type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
+    property: fetchedProperties,
+  };
+};
+
+/**
+ * ----------------------------------------------------
+ * fetchPropertyManager
+ * ----------------------------------------------------
+ * Function used to extract a single property and its owner from fetching an account profile. 
+ * This should be called after generating a new account or authentication for specifically
+ * TENANTS
+ * @param {Contact} linkedPropertyManager -Property Manager recieved from the homepairs servers  
+ */
+export const fetchPropertyAndPropertyManager = (linkedProperty: Property, linkedPropertyManager: Contact): FetchPropertyAndPropertyManagerAction => {
+  const fetchedPropertyManager: Contact = {
+    email: linkedPropertyManager[accountKeys.EMAIL],
+    firstName: linkedPropertyManager[accountKeys.FIRSTNAME],
+    lastName: linkedPropertyManager[accountKeys.LASTNAME],
+    accountType: AccountTypes.PropertyManager,
+  };
+  const fetchedProperties: Property[] = [];
+  const fetchedProperty = {
+    propId: linkedProperty[propertyKeys.PROPERTYID],
+    streetAddress: linkedProperty[propertyKeys.ADDRESS],
+    city: linkedProperty[propertyKeys.CITY],
+    state: linkedProperty[propertyKeys.STATE],
+    tenants: linkedProperty[propertyKeys.TENANTS],
+    bedrooms: linkedProperty[propertyKeys.BEDROOMS],
+    bathrooms: linkedProperty[propertyKeys.BATHROOMS],
+  };
+  fetchedProperties.push(fetchedProperty);
+  return {
+    type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_AND_PROPERTY_MANAGER,
+    property: fetchedProperties,
+    propertyManager: fetchedPropertyManager,
+  };
 };
 
 /**
@@ -218,24 +257,24 @@ export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => 
  * @param linkedProperties -Array of objects that contain the data for properties 
  */
 export const fetchProperties = (
-    linkedProperties: Array<any>,
+  linkedProperties: Array<any>,
 ): FetchPropertiesAction => {
-    const fetchedProperties: Property[] = [];
-    linkedProperties?.forEach(linkedProperty => {
-        fetchedProperties.push({
-            propertyId: linkedProperty[propertyKeys.PROPERTYID],
-            streetAddress: linkedProperty[propertyKeys.ADDRESS],
-            city: linkedProperty[propertyKeys.CITY],
-            state: linkedProperty[propertyKeys.STATE],
-            tenants: linkedProperty[propertyKeys.TENANTS],
-            bedrooms: linkedProperty[propertyKeys.BEDROOMS],
-            bathrooms: linkedProperty[propertyKeys.BATHROOMS],
-        });
+  const fetchedProperties: Property[] = [];
+  linkedProperties?.forEach(linkedProperty => {
+    fetchedProperties.push({
+      propId: linkedProperty[propertyKeys.PROPERTYID],
+      streetAddress: linkedProperty[propertyKeys.ADDRESS],
+      city: linkedProperty[propertyKeys.CITY],
+      state: linkedProperty[propertyKeys.STATE],
+      tenants: linkedProperty[propertyKeys.TENANTS],
+      bedrooms: linkedProperty[propertyKeys.BEDROOMS],
+      bathrooms: linkedProperty[propertyKeys.BATHROOMS],
     });
-    return {
-      type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
-      properties: fetchedProperties,
-    };
+  });
+  return {
+    type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
+    properties: fetchedProperties,
+  };
 };
 
 
@@ -259,12 +298,12 @@ export const updateTenantInfo = (propertyId: number, info: TenantInfo, navigatio
 };
 
 /**
- * Callback is intended to set the input forms of the component used to send 
+ * Callback is intended to set the input forms of the component used to send
  * the request back to the base values. This could be empty or predetermined.
  * @callback setInitialState */
 /**
- * Callback is intended to change the state of a modal of the calling component 
- * after the request has been sent. This should be optional. 
+ * Callback is intended to change the state of a modal of the calling component
+ * after the request has been sent. This should be optional.
  * @callback onChangeModalVisibility
  * @param {boolean} check -determines if the components modal should be visible */
 

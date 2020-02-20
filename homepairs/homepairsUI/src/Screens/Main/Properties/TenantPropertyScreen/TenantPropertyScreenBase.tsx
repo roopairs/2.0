@@ -8,11 +8,14 @@ import {
     StyleSheet, 
 } from 'react-native';
 import { defaultProperty } from 'homepairs-images';
-import {GeneralHomeInfo, AddressSticker} from 'homepairs-components';
-import {PropertyListState, Property, HomePairsDimensions as HomepairsDimensions } from 'homepairs-types';
+import {GeneralHomeInfo, AddressSticker, PrimaryContactInfo } from 'homepairs-components';
+import { HomepairsPropertyAttributes, PropertyListState, Property, HomePairsDimensions as HomepairsDimensions } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 
+/* tenants cannot edit properties */
+const canEditProps = false;
+    
 export type TenantPropertyStateProps = {
   propertyState: PropertyListState,
 }
@@ -87,15 +90,17 @@ const styles =  StyleSheet.create({
 
 export default function TenantPropertyScreenBase(props:Props){
     const {propertyState} = props;
-    const {properties} = propertyState;
+    const {properties, propertyManager} = propertyState;
+
 
     const property: Property = properties[0]; // THIS IS BAD CODING, ASSUMING AN ARRAY IS OF SIZE 1
     const {streetAddress, city, state} = property;
 
+    /* BEWARE: styles.addBottomMargin doesn't always work, had to add it manually 
+        / overlapping styles aen't currently supported by react
+        see ref: https://github.com/facebook/react/issues/2231 */
     function renderContents(){
-        const hasEdit = false;
         return(
-        // TO DO (line 65-66 ADD TENANT COMPONENT)
         <ScrollView style={{flexGrow: 1}}>
             <View style={styles.addBottomMargin}>
                 <AddressSticker
@@ -103,14 +108,15 @@ export default function TenantPropertyScreenBase(props:Props){
                 city={city}
                 state={state}/>
                 <View style={styles.imageWrapper}>
-                <View style={styles.imageContainer}>
-                    <Image 
-                    source={defaultProperty}
-                    style={Platform.OS === 'web' ? styles.homepairsPropertiesImageWeb : styles.homepairsPropertiesImage}
-                    resizeMode='cover'/>
-                    </View>
-                    <GeneralHomeInfo property={property} hasEdit={hasEdit} />
+                  <View style={styles.imageContainer}>
+                      <Image 
+                      source={defaultProperty}
+                      style={Platform.OS === 'web' ? styles.homepairsPropertiesImageWeb : styles.homepairsPropertiesImage}
+                      resizeMode='cover'/>
+                  </View>
                 </View>
+                <GeneralHomeInfo property={property} hasEdit={canEditProps} />
+                <PrimaryContactInfo propertyManager={propertyManager} primaryColorTheme={primaryColorTheme}/>
             </View>
         </ScrollView>
         );
