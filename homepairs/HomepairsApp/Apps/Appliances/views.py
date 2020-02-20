@@ -42,54 +42,164 @@ BASE_URL = 'https://capstone.api.roopairs.com/v0/'
 #
 
 
-def checkRequired(required, request):
-    missingFields = []
-    for term in required:
-        if(term not in request.data):
-            missingFields.append(term)
-    return missingFields
+class PropertyView(View):
+    def post(self, request):
+        inData = json.loads(request.body)
+        required = ['name', 'manufacturer', 'category', 'modelNum', 'serialNum', 'location', 'propId']
+        missingFields = checkRequired(required, request)
 
-
-def returnError(error):
-    return {STATUS: FAIL, ERROR: error}
-
-
-def missingError(missingFields):
-    finalErrorString = INCORRECT_FIELDS + ": "
-    for field in missingFields:
-        finalErrorString += field + " "
-    return returnError(finalErrorString.strip())
 
 @api_view(['GET', 'POST'])
 def createAppliance(request):
-    # roopairs api does not have a section for appliances yet
-    # url = BASE_URL + 'service-locations/'
-
-    required = ['name', 'description', 'location', 'address', 'city', 'state', 'token']
-
-    missingFields = checkRequired(required, request)
-
     if(len(missingFields) == 0):
         name = request.data.get('name')
-        description = request.data.get('description')
+        manufacturer = request.data.get('manufacturer')
+        category = request.data.get('category')
+        modelNum = request.data.get('modelNum')
+        serialNum = request.data.get('serialNum')
         location = request.data.get('location')
-        streetAddress = request.data.get('address')
-        city = request.data.get('city')
-        state = request.data.get('state')
-
-        propList = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
+        propId = request.data.get('propId')
+        propList = Property.objects.filter(id=propId)
         if propList.exists():
             prop = propList[0]
             app = Appliance(name=name,
-                            description=description,
+                            manufacturer=manufacturer,
+                            category=category,
+                            modelNum=modelNum,
+                            serialNum=serialNum,
                             location=location,
                             place=prop)
             app.save()
             data = {
-                    STATUS: SUCCESS
+                    STATUS: SUCCESS,
+                    id: app.id
                    }
             return Response(data=data)
         else:
             return Response(data=returnError(PROPERTY_DOESNT_EXIST))
     else:
         return Response(data=missingError(missingFields))
+@api_view(['GET', 'POST'])
+def viewAppliance(request):
+    required = ['appId']
+    missingFields = checkRequired(required, request)
+    if(len(missingFields) == 0):
+        appId = request.data.get('appId')
+        appList = Appliance.objects.filter(id=appId)
+        if appList.exists():
+            app = appList[0]
+            data = {
+                       STATUS: SUCCESS,
+                       'app': app.toDict(),
+                   }
+            return Response(data=data)
+        else:
+            return Response(data=returnError(APPLIANCE_DOESNT_EXIST))
+    else:
+        return Response(data=missingError(missingFields))
+@api_view(['GET', 'POST'])
+def updateAppliance(request):
+    required = ['appId', 'newName', 'newCategory', 'newManufacturer', 'newModelNum', 'newSerialNum', 'newLocation']
+    missingFields = checkRequired(required, request)
+    if(len(missingFields) == 0):
+        appId = request.data.get('appId')
+        newName = request.data.get('newName')
+        newCategory = request.data.get('newCategory')
+        newManufacturer = request.data.get('newManufacturer')
+        newModelNum = request.data.get('newModelNum')
+        newSerialNum = request.data.get('newSerialNum')
+        newLocation = request.data.get('newLocation')
+        # The Appliance
+        appList = Appliance.objects.filter(id=appId)
+        if appList.exists():
+            app = appList[0]
+            app.name == newName
+            app.location = newLocation
+            app.category = newCategory
+            app.manufacturer = newManufacturer
+            app.serialNum = newSerialNum
+            app.modelNum = newModelNum
+            app.save()
+            return Response(data={STATUS: SUCCESS})
+        else:
+            return Response(data=returnError(APPLIANCE_DOESNT_EXIST))
+    else:
+        return Response(data=missingError(missingFields))
+@api_view(['GET', 'POST'])
+def deleteAppliance(request):
+    required = ['appId']
+    missingFields = checkRequired(required, request)
+    if(len(missingFields) == 0):
+        appId = request.data.get('appId')
+        appList = Appliance.objects.filter(id=appId)
+        if appList.exists():
+            app = appList[0]
+            app.delete()
+            data = {
+                       STATUS: SUCCESS,
+                   }
+            return Response(data=data)
+        else:
+            return Response(data=returnError(APPLIANCE_DOESNT_EXIST))
+    else:
+        return Response(data=missingError(missingFields))
+
+
+
+
+
+
+
+
+
+#def checkRequired(required, request):
+#    missingFields = []
+#    for term in required:
+#        if(term not in request.data):
+#            missingFields.append(term)
+#    return missingFields
+#
+#
+#def returnError(error):
+#    return {STATUS: FAIL, ERROR: error}
+#
+#
+#def missingError(missingFields):
+#    finalErrorString = INCORRECT_FIELDS + ": "
+#    for field in missingFields:
+#        finalErrorString += field + " "
+#    return returnError(finalErrorString.strip())
+#
+#@api_view(['GET', 'POST'])
+#def createAppliance(request):
+#    # roopairs api does not have a section for appliances yet
+#    # url = BASE_URL + 'service-locations/'
+#
+#    required = ['name', 'description', 'location', 'address', 'city', 'state', 'token']
+#
+#    missingFields = checkRequired(required, request)
+#
+#    if(len(missingFields) == 0):
+#        name = request.data.get('name')
+#        description = request.data.get('description')
+#        location = request.data.get('location')
+#        streetAddress = request.data.get('address')
+#        city = request.data.get('city')
+#        state = request.data.get('state')
+#
+#        propList = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
+#        if propList.exists():
+#            prop = propList[0]
+#            app = Appliance(name=name,
+#                            description=description,
+#                            location=location,
+#                            place=prop)
+#            app.save()
+#            data = {
+#                    STATUS: SUCCESS
+#                   }
+#            return Response(data=data)
+#        else:
+#            return Response(data=returnError(PROPERTY_DOESNT_EXIST))
+#    else:
+#        return Response(data=missingError(missingFields))
