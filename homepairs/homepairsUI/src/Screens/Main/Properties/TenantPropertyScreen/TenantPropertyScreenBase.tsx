@@ -116,7 +116,7 @@ export default function TenantPropertyScreenBase(props:Props){
                   </View>
                 </View>
                 <GeneralHomeInfo property={property} hasEdit={canEditProps} />
-                <PrimaryContactInfo propertyManager={propertyManager} primaryColorTheme={primaryColorTheme}/>
+                <PrimaryContactInfo propertyManager={propertyManager} primaryColorTheme={BaseStyles.LightColorTheme}/>
             </View>
         </ScrollView>
         );

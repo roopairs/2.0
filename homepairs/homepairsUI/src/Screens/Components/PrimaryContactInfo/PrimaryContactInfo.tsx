@@ -4,9 +4,8 @@ import strings from 'homepairs-strings';
 import { HomePairsDimensions, Contact } from 'src/state/types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairFonts } from 'homepairs-fonts';
-import { DarkModeInjectedProps } from '../WithDarkMode/WithDarkMode';
 
-export type PrimaryContactInfoProps = DarkModeInjectedProps & {
+export type PrimaryContactInfoProps = {
     propertyManager: Contact;
 };
 
@@ -103,12 +102,11 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
 
 export default function PrimaryContactInfo(props: PrimaryContactInfoProps) {
     const {
-        primaryColorTheme,
         propertyManager,
     } = props;
 
     const { firstName, lastName, email } = propertyManager;
-    const styles = setStyles(primaryColorTheme);
+    const styles = setStyles(BaseStyles.LightColorTheme);
 
     function labeledItem(label: string, value: string) {
         return (
