@@ -1,0 +1,343 @@
+import React from "react";
+import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions } from "react-native";
+import {ThinButton, ThinButtonProps, Card, InputForm } from 'homepairs-elements';
+import strings from 'homepairs-strings';
+import * as BaseStyles from 'homepairs-base-styles';
+import { HomePairsDimensions, TenantInfo, EditPropertyState } from 'homepairs-types';
+import Colors from 'homepairs-colors';
+import { isPositiveWholeNumber, isEmptyOrSpaces, isEmailSyntaxValid } from 'homepairs-utilities';
+import { NavigationStackProp, NavigationStackScreenProps } from 'react-navigation-stack';
+import { InputFormProps } from 'homepairs-elements';
+import isAlphaCharacterOnly from 'src/utility/SyntaxVerification/AlphaCharacterVerification';
+import isPhoneNumberValid from 'src/utility/SyntaxVerification/PhoneNumberVerification';
+
+export type EditTenantDispatchProps = {
+    onEditTenantInfo: (propertyId: number, info: TenantInfo, navigation: NavigationStackProp) => void
+};
+
+type Props =  NavigationStackScreenProps & EditTenantDispatchProps;
+
+type EditTenantState = TenantInfo
+
+
+const editPropertyStrings = strings.detailedPropertyPage.editProperty;
+const inputFormStrings = editPropertyStrings.inputForm;
+
+const {width} = Dimensions.get('window');
+const colors = BaseStyles.LightColorTheme;
+const styles = StyleSheet.create({
+    formTitle: {
+        marginVertical: '3.5%',
+        fontFamily: BaseStyles.FontTheme.primary,
+        color: colors.lightGray,
+    },
+    input: {
+            alignItems: 'center',
+            alignSelf: 'center',
+            margin: BaseStyles.MarginPadding.xsmallConst,
+            minWidth:40,
+            width: BaseStyles.ContentWidth.max,
+            height: 40,
+            color: colors.lightGray,
+            borderColor: colors.lightGray,
+            borderWidth: 1,
+            borderRadius: BaseStyles.BorderRadius.small,
+            paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
+    },
+    modalContainer: {
+        flex: 1,
+        maxWidth: HomePairsDimensions.MAX_PALLET,
+        width: Platform.OS === 'web' ? width : BaseStyles.ContentWidth.max,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf:'center',
+    },
+    scrollStyle: {
+        marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+        alignSelf: 'center',
+        width: '100%',
+    },
+    scrollContentContainerStyle: {
+        maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        width: BaseStyles.ContentWidth.reg,
+        paddingVertical: BaseStyles.MarginPadding.large,
+        flexGrow: 1, // Needed to center the contents of the scroll container
+    },
+    cardContainer: {
+        backgroundColor: 'white',
+        maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+        width: BaseStyles.ContentWidth.reg,
+        marginHorizontal: '5%',
+        borderRadius: 7,
+        shadowColor: 'black',
+        shadowRadius: 20,
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 100,
+        elevation: 9,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        flex: 1,
+    },
+    cardTitle: {
+        color: colors.tertiary,
+        fontFamily: 'nunito-regular',
+        fontSize: 20,
+    },
+    cardTitleContainer: {
+        width: BaseStyles.ContentWidth.max,
+        borderBottomColor: '#AFB3B5',
+        paddingVertical: BaseStyles.MarginPadding.largeConst,
+        paddingHorizontal: BaseStyles.MarginPadding.largeConst,
+        borderBottomWidth: 1,
+        alignSelf: 'center',
+        maxHeight: 75,
+        minHeight: 50,
+        justifyContent: 'flex-start',
+    },
+    cardWrapperStyle: {
+        width: BaseStyles.ContentWidth.thin,
+        marginTop: BaseStyles.MarginPadding.small,
+        marginBottom: BaseStyles.MarginPadding.smallConst,
+        alignSelf: 'center',
+        justifyContent: 'center',
+    },
+});
+
+
+export default class EditTenantModalBase extends React.Component<Props, EditTenantState> {
+    firstNameRef;
+
+    lastNameRef;
+
+    emailRef;
+
+    phoneNumberRef;
+
+    currentTenant: TenantInfo;
+
+    propertyId : number;
+
+    submitButton : ThinButtonProps = {
+        name: editPropertyStrings.title, 
+        onClick: () => {this.clickSubmitButton();}, 
+        buttonStyle: {
+            alignItems: 'center',
+            backgroundColor: Colors.LightModeColors.transparent,
+            padding: BaseStyles.MarginPadding.mediumConst,
+            maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
+            minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
+            borderRadius: BaseStyles.BorderRadius.large,
+            borderWidth: 1,
+            borderColor: Colors.LightModeColors.blueButton,
+        },
+        buttonTextStyle: {
+            color: Colors.LightModeColors.blueButtonText, 
+            fontSize: BaseStyles.FontTheme.reg,
+            alignSelf: 'center',
+        },
+        containerStyle: {
+            flex: 1,
+            alignSelf: 'center',
+            justifyContent: 'center',
+            marginTop: BaseStyles.MarginPadding.largeConst,
+            marginBottom: BaseStyles.MarginPadding.xlarge,
+            minHeight: 50,
+        },
+    };
+
+    constructor(props: Readonly<Props>) {
+        super(props);
+        this.getFormFirstName = this.getFormFirstName.bind(this);
+        this.getFormLastName = this.getFormLastName.bind(this);
+        this.getFormEmail = this.getFormEmail.bind(this);
+        this.getFormPhoneNumber = this.getFormPhoneNumber.bind(this);
+        this.resetForms = this.resetForms.bind(this);
+        this.setInitialState = this.setInitialState.bind(this);
+        this.currentTenant = props.navigation.getParam('tenant');
+        this.propertyId = props.navigation.getParam('propertyId');
+        const {firstName, lastName, email, phoneNumber} = this.currentTenant;
+        this.state = {
+            firstName, 
+            lastName, 
+            email, 
+            phoneNumber, 
+        };
+        this.firstNameRef = React.createRef();
+        this.lastNameRef = React.createRef();
+        this.emailRef = React.createRef();
+        this.phoneNumberRef = React.createRef();
+    } 
+
+    getFormFirstName(firstName : string) {
+        this.setState({firstName});
+    }
+
+    getFormLastName(lastName : string) {
+        this.setState({lastName});
+    }
+
+    getFormEmail(email : string) {
+        this.setState({email});
+    }
+
+    getFormPhoneNumber(phoneNumber: string) {
+        this.setState({phoneNumber});
+    }
+
+    setInitialState() {
+        const {firstName, lastName, email, phoneNumber} = this.currentTenant;
+        this.setState({
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+        });
+    }
+
+    validateForms() {
+        const {firstName, lastName, email, phoneNumber} = this.state;
+        let check = true;
+        if (!isAlphaCharacterOnly(firstName)) {
+            this.firstNameRef.current.setError(true);
+            check = false;
+        } 
+        if (!isAlphaCharacterOnly(lastName)) {
+            this.lastNameRef.current.setError(true);
+            check = false;
+        } 
+        if (!isEmailSyntaxValid(email)) {
+            this.emailRef.current.setError(true);
+            check = false;
+        } 
+        if (!isPhoneNumberValid(phoneNumber)) {
+            this.phoneNumberRef.current.setError(true);
+            check = false;
+        } 
+        return check;
+    }
+
+    generateNewTenantInfo(){
+        const {firstName, lastName, email, phoneNumber} = this.state;
+        const newTenantInfo : TenantInfo = {
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+        };
+        return newTenantInfo;
+    }
+
+    resetForms() {
+        this.firstNameRef.current.setError(false);
+        this.lastNameRef.current.setError(false);
+        this.emailRef.current.setError(false);
+        this.phoneNumberRef.current.setError(false);
+
+    }
+
+    clickSubmitButton() {
+        const {navigation, onEditTenantInfo} = this.props;
+        const {firstName, lastName, email, phoneNumber} = this.currentTenant;
+        this.resetForms();
+        if (this.validateForms()) {
+            const newProperty : TenantInfo = this.generateNewTenantInfo();
+            const info : EditTenantState = {firstName, lastName, email, phoneNumber};
+            onEditTenantInfo(newProperty, info, navigation);
+        } 
+    }
+
+    renderInputForms() {
+        const {firstName, lastName, email, phoneNumber } = this.state;
+        const inputForms: InputFormProps[]  = [
+            {
+                ref: this.firstNameRef,
+                key: 'FIRST NAME',
+                name: 'FIRST NAME',
+                parentCallBack: this.getFormFirstName,
+                formTitleStyle: styles.formTitle,
+                inputStyle: styles.input,
+                value: firstName,
+                errorMessage: 'Tenant must have a first name.',
+            }, 
+            {
+                ref: this.lastNameRef,
+                key: 'LAST NAME',
+                name: 'LAST NAME',
+                parentCallBack: this.getFormLastName,
+                formTitleStyle: styles.formTitle,
+                inputStyle: styles.input,
+                value: lastName,
+                errorMessage: 'Tenant must have a last name.',
+            }, 
+            {
+                ref: this.emailRef,
+                key: 'EMAIL',
+                name: 'EMAIL',
+                parentCallBack: this.getFormEmail,
+                formTitleStyle: styles.formTitle,
+                inputStyle: styles.input,
+                value: email, 
+                errorMessage: 'Tenant must have an email!',
+            }, 
+            {
+                ref: this.phoneNumberRef,
+                key: 'PHONE NUMBER',
+                name: 'PHONE NUMBER',
+                parentCallBack: this.getFormPhoneNumber,
+                formTitleStyle: styles.formTitle,
+                inputStyle: styles.input,
+                value: phoneNumber,
+                errorMessage: 'Tenant must have a phone number',
+            }, 
+        ];
+
+        return inputForms.map(inputFormProp => {
+            const {ref, key, name, parentCallBack, formTitleStyle, inputStyle, errorMessage, 
+                secureTextEntry, errorStyle, value, placeholder} = inputFormProp;
+            return <InputForm
+                        ref={ref}
+                        key={key}
+                        name={name}
+                        parentCallBack={parentCallBack}
+                        formTitleStyle={formTitleStyle}
+                        inputStyle={inputStyle}
+                        errorStyle={errorStyle}
+                        secureTextEntry={secureTextEntry}
+                        value={value}
+                        placeholder={placeholder}
+                        errorMessage={errorMessage}/>;
+        });
+    }
+    
+    render() {
+        const {navigation} = this.props;
+        const showCloseButton = true;
+        return(
+            <SafeAreaView style={styles.modalContainer}>
+            <ScrollView style={styles.scrollStyle}
+            contentContainerStyle={styles.scrollContentContainerStyle}
+            showsHorizontalScrollIndicator={false}>
+                <Card
+                    containerStyle={styles.cardContainer}
+                    showCloseButton={showCloseButton}
+                    titleStyle={styles.cardTitle}
+                    titleContainerStyle={styles.cardTitleContainer}
+                    wrapperStyle={styles.cardWrapperStyle}
+                    title={editPropertyStrings.title}
+                    closeButtonPressedCallBack={() => {
+                        navigation.goBack();
+                        this.setInitialState();
+                        this.resetForms();
+                    }}
+                    >
+                    <>{this.renderInputForms()}</>
+                    {ThinButton(this.submitButton)}
+                </Card>
+            </ScrollView>
+        </SafeAreaView>);
+    }
+}

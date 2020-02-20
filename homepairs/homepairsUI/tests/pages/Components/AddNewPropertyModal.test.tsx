@@ -6,7 +6,6 @@ import {InputForm, Card } from 'homepairs-elements';
 import {fireEvent, render} from "react-native-testing-library";
 import { AddNewPropertyModalBase } from "homepairs-components";
 import {AddNewPropertyState, Property} from 'homepairs-types';
-import {ColorTheme} from 'homepairs-base-styles';
 import { mockStackNavigation, navigationStackSpyFunction} from 'tests/fixtures/DummyComponents';
 import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
 import { TextInput } from 'react-native';
@@ -20,9 +19,6 @@ export type ModalInjectedProps = {
     onChangeModalVisibility: (isVisible?: boolean) => void;
 };
 
-export type DarkModeInjectedProps = {
-    primaryColorTheme?: ColorTheme,
-};
 
 export type AddNewPropertyDispatchProps = {
     onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, navigation: NavigationStackProp) => void

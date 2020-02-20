@@ -8,8 +8,6 @@ import {Card} from 'homepairs-elements';
 
 export type LoadingModalProps = {
   children?: ReactElement[] | ReactElement;
-  containerStyle?: {};
-  wrapperStyle?: {};
 };
 
 const styles = StyleSheet.create({
@@ -32,6 +30,15 @@ const styles = StyleSheet.create({
   },
 });
 
+/**
+ * ------------------------------------------------------------
+ * Loading Modal
+ * ------------------------------------------------------------
+ * A card component that should be navigated to when assets, requests,
+ * and async awaits are being loaded/invoked. It is capable of taking in 
+ * children to show messages about the status of what is invoked.
+ * @param {LoadingModalProps} props 
+ */
 export function LoadingModal(props: LoadingModalProps) {
   const {children} = props;
   return (

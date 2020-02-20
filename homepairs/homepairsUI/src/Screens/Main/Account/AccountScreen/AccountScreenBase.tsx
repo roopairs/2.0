@@ -2,7 +2,6 @@ import React from 'react';
 import {
     AccountConnectedCard,
     ConnectAccountCard,
-    DarkModeInjectedProps,
 } from 'homepairs-components';
 import strings from 'homepairs-strings';
 import { AccountState } from 'homepairs-types';
@@ -18,8 +17,7 @@ export type AccountScreenDispatchProps = {
     onDisconnectRoopairsAccount: () => void;
 };
 type Props = AccountScreenStateProps &
-    AccountScreenDispatchProps &
-    DarkModeInjectedProps;
+    AccountScreenDispatchProps;
 
 export default class AccountScreenBase extends React.Component<Props> {
     handleConnectResults = (arg0?: any) => {
@@ -33,22 +31,18 @@ export default class AccountScreenBase extends React.Component<Props> {
     };
 
     render() {
-        const { accountProfile, primaryColorTheme } = this.props;
+        const { accountProfile} = this.props;
         if (
             accountProfile.roopairsToken === homepairAccountStrings.tokenFailed
         ) {
             return (
                 <ConnectAccountCard
-                    connectAccountCallBack={() => this.handleConnectResults()}
-                    primaryColorTheme={primaryColorTheme}
-                />
+                    connectAccountCallBack={() => this.handleConnectResults()}/>
             );
         }
         return (
             <AccountConnectedCard
-                disconnectAccountCallBack={() => this.handleDisconnectResults()}
-                primaryColorTheme={primaryColorTheme}
-            />
+                disconnectAccountCallBack={() => this.handleDisconnectResults()}/>
         );
     }
 }

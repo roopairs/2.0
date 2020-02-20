@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { NavigationStackProp } from 'react-navigation-stack';
+import { TenantInfo } from 'homepairs-types';
 import {
     AddPropertyAction,
     UpdatePropertyAction, 
@@ -32,6 +33,7 @@ export enum PROPERTY_LIST_ACTION_TYPES {
     FETCH_PROPERTY = 'PROPERTY_LIST/FETCH_PROPERTY',
     FETCH_PROPERTIES = 'PROPERTY_LIST/FETCH_PROPERTIES',
     SET_SELECTED_PROPERTY = 'PROPERTY_LIST/SET_SELECTED_PROPERTY',
+    UPDATE_TENANT = 'PROPERTY_LIST/UPDATE_TENANT' 
 }
 
 /**
@@ -191,6 +193,7 @@ export const removeProperty = (
 export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => {
     const fetchedProperties: Property[] = [];
     const fetchedProperty = {
+            propertyId: linkedProperty[propertyKeys.PROPERTYID],
             streetAddress: linkedProperty[propertyKeys.ADDRESS],
             city: linkedProperty[propertyKeys.CITY],
             state: linkedProperty[propertyKeys.STATE],
@@ -220,6 +223,7 @@ export const fetchProperties = (
     const fetchedProperties: Property[] = [];
     linkedProperties?.forEach(linkedProperty => {
         fetchedProperties.push({
+            propertyId: linkedProperty[propertyKeys.PROPERTYID],
             streetAddress: linkedProperty[propertyKeys.ADDRESS],
             city: linkedProperty[propertyKeys.CITY],
             state: linkedProperty[propertyKeys.STATE],
@@ -232,6 +236,26 @@ export const fetchProperties = (
       type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
       properties: fetchedProperties,
     };
+};
+
+
+/**
+ * ----------------------------------------------------
+ * updateTenantInfo
+ * ----------------------------------------------------
+ * A function that sends to the backend, a put request in order to edit the information of a tenant account 
+ * at a specified property. Since the Frontend does not maintain the state of the property tenants, it must 
+ * either request the information again from the endpoint, or it must update the information on its own.
+ * @param {number} propertyId -The ID of the property that holds the tenant 
+ * @param {TenantInfo} info -The editable information that the user wants to change 
+ * @param {NavigationStackProp} navigation -An object used for navigating back to the previous page.
+ */
+export const updateTenantInfo = (propertyId: number, info: TenantInfo, navigation: NavigationStackProp) => {
+  alert('I need to be updated by the backend!');
+  navigation.goBack();
+  return{
+    type: PROPERTY_LIST_ACTION_TYPES.UPDATE_TENANT,
+  };
 };
 
 /**
