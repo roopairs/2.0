@@ -8,7 +8,8 @@ import {
     UpdatePropertyAction,
     SetSelectedPropertyAction,
 } from 'homepairs-types';
-import { PropertyListActions } from 'homepairs-redux-actions';
+import { PropertyListActions} from 'homepairs-redux-actions';
+import { setSelectedProperty, removeProperty } from 'src/state/property-list/actions';
 import { properties, initialState } from '../../../src/state/property-list/reducer';
 
 const { PROPERTY_LIST_ACTION_TYPES } = PropertyListActions;
@@ -109,6 +110,9 @@ describe('PropertyList Reducer Test', () => {
             type: PROPERTY_LIST_ACTION_TYPES.REMOVE_PROPERTY,
             index: 1,
         };
+        it('Test if removeProperty returns correct results', () => {
+            expect(removeProperty(1)).toStrictEqual(testAction);
+        });
         it('Passed State', () => {
             const updatedList = [PMProperties[0], PMProperties[2]];
             const expectedResult: PropertyListState = {
@@ -206,6 +210,10 @@ describe('PropertyList Reducer Test', () => {
             selectedPropertyIndex: 2,
             properties: PMProperties,
         };
+
+        it('Test the actual Action: SetSelectedPropertyAction', () => {
+            expect(setSelectedProperty(2)).toStrictEqual(testAction);
+        });
 
         // This means that there is a state passed into the reducer
         it('Passed State: With Index', () => {

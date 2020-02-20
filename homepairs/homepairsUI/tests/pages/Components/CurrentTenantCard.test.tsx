@@ -6,7 +6,6 @@ import { mockStackNavigation , navigationStackSpyFunction, navigationSetParamsSp
 import ThinButton from 'src/Elements/Buttons/ThinButton';
 import { navigationKeys } from 'src/Routes/RouteConstants';
 import { TouchableOpacity } from 'react-native';
-import { ReactTestInstance } from 'react-test-renderer';
 
 const fakeTenants: TenantAccount[] = [
     {

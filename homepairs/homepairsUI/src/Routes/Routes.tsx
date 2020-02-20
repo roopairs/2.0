@@ -1,19 +1,24 @@
 import React from 'react';
 
 import {createBrowserApp} from '@react-navigation/web';
-import { createAppContainer, SafeAreaView, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, SafeAreaView, withNavigation } from 'react-navigation';
 import { createStackNavigator, NavigationStackConfig, NavigationStackOptions } from 'react-navigation-stack';
 import {
     MainAppPages, AuthenticationPages,
 } from 'homepairs-pages';
 import { Platform } from 'react-native';
-import { HomePairsHeader, AddNewPropertyModal, EditPropertyModal, LoggingInModal, CreatingAccountModal} from 'homepairs-components';
+import { HomePairsHeader, AddNewPropertyModal, EditPropertyModal, LoggingInModal, CreatingAccountModal, EditTenantModal} from 'homepairs-components';
 import { LightColorTheme} from 'homepairs-base-styles';
-import { navigationKeys } from './RouteConstants';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import { navigationKeys, navigationPages } from './RouteConstants';
 
+/** Set Up our configuration for the navigation routes */
+
+// First, determine if the platform is web or not, this will determine which type of AppContainer is used  
 const isWeb = Platform.OS === 'web';
+// Give the homepairs header a navigation object so it can actually change pages as intended
+const HomePairsHeaderWithNav = withNavigation(HomePairsHeader);
 
+// Define the navigation configurations for all of the stacks 
 const defaultNavigationOptions: NavigationStackOptions = {
     cardOverlayEnabled: true,
     cardStyle: { 
@@ -39,9 +44,9 @@ const navigationHeader = () => ({
     header: () => {
         return Platform.OS === 'ios' ? (
             <SafeAreaView style={{ backgroundColor: LightColorTheme.primary, flex: 1 }}>
-                <HomePairsHeader />
+                <HomePairsHeaderWithNav />
             </SafeAreaView>
-        ) : <HomePairsHeader />;
+        ) : <HomePairsHeaderWithNav />;
     },
     headerStyle: {
         backgroundColor: LightColorTheme.primary,
@@ -55,7 +60,6 @@ const innerStackConfig: any = {
     animationEnabled:false,
 };
 
-// These should be separated into different files for each Route (AccountProperties, Service Request, Account)
 const propertyStackConfig = {
     initialRouteName: navigationPages.PropertiesScreen,
     ...innerStackConfig,
@@ -70,6 +74,7 @@ const accountStackConfig = {
     ...innerStackConfig,
 };
 
+/** Define the Navigation Stacks now that our configuration is ready */
 const PropertyStack = createStackNavigator(
     {
         [navigationKeys.PropertiesScreen]: MainAppPages.PropertyPages.PropertiesScreen,
@@ -94,7 +99,6 @@ const AccountStack = createStackNavigator(
 /**
  * If you wish to add a modal to the stack, do so HERE!
  */
-//
 const MainStack = createStackNavigator(
     {
         [navigationKeys.Properties]: PropertyStack,
@@ -104,6 +108,7 @@ const MainStack = createStackNavigator(
         // Add all modals here. This way, the page will overlay the entire page including the header
         [navigationKeys.AddNewPropertyModal]: AddNewPropertyModal,
         [navigationKeys.EditPropertyModal]: EditPropertyModal,
+        [navigationKeys.EditTenantModal]: EditTenantModal,
     },
     {
         initialRouteName: navigationKeys.Properties,
@@ -138,6 +143,7 @@ const container = createStackNavigator(
     
 );
 
+/** Now We have the root Navigator. We use a differnt type for web since it will be URL/URI based */
 export const AppNavigator = isWeb ? createBrowserApp(container): createAppContainer(container);
 
 export { MainStack, AuthStack };

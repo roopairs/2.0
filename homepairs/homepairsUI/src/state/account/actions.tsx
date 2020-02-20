@@ -146,7 +146,6 @@ export const fetchAccount = (
             }
           })
           .catch((error) => {
-            console.log(error)
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
           })
           .finally(() => {

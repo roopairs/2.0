@@ -30,35 +30,34 @@ ModalInjectedProps;
 type State = {
     showModal: boolean;
 };
+const colorTheme = BaseStyles.LightColorTheme;
 
-function setStyle(primaryColorTheme?: BaseStyles.ColorTheme) {
-    const colorTheme = isNullOrUndefined(primaryColorTheme) ? BaseStyles.LightColorTheme : primaryColorTheme;
-    return StyleSheet.create({
-        container: {
-            alignItems: 'center',
-            alignSelf: 'center',
-            width: '100%',
-            backgroundColor: colorTheme.primary,
-            flex: 1,
-        },
-        pallet: {
-            backgroundColor: colorTheme.secondary,
-            width: '100%',
-            maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
-            minWidth: HomePairsDimensions.MIN_PALLET,
-            alignSelf: 'center',
-            flex: 1,
-        },
-        scrollViewStyle: {},
-        scrollViewContentContainer: {
-            maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
-            backgroundColor: colorTheme.secondary,
-            alignSelf: 'center',
-            width: BaseStyles.ContentWidth.max,
-            flexGrow: 1,
-        },
-    });
-}
+const styles = StyleSheet.create({
+    container: {
+        alignItems: 'center',
+        alignSelf: 'center',
+        width: '100%',
+        backgroundColor: colorTheme.primary,
+        flex: 1,
+    },
+    pallet: {
+        backgroundColor: colorTheme.secondary,
+        width: '100%',
+        maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+        minWidth: HomePairsDimensions.MIN_PALLET,
+        alignSelf: 'center',
+        flex: 1,
+    },
+    scrollViewStyle: {},
+    scrollViewContentContainer: {
+        maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+        backgroundColor: colorTheme.secondary,
+        alignSelf: 'center',
+        width: BaseStyles.ContentWidth.max,
+        flexGrow: 1,
+    },
+});
+
 
 
 /**
@@ -74,13 +73,11 @@ function setStyle(primaryColorTheme?: BaseStyles.ColorTheme) {
  * @param {MainAppStackType} Page -Parameters that determine title, button, and button behavior 
  */
 export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
-    let styles: any;
 
     const ReduxComponent = class ReduxComponentBase extends React.Component<Props,State> {
 
         constructor(props: Readonly<Props>) {
             super(props);
-            styles = setStyle(null);
             this.onPressButton = this.onPressButton.bind(this);
         }
 
