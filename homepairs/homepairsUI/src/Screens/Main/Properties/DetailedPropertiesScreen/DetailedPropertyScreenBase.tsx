@@ -13,12 +13,8 @@ import {
     GeneralHomeInfo,
     AddressSticker,
     CurrentTenantCard,
-<<<<<<< HEAD
     ApplianceInfo,
-    
-=======
     ServiceRequestCount,
->>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
 } from 'homepairs-components';
 import {
     HomepairsPropertyAttributes,
