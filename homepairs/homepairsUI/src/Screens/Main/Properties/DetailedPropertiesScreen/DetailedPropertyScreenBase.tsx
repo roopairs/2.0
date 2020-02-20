@@ -13,6 +13,7 @@ import {
     GeneralHomeInfo,
     AddressSticker,
     CurrentTenantCard,
+    ApplianceInfo,
     ServiceRequestCount,
 } from 'homepairs-components';
 import {
@@ -21,6 +22,8 @@ import {
     HomePairsDimensions,
     AccountTypes,
     TenantAccount,
+    Appliance, 
+    ApplianceType,
     TenantInfo,
 } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
@@ -29,6 +32,7 @@ import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { navigationKeys, navigationPages } from 'src/Routes/RouteConstants';
 import { withNavigation } from 'react-navigation';
 import axios from 'axios';
+import strings from 'homepairs-strings';
 
 
 export type DetailedPropertyStateProps = {
@@ -38,6 +42,7 @@ export type DetailedPropertyStateProps = {
 type Props = NavigationStackScreenProps & DetailedPropertyStateProps;
 const CurrentTenants = withNavigation(CurrentTenantCard);
 const propertyKeys = HomepairsPropertyAttributes;
+const categoryStrings = strings.applianceInfo.categories;
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -126,11 +131,26 @@ export default function DetailedPropertyScreenBase(props: Props) {
     const [tenantInfoState, setTenantInfo] = useState([]);
     const [applianceInfoState, setApplianceInfo] = useState([]);
 
+    function selectCategory(selected: string) {
+        let appType = ApplianceType.None;
+        if (selected === categoryStrings.PLUMBING) {
+            appType = ApplianceType.Plumbing;
+        } else if (selected === categoryStrings.GA) {
+            appType = ApplianceType.GeneralAppliance;
+        } else if (selected === categoryStrings.HVAC) {
+            appType = ApplianceType.HVAC;
+        } else if (selected === categoryStrings.LE) {
+            appType = ApplianceType.LightingAndElectric;
+        }
+        return appType;
+    }
+
     useEffect(() => {
         const fetchTenantsAndAppliances = async () => {
             const result = await axios.get('https://homepairs-alpha.herokuapp.com/API/property/list/');
-            const {tenants} = result.data;
+            const {tenants, appliances} = result.data;
             const tenantInfo: TenantInfo[] = [];
+            const applianceInfo: Appliance[] = [];
 
             tenants.forEach(tenant => {
                 const {firstName, lastName, email} = tenant;
@@ -142,10 +162,16 @@ export default function DetailedPropertyScreenBase(props: Props) {
                 });
             });
 
-            /**
-             * Add the logic here 
-             */
+            appliances.forEach(appliance => {
+                const {category, name, manufacturer, modelNum, serialNum, location} = appliance;
+                applianceInfo.push({
+                    applianceId: serialNum, 
+                    category: selectCategory(category), 
+                    appName: name, manufacturer, modelNum, serialNum, location,
+                });
+            });
 
+            setApplianceInfo(applianceInfo);
             setTenantInfo(tenantInfo);
         };
         fetchTenantsAndAppliances();
@@ -197,6 +223,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
                     <GeneralHomeInfo
                         property={property}
                         onClick={navigateModal}/>
+                    <ApplianceInfo navigation={navigation} appliances={applianceInfoState}/>
                     <CurrentTenants 
                     propertyId={1 /**TODO: get property id from key when backend has support this */} 
                     tenants={tenantInfoState}/>

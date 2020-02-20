@@ -7,8 +7,10 @@ import  AddNewPropertyModalBase, { AddNewPropertyDispatchProps} from './AddNewPr
 
 
 const mapDispatchToProps : (dispatch: any) => AddNewPropertyDispatchProps = (dispatch: any) => ({
-    onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, navigation: NavigationStackProp)  => {
-        dispatch(PropertyListActions.postNewProperty(newProperty, info, setInitialState, navigation));
+    onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, 
+         displayError: (msg: string) => void, navigation: NavigationStackProp) => 
+    {
+        dispatch(PropertyListActions.postNewProperty(newProperty, info, setInitialState, displayError, navigation));
     },
 });
 

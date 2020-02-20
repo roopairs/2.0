@@ -23,17 +23,31 @@ export type Property = {
     bathrooms: number,
 }
 
-export type PropertyListState =
-    {
-        selectedPropertyIndex?: number,
-        properties: Property[],
-        propertyManager?: Contact,
-    };
+export type PropertyListState = 
+{
+    selectedPropertyIndex?: number, 
+    properties: Property[],
+    appliances: Appliance[],
+    propertyManager?: Contact,
+};
+
 
 export type AddPropertyAction = {
     type: string;
     userData: Property;
 };
+
+export type AddApplianceAction = {
+    type: string;
+    userData: Appliance;
+};
+
+export type UpdateApplianceAction = {
+    type: string;
+    index: number;
+    userData: Appliance;
+};
+
 export type SetSelectedPropertyAction = {
     type: string;
     index: number;
@@ -65,12 +79,34 @@ export type FetchPropertiesAction = {
 /* Union type for the Property Lists. This will be used for the reducer. */
 export type PropertyListAction =
     | AddPropertyAction
+    | AddApplianceAction
+    | UpdateApplianceAction
     | UpdatePropertyAction
     | RemovePropertyAction
     | SetSelectedPropertyAction
     | FetchPropertyAction
     | FetchPropertiesAction;
 /* *-------------------Property Types-------------------* */
+
+/* *-------------------Appliances-------------------* */
+
+export enum ApplianceType {
+    Plumbing, LightingAndElectric, HVAC, GeneralAppliance, None
+};
+
+export type Appliance = {
+    applianceId: number,
+    category: ApplianceType,
+    appName: string,
+    manufacturer: string, 
+    modelNum: number, 
+    serialNum: number, 
+    location: string,
+};
+
+/* *-------------------Appliances-------------------* */
+
+
 
 /* *-------------------Account Types-------------------* */
 
@@ -319,6 +355,15 @@ export type EditPropertyState = {
     roopairsToken: string;
 }
 
+export type AddApplianceState = {
+    property: Property;
+}
+
+export type EditApplianceState = {
+    oldAppliance: Appliance;
+    // propId: number;d
+}
+
 export enum HomePairsDimensions {
     DROP_MENU_WIDTH = 700,
     MAX_PALLET = 700,
@@ -359,7 +404,7 @@ enum HOMEPAIRS_PROPERTY_KEYS {
     TENANTS = 'maxTenants',
     BEDROOMS = 'numBed',
     BATHROOMS = 'numBath',
-    PROPERTYID = 'propID'
+    PROPERTYID = 'propId'
 }
 
 export enum HomepairsPropertyAttributes {
@@ -381,6 +426,8 @@ export const HomePairsResponseKeys = {
     ROOPAIRS_TOKEN: 'token',
     STATUS: 'status',
     STATUS_RESULTS: HOMEPAIRS_LOGIN_STATUS,
+    ERROR: 'error',
+    ID: 'id',
 };
 
 export type DarkModeProperties = {

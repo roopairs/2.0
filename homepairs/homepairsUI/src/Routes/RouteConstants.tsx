@@ -29,6 +29,9 @@ export const navigationKeys: {[id:string]: string} = {
     DetailedProperty: 'DetailedProperty',
     SingleProperty: 'SingleProperty',
     EditPropertyModal: 'EditPropertyModal',
+    AddApplianceModal: 'AddApplianceModal', 
+    EditApplianceModal: 'EditApplianceModal',
+
 
     RoopairsLogin: 'RoopairsLogin',
     RoopairsLoggingInModal: 'RoopairsLoggingInModal',
@@ -60,6 +63,8 @@ export const navigationPages = {
     EditPropertyModal: 'EditPropertyModal',
     AddTenantModal: 'AddTenantModal',
     EditTenantModal: 'EditTenantModal',
+    AddApplianceModal: 'AddApplianceModal', 
+    EditApplianceModal: 'EditApplianceModal',
 
     // Service Request Pages
     ServiceRequestScreen: 'ServiceRequestScreen',

@@ -168,7 +168,7 @@ export const fetchAccount = (
  */
 export const generateAccountForTenant = (accountDetails: Account, password: String, navigation: NavigationPropType, modalSetOffCallBack?: (error?:String) => void) => {
   return async (dispatch: (arg0: any) => void) => {
-      await axios.post('http://homepairs-alpha.herokuapp.com/API/register/tenant/', {
+      await axios.post('http://homepairs-alpha.herokuapp.com/tenant/register/', {
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
         email: accountDetails.email, 
@@ -205,7 +205,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
  */
 export const generateAccountForPM = (accountDetails: Account, password: String, navigation: NavigationPropType, modalSetOffCallBack?: (error?:String) => void) => {
     return async (dispatch: (arg0: any) => void) => {
-      await axios.post('http://homepairs-alpha.herokuapp.com/API/register/pm/', {
+      await axios.post('http://homepairs-alpha.herokuapp.com/pm/register', {
           firstName: accountDetails.firstName, 
           lastName: accountDetails.lastName,
           email: accountDetails.email, 

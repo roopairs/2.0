@@ -111,6 +111,39 @@ const strings = {
         modal: 'Signing Up...',
     },
     logOut: 'Log Out',
+    applianceInfo: {
+        title: 'Appliances', 
+        categories: {
+            HVAC: 'Heating, Ventilation, and AC', 
+            PLUMBING: 'Plumbing', 
+            GA: 'General Appliance', 
+            LE: 'Lighting and Electric',
+        },
+        applianceModal: {
+            addTitle: 'Add Appliance',
+            editTitle: 'Edit Appliance',
+            category: 'CATEGORY', 
+            name: 'DISPLAY NAME', 
+            manufacturer: 'MANUFACTURER (optional)', 
+            modelNum: 'MODEL NUMBER (optional)', 
+            serialNum: 'SERIAL NUMBER (optional)', 
+            location: 'LOCATION',
+            add: 'Add', 
+            editSave: 'Save', 
+            
+        },
+        button: {
+            title: 'Add Appliance',
+        },
+        details: {
+            manufacturer: 'MANUFACTURER', 
+            modelNum: 'MODEL NUMBER', 
+            location: 'LOCATION', 
+            serialNum: 'SERIAL NUMBER', 
+            lastServiceBy: 'LAST SERVICE BY', 
+            lastServiceDate: 'LAST SERVICE DATE',
+        },
+    },
 };
 
 export default strings;

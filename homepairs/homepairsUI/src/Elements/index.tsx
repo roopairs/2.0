@@ -22,7 +22,9 @@
  */
 
 import { InputFormProps as IFP, renderInputForm } from './Forms/InputForm';
-import { ThinButtonProps as TBP } from './Buttons/ThinButton';
+import { ThinButtonProps as TBP} from './Buttons/ThinButton';
+import { PanelProps as PP} from './Panel/Panel';
+import { CategoryPanelProps as CPP} from './Panel/CategoryPanel';
 import { CardProps as CP} from './Cards/Card';
 import { StickerProps as SP} from './Stickers/Sticker';
 
@@ -32,11 +34,15 @@ export {default as LoginButton} from './Buttons/LoginButton';
 export {default as Card } from './Cards/Card';
 export {default as Sticker} from './Stickers/Sticker';
 export {default as HamburgerButton} from './Buttons/HamburgerButton';
+export {default as Panel} from './Panel/Panel';
+export {default as CategoryPanel} from './Panel/CategoryPanel';
 
 /** A hack that works when exporting types */
 export type InputFormProps = IFP;
 export type ThinButtonProps = TBP;
 export type CardProps =  CP;
 export type StickerProps = SP;
+export type PanelProps = PP;
+export type CategoryPanelProps = CPP;
 
 export {renderInputForm};

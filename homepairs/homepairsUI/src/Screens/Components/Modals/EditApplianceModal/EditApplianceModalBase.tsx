@@ -1,51 +1,39 @@
 import React from "react";
-import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions } from 'react-native';
-import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm } from 'homepairs-elements';
+import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions, Text } from 'react-native';
+import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm, CategoryPanel } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairsDimensions, Property, AddNewPropertyState } from 'homepairs-types';
+import { HomePairsDimensions, Appliance, ApplianceType } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {isPositiveWholeNumber, isEmptyOrSpaces} from 'homepairs-utilities';
 import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
-import { navigationPages } from 'src/Routes/RouteConstants';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 
 
-export type AddNewPropertyDispatchProps = {
-    onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, 
+export type EditApplianceDispatchProps = {
+    onEditAppliance: (newAppliance: Appliance,
          displayError: (msg: string) => void, navigation: NavigationStackProp) => void
 }
 
 type Props = NavigationStackScreenProps &
-    AddNewPropertyDispatchProps &
-    AddNewPropertyState;
+    EditApplianceDispatchProps;
 
-type CreateState = {
-    address: string, 
-    city: string, 
-    state: string, 
-    bedrooms: string, 
-    bathrooms: string, 
-    tenants: string,
-    errorMsg: string,
+type EditState = {
+    applianceId: number, 
+    category: ApplianceType, 
+    appName: string, 
+    manufacturer: string, 
+    modelNum: string,
+    serialNum: string, 
+    location: string,
+    errorMsg: string, 
     errorCheck: boolean,
 };
 
-const addPropertyStrings = strings.propertiesPage.addProperty;
-const inputFormStrings = addPropertyStrings.inputForm;
+const addApplianceStrings = strings.applianceInfo.applianceModal;
 
-const initialState : CreateState = {
-    address: '', 
-    city: '', 
-    state: '', 
-    bedrooms: '', 
-    bathrooms: '',
-    tenants: '',
-    errorMsg: '',
-    errorCheck: false,
-};
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
     const {width} = Dimensions.get('window');
@@ -134,23 +122,25 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
 }
 
 
-export default class AddNewPropertyModalBase extends React.Component<Props,CreateState> {
+export default class EditApplianceModalBase extends React.Component<Props,EditState> {
     inputFormStyle;
 
-    addressRef;
+    categoryRef;
 
-    stateRef;
+    appNameRef;
 
-    cityRef;
+    manufacturerRef;
 
-    bedRef;
+    modelNumRef;
 
-    bathRef;
+    serialNumRef;
 
-    tenantRef;
+    locationRef;
+
+    oldAppliance: Appliance;
 
     submitButton : ThinButtonProps = {
-        name: addPropertyStrings.button, 
+        name: addApplianceStrings.editSave, 
         onClick: () => {this.clickSubmitButton();}, 
         buttonStyle: {
             alignItems: 'center',
@@ -180,89 +170,95 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
     constructor(props: Readonly<Props>) {
         super(props);
         this.inputFormStyle = setInputStyles(null);
-        this.getFormAddress = this.getFormAddress.bind(this);
-        this.getFormCity = this.getFormCity.bind(this);
-        this.getFormState = this.getFormState.bind(this);
-        this.getFormNumBed = this.getFormNumBed.bind(this);
-        this.getFormNumBath = this.getFormNumBath.bind(this);
-        this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
+        this.getFormCategory= this.getFormCategory.bind(this);
+        this.getFormName = this.getFormName.bind(this);
+        this.getFormManufacturer = this.getFormManufacturer.bind(this);
+        this.getFormModelNum = this.getFormModelNum.bind(this);
+        this.getFormSerialNum = this.getFormSerialNum.bind(this);
+        this.getFormLocation = this.getFormLocation.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
+
         this.resetForms = this.resetForms.bind(this);
         this.displayError = this.displayError.bind(this);
-        this.state = initialState;
-        this.addressRef = React.createRef();
-        this.stateRef = React.createRef();
-        this.cityRef = React.createRef();
-        this.bedRef = React.createRef();
-        this.bathRef = React.createRef();
-        this.tenantRef = React.createRef();
+        this.oldAppliance = props.navigation.getParam('appliance');
+        const {category, manufacturer, appName, modelNum, serialNum, location} = this.oldAppliance;
+        // switch to actual app id
+        this.state = {
+            applianceId: serialNum, category, manufacturer, appName, 
+            modelNum: modelNum.toString(), 
+            serialNum: serialNum.toString(), 
+            location, errorMsg: '', errorCheck: false,
+        };
+        this.categoryRef = React.createRef();
+        this.appNameRef = React.createRef();
+        this.manufacturerRef = React.createRef();
+        this.modelNumRef = React.createRef();
+        this.serialNumRef = React.createRef();
+        this.locationRef = React.createRef();
     }
 
-    getFormAddress(childData : string) {
-        this.setState({address: childData});
+    getFormCategory(childData : ApplianceType) {
+        this.setState({category: childData});
     }
 
-    getFormCity(childData : string) {
-        this.setState({city: childData});
+    getFormName(childData : string) {
+        this.setState({appName: childData});
     }
 
-    getFormState(childData : string) {
-        this.setState({state: childData});
+    getFormManufacturer(childData : string) {
+        this.setState({manufacturer: childData});
     }
 
-    getFormNumBed(childData : string) {
-        this.setState({bedrooms: childData});
+    getFormModelNum(childData : string) {
+        this.setState({modelNum: childData});
     }
 
-    getFormNumBath(childData : string) {
-        this.setState({bathrooms: childData});
+    getFormSerialNum(childData : string) {
+        this.setState({serialNum: childData});
     }
 
-    getFormMaxTenants(childData: string) {
-        this.setState({tenants: childData});
+    getFormLocation(childData: string) {
+        this.setState({location: childData});
     }
 
     setInitialState() {
-        this.setState(initialState);
+        const {category, manufacturer, appName, modelNum, serialNum, location} = this.oldAppliance;
+        this.setState ({
+            category, manufacturer, appName, 
+            modelNum: modelNum.toString(), 
+            serialNum: serialNum.toString(), 
+            location, errorMsg: '', errorCheck: false,
+        });
     }
 
     validateForms() {
-        const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
+        const {appName,modelNum, serialNum, location} = this.state;
         let check = true;
-        if (isEmptyOrSpaces(address)) {
-            this.addressRef.current.setError(true);
+        if (isEmptyOrSpaces(appName)) {
+            this.appNameRef.current.setError(true);
             check = false;
         } 
-        if (isEmptyOrSpaces(city)) {
-            this.cityRef.current.setError(true);
+        if (!isPositiveWholeNumber(modelNum)) {
+            this.modelNumRef.current.setError(true);
             check = false;
         } 
-        if (isEmptyOrSpaces(state)) {
-            this.stateRef.current.setError(true);
-            check = false;
-        } 
-        if (!isPositiveWholeNumber(bedrooms) || isEmptyOrSpaces(bedrooms)) {
-            this.bedRef.current.setError(true);
-            check = false;
-        } 
-        if (!isPositiveWholeNumber(bathrooms) || isEmptyOrSpaces(bathrooms)) {
-            this.bathRef.current.setError(true);
+        if (!isPositiveWholeNumber(serialNum)) {
+            this.serialNumRef.current.setError(true);
             check = false;
         }
-        if (!isPositiveWholeNumber(tenants) || isEmptyOrSpaces(tenants)) {
-            this.tenantRef.current.setError(true);
+        if (isEmptyOrSpaces(location)) {
+            this.locationRef.current.setError(true);
             check = false;
         }
         return check;
     }
 
     resetForms() {
-        this.addressRef.current.setError(false);
-        this.cityRef.current.setError(false);
-        this.stateRef.current.setError(false);
-        this.tenantRef.current.setError(false);
-        this.bedRef.current.setError(false);
-        this.bathRef.current.setError(false);
+        this.appNameRef.current.setError(false);
+        this.manufacturerRef.current.setError(false);
+        this.modelNumRef.current.setError(false);
+        this.serialNumRef.current.setError(false);
+        this.locationRef.current.setError(false);
     }
 
     displayError(msg: string) {
@@ -270,91 +266,75 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
     }
 
     clickSubmitButton() {
-        const {address, city, state, tenants, bathrooms, bedrooms} = this.state;
-        const {email, navigation, onCreateProperty, roopairsToken} = this.props;
+        const {applianceId, category, appName, manufacturer, modelNum, serialNum, location} = this.state;
+        const {navigation, onEditAppliance} = this.props;
         this.resetForms();
         this.setState({errorCheck: false});
         if (this.validateForms()) {
-            const newProperty : Property = {
-                propId: undefined,
-                streetAddress: address, city, state,
-                tenants: Number(tenants),
-                bedrooms: Number(bedrooms), 
-                bathrooms: Number(bathrooms),
+            const newAppliance : Appliance = {
+                applianceId, category, appName, manufacturer, 
+                modelNum: Number(modelNum), 
+                serialNum: Number(serialNum), 
+                location,
             };
-            const info : AddNewPropertyState = {email, roopairsToken};
-            onCreateProperty(newProperty, info, this.setInitialState, this.displayError, navigation);
+            onEditAppliance(newAppliance, this.displayError, navigation);
         }
     }
 
     renderInputForms() {
-        const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
+        const {appName, manufacturer, modelNum, serialNum, location} = this.state;
         const inputForms: InputFormProps[]  = [
-             {
-                ref: this.addressRef,
-                key: inputFormStrings.address,
-                name: inputFormStrings.address,
-                parentCallBack: this.getFormAddress,
+            {
+                ref: this.appNameRef,
+                key: addApplianceStrings.name,
+                name: addApplianceStrings.name,
+                parentCallBack: this.getFormName,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                value: address,
-                errorMessage: 'Address cannot be empty',
+                value: appName,
+                errorMessage: 'Name cannot be empty',
             }, 
             {
-                ref: this.cityRef,
-                key: inputFormStrings.city,
-                name: inputFormStrings.city,
-                parentCallBack: this.getFormCity,
+                ref: this.manufacturerRef,
+                key: addApplianceStrings.manufacturer,
+                name: addApplianceStrings.manufacturer,
+                parentCallBack: this.getFormManufacturer,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                value: city,
-                errorMessage: 'City cannot be empty',
+                value: manufacturer,
             }, 
             {
-                ref: this.stateRef,
-                key: inputFormStrings.state,
-                name: inputFormStrings.state,
-                parentCallBack: this.getFormState,
+                ref: this.modelNumRef,
+                key: addApplianceStrings.modelNum,
+                name: addApplianceStrings.modelNum,
+                parentCallBack: this.getFormModelNum,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                value: state, 
-                errorMessage: 'State cannot be empty',
-            }, 
-            {
-                ref: this.tenantRef,
-                key: inputFormStrings.maxTenants,
-                name: inputFormStrings.maxTenants,
-                parentCallBack: this.getFormMaxTenants,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-                value: tenants,
-                errorMessage: 'Tenants must be a number',
+                value: modelNum,
+                errorMessage: 'Model number must be a number',
             },
             {
-                ref: this.bedRef,
-                key: inputFormStrings.bedrooms,
-                name: inputFormStrings.bedrooms,
-                parentCallBack: this.getFormNumBed,
+                ref: this.serialNumRef,
+                key: addApplianceStrings.serialNum,
+                name: addApplianceStrings.serialNum,
+                parentCallBack: this.getFormSerialNum,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                value: bedrooms,
-                errorMessage: 'Bedrooms must be a number',
+                value: serialNum,
+                errorMessage: 'Serial number must be a number',
             }, 
             {
-                ref: this.bathRef,
-                key: inputFormStrings.bathrooms,
-                name: inputFormStrings.bathrooms,
-                parentCallBack: this.getFormNumBath,
+                ref: this.locationRef,
+                key: addApplianceStrings.location,
+                name: addApplianceStrings.location,
+                parentCallBack: this.getFormLocation,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                value: bathrooms,
-                errorMessage: 'Bathrooms must be a number',
+                value: location,
+                errorMessage: 'Locations cannot be empty',
             }, 
         ];
 
-        /**
-         * I updated this. We are not using the render methods found in the functions anymore. 
-         */
         return inputForms.map(inputFormProp => {
             const {ref, key, name, parentCallBack, formTitleStyle, inputStyle,errorMessage, secureTextEntry, errorStyle, value, placeholder} = inputFormProp;
             return <InputForm
@@ -381,7 +361,9 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
 
     render() {
         const {navigation} = this.props;
+        const {category} = this.state;
         const showCloseButton = true;
+        console.log(category.toString());
         return(
             <View style={this.inputFormStyle.modalContainer}>
             <ScrollView style={this.inputFormStyle.scrollStyle}
@@ -390,9 +372,9 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                 <Card
                     containerStyle={this.inputFormStyle.cardContainer}
                     showCloseButton={showCloseButton}
-                    title={addPropertyStrings.title} 
+                    title={addApplianceStrings.editTitle} 
                     closeButtonPressedCallBack={() => { 
-                        navigation.navigate(navigationPages.PropertiesScreen);
+                        navigation.goBack();
                         this.setInitialState();
                         this.resetForms();
                     }} 
@@ -400,6 +382,8 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                     titleContainerStyle={this.inputFormStyle.cardTitleContainer}
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     >
+                    <Text style={this.inputFormStyle.formTitle}>{addApplianceStrings.category}</Text>
+                    <CategoryPanel initialCategory={category} parentCallBack={this.getFormCategory}/>
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
                     {ThinButton(this.submitButton)}
