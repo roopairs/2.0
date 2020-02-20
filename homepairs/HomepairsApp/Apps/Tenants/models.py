@@ -11,7 +11,7 @@ class Tenant(models.Model):
     lastName = models.CharField(max_length=100)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=20)
-    place = models.ForeignKey(Property, on_delete=models.CASCADE)
+    place = models.ForeignKey(Property, on_delete=models.CASCADE, null=True, blank=True)
     pm = models.ForeignKey(PropertyManager, on_delete=models.CASCADE)
 
     def __str__(self):

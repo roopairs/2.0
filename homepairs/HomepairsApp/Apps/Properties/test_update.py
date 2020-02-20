@@ -8,7 +8,7 @@ from django.test import TestCase
 from ..helperFuncsForTesting import getInfoPost, getInfoPut, setUpHelper
 from ..PropertyManagers.models import PropertyManager
 from .models import Property
-from .views import ERROR, FAIL, INCORRECT_FIELDS, STATUS, SUCCESS
+from .views import ERROR, FAIL, INCORRECT_FIELDS, PROPERTY_ALREADY_EXISTS, STATUS, SUCCESS
 
 
 ################################################################################
@@ -90,6 +90,36 @@ class UpdateProperty(TestCase):
         self.assertEqual(updated.numBath, numBath)
         self.assertEqual(updated.numBed, numBed)
         self.assertEqual(updated.maxTenants, maxTenants)
+
+    def test_update_to_preexisting(self):
+        '''Tyring to update a prop to an address that exists already.'''
+        pmEmail = 'eerongrant@gmail.com'
+        oldStreetAddress = '1054 Saint James Ct.'
+        oldCity = 'San Dimas'
+        streetAddress = '200 N. Santa Rosa'
+        city = 'San Luis Obispo'
+        state = 'CA'
+        numBed = 6
+        numBath = 4
+        maxTenants = 4
+        data = {
+                  'oldStreetAddress': oldStreetAddress,
+                  'oldCity': oldCity,
+                  'streetAddress': streetAddress,
+                  'city': city,
+                  'state': state,
+                  'numBed': numBed,
+                  'numBath': numBath,
+                  'maxTenants': maxTenants,
+                  'pm': pmEmail,
+                  'token': 'token',
+                  'propId': '6x7OVxX'
+               }
+
+        responseData = getInfoPut(PROP_VIEW, data)
+
+        self.assertEqual(responseData.get(STATUS), FAIL)
+        self.assertEqual(responseData.get(ERROR), PROPERTY_ALREADY_EXISTS)
 
     def test_create_property_bad_field_street(self):
         '''Incorrect Fields Being Sent'''

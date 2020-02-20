@@ -29,7 +29,6 @@ class Login(TestCase):
     def tearDown(self):
         tearDownHelper()
 
-
     mockVal = {"token": "cb3e47056453b655d9f9052f7368dfe170e91f39"}
     mockVal2 = [{'id': 'abcdef'}]
 

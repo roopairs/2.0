@@ -1,8 +1,9 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Appliance
 from ..Properties.models import Property
+from .models import Appliance
+
 
 ################################################################################
 # CONSTANTS
@@ -34,23 +35,25 @@ BASE_URL = 'https://capstone.api.roopairs.com/v0/'
 ################################################################################
 # Helper Functions
 #
+
+
 def checkRequired(required, request):
-   missingFields = []
-   for term in required:
-       if(term not in request.data):
-           missingFields.append(term)
-   return missingFields
+    missingFields = []
+    for term in required:
+        if(term not in request.data):
+            missingFields.append(term)
+    return missingFields
 
 
 def returnError(error):
-   return {STATUS: FAIL, ERROR: error}
+    return {STATUS: FAIL, ERROR: error}
 
 
 def missingError(missingFields):
-   finalErrorString = INCORRECT_FIELDS + ": "
-   for field in missingFields:
-       finalErrorString += field + " "
-   return returnError(finalErrorString.strip())
+    finalErrorString = INCORRECT_FIELDS + ": "
+    for field in missingFields:
+        finalErrorString += field + " "
+    return returnError(finalErrorString.strip())
 
 ##############################################################
 @api_view(['GET', 'POST'])

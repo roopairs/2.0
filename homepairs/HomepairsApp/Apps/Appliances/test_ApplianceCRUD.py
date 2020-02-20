@@ -4,8 +4,8 @@ from django.conf import settings
 from django.test import TestCase
 
 from .helperFuncsForTesting import getInfo, setUpHelper, tearDownHelper
-from .views import ERROR, FAIL, APPLIANCE_DOESNT_EXIST, PROPERTY_DOESNT_EXIST, STATUS, SUCCESS
 from .models import Property
+from .views import APPLIANCE_DOESNT_EXIST, ERROR, FAIL, PROPERTY_DOESNT_EXIST, STATUS, SUCCESS
 
 
 ################################################################################
