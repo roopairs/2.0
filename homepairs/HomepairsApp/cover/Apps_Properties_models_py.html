@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for Apps/Properties/models.py: 87%</title>
+    <title>Coverage for Apps/Properties/models.py: 93%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="jquery.hotkeys.js"></script>
@@ -17,13 +17,13 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>Apps/Properties/models.py</b> :
-            <span class="pc_cov">87%</span>
+            <span class="pc_cov">93%</span>
         </h1>
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
         <h2 class="stats">
             15 statements &nbsp;
-            <span class="run shortkey_r button_toggle_run">13 run</span>
-            <span class="mis show_mis shortkey_m button_toggle_mis">2 missing</span>
+            <span class="run shortkey_r button_toggle_run">14 run</span>
+            <span class="mis show_mis shortkey_m button_toggle_mis">1 missing</span>
             <span class="exc show_exc shortkey_x button_toggle_exc">0 excluded</span>
                 <span class="par run show_par shortkey_p button_toggle_par">0 partial</span>
         </h2>
@@ -73,14 +73,14 @@
     <p id="t19" class="mis show_mis"><span class="n"><a href="#t19">19</a></span><span class="t">        <span class="key">return</span> <span class="str">"%s, %s, %s"</span> <span class="op">%</span> <span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">streetAddress</span><span class="op">,</span> <span class="nam">self</span><span class="op">.</span><span class="nam">city</span><span class="op">,</span> <span class="nam">self</span><span class="op">.</span><span class="nam">state</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t20" class="pln"><span class="n"><a href="#t20">20</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t21" class="run"><span class="n"><a href="#t21">21</a></span><span class="t">    <span class="key">def</span> <span class="nam">toDict</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t22" class="mis show_mis"><span class="n"><a href="#t22">22</a></span><span class="t">        <span class="key">return</span> <span class="op">{</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t22" class="run"><span class="n"><a href="#t22">22</a></span><span class="t">        <span class="key">return</span> <span class="op">{</span>&nbsp;</span><span class="r"></span></p>
     <p id="t23" class="pln"><span class="n"><a href="#t23">23</a></span><span class="t">                  <span class="str">"streetAddress"</span><span class="op">:</span> <span class="nam">self</span><span class="op">.</span><span class="nam">streetAddress</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p id="t24" class="pln"><span class="n"><a href="#t24">24</a></span><span class="t">                  <span class="str">"city"</span><span class="op">:</span> <span class="nam">self</span><span class="op">.</span><span class="nam">city</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p id="t25" class="pln"><span class="n"><a href="#t25">25</a></span><span class="t">                  <span class="str">"state"</span><span class="op">:</span> <span class="nam">self</span><span class="op">.</span><span class="nam">state</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p id="t26" class="pln"><span class="n"><a href="#t26">26</a></span><span class="t">                  <span class="str">"numBath"</span><span class="op">:</span> <span class="nam">self</span><span class="op">.</span><span class="nam">numBath</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p id="t27" class="pln"><span class="n"><a href="#t27">27</a></span><span class="t">                  <span class="str">"numBed"</span><span class="op">:</span> <span class="nam">self</span><span class="op">.</span><span class="nam">numBed</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p id="t28" class="pln"><span class="n"><a href="#t28">28</a></span><span class="t">                  <span class="str">"maxTenants"</span><span class="op">:</span> <span class="nam">self</span><span class="op">.</span><span class="nam">maxTenants</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t29" class="pln"><span class="n"><a href="#t29">29</a></span><span class="t">                  <span class="str">"rooId"</span><span class="op">:</span> <span class="nam">self</span><span class="op">.</span><span class="nam">rooId</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t29" class="pln"><span class="n"><a href="#t29">29</a></span><span class="t">                  <span class="str">"propID"</span><span class="op">:</span> <span class="nam">self</span><span class="op">.</span><span class="nam">rooId</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p id="t30" class="pln"><span class="n"><a href="#t30">30</a></span><span class="t">                  <span class="str">"pm"</span><span class="op">:</span> <span class="nam">str</span><span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">pm</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t31" class="pln"><span class="n"><a href="#t31">31</a></span><span class="t">               <span class="op">}</span>&nbsp;</span><span class="r"></span></p>
 </div>
@@ -88,7 +88,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.0.3</a>,
-            created at 2020-02-20 06:09
+            created at 2020-02-20 19:16
         </p>
     </div>
 </div>

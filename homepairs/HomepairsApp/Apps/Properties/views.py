@@ -216,7 +216,15 @@ class PropertyView(View):
             numBath = inData.get('numBath')
             maxTenants = inData.get('maxTenants')
             token = inData.get('token')
-            propID = inData.get('propID')
+            propID = inData.get('propId')
+
+            # Before anything we check to see if the updated place exists already
+            # because that is an easy and obviouos error to throw before
+            # doing any work
+            possibleMatches = Property.objects.filter(streetAddress=streetAddress,
+                                                      city=city)
+            if(possibleMatches.exists()):
+                return JsonResponse(returnError(PROPERTY_ALREADY_EXISTS))
 
             url = url + propID + '/'
 

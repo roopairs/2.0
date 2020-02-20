@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from ..helperFuncs import postRooAPI
 from ..Properties.models import Property
 from ..Properties.views import addNewProperties
+from ..Tenants.models import Tenant
 from .models import PropertyManager
 
 
@@ -24,6 +25,7 @@ ROOPAIR_ACCOUNT_CREATION_FAILED = 'Failed to create a Roopairs account'
 HOMEPAIRS_ACCOUNT_CREATION_FAILED = 'Failed to create a Homepairs account'
 TOO_MANY_PROPERTIES = 'Too many properties associated with tenant'
 PROPERTY_SQUISH = 'This address and city are associated with more than one property'
+PROPERTY_SQUISH = 'More than one property detected.'
 PM_SQUISH = 'This email is associated with more than one pm'
 INVALID_PROPERTY = 'Invalid property'
 PROPERTY_ALREADY_EXISTS = 'Property given already exists'
@@ -33,6 +35,7 @@ NOT_PROP_OWNER = 'You are not the property owner'
 TOKEN = 'token'
 RESIDENTIAL_CODE = 1
 INCORRECT_CREDENTIALS = ['Unable to log in with provided credentials.']
+TENANT_ALREADY_IN_PROP = 'The tenant is already in that property.'
 
 BASE_URL = 'https://capstone.api.roopairs.com/v0/'
 
@@ -74,8 +77,6 @@ def getPropertyManager(email):
             sendPropList = []
             for prop in propertyList:
                 tempProp = prop.toDict()
-                print("TEMP RPOP")
-                print(tempProp)
                 sendPropList.append(tempProp)
             return {
                        STATUS: SUCCESS,
@@ -133,7 +134,6 @@ class LoginView(View):
 
     @csrf_exempt
     def post(self, request):
-        print("HOWLY CRAP WER GOT HERE")
         inData = json.loads(request.body)
         required = ['email', 'password']
         missingFields = checkRequired(required, inData)
@@ -192,5 +192,52 @@ class RegisterView(View):
                 return JsonResponse(data=tempDict)
             else:
                 return JsonResponse(data=info)
+        else:
+            return JsonResponse(data=missingError(missingFields))
+
+
+class TenantControlView(View):
+    def put(self, request):
+        inData = json.loads(request.body)
+
+        required = ['propId', 'tenantEmail']
+        missingFields = checkRequired(required, inData)
+
+        if(len(missingFields) == 0):
+            propId = inData.get('propId')
+            tenantEmail = inData.get('tenantEmail')
+
+            # Make sure tenant is real
+            tenantList = Tenant.objects.filter(email=tenantEmail)
+
+            if(tenantList.exists()):
+                # At least one account exists
+                if(tenantList.count() == 1):
+                    # We got the tenant
+                    editTenant = tenantList[0]
+                else:
+                    return JsonResponse(returnError("Multiple tenant accounts detected"))
+            else:
+                return JsonResponse(returnError("Tenant account does not exist"))
+
+            # Now check if the property exists
+            propList = Property.objects.filter(rooId=propId)
+
+            if(propList.exists()):
+                # At least one property exists
+                if(propList.count() == 1):
+                    # We got the property
+                    moveToProp = propList[0]
+                else:
+                    return JsonResponse(returnError(PROPERTY_SQUISH))
+            else:
+                return JsonResponse(returnError(PROPERTY_DOESNT_EXIST))
+
+            if(editTenant.place == moveToProp):
+                return JsonResponse(returnError(TENANT_ALREADY_IN_PROP))
+
+            editTenant.place = moveToProp
+            editTenant.save()
+            return JsonResponse({STATUS: SUCCESS})
         else:
             return JsonResponse(data=missingError(missingFields))
