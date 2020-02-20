@@ -1,51 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-	<testsuite errors="0" failures="1" file="Apps/Properties/test_update.py" name="Apps.Properties.test_update.UpdateProperty-20200220191826" skipped="0" tests="6" time="0.455" timestamp="2020-02-20T19:18:26">
-		<testcase classname="Apps.Properties.test_update.UpdateProperty" file="Apps/Properties/test_update.py" line="160" name="test_create_property_bad_field_bath" time="0.033" timestamp="2020-02-20T19:18:26">
+	<testsuite errors="0" failures="0" file="Apps/Appliances/test_ApplianceCRUD.py" name="Apps.Appliances.test_ApplianceCRUD.CreateAppliance-20200220204045" skipped="0" tests="2" time="0.029" timestamp="2020-02-20T20:40:45">
+		<testcase classname="Apps.Appliances.test_ApplianceCRUD.CreateAppliance" file="Apps/Appliances/test_ApplianceCRUD.py" line="76" name="test_CREATE_APP_bad_address" time="0.023" timestamp="2020-02-20T20:40:45">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="Apps.Properties.test_update.UpdateProperty" file="Apps/Properties/test_update.py" line="142" name="test_create_property_bad_field_city" time="0.005" timestamp="2020-02-20T19:18:26">
+		<testcase classname="Apps.Appliances.test_ApplianceCRUD.CreateAppliance" file="Apps/Appliances/test_ApplianceCRUD.py" line="37" name="test_create_appliance_allCorrect" time="0.006" timestamp="2020-02-20T20:40:45">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="Apps.Properties.test_update.UpdateProperty" file="Apps/Properties/test_update.py" line="179" name="test_create_property_bad_field_mult" time="0.005" timestamp="2020-02-20T19:18:26">
+	</testsuite>
+	<testsuite errors="0" failures="0" file="Apps/Appliances/test_ApplianceCRUD.py" name="Apps.Appliances.test_ApplianceCRUD.UpdateAppliance-20200220204045" skipped="0" tests="2" time="0.013" timestamp="2020-02-20T20:40:45">
+		<testcase classname="Apps.Appliances.test_ApplianceCRUD.UpdateAppliance" file="Apps/Appliances/test_ApplianceCRUD.py" line="170" name="test_update_app_bad_app_id" time="0.005" timestamp="2020-02-20T20:40:45">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="Apps.Properties.test_update.UpdateProperty" file="Apps/Properties/test_update.py" line="124" name="test_create_property_bad_field_street" time="0.005" timestamp="2020-02-20T19:18:26">
-			<system-out>
-<![CDATA[]]>			</system-out>
-			<system-err>
-<![CDATA[]]>			</system-err>
-		</testcase>
-		<testcase classname="Apps.Properties.test_update.UpdateProperty" file="Apps/Properties/test_update.py" line="94" name="test_update_to_preexisting" time="0.007" timestamp="2020-02-20T19:18:26">
-			<system-out>
-<![CDATA[]]>			</system-out>
-			<system-err>
-<![CDATA[]]>			</system-err>
-		</testcase>
-		<testcase classname="Apps.Properties.test_update.UpdateProperty" file="Apps/Properties/test_update.py" line="36" name="test_update_property_allCorrect" time="0.400" timestamp="2020-02-20T19:18:26">
-			<failure message="'failure' != 'success'
-- failure
-+ success
-" type="AssertionError">
-<![CDATA[Traceback (most recent call last):
-  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/mock.py", line 1204, in patched
-    return func(*args, **keywargs)
-  File "/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/Properties/test_update.py", line 85, in test_update_property_allCorrect
-    self.assertEqual(responseData.get(STATUS), SUCCESS)
-AssertionError: 'failure' != 'success'
-- failure
-+ success
-
-]]>			</failure>
+		<testcase classname="Apps.Appliances.test_ApplianceCRUD.UpdateAppliance" file="Apps/Appliances/test_ApplianceCRUD.py" line="111" name="test_update_appliance_allCorrect" time="0.008" timestamp="2020-02-20T20:40:45">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
