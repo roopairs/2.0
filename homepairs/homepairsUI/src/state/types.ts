@@ -350,7 +350,7 @@ export type EditApplianceState = {
     email: string;
     roopairsToken: string;
     oldAppliance: Appliance;
-    propId: number;
+    // propId: number;
     index: number;
 }
 

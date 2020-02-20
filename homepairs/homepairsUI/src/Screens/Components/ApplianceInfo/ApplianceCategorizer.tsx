@@ -7,7 +7,6 @@ import { Appliance } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 
 
-
 type ApplianceCategorizerProps = {
     appliances: Appliance[],
 }
@@ -48,7 +47,6 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
 export default function ApplianceCategorizer(props: Props) {
 
     const {appliances, navigation} = props;
-
     const styles = setStyles();
 
     const locations : string[] = [];

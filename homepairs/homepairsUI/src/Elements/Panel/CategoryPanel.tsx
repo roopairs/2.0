@@ -38,6 +38,7 @@ const initialState: PanelState = {
 
 type CategoryPanelProps = {
     parentCallBack: (appType: ApplianceType) => any,
+    initialValue: ApplianceType,
 };
 
 const categoryStrings = strings.applianceInfo.categories;

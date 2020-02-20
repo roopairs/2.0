@@ -107,7 +107,7 @@ export default function ApplianceInfo(props: Props) {
                 </Text>
             </View>
             <View style= {styles.details}>
-                <ApplianceCategorizer navigation={navigation }appliances={appliances}/>
+                <ApplianceCategorizer navigation={navigation} appliances={appliances}/>
                 <ThinButton 
                     name={thinButtonProps.name} 
                     buttonStyle={thinButtonProps.buttonStyle} 

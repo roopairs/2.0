@@ -12,13 +12,13 @@ import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
-import { upArrow, downArrow } from 'homepairs-images';
+import { upArrow, downArrow, trash } from 'homepairs-images';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { navigationPages } from '../../Routes/RouteConstants';
 
 export type PanelProps = {
     key?: string;
-    appliance?: Appliance;
+    appliance: Appliance;
 };
 
 export type PanelState = {
@@ -74,6 +74,7 @@ function setStyles() {
             paddingVertical: BaseStyles.MarginPadding.mediumConst,
         },
         titleText: {
+            color: colors.red,
             fontSize: BaseStyles.FontTheme.reg,
             fontFamily: HomePairFonts.nunito_regular,
         },
@@ -91,6 +92,7 @@ function setStyles() {
             borderRadius: 8,
             borderWidth: 1,
             borderColor: colors.lightGray,
+            alignSelf: 'center',
         },
         editButtonText: {
             color: colors.lightGray,
@@ -103,6 +105,30 @@ function setStyles() {
         body: {
             alignItems: 'center',
             paddingBottom: 35,
+        },
+        detailName: {
+            fontSize: BaseStyles.FontTheme.xsmal,
+            marginBottom: BaseStyles.MarginPadding.mediumConst,
+            color: colors.lightGray,
+        },
+        detail: {
+            color: colors.tertiary,
+            fontSize: BaseStyles.FontTheme.reg,
+            fontFamily: HomePairFonts.nunito_regular,
+        },
+        detailContainer: {
+            flex: 1,
+            alignSelf: 'center',
+            alignItems: 'center',
+        },
+        buttonRow: {
+            flexDirection: 'row',
+        },
+        trashImage: {
+            marginTop: 12, 
+            marginLeft: 15,
+            height: 25,
+            width: 27,
         },
     });
 }
@@ -127,8 +153,8 @@ export default class Panel extends React.Component<Props, PanelState> {
             color: colors.lightGray,
         },
         onClick: () => {
-            const {navigation}= this.props;
-            navigation.push(navigationPages.AddApplianceModal);
+            const {navigation, appliance}= this.props;
+            navigation.navigate(navigationPages.EditApplianceModal, {appliance});
         },
     };
 
@@ -211,11 +237,19 @@ export default class Panel extends React.Component<Props, PanelState> {
                         <Text style={this.styles.detail}>--</Text>
                     </View>
                 </View>
-                <ThinButton 
-                    name={this.thinButtonProps.name} 
-                    buttonStyle={this.thinButtonProps.buttonStyle} 
-                    buttonTextStyle={this.thinButtonProps.buttonTextStyle} 
-                    onClick={this.thinButtonProps.onClick}/>
+                <View style={this.styles.buttonRow}>
+                    <ThinButton 
+                        name={this.thinButtonProps.name} 
+                        buttonStyle={this.thinButtonProps.buttonStyle} 
+                        buttonTextStyle={this.thinButtonProps.buttonTextStyle} 
+                        onClick={this.thinButtonProps.onClick}/>
+                    <TouchableHighlight
+                        onPress={() => {}}
+                        underlayColor="#f1f1f1"
+                    >
+                        <Image style={this.styles.trashImage} source={trash} />
+                    </TouchableHighlight>
+                </View>
             </View>
         );
     }

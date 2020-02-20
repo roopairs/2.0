@@ -14,17 +14,7 @@ const mapDispatchToProps : (dispatch: any) => EditApplianceDispatchProps = (disp
     },
 });
 
-function mapStateToProps(state: AppState) : any {
-    const propIndex = state.properties.selectedPropertyIndex;
-    return {
-        email: state.accountProfile.email, 
-        roopairsToken: state.accountProfile.roopairsToken,
-        oldAppliance: state.properties.appliances[propIndex],
-        propId: state.properties.properties[propIndex].propId,
-        index: propIndex, 
-    };
-}
 
 export default withNavigation(connect(
-  mapStateToProps, 
+  null, 
   mapDispatchToProps)(EditApplianceModalBase));

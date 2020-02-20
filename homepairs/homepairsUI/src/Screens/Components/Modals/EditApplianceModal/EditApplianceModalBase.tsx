@@ -1,6 +1,6 @@
 import React from "react";
-import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions } from 'react-native';
-import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm } from 'homepairs-elements';
+import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions, Text } from 'react-native';
+import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm, CategoryPanel } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance, EditApplianceState, ApplianceType } from 'homepairs-types';
@@ -139,6 +139,8 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
 
     locationRef;
 
+    oldAppliance;
+
     submitButton : ThinButtonProps = {
         name: addApplianceStrings.add, 
         onClick: () => {this.clickSubmitButton();}, 
@@ -177,12 +179,13 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
         this.getFormSerialNum = this.getFormSerialNum.bind(this);
         this.getFormLocation = this.getFormLocation.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
+
         this.resetForms = this.resetForms.bind(this);
         this.displayError = this.displayError.bind(this);
-        const {oldAppliance} = this.props;
-        const {applianceId, category, manufacturer, appName, modelNum, serialNum, location} = oldAppliance;
+        this.oldAppliance = props.navigation.getParam('appliance');
+        const {category, manufacturer, appName, modelNum, serialNum, location} = this.oldAppliance;
         this.state = {
-            applianceId, category, manufacturer, appName, 
+            applianceId: serialNum, category, manufacturer, appName, 
             modelNum: modelNum.toString(), 
             serialNum: serialNum.toString(), 
             location, errorMsg: '', errorCheck: false,
@@ -195,8 +198,8 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
         this.locationRef = React.createRef();
     }
 
-    getFormCategory(childData : string) {
-        this.setState({category: ApplianceType[childData]});
+    getFormCategory(childData : ApplianceType) {
+        this.setState({category: childData});
     }
 
     getFormName(childData : string) {
@@ -231,25 +234,17 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
     }
 
     validateForms() {
-        const {category, appName, manufacturer, modelNum, serialNum, location} = this.state;
+        const {appName,modelNum, serialNum, location} = this.state;
         let check = true;
-        if (isEmptyOrSpaces(category.toString())) {
-            this.categoryRef.current.setError(true);
-            check = false;
-        } 
         if (isEmptyOrSpaces(appName)) {
             this.appNameRef.current.setError(true);
             check = false;
         } 
-        if (isEmptyOrSpaces(manufacturer)) {
-            this.manufacturerRef.current.setError(true);
-            check = false;
-        } 
-        if (isEmptyOrSpaces(modelNum)) {
+        if (!isPositiveWholeNumber(modelNum)) {
             this.modelNumRef.current.setError(true);
             check = false;
         } 
-        if (isEmptyOrSpaces(serialNum)) {
+        if (!isPositiveWholeNumber(serialNum)) {
             this.serialNumRef.current.setError(true);
             check = false;
         }
@@ -261,7 +256,6 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
     }
 
     resetForms() {
-        this.categoryRef.current.setError(false);
         this.appNameRef.current.setError(false);
         this.manufacturerRef.current.setError(false);
         this.modelNumRef.current.setError(false);
@@ -275,7 +269,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
 
     clickSubmitButton() {
         const {applianceId, category, appName, manufacturer, modelNum, serialNum, location} = this.state;
-        const {email, navigation, onEditAppliance, roopairsToken, oldAppliance, propId, index} = this.props;
+        const {email, navigation, onEditAppliance, roopairsToken, oldAppliance, /* propId ,*/ index} = this.props;
         this.resetForms();
         this.setState({errorCheck: false});
         if (this.validateForms()) {
@@ -285,24 +279,14 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                 serialNum: Number(serialNum), 
                 location,
             };
-            const info : EditApplianceState = {email, roopairsToken, oldAppliance, propId, index};
+            const info : EditApplianceState = {email, roopairsToken, oldAppliance, /* propId ,*/ index};
             onEditAppliance(newAppliance, info, this.displayError, navigation);
         }
     }
 
     renderInputForms() {
-        const {category, appName, manufacturer, modelNum, serialNum, location} = this.state;
+        const {appName, manufacturer, modelNum, serialNum, location} = this.state;
         const inputForms: InputFormProps[]  = [
-             {
-                ref: this.categoryRef,
-                key: addApplianceStrings.category,
-                name: addApplianceStrings.category,
-                parentCallBack: this.getFormCategory,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-                value: category.toString(),
-                errorMessage: 'Please choose a category',
-            }, 
             {
                 ref: this.appNameRef,
                 key: addApplianceStrings.name,
@@ -311,7 +295,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: appName,
-                errorMessage: 'City cannot be empty',
+                errorMessage: 'Name cannot be empty',
             }, 
             {
                 ref: this.manufacturerRef,
@@ -320,8 +304,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                 parentCallBack: this.getFormManufacturer,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                value: manufacturer, 
-                errorMessage: 'State cannot be empty',
+                value: manufacturer,
             }, 
             {
                 ref: this.modelNumRef,
@@ -331,7 +314,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: modelNum,
-                errorMessage: 'Tenants must be a number',
+                errorMessage: 'Model number must be a number',
             },
             {
                 ref: this.serialNumRef,
@@ -341,7 +324,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: serialNum,
-                errorMessage: 'Bedrooms must be a number',
+                errorMessage: 'Serial number must be a number',
             }, 
             {
                 ref: this.locationRef,
@@ -351,7 +334,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: location,
-                errorMessage: 'Bathrooms must be a number',
+                errorMessage: 'Locations cannot be empty',
             }, 
         ];
 
@@ -400,6 +383,8 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                     titleContainerStyle={this.inputFormStyle.cardTitleContainer}
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     >
+                    <Text style={this.inputFormStyle.formTitle}>{addApplianceStrings.category}</Text>
+                    <CategoryPanel initialValue={this.oldAppliance.category} parentCallBack={this.getFormCategory}/>
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
                     {ThinButton(this.submitButton)}
