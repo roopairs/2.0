@@ -546,6 +546,27 @@ def updateAppliance(request):
     else:
         return Response(data=missingError(missingFields))
 
+
+@api_view(['GET', 'POST'])
+def deleteAppliance(request):
+    required = ['appId']
+    missingFields = checkRequired(required, request)
+
+    if(len(missingFields) == 0):
+        appId = request.data.get('appId')
+        appList = Appliance.objects.filter(id=appId)
+        if appList.exists():
+            app = appList[0]
+            app.delete()
+            data = {
+                       STATUS: SUCCESS,
+                   }
+            return Response(data=data)
+        else:
+            return Response(data=returnError(APPLIANCE_DOESNT_EXIST))
+    else:
+        return Response(data=missingError(missingFields))
+
 ################################################################################
 # Setup/Tear Down Methods
 #
