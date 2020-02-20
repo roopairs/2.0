@@ -29,6 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'homepairs-alpha.herokuapp.com',
+    'homepairs-mytest.herokuapp.com',
     'localhost',
 ]
 

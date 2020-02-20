@@ -5,7 +5,6 @@ import sys
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'HomepairsApp.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -16,5 +15,19 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
+
 if __name__ == '__main__':
+    if "test" in sys.argv:
+        import coverage
+        # Clear existng coverage file
+        cov = coverage.Coverage()
+        cov.erase()
+        # Start collecting coverage data
+        os.environ["COVERAGE_PROCESS_START"] = "setup.cfg"
+        coverage.process_startup()
+        # Switch to the test settings file
+        os.environ["DJANGO_SETTINGS_MODULE"] = "HomepairsApp.settings.test"
+    else:
+        os.environ['DJANGO_SETTINGS_MODULE'] = 'HomepairsApp.settings.base'
+
     main()
