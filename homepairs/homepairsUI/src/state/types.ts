@@ -14,11 +14,7 @@ export type TenantInfo = {
 }
 
 export type Property = {
-<<<<<<< HEAD
-    propId: number, 
-=======
     propId: number,
->>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
     streetAddress: string, 
     city: string, 
     state: string,
@@ -27,21 +23,14 @@ export type Property = {
     bathrooms: number,
 }
 
-<<<<<<< HEAD
 export type PropertyListState = 
 {
     selectedPropertyIndex?: number, 
     properties: Property[],
     appliances: Appliance[],
+    propertyManager?: Contact,
 };
-=======
-export type PropertyListState =
-    {
-        selectedPropertyIndex?: number,
-        properties: Property[],
-        propertyManager?: Contact,
-    };
->>>>>>> 4272c80229cba19f11e9ab1f81ef01c95cbed99d
+
 
 export type AddPropertyAction = {
     type: string;
