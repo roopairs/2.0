@@ -104,7 +104,18 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
       return true;
     },
     dismiss: undefined,
-    getParam: undefined,
+    getParam: (params) => {
+      return {
+        tenant: 
+        {
+              firstName: 'Alex',
+              lastName: 'Kavanaugh',
+              email: 'alex@roopairs.com',
+              phoneNumber: '838-0034-3333',
+          },
+        propertyId : 1,
+      };
+    },
     setParams: (params) => {
       navigationSetParamsSpyFunction(params);
       return true;

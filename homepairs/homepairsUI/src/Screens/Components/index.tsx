@@ -42,7 +42,6 @@ export { default as AccountConnectedCard } from './AuthenticationCards/AccountCo
 export { default as ConnectAccountCard } from './AuthenticationCards/ConnectAccountCard';
 export { default as HomePairsHeader } from './HomePairsHeader/HomePairsHeader';
 export { default as AddNewPropertyModal } from './Modals/AddNewPropertyModal/AddNewPropertyModal';
-export { default as AddNewPropertyModalBase } from './Modals/AddNewPropertyModal/AddNewPropertyModalBase';
 export { default as EditPropertyModal } from './Modals/EditPropertyModal/EditPropertyModal';
 export { default as EditPropertyModalBase } from './Modals/EditPropertyModal/EditPropertyModalBase';
 export { default as AddApplianceModal } from './Modals/AddApplianceModal/AddApplianceModal';
@@ -52,6 +51,7 @@ export { default as EditApplianceModalBase } from './Modals/EditApplianceModal/E
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
 export { default as CurrentTenantCard} from './CurrentTenantCard/CurrentTenantCard';
 export { default as EditTenantModal} from './Modals/EditTenantModal/EditTenantModal';
+export {default as AddTenantModal} from './Modals/AddTenantModal/AddTenantModal';
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows
  * singular exporting for each module. This is a simple workaround.

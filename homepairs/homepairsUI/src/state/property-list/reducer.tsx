@@ -23,6 +23,7 @@ export const initialState: PropertyListState = {
     selectedPropertyIndex: null,
     properties: [],
     appliances: [],
+    propertyManager: null,
 };
 
 export const properties = (

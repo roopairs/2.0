@@ -158,29 +158,41 @@ export const updateProperty = (propertyIndex: number, updatedProperty: Property)
 export const postUpdatedProperty = (
     editProperty: Property,
     info: EditPropertyState,
-    navigation: NavigationStackProp) => {
-  return async (dispatch: (arg0: any) => void) => {
-    return axios.post('https://homepairs-alpha.herokuapp.com/API/property/update/', {
-      oldStreetAddress: info.oldProp.streetAddress,
-      oldCity: info.oldProp.city,
-      streetAddress: editProperty.streetAddress,
-      city: editProperty.city,
-      state: editProperty.state,
-      numBed: editProperty.bedrooms,
-      numBath: editProperty.bathrooms,
-      maxTenants: editProperty.tenants,
-      pm: info.email,
-      token: info.roopairsToken,
-    })
-    .then((response) => {
-      if(response[responseKeys.DATA][responseKeys.STATUS] === responseKeys.STATUS_RESULTS.SUCCESS){
-        dispatch(updateProperty(info.index, editProperty));
-        navigation.goBack();
-      } else {
-        // TODO: Send back error status to modal, this can be done by sending another callback as a parameter
-      }
-    }).catch(() => {});
-  };
+    displayError: (msg: string) => void,
+    navigation: NavigationStackProp,
+) => {
+    return async (dispatch: (arg0: any) => void) => {
+        return axios
+            .post(
+                'https://homepairs-alpha.herokuapp.com/API/property/update/',
+                {
+                    oldStreetAddress: info.oldProp.streetAddress,
+                    oldCity: info.oldProp.city,
+                    streetAddress: editProperty.streetAddress,
+                    city: editProperty.city,
+                    state: editProperty.state,
+                    numBed: editProperty.bedrooms,
+                    numBath: editProperty.bathrooms,
+                    maxTenants: editProperty.tenants,
+                    pm: info.email,
+                    token: info.roopairsToken,
+                },
+            )
+            .then(response => {
+                if (
+                    response[responseKeys.DATA][responseKeys.STATUS] ===
+                    responseKeys.STATUS_RESULTS.SUCCESS
+                ) {
+                    dispatch(updateProperty(info.index, editProperty));
+                    navigation.goBack();
+                } else {
+                    displayError(
+                        response[responseKeys.DATA][responseKeys.ERROR],
+                    );
+                }
+            })
+            .catch(() => {});
+    };
 };
 
 /**
@@ -320,12 +332,7 @@ export const updateTenantInfo = (propertyId: number, info: TenantInfo, navigatio
  * @param {boolean} check -determines if the components modal should be visible */
 
 // make docs
-export const addAppliance = (newAppliance: Appliance): AddApplianceAction => {
-    return {
-        type: PROPERTY_LIST_ACTION_TYPES.ADD_APPLIANCE,
-        userData: newAppliance,
-    };
-};
+
 
 export const postNewAppliance = (
     newAppliance: Appliance,
@@ -334,7 +341,7 @@ export const postNewAppliance = (
     displayError: (msg: string) => void,
     navigation: NavigationStackProp,
 ) => {
-    return async (dispatch: (arg0: any) => void) => {
+    return async () => {
         await axios
             .post(
                 'https://homepairs-alpha.herokuapp.com/API/appliance/create/',
@@ -354,16 +361,7 @@ export const postNewAppliance = (
                     response[responseKeys.DATA][responseKeys.STATUS] ===
                     responseKeys.STATUS_RESULTS.SUCCESS
                 ) {
-                    const newApp : Appliance = {
-                        applianceId: response[responseKeys.DATA][responseKeys.ID],
-                        category: newAppliance.category,
-                        appName: newAppliance.appName, 
-                        manufacturer: newAppliance.manufacturer, 
-                        modelNum: newAppliance.modelNum, 
-                        serialNum: newAppliance.serialNum, 
-                        location: newAppliance.location,
-                    };
-                    dispatch(addAppliance(newApp));
+                    // handle in detailed property screen
                     setInitialState();
                     navigation.goBack();
                 } else {
@@ -415,7 +413,7 @@ export const postUpdatedAppliance = (
     displayError: (msg: string) => void,
     navigation: NavigationStackProp,
 ) => {
-    return async (dispatch: (arg0: any) => void) => {
+    return async () => {
         return axios
             .post(
                 'https://homepairs-alpha.herokuapp.com/API/appliance/update/',

@@ -19,7 +19,7 @@ type CurrentTenantsCardProps = NavigationStackScreenProps & {
      * Unique identifier for the property. This is how the component knows where to edit 
      * the tenant.
      */
-    propertyId: number,
+    propId: number,
 
     /**
      * Maximum amount of tenants defined for the property. If somehow, the 
@@ -174,6 +174,14 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
     },
+    addButtonContainer: {
+        flex: 1,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 10,
+        minHeight: 50,
+        marginTop: BaseStyles.MarginPadding.large,
+    },
     
 });
 
@@ -191,7 +199,7 @@ const styles = StyleSheet.create({
  * @param {Props} props 
  */
 function CurrentTenantsCard(props: CurrentTenantsCardProps){
-    const {navigation, tenants, maxTenants, propertyId} = props;
+    const {navigation, tenants, maxTenants, propId} = props;
     const [error, setError] = useState(null);
     const numTenants = isNullOrUndefined(tenants) ? 0 : tenants.length;
 
@@ -206,8 +214,7 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
     }
 
     function navigateToEditTenantModal(tenant: TenantInfo){
-        console.log(tenant);
-        navigation.navigate(navigationPages.EditTenantModal, {tenant, propertyId});
+        navigation.navigate(navigationPages.EditTenantModal, {tenant, propId});
     }
 
     function renderError(){
@@ -250,7 +257,7 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
         <Card title='Current Tenants' containerStyle={styles.container} titleStyle={styles.cardTitle} titleContainerStyle={styles.titleContainerStyle} >
             {renderError()}
             {renderContent()}
-            <ThinButton name='Add Tenant' onClick={navigateToAddTenantModal} buttonTextStyle={styles.addButtonText} buttonStyle={styles.addButton} />
+            <ThinButton name='Add Tenant' onClick={navigateToAddTenantModal} buttonTextStyle={styles.addButtonText} buttonStyle={styles.addButton} containerStyle={styles.addButtonContainer} />
         </Card>
         </View>
     );
