@@ -14,87 +14,13 @@ from .views import ERROR, FAIL, PROPERTY_DOESNT_EXIST, STATUS, SUCCESS
 globUrl = settings.TEST_URL
 
 # EXTRA URLS
-CREATE_APP = 'create_appliance'
+APP_VIEW = 'appliance_view'
 VIEW_APP = 'view_appliance'
 UPDATE_APP = 'update_appliance'
 LOGIN = 'login'
 
 ################################################################################
 # Tests
-
-
-class CreateAppliance(TestCase):
-    def setUp(self):
-        setUpHelper()
-
-    def tearDown(self):
-        tearDownHelper()
-
-    @classmethod
-    def tearDownClass(self):
-        setUpHelper()
-
-    def test_create_appliance_allCorrect(self):
-        '''Everything is correct'''
-        name = 'Fridge'
-        manufacturer = 'Company'
-        category = 'cool'
-        modelNum = 68
-        serialNum = 70
-        location = 'Garage'
-        propId = Property.objects.filter()[0].id
-
-        data = {
-                  'name': name,
-                  'manufacturer': manufacturer,
-                  'category': category,
-                  'modelNum': modelNum,
-                  'serialNum': serialNum,
-                  'location': location,
-                  'propId': propId,
-               }
-        responseData = getInfo(CREATE_APP, data)
-        self.assertEqual(responseData.get(STATUS), SUCCESS)
-
-        appId = responseData.get('id')
-        data = {
-                  'appId': appId
-               }
-
-        responseData = getInfo(VIEW_APP, data)
-
-        self.assertEqual(responseData.get(STATUS), SUCCESS)
-        app = responseData.get('app')
-        self.assertEqual(app.get('name'), name)
-        self.assertEqual(app.get('manufacturer'), manufacturer)
-        self.assertEqual(app.get('category'), category)
-        self.assertEqual(app.get('modelNum'), modelNum)
-        self.assertEqual(app.get('serialNum'), serialNum)
-        self.assertEqual(app.get('location'), location)
-
-    # Test that passes bad propId
-    def test_CREATE_APP_bad_address(self):
-        '''Incorrect Fields Being Sent'''
-        name = 'Fridge'
-        manufacturer = 'Company'
-        category = 'cool'
-        modelNum = 68
-        serialNum = 70
-        location = 'Garage'
-
-        data = {
-                  'name': name,
-                  'manufacturer': manufacturer,
-                  'category': category,
-                  'modelNum': modelNum,
-                  'serialNum': serialNum,
-                  'location': location,
-                  'propId': -1,
-               }
-        responseData = getInfo(CREATE_APP, data)
-
-        self.assertEqual(responseData.get(STATUS), FAIL)
-        self.assertEqual(responseData.get(ERROR), PROPERTY_DOESNT_EXIST)
 
 
 class UpdateAppliance(TestCase):
@@ -127,7 +53,7 @@ class UpdateAppliance(TestCase):
                   'location': location,
                   'propId': propId,
                }
-        responseData = getInfo(CREATE_APP, data)
+        responseData = getInfoPost(APP_VIEW, data)
 
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 

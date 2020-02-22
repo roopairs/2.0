@@ -1,11 +1,8 @@
 from django.urls import path
 
-from . import views
+from .views import ApplianceView
 
 
 urlpatterns = [
-                path('appliance/create/', views.createAppliance, name='create_appliance'),
-                path('appliance/view/', views.viewAppliance, name='view_appliance'),
-                path('appliance/update/', views.updateAppliance, name='update_appliance'),
-                path('appliance/delete/', views.deleteAppliance, name='delete_appliance'),
+                path('.*', ApplianceView.as_view(), name='appliance_view'),
 ]

@@ -1,3 +1,5 @@
+from django.views import View
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -56,114 +58,109 @@ def missingError(missingFields):
     return returnError(finalErrorString.strip())
 
 ##############################################################
-@api_view(['GET', 'POST'])
-def createAppliance(request):
-    required = ['name', 'manufacturer', 'category', 'modelNum', 'serialNum', 'location', 'propId']
-    missingFields = checkRequired(required, request)
+class ApplianceView(View):
+    def post(self, request):
+        inData = json.loads(request.body)
+        required = ['name', 'manufacturer', 'category', 'modelNum', 'serialNum', 'location', 'propId']
+        missingFields = checkRequired(required, inData)
 
-    if(len(missingFields) == 0):
-        name = request.data.get('name')
-        manufacturer = request.data.get('manufacturer')
-        category = request.data.get('category')
-        modelNum = request.data.get('modelNum')
-        serialNum = request.data.get('serialNum')
-        location = request.data.get('location')
-        propId = request.data.get('propId')
-        propList = Property.objects.filter(id=propId)
-        if propList.exists():
-            prop = propList[0]
-            app = Appliance(name=name,
-                            manufacturer=manufacturer,
-                            category=category,
-                            modelNum=modelNum,
-                            serialNum=serialNum,
-                            location=location,
-                            place=prop)
-            app.save()
-            data = {
-                    STATUS: SUCCESS,
-                    'id': app.id
-                   }
-            return Response(data=data)
+        if(len(missingFields) == 0):
+            name = inData.data.get('name')
+            manufacturer = inData.data.get('manufacturer')
+            category = inData.data.get('category')
+            modelNum = inData.data.get('modelNum')
+            serialNum = inData.data.get('serialNum')
+            location = inData.data.get('location')
+            propId = inData.data.get('propId')
+            propList = Property.objects.filter(id=propId)
+            if propList.exists():
+                prop = propList[0]
+                app = Appliance(name=name,
+                                manufacturer=manufacturer,
+                                category=category,
+                                modelNum=modelNum,
+                                serialNum=serialNum,
+                                location=location,
+                                place=prop)
+                app.save()
+                data = {
+                        STATUS: SUCCESS,
+                        'id': app.id
+                       }
+                return Response(data=data)
+            else:
+                return Response(data=returnError(PROPERTY_DOESNT_EXIST))
         else:
-            print('property doesnt exist')
-            return Response(data=returnError(PROPERTY_DOESNT_EXIST))
-    else:
-        print(missingFields)
-        return Response(data=missingError(missingFields))
+            return Response(data=missingError(missingFields))
 
 
-@api_view(['GET', 'POST'])
-def viewAppliance(request):
-    required = ['appId']
-    missingFields = checkRequired(required, request)
-    if(len(missingFields) == 0):
-        appId = request.data.get('appId')
-        appList = Appliance.objects.filter(id=appId)
-        if appList.exists():
-            app = appList[0]
-            data = {
-                       STATUS: SUCCESS,
-                       'app': app.toDict(),
-                   }
-            return Response(data=data)
+    def put(self, request):
+        inData = json.loads(request.body)
+        required = ['appId', 'newName', 'newCategory', 'newManufacturer', 'newModelNum', 'newSerialNum', 'newLocation']
+        missingFields = checkRequired(required, inData)
+        if(len(missingFields) == 0):
+            appId = inData.data.get('appId')
+            newName = inData.data.get('newName')
+            newCategory = inData.data.get('newCategory')
+            newManufacturer = inData.data.get('newManufacturer')
+            newModelNum = inData.data.get('newModelNum')
+            newSerialNum = inData.data.get('newSerialNum')
+            newLocation = inData.data.get('newLocation')
+
+            # The Appliance
+            appList = Appliance.objects.filter(id=appId)
+            if appList.exists():
+                app = appList[0]
+                app.name = newName
+                app.location = newLocation
+                app.category = newCategory
+                app.manufacturer = newManufacturer
+                app.serialNum = newSerialNum
+                app.modelNum = newModelNum
+                app.save()
+                print('current name', app.name)
+                return Response(data={STATUS: SUCCESS})
+            else:
+                return Response(data=returnError(APPLIANCE_DOESNT_EXIST))
         else:
-            print('app doesnt exist')
-            return Response(data=returnError(APPLIANCE_DOESNT_EXIST))
-    else:
-        print(missingFields)
-        return Response(data=missingError(missingFields))
+            print(missingFields)
+            return Response(data=missingError(missingFields))
 
-
-@api_view(['GET', 'POST'])
-def updateAppliance(request):
-    required = ['appId', 'newName', 'newCategory', 'newManufacturer', 'newModelNum', 'newSerialNum', 'newLocation']
-    missingFields = checkRequired(required, request)
-    if(len(missingFields) == 0):
-        appId = request.data.get('appId')
-        newName = request.data.get('newName')
-        newCategory = request.data.get('newCategory')
-        newManufacturer = request.data.get('newManufacturer')
-        newModelNum = request.data.get('newModelNum')
-        newSerialNum = request.data.get('newSerialNum')
-        newLocation = request.data.get('newLocation')
-        print('newName: ', newName)
-        # The Appliance
-        appList = Appliance.objects.filter(id=appId)
-        if appList.exists():
-            app = appList[0]
-            app.name = newName
-            app.location = newLocation
-            app.category = newCategory
-            app.manufacturer = newManufacturer
-            app.serialNum = newSerialNum
-            app.modelNum = newModelNum
-            app.save()
-            print('current name', app.name)
-            return Response(data={STATUS: SUCCESS})
+    def get(self, request):
+        inData = json.loads(request.body)
+        required = ['appId']
+        missingFields = checkRequired(required, inData)
+        if(len(missingFields) == 0):
+            appId = inData.data.get('appId')
+            appList = Appliance.objects.filter(id=appId)
+            if appList.exists():
+                app = appList[0]
+                data = {
+                           STATUS: SUCCESS,
+                           'app': app.toDict(),
+                       }
+                return Response(data=data)
+            else:
+                return Response(data=returnError(APPLIANCE_DOESNT_EXIST))
         else:
-            print('app doesnt exist')
-            return Response(data=returnError(APPLIANCE_DOESNT_EXIST))
-    else:
-        print(missingFields)
-        return Response(data=missingError(missingFields))
+            return Response(data=missingError(missingFields))
 
 
-@api_view(['GET', 'POST'])
-def deleteAppliance(request):
-    required = ['appId']
-    missingFields = checkRequired(required, request)
-    if(len(missingFields) == 0):
-        appId = request.data.get('appId')
-        appList = Appliance.objects.filter(id=appId)
-        if appList.exists():
-            app = appList[0]
-            app.delete()
-            data = {
-                       STATUS: SUCCESS,
-                   }
-            return Response(data=data)
+    def delete(self, request):
+        inData = json.loads(request.body)
+        required = ['appId']
+        missingFields = checkRequired(required, inData)
+        if(len(missingFields) == 0):
+            appId = inData.data.get('appId')
+            appList = Appliance.objects.filter(id=appId)
+            if appList.exists():
+                app = appList[0]
+                app.delete()
+                data = {
+                           STATUS: SUCCESS,
+                       }
+                return Response(data=data)
+            else:
+                return Response(data=returnError(APPLIANCE_DOESNT_EXIST))
         else:
-            return Response(data=returnError(APPLIANCE_DOESNT_EXIST))
-    else:
-        return Response(data=missingError(missingFields))
+            return Response(data=missingError(missingFields))
