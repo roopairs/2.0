@@ -2,7 +2,6 @@
 # Imports
 from unittest import mock
 
-from django.conf import settings
 from django.test import TestCase
 
 from ..helperFuncsForTesting import getInfoPost, setUpHelper
@@ -14,13 +13,10 @@ from .views import ERROR, FAIL, INCORRECT_FIELDS, PROPERTY_ALREADY_EXISTS, STATU
 ################################################################################
 # Vars
 
-globUrl = settings.TEST_URL
-
-# EXTRA URLS
 PROP_VIEW = 'property_view'
 VIEW_PROP = 'view_prop'
 UPDATE_PROP = 'update_property'
-LOGIN = 'pm_login'
+LOGIN = 'login'
 
 ################################################################################
 # Tests

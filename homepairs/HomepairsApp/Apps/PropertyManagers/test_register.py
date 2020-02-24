@@ -14,9 +14,7 @@ from .views import ERROR, FAIL, INCORRECT_FIELDS, STATUS, SUCCESS
 ################################################################################
 # Vars
 
-globUrl = settings.TEST_URL
-# EXTRA URLS
-LOGIN = 'pm_login'
+LOGIN = 'login'
 PM_REG = 'pm_register'
 
 ################################################################################

@@ -1,6 +1,5 @@
 ################################################################################
 # Imports
-from django.conf import settings
 from django.test import TestCase
 
 from .helperFuncsForTesting import getInfo, setUpHelper, tearDownHelper
@@ -11,9 +10,6 @@ from .views import ERROR, FAIL, PROPERTY_DOESNT_EXIST, STATUS, SUCCESS
 ################################################################################
 # Vars
 
-globUrl = settings.TEST_URL
-
-# EXTRA URLS
 CREATE_APP = 'create_appliance'
 VIEW_APP = 'view_appliance'
 UPDATE_APP = 'update_appliance'

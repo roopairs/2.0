@@ -1,7 +1,6 @@
 ################################################################################
 # Imports
 
-from django.conf import settings
 from django.test import TestCase
 
 from ..helperFuncsForTesting import getInfoPost, setUpHelper
@@ -11,10 +10,7 @@ from .views import ERROR, FAIL, INCORRECT_CREDENTIALS, INCORRECT_FIELDS, STATUS,
 ################################################################################
 # Vars
 
-globUrl = settings.TEST_URL
-
-# EXTRA URLS
-LOGIN = 'tenant_login'
+LOGIN = 'login'
 
 ################################################################################
 # Tests

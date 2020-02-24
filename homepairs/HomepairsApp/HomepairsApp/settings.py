@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-import logging
 import os
 
 import dj_database_url
@@ -28,20 +27,12 @@ SECRET_KEY = 'f93-=xap982nr==_ydsen_maqdf8_3=1j56^68s76abb+57)2%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# SHIT FROM ALEX
-ALLOWED_HOSTS = ["*"]
-
-DEFAULT_FILE_STORAGE = "inmemorystorage.InMemoryStorage"
-TEST_OUTPUT_DIR = "artifacts"
-TEST_OUTPUT_FILE_NAME = "test_results.xml"
-
-PASSWORD_HASHERS = [
-    "django.contrib.auth.hashers.MD5PasswordHasher",
+ALLOWED_HOSTS = [
+    'homepairs-alpha.herokuapp.com',
+    'homepairs-mytest.herokuapp.com',
+    'localhost',
 ]
 
-AUTH_PASSWORD_VALIDATORS = [{"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"}]
-
-logging.disable(logging.WARNING)
 
 # Application definition
 
@@ -61,6 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,7 +87,7 @@ WSGI_APPLICATION = 'HomepairsApp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'testdb',
+        'NAME': 'realdb',
         'USER': 'dummy',
         'PASSWORD': 'pass4dummy',
         'HOST': 'localhost',
@@ -154,11 +146,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
-
-# Hopefully this works
-# It did. I am a genius for doing very basic programming things
-TEST_URL = 'https://homepairs-alpha.herokuapp.com/API/'
-TEST_URL = 'http://localhost:8000/API/'
 
 # This should be for coverage I think
 TEST_RUNNER = 'HomepairsApp' + ".runners.CoverageLintingXMLTestRunner"

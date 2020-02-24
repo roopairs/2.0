@@ -1,7 +1,9 @@
 import json
 
 from django.http import JsonResponse
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 
 from ..Properties.models import Property
 from .models import Tenant
@@ -83,7 +85,7 @@ def getTenant(tenantEmail, tenantPassword):
 # Views / API Endpoints
 #
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(View):
     def post(self, request):
         inData = json.loads(request.body)
