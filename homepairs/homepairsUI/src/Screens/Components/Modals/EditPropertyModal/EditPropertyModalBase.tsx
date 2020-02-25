@@ -405,8 +405,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                         navigation.goBack();
                         this.setInitialState();
                         this.resetForms();
-                    }}
-                    >
+                    }}>
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
                     {ThinButton(this.submitButton)}

@@ -6,17 +6,17 @@ import {
 } from 'homepairs-components';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
-import { isNullOrUndefined, isEmailSyntaxValid, isPasswordValid} from 'homepairs-utilities';
+import { isNullOrUndefined, isEmailSyntaxValid, isPasswordValid, NavigationRouteHandler, NavigationRouteScreenProps } from 'homepairs-utilities';
 import { NavigationSwitchProp, NavigationSwitchScreenProps } from 'react-navigation';
 import { InputFormProps } from 'src/Elements/Forms/InputForm';
-import { navigationKeys } from 'homepairs-routes';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import {navigationPages} from 'homepairs-routes';
+import { RouteProps, RouterComponentProps } from 'react-router-dom';
 
 export type RoopairsLoginDispatchProps = {
     onFetchAccountProfile: (
         username: string, 
         password: string,
-        navigation: NavigationSwitchProp,
+        navigation: NavigationSwitchProp | RouteProps,
         modalSetOff: () => any, 
     ) => void
 }
@@ -24,7 +24,7 @@ export type RoopairsLoginDispatchProps = {
 export type LoginProps = 
     RoopairsLoginDispatchProps &
     AuthPageInjectedProps &
-    NavigationSwitchScreenProps;
+    NavigationRouteScreenProps;
 
 
 export type LoginState = {
@@ -92,7 +92,7 @@ export default class RoopairsLoginBase extends React.Component<
     }
 
     setModalOff(error: string = 'Error Message') {
-        const { navigation, setErrorState } = this.props;
+        const { setErrorState, navigation } = this.props;
         navigation.navigate(navigationPages.RoopairsLogin);
         setErrorState(true, error);
     }
@@ -106,7 +106,7 @@ export default class RoopairsLoginBase extends React.Component<
     }
 
     clickHighlightedText() {
-        const {navigation} = this.props;
+        const { navigation } = this.props;
         navigation.navigate(navigationPages.SignUpScreen);
     }
 
@@ -133,7 +133,7 @@ export default class RoopairsLoginBase extends React.Component<
         const {username, password} = this.state;
         this.resetForms();
         if (this.validateForms(username, password)) {
-            navigation.navigate(navigationKeys.RoopairsLoggingInModal);
+            navigation.navigate(navigationPages.RoopairsLoggingInModal);
             onFetchAccountProfile(username, password, navigation, this.setModalOff);
         }
     } 

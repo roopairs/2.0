@@ -20,20 +20,16 @@ import {
     HomepairsPropertyAttributes,
     Property,
     HomePairsDimensions,
-    AccountTypes,
-    TenantAccount,
     Appliance, 
     ApplianceType,
     TenantInfo,
 } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
-import { navigationKeys, navigationPages } from 'src/Routes/RouteConstants';
+import { navigationPages } from 'src/Routes/RouteConstants';
 import { withNavigation } from 'react-navigation';
 import axios from 'axios';
 import strings from 'homepairs-strings';
-
 
 export type DetailedPropertyStateProps = {
     property: Property;
@@ -105,32 +101,11 @@ const styles = StyleSheet.create({
     },
 });
 
-/*
-async function getTenantInfo(propId: number){
-    await axios.get('https://homepairs-alpha.herokuapp.com/API/property/list/').then((response)=>{
-        console.log(response)
-        const {data} = response;
-        const {tenants} = data;
-        tenantInfo = [];
-
-        tenants.forEach(tenant => {
-            const {firstName, lastName, email} = tenant;
-            tenantInfo.push({
-                firstName,
-                lastName,
-                email,
-                phoneNumber: '888-999-3030',
-            });
-        });
-    });
-}
-*/
-
 export default function DetailedPropertyScreenBase(props: Props) {
     const { property, navigation } = props;
     const [tenantInfoState, setTenantInfo] = useState([]);
     const [applianceInfoState, setApplianceInfo] = useState([]);
-
+    
     function selectCategory(selected: string) {
         let appType = ApplianceType.None;
         if (selected === categoryStrings.PLUMBING) {
@@ -197,7 +172,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
             bedrooms,
             bathrooms,
             tenants, 
-        }
+        };
         navigation.navigate(navigationPages.EditPropertyModal, {oldProp});
     }
 
@@ -225,7 +200,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
                         onClick={navigateModal}/>
                     <ApplianceInfo navigation={navigation} appliances={applianceInfoState}/>
                     <CurrentTenants 
-                    propertyId={1 /**TODO: get property id from key when backend has support this */} 
+                    propId={1 /**TODO: get property id from key when backend has support this */} 
                     tenants={tenantInfoState}/>
                     <ServiceRequestCount property={property}/>
                 </View>
@@ -249,3 +224,8 @@ export default function DetailedPropertyScreenBase(props: Props) {
 DetailedPropertyScreenBase.defaultProps = {
     primaryColorTheme: BaseStyles.LightColorTheme,
 };
+
+DetailedPropertyScreenBase.navigationOptions = screenProps => ({
+    title: screenProps.navigation.getParam('selectedProperty'),
+    path: screenProps.navigation.getParam('selectedProperty'),
+});

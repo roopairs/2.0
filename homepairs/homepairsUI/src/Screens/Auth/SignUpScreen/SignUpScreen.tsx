@@ -7,8 +7,12 @@ import {
   withAuthPage,
 } from "homepairs-components";
 import HomePairColors from "res/colors";
-import { NavigationSwitchProp } from 'react-navigation';
+import { NavigationSwitchProp, withNavigation } from 'react-navigation';
+import { withRouter } from "react-router-dom";
+import { Platform } from "react-native";
 import SignUpScreenBase, { SignUpViewDispatchProps } from "./SignUpScreenBase";
+import {NavigationRouteHandler} from 'homepairs-utilities';
+import { withNavigationRouteHandler } from 'src/utility/NavigationRouterHandler';
 
 
 const signUpStrings = strings.signUpPage;
@@ -22,7 +26,7 @@ const authPageParam: AuthPassProps = {
 };
 const mapDispatchToProps : (dispatch: any) => SignUpViewDispatchProps = (dispatch: any) => ({
     // TODO: Finish sign up when backend is ready 
-    generateHomePairsAccount: (details: Account, password: String, modalSetOff: () => any, navigation: NavigationSwitchProp) => {
+    generateHomePairsAccount: (details: Account, password: String, modalSetOff: () => any, navigation?: NavigationRouteHandler) => {
         // TODO: Remember to Call dispatch when sign up is ready in backend
         if (details.accountType === AccountTypes.PropertyManager) {
             dispatch(AccountActions.generateAccountForPM(details, password, navigation, modalSetOff));
@@ -32,7 +36,9 @@ const mapDispatchToProps : (dispatch: any) => SignUpViewDispatchProps = (dispatc
     },
 });
 
-const SignUpScreen = connect(null, mapDispatchToProps)(SignUpScreenBase);
 
-const AuthPage = withAuthPage(SignUpScreen, authPageParam);
+const SignUpScreen = connect(null, mapDispatchToProps)(SignUpScreenBase);
+const NavigableAuthPage = withNavigationRouteHandler(SignUpScreen);
+const NavigateReadyAuthPage = Platform.OS === 'web' ? withRouter(NavigableAuthPage) : withNavigation(NavigableAuthPage);
+const AuthPage = withAuthPage(NavigateReadyAuthPage, authPageParam);
 export default AuthPage;

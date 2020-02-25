@@ -1,11 +1,10 @@
 import React from "react";
 import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions, View } from "react-native";
-import {ThinButton, Card, InputForm } from 'homepairs-elements';
+import {ThinButton, Card, InputForm, InputFormProps } from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, TenantInfo} from 'homepairs-types';
 import { isEmailSyntaxValid } from 'homepairs-utilities';
 import {  NavigationStackScreenProps } from 'react-navigation-stack';
-import { InputFormProps } from 'homepairs-elements';
 import isAlphaCharacterOnly from 'src/utility/SyntaxVerification/AlphaCharacterVerification';
 import isPhoneNumberValid from 'src/utility/SyntaxVerification/PhoneNumberVerification';
 

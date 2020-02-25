@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { NavigationStackProp } from 'react-navigation-stack';
-import { TenantInfo } from 'homepairs-types';
+import { AsyncStorage } from 'react-native';
+import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
 import {
     AddPropertyAction,
     UpdatePropertyAction,
@@ -19,6 +20,7 @@ import {
     FetchPropertyAndPropertyManagerAction,
     AccountTypes,
     Contact,
+    TenantInfo,
 } from '../types';
 
 const responseKeys = HomePairsResponseKeys;
@@ -47,6 +49,21 @@ export enum PROPERTY_LIST_ACTION_TYPES {
 
 /**
  * ----------------------------------------------------
+ * Store Property Data
+ * ----------------------------------------------------
+ * Stores the list of properties into the local storage as a string object.  
+ * @param {Property[]} propertyList -should only have a length of 1 if it is for a tenant 
+ */
+const storePropertyData = async (propertyList: Property[]) => {
+  try {
+    await AsyncStorage.setItem('propertyList', JSON.stringify(propertyList));
+  } catch (error) {
+    // Error saving data
+  }
+};
+
+/**
+ * ----------------------------------------------------
  * setSelectedProperty
  * ----------------------------------------------------
  * Action whom indicates to the reducer what property is currently selected
@@ -55,6 +72,8 @@ export enum PROPERTY_LIST_ACTION_TYPES {
  * @param {number} index -position of the property in the array of the state
  */
 export const setSelectedProperty = (index: number): SetSelectedPropertyAction => {
+  // Set the store the selectedProperty in the local state for useage after the app falls asleep
+  AsyncStorage.setItem('selectedProperty', index.toString());
   return {
     type: PROPERTY_LIST_ACTION_TYPES.SET_SELECTED_PROPERTY,
     index,
@@ -80,6 +99,11 @@ export const addProperty = (newProperty: Property): AddPropertyAction => {
  * ----------------------------------------------------
  * postNewProperty
  * ----------------------------------------------------
+ * Sends an request to the homepairs backend attempting to mutate the data of an exisiting property. It takes in
+ * the previous property (TODO: Update this to be propId when backend resolves properties from propId) and sends this 
+ * data to backend in order for it to resolve which property is to be updated. The intitial state of the component is invoked 
+ * and the modal navigates to back to the previous page upon a success. 
+ * 
  * @param {Property} newProperty -property to add to the homepairs database
  * @param {AddNewPropertyState} info -information used to indicate the property manager of the property
  * @param {setIntialState} setInitialState -sets state of calling component to its original state. Should be used for forms
@@ -90,7 +114,7 @@ export const postNewProperty = (
     info: AddNewPropertyState,
     setInitialState: () => void,
     displayError: (msg: string) => void,
-    navigation: NavigationStackProp,
+    navigation: NavigationRouteHandler,
 ) => {
     return async (dispatch: (arg0: any) => void) => {
         await axios
@@ -112,7 +136,6 @@ export const postNewProperty = (
                     response[responseKeys.DATA][responseKeys.STATUS] ===
                     responseKeys.STATUS_RESULTS.SUCCESS
                 ) {
-                    console.log(response[responseKeys.DATA]);
                     // add in propertyID
                     dispatch(addProperty(newProperty));
                     setInitialState();
@@ -161,7 +184,7 @@ export const postUpdatedProperty = (
     editProperty: Property,
     info: EditPropertyState,
     displayError: (msg: string) => void,
-    navigation: NavigationStackProp,
+    navigation: NavigationRouteHandler,
 ) => {
     return async (dispatch: (arg0: any) => void) => {
         return axios
@@ -218,10 +241,12 @@ export const removeProperty = (
  * ----------------------------------------------------
  * Function used to extract a single property from fetching an account profile.
  * This should be called after generating a new account or authentication for specifically
- * TENANTS
+ * Tenants
  * @param {Property} linkedProperty -Property recieved from the homepairs servers
  */
 export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => {
+  console.log(linkedProperty)
+
   const fetchedProperties: Property[] = [];
   const fetchedProperty = {
     propId: linkedProperty[propertyKeys.PROPERTYID],
@@ -233,6 +258,7 @@ export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => 
     bathrooms: linkedProperty[propertyKeys.BATHROOMS],
   };
   fetchedProperties.push(fetchedProperty);
+  storePropertyData(fetchedProperties);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
     property: fetchedProperties,
@@ -245,7 +271,7 @@ export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => 
  * ----------------------------------------------------
  * Function used to extract a single property and its owner from fetching an account profile. 
  * This should be called after generating a new account or authentication for specifically
- * TENANTS
+ * Tenants 
  * @param {Contact} linkedPropertyManager -Property Manager recieved from the homepairs servers  
  */
 export const fetchPropertyAndPropertyManager = (linkedProperty: Property, linkedPropertyManager: Contact): FetchPropertyAndPropertyManagerAction => {
@@ -266,6 +292,7 @@ export const fetchPropertyAndPropertyManager = (linkedProperty: Property, linked
     bathrooms: linkedProperty[propertyKeys.BATHROOMS],
   };
   fetchedProperties.push(fetchedProperty);
+  storePropertyData(fetchedProperties);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_AND_PROPERTY_MANAGER,
     property: fetchedProperties,
@@ -282,9 +309,9 @@ export const fetchPropertyAndPropertyManager = (linkedProperty: Property, linked
  * PROPERTY MANAGERS
  * @param linkedProperties -Array of objects that contain the data for properties
  */
-export const fetchProperties = (
-  linkedProperties: Array<any>,
-): FetchPropertiesAction => {
+export const fetchProperties = (linkedProperties: Array<any>): FetchPropertiesAction => {
+  console.log(linkedProperties)
+
   const fetchedProperties: Property[] = [];
   linkedProperties?.forEach(linkedProperty => {
     fetchedProperties.push({
@@ -297,6 +324,8 @@ export const fetchProperties = (
       bathrooms: linkedProperty[propertyKeys.BATHROOMS],
     });
   });
+  console.log(fetchedProperties)
+  storePropertyData(fetchedProperties);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
     properties: fetchedProperties,
@@ -341,7 +370,7 @@ export const postNewAppliance = (
     info: AddApplianceState,
     setInitialState: () => void,
     displayError: (msg: string) => void,
-    navigation: NavigationStackProp,
+    navigation: NavigationRouteHandler,
 ) => {
     return async () => {
         await axios
@@ -413,7 +442,7 @@ export const updateAppliance = (
 export const postUpdatedAppliance = (
     editAppliance: Appliance,
     displayError: (msg: string) => void,
-    navigation: NavigationStackProp,
+    navigation: NavigationRouteHandler,
 ) => {
     return async () => {
         return axios

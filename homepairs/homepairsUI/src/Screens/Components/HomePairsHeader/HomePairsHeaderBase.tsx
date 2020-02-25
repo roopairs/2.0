@@ -20,6 +20,7 @@ import {
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu';
+import { setAccountAuthenticationState } from 'src/state/session/actions';
 
 const backSymbol = '<';
 const { DROP_MENU_WIDTH } = HomePairsDimensions;
@@ -32,6 +33,7 @@ export type HomePairsHeaderDispatchProps = {
     onShowGoBackbutton: (showBackButton: boolean) => any;
     onSwitchNavBar: (switchNavBar: boolean) => any;
     onUpdateSelected: (selected: MainAppStackType) => any;
+    onLogOut: (authed:boolean) => any;
 };
 export type HomePairsHeaderProps = HomePairsHeaderDispatchProps &
     HomePairsHeaderStateProps &
@@ -220,7 +222,8 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
                         parentCallBack={this.changePage}
                         toggleMenu={this.toggleMenu}
                         isDropDown={header.isDropDown}
-                        showMenu={header.showMenu}/>
+                        showMenu={header.showMenu}
+                        setAuthenticatedState={(authed:boolean) => setAccountAuthenticationState(authed) }/>
                 </View>
             </View>
         );

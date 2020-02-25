@@ -5,7 +5,7 @@ import { FontTheme} from 'homepairs-base-styles';
 import { MainAppStackType } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { NavigationStackProp } from 'react-navigation-stack';
-import MainAppStack from '../../../Routes/RouteConstants';
+import {MainAppStack} from '../../../Routes/RouteConstants';
 
 export type HomePairsMenuProps = {
 
@@ -42,6 +42,11 @@ export type HomePairsMenuProps = {
      * should be revealed or not.
      */
     showMenu?: boolean;
+
+    /**
+     * 
+     */
+    setAuthenticatedState?: (auth: boolean) => any;
 
     /**
      * Callback function intended to change the state of the menu from hiding or showing
@@ -147,11 +152,14 @@ export default class HomePairsMenu extends React.Component<Props> {
      * @param {MainAppStackType} value 
      */
     navigatePages(value: MainAppStackType) {
-        const {navigation} = this.props;
+        const {navigation, setAuthenticatedState} = this.props;
         // Check to see if logout had been clicked. If so, set the selected value 
         // to the Properties
         this.setSelected(value);
         this.closeMenu();
+        if(value.title === 'Log Out'){
+            setAuthenticatedState(false);
+        }
         navigation.navigate(value.navigate);
     }
 

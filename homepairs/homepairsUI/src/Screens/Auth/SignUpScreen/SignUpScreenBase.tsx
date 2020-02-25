@@ -8,23 +8,22 @@ import strings from 'homepairs-strings';
 import { AccountTypes, Account } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet, View, Text } from 'react-native';
-import { isNullOrUndefined, isPasswordValid, isEmailSyntaxValid, isAlphaCharacterOnly, isEmptyOrSpaces } from 'homepairs-utilities';
-import { NavigationSwitchProp, NavigationSwitchScreenProps } from 'react-navigation';
-import { navigationPages, navigationKeys } from 'src/Routes/RouteConstants';
+import { isNullOrUndefined, isPasswordValid, isEmailSyntaxValid, isAlphaCharacterOnly, isEmptyOrSpaces, NavigationRouteHandler, NavigationRouteScreenProps } from 'homepairs-utilities';
+import { navigationPages } from 'src/Routes/RouteConstants';
 
 export type SignUpViewDispatchProps = {
     generateHomePairsAccount: (
         details: Account,
         password: String,
         modalSetOff: () => any,
-        navigation: NavigationSwitchProp,
+        navigation: NavigationRouteHandler,
     ) => any;
 };
 
 export type SignUpProps =
     SignUpViewDispatchProps &
     AuthPageInjectedProps &
-    NavigationSwitchScreenProps;
+    NavigationRouteScreenProps;
 
 type SignUpState = {
     accountType: AccountTypes;
@@ -100,10 +99,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
     });
 }
 
-export default class SignUpScreenBase extends React.Component<
-    SignUpProps,
-    SignUpState
-> {
+export default class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
     inputFormStyle;
 
     firstNameRef;
@@ -119,6 +115,7 @@ export default class SignUpScreenBase extends React.Component<
     passwordRef;
 
     cPasswordRef;
+
 
     constructor(props: Readonly<SignUpProps>) {
         super(props);
@@ -144,13 +141,12 @@ export default class SignUpScreenBase extends React.Component<
         this.addressRef = React.createRef();
         this.cityRef = React.createRef();
         
-
         props.clickButton(this.clickSignUp);
         props.clickHighlightedText(this.clickSignIn);
     }
 
     setModalOff(error: string = 'Error Message') {
-        const { navigation, setErrorState } = this.props;
+        const { setErrorState, navigation } = this.props;
         navigation.navigate(navigationPages.SignUpScreen);
         setErrorState(true, error);
     }
@@ -196,7 +192,7 @@ export default class SignUpScreenBase extends React.Component<
     };
 
     clickSignUp = () => {
-        const { generateHomePairsAccount, navigation } = this.props;
+        const { generateHomePairsAccount, navigation} = this.props;
         const { password } = this.state;
         this.resetForms();
         if (this.validateForms()) {

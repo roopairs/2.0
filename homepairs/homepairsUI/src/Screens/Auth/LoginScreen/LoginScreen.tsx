@@ -6,8 +6,12 @@ import {
 } from "homepairs-components";
 import strings from "homepairs-strings";
 import HomePairColors from "res/colors";
-import {NavigationSwitchProp } from "react-navigation";
+import {NavigationSwitchProp, withNavigation } from "react-navigation";
+import { RouteProps, withRouter } from "react-router-dom";
+import { Platform } from "react-native";
+import {NavigationRouteHandler} from 'homepairs-utilities';
 import LoginScreenBase, { LoginViewDispatchProps } from "./LoginScreenBase";
+import { withNavigationRouteHandler } from 'src/utility/NavigationRouterHandler';
 
 
 const signInStrings = strings.signInPage;
@@ -22,15 +26,17 @@ const authPageParam: AuthPassProps = {
 
 const mapDispatchToProps : (dispatch: any) => LoginViewDispatchProps = (dispatch: any) => ({
     onFetchAccountProfile: async (username: string, password: string, 
-        modalSetOff: (error?:string) => any, navigation: NavigationSwitchProp) => {
+        modalSetOff: (error?:string) => any, navigation: NavigationRouteHandler) => {
         await dispatch(AccountActions.fetchAccount(username, password, navigation, modalSetOff));
     },
 });
 
 /* * Inject the HOCs for the base login screen * */
 const LoginScreen = connect(null, mapDispatchToProps)(LoginScreenBase);
+const NavigateReadyLoginScreen = withNavigationRouteHandler(LoginScreen);
+const NavigableLoginScreen = Platform.OS === 'web' ? withRouter(NavigateReadyLoginScreen) : withNavigation(NavigateReadyLoginScreen);
 
 /* * Now that the Base is prepared, wrap the base to get a complete Homepairs AuthScreen * */
-const AuthPage = withAuthPage(LoginScreen, authPageParam);
+const AuthPage = withAuthPage(NavigableLoginScreen, authPageParam);
 
 export default AuthPage;

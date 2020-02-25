@@ -1,5 +1,18 @@
 import { MainAppStackType } from 'homepairs-types';
 
+
+export const LOGIN = '/authentication/login';
+export const SIGNUP = '/authentication/sign-up';
+export const ROOPAIRS_LOGIN = '/authentication/roopairs-login';
+
+export const PROPERTY_LIST = '/admin/properties';
+export const TENANT_PROPERTY = '/admin/tenant';
+export const PROPERTY = '/admin/property/propID=:propId';
+
+export const LOGIN_MODAL = '/authentication/logging-in';
+export const CREATE_ACCOUNT_MODAL = '/authentication/creating-account';
+
+
 /**
  * All keys that can be mapped to any page in the react navigator should 
  * be stored here. This is so there changes to one key can be affect by all
@@ -55,9 +68,9 @@ export const navigationKeys: {[id:string]: string} = {
  */
 export const navigationPages = {
     // Property Pages
-    PropertiesScreen: 'PropertiesScreen',
-    TenantProperty: 'TenantProperty',
-    SingleProperty: 'SingleProperty',
+    PropertiesScreen: PROPERTY_LIST,
+    TenantProperty: TENANT_PROPERTY,
+    SingleProperty: PROPERTY,
     // Property Stack Modals 
     AddNewPropertyModal: 'AddNewPropertyModal',
     EditPropertyModal: 'EditPropertyModal',
@@ -74,14 +87,14 @@ export const navigationPages = {
     AccountSettings: 'AccountSettings', 
 
     // Authentication Pages
-    LoginScreen: 'LoginScreen',
-    RoopairsLogin: 'RoopairsLogin',
-    SignUpScreen: 'SignUpScreen',
+    LoginScreen: LOGIN,
+    RoopairsLogin: ROOPAIRS_LOGIN,
+    SignUpScreen: SIGNUP,
 
     // Authentication Modals
-    RoopairsLoggingInModal: 'RoopairsLoggingInModal',
-    CreatingAccountModal: 'CreatingAccountModal',
-    LoggingInModal: 'LoggingInModal', 
+    RoopairsLoggingInModal: LOGIN_MODAL,
+    CreatingAccountModal: CREATE_ACCOUNT_MODAL,
+    LoggingInModal: LOGIN_MODAL, 
 
 };
 
@@ -89,7 +102,7 @@ export const navigationPages = {
 export const MainAppStack: Array<MainAppStackType> = [
     {
         title: 'Properties',
-        navigate: navigationPages.PropertiesScreen,
+        navigate: PROPERTY_LIST,
         key: 'Properties',
         button: 'Add Property',
     },
@@ -106,13 +119,7 @@ export const MainAppStack: Array<MainAppStackType> = [
     },
     {
         title: 'Log Out',
-        navigate: navigationPages.LoginScreen,
+        navigate: LOGIN,
         key: 'LogOut',
     },
 ];
-
-
-export const LOGIN = '/login';
-export const SIGNUP = '/sign-up';
-export const ROOPAIRS_LOGIN = '/roopairs-login';
-export const PROPERTY_LIST = '/properties';

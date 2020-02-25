@@ -10,7 +10,7 @@ import {
     HomePairsDimensions,
 } from '../types';
 import { HEADER_ACTION_TYPES } from './actions';
-import MainAppStack from '../../Routes/RouteConstants';
+import {MainAppStack} from '../../Routes/RouteConstants';
 
 /**
  * This function is intended be called when the application first loads. It 
