@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'Apps.Properties',
     'Apps.Tenants',
     'Apps.Appliances',
+    'Apps.ServiceProvider',
 ]
 
 MIDDLEWARE = [

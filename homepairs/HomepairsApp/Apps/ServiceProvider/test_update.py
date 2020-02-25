@@ -5,10 +5,10 @@ from unittest import mock
 from django.conf import settings
 from django.test import TestCase
 
-from ..helperFuncsForTesting import getInfoPost, getInfoPut, setUpHelper
-from ..PropertyManagers.models import PropertyManager
+from ..helperFuncsForTesting import getInfoPost, getInfoPut, getInfoGet, setUpHelper
+# from ..PropertyManagers.models import PropertyManager
 from .models import Property
-from .views import ERROR, FAIL, INCORRECT_FIELDS, PROPERTY_ALREADY_EXISTS, STATUS, SUCCESS
+from .views import FAIL, STATUS, SUCCESS
 
 
 ################################################################################
@@ -29,13 +29,6 @@ LOGIN = 'login'
 class UpdateAppliance(TestCase):
 
     def setUp(self):
-        setUpHelper()
-
-    def tearDown(self):
-        tearDownHelper()
-
-    @classmethod
-    def tearDownClass(self):
         setUpHelper()
 
     mockVal = {"token": "cb3e47056453b655d9f9052f7368dfe170e91f39"}

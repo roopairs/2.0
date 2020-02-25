@@ -1,8 +1,6 @@
-from django.db import models
 import datetime
 
-from ..Properties.models import Property
-
+from django.db import models
 
 # Create your models here.
 
@@ -13,8 +11,8 @@ class ServiceProvider(models.Model):
     phoneNum = models.CharField(max_length=15)
     contractLic = models.CharField(max_length=15, null=True)
     skills = models.CharField(max_length=200, null=True)
-    founded = models.DateField(_("Date"), default=datetime.date.today)
-    #image????
+    founded = models.DateField(default=datetime.date.today)
+    # image????
 
     def __str__(self):
         return self.name + " " + self.email

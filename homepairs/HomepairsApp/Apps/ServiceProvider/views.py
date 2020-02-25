@@ -1,9 +1,12 @@
-from django.views import View
+import json
 import datetime
-from rest_framework.decorators import api_view
+
+from django.views import View
+from django.http import JsonResponse
+# from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from ..Properties.models import Property
+# from ..Properties.models import Property
 from .models import ServiceProvider
 
 
@@ -60,6 +63,8 @@ def missingError(missingFields):
     return returnError(finalErrorString.strip())
 
 ##############################################################
+
+
 class ServiceProviderView(View):
     def post(self, request):
         inData = json.loads(request.body)
@@ -67,46 +72,46 @@ class ServiceProviderView(View):
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) == 0):
-            name = inData.data.get('name')
-            email = inData.data.get('email')
-            phoneNum = inData.data.get('phoneNum')
-            contractLic = inData.data.get('contractLic')
-            skills = inData.data.get('skills')
-            founded = inData.data.get('founded')
-            founded = datetime.datetime.strptime(s, "%Y-%m-%d").date()
+            name = inData.get('name')
+            email = inData.get('email')
+            phoneNum = inData.get('phoneNum')
+            contractLic = inData.get('contractLic')
+            skills = inData.get('skills')
+            dateStr = inData.get('founded')
+            founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
             proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
-            if not propList.exists():
+            if not proList.exists():
                 pro = ServiceProvider(name=name,
-                                email=email,
-                                phoneNum=phoneNum,
-                                contractLic=contractLic,
-                                skills=skills,
-                                founded=founded)
+                                      email=email,
+                                      phoneNum=phoneNum,
+                                      contractLic=contractLic,
+                                      skills=skills,
+                                      founded=founded)
                 pro.save()
                 data = {
                         STATUS: SUCCESS,
-                        'id': pro.id
+                        'id': pro.id,
+                        'phoneNum': pro.phoneNum
                        }
-                return Response(data=data)
+                return JsonResponse(data=data)
             else:
-                return Response(data=returnError(SERVPRO_ALREADY_EXIST))
+                return JsonResponse(data=returnError(SERVPRO_ALREADY_EXIST))
         else:
-            return Response(data=missingError(missingFields))
-
+            return JsonResponse(data=missingError(missingFields))
 
     def put(self, request):
         inData = json.loads(request.body)
         required = ['id', 'name', 'email', 'phoneNum', 'contractLic', 'skills', 'founded']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) == 0):
-            id = inData.data.get('id')
-            name = inData.data.get('name')
-            email = inData.data.get('email')
-            phoneNum = inData.data.get('phoneNum')
-            contractLic = inData.data.get('contractLic')
-            skills = inData.data.get('skills')
-            founded = inData.data.get('founded')
-            founded = datetime.datetime.strptime(s, "%Y-%m-%d").date()
+            id = inData.get('id')
+            name = inData.get('name')
+            email = inData.get('email')
+            phoneNum = inData.get('phoneNum')
+            contractLic = inData.get('contractLic')
+            skills = inData.get('skills')
+            dateStr = inData.get('founded')
+            founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
 
             # The ServiceProvider
             proList = ServiceProvider.objects.filter(id=id)
@@ -119,18 +124,18 @@ class ServiceProviderView(View):
                 pro.skills = skills
                 pro.founded = founded
                 pro.save()
-                return Response(data={STATUS: SUCCESS})
+                return JsonResponse(data={STATUS: SUCCESS})
             else:
-                return Response(data=returnError(SERVPRO_DOESNT_EXIST))
+                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
         else:
-            return Response(data=missingError(missingFields))
+            return JsonResponse(data=missingError(missingFields))
 
     def get(self, request):
         inData = json.loads(request.body)
         required = ['phoneNum']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) == 0):
-            phoneNum = inData.data.get('phoneNum')
+            phoneNum = inData.get('phoneNum')
             proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
             if proList.exists():
                 pro = proList[0]
@@ -138,19 +143,18 @@ class ServiceProviderView(View):
                            STATUS: SUCCESS,
                            'pro': pro.toDict(),
                        }
-                return Response(data=data)
+                return JsonResponse(data=data)
             else:
-                return Response(data=returnError(SERVPRO_DOESNT_EXIST))
+                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
         else:
-            return Response(data=missingError(missingFields))
-
+            return JsonResponse(data=missingError(missingFields))
 
     def delete(self, request):
         inData = json.loads(request.body)
         required = ['id']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) == 0):
-            id = inData.data.get('id')
+            id = inData.get('id')
             proList = ServiceProvider.objects.filter(id=id)
             if proList.exists():
                 pro = proList[0]
@@ -158,8 +162,8 @@ class ServiceProviderView(View):
                 data = {
                            STATUS: SUCCESS,
                        }
-                return Response(data=data)
+                return JsonResponse(data=data)
             else:
-                return Response(data=returnError(SERVPRO_DOESNT_EXIST))
+                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
         else:
-            return Response(data=missingError(missingFields))
+            return JsonResponse(data=missingError(missingFields))

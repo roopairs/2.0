@@ -5,11 +5,11 @@ from unittest import mock
 from django.conf import settings
 from django.test import TestCase
 
-from ..helperFuncsForTesting import getInfoPost, setUpHelper
-from ..Properties.models import Property
-from ..PropertyManagers.models import PropertyManager
-from .views import ERROR, FAIL, INCORRECT_FIELDS, PROPERTY_ALREADY_EXISTS, STATUS, SUCCESS
-
+from ..helperFuncsForTesting import getInfoPost, getInfoGet, setUpHelper
+# from ..Properties.models import Property
+# from ..PropertyManagers.models import PropertyManager
+from .views import STATUS, SUCCESS
+# from .views import FAIL
 
 ################################################################################
 # Vars
@@ -22,15 +22,9 @@ PRO_VIEW = 'service_provider_view'
 ################################################################################
 # Tests
 
+
 class CreateServiceProvider(TestCase):
     def setUp(self):
-        setUpHelper()
-
-    def tearDown(self):
-        tearDownHelper()
-
-    @classmethod
-    def tearDownClass(self):
         setUpHelper()
 
     mockVal = {"token": "cb3e47056453b655d9f9052f7368dfe170e91f39"}
@@ -57,20 +51,21 @@ class CreateServiceProvider(TestCase):
         responseData = getInfoPost(PRO_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        proId = responseData.get('id')
+        phoneNum = responseData.get('phoneNum')
         data = {
-                  'proId': appId
+                  'phoneNum': phoneNum
                }
 
         responseData = getInfoGet(PRO_VIEW, data)
 
         self.assertEqual(responseData.get(STATUS), SUCCESS)
-        app = responseData.get('pro')
-        self.assertEqual(app.get('name'), name)
-        self.assertEqual(app.get('email'), manufacturer)
-        self.assertEqual(app.get('phoneNum'), category)
-        self.assertEqual(app.get('contractLic'), modelNum)
-        self.assertEqual(app.get('skills'), serialNum)
+
+        pro = responseData.get('pro')
+        self.assertEqual(pro.get('name'), name)
+        self.assertEqual(pro.get('email'), email)
+        self.assertEqual(pro.get('phoneNum'), phoneNum)
+        self.assertEqual(pro.get('contractLic'), contractLic)
+        self.assertEqual(pro.get('skills'), skills)
 
     # Test that passes bad propId
     # def test_create_pro_bad_date(self):
