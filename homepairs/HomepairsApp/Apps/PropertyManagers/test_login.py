@@ -12,10 +12,7 @@ from .views import ERROR, FAIL, INCORRECT_CREDENTIALS, INCORRECT_FIELDS, STATUS,
 ################################################################################
 # Vars
 
-globUrl = settings.TEST_URL
-
-# EXTRA URLS
-LOGIN = 'pm_login'
+LOGIN = 'login'
 
 ################################################################################
 # Tests
@@ -53,14 +50,14 @@ class Login(TestCase):
         self.assertEqual(prop1.get('numBath'), 2)
         self.assertEqual(prop1.get('numBed'), 5)
         self.assertEqual(prop1.get('maxTenants'), 8)
-        self.assertEqual(prop1.get('rooId'), 'abcdef')
+        self.assertEqual(prop1.get('propId'), 'abcdef')
         self.assertEqual(prop2.get('streetAddress'), '200 N. Santa Rosa')
         self.assertEqual(prop2.get('city'), 'San Luis Obispo')
         self.assertEqual(prop2.get('state'), 'CA')
         self.assertEqual(prop2.get('numBath'), 2)
         self.assertEqual(prop2.get('numBed'), 3)
         self.assertEqual(prop2.get('maxTenants'), 5)
-        self.assertEqual(prop2.get('rooId'), 'ghijkl')
+        self.assertEqual(prop2.get('propId'), 'ghijkl')
 
     def test_pm_wrongEmail(self):
         '''Email is wrong'''
@@ -134,7 +131,7 @@ class Login(TestCase):
         self.assertEqual(properties[2].get('numBath'), 1)
         self.assertEqual(properties[2].get('numBed'), 1)
         self.assertEqual(properties[2].get('maxTenants'), 1)
-        self.assertEqual(properties[2].get('rooId'), 'jsjkji')
+        self.assertEqual(properties[2].get('propId'), 'jsjkji')
 
     mockVal1 = {"token": "cb3e47056453b655d9f9052f7368dfe170e91f39"}
     mockVal2 = [{'id': 'thisis',
@@ -163,4 +160,4 @@ class Login(TestCase):
         self.assertEqual(properties[3].get('numBath'), 1)
         self.assertEqual(properties[3].get('numBed'), 1)
         self.assertEqual(properties[3].get('maxTenants'), 1)
-        self.assertEqual(properties[3].get('rooId'), 'thatid')
+        self.assertEqual(properties[3].get('propId'), 'thatid')

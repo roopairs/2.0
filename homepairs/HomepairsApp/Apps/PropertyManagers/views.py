@@ -1,6 +1,7 @@
 import json
 
 from django.http import JsonResponse
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
@@ -8,6 +9,7 @@ from ..helperFuncs import postRooAPI
 from ..Properties.models import Property
 from ..Properties.views import addNewProperties
 from ..Tenants.models import Tenant
+from ..Tenants.views import getTenant
 from .models import PropertyManager
 
 
@@ -130,23 +132,22 @@ def pmLogin(email, password):
 #
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(View):
 
-    @csrf_exempt
     def post(self, request):
         inData = json.loads(request.body)
         required = ['email', 'password']
         missingFields = checkRequired(required, inData)
 
-
         if(len(missingFields) == 0):
             email = inData.get('email')
             password = inData.get('password')
 
-            tenantTest = tenantLogin(request)
+            tenantTest = getTenant(email, password)
             if(tenantTest.get(STATUS) == SUCCESS):
-               tenantTest['role'] = 'tenant'
-               return Response(data=tenantTest)
+                tenantTest['role'] = 'tenant'
+                return JsonResponse(tenantTest)
 
             pmTest = pmLogin(email, password)
             if(pmTest.get(STATUS) == SUCCESS):
@@ -157,6 +158,7 @@ class LoginView(View):
             return JsonResponse(missingError(missingFields), status=200)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(View):
     def post(self, request):
         inData = json.loads(request.body)
@@ -202,6 +204,7 @@ class RegisterView(View):
             return JsonResponse(data=missingError(missingFields))
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class TenantControlView(View):
     def put(self, request):
         inData = json.loads(request.body)

@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-	<testsuite errors="0" failures="0" file="Apps/Appliances/test_ApplianceCRUD.py" name="Apps.Appliances.test_ApplianceCRUD.CreateAppliance-20200220204045" skipped="0" tests="2" time="0.029" timestamp="2020-02-20T20:40:45">
-		<testcase classname="Apps.Appliances.test_ApplianceCRUD.CreateAppliance" file="Apps/Appliances/test_ApplianceCRUD.py" line="76" name="test_CREATE_APP_bad_address" time="0.023" timestamp="2020-02-20T20:40:45">
+	<testsuite errors="0" failures="0" file="Apps/Appliances/test_ApplianceCRUD.py" name="Apps.Appliances.test_ApplianceCRUD.CreateAppliance-20200220213126" skipped="0" tests="2" time="0.019" timestamp="2020-02-20T21:31:27">
+		<testcase classname="Apps.Appliances.test_ApplianceCRUD.CreateAppliance" file="Apps/Appliances/test_ApplianceCRUD.py" line="76" name="test_CREATE_APP_bad_address" time="0.016" timestamp="2020-02-20T21:31:27">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="Apps.Appliances.test_ApplianceCRUD.CreateAppliance" file="Apps/Appliances/test_ApplianceCRUD.py" line="37" name="test_create_appliance_allCorrect" time="0.006" timestamp="2020-02-20T20:40:45">
+		<testcase classname="Apps.Appliances.test_ApplianceCRUD.CreateAppliance" file="Apps/Appliances/test_ApplianceCRUD.py" line="37" name="test_create_appliance_allCorrect" time="0.003" timestamp="2020-02-20T21:31:27">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
 	</testsuite>
-	<testsuite errors="0" failures="0" file="Apps/Appliances/test_ApplianceCRUD.py" name="Apps.Appliances.test_ApplianceCRUD.UpdateAppliance-20200220204045" skipped="0" tests="2" time="0.013" timestamp="2020-02-20T20:40:45">
-		<testcase classname="Apps.Appliances.test_ApplianceCRUD.UpdateAppliance" file="Apps/Appliances/test_ApplianceCRUD.py" line="170" name="test_update_app_bad_app_id" time="0.005" timestamp="2020-02-20T20:40:45">
+	<testsuite errors="0" failures="0" file="Apps/Appliances/test_ApplianceCRUD.py" name="Apps.Appliances.test_ApplianceCRUD.UpdateAppliance-20200220213126" skipped="0" tests="2" time="0.007" timestamp="2020-02-20T21:31:27">
+		<testcase classname="Apps.Appliances.test_ApplianceCRUD.UpdateAppliance" file="Apps/Appliances/test_ApplianceCRUD.py" line="170" name="test_update_app_bad_app_id" time="0.003" timestamp="2020-02-20T21:31:27">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="Apps.Appliances.test_ApplianceCRUD.UpdateAppliance" file="Apps/Appliances/test_ApplianceCRUD.py" line="111" name="test_update_appliance_allCorrect" time="0.008" timestamp="2020-02-20T20:40:45">
+		<testcase classname="Apps.Appliances.test_ApplianceCRUD.UpdateAppliance" file="Apps/Appliances/test_ApplianceCRUD.py" line="111" name="test_update_appliance_allCorrect" time="0.004" timestamp="2020-02-20T21:31:27">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>

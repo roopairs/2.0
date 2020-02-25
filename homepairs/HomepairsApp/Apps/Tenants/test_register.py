@@ -1,6 +1,5 @@
 ################################################################################
 # Imports
-from django.conf import settings
 from django.test import TestCase
 
 from ..helperFuncsForTesting import getInfoPost, setUpHelper
@@ -10,9 +9,6 @@ from .views import ERROR, FAIL, INCORRECT_FIELDS, STATUS, SUCCESS
 ################################################################################
 # Vars
 
-globUrl = settings.TEST_URL
-
-# EXTRA URLS
 TENANT_REG = 'tenant_register'
 
 ################################################################################
