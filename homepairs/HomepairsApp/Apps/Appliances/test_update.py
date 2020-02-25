@@ -5,11 +5,11 @@ from unittest import mock
 from django.conf import settings
 from django.test import TestCase
 
-from ..helperFuncsForTesting import getInfoPost, getInfoPut, setUpHelper
-from ..PropertyManagers.models import PropertyManager
-from .models import Property
-from .views import ERROR, FAIL, INCORRECT_FIELDS, PROPERTY_ALREADY_EXISTS, STATUS, SUCCESS
-
+from ..helperFuncsForTesting import getInfoPost, getInfoPut, getInfoGet, setUpHelper
+# from ..PropertyManagers.models import PropertyManager
+# from .models import Property
+from .views import STATUS, SUCCESS
+# from .views import FAIL
 
 ################################################################################
 # Vars
@@ -26,13 +26,6 @@ PRO_VIEW = 'service_provider_view'
 class UpdateServiceProvider(TestCase):
 
     def setUp(self):
-        setUpHelper()
-
-    def tearDown(self):
-        tearDownHelper()
-
-    @classmethod
-    def tearDownClass(self):
         setUpHelper()
 
     mockVal = {"token": "cb3e47056453b655d9f9052f7368dfe170e91f39"}
@@ -61,7 +54,7 @@ class UpdateServiceProvider(TestCase):
                }
         responseData = getInfoPost(PRO_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
-        id = responseData.get(id)
+        id = responseData.get('id')
 
         name = 'Burger King'
         email = 'burgerking@gmail.com'
@@ -78,7 +71,7 @@ class UpdateServiceProvider(TestCase):
                   'founded': founded,
                }
 
-        responseData = getInfoPut(APP_VIEW, data)
+        responseData = getInfoPut(PRO_VIEW, data)
 
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
@@ -91,10 +84,10 @@ class UpdateServiceProvider(TestCase):
         self.assertEqual(responseData.get(STATUS), SUCCESS)
         app = responseData.get('pro')
         self.assertEqual(app.get('name'), name)
-        self.assertEqual(app.get('email'), manufacturer)
-        self.assertEqual(app.get('phoneNum'), category)
-        self.assertEqual(app.get('contractLic'), modelNum)
-        self.assertEqual(app.get('skills'), serialNum)
+        self.assertEqual(app.get('email'), email)
+        self.assertEqual(app.get('phoneNum'), phoneNum)
+        self.assertEqual(app.get('contractLic'), contractLic)
+        self.assertEqual(app.get('skills'), skills)
 
     # def test_update_service_provider_bad_date(self):
     #     '''Incorrect Fields Being Sent'''
