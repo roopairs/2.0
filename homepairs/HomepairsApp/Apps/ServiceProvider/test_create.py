@@ -14,8 +14,6 @@ from .views import STATUS, SUCCESS
 ################################################################################
 # Vars
 
-globUrl = settings.TEST_URL
-
 # EXTRA URLS
 PRO_VIEW = 'service_provider_view'
 

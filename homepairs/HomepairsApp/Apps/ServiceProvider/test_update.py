@@ -14,8 +14,6 @@ from .views import FAIL, STATUS, SUCCESS
 ################################################################################
 # Vars
 
-globUrl = settings.TEST_URL
-
 # EXTRA URLS
 APP_VIEW = 'appliance_view'
 VIEW_APP = 'view_appliance'
