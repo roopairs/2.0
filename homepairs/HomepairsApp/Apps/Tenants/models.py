@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 from ..Properties.models import Property
 from ..PropertyManagers.models import PropertyManager
@@ -7,6 +8,7 @@ from ..PropertyManagers.models import PropertyManager
 # Create your models here.
 
 class Tenant(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     firstName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
     email = models.CharField(max_length=255)
