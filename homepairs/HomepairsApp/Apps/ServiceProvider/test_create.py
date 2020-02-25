@@ -5,9 +5,9 @@ from unittest import mock
 from django.conf import settings
 from django.test import TestCase
 
-from ..helperFuncsForTesting import getInfoPost, getInfoPut, setUpHelper
+from ..helperFuncsForTesting import getInfoPost, setUpHelper
+from ..Properties.models import Property
 from ..PropertyManagers.models import PropertyManager
-from .models import Property
 from .views import ERROR, FAIL, INCORRECT_FIELDS, PROPERTY_ALREADY_EXISTS, STATUS, SUCCESS
 
 
@@ -22,9 +22,7 @@ PRO_VIEW = 'service_provider_view'
 ################################################################################
 # Tests
 
-
-class UpdateServiceProvider(TestCase):
-
+class CreateServiceProvider(TestCase):
     def setUp(self):
         setUpHelper()
 
@@ -36,14 +34,11 @@ class UpdateServiceProvider(TestCase):
         setUpHelper()
 
     mockVal = {"token": "cb3e47056453b655d9f9052f7368dfe170e91f39"}
-    mockVal2 = {'id': '6x7OVxX',
-                'physical_address_formatted': '1661 McCollum St, San Luis Obispo, CA 93405, USA'}
-    mockVal3 = {'id': '6x7OVxX'}
+    mockVal2 = {'id': 'd1oDOK5', 'physical_address_formatted': '130 Grand Ave, San Luis Obispo, CA 93405, USA'}
     @mock.patch('Apps.PropertyManagers.views.postRooAPI', return_value=mockVal, autospec=True)
     @mock.patch('Apps.Properties.views.postRooTokenAPI', return_value=mockVal2, autospec=True)
-    @mock.patch('Apps.Properties.views.putRooTokenAPI', return_value=mockVal3, autospec=True)
-    def test_update_service_provider_allCorrect(self):
-        '''Everything is correct, I create the property first, then update it.'''
+    def test_create_provider_allCorrect(self):
+        '''Everything is correct'''
         name = 'McDs'
         email = 'mcds@gmail.com'
         phoneNum = '8007733030'
@@ -61,29 +56,10 @@ class UpdateServiceProvider(TestCase):
                }
         responseData = getInfoPost(PRO_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
-        id = responseData.get(id)
 
-        name = 'Burger King'
-        email = 'burgerking@gmail.com'
-        phoneNum = '555555555'
-        contractLic = '666666'
-        skills = 'can cook burgers not great'
-        founded = '2000-01-01'
+        proId = responseData.get('id')
         data = {
-                  'name': name,
-                  'email': email,
-                  'phoneNum': phoneNum,
-                  'contractLic': contractLic,
-                  'skills': skills,
-                  'founded': founded,
-               }
-
-        responseData = getInfoPut(APP_VIEW, data)
-
-        self.assertEqual(responseData.get(STATUS), SUCCESS)
-
-        data = {
-                  'id': id,
+                  'proId': appId
                }
 
         responseData = getInfoGet(PRO_VIEW, data)
@@ -96,14 +72,15 @@ class UpdateServiceProvider(TestCase):
         self.assertEqual(app.get('contractLic'), modelNum)
         self.assertEqual(app.get('skills'), serialNum)
 
-    # def test_update_service_provider_bad_date(self):
+    # Test that passes bad propId
+    # def test_create_pro_bad_date(self):
     #     '''Incorrect Fields Being Sent'''
     #     name = 'McDs'
     #     email = 'mcds@gmail.com'
     #     phoneNum = '8007733030'
     #     contractLic = '681234'
     #     skills = 'can cook burgers okay'
-    #     founded = '2014-04-07'
+    #     founded = 'bad'
     #
     #     data = {
     #               'name': name,
@@ -114,24 +91,6 @@ class UpdateServiceProvider(TestCase):
     #               'founded': founded,
     #            }
     #     responseData = getInfoPost(PRO_VIEW, data)
-    #     self.assertEqual(responseData.get(STATUS), SUCCESS)
-    #     id = responseData.get(id)
-    #
-    #     name = 'Burger King'
-    #     email = 'burgerking@gmail.com'
-    #     phoneNum = '555555555'
-    #     contractLic = '666666'
-    #     skills = 'can cook burgers not great'
-    #     founded = 'bad'
-    #     data = {
-    #               'name': name,
-    #               'email': email,
-    #               'phoneNum': phoneNum,
-    #               'contractLic': contractLic,
-    #               'skills': skills,
-    #               'founded': founded,
-    #            }
-    #
-    #     responseData = getInfoPut(PRO_VIEW, data)
     #
     #     self.assertEqual(responseData.get(STATUS), FAIL)
+    #     self.assertEqual(responseData.get(ERROR), PROPERTY_DOESNT_EXIST)
