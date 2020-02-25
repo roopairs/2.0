@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User
 
 from ..helperFuncs import postRooAPI
 from ..Properties.models import Property
@@ -29,6 +31,7 @@ TOO_MANY_PROPERTIES = 'Too many properties associated with tenant'
 PROPERTY_SQUISH = 'This address and city are associated with more than one property'
 PROPERTY_SQUISH = 'More than one property detected.'
 PM_SQUISH = 'This email is associated with more than one pm'
+PM_DOESNT_EXIST = 'Property Manager does not exist.'
 INVALID_PROPERTY = 'Invalid property'
 PROPERTY_ALREADY_EXISTS = 'Property given already exists'
 NON_FIELD_ERRORS = 'non_field_errors'
@@ -72,21 +75,33 @@ def missingError(missingFields):
 def getPropertyManager(email):
     # Gets the list of propety managers with that email
     pmList = PropertyManager.objects.filter(email=email)
-    if pmList.exists():
-        if pmList.count() == 1:
-            thisPM = pmList[0]
-            propertyList = Property.objects.filter(pm=thisPM)
-            sendPropList = []
-            for prop in propertyList:
-                tempProp = prop.toDict()
-                sendPropList.append(tempProp)
-            return {
-                       STATUS: SUCCESS,
-                       'pm': thisPM.toDict(),
-                       'properties': sendPropList,
-                   }
+    if(not pmList.exists()):
+        return returnError(PM_DOESNT_EXIST)
+    if(pmList.count() > 1):
         return returnError(MULTIPLE_ACCOUNTS)
-    return returnError(INCORRECT_FIELDS)
+
+    thisPM = pmList[0]
+    token = Token.objects.get_or_create(user=thisPM.user)
+    print("TOKEN")
+    print(token)
+    if(isinstance(token, tuple)):
+        token = token[0]
+        print("GHERE")
+    else:
+        print(type(token))
+
+    propertyList = Property.objects.filter(pm=thisPM)
+    sendPropList = []
+    for prop in propertyList:
+        tempProp = prop.toDict()
+        sendPropList.append(tempProp)
+
+    return {
+               STATUS: SUCCESS,
+               'pm': thisPM.toDict(),
+               'properties': sendPropList,
+               'token': token.key
+           }
 
 
 ################################################################################
@@ -111,20 +126,22 @@ def pmLogin(email, password):
             firstName = info.get('first_name')
             lastName = info.get('last_name')
             email = info.get('email')
+            user = User.objects.create_user(username=email)
             tempPM = PropertyManager(firstName=firstName,
                                      lastName=lastName,
-                                     email=email)
+                                     email=email,
+                                     user=user,
+                                     rooToken=info.get(TOKEN))
             tempPM.save()
 
-        tempDict = getPropertyManager(email)
 
+        tempDict = getPropertyManager(email)
         if tempDict[STATUS] == FAIL:
             return returnError('%s: %s' % (HOMEPAIRS_ACCOUNT_CREATION_FAILED, tempDict[ERROR]))
 
         addNewProperties(email, info.get(TOKEN))
+        #tempDict = getPropertyManager(email)
 
-        tempDict = getPropertyManager(email)
-        tempDict[TOKEN] = info.get(TOKEN)
         return tempDict
 
 ################################################################################
@@ -188,15 +205,18 @@ class RegisterView(View):
             if NON_FIELD_ERRORS in info:
                 return JsonResponse(returnError(ROOPAIR_ACCOUNT_CREATION_FAILED))
             elif TOKEN in info:
-                tempPM = PropertyManager(
-                                           firstName=firstName,
-                                           lastName=lastName,
-                                           email=email)
+                user = User.objects.create_user(username=email)
+                tempPM = PropertyManager(firstName=firstName,
+                                         lastName=lastName,
+                                         email=email,
+                                         user=user,
+                                         rooToken=info.get(TOKEN))
                 tempPM.save()
+
+
                 tempDict = getPropertyManager(email)
                 if tempDict[STATUS] == FAIL:
                     return JsonResponse(data=returnError(HOMEPAIRS_ACCOUNT_CREATION_FAILED))
-                tempDict[TOKEN] = info.get(TOKEN)
                 return JsonResponse(data=tempDict)
             else:
                 return JsonResponse(data=info)
