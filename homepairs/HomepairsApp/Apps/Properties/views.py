@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from ..helperFuncs import getRooTokenAPI, postRooTokenAPI, putRooTokenAPI
 from ..PropertyManagers.models import PropertyManager
 from ..Tenants.models import Tenant
+from ..Appliances.models import Appliance
 from .models import Property
 
 
@@ -231,7 +232,7 @@ class PropertyView(View):
             numBath = inData.get('numBath')
             maxTenants = inData.get('maxTenants')
             token = inData.get('token')
-            propID = inData.get('propId')
+            propId = inData.get('propId')
 
             # Before anything we check to see if the updated place exists already
             # because that is an easy and obviouos error to throw before
@@ -241,7 +242,7 @@ class PropertyView(View):
             if(possibleMatches.exists()):
                 return JsonResponse(returnError(PROPERTY_ALREADY_EXISTS))
 
-            url = url + propID + '/'
+            url = url + propId + '/'
 
             sendAddress = streetAddress + ", " + city + ", " + state
             data = {
@@ -249,11 +250,10 @@ class PropertyView(View):
                    }
             response = putRooTokenAPI(url, data, token)
 
-            if(not response.get('id') == propID):
+            if(not response.get('id') == propId):
                 JsonResponse(data=returnError("UPDATE FAILED"))
 
-            thePropertyList = Property.objects.filter(streetAddress=oldStreetAddress,
-                                                      city=oldCity)
+            thePropertyList = Property.objects.filter(rooId=propId)
 
             if thePropertyList.exists():
                 if thePropertyList.count() == 1:
@@ -280,6 +280,16 @@ class PropertyView(View):
         listOfTenants = Tenant.objects.filter(place__rooId=inPropId) 
         listOfNice = []
         for ten in listOfTenants:
-           listOfNice.append(str(ten))
+           listOfNice.append(ten.toDict())
 
-        return JsonResponse({"WHAT": listOfNice})
+        listOfApps = Appliance.objects.filter(place__rooId=inPropId) 
+        listOfNiceApps = []
+        for app in listOfApps:
+           listOfNiceApps.append(app.toDict())
+
+        returnable = {
+                         STATUS: SUCCESS,
+                         'tenants': listOfNice,
+                         'appliances': listOfNiceApps
+                     }
+        return JsonResponse(returnable)
