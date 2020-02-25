@@ -1,12 +1,16 @@
 from django.urls import reverse
 from rest_framework.test import APIClient
 
-from .Properties.models import Property
-from .PropertyManagers.models import PropertyManager
-from .Tenants.models import Tenant
+from ..Properties.models import Property
+from ..PropertyManagers.models import PropertyManager
+from ..Tenants.models import Tenant
+from .models import Appliance
 
 
 def setUpHelper():
+    PropertyManager.objects.all().delete()
+    Property.objects.all().delete()
+    Tenant.objects.all().delete()
     tempPM = PropertyManager(firstName='Eeron',
                              lastName='Grant',
                              email='eerongrant@gmail.com')
@@ -16,7 +20,6 @@ def setUpHelper():
                              numBath=2,
                              numBed=5,
                              maxTenants=8,
-                             rooId='abcdef',
                              pm=tempPM)
     tempProperty2 = Property(streetAddress='200 N. Santa Rosa',
                              city='San Luis Obispo',
@@ -24,7 +27,6 @@ def setUpHelper():
                              numBath=2,
                              numBed=3,
                              maxTenants=5,
-                             rooId='ghijkl',
                              pm=tempPM)
     tempTenant = Tenant(firstName='Adam',
                         lastName='Berard',
@@ -39,22 +41,13 @@ def setUpHelper():
 
 
 def tearDownHelper():
+    Appliance.objects.all().delete()
     PropertyManager.objects.all().delete()
     Property.objects.all().delete()
     Tenant.objects.all().delete()
 
 
-def getInfoPut(endpoint, data):
-    client = APIClient()
-    response = client.put(path=reverse(endpoint), data=data, format="json")
-    return response.json()
-
-
-def getInfoPost(endpoint, data):
+def getInfo(endpoint, data):
     client = APIClient()
     response = client.post(path=reverse(endpoint), data=data, format="json")
-    return response.json()
-def getInfoGet(endpoint, data):
-    client = APIClient()
-    response = client.get(path=reverse(endpoint), data=data, format="json")
     return response.json()
