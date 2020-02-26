@@ -1,10 +1,10 @@
 import { AppState, MainAppStackType } from "homepairs-types";
 import { connect } from "react-redux";
 import { HeaderActions, SessionActions } from 'homepairs-redux-actions';
-import HomePairsHeaderBase , { HomePairsHeaderStateProps, HomePairsHeaderDispatchProps } from "./HomePairsHeaderBase";
 import {withNavigationRouteHandler} from 'homepairs-utilities';
 import { withRouter } from 'react-router-dom';
 import { Platform } from "react-native";
+import HomePairsHeaderBase , { HomePairsHeaderStateProps, HomePairsHeaderDispatchProps } from "./HomePairsHeaderBase";
 
 function mapStateToProps(state: AppState): HomePairsHeaderStateProps{ 
   return {

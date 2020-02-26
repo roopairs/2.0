@@ -45,6 +45,7 @@ export const properties = (
             property = (action as AddPropertyAction).userData;
             updatedPropertyList = [...state.properties, property];
             return {
+                ...newState,
                 selectedPropertyIndex: null,
                 properties: updatedPropertyList,
             };
@@ -54,6 +55,7 @@ export const properties = (
                 (_item, propIndex) => propIndex !== updateIndex,
             );
             return {
+                ...newState,
                 selectedPropertyIndex: null,
                 properties: updatedPropertyList,
             };
@@ -67,55 +69,34 @@ export const properties = (
                 }
                 // Otherwise, this is the one we want - return an updated value
                 return {
-                    ...item,
-                    ...property,
+                    ...newState,
+                    properties: {
+                        ...item,
+                        ...property,
+                    },
                 };
             });
             return {
+                ...newState,
                 selectedPropertyIndex: updateIndex,
                 properties: updatedPropertyList,
             };
-        /*
-        case PROPERTY_LIST_ACTION_TYPES.ADD_APPLIANCE:
-            // pay attention to type-casting on action
-            appliance = (action as AddApplianceAction).userData;
-            updatedApplianceList = [...state.appliances, appliance];
-            return {
-                selectedPropertyIndex: null,
-                properties: updatedApplianceList,
-            };
-        case PROPERTY_LIST_ACTION_TYPES.UPDATE_APPLIANCE:
-            appliance = (action as UpdateApplianceAction).userData;
-            updateIndex = (action as UpdateApplianceAction).index;
-            updatedApplianceList = state.appliances.map((item, index) => {
-                if (index !== updateIndex) {
-                    // This isn't the item we care about - keep it as-is
-                    return item;
-                }
-                // Otherwise, this is the one we want - return an updated value
-                return {
-                    ...item,
-                    ...appliance,
-                };
-            });
-            return {
-                selectedPropertyIndex: updateIndex,
-                appliances: updatedApplianceList,
-            };
-            */
         case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY:
             return {
+                ...newState,
                 selectedPropertyIndex: null,
                 properties: (action as FetchPropertyAction).property,
             };
         case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_AND_PROPERTY_MANAGER:
             return {
+                ...newState,
                 selectedPropertyIndex: null,
                 properties: (action as FetchPropertyAndPropertyManagerAction).property,
                 propertyManager: (action as FetchPropertyAndPropertyManagerAction).propertyManager,
             };
         case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES:
             return {
+                ...newState,
                 selectedPropertyIndex: null,
                 properties: (action as FetchPropertiesAction).properties,
             };

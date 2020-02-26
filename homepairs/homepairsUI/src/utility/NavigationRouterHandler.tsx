@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { NavigationStackProp } from 'react-navigation-stack';
-import { RouteProps, useLocation } from 'react-router-dom';
-import { NavigationSwitchProp } from 'react-navigation';
+import { RouteProps, useLocation, withRouter } from 'react-router-dom';
+import { NavigationSwitchProp, withNavigation } from 'react-navigation';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { Platform } from 'react-native';
 import React from 'react';
@@ -22,6 +22,10 @@ type Navigators = NavigationStackProp | RouteProps | NavigationSwitchProp
  * to navigate across endpoints/paths/screens of mobile and web apps 
  */
 export default class NavigationRouteHandler{
+
+    /**
+     * Object that will hold the instance of the router or navigation objects 
+     */
     navigation;
 
     /**
@@ -133,3 +137,17 @@ export function withNavigationRouteHandler(Component: any){
         );
     };
 }
+
+/**
+ * ---------------------------------------------------
+ * Prepare Navigation Handler Component
+ * ---------------------------------------------------
+ * A helper function that prepares a component for navigation whether is it render for website or mobile 
+ * applications. This function is only intended to be used with components that will actually use these 
+ * objects.
+ * @param {any} Component -the component that will be able to use router or navigation objects 
+ */
+export function prepareNavigationHandlerComponent(Component: any){
+    const NavigableComponent = withNavigationRouteHandler(Component);
+    return Platform.OS === 'web' ? withRouter(NavigableComponent) : withNavigation(NavigableComponent);
+} 

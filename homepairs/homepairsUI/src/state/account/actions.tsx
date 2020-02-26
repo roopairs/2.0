@@ -152,7 +152,7 @@ export const fetchAccount = (
             const {data} = response;
             const {status} = data;
             const accountType = getAccountType(response[responseKeys.DATA]);
-
+            console.log(response);
             if(status === responseStatus.SUCCESS){
               // Set the login state of the application to authenticated
               dispatch(setAccountAuthenticationState(true));
@@ -174,7 +174,8 @@ export const fetchAccount = (
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
             }
           })
-          .catch(() => {
+          .catch((error) => {
+            console.log(error)
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
           })
           .finally(() => {

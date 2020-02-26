@@ -5,8 +5,9 @@ import {LoadingModal} from './LoadingModal';
 const styles = StyleSheet.create({
     container: {
         flex:1,
-        width: '50%',
+        width: '75%',
         minWidth: 100,
+        maxWidth: 300,
         justifyContent: 'center',
         alignSelf:'center',
         alignItems:'center',

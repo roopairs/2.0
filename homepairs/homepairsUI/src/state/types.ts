@@ -14,7 +14,7 @@ export type TenantInfo = {
 }
 
 export type Property = {
-    propId: number,
+    propId: string,
     streetAddress: string, 
     city: string, 
     state: string,

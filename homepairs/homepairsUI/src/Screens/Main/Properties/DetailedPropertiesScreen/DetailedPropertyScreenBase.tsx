@@ -13,7 +13,7 @@ import {
     GeneralHomeInfo,
     AddressSticker,
     CurrentTenantCard,
-    ApplianceInfo,
+    ApplianceInfo as ApplianceInfoBase,
     ServiceRequestCount,
 } from 'homepairs-components';
 import {
@@ -27,16 +27,21 @@ import {
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import { withNavigation } from 'react-navigation';
 import axios from 'axios';
 import strings from 'homepairs-strings';
+import {prepareNavigationHandlerComponent } from 'src/utility/NavigationRouterHandler';
+
 
 export type DetailedPropertyStateProps = {
     property: Property;
 };
 
 type Props = NavigationStackScreenProps & DetailedPropertyStateProps;
-const CurrentTenants = withNavigation(CurrentTenantCard);
+
+const CurrentTenants = prepareNavigationHandlerComponent(CurrentTenantCard);
+const ApplianceInfo = prepareNavigationHandlerComponent(ApplianceInfoBase);
+
+
 const propertyKeys = HomepairsPropertyAttributes;
 const categoryStrings = strings.applianceInfo.categories;
 
@@ -102,7 +107,9 @@ const styles = StyleSheet.create({
 });
 
 export default function DetailedPropertyScreenBase(props: Props) {
+    console.log(props);
     const { property, navigation } = props;
+    const { propId } = property;
     const [tenantInfoState, setTenantInfo] = useState([]);
     const [applianceInfoState, setApplianceInfo] = useState([]);
     
@@ -122,7 +129,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
 
     useEffect(() => {
         const fetchTenantsAndAppliances = async () => {
-            const result = await axios.get('https://homepairs-alpha.herokuapp.com/API/property/list/');
+            const result = await axios.get(`https://homepairs-alpha.herokuapp.com/property/${propId}`);
             const {tenants, appliances} = result.data;
             const tenantInfo: TenantInfo[] = [];
             const applianceInfo: Appliance[] = [];
@@ -200,7 +207,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
                         onClick={navigateModal}/>
                     <ApplianceInfo navigation={navigation} appliances={applianceInfoState}/>
                     <CurrentTenants 
-                    propId={1 /**TODO: get property id from key when backend has support this */} 
+                    propId={propId}
                     tenants={tenantInfoState}/>
                     <ServiceRequestCount property={property}/>
                 </View>

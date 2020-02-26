@@ -4,7 +4,7 @@ import isPasswordValid from './SyntaxVerification/PasswordVerification';
 import isPhoneNumberValid from './SyntaxVerification/PhoneNumberVerification';
 import isAlphaCharacterOnly from './SyntaxVerification/AlphaCharacterVerification';
 import { isNullOrUndefined } from './ParameterChecker';
-import NavigationRouteHandler, {withNavigationRouteHandler} from './NavigationRouterHandler';
+import NavigationRouteHandler, {withNavigationRouteHandler, prepareNavigationHandlerComponent} from './NavigationRouterHandler';
 
 /**
  * ------------------------------------------
@@ -14,7 +14,10 @@ import NavigationRouteHandler, {withNavigationRouteHandler} from './NavigationRo
  * specific based logic. Functions such long conditional checks, parsers, 
  * and validators should be included in this package. 
  */
-export {isEmailSyntaxValid, isPasswordValid, isEmptyOrSpaces, isPhoneNumberValid, isAlphaCharacterOnly, isNullOrUndefined, isPositiveWholeNumber, NavigationRouteHandler, withNavigationRouteHandler};
+export {isEmailSyntaxValid, isPasswordValid, isEmptyOrSpaces, isPhoneNumberValid, isAlphaCharacterOnly, 
+    isNullOrUndefined, isPositiveWholeNumber, NavigationRouteHandler, withNavigationRouteHandler,
+    prepareNavigationHandlerComponent,
+};
 
 
 export type NavigationRouteScreenProps = {

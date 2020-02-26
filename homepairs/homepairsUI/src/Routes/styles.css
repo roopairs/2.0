@@ -1,0 +1,27 @@
+/* modal element for the modal component these are needed for web modals*/
+.homepairs-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    align-self: center;
+}
+
+.homepairs-react-router-modal__modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #777
+}
+
+.modalWrapperStyle {
+    width: 100%;
+    align-self:'center'; 
+    align-content:'center';
+};
+
+  
