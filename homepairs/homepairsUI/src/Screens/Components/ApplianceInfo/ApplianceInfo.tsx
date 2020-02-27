@@ -6,15 +6,15 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
 import { ApplianceCategorizer } from 'homepairs-components';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { navigationPages } from '../../../Routes/RouteConstants';
 
 
 export type ApplianceInfoProps = {
+    onAddApplianceModal?: () => any,
+    onEditApplianceModal?: (appliance: Appliance) => any,
     appliances?: Appliance[],
 }
 
-type Props = ApplianceInfoProps & NavigationStackScreenProps;
+type Props = ApplianceInfoProps
 
 const applianceInfoStrings = strings.applianceInfo;
 
@@ -86,8 +86,9 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
 
 export default function ApplianceInfo(props: Props) {
     const {
-        navigation,
         appliances,
+        onAddApplianceModal,
+        onEditApplianceModal,
     } = props;
 
     const styles = setStyles();
@@ -96,7 +97,7 @@ export default function ApplianceInfo(props: Props) {
         name: applianceInfoStrings.button.title,
         buttonStyle: styles.editButton,
         buttonTextStyle: styles.editButtonText,
-        onClick: () => navigation.push(navigationPages.AddApplianceModal),
+        onClick: onAddApplianceModal,
     };
 
     return (
@@ -107,7 +108,7 @@ export default function ApplianceInfo(props: Props) {
                 </Text>
             </View>
             <View style= {styles.details}>
-                <ApplianceCategorizer navigation={navigation} appliances={appliances}/>
+                <ApplianceCategorizer onEditApplianceModal={onEditApplianceModal} appliances={appliances}/>
                 <ThinButton 
                     name={thinButtonProps.name} 
                     buttonStyle={thinButtonProps.buttonStyle} 

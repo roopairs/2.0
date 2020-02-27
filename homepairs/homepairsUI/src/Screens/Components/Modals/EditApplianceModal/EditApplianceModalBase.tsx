@@ -32,7 +32,7 @@ type EditState = {
     errorCheck: boolean,
 };
 
-const addApplianceStrings = strings.applianceInfo.applianceModal;
+const editApplianceStrings = strings.applianceInfo.applianceModal;
 
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
@@ -140,7 +140,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
     oldAppliance: Appliance;
 
     submitButton : ThinButtonProps = {
-        name: addApplianceStrings.editSave, 
+        name: editApplianceStrings.editSave, 
         onClick: () => {this.clickSubmitButton();}, 
         buttonStyle: {
             alignItems: 'center',
@@ -181,10 +181,9 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
         this.resetForms = this.resetForms.bind(this);
         this.displayError = this.displayError.bind(this);
         this.oldAppliance = props.navigation.getParam('appliance');
-        const {category, manufacturer, appName, modelNum, serialNum, location} = this.oldAppliance;
-        // switch to actual app id
+        const {applianceId, category, manufacturer, appName, modelNum, serialNum, location} = this.oldAppliance;
         this.state = {
-            applianceId: serialNum, category, manufacturer, appName, 
+            applianceId, category, manufacturer, appName, 
             modelNum: modelNum.toString(), 
             serialNum: serialNum.toString(), 
             location, errorMsg: '', errorCheck: false,
@@ -286,8 +285,8 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
         const inputForms: InputFormProps[]  = [
             {
                 ref: this.appNameRef,
-                key: addApplianceStrings.name,
-                name: addApplianceStrings.name,
+                key: editApplianceStrings.name,
+                name: editApplianceStrings.name,
                 parentCallBack: this.getFormName,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
@@ -296,8 +295,8 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
             }, 
             {
                 ref: this.manufacturerRef,
-                key: addApplianceStrings.manufacturer,
-                name: addApplianceStrings.manufacturer,
+                key: editApplianceStrings.manufacturer,
+                name: editApplianceStrings.manufacturer,
                 parentCallBack: this.getFormManufacturer,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
@@ -305,8 +304,8 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
             }, 
             {
                 ref: this.modelNumRef,
-                key: addApplianceStrings.modelNum,
-                name: addApplianceStrings.modelNum,
+                key: editApplianceStrings.modelNum,
+                name: editApplianceStrings.modelNum,
                 parentCallBack: this.getFormModelNum,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
@@ -315,8 +314,8 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
             },
             {
                 ref: this.serialNumRef,
-                key: addApplianceStrings.serialNum,
-                name: addApplianceStrings.serialNum,
+                key: editApplianceStrings.serialNum,
+                name: editApplianceStrings.serialNum,
                 parentCallBack: this.getFormSerialNum,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
@@ -325,8 +324,8 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
             }, 
             {
                 ref: this.locationRef,
-                key: addApplianceStrings.location,
-                name: addApplianceStrings.location,
+                key: editApplianceStrings.location,
+                name: editApplianceStrings.location,
                 parentCallBack: this.getFormLocation,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
@@ -372,7 +371,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                 <Card
                     containerStyle={this.inputFormStyle.cardContainer}
                     showCloseButton={showCloseButton}
-                    title={addApplianceStrings.editTitle} 
+                    title={editApplianceStrings.editTitle} 
                     closeButtonPressedCallBack={() => { 
                         navigation.goBack();
                         this.setInitialState();
@@ -382,7 +381,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                     titleContainerStyle={this.inputFormStyle.cardTitleContainer}
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     >
-                    <Text style={this.inputFormStyle.formTitle}>{addApplianceStrings.category}</Text>
+                    <Text style={this.inputFormStyle.formTitle}>{editApplianceStrings.category}</Text>
                     <CategoryPanel initialCategory={category} parentCallBack={this.getFormCategory}/>
                     <>{this.renderInputForms()}</>
                     {this.renderError()}

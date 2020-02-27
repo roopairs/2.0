@@ -93,11 +93,9 @@ export const postNewProperty = (
     return async (dispatch: (arg0: any) => void) => {
         await axios
             .post(
-                'https://homepairs-alpha.herokuapp.com/API/property/create/',
+                'https://homepairs-alpha.herokuapp.com/property/',
                 {
-                    streetAddress: newProperty.streetAddress,
-                    city: newProperty.city,
-                    state: newProperty.state,
+                    streetAddress: newProperty.address,
                     numBed: newProperty.bedrooms,
                     numBath: newProperty.bathrooms,
                     maxTenants: newProperty.tenants,
@@ -110,9 +108,14 @@ export const postNewProperty = (
                     response[responseKeys.DATA][responseKeys.STATUS] ===
                     responseKeys.STATUS_RESULTS.SUCCESS
                 ) {
-                    console.log(response[responseKeys.DATA]);
-                    // add in propertyID
-                    dispatch(addProperty(newProperty));
+                    const newProp : Property = {
+                      propId: response[responseKeys.DATA][responseKeys.PROPID],
+                      address: newProperty.address,
+                      bedrooms: newProperty.bedrooms, 
+                      bathrooms: newProperty.bathrooms, 
+                      tenants: newProperty.tenants,
+                    };
+                    dispatch(addProperty(newProp));
                     setInitialState();
                     navigation.goBack();
                 } else {
@@ -163,19 +166,16 @@ export const postUpdatedProperty = (
 ) => {
     return async (dispatch: (arg0: any) => void) => {
         return axios
-            .post(
-                'https://homepairs-alpha.herokuapp.com/API/property/update/',
+            .put(
+                'https://homepairs-alpha.herokuapp.com/property/',
                 {
-                    oldStreetAddress: info.oldProp.streetAddress,
-                    oldCity: info.oldProp.city,
-                    streetAddress: editProperty.streetAddress,
-                    city: editProperty.city,
-                    state: editProperty.state,
-                    numBed: editProperty.bedrooms,
-                    numBath: editProperty.bathrooms,
-                    maxTenants: editProperty.tenants,
-                    pm: info.email,
-                    token: info.roopairsToken,
+                  propId: editProperty.propId,
+                  streetAddress: editProperty.address,
+                  numBed: editProperty.bedrooms,
+                  numBath: editProperty.bathrooms,
+                  maxTenants: editProperty.tenants,
+                  pm: info.email,
+                  token: info.roopairsToken,
                 },
             )
             .then(response => {
@@ -223,9 +223,7 @@ export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => 
   const fetchedProperties: Property[] = [];
   const fetchedProperty = {
     propId: linkedProperty[propertyKeys.PROPERTYID],
-    streetAddress: linkedProperty[propertyKeys.ADDRESS],
-    city: linkedProperty[propertyKeys.CITY],
-    state: linkedProperty[propertyKeys.STATE],
+    address: linkedProperty[propertyKeys.ADDRESS],
     tenants: linkedProperty[propertyKeys.TENANTS],
     bedrooms: linkedProperty[propertyKeys.BEDROOMS],
     bathrooms: linkedProperty[propertyKeys.BATHROOMS],
@@ -256,9 +254,7 @@ export const fetchPropertyAndPropertyManager = (linkedProperty: Property, linked
   const fetchedProperties: Property[] = [];
   const fetchedProperty = {
     propId: linkedProperty[propertyKeys.PROPERTYID],
-    streetAddress: linkedProperty[propertyKeys.ADDRESS],
-    city: linkedProperty[propertyKeys.CITY],
-    state: linkedProperty[propertyKeys.STATE],
+    address: linkedProperty[propertyKeys.ADDRESS],
     tenants: linkedProperty[propertyKeys.TENANTS],
     bedrooms: linkedProperty[propertyKeys.BEDROOMS],
     bathrooms: linkedProperty[propertyKeys.BATHROOMS],
@@ -287,9 +283,7 @@ export const fetchProperties = (
   linkedProperties?.forEach(linkedProperty => {
     fetchedProperties.push({
       propId: linkedProperty[propertyKeys.PROPERTYID],
-      streetAddress: linkedProperty[propertyKeys.ADDRESS],
-      city: linkedProperty[propertyKeys.CITY],
-      state: linkedProperty[propertyKeys.STATE],
+      address: linkedProperty[propertyKeys.ADDRESS],
       tenants: linkedProperty[propertyKeys.TENANTS],
       bedrooms: linkedProperty[propertyKeys.BEDROOMS],
       bathrooms: linkedProperty[propertyKeys.BATHROOMS],
@@ -344,10 +338,9 @@ export const postNewAppliance = (
     return async () => {
         await axios
             .post(
-                'https://homepairs-alpha.herokuapp.com/API/appliance/create/',
+                'https://homepairs-alpha.herokuapp.com/appliance/',
                 {
-                    streetAddress: info.property.streetAddress, 
-                    city: info.property.city,
+                    propId: info.property.propId,
                     name: newAppliance.appName, 
                     manufacturer: newAppliance.manufacturer, 
                     category: newAppliance.category,
@@ -361,7 +354,6 @@ export const postNewAppliance = (
                     response[responseKeys.DATA][responseKeys.STATUS] ===
                     responseKeys.STATUS_RESULTS.SUCCESS
                 ) {
-                    // handle in detailed property screen
                     setInitialState();
                     navigation.goBack();
                 } else {
@@ -415,8 +407,8 @@ export const postUpdatedAppliance = (
 ) => {
     return async () => {
         return axios
-            .post(
-                'https://homepairs-alpha.herokuapp.com/API/appliance/update/',
+            .put(
+                'https://homepairs-alpha.herokuapp.com/appliance/',
                 {
                     appId: editAppliance.applianceId,
                     newName: editAppliance.appName, 
