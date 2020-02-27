@@ -1,139 +1,122 @@
 ################################################################################
 # Imports
-from unittest import mock
-
 from django.conf import settings
 from django.test import TestCase
 
-from ..helperFuncsForTesting import getInfoPost, getInfoPut, getInfoGet, setUpHelper
-# from ..PropertyManagers.models import PropertyManager
-from .models import Property
-from .views import FAIL, STATUS, SUCCESS
+from ..helperFuncsForTesting import getInfoGet, getInfoPost, getInfoPut, setUpHelper
+from .views import STATUS, SUCCESS
 
+
+# from .views import FAIL
 
 ################################################################################
 # Vars
 
+globUrl = settings.TEST_URL
+
 # EXTRA URLS
-APP_VIEW = 'appliance_view'
-VIEW_APP = 'view_appliance'
-UPDATE_APP = 'update_appliance'
-LOGIN = 'login'
+PRO_VIEW = 'service_provider_view'
 
 ################################################################################
 # Tests
 
 
-class UpdateAppliance(TestCase):
+class UpdateServiceProvider(TestCase):
 
     def setUp(self):
         setUpHelper()
 
-    mockVal = {"token": "cb3e47056453b655d9f9052f7368dfe170e91f39"}
-    mockVal2 = {'id': '6x7OVxX',
-                'physical_address_formatted': '1661 McCollum St, San Luis Obispo, CA 93405, USA'}
-    mockVal3 = {'id': '6x7OVxX'}
-    @mock.patch('Apps.PropertyManagers.views.postRooAPI', return_value=mockVal, autospec=True)
-    @mock.patch('Apps.Properties.views.postRooTokenAPI', return_value=mockVal2, autospec=True)
-    @mock.patch('Apps.Properties.views.putRooTokenAPI', return_value=mockVal3, autospec=True)
-    def test_update_appliance_allCorrect(self):
+    def test_update_service_provider_allCorrect(self):
         '''Everything is correct, I create the property first, then update it.'''
-        name = 'Fridge'
-        manufacturer = 'Company'
-        category = 'cool'
-        modelNum = 68
-        serialNum = 70
-        location = 'Garage'
-        propId = Property.objects.filter()[0].id
+        name = 'McDs'
+        email = 'mcds@gmail.com'
+        phoneNum = '8007733030'
+        contractLic = '681234'
+        skills = 'can cook burgers okay'
+        founded = '2014-04-07'
 
         data = {
                   'name': name,
-                  'manufacturer': manufacturer,
-                  'category': category,
-                  'modelNum': modelNum,
-                  'serialNum': serialNum,
-                  'location': location,
-                  'propId': propId,
+                  'email': email,
+                  'phoneNum': phoneNum,
+                  'contractLic': contractLic,
+                  'skills': skills,
+                  'founded': founded,
                }
-        responseData = getInfoPost(APP_VIEW, data)
-
+        responseData = getInfoPost(PRO_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        newName = 'freezer'
-        newManufacturer = 'different company'
-        newCategory = 'really cool'
-        newModelNum = 1
-        newSerialNum = 2
-        newLocation = 'bedroom'
-        appId = responseData.get('id')
+        oldPhoneNum = phoneNum
+        name = 'Burger King'
+        email = 'burgerking@gmail.com'
+        phoneNum = '555555555'
+        contractLic = '666666'
+        skills = 'can cook burgers not great'
+        founded = '2000-01-01'
         data = {
-                  'newName': newName,
-                  'newManufacturer': newManufacturer,
-                  'newCategory': newCategory,
-                  'newModelNum': newModelNum,
-                  'newSerialNum': newSerialNum,
-                  'newLocation': newLocation,
-                  'appId': appId,
-               }
-
-        responseData = getInfoPut(APP_VIEW, data)
-
-        self.assertEqual(responseData.get(STATUS), SUCCESS)
-
-        data = {
-                  'appId': appId,
-               }
-
-        responseData = getInfoGet(APP_VIEW, data)
-
-        self.assertEqual(responseData.get(STATUS), SUCCESS)
-        app = responseData.get('app')
-        self.assertEqual(app.get('name'), newName)
-        self.assertEqual(app.get('manufacturer'), newManufacturer)
-        self.assertEqual(app.get('category'), newCategory)
-        self.assertEqual(app.get('modelNum'), newModelNum)
-        self.assertEqual(app.get('serialNum'), newSerialNum)
-        self.assertEqual(app.get('location'), newLocation)
-
-    def test_update_app_bad_app_id(self):
-        '''Incorrect Fields Being Sent'''
-        name = 'Fridge'
-        manufacturer = 'Company'
-        category = 'cool'
-        modelNum = 68
-        serialNum = 70
-        location = 'Garage'
-        propId = Property.objects.filter()[0].id
-
-        data = {
+                  'oldPhoneNum': oldPhoneNum,
                   'name': name,
-                  'manufacturer': manufacturer,
-                  'category': category,
-                  'modelNum': modelNum,
-                  'serialNum': serialNum,
-                  'location': location,
-                  'propId': propId,
+                  'email': email,
+                  'phoneNum': phoneNum,
+                  'contractLic': contractLic,
+                  'skills': skills,
+                  'founded': founded,
                }
-        responseData = getInfoPost(APP_VIEW, data)
+
+        responseData = getInfoPut(PRO_VIEW, data)
 
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        newName = 'freezer'
-        newManufacturer = 'different company'
-        newCategory = 'really cool'
-        newModelNum = 1
-        newSerialNum = 2
-        newLocation = 'bedroom'
         data = {
-                  'newName': newName,
-                  'newManufacturer': newManufacturer,
-                  'newCategory': newCategory,
-                  'newModelNum': newModelNum,
-                  'newSerialNum': newSerialNum,
-                  'newLocation': newLocation,
-                  'appId': -1,
+                  'phoneNum': phoneNum,
                }
 
-        responseData = getInfoPut(APP_VIEW, data)
+        responseData = getInfoGet(PRO_VIEW, data)
 
-        self.assertEqual(responseData.get(STATUS), FAIL)
+        self.assertEqual(responseData.get(STATUS), SUCCESS)
+        app = responseData.get('pro')
+        self.assertEqual(app.get('name'), name)
+        self.assertEqual(app.get('email'), email)
+        self.assertEqual(app.get('phoneNum'), phoneNum)
+        self.assertEqual(app.get('contractLic'), contractLic)
+        self.assertEqual(app.get('skills'), skills)
+
+    # def test_update_service_provider_bad_date(self):
+    #     '''Incorrect Fields Being Sent'''
+    #     name = 'McDs'
+    #     email = 'mcds@gmail.com'
+    #     phoneNum = '8007733030'
+    #     contractLic = '681234'
+    #     skills = 'can cook burgers okay'
+    #     founded = '2014-04-07'
+    #
+    #     data = {
+    #               'name': name,
+    #               'email': email,
+    #               'phoneNum': phoneNum,
+    #               'contractLic': contractLic,
+    #               'skills': skills,
+    #               'founded': founded,
+    #            }
+    #     responseData = getInfoPost(PRO_VIEW, data)
+    #     self.assertEqual(responseData.get(STATUS), SUCCESS)
+    #     id = responseData.get(id)
+    #
+    #     name = 'Burger King'
+    #     email = 'burgerking@gmail.com'
+    #     phoneNum = '555555555'
+    #     contractLic = '666666'
+    #     skills = 'can cook burgers not great'
+    #     founded = 'bad'
+    #     data = {
+    #               'name': name,
+    #               'email': email,
+    #               'phoneNum': phoneNum,
+    #               'contractLic': contractLic,
+    #               'skills': skills,
+    #               'founded': founded,
+    #            }
+    #
+    #     responseData = getInfoPut(PRO_VIEW, data)
+    #
+    #     self.assertEqual(responseData.get(STATUS), FAIL)

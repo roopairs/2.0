@@ -1,12 +1,9 @@
-import json
 import datetime
+import json
 
-from django.views import View
 from django.http import JsonResponse
-# from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from django.views import View
 
-# from ..Properties.models import Property
 from .models import ServiceProvider
 
 
@@ -88,12 +85,7 @@ class ServiceProviderView(View):
                                       skills=skills,
                                       founded=founded)
                 pro.save()
-                data = {
-                        STATUS: SUCCESS,
-                        'id': pro.id,
-                        'phoneNum': pro.phoneNum
-                       }
-                return JsonResponse(data=data)
+                return JsonResponse(data={STATUS: SUCCESS})
             else:
                 return JsonResponse(data=returnError(SERVPRO_ALREADY_EXIST))
         else:
@@ -101,10 +93,10 @@ class ServiceProviderView(View):
 
     def put(self, request):
         inData = json.loads(request.body)
-        required = ['id', 'name', 'email', 'phoneNum', 'contractLic', 'skills', 'founded']
+        required = ['oldPhoneNum', 'name', 'email', 'phoneNum', 'contractLic', 'skills', 'founded']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) == 0):
-            id = inData.get('id')
+            oldPhoneNum = inData.get('oldPhoneNum')
             name = inData.get('name')
             email = inData.get('email')
             phoneNum = inData.get('phoneNum')
@@ -114,8 +106,11 @@ class ServiceProviderView(View):
             founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
 
             # The ServiceProvider
-            proList = ServiceProvider.objects.filter(id=id)
+            proList = ServiceProvider.objects.filter(phoneNum=oldPhoneNum)
             if proList.exists():
+                newProList = ServiceProvider.objects.filter(phoneNum=phoneNum)
+                if newProList.exists():
+                    return JsonResponse(data=returnError(SERVPRO_ALREADY_EXIST))
                 pro = proList[0]
                 pro.name = name
                 pro.email = email
@@ -151,18 +146,15 @@ class ServiceProviderView(View):
 
     def delete(self, request):
         inData = json.loads(request.body)
-        required = ['id']
+        required = ['phoneNum']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) == 0):
-            id = inData.get('id')
-            proList = ServiceProvider.objects.filter(id=id)
+            phoneNum = inData.get('phoneNum')
+            proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
             if proList.exists():
                 pro = proList[0]
                 pro.delete()
-                data = {
-                           STATUS: SUCCESS,
-                       }
-                return JsonResponse(data=data)
+                return JsonResponse(data={STATUS: SUCCESS})
             else:
                 return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
         else:
