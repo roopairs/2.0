@@ -9,6 +9,7 @@ import HomePairsHeaderBase , { HomePairsHeaderStateProps, HomePairsHeaderDispatc
 function mapStateToProps(state: AppState): HomePairsHeaderStateProps{ 
   return {
     header: state.header,
+    accountType: state.accountProfile.accountType,
   };
 };
 

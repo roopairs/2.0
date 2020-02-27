@@ -9,7 +9,7 @@ export const CREATE_ACCOUNT_MODAL = '/authentication/creating-account';
 export const ROOPAIRS_LOGIN_MODAL = '/authentication/logging-in-roopairs';
 
 export const PROPERTY_LIST = '/admin/properties';
-export const TENANT_PROPERTY = '/admin/tenant';
+export const TENANT_PROPERTY = '/tenant/home';
 export const PROPERTY = '/admin/property';
 
 export const ADD_PROPERTY_MODAL = '/admin/properties/add-property';

@@ -150,6 +150,21 @@ function LoginModalSwitch() {
 /* Main Application Switch Routers */
 // TODO: Uses the matche to resolve urls. This will allow users to navigate with proper params in order
 
+function TenantAccountPropertySwitch() {
+  const location = useLocation();
+  const background = location.state && location.state.background;
+  return (
+    <Route path='/tenant/home' render={(matches) => (
+          <>                
+              <HomePairsHeader />
+              <Switch path={`${TENANT_PROPERTY}`} location={background || location}>
+                  <Route exact path={`${TENANT_PROPERTY}`}><TenantPropertiesScreen/></Route>
+              </Switch>
+          </>
+      )}/>
+  );
+}
+
 function AccountSettingsSwitch() {
   const location = useLocation();
   const background = location.state && location.state.background;
@@ -256,6 +271,10 @@ export default function AppNavigator(props:any){
                 <PrivateRoute path='/admin/property/' Component={SinglePropertySwitch} {...props}/>
                 <PrivateRoute path='/admin/service-requests' Component={ServiceRequestSwitch} {...props}/>
                 <PrivateRoute path={ACCOUNT_SETTINGS} Component={AccountSettingsSwitch} {...props}/>
+
+                {/** Tenant Property Screen */}
+                <PrivateRoute path={TENANT_PROPERTY} Component={TenantAccountPropertySwitch} {...props}/>
+
                 <Route path='/*'>404 Does not Exist</Route>
             </Switch>
         </Router> 

@@ -75,7 +75,7 @@ export function ChooseMainPage(accountType: AccountTypes, navigation: Navigation
  * @param {any} accountJSON -data object returned by the api request
  * */
 function getAccountType(accountJSON : any): AccountTypes{
-  if(accountJSON[accountKeys.PM] != null){ 
+  if(accountJSON[responseKeys.ROLE] === PM){ 
     return AccountTypes.PropertyManager;
   }
     return AccountTypes.Tenant; 
@@ -106,7 +106,7 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
         city: profile[accountKeys.CITY],
         roopairsToken: accountJSON[responseKeys.ROOPAIRS_TOKEN],
     };
-    if(profile[accountKeys.TENANTID] == null){
+    if(profile[accountKeys.TENANTID] === TENANT){
         const landLordProfile : PropertyManagerAccount = { ...baseProfile,
             manId: profile[accountKeys.MANID],
         };
