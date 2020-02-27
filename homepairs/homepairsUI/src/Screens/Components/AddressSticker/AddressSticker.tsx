@@ -11,19 +11,6 @@ export type AddressStickerProps = {
      * Slightly greyed text to represent street address.
      */
     address: string
-<<<<<<< HEAD
-
-    /**
-     * Piece one of the bolden text, represents city.
-     */
-    city?: string
-
-    /**
-     * Piece two of the bolden text, represents state.
-     */
-    state?: string
-=======
->>>>>>> development
 }
 
 const colors = BaseStyles.LightColorTheme;
