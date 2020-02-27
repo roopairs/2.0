@@ -6,10 +6,14 @@ import {
 } from 'homepairs-components';
 import strings from 'homepairs-strings';
 import HomePairColors from 'homepairs-colors';
-import { Image, Text, View } from 'react-native';
+import { Image, Text, View, Platform } from 'react-native';
 import { roopairsLogo } from 'homepairs-images';
 import React from 'react';
+import { withNavigation } from 'react-navigation';
+import { withRouter } from 'react-router-dom';
+import { withNavigationRouteHandler } from 'src/utility/NavigationRouterHandler';
 import RoopairsLoginBase , { RoopairsLoginDispatchProps } from './RoopairsLoginBase';
+
 
 const roopairsSubtitle = (
     <View style={{ flexDirection: 'row' }}>
@@ -42,24 +46,15 @@ const authPageParam: AuthPassProps = {
 const mapDispatchToProps: (dispatch: any) => RoopairsLoginDispatchProps = (
     dispatch: any,
 ) => ({
-    onFetchAccountProfile: (
-        username: string,
-        password: string,
-        navigation,
-        modalSetOff: () => any,
-    ) => {
-        dispatch(
-            AccountActions.fetchAccount(
-                username,
-                password,
-                navigation,
-                modalSetOff,
-            ),
-        );
+    onFetchAccountProfile: (username: string,password: string,navigation,modalSetOff: () => any) => 
+    {
+        dispatch(AccountActions.fetchAccount( username, password, navigation, modalSetOff));
     },
 });
 
 const RoopairsLogin = connect(null, mapDispatchToProps)(RoopairsLoginBase);
-const AuthPage = withAuthPage(RoopairsLogin, authPageParam);
+const NavigableAuthPage = withNavigationRouteHandler(RoopairsLogin);
+const NavigateReadyAuthPage = Platform.OS === 'web' ? withRouter(NavigableAuthPage) : withNavigation(NavigableAuthPage);
+const AuthPage = withAuthPage(NavigateReadyAuthPage, authPageParam);
 
 export default AuthPage;

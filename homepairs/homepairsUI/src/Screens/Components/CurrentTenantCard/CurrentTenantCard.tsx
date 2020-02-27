@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { Card } from 'homepairs-elements';
 import ThinButton from 'src/Elements/Buttons/ThinButton';
@@ -8,8 +7,9 @@ import { View, Text, StyleSheet } from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairFonts } from 'res/fonts';
 import { navigationPages } from 'src/Routes/RouteConstants';
+import { NavigationRouteHandler } from 'homepairs-utilities';
 
-type CurrentTenantsCardProps = NavigationStackScreenProps & {
+type CurrentTenantsCardProps = NavigationRouteHandler & {
     /**
      * Used to identify this component during testing
      */
@@ -210,11 +210,11 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
             return;
         }
         setError(null);
-        navigation.navigate(navigationPages.AddTenantModal);
+        navigation.navigate(navigationPages.AddTenantModal, {propId}, true);
     }
 
     function navigateToEditTenantModal(tenant: TenantInfo){
-        navigation.navigate(navigationPages.EditTenantModal, {tenant, propId});
+        navigation.navigate(navigationPages.EditTenantModal, {propId, tenant}, true);
     }
 
     function renderError(){
@@ -266,27 +266,7 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
 CurrentTenantsCard.defaultProps = {
     testID: 'current-tenant-card',
     maxTenants: 100,
-    tenants: [
-        {
-            firstName: 'Alex',
-            lastName: 'Kavanaugh',
-            email: 'alex@roopairs.com',
-            phoneNumber: '838-0034-3333',
-        },
-        {
-            firstName: 'David',
-            lastName: 'Bartolomucci',
-            email: 'david@roopairs.com',
-            phoneNumber: '838-0034-3333',
-        },
-        {
-   
-            firstName: 'Ray',
-            lastName: 'Bartolomucci',
-            email: 'ray@roopairs.com',
-            phoneNumber: '838-0031-3333',
-        },
-   ],
+    tenants: [],
 };
 
 export default CurrentTenantsCard;

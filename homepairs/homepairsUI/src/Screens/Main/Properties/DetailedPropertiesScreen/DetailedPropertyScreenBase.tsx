@@ -14,33 +14,36 @@ import {
     GeneralHomeInfo,
     AddressSticker,
     CurrentTenantCard,
-    ApplianceInfo,
+    ApplianceInfo as ApplianceInfoBase,
     ServiceRequestCount,
 } from 'homepairs-components';
 import {
     HomepairsPropertyAttributes,
     Property,
     HomePairsDimensions,
-    AccountTypes,
-    TenantAccount,
     Appliance, 
     ApplianceType,
     TenantInfo,
     ServiceRequest,
 } from 'homepairs-types';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
-import { stringToCategory } from 'homepairs-utilities';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import { withNavigation } from 'react-navigation';
 import axios from 'axios';
+import strings from 'homepairs-strings';
+import {prepareNavigationHandlerComponent, NavigationRouteScreenProps, stringToCategory} from 'homepairs-utilities';
 
 export type DetailedPropertyStateProps = {
     property: Property;
 };
 
-type Props = NavigationStackScreenProps & DetailedPropertyStateProps;
-const CurrentTenants = withNavigation(CurrentTenantCard);
+type Props = NavigationRouteScreenProps & DetailedPropertyStateProps;
+
+const CurrentTenants = prepareNavigationHandlerComponent(CurrentTenantCard);
+const ApplianceInfo = prepareNavigationHandlerComponent(ApplianceInfoBase);
+
+
+const propertyKeys = HomepairsPropertyAttributes;
+const categoryStrings = strings.applianceInfo.categories;
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -125,14 +128,15 @@ const fakeSR : ServiceRequest = {
 };
 
 export default function DetailedPropertyScreenBase(props: Props) {
+    console.log(props);
     const { property, navigation } = props;
-    const {address, bedrooms, bathrooms} = property;
+    const { propId, address, bedrooms, bathrooms } = property;
     const [tenantInfoState, setTenantInfo] = useState([]);
     const [applianceInfoState, setApplianceInfo] = useState([]);
 
     useEffect(() => {
         const fetchTenantsAndAppliances = async () => {
-            const result = await axios.get(`https://homepairs-alpha.herokuapp.com/property/${property.propId}/`);
+            const result = await axios.get(`https://homepairs-alpha.herokuapp.com/property/${propId}`);
             const {tenants, appliances} = result.data;
             const tenantInfo: TenantInfo[] = [];
             const applianceInfo: Appliance[] = [];
@@ -174,26 +178,16 @@ export default function DetailedPropertyScreenBase(props: Props) {
     };
 
     function navigateModal() {
-        const {tenants} = property;
-        const oldProp = {
-            address,
-            bedrooms,
-            bathrooms,
-            tenants, 
-        };
-        navigation.navigate(navigationPages.EditPropertyModal, {oldProp});
+        navigation.navigate(navigationPages.EditPropertyModal, {propId}, true);
     }
 
     function openAddApplianceModal() {
-        navigation.push(navigationPages.AddApplianceModal);
+        navigation.push(navigationPages.AddApplianceModal, {property, propId}, true);
     }
 
-    function openServiceRequestModal(serviceRequest: ServiceRequest) {
-        navigation.navigate(navigationPages.ServiceRequestModal, {serviceRequest});
-    }
 
     function openEditApplianceModal(appliance: Appliance) {
-        navigation.navigate(navigationPages.EditApplianceModal, {appliance});
+        navigation.navigate(navigationPages.EditApplianceModal, {appliance, propId}, true);
     }
 
     function renderImage() {
@@ -213,17 +207,18 @@ export default function DetailedPropertyScreenBase(props: Props) {
                             {renderImage()}
                         </View>
                     </View>
-                    <ServiceRequestButton onClick={openServiceRequestModal} serviceRequest={fakeSR} />
                     <GeneralHomeInfo
                         property={property}
                         onClick={navigateModal}/>
                     <ApplianceInfo 
+                        navigation={navigation} 
+                        appliances={applianceInfoState} 
+                        propId={propId}
                         onAddApplianceModal={openAddApplianceModal} 
-                        onEditApplianceModal={openEditApplianceModal}
-                        appliances={applianceInfoState}/>
+                        onEditApplianceModal={openEditApplianceModal}/>
                     <CurrentTenants 
-                    propertyId={1 /** TODO: get property id from key when backend has support this */} 
-                    tenants={tenantInfoState}/>
+                        propId={propId}
+                        tenants={tenantInfoState}/>
                     <ServiceRequestCount property={property}/>
                 </View>
             </ScrollView>

@@ -1,17 +1,13 @@
 import React from "react";
 import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions, View } from "react-native";
-import {ThinButton, Card, InputForm } from 'homepairs-elements';
+import {ThinButton, Card, InputForm, InputFormProps } from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, TenantInfo} from 'homepairs-types';
-import { isEmailSyntaxValid } from 'homepairs-utilities';
-import {  NavigationStackScreenProps } from 'react-navigation-stack';
-import { InputFormProps } from 'homepairs-elements';
-import isAlphaCharacterOnly from 'src/utility/SyntaxVerification/AlphaCharacterVerification';
-import isPhoneNumberValid from 'src/utility/SyntaxVerification/PhoneNumberVerification';
+import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid, 
+    prepareNavigationHandlerComponent, NavigationRouteScreenProps } from 'homepairs-utilities';
 
 
-
-type Props =  NavigationStackScreenProps
+type Props =  NavigationRouteScreenProps
 
 type EditTenantState = TenantInfo
 
@@ -136,7 +132,7 @@ const styles = StyleSheet.create({
 });
 
 
-export default class EditTenantModalBase extends React.Component<Props, EditTenantState> {
+class EditTenantModalBase extends React.Component<Props, EditTenantState> {
     firstNameRef;
 
     lastNameRef;
@@ -365,3 +361,5 @@ export default class EditTenantModalBase extends React.Component<Props, EditTena
         </SafeAreaView>);
     }
 }
+
+export default prepareNavigationHandlerComponent(EditTenantModalBase);

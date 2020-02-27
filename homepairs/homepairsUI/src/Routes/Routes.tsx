@@ -1,20 +1,27 @@
 import React from 'react';
-
-import {createBrowserApp} from '@react-navigation/web';
 import { createAppContainer, SafeAreaView, withNavigation } from 'react-navigation';
 import { createStackNavigator, NavigationStackConfig, NavigationStackOptions } from 'react-navigation-stack';
 import {
     MainAppPages, AuthenticationPages,
 } from 'homepairs-pages';
 import { Platform } from 'react-native';
-import { HomePairsHeader, AddNewPropertyModal, EditPropertyModal, LoggingInModal, CreatingAccountModal, AddApplianceModal, EditApplianceModal, EditTenantModal, AddTenantModal, ServiceRequestModal} from 'homepairs-components';
+import { 
+    HomePairsHeader, 
+    AddNewPropertyModal, 
+    EditPropertyModal, 
+    LoggingInModal, 
+    CreatingAccountModal, 
+    AddApplianceModal, 
+    EditApplianceModal, 
+    EditTenantModal, 
+    AddTenantModal,
+    ServiceRequestModal,
+} from 'homepairs-components';
 import { LightColorTheme} from 'homepairs-base-styles';
 import { navigationKeys, navigationPages } from './RouteConstants';
 
 /** Set Up our configuration for the navigation routes */
 
-// First, determine if the platform is web or not, this will determine which type of AppContainer is used  
-const isWeb = Platform.OS === 'web';
 // Give the homepairs header a navigation object so it can actually change pages as intended
 const HomePairsHeaderWithNav = withNavigation(HomePairsHeader);
 
@@ -147,6 +154,6 @@ const container = createStackNavigator(
     
 );
 
-export const AppNavigator = /* isWeb ? createBrowserApp(container): */ createAppContainer(container);
+export const AppNavigator = createAppContainer(container);
 
 export { MainStack, AuthStack };

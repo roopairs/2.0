@@ -16,8 +16,10 @@ import {
     HomePairsDimensions,
     HeaderState,
     MainAppStackType,
+    AccountTypes,
 } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
+import { setAccountAuthenticationState } from 'src/state/session/actions';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu';
 
@@ -26,12 +28,14 @@ const { DROP_MENU_WIDTH } = HomePairsDimensions;
 
 export type HomePairsHeaderStateProps = {
     header: HeaderState;
+    accountType: AccountTypes
 };
 export type HomePairsHeaderDispatchProps = {
     onToggleMenu: (showMenu: boolean) => any;
     onShowGoBackbutton: (showBackButton: boolean) => any;
     onSwitchNavBar: (switchNavBar: boolean) => any;
     onUpdateSelected: (selected: MainAppStackType) => any;
+    onLogOut: (authed:boolean) => any;
 };
 export type HomePairsHeaderProps = HomePairsHeaderDispatchProps &
     HomePairsHeaderStateProps &
@@ -197,7 +201,7 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
     }
 
     render() {
-        const { header, navigation } = this.props;
+        const { header, navigation, accountType } = this.props;
         return (
             <View style={styles.container}>
                 <View
@@ -220,7 +224,9 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
                         parentCallBack={this.changePage}
                         toggleMenu={this.toggleMenu}
                         isDropDown={header.isDropDown}
-                        showMenu={header.showMenu}/>
+                        showMenu={header.showMenu}
+                        setAuthenticatedState={(authed:boolean) => setAccountAuthenticationState(authed) }
+                        accountType={accountType}/>
                 </View>
             </View>
         );

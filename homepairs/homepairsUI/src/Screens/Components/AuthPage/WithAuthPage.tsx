@@ -13,7 +13,7 @@ import strings from 'homepairs-strings';
 import { HomePairFonts } from 'homepairs-fonts';
 import { HomePairsDimensions } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { NavigationStackProp } from 'react-navigation-stack';
+import {NavigationRouteHandler} from 'homepairs-utilities';
 
 
 export type AuthPassProps = {
@@ -68,9 +68,9 @@ export type AuthPageInjectedProps = {
     setErrorState?: (arg1: boolean, arg2?: string) => any;
 
     /**
-     * Object used to navigate between the navigation stack. 
+     * Object used to navigate between navigation routes.
      */
-    navigation?: NavigationStackProp;
+    navigation?: NavigationRouteHandler;
 };
 
 type AuthPageState = {

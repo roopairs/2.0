@@ -336,6 +336,20 @@ export type SettingsActions = ToggleDarkModeActivationAction &
     ToggleNotificationActivationAction;
 /* *-------------------Setting Types-------------------* */
 
+/* *-------------------SessionTypes-------------------* */
+export type AuthenticationState = {
+    authed: boolean,
+};
+
+export type SetAccountAuthenticationStateAction = {
+    type: string;
+    authed: boolean;
+};
+
+export type SessionAction = SetAccountAuthenticationStateAction;
+/* *-------------------SessionTypes-------------------* */
+
+
 /* *-------------------App State-------------------* */
 export type AppState = {
     properties: PropertyListState;
@@ -343,6 +357,7 @@ export type AppState = {
     header: HeaderState;
     serviceRequests: ServiceState;
     settings: SettingsState;
+    authenticated: AuthenticationState;
     // add future state slices here
 }
 /* *-------------------App State-------------------* */
@@ -416,6 +431,8 @@ export enum HomepairsPropertyAttributes {
     TENANTS = 'tenants',
     BEDROOMS = 'bedrooms',
     BATHROOMS = 'bathrooms',
+    CITY = 'city',
+    STATE = 'state',
 }
 
 export const HomePairsResponseKeys = {

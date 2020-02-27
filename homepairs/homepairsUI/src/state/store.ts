@@ -7,6 +7,8 @@ import { accountProfile } from './account/reducer';
 import { header } from './header/reducer';
 import { serviceRequests } from './service/reducer';
 import { settings } from './settings/reducer';
+import { authenticated } from './session/reducer';
+
 
 export default createStore(
     combineReducers<AppState, AnyAction>(
@@ -16,6 +18,7 @@ export default createStore(
             accountProfile,
             serviceRequests,
             settings,
+            authenticated,
             /** REMEMBER TO GO INTO ./types AND UPDATE THE AppState TYPE */
         },
     ),

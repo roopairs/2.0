@@ -12,9 +12,7 @@ import { HeaderActions } from 'homepairs-redux-actions';
 import { connect } from 'react-redux';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
-import {isNullOrUndefined} from 'homepairs-utilities';
 import SceneHeader from './SceneHeader';
-import { ModalInjectedProps } from '../Modals/WithModal/WithModal';
 
 type SceneDispatchProps = {
     onSetNavHeaderGoBackButton?: (isSet: boolean) => any;
@@ -24,8 +22,7 @@ type SceneDispatchProps = {
 export type SceneInjectedProps = SceneDispatchProps 
 
 type Props = NavigationStackScreenProps<any, any> &
-SceneDispatchProps &
-ModalInjectedProps;
+SceneDispatchProps;
 
 type State = {
     showModal: boolean;

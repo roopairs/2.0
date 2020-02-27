@@ -12,7 +12,10 @@ import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
-import { upArrow, downArrow } from 'homepairs-images';
+import { upArrow, downArrow} from 'homepairs-images';
+import { navigationPages } from '../../Routes/RouteConstants';
+import { NavigationRouteScreenProps } from 'homepairs-utilities';
+
 
 export type PanelProps = {
     key?: string;
@@ -28,7 +31,7 @@ export type PanelState = {
     maxHeight: number;
 };
 
-type Props = PanelProps;
+type Props = PanelProps & NavigationRouteScreenProps;
 
 const initialState: PanelState = {
     expanded: false,
@@ -151,6 +154,10 @@ export default class AppliancePanel extends React.Component<Props, PanelState> {
         },
         buttonTextStyle: {
             color: colors.lightGray,
+        },
+        onClick: () => {
+            const {navigation, appliance}= this.props;
+            navigation.navigate(navigationPages.EditApplianceModal, {appliance}, true);
         },
     };
 

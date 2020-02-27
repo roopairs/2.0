@@ -2,8 +2,8 @@ import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { withSceneHeader} from 'homepairs-components';
 import strings from 'homepairs-strings';
-import { withNavigation } from 'react-navigation';
 import { navigationPages } from 'src/Routes/RouteConstants';
+import { prepareNavigationHandlerComponent } from 'homepairs-utilities';
 import ServiceRequestScreenBase, {
     ServiceRequestScreenStateProps,
     ServiceRequestScreenProps,
@@ -41,8 +41,8 @@ const ServiceRequestScreen = connect(
 
 
 // Make sure the base also has Navigation Props, this is not passed down in withSceneHeader
-const ServiceRequestScreenWithNavigation = withNavigation(ServiceRequestScreen);
+const ServiceRequestScreenWithNavigation = prepareNavigationHandlerComponent(ServiceRequestScreen);
 
 // Now render the component with the SceneHeader. This way, if the child needs to the use the 
 // navigator, it is not reliant on the parent. 
-export default withNavigation(withSceneHeader(ServiceRequestScreenWithNavigation, sceneParam));
+export default prepareNavigationHandlerComponent(withSceneHeader(ServiceRequestScreenWithNavigation, sceneParam));

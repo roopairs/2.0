@@ -1,18 +1,15 @@
 import React from "react";
 import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions} from "react-native";
-import {ThinButton, Card, InputForm } from 'homepairs-elements';
+import {ThinButton, Card, InputForm, InputFormProps } from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
-import { isEmailSyntaxValid } from 'homepairs-utilities';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { InputFormProps } from 'homepairs-elements';
-import isAlphaCharacterOnly from 'src/utility/SyntaxVerification/AlphaCharacterVerification';
-import isPhoneNumberValid from 'src/utility/SyntaxVerification/PhoneNumberVerification';
+import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid, 
+    NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-utilities';
+import axios from 'axios';
 
+type Props =  NavigationRouteScreenProps;
 
-type Props =  NavigationStackScreenProps;
-
-type EditTenantState = TenantInfo
+type AddTenantState = TenantInfo
 
 const {width} = Dimensions.get('window');
 const colors = BaseStyles.LightColorTheme;
@@ -55,7 +52,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: BaseStyles.ContentWidth.reg,
         paddingVertical: BaseStyles.MarginPadding.large,
-        flexGrow: 1, // Needed to center the contents of the scroll container
+        flexGrow: Platform.OS === 'web' ? null : 1, // Needed to center the contents of the scroll container
     },
     cardContainer: {
         backgroundColor: 'white',
@@ -139,7 +136,7 @@ const styles = StyleSheet.create({
 });
 
 
-export default class EditTenantModal extends React.Component<Props, EditTenantState> {
+class AddTenantModalBase extends React.Component<Props, AddTenantState> {
     firstNameRef;
 
     lastNameRef;
@@ -148,8 +145,7 @@ export default class EditTenantModal extends React.Component<Props, EditTenantSt
 
     phoneNumberRef;
 
-
-    propertyId : number;
+    propId : number;
   
     constructor(props: Readonly<Props>) {
         super(props);
@@ -158,7 +154,7 @@ export default class EditTenantModal extends React.Component<Props, EditTenantSt
         this.getFormEmail = this.getFormEmail.bind(this);
         this.getFormPhoneNumber = this.getFormPhoneNumber.bind(this);
         this.resetForms = this.resetForms.bind(this);
-        this.propertyId = props.navigation.getParam('propId');
+        this.propId = props.navigation.getParam('propId');
         this.state = {
             firstName : '', 
             lastName: '', 
@@ -227,13 +223,17 @@ export default class EditTenantModal extends React.Component<Props, EditTenantSt
         this.phoneNumberRef.current.setError(false);
     }
 
-    clickSubmitButton() {
+    async clickSubmitButton() {
         const {navigation} = this.props;
         this.resetForms();
         if (this.validateForms()) {
             const newTenantInfo : TenantInfo = this.generateNewTenantInfo();
-            alert('We need the backend to create the endpoint in order to edit this tenant');
-            navigation.goBack();
+            await axios.post(`https://homepairs-alpha.herokuapp.com/pm/tenantEdit/${this.propId}`, newTenantInfo)
+            .then((response)=>{
+                console.log(response);
+            }).finally(() => {
+                navigation.goBack();
+            });
         } 
     }
 
@@ -327,3 +327,5 @@ export default class EditTenantModal extends React.Component<Props, EditTenantSt
         </SafeAreaView>);
     }
 }
+
+export default prepareNavigationHandlerComponent(AddTenantModalBase);

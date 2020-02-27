@@ -32,7 +32,7 @@ module.exports = function(api) {
                         'homepairs-components':
                             './src/Screens/Components/index.tsx',
                         'homepairs-utilities': './src/utility/index.tsx',
-                        'homepairs-routes' : './src/Routes/index.tsx',
+                        'homepairs-routes' : './src/Routes/RouteConstants',
                     },
                 },
             ],

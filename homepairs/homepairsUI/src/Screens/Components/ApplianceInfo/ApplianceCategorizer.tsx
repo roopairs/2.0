@@ -4,13 +4,16 @@ import { AppliancePanel } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import * as BaseStyles from 'homepairs-base-styles';
 import { Appliance } from 'homepairs-types';
+import {NavigationRouteScreenProps} from 'homepairs-utilities';
+
+
 
 type ApplianceCategorizerProps = {
     appliances: Appliance[];
     onEditApplianceModal?: (appliance: Appliance) => any;
 };
 
-type Props = ApplianceCategorizerProps;
+type Props = ApplianceCategorizerProps & NavigationRouteScreenProps;
 
 function setStyles(colorTheme?: BaseStyles.ColorTheme) {
     const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;

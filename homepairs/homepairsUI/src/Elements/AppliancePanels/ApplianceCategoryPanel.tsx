@@ -7,7 +7,6 @@ import {
     TouchableHighlight,
     Image,
 } from 'react-native';
-import { ThinButtonProps, ThinButton } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -34,7 +33,7 @@ const initialState: PanelState = {
     maxHeight: 0,
 };
 
-type CategoryPanelProps = {
+export type CategoryPanelProps = {
     parentCallBack: (appType: ApplianceType) => any,
     initialCategory: ApplianceType,
 };

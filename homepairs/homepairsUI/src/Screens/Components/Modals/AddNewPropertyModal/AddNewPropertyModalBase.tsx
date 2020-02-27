@@ -5,8 +5,7 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, AddNewPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isPositiveWholeNumber, isEmptyOrSpaces} from 'homepairs-utilities';
-import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
+import {isPositiveWholeNumber, isEmptyOrSpaces, NavigationRouteHandler} from 'homepairs-utilities';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { navigationPages } from 'src/Routes/RouteConstants';
 import {HelperText} from 'react-native-paper';
@@ -15,12 +14,13 @@ import {FontTheme} from 'homepairs-base-styles';
 
 export type AddNewPropertyDispatchProps = {
     onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, 
-         displayError: (msg: string) => void, navigation: NavigationStackProp) => void
+         displayError: (msg: string) => void, navigation: NavigationRouteHandler) => void
 }
 
-type Props = NavigationStackScreenProps &
-    AddNewPropertyDispatchProps &
-    AddNewPropertyState;
+type Props = AddNewPropertyDispatchProps &
+    AddNewPropertyState & {
+        navigation: NavigationRouteHandler,
+    };
 
 type CreateState = {
     address: string, 
@@ -83,7 +83,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             alignSelf: 'center',
             width: BaseStyles.ContentWidth.reg,
             paddingVertical: BaseStyles.MarginPadding.large,
-            flexGrow: 1, // Needed to center the contents of the scroll container
+            flexGrow: Platform.OS === 'web' ? null : 1, // Needed to be able to scroll the contents of the view in mobile
         },
         cardContainer: {
             backgroundColor: 'white',

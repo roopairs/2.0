@@ -4,6 +4,7 @@ import { Sticker } from 'homepairs-elements';
 import { FontTheme, ContentWidth, MarginPadding} from 'homepairs-base-styles';
 
 import * as BaseStyles from 'homepairs-base-styles';
+import { defaultProperty } from 'homepairs-images';
 
 export type AddressStickerProps = {
     /**
@@ -56,3 +57,4 @@ export default function AddressSticker(props: AddressStickerProps) {
         </Sticker>
     );
 }
+

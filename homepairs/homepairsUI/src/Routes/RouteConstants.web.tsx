@@ -1,5 +1,29 @@
 import { MainAppStackType } from 'homepairs-types';
 
+
+export const LOGIN = '/authentication/login';
+export const SIGNUP = '/authentication/sign-up';
+export const ROOPAIRS_LOGIN = '/authentication/roopairs-login';
+export const LOGIN_MODAL = '/authentication/logging-in';
+export const CREATE_ACCOUNT_MODAL = '/authentication/creating-account';
+export const ROOPAIRS_LOGIN_MODAL = '/authentication/logging-in-roopairs';
+
+export const PROPERTY_LIST = '/admin/properties';
+export const TENANT_PROPERTY = '/tenant/home';
+export const PROPERTY = '/admin/property';
+
+export const ADD_PROPERTY_MODAL = '/admin/properties/add-property';
+export const EDIT_PROPERTY_MODAL = '/admin/property/edit-property';
+export const ADD_TENANT_MODAL = '/admin/property/add-tenant';
+export const EDIT_TENANT_MODAL = '/admin/property/edit-tenant';
+export const ADD_APPLIANCE_MODAL = '/admin/property/add-appliance';
+export const EDIT_APPLIANCE_MODAL = '/admin/property/edit-appliance';
+
+
+export const SERVICE_REQUEST = '/admin/service-requests/dashboard';
+export const NEW_SERVICE_REQUEST = '/admin/service-requests/new-service-requests';
+export const ACCOUNT_SETTINGS = '/admin/account-settings/dashboard';
+
 /**
  * All keys that can be mapped to any page in the react navigator should 
  * be stored here. This is so there changes to one key can be affect by all
@@ -31,7 +55,6 @@ export const navigationKeys: {[id:string]: string} = {
     EditPropertyModal: 'EditPropertyModal',
     AddApplianceModal: 'AddApplianceModal', 
     EditApplianceModal: 'EditApplianceModal',
-    ServiceRequestModal: 'ServiceRequestModal',
 
 
     RoopairsLogin: 'RoopairsLogin',
@@ -56,34 +79,33 @@ export const navigationKeys: {[id:string]: string} = {
  */
 export const navigationPages = {
     // Property Pages
-    PropertiesScreen: 'PropertiesScreen',
-    TenantProperty: 'TenantProperty',
-    SingleProperty: 'SingleProperty',
+    PropertiesScreen: PROPERTY_LIST,
+    TenantProperty: TENANT_PROPERTY,
+    SingleProperty: PROPERTY,
     // Property Stack Modals 
-    AddNewPropertyModal: 'AddNewPropertyModal',
-    EditPropertyModal: 'EditPropertyModal',
-    AddTenantModal: 'AddTenantModal',
-    EditTenantModal: 'EditTenantModal',
-    AddApplianceModal: 'AddApplianceModal', 
-    EditApplianceModal: 'EditApplianceModal',
+    AddNewPropertyModal: ADD_PROPERTY_MODAL,
+    EditPropertyModal: EDIT_PROPERTY_MODAL,
+    AddTenantModal: ADD_TENANT_MODAL,
+    EditTenantModal: EDIT_TENANT_MODAL,
+    AddApplianceModal: ADD_APPLIANCE_MODAL, 
+    EditApplianceModal: EDIT_APPLIANCE_MODAL,
 
     // Service Request Pages
-    ServiceRequestScreen: 'ServiceRequestScreen',
-    NewRequest: 'NewRequest',
-    ServiceRequestModal: 'ServiceRequestModal',
+    ServiceRequestScreen: SERVICE_REQUEST,
+    NewRequest: NEW_SERVICE_REQUEST,
 
     // Account Settings Pages 
-    AccountSettings: 'AccountSettings', 
+    AccountSettings: ACCOUNT_SETTINGS, 
 
     // Authentication Pages
-    LoginScreen: 'LoginScreen',
-    RoopairsLogin: 'RoopairsLogin',
-    SignUpScreen: 'SignUpScreen',
+    LoginScreen: LOGIN,
+    RoopairsLogin: ROOPAIRS_LOGIN,
+    SignUpScreen: SIGNUP,
 
     // Authentication Modals
-    RoopairsLoggingInModal: 'RoopairsLoggingInModal',
-    CreatingAccountModal: 'CreatingAccountModal',
-    LoggingInModal: 'LoggingInModal', 
+    RoopairsLoggingInModal: ROOPAIRS_LOGIN_MODAL,
+    CreatingAccountModal: CREATE_ACCOUNT_MODAL,
+    LoggingInModal: LOGIN_MODAL, 
 
 };
 
@@ -91,7 +113,7 @@ export const navigationPages = {
 export const MainAppStack: Array<MainAppStackType> = [
     {
         title: 'Properties',
-        navigate: navigationPages.PropertiesScreen,
+        navigate: PROPERTY_LIST,
         key: 'Properties',
         button: 'Add Property',
     },
@@ -108,13 +130,7 @@ export const MainAppStack: Array<MainAppStackType> = [
     },
     {
         title: 'Log Out',
-        navigate: navigationPages.LoginScreen,
+        navigate: LOGIN,
         key: 'LogOut',
     },
 ];
-
-
-export const LOGIN = '/login';
-export const SIGNUP = '/sign-up';
-export const ROOPAIRS_LOGIN = '/roopairs-login';
-export const PROPERTY_LIST = '/properties';

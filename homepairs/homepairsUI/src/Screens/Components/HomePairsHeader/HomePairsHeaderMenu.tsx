@@ -2,10 +2,11 @@
 import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
 import { FontTheme} from 'homepairs-base-styles';
-import { MainAppStackType } from 'homepairs-types';
+import { MainAppStackType, AccountTypes } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { NavigationStackProp } from 'react-navigation-stack';
-import MainAppStack from '../../../Routes/RouteConstants';
+import { ChooseMainPage } from 'src/state/account/actions';
+import {NavigationRouteHandler} from 'homepairs-utilities';
+import {MainAppStack} from '../../../Routes/RouteConstants';
 
 export type HomePairsMenuProps = {
 
@@ -18,7 +19,7 @@ export type HomePairsMenuProps = {
      * Navigator passed from the parent that will be used to navigate between
      * the various stacks and screens of the application.
      */
-    navigation: NavigationStackProp;
+    navigation: NavigationRouteHandler;
 
     /**
      * Value of the page that is currently navigated to and whose text is 
@@ -44,10 +45,20 @@ export type HomePairsMenuProps = {
     showMenu?: boolean;
 
     /**
+     * 
+     */
+    setAuthenticatedState?: (auth: boolean) => any;
+
+    /**
      * Callback function intended to change the state of the menu from hiding or showing
      * the dropdown menu. 
      */
     toggleMenu?: (arg0?: any) => any;
+
+    /**
+     * Identifier that allows the header to navigate and render properly based on account status
+     */
+    accountType: AccountTypes
 };
 
 type Props = HomePairsMenuProps;
@@ -147,12 +158,22 @@ export default class HomePairsMenu extends React.Component<Props> {
      * @param {MainAppStackType} value 
      */
     navigatePages(value: MainAppStackType) {
-        const {navigation} = this.props;
+        const {navigation, setAuthenticatedState, accountType} = this.props;
         // Check to see if logout had been clicked. If so, set the selected value 
         // to the Properties
         this.setSelected(value);
         this.closeMenu();
-        navigation.navigate(value.navigate);
+        if(value.title === 'Log Out'){
+            setAuthenticatedState(false);
+        }
+
+        if(value.title === 'Properties'){
+            console.log('Correctly navigating to the correct property');
+            console.log(accountType)
+            ChooseMainPage(accountType, navigation);
+        }else{
+            navigation.navigate(value.navigate);
+        }
     }
 
     closeMenu() {
