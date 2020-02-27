@@ -16,8 +16,6 @@ import axios from 'axios';
 
 const checkSession = async () => {
     await LoadFonts();
-
-
     await AsyncStorage.getItem('session').then(async (sessionToken) => {
         if(isNullOrUndefined(sessionToken)){
             await AsyncStorage.clear();

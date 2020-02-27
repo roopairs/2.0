@@ -7,7 +7,6 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
 import { ApplianceCategorizer } from 'homepairs-components';
 import {NavigationRouteScreenProps} from 'homepairs-utilities';
-import { navigationPages } from '../../../Routes/RouteConstants';
 
 
 export type ApplianceInfoProps = {
