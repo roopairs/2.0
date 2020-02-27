@@ -5,9 +5,9 @@ import { prepareNavigationHandlerComponent, NavigationRouteHandler } from 'homep
 import EditPropertyModalBase, {EditPropertyDispatchProps} from './EditPropertyModalBase';
 
 const mapDispatchToProps : (dispatch: any) => EditPropertyDispatchProps = (dispatch: any) => ({
-    onEditProperty: (editProperty: Property, info: EditPropertyState, 
-         displayError: (msg: string) => void, navigation: NavigationRouteHandler) => 
+    onEditProperty: (editProperty: Property, info: EditPropertyState, displayError: (msg: string) => void, navigation: NavigationRouteHandler) => 
         {
+            console.log(`Ready to Edit Property`)
             dispatch(PropertyListActions.postUpdatedProperty(editProperty, info, displayError, navigation));
         },
 });

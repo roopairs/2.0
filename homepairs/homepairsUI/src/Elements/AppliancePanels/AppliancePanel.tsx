@@ -4,22 +4,24 @@ import {
     View,
     Animated,
     StyleSheet,
-    TouchableHighlight,
     Image,
+    TouchableOpacity,
 } from 'react-native';
 import { ThinButtonProps, ThinButton } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
-import { upArrow, downArrow, trash } from 'homepairs-images';
-import {NavigationRouteScreenProps} from 'homepairs-utilities';
+import { upArrow, downArrow} from 'homepairs-images';
 import { navigationPages } from '../../Routes/RouteConstants';
+import { NavigationRouteScreenProps } from 'homepairs-utilities';
 
 
 export type PanelProps = {
     key?: string;
     appliance: Appliance;
+    hasButton: boolean;
+    onEditApplianceModal?: (app: Appliance) => any;
 };
 
 export type PanelState = {
@@ -134,7 +136,7 @@ function setStyles() {
     });
 }
 
-export default class Panel extends React.Component<Props, PanelState> {
+export default class AppliancePanel extends React.Component<Props, PanelState> {
     styles;
 
     icons;
@@ -192,7 +194,7 @@ export default class Panel extends React.Component<Props, PanelState> {
     }
 
     renderBody() {
-        const { appliance } = this.props;
+        const { appliance, onEditApplianceModal, hasButton } = this.props;
         const { manufacturer, modelNum, serialNum, location } = appliance;
         return (
             <View style={this.styles.body} onLayout={this.setMaxHeight}>
@@ -238,19 +240,14 @@ export default class Panel extends React.Component<Props, PanelState> {
                         <Text style={this.styles.detail}>--</Text>
                     </View>
                 </View>
-                <View style={this.styles.buttonRow}>
+                {hasButton ? 
                     <ThinButton 
-                        name={this.thinButtonProps.name} 
-                        buttonStyle={this.thinButtonProps.buttonStyle} 
-                        buttonTextStyle={this.thinButtonProps.buttonTextStyle} 
-                        onClick={this.thinButtonProps.onClick}/>
-                    <TouchableHighlight
-                        onPress={() => {}}
-                        underlayColor="#f1f1f1"
-                    >
-                        <Image style={this.styles.trashImage} source={trash} />
-                    </TouchableHighlight>
-                </View>
+                    name={this.thinButtonProps.name} 
+                    buttonStyle={this.thinButtonProps.buttonStyle} 
+                    buttonTextStyle={this.thinButtonProps.buttonTextStyle} 
+                    onClick={() => onEditApplianceModal(appliance)}/>
+                    : <></>
+                }
             </View>
         );
     }
@@ -258,7 +255,7 @@ export default class Panel extends React.Component<Props, PanelState> {
     render() {
         const { up, down } = this.icons;
         const { expanded, animation } = this.state;
-        const { appliance } = this.props;
+        const { appliance} = this.props;
         const { appName } = appliance;
         let icon = down;
 
@@ -272,12 +269,11 @@ export default class Panel extends React.Component<Props, PanelState> {
             >
                 <View style={this.styles.titleContainer} onLayout={this.setMinHeight}>
                     <Text style={[this.styles.titleText, {color: expanded ? colors.primary : colors.tertiary}]}>{appName}</Text>
-                    <TouchableHighlight
+                    <TouchableOpacity
                         onPress={this.toggle}
-                        underlayColor="#f1f1f1"
                     >
                         <Image style={this.styles.buttonImage} source={icon} />
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
                 {this.renderBody()}
             </Animated.View>

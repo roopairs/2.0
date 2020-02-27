@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputForm, LoginButton} from 'homepairs-elements';
+import { InputForm, LoginButton, GoogleInputForm} from 'homepairs-elements';
 import {
     AccountTypeRadioButton,
     AuthPageInjectedProps,
@@ -30,8 +30,7 @@ type SignUpState = {
     firstName: string;
     lastName: string;
     email: string;
-    streetAddress: string;
-    city: string;
+    address: string;
     password: string;
     cPassword: string;
 };
@@ -40,8 +39,7 @@ const baseState = {
     firstName: '',
     lastName: '',
     email: '',
-    streetAddress: '',
-    city: '',
+    address: '',
     password: '',
     cPassword: '',
 };
@@ -110,8 +108,6 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
 
     addressRef;
 
-    cityRef;
-
     passwordRef;
 
     cPasswordRef;
@@ -127,7 +123,6 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
         this.getFormPassword = this.getFormPassword.bind(this);
         this.getFormCPassword = this.getFormCPassword.bind(this);
         this.getFormAddress = this.getFormAddress.bind(this);
-        this.getFormCity = this.getFormCity.bind(this);
         this.setModalOff = this.setModalOff.bind(this);
         this.resetForms = this.resetForms.bind(this);
         this.resetState = this.resetState.bind(this);
@@ -139,7 +134,6 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
         this.passwordRef = React.createRef();
         this.cPasswordRef = React.createRef();
         this.addressRef = React.createRef();
-        this.cityRef = React.createRef();
         
         props.clickButton(this.clickSignUp);
         props.clickHighlightedText(this.clickSignIn);
@@ -176,11 +170,7 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
     }
 
     getFormAddress(childData: string) {
-        this.setState({ streetAddress: childData });
-    }
-
-    getFormCity(childData: string) {
-        this.setState({ city: childData });
+        this.setState({ address: childData });
     }
 
     /**
@@ -208,7 +198,7 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
     };
 
     validateForms() {
-        const {firstName, lastName, password, cPassword, email, city, streetAddress, accountType} = this.state;
+        const {firstName, lastName, password, cPassword, email, address, accountType} = this.state;
         let check = true;
         if (!isAlphaCharacterOnly(firstName)) {
             check = false;
@@ -230,13 +220,9 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
             check = false;
             this.cPasswordRef.current.setError(true);
         }
-        if (isEmptyOrSpaces(streetAddress) && accountType === AccountTypes.Tenant) {
+        if (isEmptyOrSpaces(address) && accountType === AccountTypes.Tenant) {
             check = false;
             this.addressRef.current.setError(true);
-        }
-        if (isEmptyOrSpaces(city) && accountType === AccountTypes.Tenant) {
-            check = false;
-            this.cityRef.current.setError(true);
         }
         return check;
     }
@@ -245,7 +231,6 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
         const {accountType} = this.state;
         if (accountType === AccountTypes.Tenant) {
             this.addressRef.current.setError(false);
-            this.cityRef.current.setError(false);
         }
         this.firstNameRef.current.setError(false);
         this.lastNameRef.current.setError(false);
@@ -260,7 +245,6 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
 
     renderInputForms() {
         const {formTitle, input } = this.inputFormStyle;
-        const {accountType} = this.state;
         const inputFormProps = [
             {
                 ref: this.firstNameRef,
@@ -279,24 +263,6 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
                 formTitleStyle: formTitle,
                 inputStyle: input,
                 errorMessage: 'Last Name cannot be empty',
-            },
-            {
-                ref: this.addressRef,
-                key: signUpScreenStrings.inputForms.address,
-                name: signUpScreenStrings.inputForms.address,
-                parentCallBack: this.getFormAddress,
-                formTitleStyle: formTitle,
-                inputStyle: input,
-                errorMessage: 'Address cannot be empty',
-            },
-            {
-                ref: this.cityRef,
-                key: signUpScreenStrings.inputForms.city,
-                name: signUpScreenStrings.inputForms.city,
-                parentCallBack: this.getFormCity,
-                formTitleStyle: formTitle,
-                inputStyle: input,
-                errorMessage: 'City cannot be empty',
             },
             {
                 ref: this.emailRef,
@@ -328,9 +294,7 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
                 errorMessage: 'Passwords do not match',
             },
         ];
-        const pmForms = (inputFormProps.filter(inputForm => (inputForm.name !== signUpScreenStrings.inputForms.address && inputForm.name !== signUpScreenStrings.inputForms.city)));
-        const forms = accountType === AccountTypes.PropertyManager ? pmForms : inputFormProps;
-        return forms.map(properties => {
+        return inputFormProps.map(properties => {
             return (
                 <InputForm
                     ref={properties.ref}
@@ -344,6 +308,23 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
                 />
             );
         });
+    }
+
+    renderAddressForm() {
+        const {address, accountType} = this.state;
+
+        return accountType === AccountTypes.PropertyManager ? <></> : (
+            <GoogleInputForm 
+                ref={this.addressRef}
+                key={signUpScreenStrings.inputForms.address}
+                name={signUpScreenStrings.inputForms.address}
+                parentCallBack={this.getFormAddress}
+                formTitleStyle={this.inputFormStyle.formTitle}
+                inputStyle={this.inputFormStyle.input}
+                value={address}
+                errorMessage='Address cannot be empty'        
+            />
+        );
     }
 
     renderRoopairsLoginButton() {
@@ -378,6 +359,7 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
                     parentCallBack={this.getAccountType}
                     resetForms={this.resetForms}/>
                 {this.renderRoopairsLoginButton()}
+                {this.renderAddressForm()}
                 {this.renderInputForms()}
             </>
         );

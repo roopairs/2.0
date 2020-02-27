@@ -31,6 +31,7 @@ export const navigationKeys: {[id:string]: string} = {
     EditPropertyModal: 'EditPropertyModal',
     AddApplianceModal: 'AddApplianceModal', 
     EditApplianceModal: 'EditApplianceModal',
+    ServiceRequestModal: 'ServiceRequestModal',
 
 
     RoopairsLogin: 'RoopairsLogin',
@@ -69,6 +70,7 @@ export const navigationPages = {
     // Service Request Pages
     ServiceRequestScreen: 'ServiceRequestScreen',
     NewRequest: 'NewRequest',
+    ServiceRequestModal: 'ServiceRequestModal',
 
     // Account Settings Pages 
     AccountSettings: 'AccountSettings', 

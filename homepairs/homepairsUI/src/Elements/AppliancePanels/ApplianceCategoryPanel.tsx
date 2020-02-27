@@ -7,11 +7,10 @@ import {
     TouchableHighlight,
     Image,
 } from 'react-native';
-import { ThinButtonProps, ThinButton } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
-import { ApplianceType, Appliance } from 'homepairs-types';
+import { ApplianceType } from 'homepairs-types';
 import { upArrow, downArrow } from 'homepairs-images';
 
 
@@ -34,7 +33,7 @@ const initialState: PanelState = {
     maxHeight: 0,
 };
 
-type CategoryPanelProps = {
+export type CategoryPanelProps = {
     parentCallBack: (appType: ApplianceType) => any,
     initialCategory: ApplianceType,
 };
@@ -94,7 +93,7 @@ function setStyles() {
     });
 }
 
-export default class CategoryPanel extends React.Component<CategoryPanelProps, PanelState> {
+export default class ApplianceCategoryPanel extends React.Component<CategoryPanelProps, PanelState> {
     styles;
 
     icons;
@@ -172,24 +171,28 @@ export default class CategoryPanel extends React.Component<CategoryPanelProps, P
         return (
             <View style={this.styles.body} onLayout={this.setMaxHeight}>
                 <TouchableHighlight 
+                    testID='click-plumbing'
                     underlayColor="#f1f1f1"
                     onPress={() => this.selectCategory(categoryStrings.PLUMBING)}
                     style={this.styles.infoRowContainer}>
                     <Text style={this.styles.detail}>{categoryStrings.PLUMBING}</Text>
                 </TouchableHighlight>
                 <TouchableHighlight 
+                    testID='click-LE'
                     underlayColor="#f1f1f1"
                     onPress={() => this.selectCategory(categoryStrings.LE)} 
                     style={this.styles.infoRowContainer}>
                     <Text style={this.styles.detail}>{categoryStrings.LE}</Text>
                 </TouchableHighlight>
                 <TouchableHighlight 
+                    testID='click-HVAC'
                     underlayColor="#f1f1f1"
                     onPress={() => this.selectCategory(categoryStrings.HVAC)} 
                     style={this.styles.infoRowContainer}>
                     <Text style={this.styles.detail}>{categoryStrings.HVAC}</Text>
                 </TouchableHighlight>
                 <TouchableHighlight 
+                    testID='click-GA'
                     underlayColor="#f1f1f1"
                     onPress={() => this.selectCategory(categoryStrings.GA)} 
                     style={this.styles.infoRowContainer}>

@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions, Text } from 'react-native';
-import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm, CategoryPanel } from 'homepairs-elements';
+import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm, ApplianceCategoryPanel } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance, AddApplianceState, ApplianceType } from 'homepairs-types';
@@ -294,6 +294,8 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                 location,
             };
             const info : AddApplianceState = {property: this.property};
+            console.log(`Add Appliance Validation`)
+            console.log(info)
             onCreateAppliance(newAppliance, info, this.setInitialState, this.displayError, navigation);
         }
     }
@@ -399,7 +401,7 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     >
                     <Text style={this.inputFormStyle.formTitle}>{addApplianceStrings.category}</Text>
-                    <CategoryPanel initialCategory={category} parentCallBack={this.getFormCategory}/>
+                    <ApplianceCategoryPanel initialCategory={category} parentCallBack={this.getFormCategory}/>
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
                     {ThinButton(this.submitButton)}

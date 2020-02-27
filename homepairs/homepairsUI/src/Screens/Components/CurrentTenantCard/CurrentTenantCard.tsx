@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { Card } from 'homepairs-elements';
 import ThinButton from 'src/Elements/Buttons/ThinButton';

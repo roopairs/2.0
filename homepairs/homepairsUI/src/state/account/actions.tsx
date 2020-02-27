@@ -102,8 +102,7 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
         firstName: profile[accountKeys.FIRSTNAME],
         lastName: profile[accountKeys.LASTNAME],
         email: profile[accountKeys.EMAIL],
-        streetAddress: profile[accountKeys.ADDRESS], 
-        city: profile[accountKeys.CITY],
+        address: profile[accountKeys.ADDRESS], 
         roopairsToken: accountJSON[responseKeys.ROOPAIRS_TOKEN],
     };
     if(profile[accountKeys.TENANTID] === TENANT){
@@ -201,8 +200,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
         email: accountDetails.email, 
-        streetAddress: accountDetails.streetAddress, 
-        city: accountDetails.city,
+        streetAddress: accountDetails.address, 
         password, 
       })
       .then((response) => {

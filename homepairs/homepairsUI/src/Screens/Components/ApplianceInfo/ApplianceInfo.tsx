@@ -11,6 +11,8 @@ import { navigationPages } from '../../../Routes/RouteConstants';
 
 
 export type ApplianceInfoProps = {
+    onAddApplianceModal?: () => any,
+    onEditApplianceModal?: (appliance: Appliance) => any,
     appliances?: Appliance[],
     propId: string,
 }
@@ -87,9 +89,10 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
 
 export default function ApplianceInfo(props: Props) {
     const {
-        navigation,
         appliances,
-        propId,
+        onAddApplianceModal,
+        onEditApplianceModal,
+        navigation,
     } = props;
 
     const styles = setStyles();
@@ -98,7 +101,7 @@ export default function ApplianceInfo(props: Props) {
         name: applianceInfoStrings.button.title,
         buttonStyle: styles.editButton,
         buttonTextStyle: styles.editButtonText,
-        onClick: () => navigation.push(navigationPages.AddApplianceModal, {propId}, true),
+        onClick: () => onAddApplianceModal(),
     };
 
     return (
@@ -109,7 +112,10 @@ export default function ApplianceInfo(props: Props) {
                 </Text>
             </View>
             <View style= {styles.details}>
-                <ApplianceCategorizer navigation={navigation} appliances={appliances}/>
+                <ApplianceCategorizer 
+                    onEditApplianceModal={onEditApplianceModal} 
+                    appliances={appliances}
+                    navigation={navigation}/>
                 <ThinButton 
                     name={thinButtonProps.name} 
                     buttonStyle={thinButtonProps.buttonStyle} 

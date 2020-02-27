@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import { BrowserRouter as Router, Route, Redirect, Switch, useLocation, useHistory, useParams } from 'react-router-dom';
+import { View } from 'react-native';
+import { BrowserRouter as Router, Route, Redirect, Switch, useLocation, useHistory} from 'react-router-dom';
 import {
   MainAppPages, AuthenticationPages,
 } from 'homepairs-pages';
@@ -208,8 +208,8 @@ function SinglePropertySwitch() {
                   <Route exact path={`${EDIT_PROPERTY_MODAL}/:propId`}><EditPropertyModal /></Route>
                   <Route path={`${ADD_TENANT_MODAL}/:propId`}><AddTenantModal/></Route>
                   <Route path={`${EDIT_TENANT_MODAL}/:propId`}><EditTenantModal/></Route>
-                  <Route path={`${ADD_APPLIANCE_MODAL}/:propId`}><AddApplianceModal/></Route>
-                  <Route path={`${EDIT_APPLIANCE_MODAL}/:appliance`}><EditApplianceModal/></Route>
+                  <Route path={`${ADD_APPLIANCE_MODAL}/:propId/:property`}><AddApplianceModal/></Route>
+                  <Route path={`${EDIT_APPLIANCE_MODAL}/:propID/:appliance`}><EditApplianceModal/></Route>
               </Switch>
       
               {/* Show the modal when a background page is set */}
@@ -217,8 +217,8 @@ function SinglePropertySwitch() {
               {background && <Route path={`${EDIT_PROPERTY_MODAL}/:propId`}> <EditPropertyReadyModal /> </Route>}
               {background && <Route path={`${ADD_TENANT_MODAL}/:propId`}><AddTenantReadyModal/></Route>}
               {background && <Route path={`${EDIT_TENANT_MODAL}/:tenant/:propId`}><EditTenantReadyModal/></Route>}
-              {background && <Route path={`${ADD_APPLIANCE_MODAL}/:propId`}><AddApplianceReadyModal/></Route>}
-              {background && <Route path={`${EDIT_APPLIANCE_MODAL}/:appliance`}><EditApplianceReadyModal/></Route>}
+              {background && <Route path={`${ADD_APPLIANCE_MODAL}/:propId/:property`}><AddApplianceReadyModal/></Route>}
+              {background && <Route path={`${EDIT_APPLIANCE_MODAL}/:propID/:appliance`}><EditApplianceReadyModal/></Route>}
 
           </>
       )}/>

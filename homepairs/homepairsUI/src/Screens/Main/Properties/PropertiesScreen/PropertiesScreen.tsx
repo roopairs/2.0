@@ -4,11 +4,8 @@ import {
     withSceneHeader,
 } from 'homepairs-components';
 import { HeaderActions, PropertyListActions } from 'homepairs-redux-actions';
-import { withNavigation } from 'react-navigation';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import { withNavigationRouteHandler, prepareNavigationHandlerComponent } from 'src/utility/NavigationRouterHandler';
-import { Platform } from 'react-native';
-import { withRouter } from 'react-router-dom';
+import { prepareNavigationHandlerComponent } from 'src/utility/NavigationRouterHandler';
 import PropertiesScreenBase, {
     PropertiesScreenStateProps,
     PropertiesScreenDispatchProps,

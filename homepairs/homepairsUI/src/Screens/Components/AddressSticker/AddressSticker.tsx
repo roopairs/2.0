@@ -4,6 +4,7 @@ import { Sticker } from 'homepairs-elements';
 import { FontTheme, ContentWidth, MarginPadding} from 'homepairs-base-styles';
 
 import * as BaseStyles from 'homepairs-base-styles';
+import { defaultProperty } from 'homepairs-images';
 
 export type AddressStickerProps = {
     /**
@@ -14,12 +15,12 @@ export type AddressStickerProps = {
     /**
      * Piece one of the bolden text, represents city.
      */
-    city: string
+    city?: string
 
     /**
      * Piece two of the bolden text, represents state.
      */
-    state: string
+    state?: string
 }
 
 const colors = BaseStyles.LightColorTheme;
@@ -63,9 +64,10 @@ export default function AddressSticker(props: AddressStickerProps) {
     return(
        <Sticker style={styles.container}>
             <Text style={styles.cityStateText}>
-            {city},{" "}{state}{" "} 
+                Parse Address to format correctly
             <Text style={styles.streetText}>/{` ${address}`}</Text>
             </Text>
         </Sticker>
     );
 }
+

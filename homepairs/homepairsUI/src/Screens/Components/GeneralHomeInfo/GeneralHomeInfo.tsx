@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
  */
 export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
     const { property, hasEdit, onClick } = props;
-    const {streetAddress, tenants, bedrooms, bathrooms, city, state} = property;
+    const {address, tenants, bedrooms, bathrooms} = property;
 
     function renderDetailBox(arg0: String, arg1: number) {
         return (
@@ -151,9 +151,9 @@ export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
         <View>
             <View style={styles.container}>
                 <View style={styles.addressContainer}>
-                    <Text style={styles.streetAddress}>{streetAddress}</Text>
+                    <Text style={styles.streetAddress}>{address}</Text>
                     <Text style={styles.cityStateText}>
-                        {city},{" "}{state}
+                        Format address to get city and state.
                     </Text>
                 </View>
                 {renderLivingSpace()}
