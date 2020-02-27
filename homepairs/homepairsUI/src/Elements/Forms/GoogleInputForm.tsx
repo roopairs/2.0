@@ -96,7 +96,7 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
     renderName() {
         const {name, formTitleStyle} = this.props;
         if (name == null) return <></>;
-        return <Text style={formTitleStyle}>{name}</Text>;
+        return <Text testID='autocomplete-text'style={formTitleStyle}>{name}</Text>;
     }
     
     render(){
@@ -118,10 +118,10 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
                 components="country:us" >
                 {({ handleTextChange, locationResults, clearSearch }) => (
                     <React.Fragment key='google autocomplete'>
-                        <View style={containerStyle}>
+                        <View testID='autocomplete-view' style={containerStyle}>
                             {this.renderName()}
                             <TextInput
-                                testID='user-autocomplete-input'
+                                testID='autocomplete-text-input'
                                 style={inputStyle}
                                 underlineColorAndroid="transparent"
                                 autoCapitalize="none"
@@ -133,9 +133,10 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
                                     parentCallBack(text);
                                 }}
                             />
-                            <ScrollView style={locationsContainer}>
+                            <ScrollView testID='autocomplete-scrollview'style={locationsContainer}>
                                 {locationResults.map((el, i) => (
                                 <LocationItem
+                                    testID='autocomplete-location-item'
                                     description={el.description}
                                     key={String(i)}
                                     parentCallBack={parentCallBack}
@@ -144,7 +145,7 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
                                 ))}
                             </ScrollView>
                             <HelperText
-                                testID= 'autcomplete-helper-text'
+                                testID= 'autocomplete-helper-text'
                                 type= 'error'
                                 visible={error}
                                 style={errorStyle}

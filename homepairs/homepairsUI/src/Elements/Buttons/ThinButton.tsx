@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 export type ThinButtonProps = {
+    idTest?: string;
     key?: any;
     name?: String;
     onClick?: () => any;
@@ -36,6 +37,7 @@ export type ThinButtonProps = {
 export default function ThinButton(props: ThinButtonProps) {
     // This function will call the parent callback function.
     const {
+        idTest,
         name,
         onClick,
         onPressIn,
@@ -52,7 +54,7 @@ export default function ThinButton(props: ThinButtonProps) {
     return (
         <View style={containerStyle}>
             <TouchableOpacity
-                testID='click-thin-button'
+                testID={idTest}
                 style={buttonStyle}
                 onPress={handleClick}
                 onPressIn={onPressIn}
@@ -90,6 +92,7 @@ const DefaultThinButtonStyles = StyleSheet.create({
 });
 
 ThinButton.defaultProps = {
+    idTest: 'click-thin-button',
     name: '',
     onClick: () => {},
     onPressIn: () => {},

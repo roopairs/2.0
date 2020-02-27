@@ -27,14 +27,12 @@ describe('General Home Info Test', () => {
         const hasEditTrue = [undefined, null, true];
         const editButtonSpy = jest.fn();
         const expectedStreetAddressText = testProperty.streetAddress;
-        const expectedCityStateText:string = `${testProperty.city}, ${testProperty.state}`;
         const expectedTenantAmount = '5';
         const expectedBedroomAmount = '3';
         const expectedBathroomAmount = '2';
 
         const expectedTexts: string[] = [
             expectedStreetAddressText,
-            expectedCityStateText,
             expectedTenantAmount,
             expectedBedroomAmount,
             expectedBathroomAmount,

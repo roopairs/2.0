@@ -54,7 +54,7 @@ describe('Account Type Radio Button Test', () => {
 
         // Test if the buttons render the proper information
         const tenant = getByTestId('account-radio-tenant');
-        const landlord = getByTestId('account-radio-landlord');
+        const landlord = getByTestId('account-radio-pm');
 
         fireEvent.press(tenant);
         expect(parentCallBackSpy).toHaveBeenCalledTimes(2);
@@ -63,7 +63,7 @@ describe('Account Type Radio Button Test', () => {
 
         fireEvent.press(landlord);
         expect(parentCallBackSpy).toBeCalledTimes(3);
-        expect(parentCallBackSpy).toHaveNthReturnedWith(3, AccountTypes.Landlord);
+        expect(parentCallBackSpy).toHaveNthReturnedWith(3, AccountTypes.PropertyManager);
         expect(resetFormsCallBackSpy).toHaveBeenCalledTimes(2);
     });
 

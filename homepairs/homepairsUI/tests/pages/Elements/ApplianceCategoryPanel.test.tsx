@@ -3,7 +3,7 @@
  * @jest-environment jsdom
  */
 
-import {CategoryPanel, ThinButton} from 'homepairs-elements';
+import {ApplianceCategoryPanel, ThinButton} from 'homepairs-elements';
 import {ApplianceType} from 'homepairs-types';
 import { shallow } from 'enzyme';
 import * as React from 'react';
@@ -16,8 +16,8 @@ jest.mock('homepairs-images');
 describe("Category Panel", () => {
     const testFunc = (appType: ApplianceType) => { return appType;};
     const spyFunc = jest.fn(testFunc);
-    const wrapper = shallow(<CategoryPanel />);
-    const rendered = render(<CategoryPanel parentCallBack={spyFunc} initialCategory={ApplianceType.None}/>);
+    const wrapper = shallow(<ApplianceCategoryPanel />);
+    const rendered = render(<ApplianceCategoryPanel parentCallBack={spyFunc} initialCategory={ApplianceType.None}/>);
 
     it ("Test for proper components", () => {
         expect(wrapper.find(Animated.View)).toHaveLength(1);
@@ -30,7 +30,7 @@ describe("Category Panel", () => {
     it ("Method test", () => {
         const {getByTestId, getByType} = rendered;
         const categoryStrings = strings.applianceInfo.categories;
-        const categoryPanel = getByType(CategoryPanel);
+        const categoryPanel = getByType(ApplianceCategoryPanel);
         const plumbing = getByTestId('click-plumbing');
         const le = getByTestId('click-LE');
         const hvac = getByTestId('click-HVAC');

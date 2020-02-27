@@ -10,16 +10,6 @@ export type AddressStickerProps = {
      * Slightly greyed text to represent street address.
      */
     address: string
-
-    /**
-     * Piece one of the bolden text, represents city.
-     */
-    city: string
-
-    /**
-     * Piece two of the bolden text, represents state.
-     */
-    state: string
 }
 
 const colors = BaseStyles.LightColorTheme;
@@ -59,13 +49,10 @@ const styles = StyleSheet.create({
  * visual. It only takes 3 properties for address, city, and state. 
  * */
 export default function AddressSticker(props: AddressStickerProps) {
-    const {address, state, city} = props;
+    const {address} = props;
     return(
        <Sticker style={styles.container}>
-            <Text style={styles.cityStateText}>
-            {city},{" "}{state}{" "} 
-            <Text style={styles.streetText}>/{` ${address}`}</Text>
-            </Text>
+            <Text style={styles.streetText}>{address}</Text>
         </Sticker>
     );
 }

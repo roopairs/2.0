@@ -2,39 +2,21 @@
  * @jest-environment jsdom
  */
 
-import {InputForm, InputFormProps, renderInputForm} from 'homepairs-elements';
+import {InputForm} from 'homepairs-elements';
 import { shallow} from 'enzyme';
 import * as React from 'react';
 import { View, Text, TextInput} from 'react-native';
 import {fireEvent, render} from 'react-native-testing-library';
 import {HelperText} from 'react-native-paper';
 
-
-const testProps: InputFormProps = {
-    name: null,
-};
-const testProps2: InputFormProps = {
-    name: 'Hi',
-};
-
-class testClass {
-  static reference
-
-  static testRefFunc = (ref:any) => {testClass.reference = ref;};
-}
-
 describe("InputForm", () => {
   const TRUE = true;
   const testfunc = (child:string) => {return child;};
-  const testRefFunc = (ref:any) => {this.inputs.push(ref);};
 
   const spyFunction = jest.fn(testfunc);
-  const spyFunction2 = jest.fn(testClass.testRefFunc);
 
   const wrapper = shallow(<InputForm/>);
   const wrapper2 = shallow(<InputForm name='Test' parentCallBack={spyFunction} secureTextEntry={TRUE}/>);
-  const wrapper3 = shallow(renderInputForm(testProps));
-  const wrapper4 = shallow(renderInputForm(testProps2));
 
   const rendered = render(<InputForm name='Test' parentCallBack={spyFunction} secureTextEntry={TRUE}/>);
   const rendered2 = render(<InputForm name='Test2' testID='error text'/>);
@@ -59,20 +41,12 @@ describe("InputForm", () => {
     expect(wrapper.find(View)).toHaveLength(1);
     expect(wrapper.find(Text)).toHaveLength(0);
     expect(wrapper.find(TextInput)).toHaveLength(1);
+    expect(wrapper.find(HelperText)).toHaveLength(1);
     expect(wrapper2.find(View)).toHaveLength(1);
     expect(wrapper2.find(Text)).toHaveLength(1);
     expect(wrapper2.find(TextInput)).toHaveLength(1);
+    expect(wrapper.find(HelperText)).toHaveLength(1);
   });
-
-  it("Test renderInputForm Helper", () => {
-    expect(wrapper3.find(View)).toHaveLength(1);
-    expect(wrapper3.find(Text)).toHaveLength(0);
-    expect(wrapper3.find(TextInput)).toHaveLength(1);
-    expect(wrapper4.find(View)).toHaveLength(1);
-    expect(wrapper4.find(Text)).toHaveLength(1);
-    expect(wrapper4.find(TextInput)).toHaveLength(1);
-  });
-
 
   it("Method Test: Checks the onClick Method and checks to see if the image was updated", () => {
     const {getByTestId, getByType} = rendered;

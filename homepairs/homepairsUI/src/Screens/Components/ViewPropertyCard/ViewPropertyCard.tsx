@@ -149,7 +149,7 @@ const viewPropertyButtonText = strings.propertiesPage.viewPropertyCardButton;
  */
 export default function ViewPropertyCard(props: ViewPropertyCardProps) {
     const { viewButtonSelectedCallBack, property, propertyIndex, image} = props;
-    const {streetAddress, city, state} = property;
+    const {address} = property;
     
     /**
      * This function is intended to invoke the callback to its parent function. It will return the index of the
@@ -172,8 +172,7 @@ export default function ViewPropertyCard(props: ViewPropertyCardProps) {
                 imageStyle={styles.imageStyle}
                 resizeMode="cover">
                 <View style={styles.propertyAddressContainer}>
-                    <Text style={styles.streetText}>{streetAddress}</Text>
-                        <Text style={styles.cityText}> {city},{" "}{state}</Text>
+                    <Text style={styles.streetText}>{address}</Text>
                 </View>
             </ImageBackground>
         );
