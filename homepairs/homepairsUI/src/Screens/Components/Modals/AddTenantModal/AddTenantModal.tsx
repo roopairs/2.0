@@ -1,18 +1,14 @@
 import React from "react";
 import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions} from "react-native";
-import {ThinButton, Card, InputForm } from 'homepairs-elements';
+import {ThinButton, Card, InputForm, InputFormProps } from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
-import { isEmailSyntaxValid } from 'homepairs-utilities';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { InputFormProps } from 'homepairs-elements';
-import isAlphaCharacterOnly from 'src/utility/SyntaxVerification/AlphaCharacterVerification';
-import isPhoneNumberValid from 'src/utility/SyntaxVerification/PhoneNumberVerification';
+import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid, 
+    NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-utilities';
 
+type Props =  NavigationRouteScreenProps;
 
-type Props =  NavigationStackScreenProps;
-
-type EditTenantState = TenantInfo
+type AddTenantState = TenantInfo
 
 const {width} = Dimensions.get('window');
 const colors = BaseStyles.LightColorTheme;
@@ -55,7 +51,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: BaseStyles.ContentWidth.reg,
         paddingVertical: BaseStyles.MarginPadding.large,
-        flexGrow: 1, // Needed to center the contents of the scroll container
+        flexGrow: Platform.OS === 'web' ? null : 1, // Needed to center the contents of the scroll container
     },
     cardContainer: {
         backgroundColor: 'white',
@@ -139,7 +135,7 @@ const styles = StyleSheet.create({
 });
 
 
-export default class EditTenantModal extends React.Component<Props, EditTenantState> {
+class AddTenantModalBase extends React.Component<Props, AddTenantState> {
     firstNameRef;
 
     lastNameRef;
@@ -147,7 +143,6 @@ export default class EditTenantModal extends React.Component<Props, EditTenantSt
     emailRef;
 
     phoneNumberRef;
-
 
     propertyId : number;
   
@@ -327,3 +322,5 @@ export default class EditTenantModal extends React.Component<Props, EditTenantSt
         </SafeAreaView>);
     }
 }
+
+export default prepareNavigationHandlerComponent(AddTenantModalBase);

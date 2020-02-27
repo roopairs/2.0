@@ -4,14 +4,18 @@ import { MainAppStackType } from 'homepairs-types';
 export const LOGIN = '/authentication/login';
 export const SIGNUP = '/authentication/sign-up';
 export const ROOPAIRS_LOGIN = '/authentication/roopairs-login';
+export const LOGIN_MODAL = '/authentication/logging-in';
+export const CREATE_ACCOUNT_MODAL = '/authentication/creating-account';
+export const ROOPAIRS_LOGIN_MODAL = '/authentication/logging-in-roopairs';
 
 export const PROPERTY_LIST = '/admin/properties';
 export const TENANT_PROPERTY = '/admin/tenant';
 export const PROPERTY = '/admin/property';
 
-export const LOGIN_MODAL = '/authentication/logging-in';
-export const CREATE_ACCOUNT_MODAL = '/authentication/creating-account';
-
+export const ADD_PROPERTY_MODAL = '/admin/properties/add-property';
+export const EDIT_PROPERTY_MODAL = '/admin/property/edit-property';
+export const ADD_TENANT_MODAL = '/admin/property/add-tenant';
+export const EDIT_TENANT_MODAL = '/admin/property/edit-tenant';
 
 /**
  * All keys that can be mapped to any page in the react navigator should 
@@ -72,10 +76,10 @@ export const navigationPages = {
     TenantProperty: TENANT_PROPERTY,
     SingleProperty: PROPERTY,
     // Property Stack Modals 
-    AddNewPropertyModal: 'AddNewPropertyModal',
-    EditPropertyModal: 'EditPropertyModal',
-    AddTenantModal: 'AddTenantModal',
-    EditTenantModal: 'EditTenantModal',
+    AddNewPropertyModal: ADD_PROPERTY_MODAL,
+    EditPropertyModal: EDIT_PROPERTY_MODAL,
+    AddTenantModal: ADD_TENANT_MODAL,
+    EditTenantModal: EDIT_TENANT_MODAL,
     AddApplianceModal: 'AddApplianceModal', 
     EditApplianceModal: 'EditApplianceModal',
 
@@ -92,7 +96,7 @@ export const navigationPages = {
     SignUpScreen: SIGNUP,
 
     // Authentication Modals
-    RoopairsLoggingInModal: LOGIN_MODAL,
+    RoopairsLoggingInModal: ROOPAIRS_LOGIN_MODAL,
     CreatingAccountModal: CREATE_ACCOUNT_MODAL,
     LoggingInModal: LOGIN_MODAL, 
 

@@ -24,19 +24,18 @@ import {
     ApplianceType,
     TenantInfo,
 } from 'homepairs-types';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 import { navigationPages } from 'src/Routes/RouteConstants';
 import axios from 'axios';
 import strings from 'homepairs-strings';
-import {prepareNavigationHandlerComponent } from 'src/utility/NavigationRouterHandler';
+import {prepareNavigationHandlerComponent, NavigationRouteScreenProps } from 'homepairs-utilities';
 
 
 export type DetailedPropertyStateProps = {
     property: Property;
 };
 
-type Props = NavigationStackScreenProps & DetailedPropertyStateProps;
+type Props = NavigationRouteScreenProps & DetailedPropertyStateProps;
 
 const CurrentTenants = prepareNavigationHandlerComponent(CurrentTenantCard);
 const ApplianceInfo = prepareNavigationHandlerComponent(ApplianceInfoBase);
@@ -171,16 +170,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
     };
 
     function navigateModal() {
-        const {streetAddress, city, state, bedrooms, bathrooms, tenants} = property;
-        const oldProp = {
-            address: streetAddress,
-            city,
-            state,
-            bedrooms,
-            bathrooms,
-            tenants, 
-        };
-        navigation.navigate(navigationPages.EditPropertyModal, {oldProp});
+        navigation.navigate(navigationPages.EditPropertyModal, {propId}, true);
     }
 
     function renderImage() {
@@ -207,8 +197,8 @@ export default function DetailedPropertyScreenBase(props: Props) {
                         onClick={navigateModal}/>
                     <ApplianceInfo navigation={navigation} appliances={applianceInfoState}/>
                     <CurrentTenants 
-                    propId={propId}
-                    tenants={tenantInfoState}/>
+                        propId={propId}
+                        tenants={tenantInfoState}/>
                     <ServiceRequestCount property={property}/>
                 </View>
             </ScrollView>
@@ -231,8 +221,3 @@ export default function DetailedPropertyScreenBase(props: Props) {
 DetailedPropertyScreenBase.defaultProps = {
     primaryColorTheme: BaseStyles.LightColorTheme,
 };
-
-DetailedPropertyScreenBase.navigationOptions = screenProps => ({
-    title: screenProps.navigation.getParam('selectedProperty'),
-    path: screenProps.navigation.getParam('selectedProperty'),
-});

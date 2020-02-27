@@ -6,17 +6,16 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, EditPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {HelperText} from 'react-native-paper';
-import {isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
-import { NavigationStackProp, NavigationStackScreenProps } from 'react-navigation-stack';
+import { isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces, NavigationRouteScreenProps, NavigationRouteHandler } from 'homepairs-utilities';
 import { InputFormProps } from 'src/Elements/Forms/InputForm';
 
 export type EditPropertyDispatchProps = {
     onEditProperty: (newProperty: Property, info: EditPropertyState, 
-        displayError: (msg: string) => void, navigation: NavigationStackProp) => void
+        displayError: (msg: string) => void, navigation: NavigationRouteHandler) => void
 }
 
 
-type Props =  NavigationStackScreenProps & EditPropertyDispatchProps & EditPropertyState;
+type Props =  NavigationRouteScreenProps & EditPropertyDispatchProps & EditPropertyState;
 
 type EditState = {
     address: string, 
@@ -75,7 +74,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             alignSelf: 'center',
             width: BaseStyles.ContentWidth.reg,
             paddingVertical: BaseStyles.MarginPadding.large,
-            flexGrow: 1, // Needed to center the contents of the scroll container
+            flexGrow: Platform.OS === 'web' ? null : 1, // Needed to center the contents of the scroll container
         },
         cardContainer: {
             backgroundColor: 'white',
@@ -178,6 +177,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.resetForms = this.resetForms.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
         const {oldProp} = this.props;
+        console.log(oldProp)
         const {streetAddress, city, state, bedrooms, bathrooms, tenants} = oldProp;
         this.state = {
             address: streetAddress, 

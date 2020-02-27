@@ -133,7 +133,7 @@ export default class RoopairsLoginBase extends React.Component<
         const {username, password} = this.state;
         this.resetForms();
         if (this.validateForms(username, password)) {
-            navigation.navigate(navigationPages.RoopairsLoggingInModal);
+            navigation.navigate(navigationPages.RoopairsLoggingInModal, null, true);
             onFetchAccountProfile(username, password, navigation, this.setModalOff);
         }
     } 

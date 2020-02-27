@@ -17,16 +17,7 @@ import axios from 'axios';
 const checkSession = async () => {
     await LoadFonts();
 
-    // TODO: REMOVE THIS AXIOS REQUEST!!!
-    await axios.get('https://homepairs-alpha.herokuapp.com/property/rKV7Lke')
-      .then((response) => {
-            console.log(response);
-        },
-      )
-      .catch(() => {
-      })
-      .finally(() => {});
-     
+
     await AsyncStorage.getItem('session').then(async (sessionToken) => {
         if(isNullOrUndefined(sessionToken)){
             await AsyncStorage.clear();

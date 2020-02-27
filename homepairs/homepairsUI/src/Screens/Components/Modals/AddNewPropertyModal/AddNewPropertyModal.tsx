@@ -1,14 +1,13 @@
 import { connect } from "react-redux";
 import { PropertyListActions } from 'homepairs-redux-actions';
 import { Property, AppState, AddNewPropertyState } from 'homepairs-types';
-import { withNavigation } from "react-navigation";
-import { NavigationStackProp } from "react-navigation-stack";
+import { prepareNavigationHandlerComponent, NavigationRouteHandler } from 'homepairs-utilities';
 import  AddNewPropertyModalBase, { AddNewPropertyDispatchProps} from './AddNewPropertyModalBase';
 
 
 const mapDispatchToProps : (dispatch: any) => AddNewPropertyDispatchProps = (dispatch: any) => ({
     onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, 
-         displayError: (msg: string) => void, navigation: NavigationStackProp) => 
+         displayError: (msg: string) => void, navigation: NavigationRouteHandler) => 
     {
         dispatch(PropertyListActions.postNewProperty(newProperty, info, setInitialState, displayError, navigation));
     },
@@ -21,7 +20,11 @@ function mapStateToProps(state: AppState) : any {
     };
 }
 
-export default withNavigation(connect(
+
+const ConnectedComponent = connect(
   mapStateToProps, 
-  mapDispatchToProps)(AddNewPropertyModalBase));
+  mapDispatchToProps,
+  )(AddNewPropertyModalBase);
+
+export default prepareNavigationHandlerComponent(ConnectedComponent);
 

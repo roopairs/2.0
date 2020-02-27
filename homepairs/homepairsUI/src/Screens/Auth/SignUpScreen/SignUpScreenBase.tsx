@@ -196,7 +196,7 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
         const { password } = this.state;
         this.resetForms();
         if (this.validateForms()) {
-            navigation.navigate(navigationPages.CreatingAccountModal);
+            navigation.navigate(navigationPages.CreatingAccountModal, null, true);
             const details: Account = { ...this.state, roopairsToken: '' };
             generateHomePairsAccount(details, password, this.setModalOff, navigation);     
         }

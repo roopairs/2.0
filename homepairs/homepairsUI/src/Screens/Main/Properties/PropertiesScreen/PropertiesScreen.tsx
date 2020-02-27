@@ -6,7 +6,7 @@ import {
 import { HeaderActions, PropertyListActions } from 'homepairs-redux-actions';
 import { withNavigation } from 'react-navigation';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import { withNavigationRouteHandler } from 'src/utility/NavigationRouterHandler';
+import { withNavigationRouteHandler, prepareNavigationHandlerComponent } from 'src/utility/NavigationRouterHandler';
 import { Platform } from 'react-native';
 import { withRouter } from 'react-router-dom';
 import PropertiesScreenBase, {
@@ -20,7 +20,7 @@ const sceneParams: MainAppStackType = {
     key: 'Properties',
     button: 'Add Property',
     onNavButtonClick: (props:any)=> {
-        props.navigation.navigate(navigationPages.AddNewPropertyModal);
+        props.navigation.navigate(navigationPages.AddNewPropertyModal, null, true);
     },
     doesButtonUseNavigate: true,
 };
@@ -50,8 +50,8 @@ const PropertiesScreen = connect(
     mapStateToProps,
     mapDispatchToProps,
 )(PropertiesScreenBase);
-const NavigablePropertiesScreen = withNavigationRouteHandler(PropertiesScreen);
-const PropertiesScreenBaseWithNavigation = Platform.OS === 'web' ? withRouter(NavigablePropertiesScreen) : withNavigation(NavigablePropertiesScreen);
+
+const PropertiesScreenBaseWithNavigation = prepareNavigationHandlerComponent(PropertiesScreen);
 
 
 /**
@@ -63,6 +63,6 @@ const PropertiesScreenBaseWithNavigation = Platform.OS === 'web' ? withRouter(Na
  * has been injected with a Modal; this gives this component the capability to reveal a smaller page 
  * that allows the user to add a new property to their account. 
  */
-const PropertiesScreenWithHeader = withNavigationRouteHandler(withSceneHeader(PropertiesScreenBaseWithNavigation, sceneParams));
-const PropertiesScreenWithNavigation = Platform.OS === 'web' ? withRouter(PropertiesScreenWithHeader) : withNavigation(PropertiesScreenWithHeader);
+const PropertiesScreenWithHeader = withSceneHeader(PropertiesScreenBaseWithNavigation, sceneParams);
+const PropertiesScreenWithNavigation = prepareNavigationHandlerComponent(PropertiesScreenWithHeader);
 export default PropertiesScreenWithNavigation;

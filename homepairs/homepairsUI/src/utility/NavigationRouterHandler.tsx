@@ -1,12 +1,36 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { NavigationStackProp } from 'react-navigation-stack';
-import { RouteProps, useLocation, withRouter } from 'react-router-dom';
+import { RouteProps, withRouter} from 'react-router-dom';
 import { NavigationSwitchProp, withNavigation } from 'react-navigation';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { Platform } from 'react-native';
 import React from 'react';
 
 type Navigators = NavigationStackProp | RouteProps | NavigationSwitchProp
+
+
+/**
+ * ---------------------------------------------------
+ * Prepare Route Helper
+ * ---------------------------------------------------
+ * A helper function that takes in the parameters passed into the navigator and appends these 
+ * objects into url string. It first sorts the object into alphabetical order and then adds the 
+ * values to the string.This function is intended to be used for react-router-dom objects
+ * @param route -the base route passed 
+ * @param params -values to be appended to the route
+ */
+function prepareRoute(route:string, params?:any){
+    // We need to proccess any potential params passed in via web router. This is achieved through sorting and 
+    // appending the value of the params through the string. All values are sorted in ASCII order. 
+    const passedParams = isNullOrUndefined(params) ? {} : params;
+    const sortedItems = Object.entries(passedParams).sort((a, b) => b[0].localeCompare(a[0]));
+    let fullRoute = `${route}`;
+    sortedItems.forEach(item => {
+        const [, value] = item;
+        fullRoute = `${fullRoute}/${typeof value === 'object' ? JSON.stringify(value) : value}`;
+    });
+    return fullRoute;
+}
 
 /**
  * ---------------------------------------------------
@@ -38,8 +62,8 @@ export default class NavigationRouteHandler{
      * @param {any} props 
      */
     static createFromProps(props:any){
-        const {navigation, history} = props;
-        const navObject = Platform.OS === 'web' ? history : navigation;
+        const {navigation, history, match, location } = props;
+        const navObject = Platform.OS === 'web' ? {history, match, location} : {navigation};
 
         // Case if the navigation has already been converted to a NavigationRouteHandler.
         if(!isNullOrUndefined(navigation) && navigation instanceof NavigationRouteHandler){
@@ -63,11 +87,13 @@ export default class NavigationRouteHandler{
     // TODO: pass in state param to allow user to pass in state for router 
     navigate(route:string, params?:any, asBackground?:boolean){
         if(isNullOrUndefined(this.navigation.navigate)){
-            const {location} = this.navigation;
+            const {location, history} = this.navigation;
+            const fullRoute = prepareRoute(route, params);
+           
             if(asBackground)
-                this.navigation.push(route, {background: location});
+                history.push(fullRoute, {background: location});
             else
-                this.navigation.push(route);
+                history.push(fullRoute);
         } else {
           this.navigation.navigate(route, params);  
         }
@@ -81,17 +107,16 @@ export default class NavigationRouteHandler{
      */
     push(route:string, params?:any, asBackground?:boolean){
         if(isNullOrUndefined(this.navigation.navigate)){
-            this.navigation.push(route);
-        } else if(!isNullOrUndefined(this.navigation.push)){
-            const {location} = this.navigation;
+            const fullRoute = prepareRoute(route, params);
+            const {location, history} = this.navigation;
             if(asBackground){
-                this.navigation.push(route, {background: location});
+                history.push(fullRoute, {background: location});
             }
             else{
-                this.navigation.push(route);
+                history.push(fullRoute);
             }
-            this.navigation.push(route);
-
+        } else if(!isNullOrUndefined(this.navigation.push)){
+            this.navigation.push(route, {params});
         } else { // TODO: Might want to throw error instead 
             this.navigation.navigate(route);
         }
@@ -101,6 +126,10 @@ export default class NavigationRouteHandler{
      * Invokes the goBackFunction. All possible router objects have built in goBack Functions. 
      */
     goBack(){
+        if(isNullOrUndefined(this.navigation.navigate)){
+            this.navigation.history.goBack();
+            return;
+        }
         this.navigation.goBack();
     }
 
@@ -114,10 +143,27 @@ export default class NavigationRouteHandler{
         if(!isNullOrUndefined(this.navigation.pop)){
             (this.navigation as NavigationStackProp).pop(amount);
         } else if(isNullOrUndefined(this.navigation.navigate)){
-            (this.navigation as RouteProps).go(amount * -1);
+            (this.navigation.history as RouteProps).go(amount * -1);
         } else { // TODO: Might want to throw error instead 
             console.log('Error: Will not call prop on an undefined function. Most likely you are attempting to pop a navigationSwitch object');
         }
+    }
+
+    /**
+     * Retrieves a value from the navigation state or url. This is initally passed before navigation
+     * @param {string} param -key of the parameter stored 
+     */
+    getParam(param:string){
+        if(!isNullOrUndefined(this.navigation.navigate))
+            return this.navigation.getParam(param);
+
+        let value = this.navigation.match.params[param];
+        try{
+            value = JSON.parse(value);
+        }catch(error){
+            console.log('This is not a valid object');
+        }
+        return value;
     }
 }
 

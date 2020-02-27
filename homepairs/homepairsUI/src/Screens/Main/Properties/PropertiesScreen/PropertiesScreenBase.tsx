@@ -41,17 +41,20 @@ export default class PropertiesScreenBase extends React.Component<PropertiesScre
     }
 
     navigateToDetailedProperty(index: number) {
-        const {navigation, onSelectProperty, onRevealGoBack} = this.props;
+        const {navigation, onSelectProperty, onRevealGoBack, propertyState} = this.props;
+        const {properties} = propertyState;
+
         onSelectProperty(index);
         onRevealGoBack(true);
-        navigation.push(navigationPages.SingleProperty);
+        console.log(`Navigationg to Detailed Property: ${properties[index].propId}`);
+        navigation.push(navigationPages.SingleProperty, {propId: properties[index].propId});
     }
 
     render() {
         const { propertyState} = this.props;
         const {properties} = propertyState;
         let nextIndex = 0;
-        return properties.map(property => {
+        const PropertyCards = properties.map(property => {
             const curIndex = nextIndex;
             nextIndex += 1;
             return (
@@ -63,5 +66,9 @@ export default class PropertiesScreenBase extends React.Component<PropertiesScre
                 />
             );
         });
+
+        return (
+            <>{PropertyCards}</>
+        );
     }
 }

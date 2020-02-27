@@ -50,7 +50,7 @@ export { default as EditApplianceModal } from './Modals/EditApplianceModal/EditA
 export { default as EditApplianceModalBase } from './Modals/EditApplianceModal/EditApplianceModalBase';
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
 export { default as CurrentTenantCard} from './CurrentTenantCard/CurrentTenantCard';
-export { default as EditTenantModal} from './Modals/EditTenantModal/EditTenantModal';
+export { default as EditTenantModal} from './Modals/EditTenantModal/EditTenantModalBase';
 export {default as AddTenantModal} from './Modals/AddTenantModal/AddTenantModal';
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows
