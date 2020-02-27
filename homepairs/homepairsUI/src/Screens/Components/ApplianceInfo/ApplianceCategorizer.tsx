@@ -1,6 +1,6 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text, View } from 'react-native';
-import { Panel } from 'homepairs-elements';
+import { AppliancePanel } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import * as BaseStyles from 'homepairs-base-styles';
 import { Appliance } from 'homepairs-types';
@@ -83,7 +83,7 @@ export default function ApplianceCategorizer(props: Props) {
                     <Text style={styles.categoryText}>{locationKey}</Text>
                     {value.map(app => {
                         return (
-                            <Panel
+                            <AppliancePanel
                                 hasButton={buttonCheck}
                                 onEditApplianceModal={onEditApplianceModal}
                                 key={app.applianceId.toString()}

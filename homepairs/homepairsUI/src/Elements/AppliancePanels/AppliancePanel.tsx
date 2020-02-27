@@ -133,7 +133,7 @@ function setStyles() {
     });
 }
 
-export default class Panel extends React.Component<Props, PanelState> {
+export default class AppliancePanel extends React.Component<Props, PanelState> {
     styles;
 
     icons;

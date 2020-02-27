@@ -94,7 +94,7 @@ function setStyles() {
     });
 }
 
-export default class CategoryPanel extends React.Component<CategoryPanelProps, PanelState> {
+export default class ApplianceCategoryPanel extends React.Component<CategoryPanelProps, PanelState> {
     styles;
 
     icons;

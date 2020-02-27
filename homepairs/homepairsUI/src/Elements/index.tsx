@@ -23,8 +23,8 @@
 
 import { InputFormProps as IFP, renderInputForm } from './Forms/InputForm';
 import { ThinButtonProps as TBP} from './Buttons/ThinButton';
-import { PanelProps as PP} from './Panel/Panel';
-import { CategoryPanelProps as CPP} from './Panel/CategoryPanel';
+import { PanelProps as PP} from './AppliancePanels/AppliancePanel';
+import { CategoryPanelProps as CPP} from './AppliancePanels/ApplianceCategoryPanel';
 import { ServiceRequestButtonProps as SRBP} from './Buttons/ServiceRequestButton';
 import { CardProps as CP} from './Cards/Card';
 import { StickerProps as SP} from './Stickers/Sticker';
@@ -36,8 +36,8 @@ export {default as LoginButton} from './Buttons/LoginButton';
 export {default as Card } from './Cards/Card';
 export {default as Sticker} from './Stickers/Sticker';
 export {default as HamburgerButton} from './Buttons/HamburgerButton';
-export {default as Panel} from './Panel/Panel';
-export {default as CategoryPanel} from './Panel/CategoryPanel';
+export {default as AppliancePanel} from './AppliancePanels/AppliancePanel';
+export {default as ApplianceCategoryPanel} from './AppliancePanels/ApplianceCategoryPanel';
 export {default as ServiceRequestButton} from './Buttons/ServiceRequestButton';
 
 /** A hack that works when exporting types */

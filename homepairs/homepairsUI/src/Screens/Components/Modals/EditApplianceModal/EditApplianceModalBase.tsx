@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions, Text } from 'react-native';
-import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm, CategoryPanel } from 'homepairs-elements';
+import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm, ApplianceCategoryPanel } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance, ApplianceType } from 'homepairs-types';
@@ -382,7 +382,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     >
                     <Text style={this.inputFormStyle.formTitle}>{editApplianceStrings.category}</Text>
-                    <CategoryPanel initialCategory={category} parentCallBack={this.getFormCategory}/>
+                    <ApplianceCategoryPanel initialCategory={category} parentCallBack={this.getFormCategory}/>
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
                     {ThinButton(this.submitButton)}

@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions, Text } from 'react-native';
-import { ThinButton, ThinButtonProps, Card, Panel } from 'homepairs-elements';
+import { ThinButton, ThinButtonProps, Card, AppliancePanel } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions} from 'homepairs-types';
@@ -180,7 +180,7 @@ export default class ServiceRequestModalBase extends React.Component<Props> {
                 </View>
                 <View style={this.styles.subContainer}>
                     <Text style={this.styles.formTitle}>{serviceRequestStrings.appliance}</Text>
-                    <Panel hasButton={false} appliance={this.serviceRequest.appliance} />
+                    <AppliancePanel hasButton={false} appliance={this.serviceRequest.appliance} />
                 </View>
             </View>            
         );
