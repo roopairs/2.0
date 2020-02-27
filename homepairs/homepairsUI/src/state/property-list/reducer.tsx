@@ -2,8 +2,6 @@ import {
     PropertyListState,
     PropertyListAction,
     AddPropertyAction,
-    AddApplianceAction, 
-    UpdateApplianceAction,
     RemovePropertyAction,
     UpdatePropertyAction,
     FetchPropertyAction,

@@ -49,9 +49,12 @@ export { default as AddApplianceModalBase } from './Modals/AddApplianceModal/Add
 export { default as EditApplianceModal } from './Modals/EditApplianceModal/EditApplianceModal';
 export { default as EditApplianceModalBase } from './Modals/EditApplianceModal/EditApplianceModalBase';
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
+export { default as ServiceRequestModal} from './Modals/ServiceRequestModal/ServiceRequestModal';
+export { default as ServiceRequestModalBase} from './Modals/ServiceRequestModal/ServiceRequestModalBase';
 export { default as CurrentTenantCard} from './CurrentTenantCard/CurrentTenantCard';
 export { default as EditTenantModal} from './Modals/EditTenantModal/EditTenantModal';
-export {default as AddTenantModal} from './Modals/AddTenantModal/AddTenantModal';
+export { default as AddTenantModal} from './Modals/AddTenantModal/AddTenantModal';
+export { default as LocationItem} from './LocationItem/LocationItem';
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows
  * singular exporting for each module. This is a simple workaround.

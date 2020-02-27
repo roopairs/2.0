@@ -1,17 +1,16 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { StyleSheet, Text, View} from 'react-native';
-import { Panel } from 'homepairs-elements';
+import { StyleSheet, Text, View } from 'react-native';
+import { AppliancePanel } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import * as BaseStyles from 'homepairs-base-styles';
 import { Appliance } from 'homepairs-types';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
-
 
 type ApplianceCategorizerProps = {
-    appliances: Appliance[],
-}
+    appliances: Appliance[];
+    onEditApplianceModal?: (appliance: Appliance) => any;
+};
 
-type Props = ApplianceCategorizerProps & NavigationStackScreenProps;
+type Props = ApplianceCategorizerProps;
 
 function setStyles(colorTheme?: BaseStyles.ColorTheme) {
     const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;
@@ -43,34 +42,38 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
     });
 }
 
-
 export default function ApplianceCategorizer(props: Props) {
-
-    const {appliances, navigation} = props;
+    const { appliances, onEditApplianceModal } = props;
     const styles = setStyles();
 
-    const locations : string[] = [];
+    const locations: string[] = [];
 
-    const categories : Map<string, Appliance[]> = new Map();
+    const categories: Map<string, Appliance[]> = new Map();
 
     const finalApps = [];
 
     function findCategories() {
-        appliances.forEach((app) => {
-            const {location} = app;
+        appliances.forEach(app => {
+            const { location } = app;
             if (!locations.includes(location.toUpperCase())) {
                 locations.push(location.toUpperCase());
             }
         });
-    };
+    }
 
     function categorizeAppliances() {
-        locations.forEach((homeLocation) => {
-            categories.set(homeLocation, [...appliances].filter((app) => (homeLocation === app.location.toUpperCase())));
+        locations.forEach(homeLocation => {
+            categories.set(
+                homeLocation,
+                [...appliances].filter(
+                    app => homeLocation === app.location.toUpperCase(),
+                ),
+            );
         });
     }
 
     function categorize() {
+        const buttonCheck = true;
         findCategories();
         categorizeAppliances();
         categories.forEach((value, locationKey) => {
@@ -78,20 +81,31 @@ export default function ApplianceCategorizer(props: Props) {
             finalApps.push(
                 <View key={key} style={styles.categoryContainer}>
                     <Text style={styles.categoryText}>{locationKey}</Text>
-                    {value.map((app) => {
-                        return <Panel navigation={navigation} key={app.applianceId.toString()} appliance={app}/>;
+                    {value.map(app => {
+                        return (
+                            <AppliancePanel
+                                hasButton={buttonCheck}
+                                onEditApplianceModal={onEditApplianceModal}
+                                key={app.applianceId.toString()}
+                                appliance={app}
+                            />
+                        );
                     })}
-                </View>);
+                </View>,
+            );
         });
         return finalApps;
-    };
+    }
 
     return (
         <View style={styles.container}>
-            {appliances.length === 0 ? 
-                (<Text style={styles.emptyText}>No appliances have been added</Text>)
-                : <>{categorize()}</> 
-            }
+            {appliances.length === 0 ? (
+                <Text style={styles.emptyText}>
+                    No appliances have been added
+                </Text>
+            ) : (
+                <>{categorize()}</>
+            )}
         </View>
     );
 }

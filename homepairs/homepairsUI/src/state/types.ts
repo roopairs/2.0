@@ -14,10 +14,8 @@ export type TenantInfo = {
 }
 
 export type Property = {
-    propId: number,
-    streetAddress: string, 
-    city: string, 
-    state: string,
+    propId: string, 
+    address: string, 
     tenants: number,
     bedrooms: number,
     bathrooms: number,
@@ -30,7 +28,6 @@ export type PropertyListState =
     appliances: Appliance[],
     propertyManager?: Contact,
 };
-
 
 export type AddPropertyAction = {
     type: string;
@@ -120,8 +117,7 @@ export type Account = {
     firstName: string;
     lastName: string;
     email: string;
-    streetAddress: string;
-    city: string;
+    address: string;
     roopairsToken: string;
 };
 
@@ -160,6 +156,18 @@ export type Contact = {
 /* *-------------------Account Types-------------------* */
 
 /* *-------------------Service Types-------------------* */
+
+export type ServiceRequest = {
+    address: string, 
+    technician: string, 
+    startDate: string, 
+    poc: string, 
+    pocName: string, 
+    companyName: string, 
+    details: string, 
+    appliance: Appliance, 
+};
+
 export type ServiceProvider = {
     // TODO: Define attributes for service Provider
     name: string;
@@ -385,7 +393,6 @@ enum HOMEPAIRS_ACCOUNT_KEYS {
     MANID = 'manId',
     PASSWORD = 'password',
     ADDRESS = 'streetAddress',
-    CITY = 'city',
     PLACE = 'place',
     PROPID = 'propId',
     TENANTID = 'tenantID',
@@ -397,20 +404,15 @@ enum HOMEPAIRS_LOGIN_STATUS {
 }
 
 enum HOMEPAIRS_PROPERTY_KEYS {
-    PROPERTYID = 'propID',
+    PROPERTYID = 'propId',
     ADDRESS = 'streetAddress',
-    CITY = 'city',
-    STATE = 'state',
     TENANTS = 'maxTenants',
     BEDROOMS = 'numBed',
     BATHROOMS = 'numBath',
-    PROPERTYID = 'propId'
 }
 
 export enum HomepairsPropertyAttributes {
     ADDRESS = 'streetAddress',
-    CITY = 'city',
-    STATE = 'state',
     TENANTS = 'tenants',
     BEDROOMS = 'bedrooms',
     BATHROOMS = 'bathrooms',
@@ -428,6 +430,7 @@ export const HomePairsResponseKeys = {
     STATUS_RESULTS: HOMEPAIRS_LOGIN_STATUS,
     ERROR: 'error',
     ID: 'id',
+    PROPID: 'propId',
 };
 
 export type DarkModeProperties = {

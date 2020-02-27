@@ -84,8 +84,7 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
         firstName: profile[accountKeys.FIRSTNAME],
         lastName: profile[accountKeys.LASTNAME],
         email: profile[accountKeys.EMAIL],
-        streetAddress: profile[accountKeys.ADDRESS], 
-        city: profile[accountKeys.CITY],
+        address: profile[accountKeys.ADDRESS], 
         roopairsToken: accountJSON[responseKeys.ROOPAIRS_TOKEN],
     };
     if(profile[accountKeys.TENANTID] == null){
@@ -123,10 +122,10 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
  * @param {NavigationPropType} navigation - navigator passed from the component
  * @param {modalSetOffCallBack} modalSetOffCallBack -optional callback */
 export const fetchAccount = (
-    Email: string, Password: string, navigation: NavigationPropType, modalSetOffCallBack: (error?:String) => void = (error:String) => {}) => 
+    Email: string, Password: string, navigation: NavigationPropType, modalSetOffCallBack: (error?:String) => void = () => {}) => 
     {return async (dispatch: (arg0: any) => void) => {
         // TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
-        await axios.post('https://homepairs-alpha.herokuapp.com/API/login/', {
+        await axios.post('https://homepairs-alpha.herokuapp.com/login/', {
             email: Email,
             password: Password,
           })
@@ -172,8 +171,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
         email: accountDetails.email, 
-        streetAddress: accountDetails.streetAddress, 
-        city: accountDetails.city,
+        streetAddress: accountDetails.address, 
         password, 
       })
       .then((response) => {

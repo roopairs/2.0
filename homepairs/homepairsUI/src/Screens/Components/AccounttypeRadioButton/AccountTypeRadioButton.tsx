@@ -154,8 +154,8 @@ export default class AccountTypeRadioButton extends React.Component<AccountTypeR
 
  render() {
    const {propertyManagerSelected} = this.state;
-   const leftButtonStyle = landLordSelected ? styles.unselectedLeftButton : styles.selectedLeftButton;
-   const rightButtonStyle = landLordSelected ? styles.selectedRightButton : styles.unselectedRightButton;
+   const leftButtonStyle = propertyManagerSelected ? styles.unselectedLeftButton : styles.selectedLeftButton;
+   const rightButtonStyle = propertyManagerSelected ? styles.selectedRightButton : styles.unselectedRightButton;
    return (
      <>
      <View style={styles.titleContainer}>
@@ -169,7 +169,7 @@ export default class AccountTypeRadioButton extends React.Component<AccountTypeR
           style={leftButtonStyle}
           onPress={this.onPressTenant}>
           <Text style={propertyManagerSelected ? 
-            style.unselectedText : style.selectedText}>
+            styles.unselectedText : styles.selectedText}>
               {accountRadioStrings.tenant}
           </Text>
         </TouchableOpacity>
@@ -178,7 +178,7 @@ export default class AccountTypeRadioButton extends React.Component<AccountTypeR
           style={rightButtonStyle}
           onPress={this.onPressPropertyManager}>
           <Text style={propertyManagerSelected ? 
-            style.selectedText : style.unselectedText }>
+            styles.selectedText : styles.unselectedText }>
               {accountRadioStrings.propertyManager}
 
           </Text>

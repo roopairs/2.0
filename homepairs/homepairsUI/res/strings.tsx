@@ -13,6 +13,16 @@ const strings = {
         title: 'Service Requests',
         button: 'New Request',
     },
+    serviceRequestModal: {
+        title: 'Active Service Request',
+        address: 'ADDRESS', 
+        serviceType: 'SERVICE TYPE',
+        technician: 'ASSIGNED TECHNICIAN', 
+        startDate: 'STARTED ON',
+        poc: 'POINT OF CONTACT', 
+        details: 'DETAILS', 
+        appliance: 'APPLIANCE',
+    },
     connectAccountPage: {
         title: 'Account Settings',
         tokenFailed: 'failure',

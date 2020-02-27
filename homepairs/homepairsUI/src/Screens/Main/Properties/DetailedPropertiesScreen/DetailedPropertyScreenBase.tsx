@@ -8,6 +8,7 @@ import {
     StyleSheet,
     ImageProps,
 } from 'react-native';
+import { ServiceRequestButton } from 'homepairs-elements';
 import { defaultProperty } from 'homepairs-images';
 import {
     GeneralHomeInfo,
@@ -25,6 +26,7 @@ import {
     Appliance, 
     ApplianceType,
     TenantInfo,
+    ServiceRequest,
 } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -33,7 +35,6 @@ import { navigationKeys, navigationPages } from 'src/Routes/RouteConstants';
 import { withNavigation } from 'react-navigation';
 import axios from 'axios';
 import strings from 'homepairs-strings';
-
 
 export type DetailedPropertyStateProps = {
     property: Property;
@@ -126,6 +127,29 @@ async function getTenantInfo(propId: number){
 }
 */
 
+const fakeApp: Appliance = {
+    applianceId: 1, 
+    category: ApplianceType.Plumbing, 
+    appName: 'Oven', 
+    manufacturer: 'Vulcan Equipment', 
+    modelNum: 123, 
+    serialNum: 432, 
+    location: 'Bathroom',
+};
+
+const fakeSR : ServiceRequest = {
+    address: '123 Service Request', 
+    city: 'Service', 
+    state: 'SR', 
+    technician: 'Johnny White', 
+    startDate: new Date().toString(),
+    poc: '(805)-123-4321', 
+    pocName: 'Sally Jones', 
+    companyName: 'Fix N Fix', 
+    details: 'The oven is not heating properly. It was working fine last week, but we have not been able to get it to light since then.', 
+    appliance: fakeApp,
+};
+
 export default function DetailedPropertyScreenBase(props: Props) {
     const { property, navigation } = props;
     const [tenantInfoState, setTenantInfo] = useState([]);
@@ -147,7 +171,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
 
     useEffect(() => {
         const fetchTenantsAndAppliances = async () => {
-            const result = await axios.get('https://homepairs-alpha.herokuapp.com/API/property/list/');
+            const result = await axios.get(`https://homepairs-alpha.herokuapp.com/property/${property.propId}/`);
             const {tenants, appliances} = result.data;
             const tenantInfo: TenantInfo[] = [];
             const applianceInfo: Appliance[] = [];
@@ -197,8 +221,20 @@ export default function DetailedPropertyScreenBase(props: Props) {
             bedrooms,
             bathrooms,
             tenants, 
-        }
+        };
         navigation.navigate(navigationPages.EditPropertyModal, {oldProp});
+    }
+
+    function openAddApplianceModal() {
+        navigation.push(navigationPages.AddApplianceModal);
+    }
+
+    function openServiceRequestModal(serviceRequest: ServiceRequest) {
+        navigation.navigate(navigationPages.ServiceRequestModal, {serviceRequest});
+    }
+
+    function openEditApplianceModal(appliance: Appliance) {
+        navigation.navigate(navigationPages.EditApplianceModal, {appliance});
     }
 
     function renderImage() {
@@ -220,10 +256,14 @@ export default function DetailedPropertyScreenBase(props: Props) {
                             {renderImage()}
                         </View>
                     </View>
+                    <ServiceRequestButton onClick={openServiceRequestModal} serviceRequest={fakeSR} />
                     <GeneralHomeInfo
                         property={property}
                         onClick={navigateModal}/>
-                    <ApplianceInfo navigation={navigation} appliances={applianceInfoState}/>
+                    <ApplianceInfo 
+                        onAddApplianceModal={openAddApplianceModal} 
+                        onEditApplianceModal={openEditApplianceModal}
+                        appliances={applianceInfoState}/>
                     <CurrentTenants 
                     propertyId={1 /**TODO: get property id from key when backend has support this */} 
                     tenants={tenantInfoState}/>

@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions, View } from "react-native";
-import {ThinButton, ThinButtonProps, Card, InputForm } from 'homepairs-elements';
+import {ThinButton, ThinButtonProps, Card, InputForm, GoogleInputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, EditPropertyState } from 'homepairs-types';
@@ -20,8 +20,6 @@ type Props =  NavigationStackScreenProps & EditPropertyDispatchProps & EditPrope
 
 type EditState = {
     address: string, 
-    city: string,
-    state: string, 
     bedrooms: string, 
     bathrooms: string, 
     tenants: string,
@@ -125,10 +123,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
 
     addressRef;
 
-    stateRef;
-
-    cityRef;
-
     bedRef;
 
     bathRef;
@@ -169,8 +163,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         super(props);
         this.inputFormStyle = setInputStyles(null);
         this.getFormAddress = this.getFormAddress.bind(this);
-        this.getFormCity = this.getFormCity.bind(this);
-        this.getFormState = this.getFormState.bind(this);
         this.getFormNumBed = this.getFormNumBed.bind(this);
         this.getFormNumBath = this.getFormNumBath.bind(this);
         this.getFormMaxTenants = this.getFormMaxTenants.bind(this);
@@ -178,11 +170,9 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.resetForms = this.resetForms.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
         const {oldProp} = this.props;
-        const {streetAddress, city, state, bedrooms, bathrooms, tenants} = oldProp;
+        const {address, bedrooms, bathrooms, tenants} = oldProp;
         this.state = {
-            address: streetAddress, 
-            city, 
-            state, 
+            address, 
             bedrooms: bedrooms.toString(), 
             bathrooms: bathrooms.toString(),
             tenants: tenants.toString(),
@@ -191,8 +181,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
 
         };
         this.addressRef = React.createRef();
-        this.stateRef = React.createRef();
-        this.cityRef = React.createRef();
         this.bedRef = React.createRef();
         this.bathRef = React.createRef();
         this.tenantRef = React.createRef();
@@ -200,14 +188,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
 
     getFormAddress(childData : string) {
         this.setState({address: childData});
-    }
-
-    getFormCity(childData : string) {
-        this.setState({city: childData});
-    }
-
-    getFormState(childData : string) {
-        this.setState({state: childData});
     }
 
     getFormNumBed(childData : string) {
@@ -224,9 +204,9 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
 
     setInitialState() {
         const {oldProp} = this.props;
-        const {streetAddress: address, city, state, bedrooms, bathrooms, tenants} = oldProp;
+        const {address, bedrooms, bathrooms, tenants} = oldProp;
         this.setState({
-            address, city, state, 
+            address,
             bedrooms: bedrooms.toString(), 
             bathrooms: bathrooms.toString(),
             tenants: tenants.toString(),
@@ -234,18 +214,10 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
     }
 
     validateForms() {
-        const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
+        const {address, bedrooms, bathrooms, tenants} = this.state;
         let check = true;
         if (isEmptyOrSpaces(address)) {
             this.addressRef.current.setError(true);
-            check = false;
-        } 
-        if (isEmptyOrSpaces(city)) {
-            this.cityRef.current.setError(true);
-            check = false;
-        } 
-        if (isEmptyOrSpaces(state)) {
-            this.stateRef.current.setError(true);
             check = false;
         } 
         if (!isPositiveWholeNumber(bedrooms)) {
@@ -265,8 +237,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
 
     resetForms() {
         this.addressRef.current.setError(false);
-        this.cityRef.current.setError(false);
-        this.stateRef.current.setError(false);
         this.tenantRef.current.setError(false);
         this.bedRef.current.setError(false);
         this.bathRef.current.setError(false);
@@ -278,12 +248,12 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
 
     clickSubmitButton() {
         const {email, navigation, onEditProperty, index, oldProp, roopairsToken} = this.props;
-        const {address, state, city, bedrooms, bathrooms, tenants} = this.state;
+        const {address, bedrooms, bathrooms, tenants} = this.state;
         this.resetForms();
         if (this.validateForms()) {
             const newProperty : Property = {
                 propId: oldProp.propId,
-                streetAddress: address, state, city, 
+                address,
                 bedrooms: Number(bedrooms), 
                 bathrooms: Number(bathrooms), 
                 tenants: Number(tenants),
@@ -294,38 +264,8 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
     }
 
     renderInputForms() {
-        const {address, city, state, bedrooms, bathrooms, tenants} = this.state;
-        const inputForms: InputFormProps[]  = [
-            {
-                ref: this.addressRef,
-                key: inputFormStrings.address,
-                name: inputFormStrings.address,
-                parentCallBack: this.getFormAddress,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-                value: address,
-                errorMessage: 'Address cannot be empty',
-            }, 
-            {
-                ref: this.cityRef,
-                key: inputFormStrings.city,
-                name: inputFormStrings.city,
-                parentCallBack: this.getFormCity,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-                value: city,
-                errorMessage: 'City cannot be empty',
-            }, 
-            {
-                ref: this.stateRef,
-                key: inputFormStrings.state,
-                name: inputFormStrings.state,
-                parentCallBack: this.getFormState,
-                formTitleStyle: this.inputFormStyle.formTitle,
-                inputStyle: this.inputFormStyle.input,
-                value: state, 
-                errorMessage: 'State cannot be empty',
-            }, 
+        const {bedrooms, bathrooms, tenants} = this.state;
+        const inputForms: InputFormProps[]  = [ 
             {
                 ref: this.tenantRef,
                 key: inputFormStrings.maxTenants,
@@ -379,6 +319,23 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         });
     }
 
+    renderAddressForm() {
+        const {address} = this.state;
+
+        return (
+            <GoogleInputForm 
+                ref={this.addressRef}
+                key={inputFormStrings.address}
+                name={inputFormStrings.address}
+                parentCallBack={this.getFormAddress}
+                formTitleStyle={this.inputFormStyle.formTitle}
+                inputStyle={this.inputFormStyle.input}
+                value={address}
+                errorMessage='Address cannot be empty'        
+            />
+        );
+    }
+
     renderError () {
         const {errorMsg, errorCheck} = this.state;
         return <View style={{alignSelf:'center'}}>
@@ -407,6 +364,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                         this.resetForms();
                     }}
                     >
+                    {this.renderAddressForm()}
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
                     {ThinButton(this.submitButton)}
