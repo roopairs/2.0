@@ -6,15 +6,16 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
 import { ApplianceCategorizer } from 'homepairs-components';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
+import {NavigationRouteScreenProps} from 'homepairs-utilities';
 import { navigationPages } from '../../../Routes/RouteConstants';
 
 
 export type ApplianceInfoProps = {
     appliances?: Appliance[],
+    propId: string,
 }
 
-type Props = ApplianceInfoProps & NavigationStackScreenProps;
+type Props = ApplianceInfoProps & NavigationRouteScreenProps;
 
 const applianceInfoStrings = strings.applianceInfo;
 
@@ -88,6 +89,7 @@ export default function ApplianceInfo(props: Props) {
     const {
         navigation,
         appliances,
+        propId,
     } = props;
 
     const styles = setStyles();
@@ -96,7 +98,7 @@ export default function ApplianceInfo(props: Props) {
         name: applianceInfoStrings.button.title,
         buttonStyle: styles.editButton,
         buttonTextStyle: styles.editButtonText,
-        onClick: () => navigation.push(navigationPages.AddApplianceModal),
+        onClick: () => navigation.push(navigationPages.AddApplianceModal, {propId}, true),
     };
 
     return (

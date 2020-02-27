@@ -16,6 +16,13 @@ export const ADD_PROPERTY_MODAL = '/admin/properties/add-property';
 export const EDIT_PROPERTY_MODAL = '/admin/property/edit-property';
 export const ADD_TENANT_MODAL = '/admin/property/add-tenant';
 export const EDIT_TENANT_MODAL = '/admin/property/edit-tenant';
+export const ADD_APPLIANCE_MODAL = '/admin/property/add-appliance';
+export const EDIT_APPLIANCE_MODAL = '/admin/property/edit-appliance';
+
+
+export const SERVICE_REQUEST = '/admin/service-requests/dashboard';
+export const NEW_SERVICE_REQUEST = '/admin/service-requests/new-service-requests';
+export const ACCOUNT_SETTINGS = '/admin/account-settings/dashboard';
 
 /**
  * All keys that can be mapped to any page in the react navigator should 
@@ -80,15 +87,15 @@ export const navigationPages = {
     EditPropertyModal: EDIT_PROPERTY_MODAL,
     AddTenantModal: ADD_TENANT_MODAL,
     EditTenantModal: EDIT_TENANT_MODAL,
-    AddApplianceModal: 'AddApplianceModal', 
-    EditApplianceModal: 'EditApplianceModal',
+    AddApplianceModal: ADD_APPLIANCE_MODAL, 
+    EditApplianceModal: EDIT_APPLIANCE_MODAL,
 
     // Service Request Pages
-    ServiceRequestScreen: 'ServiceRequestScreen',
-    NewRequest: 'NewRequest',
+    ServiceRequestScreen: SERVICE_REQUEST,
+    NewRequest: NEW_SERVICE_REQUEST,
 
     // Account Settings Pages 
-    AccountSettings: 'AccountSettings', 
+    AccountSettings: ACCOUNT_SETTINGS, 
 
     // Authentication Pages
     LoginScreen: LOGIN,

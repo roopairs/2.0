@@ -5,8 +5,7 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance, ApplianceType } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isPositiveWholeNumber, isEmptyOrSpaces} from 'homepairs-utilities';
-import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
+import {isPositiveWholeNumber, isEmptyOrSpaces, NavigationRouteHandler, NavigationRouteScreenProps} from 'homepairs-utilities'; 
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
@@ -14,10 +13,10 @@ import {FontTheme} from 'homepairs-base-styles';
 
 export type EditApplianceDispatchProps = {
     onEditAppliance: (newAppliance: Appliance,
-         displayError: (msg: string) => void, navigation: NavigationStackProp) => void
+         displayError: (msg: string) => void, navigation: NavigationRouteHandler) => void
 }
 
-type Props = NavigationStackScreenProps &
+type Props = NavigationRouteScreenProps &
     EditApplianceDispatchProps;
 
 type EditState = {
@@ -75,7 +74,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             alignSelf: 'center',
             width: BaseStyles.ContentWidth.reg,
             paddingVertical: BaseStyles.MarginPadding.large,
-            flexGrow: 1, // Needed to center the contents of the scroll container
+            flexGrow: Platform.OS === 'web' ? null : 1, // Needed to center the contents of the scroll container for mobile 
         },
         cardContainer: {
             backgroundColor: 'white',

@@ -13,8 +13,9 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
 import { upArrow, downArrow, trash } from 'homepairs-images';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
+import {NavigationRouteScreenProps} from 'homepairs-utilities';
 import { navigationPages } from '../../Routes/RouteConstants';
+
 
 export type PanelProps = {
     key?: string;
@@ -28,7 +29,7 @@ export type PanelState = {
     maxHeight: number;
 };
 
-type Props = PanelProps & NavigationStackScreenProps;
+type Props = PanelProps & NavigationRouteScreenProps;
 
 const initialState: PanelState = {
     expanded: false,
@@ -154,7 +155,7 @@ export default class Panel extends React.Component<Props, PanelState> {
         },
         onClick: () => {
             const {navigation, appliance}= this.props;
-            navigation.navigate(navigationPages.EditApplianceModal, {appliance});
+            navigation.navigate(navigationPages.EditApplianceModal, {appliance}, true);
         },
     };
 

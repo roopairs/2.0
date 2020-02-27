@@ -46,7 +46,7 @@ export default class PropertiesScreenBase extends React.Component<PropertiesScre
 
         onSelectProperty(index);
         onRevealGoBack(true);
-        console.log(`Navigationg to Detailed Property: ${properties[index].propId}`);
+        console.log(`Navigation to Detailed Property: ${properties[index].propId}`);
         navigation.push(navigationPages.SingleProperty, {propId: properties[index].propId});
     }
 

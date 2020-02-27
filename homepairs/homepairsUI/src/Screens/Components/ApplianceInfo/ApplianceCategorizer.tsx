@@ -4,14 +4,15 @@ import { Panel } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import * as BaseStyles from 'homepairs-base-styles';
 import { Appliance } from 'homepairs-types';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
+import {NavigationRouteScreenProps} from 'homepairs-utilities';
+
 
 
 type ApplianceCategorizerProps = {
     appliances: Appliance[],
 }
 
-type Props = ApplianceCategorizerProps & NavigationStackScreenProps;
+type Props = ApplianceCategorizerProps & NavigationRouteScreenProps;
 
 function setStyles(colorTheme?: BaseStyles.ColorTheme) {
     const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;

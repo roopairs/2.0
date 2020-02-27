@@ -145,6 +145,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
 
             appliances.forEach(appliance => {
                 const {category, name, manufacturer, modelNum, serialNum, location} = appliance;
+                console.log(applianceInfo);
                 applianceInfo.push({
                     applianceId: serialNum, 
                     category: selectCategory(category), 
@@ -195,7 +196,10 @@ export default function DetailedPropertyScreenBase(props: Props) {
                     <GeneralHomeInfo
                         property={property}
                         onClick={navigateModal}/>
-                    <ApplianceInfo navigation={navigation} appliances={applianceInfoState}/>
+                    <ApplianceInfo 
+                        navigation={navigation} 
+                        appliances={applianceInfoState} 
+                        propId={propId}/>
                     <CurrentTenants 
                         propId={propId}
                         tenants={tenantInfoState}/>

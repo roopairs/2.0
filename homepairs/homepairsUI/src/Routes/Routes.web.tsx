@@ -8,17 +8,18 @@ import {
 import {
   LOGIN, SIGNUP, ROOPAIRS_LOGIN, PROPERTY_LIST, TENANT_PROPERTY,
   PROPERTY, LOGIN_MODAL, CREATE_ACCOUNT_MODAL, ADD_PROPERTY_MODAL, EDIT_PROPERTY_MODAL, 
-  ROOPAIRS_LOGIN_MODAL, EDIT_TENANT_MODAL, ADD_TENANT_MODAL,
+  ROOPAIRS_LOGIN_MODAL, EDIT_TENANT_MODAL, ADD_TENANT_MODAL, ADD_APPLIANCE_MODAL, EDIT_APPLIANCE_MODAL,
+  SERVICE_REQUEST, NEW_SERVICE_REQUEST, ACCOUNT_SETTINGS,
 } from 'src/Routes/RouteConstants.web';
 import { HomePairsHeader, CreatingAccountModal, LoggingInModal, AddNewPropertyModal, 
   EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, EditTenantModal } from 'homepairs-components';
 
-// A way we can import css and simply use their classes
-import './styles.css';
 
 // Pages and components that need to be retrieved in order to route properly 
 const {LoginScreen, SignUpScreen, RoopairsLogin} = AuthenticationPages; 
 const {PropertiesScreen, TenantPropertiesScreen, DetailedPropertyScreen} = MainAppPages.PropertyPages;
+const {ServiceRequestScreen, NewRequestScreen} = MainAppPages.ServiceRequestPages;
+const {AccountScreen} = MainAppPages.AccountPages;
 
 /**
  * ------------------------------------------------------------
@@ -26,6 +27,9 @@ const {PropertiesScreen, TenantPropertiesScreen, DetailedPropertyScreen} = MainA
  * ------------------------------------------------------------
  * A high order component that wraps a component and gives it the format for a modal. This is intended 
  * to be used with switch component that renders a another component for its background overlay
+ * 
+ * NOTE: Remove all set all flex grow properties to null. This will cause the modal to grow the size of the background 
+ * which is unwarranted behavior!!!
  */
 function withModal(ModalComponent: any) {
     return function Modal(props:any) {
@@ -144,26 +148,62 @@ function LoginModalSwitch() {
 
 
 /* Main Application Switch Routers */
+// TODO: Uses the matche to resolve urls. This will allow users to navigate with proper params in order
+
+function AccountSettingsSwitch() {
+  const location = useLocation();
+  const background = location.state && location.state.background;
+  return (
+    <Route path='/admin/account-settings' render={(matches) => (
+          <>                
+              <HomePairsHeader />
+              <Switch path='/admin/account-settings' location={background || location}>
+                  <Route exact path={`${ACCOUNT_SETTINGS}`}><AccountScreen/></Route>
+              </Switch>
+          </>
+      )}/>
+  );
+}
+
+function ServiceRequestSwitch() {
+  const location = useLocation();
+  const background = location.state && location.state.background;
+  return (
+    <Route path='/admin/service-requests' render={(matches) => (
+          <>                
+              <HomePairsHeader />
+              <Switch path='/admin/service-requests' location={background || location}>
+                  <Route exact path={`${SERVICE_REQUEST}`}><ServiceRequestScreen/></Route>
+                  <Route exact path={`${NEW_SERVICE_REQUEST}`}><NewRequestScreen /></Route>
+              </Switch>
+          </>
+      )}/>
+  );
+}
 
 function SinglePropertySwitch() {
   const location = useLocation();
   const background = location.state && location.state.background;
-
   return (
     <Route path={`${PROPERTY}/:propId`} render={(matches) => (
           <>                
               <HomePairsHeader />
               <Switch path={`${PROPERTY}/:propId`} location={background || location}>
-                  <Route exact path={`${PROPERTY}/:propId`}  children={<DetailedPropertyScreen/>} />
-                  <Route exact path={`${EDIT_PROPERTY_MODAL}/:propId`} children={<EditPropertyModal />} />
+                  <Route exact path={`${PROPERTY}/:propId`}><DetailedPropertyScreen/></Route>
+                  <Route exact path={`${EDIT_PROPERTY_MODAL}/:propId`}><EditPropertyModal /></Route>
                   <Route path={`${ADD_TENANT_MODAL}/:propId`}><AddTenantModal/></Route>
                   <Route path={`${EDIT_TENANT_MODAL}/:propId`}><EditTenantModal/></Route>
+                  <Route path={`${ADD_APPLIANCE_MODAL}/:propId`}><AddApplianceModal/></Route>
+                  <Route path={`${EDIT_APPLIANCE_MODAL}/:appliance`}><EditApplianceModal/></Route>
               </Switch>
       
               {/* Show the modal when a background page is set */}
-              {background && <Route path={`${EDIT_PROPERTY_MODAL}/:propId`} children={<EditPropertyReadyModal />} />}
+              {/* TODO: Set these to the center of the window!!*/}
+              {background && <Route path={`${EDIT_PROPERTY_MODAL}/:propId`}> <EditPropertyReadyModal /> </Route>}
               {background && <Route path={`${ADD_TENANT_MODAL}/:propId`}><AddTenantReadyModal/></Route>}
               {background && <Route path={`${EDIT_TENANT_MODAL}/:tenant/:propId`}><EditTenantReadyModal/></Route>}
+              {background && <Route path={`${ADD_APPLIANCE_MODAL}/:propId`}><AddApplianceReadyModal/></Route>}
+              {background && <Route path={`${EDIT_APPLIANCE_MODAL}/:appliance`}><EditApplianceReadyModal/></Route>}
 
           </>
       )}/>
@@ -214,6 +254,8 @@ export default function AppNavigator(props:any){
                 <Route exact path='/'> <Redirect to={{pathname: LOGIN}} /></Route>
                 <PrivateRoute path={PROPERTY_LIST} Component={PropertiesSwitch} {...props}/>
                 <PrivateRoute path='/admin/property/' Component={SinglePropertySwitch} {...props}/>
+                <PrivateRoute path='/admin/service-requests' Component={ServiceRequestSwitch} {...props}/>
+                <PrivateRoute path={ACCOUNT_SETTINGS} Component={AccountSettingsSwitch} {...props}/>
                 <Route path='/*'>404 Does not Exist</Route>
             </Switch>
         </Router> 
