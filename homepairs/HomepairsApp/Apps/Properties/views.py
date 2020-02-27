@@ -12,7 +12,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from ..helperFuncs import getRooTokenAPI, postRooTokenAPI, putRooTokenAPI
 from ..PropertyManagers.models import PropertyManager
 from ..Tenants.models import Tenant
-from ..Appliances.models import Appliance
 from .models import Property
 
 
@@ -155,7 +154,7 @@ class PropertyView(View):
 
         # This is just parsing the inData and making sure the fields are there
         inData = json.loads(request.body)
-        required = ['streetAddress', 'city', 'state', 'pm', 'numBed', 
+        required = ['streetAddress', 'city', 'state', 'pm', 'numBed',
                     'numBath', 'maxTenants', 'token']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) > 0):
@@ -226,49 +225,59 @@ class PropertyView(View):
         missingFields = checkRequired(required, inData)
         if(len(missingFields) > 0):
             return JsonResponse(data=missingError(missingFields))
+        if(len(missingFields) == 0):
+            oldStreetAddress = inData.get('oldStreetAddress')
+            oldCity = inData.get('oldCity')
+            streetAddress = inData.get('streetAddress')
+            city = inData.get('city')
+            state = inData.get('state')
+            pm = inData.get('pm')
+            numBed = inData.get('numBed')
+            numBath = inData.get('numBath')
+            maxTenants = inData.get('maxTenants')
+            token = inData.get('token')
+            propID = inData.get('propId')
 
-        streetAddress = inData.get('streetAddress')
-        city = inData.get('city')
-        state = inData.get('state')
-        pm = inData.get('pm')
-        numBed = inData.get('numBed')
-        numBath = inData.get('numBath')
-        maxTenants = inData.get('maxTenants')
-        token = inData.get('token')
-        propId = inData.get('propId')
+            # Before anything we check to see if the updated place exists already
+            # because that is an easy and obviouos error to throw before
+            # doing any work
+            possibleMatches = Property.objects.filter(streetAddress=streetAddress,
+                                                      city=city)
+            if(possibleMatches.exists()):
+                return JsonResponse(returnError(PROPERTY_ALREADY_EXISTS))
 
-        # Before anything we check to see if the updated place exists already
-        # because that is an easy and obviouos error to throw before
-        # doing any work
-        possibleMatches = Property.objects.filter(streetAddress=streetAddress,
-                                                  city=city)
-        if(possibleMatches.exists()):
-            return JsonResponse(returnError(PROPERTY_ALREADY_EXISTS))
+            url = url + propID + '/'
 
-        url = url + propId + '/'
-        sendAddress = streetAddress + ", " + city + ", " + state
-        data = {'physical_address': sendAddress}
-        response = putRooTokenAPI(url, data, token)
+            sendAddress = streetAddress + ", " + city + ", " + state
+            data = {
+                       'physical_address': sendAddress
+                   }
+            response = putRooTokenAPI(url, data, token)
 
-        if(not response.get('id') == propId):
-            JsonResponse(data=returnError("UPDATE FAILED"))
+            if(not response.get('id') == propID):
+                JsonResponse(data=returnError("UPDATE FAILED"))
 
-        thePropertyList = Property.objects.filter(rooId=propId)
-        if(thePropertyList.exists()):
-            return JsonResponse(data=returnError(PROPERTY_DOESNT_EXIST))
-        if(thePropertyList.count() > 1):
-            return JsonResponse(data=returnError(PROPERTY_SQUISH))
+            thePropertyList = Property.objects.filter(streetAddress=oldStreetAddress,
+                                                      city=oldCity)
 
-        theProperty = thePropertyList[0]
-        if theProperty.pm.email == pm:
-            theProperty.city = city
-            theProperty.state = state
-            theProperty.numBed = numBed
-            theProperty.numBath = numBath
-            theProperty.maxTenants = maxTenants
-            theProperty.streetAddress = streetAddress
-            theProperty.save()
-            return JsonResponse(data={STATUS: SUCCESS})
+            if thePropertyList.exists():
+                if thePropertyList.count() == 1:
+                    theProperty = thePropertyList[0]
+                    if theProperty.pm.email == pm:
+                        theProperty.city = city
+                        theProperty.state = state
+                        theProperty.numBed = numBed
+                        theProperty.numBath = numBath
+                        theProperty.maxTenants = maxTenants
+                        theProperty.streetAddress = streetAddress
+                        theProperty.save()
+                        return JsonResponse(data={STATUS: SUCCESS})
+                    else:
+                        return JsonResponse(data=returnError(NOT_PROP_OWNER))
+                else:
+                    return JsonResponse(data=returnError(PROPERTY_SQUISH))
+            else:
+                return JsonResponse(data=returnError(PROPERTY_DOESNT_EXIST))
         else:
             return JsonResponse(data=returnError(NOT_PROP_OWNER))
 
@@ -278,19 +287,9 @@ class PropertyView(View):
             return HttpResponse(status=401)
         else:
             user, token = user_auth_tuple
-        listOfTenants = Tenant.objects.filter(place__rooId=inPropId) 
+        listOfTenants = Tenant.objects.filter(place__rooId=inPropId)
         listOfNice = []
         for ten in listOfTenants:
-           listOfNice.append(ten.toDict())
+           listOfNice.append(str(ten))
 
-        listOfApps = Appliance.objects.filter(place__rooId=inPropId) 
-        listOfNiceApps = []
-        for app in listOfApps:
-           listOfNiceApps.append(app.toDict())
-
-        returnable = {
-                         STATUS: SUCCESS,
-                         'tenants': listOfNice,
-                         'appliances': listOfNiceApps
-                     }
-        return JsonResponse(returnable)
+        return JsonResponse({"WHAT": listOfNice})
