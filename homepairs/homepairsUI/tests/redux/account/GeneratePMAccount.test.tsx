@@ -18,8 +18,7 @@ const testPMAccount1: Account = {
     firstName: 'Jacky',
     lastName: 'Lynne',
     email: 'jackyLynne@gmail.com',
-    streetAddress: 'ABC Street',
-    city: 'Foster Town',
+    address: 'ABC Street',
     roopairsToken: '',
 };
 
@@ -28,18 +27,15 @@ const testJsonValue1 = {
         firstName: 'Jacky',
         lastName: 'Lynne',
         email: 'jackyLynne@gmail.com',
-        city: 'Foster Town',
         manId: 100,
         streetAddress: 'ABC Street',
       },
     token: '1d9f80e98e9b16b94bf76c2dc49fe15b8b30d1a2',
     properties: [{
-        city: 'Foster Town',
         maxTenants: 10,
         numBath: 4,
         numBed: 10,
         pm: 'Jacky Lynne',
-        state: 'CA',
         streetAddress: 'ABG Street',
     }],
 };
@@ -52,7 +48,6 @@ const expectedFetchResult1: AccountStateAction = {
         lastName: 'Lynne',
         email: 'jackyLynne@gmail.com',
         streetAddress: 'ABC Street',
-        city: 'Foster Town',
         roopairsToken: '1d9f80e98e9b16b94bf76c2dc49fe15b8b30d1a2',
         manId: 100,
     },
@@ -61,11 +56,9 @@ const expectedFetchResult1: AccountStateAction = {
 const expectedProperties: FetchPropertiesAction ={
     type: FETCH_PROPERTIES,
     properties: [{
-      city: "Foster Town",
       tenants: 10,
       bathrooms: 4,
       bedrooms: 10,
-      state: 'CA',
       streetAddress: "ABG Street",
     }],
 };

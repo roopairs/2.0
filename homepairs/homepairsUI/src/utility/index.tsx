@@ -5,7 +5,7 @@ import isPhoneNumberValid from './SyntaxVerification/PhoneNumberVerification';
 import isAlphaCharacterOnly from './SyntaxVerification/AlphaCharacterVerification';
 import { isNullOrUndefined } from './ParameterChecker';
 import NavigationRouteHandler, {withNavigationRouteHandler, prepareNavigationHandlerComponent} from './NavigationRouterHandler';
-import { categoryToString } from './ApplianceCategories';
+import { categoryToString, stringToCategory } from './ApplianceCategories';
 
 /**
  * ------------------------------------------
@@ -17,7 +17,7 @@ import { categoryToString } from './ApplianceCategories';
  */
 export {isEmailSyntaxValid, isPasswordValid, isEmptyOrSpaces, isPhoneNumberValid, isAlphaCharacterOnly, 
     isNullOrUndefined, isPositiveWholeNumber, NavigationRouteHandler, withNavigationRouteHandler,
-    prepareNavigationHandlerComponent, categoryToString,
+    prepareNavigationHandlerComponent, categoryToString, stringToCategory,
 };
 
 

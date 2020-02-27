@@ -2,13 +2,14 @@
 
 import { shallow} from "enzyme";
 import * as React from "react";
-import {InputForm, Card} from 'homepairs-elements';
+import {InputForm, Card, GoogleInputForm, ThinButton} from 'homepairs-elements';
 import {fireEvent, render} from "react-native-testing-library";
 import { EditPropertyModalBase } from "homepairs-components";
 import {EditPropertyState, Property} from 'homepairs-types';
 import { NavigationStackProp } from 'react-navigation-stack';
 import { mockStackNavigation, navigationStackSpyFunction } from 'tests/fixtures/DummyComponents';
-import { TextInput } from 'react-native';
+import { TextInput, ScrollView, View } from 'react-native';
+import {HelperText} from 'react-native-paper';
 
 
 type Props = NavigationStackProp & EditPropertyDispatchProps & EditPropertyState;
@@ -37,7 +38,7 @@ const props : Props = {
 describe("Edit Property Modal", () => {
     const onEditProperty: (newProperty: Property, info: EditPropertyState, 
         navigation: NavigationStackProp) => void = 
-        (newProperty, info, navigation ) => {return navigation.navigate('onCreate is invoked');};
+        () => {return mockStackNavigation.navigate('onCreate is invoked');};
     const editFunction = jest.fn(onEditProperty);
     const editFunction2 = jest.fn(onEditProperty);
     const editFunction3 = jest.fn(onEditProperty);
@@ -53,8 +54,13 @@ describe("Edit Property Modal", () => {
     });
 
     it("Test for proper components", () => {
-        expect(wrapper.find(InputForm)).toHaveLength(6);
+        expect(wrapper.find(GoogleInputForm)).toHaveLength(1);
+        expect(wrapper.find(InputForm)).toHaveLength(3);
         expect(wrapper.find(Card)).toHaveLength(1);
+        expect(wrapper.find(ScrollView)).toHaveLength(1);
+        expect(wrapper.find(View)).toHaveLength(1);
+        expect(wrapper.find(HelperText)).toHaveLength(1);
+        expect(wrapper.find(ThinButton)).toHaveLength(1);
     });
 
     it ("Test validate forms", () => {
@@ -62,15 +68,11 @@ describe("Edit Property Modal", () => {
         const inputs = getAllByType(TextInput);
         const modal = getByType(EditPropertyModalBase);
         const address = inputs[0];
-        const city = inputs[1];
-        const state = inputs[2];
-        const tenants = inputs[3];
-        const bedrooms = inputs[4];
-        const bathrooms = inputs[5];
+        const tenants = inputs[1];
+        const bedrooms = inputs[2];
+        const bathrooms = inputs[3];
 
         fireEvent.changeText(address, '');
-        fireEvent.changeText(city, '');
-        fireEvent.changeText(state, '');
         fireEvent.changeText(tenants, 'asdf');
         fireEvent.changeText(bedrooms, 'asdf');
         fireEvent.changeText(bathrooms, 'asdf');
@@ -80,8 +82,6 @@ describe("Edit Property Modal", () => {
         expect(navigationStackSpyFunction).toHaveBeenCalledTimes(0);
 
         fireEvent.changeText(address, '123 Testing St.');
-        fireEvent.changeText(city, 'San Luis Obispo');
-        fireEvent.changeText(state, 'CA');
         fireEvent.changeText(tenants, '5');
         fireEvent.changeText(bedrooms, '4');
         fireEvent.changeText(bathrooms, '2');
@@ -98,24 +98,22 @@ describe("Edit Property Modal", () => {
     it("Test when submitted behavior", () => {
         const {getByTestId, getAllByType} = rendered2;
         fireEvent.press(getByTestId('click-thin-button'));
+        expect(editFunction3).toHaveBeenCalledTimes(1);
         expect(navigationStackSpyFunction).toHaveBeenCalledTimes(1);
 
         const inputs = getAllByType(TextInput);
         const address = inputs[0];
-        const city = inputs[1];
-        const state = inputs[2];
-        const tenants = inputs[3];
-        const bedrooms = inputs[4];
-        const bathrooms = inputs[5];
+        const tenants = inputs[1];
+        const bedrooms = inputs[2];
+        const bathrooms = inputs[3];
 
         fireEvent.changeText(address, '123 Testing St.');
-        fireEvent.changeText(city, 'San Luis Obispo');
-        fireEvent.changeText(state, 'CA');
         fireEvent.changeText(tenants, '5');
         fireEvent.changeText(bedrooms, '4');
         fireEvent.changeText(bathrooms, '2');
 
         fireEvent.press(getByTestId('click-thin-button'));
+        expect(editFunction3).toHaveBeenCalledTimes(2);
         expect(navigationStackSpyFunction).toHaveBeenCalledTimes(2);
         expect(navigationStackSpyFunction).toHaveBeenCalledWith('onCreate is invoked');
 

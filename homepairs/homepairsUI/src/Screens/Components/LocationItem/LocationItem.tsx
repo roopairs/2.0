@@ -4,6 +4,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairFonts } from 'res/fonts.web';
 
 type LocationItemProps = {
+    testID?: string,
     key?: string,
     description?: string,
     placeId?: string, 

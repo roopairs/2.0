@@ -89,7 +89,7 @@ export default function ApplianceCategorizer(props: Props) {
                             <AppliancePanel
                                 hasButton={buttonCheck}
                                 onEditApplianceModal={onEditApplianceModal}
-                                key={app.applianceId.toString()}
+                                key={app.applianceId}
                                 appliance={app}
                             />
                         );

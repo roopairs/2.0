@@ -20,7 +20,7 @@ type Props = NavigationRouteScreenProps &
     EditApplianceDispatchProps;
 
 type EditState = {
-    applianceId: number, 
+    applianceId: string, 
     category: ApplianceType, 
     appName: string, 
     manufacturer: string, 
@@ -361,7 +361,6 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
         const {navigation} = this.props;
         const {category} = this.state;
         const showCloseButton = true;
-        console.log(category.toString());
         return(
             <View style={this.inputFormStyle.modalContainer}>
             <ScrollView style={this.inputFormStyle.scrollStyle}
@@ -384,7 +383,13 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                     <ApplianceCategoryPanel initialCategory={category} parentCallBack={this.getFormCategory}/>
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
-                    {ThinButton(this.submitButton)}
+                    <ThinButton
+                    name={this.submitButton.name}
+                    onClick={this.submitButton.onClick}
+                    buttonStyle={this.submitButton.buttonStyle}
+                    buttonTextStyle={this.submitButton.buttonTextStyle}
+                    containerStyle={this.submitButton.containerStyle}
+                    />
                 </Card>
             </ScrollView>
         </View>);

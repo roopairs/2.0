@@ -2,14 +2,14 @@ import React from 'react';
 import {View} from 'react-native';
 import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
-import { MainAppStackType } from 'src/state/types';
+import { MainAppStackType, ApplianceType } from 'src/state/types';
 import { navigationPages } from 'src/Routes/RouteConstants';
 
 export const SingleViewComponent = <View style={{height: '25%', width: '25%', backgroundColor: 'black'}}/>;
 export const navigationSwitchSpyFunction = jest.fn((arg?:string) => {return arg;});
 export const navigationStackSpyFunction = jest.fn((arg?:any) => {return arg;});
 export const navigationSetParamsSpyFunction = jest.fn((params?:any) => {return params;});
-
+export const navigationGetParamsSpyFunction = jest.fn((params?:any) => {return params;});
 
 export const mockSwitchNavigation: NavigationSwitchProp = {
     navigate: (routeNameOrOptions)=>{
@@ -54,7 +54,21 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
         return true;
       },
       dismiss: undefined,
-      getParam: undefined,
+      getParam: (param) => {
+        navigationGetParamsSpyFunction(param);
+        if(param === 'appliance') {
+          return {
+            applianceId: '123jh', 
+            category: ApplianceType.HVAC, 
+            manufacturer: 'Vulcan Equipment', 
+            appName: 'Oven', 
+            modelNum: 123, 
+            serialNum: 321,
+            location: 'Kitchen',
+          };
+        }
+        return true;
+      },
       setParams: (params) => {
         navigationSetParamsSpyFunction(params);
         return true;

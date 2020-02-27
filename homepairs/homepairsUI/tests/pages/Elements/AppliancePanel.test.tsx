@@ -3,11 +3,11 @@
  * @jest-environment jsdom
  */
 
-import {Panel, ThinButton} from 'homepairs-elements';
+import {AppliancePanel, ThinButton} from 'homepairs-elements';
 import {Appliance, ApplianceType} from 'homepairs-types';
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import { View,  Animated, TouchableHighlight, Image} from 'react-native';
+import { View,  Animated, Image, TouchableOpacity} from 'react-native';
 import { fireEvent, render } from 'react-native-testing-library';
 
 jest.mock('homepairs-images');
@@ -17,7 +17,7 @@ describe("Panel", () => {
     const testFunc = () => { return "Button pressed";};
     const spyFunc = jest.fn(testFunc);
     const fakeApp = <Appliance
-        applianceId={1234}
+        applianceId='43hffg'
         appName='Fake Appliance'
         category={ApplianceType.Plumbing}
         manufacturer="Vulcan Equipment"
@@ -26,7 +26,7 @@ describe("Panel", () => {
         location='Kitchen'
     />;
     const fakeApp2 = <Appliance
-        applianceId={4321}
+        applianceId='11gf'
         appName='Fake Appliance 2'
         category={ApplianceType.GeneralAppliance}
         manufacturer="Chacon Equipment"
@@ -34,14 +34,15 @@ describe("Panel", () => {
         serialNum={3}
         location='Basement'
     />;
-    const wrapper = shallow(<Panel appliance={fakeApp}/>);
-    const rendered = render(<Panel onEditApplianceModal={spyFunc} appliance={fakeApp2}/>);
+    const trueButton = true;
+    const wrapper = shallow(<AppliancePanel hasButton={trueButton} appliance={fakeApp}/>);
+    const rendered = render(<AppliancePanel hasButton={trueButton} onEditApplianceModal={spyFunc} appliance={fakeApp2}/>);
 
     it ("Test for proper components", () => {
         expect(wrapper.find(Animated.View)).toHaveLength(1);
         expect(wrapper.find(View)).toHaveLength(11);
         expect(wrapper.find(ThinButton)).toHaveLength(1);
-        expect(wrapper.find(TouchableHighlight)).toHaveLength(1);
+        expect(wrapper.find(TouchableOpacity)).toHaveLength(1);
         expect(wrapper.find(Image)).toHaveLength(1);
     });
 

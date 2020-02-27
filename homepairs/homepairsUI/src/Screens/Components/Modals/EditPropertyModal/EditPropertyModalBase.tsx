@@ -365,7 +365,13 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                     {this.renderAddressForm()}
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
-                    {ThinButton(this.submitButton)}
+                    <ThinButton
+                    name={this.submitButton.name}
+                    onClick={this.submitButton.onClick}
+                    buttonStyle={this.submitButton.buttonStyle}
+                    buttonTextStyle={this.submitButton.buttonTextStyle}
+                    containerStyle={this.submitButton.containerStyle}
+                    />
                 </Card>
             </ScrollView>
         </SafeAreaView>);

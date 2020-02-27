@@ -152,9 +152,6 @@ export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
             <View style={styles.container}>
                 <View style={styles.addressContainer}>
                     <Text style={styles.streetAddress}>{address}</Text>
-                    <Text style={styles.cityStateText}>
-                        Format address to get city and state.
-                    </Text>
                 </View>
                 {renderLivingSpace()}
 

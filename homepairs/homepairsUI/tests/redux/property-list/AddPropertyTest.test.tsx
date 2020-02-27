@@ -14,8 +14,6 @@ const URL = 'https://homepairs-alpha.herokuapp.com/API/property/create/';
 const { postNewProperty, PROPERTY_LIST_ACTION_TYPES } = PropertyListActions;
 const newPropertyTest: Property = {
     streetAddress: 'Cool Aid Drive',
-    city: 'HoodRat City',
-    state: 'Georgia',
     tenants: 3,
     bedrooms: 3,
     bathrooms: 3,
@@ -46,8 +44,6 @@ describe('postNewProperty Action', () => {
                 type: PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY,
                 userData: {
                     streetAddress: 'Cool Aid Drive',
-                    city: 'HoodRat City',
-                    state: 'Georgia',
                     tenants: 3,
                     bedrooms: 3,
                     bathrooms: 3,

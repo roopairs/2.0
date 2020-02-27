@@ -2,13 +2,14 @@
 
 import { shallow} from "enzyme";
 import * as React from "react";
-import {InputForm, Card } from 'homepairs-elements';
+import {InputForm, Card, GoogleInputForm, ThinButton } from 'homepairs-elements';
 import {fireEvent, render} from "react-native-testing-library";
 import { AddNewPropertyModalBase } from "homepairs-components";
 import {AddNewPropertyState, Property} from 'homepairs-types';
 import { mockStackNavigation, navigationStackSpyFunction} from 'tests/fixtures/DummyComponents';
 import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
-import { TextInput } from 'react-native';
+import { TextInput, View, ScrollView } from 'react-native';
+import {HelperText} from 'react-native-paper';
 
 type Props = ModalInjectedProps &
     NavigationStackScreenProps &
@@ -18,7 +19,6 @@ type Props = ModalInjectedProps &
 export type ModalInjectedProps = {
     onChangeModalVisibility: (isVisible?: boolean) => void;
 };
-
 
 export type AddNewPropertyDispatchProps = {
     onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, navigation: NavigationStackProp) => void
@@ -33,8 +33,7 @@ const props : Props = {
 
 describe("Add New Property Modal", () => {
     const onCreateProperty: (newProperty: any, info: any, 
-        setInitialState: any, navigation: any) => void = (newProperty, info, 
-        setInitialState, navigation) => {return navigation.navigate('onCreate is invoked');};
+        setInitialState: any, navigation: any) => void = () => {return mockStackNavigation.navigate('onCreate is invoked');};
     const createFunction = jest.fn(onCreateProperty);
     const createFunction2 = jest.fn(onCreateProperty);
     const createFunction3 = jest.fn(onCreateProperty);
@@ -50,8 +49,13 @@ describe("Add New Property Modal", () => {
     });
 
     it("Test for proper components", () => {
-        expect(wrapper.find(InputForm)).toHaveLength(6);
+        expect(wrapper.find(GoogleInputForm)).toHaveLength(1);
+        expect(wrapper.find(InputForm)).toHaveLength(3);
         expect(wrapper.find(Card)).toHaveLength(1);
+        expect(wrapper.find(ScrollView)).toHaveLength(1);
+        expect(wrapper.find(View)).toHaveLength(2);
+        expect(wrapper.find(HelperText)).toHaveLength(1);
+        expect(wrapper.find(ThinButton)).toHaveLength(1);
     });
 
     it ("Test validate forms", () => {
@@ -59,15 +63,11 @@ describe("Add New Property Modal", () => {
         const inputs= getAllByType(TextInput);
         const modal = getByType(AddNewPropertyModalBase);
         const address = inputs[0];
-        const city = inputs[1];
-        const state = inputs[2];
-        const tenants = inputs[3];
-        const bedrooms = inputs[4];
-        const bathrooms = inputs[5];
+        const tenants = inputs[1];
+        const bedrooms = inputs[2];
+        const bathrooms = inputs[3];
 
         fireEvent.changeText(address, '');
-        fireEvent.changeText(city, '');
-        fireEvent.changeText(state, '');
         fireEvent.changeText(tenants, 'asdf');
         fireEvent.changeText(bedrooms, 'asdf');
         fireEvent.changeText(bathrooms, 'asdf');
@@ -76,8 +76,6 @@ describe("Add New Property Modal", () => {
         expect(modal.instance.validateForms()).toBeFalsy();
 
         fireEvent.changeText(address, '123 Testing St.');
-        fireEvent.changeText(city, 'San Luis Obispo');
-        fireEvent.changeText(state, 'CA');
         fireEvent.changeText(tenants, '5');
         fireEvent.changeText(bedrooms, '4');
         fireEvent.changeText(bathrooms, '2');
@@ -101,15 +99,11 @@ describe("Add New Property Modal", () => {
 
         const inputs = getAllByType(TextInput);
         const address = inputs[0];
-        const city = inputs[1];
-        const state = inputs[2];
-        const tenants = inputs[3];
-        const bedrooms = inputs[4];
-        const bathrooms = inputs[5];
+        const tenants = inputs[1];
+        const bedrooms = inputs[2];
+        const bathrooms = inputs[3];
 
         fireEvent.changeText(address, '123 Testing St.');
-        fireEvent.changeText(city, 'San Luis Obispo');
-        fireEvent.changeText(state, 'CA');
         fireEvent.changeText(tenants, '5');
         fireEvent.changeText(bedrooms, '4');
         fireEvent.changeText(bathrooms, '2');

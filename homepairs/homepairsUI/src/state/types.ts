@@ -92,7 +92,7 @@ export enum ApplianceType {
 };
 
 export type Appliance = {
-    applianceId: number,
+    applianceId: string,
     category: ApplianceType,
     appName: string,
     manufacturer: string, 

@@ -16,15 +16,19 @@ export function categoryToString(appType: ApplianceType) {
     return appTypeString;
 }
 
-/** 
- * ------------------------------------------------------------
- * Parameter Checkers
- * ------------------------------------------------------------
- * These functions are intended to be helper functions for the 
- * use of comparison operations.  
- * 
- * Methods:
- *      isNullOrUndefined( arg: any ) => boolean 
-*/
-const ApplianceCategoryStrings = {categoryToString};
+export function stringToCategory(selected: string) {
+    let appType = ApplianceType.None;
+    if (selected === categoryStrings.PLUMBING) {
+        appType = ApplianceType.Plumbing;
+    } else if (selected === categoryStrings.GA) {
+        appType = ApplianceType.GeneralAppliance;
+    } else if (selected === categoryStrings.HVAC) {
+        appType = ApplianceType.HVAC;
+    } else if (selected === categoryStrings.LE) {
+        appType = ApplianceType.LightingAndElectric;
+    }
+    return appType;
+}
+
+const ApplianceCategoryStrings = {categoryToString, stringToCategory};
 export default ApplianceCategoryStrings;

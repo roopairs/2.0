@@ -30,7 +30,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { navigationPages } from 'src/Routes/RouteConstants';
 import axios from 'axios';
 import strings from 'homepairs-strings';
-import {prepareNavigationHandlerComponent, NavigationRouteScreenProps } from 'homepairs-utilities';
+import {prepareNavigationHandlerComponent, NavigationRouteScreenProps, stringToCategory} from 'homepairs-utilities';
 
 export type DetailedPropertyStateProps = {
     property: Property;
@@ -106,7 +106,6 @@ const styles = StyleSheet.create({
     },
 });
 
-
 const fakeApp: Appliance = {
     applianceId: 1, 
     category: ApplianceType.Plumbing, 
@@ -131,23 +130,9 @@ const fakeSR : ServiceRequest = {
 export default function DetailedPropertyScreenBase(props: Props) {
     console.log(props);
     const { property, navigation } = props;
-    const { propId } = property;
+    const { propId, address, bedrooms, bathrooms } = property;
     const [tenantInfoState, setTenantInfo] = useState([]);
     const [applianceInfoState, setApplianceInfo] = useState([]);
-    
-    function selectCategory(selected: string) {
-        let appType = ApplianceType.None;
-        if (selected === categoryStrings.PLUMBING) {
-            appType = ApplianceType.Plumbing;
-        } else if (selected === categoryStrings.GA) {
-            appType = ApplianceType.GeneralAppliance;
-        } else if (selected === categoryStrings.HVAC) {
-            appType = ApplianceType.HVAC;
-        } else if (selected === categoryStrings.LE) {
-            appType = ApplianceType.LightingAndElectric;
-        }
-        return appType;
-    }
 
     useEffect(() => {
         const fetchTenantsAndAppliances = async () => {
@@ -167,10 +152,10 @@ export default function DetailedPropertyScreenBase(props: Props) {
             });
 
             appliances.forEach(appliance => {
-                const {category, name, manufacturer, modelNum, serialNum, location} = appliance;
+                const {applianceId, category, name, manufacturer, modelNum, serialNum, location} = appliance;
                 applianceInfo.push({
-                    applianceId: serialNum, 
-                    category: selectCategory(category), 
+                    applianceId,
+                    category: stringToCategory(category), 
                     appName: name, manufacturer, modelNum, serialNum, location,
                 });
             });
@@ -200,9 +185,6 @@ export default function DetailedPropertyScreenBase(props: Props) {
         navigation.push(navigationPages.AddApplianceModal, {property, propId}, true);
     }
 
-    function openServiceRequestModal(serviceRequest: ServiceRequest) {
-        navigation.navigate(navigationPages.ServiceRequestModal, {serviceRequest, propId}, true);
-    }
 
     function openEditApplianceModal(appliance: Appliance) {
         navigation.navigate(navigationPages.EditApplianceModal, {appliance, propId}, true);
@@ -218,16 +200,13 @@ export default function DetailedPropertyScreenBase(props: Props) {
             <ScrollView style={{ flexGrow: 1 }}>
                 <View style={styles.addBottomMargin}>
                     <AddressSticker
-                        address={property[propertyKeys.ADDRESS]}
-                        city={property[propertyKeys.CITY]}
-                        state={property[propertyKeys.STATE]}
+                        address={address}
                     />
                     <View style={styles.imageWrapper}>
                         <View style={styles.imageContainer}>
                             {renderImage()}
                         </View>
                     </View>
-                    <ServiceRequestButton onClick={openServiceRequestModal} serviceRequest={fakeSR} />
                     <GeneralHomeInfo
                         property={property}
                         onClick={navigateModal}/>
