@@ -248,7 +248,6 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
         const {category, appName,  modelNum, serialNum, location} = this.state;
         let check = true;
         if (category.toString() === 'None') {
-            console.log('Please select a category');
             check = false;
         }
         if (isEmptyOrSpaces(appName)) {
@@ -404,7 +403,13 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                     <ApplianceCategoryPanel initialCategory={category} parentCallBack={this.getFormCategory}/>
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
-                    {ThinButton(this.submitButton)}
+                    <ThinButton
+                    name={this.submitButton.name}
+                    onClick={this.submitButton.onClick}
+                    buttonStyle={this.submitButton.buttonStyle}
+                    buttonTextStyle={this.submitButton.buttonTextStyle}
+                    containerStyle={this.submitButton.containerStyle}
+                    />
                 </Card>
             </ScrollView>
         </View>);

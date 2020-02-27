@@ -4,7 +4,7 @@ import isPasswordValid from './SyntaxVerification/PasswordVerification';
 import isPhoneNumberValid from './SyntaxVerification/PhoneNumberVerification';
 import isAlphaCharacterOnly from './SyntaxVerification/AlphaCharacterVerification';
 import { isNullOrUndefined } from './ParameterChecker';
-import { categoryToString } from './ApplianceCategories';
+import { categoryToString, stringToCategory } from './ApplianceCategories';
 
 /**
  * ------------------------------------------
@@ -14,5 +14,5 @@ import { categoryToString } from './ApplianceCategories';
  * specific based logic. Functions such long conditional checks, parsers, 
  * and validators should be included in this package. 
  */
-export {categoryToString, isEmailSyntaxValid, isPasswordValid, isEmptyOrSpaces, isPhoneNumberValid, isAlphaCharacterOnly, isNullOrUndefined, isPositiveWholeNumber};
+export {categoryToString, stringToCategory, isEmailSyntaxValid, isPasswordValid, isEmptyOrSpaces, isPhoneNumberValid, isAlphaCharacterOnly, isNullOrUndefined, isPositiveWholeNumber};
 

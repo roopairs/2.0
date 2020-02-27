@@ -110,6 +110,7 @@ export default function ApplianceInfo(props: Props) {
             <View style= {styles.details}>
                 <ApplianceCategorizer onEditApplianceModal={onEditApplianceModal} appliances={appliances}/>
                 <ThinButton 
+                    idTest='add-appliance-button'
                     name={thinButtonProps.name} 
                     buttonStyle={thinButtonProps.buttonStyle} 
                     buttonTextStyle={thinButtonProps.buttonTextStyle} 

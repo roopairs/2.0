@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import {Panel} from 'homepairs-elements';
+import {AppliancePanel} from 'homepairs-elements';
 import {ApplianceCategorizer} from 'homepairs-components';
 import {Appliance, ApplianceType} from 'homepairs-types';
 import { shallow } from 'enzyme';
@@ -58,7 +58,7 @@ describe("Panel", () => {
     it ("Test for proper components", () => {
         expect(wrapper.find(View)).toHaveLength(4);
         expect(wrapper.find(Text)).toHaveLength(3);
-        expect(wrapper.find(Panel)).toHaveLength(4);
+        expect(wrapper.find(AppliancePanel)).toHaveLength(4);
     });
 
     it ("Test for empty appliances components", () => {

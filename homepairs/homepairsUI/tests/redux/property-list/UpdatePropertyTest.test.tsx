@@ -15,16 +15,12 @@ const { postUpdatedProperty, PROPERTY_LIST_ACTION_TYPES } = PropertyListActions;
 
 const prevProperty: Property = {
     streetAddress: 'Cool Aid Road',
-    city: 'HoodRat Town',
-    state: 'Georgia',
     tenants: 4,
     bedrooms: 3,
     bathrooms: 3,
 };
 const updatedPropertyTest: Property = {
     streetAddress: 'Cool Aid Drive',
-    city: 'HoodRat City',
-    state: 'Georgia',
     tenants: 3,
     bedrooms: 3,
     bathrooms: 3,
@@ -57,8 +53,6 @@ describe('postUpdatedProperty Action', () => {
                 index: 0,
                 userData: {
                     streetAddress: 'Cool Aid Drive',
-                    city: 'HoodRat City',
-                    state: 'Georgia',
                     tenants: 3,
                     bedrooms: 3,
                     bathrooms: 3,

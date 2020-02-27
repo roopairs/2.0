@@ -20,8 +20,7 @@ const testTenantAccount1: Account = {
     firstName: 'Jacky',
     lastName: 'Lynne',
     email: 'jackyLynne@gmail.com',
-    streetAddress: 'ABC Street',
-    city: 'Foster Town',
+    address: 'ABC Street',
     roopairsToken: '',
 };
 
@@ -31,17 +30,14 @@ const testJsonValue1 = {
         firstName: 'Jacky',
         lastName: 'Lynne',
         streetAddress: 'ABC Street',
-        city: 'Foster Town',
         email: 'jackyLynne@gmail.com',
         propId: 100,
         tenantID: 15,
         place:{
-            city: "Foster Town",
             maxTenants: 3,
             numBath: 2,
             numBed: 3,
             pm: "Eeron Grant",
-            state: undefined,
             streetAddress: "ABC Street",
           },
       },
@@ -55,8 +51,7 @@ const expectedFetchResult1: AccountStateAction = {
         firstName: 'Jacky',
         lastName: 'Lynne',
         email: 'jackyLynne@gmail.com',
-        streetAddress: 'ABC Street',
-        city: 'Foster Town',
+        address: 'ABC Street',
         roopairsToken: '',
         propId: 100,
         tenantId: 15,
@@ -66,12 +61,11 @@ const expectedFetchResult1: AccountStateAction = {
 const expectedTenantProperty1: FetchPropertyAction = {
     type: FETCH_PROPERTY,
     property: [{
-      city: "Foster Town",
       tenants: 3,
       bathrooms: 2,
       bedrooms: 3,
-      state: undefined,
-      streetAddress: "ABC Street",
+      address: "ABC Street",
+      propId: '100',
     }]};
 
 const mockNavigation: NavigationSwitchProp = mockSwitchNavigation;

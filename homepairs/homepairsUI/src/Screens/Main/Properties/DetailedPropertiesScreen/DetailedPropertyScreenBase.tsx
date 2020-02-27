@@ -30,11 +30,10 @@ import {
 } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
-import { navigationKeys, navigationPages } from 'src/Routes/RouteConstants';
+import { stringToCategory } from 'homepairs-utilities';
+import { navigationPages } from 'src/Routes/RouteConstants';
 import { withNavigation } from 'react-navigation';
 import axios from 'axios';
-import strings from 'homepairs-strings';
 
 export type DetailedPropertyStateProps = {
     property: Property;
@@ -42,8 +41,6 @@ export type DetailedPropertyStateProps = {
 
 type Props = NavigationStackScreenProps & DetailedPropertyStateProps;
 const CurrentTenants = withNavigation(CurrentTenantCard);
-const propertyKeys = HomepairsPropertyAttributes;
-const categoryStrings = strings.applianceInfo.categories;
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -106,27 +103,6 @@ const styles = StyleSheet.create({
     },
 });
 
-/*
-async function getTenantInfo(propId: number){
-    await axios.get('https://homepairs-alpha.herokuapp.com/API/property/list/').then((response)=>{
-        console.log(response)
-        const {data} = response;
-        const {tenants} = data;
-        tenantInfo = [];
-
-        tenants.forEach(tenant => {
-            const {firstName, lastName, email} = tenant;
-            tenantInfo.push({
-                firstName,
-                lastName,
-                email,
-                phoneNumber: '888-999-3030',
-            });
-        });
-    });
-}
-*/
-
 const fakeApp: Appliance = {
     applianceId: 1, 
     category: ApplianceType.Plumbing, 
@@ -139,8 +115,6 @@ const fakeApp: Appliance = {
 
 const fakeSR : ServiceRequest = {
     address: '123 Service Request', 
-    city: 'Service', 
-    state: 'SR', 
     technician: 'Johnny White', 
     startDate: new Date().toString(),
     poc: '(805)-123-4321', 
@@ -152,22 +126,9 @@ const fakeSR : ServiceRequest = {
 
 export default function DetailedPropertyScreenBase(props: Props) {
     const { property, navigation } = props;
+    const {address, bedrooms, bathrooms} = property;
     const [tenantInfoState, setTenantInfo] = useState([]);
     const [applianceInfoState, setApplianceInfo] = useState([]);
-
-    function selectCategory(selected: string) {
-        let appType = ApplianceType.None;
-        if (selected === categoryStrings.PLUMBING) {
-            appType = ApplianceType.Plumbing;
-        } else if (selected === categoryStrings.GA) {
-            appType = ApplianceType.GeneralAppliance;
-        } else if (selected === categoryStrings.HVAC) {
-            appType = ApplianceType.HVAC;
-        } else if (selected === categoryStrings.LE) {
-            appType = ApplianceType.LightingAndElectric;
-        }
-        return appType;
-    }
 
     useEffect(() => {
         const fetchTenantsAndAppliances = async () => {
@@ -187,10 +148,10 @@ export default function DetailedPropertyScreenBase(props: Props) {
             });
 
             appliances.forEach(appliance => {
-                const {category, name, manufacturer, modelNum, serialNum, location} = appliance;
+                const {applianceId, category, name, manufacturer, modelNum, serialNum, location} = appliance;
                 applianceInfo.push({
-                    applianceId: serialNum, 
-                    category: selectCategory(category), 
+                    applianceId,
+                    category: stringToCategory(category), 
                     appName: name, manufacturer, modelNum, serialNum, location,
                 });
             });
@@ -213,11 +174,9 @@ export default function DetailedPropertyScreenBase(props: Props) {
     };
 
     function navigateModal() {
-        const {streetAddress, city, state, bedrooms, bathrooms, tenants} = property;
+        const {tenants} = property;
         const oldProp = {
-            address: streetAddress,
-            city,
-            state,
+            address,
             bedrooms,
             bathrooms,
             tenants, 
@@ -247,9 +206,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
             <ScrollView style={{ flexGrow: 1 }}>
                 <View style={styles.addBottomMargin}>
                     <AddressSticker
-                        address={property[propertyKeys.ADDRESS]}
-                        city={property[propertyKeys.CITY]}
-                        state={property[propertyKeys.STATE]}
+                        address={address}
                     />
                     <View style={styles.imageWrapper}>
                         <View style={styles.imageContainer}>
@@ -265,7 +222,7 @@ export default function DetailedPropertyScreenBase(props: Props) {
                         onEditApplianceModal={openEditApplianceModal}
                         appliances={applianceInfoState}/>
                     <CurrentTenants 
-                    propertyId={1 /**TODO: get property id from key when backend has support this */} 
+                    propertyId={1 /** TODO: get property id from key when backend has support this */} 
                     tenants={tenantInfoState}/>
                     <ServiceRequestCount property={property}/>
                 </View>
