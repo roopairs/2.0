@@ -5,6 +5,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid, 
     NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-utilities';
+import axios from 'axios';
 
 type Props =  NavigationRouteScreenProps;
 
@@ -144,7 +145,7 @@ class AddTenantModalBase extends React.Component<Props, AddTenantState> {
 
     phoneNumberRef;
 
-    propertyId : number;
+    propId : number;
   
     constructor(props: Readonly<Props>) {
         super(props);
@@ -153,7 +154,7 @@ class AddTenantModalBase extends React.Component<Props, AddTenantState> {
         this.getFormEmail = this.getFormEmail.bind(this);
         this.getFormPhoneNumber = this.getFormPhoneNumber.bind(this);
         this.resetForms = this.resetForms.bind(this);
-        this.propertyId = props.navigation.getParam('propId');
+        this.propId = props.navigation.getParam('propId');
         this.state = {
             firstName : '', 
             lastName: '', 
@@ -222,13 +223,17 @@ class AddTenantModalBase extends React.Component<Props, AddTenantState> {
         this.phoneNumberRef.current.setError(false);
     }
 
-    clickSubmitButton() {
+    async clickSubmitButton() {
         const {navigation} = this.props;
         this.resetForms();
         if (this.validateForms()) {
             const newTenantInfo : TenantInfo = this.generateNewTenantInfo();
-            alert('We need the backend to create the endpoint in order to edit this tenant');
-            navigation.goBack();
+            await axios.post(`https://homepairs-alpha.herokuapp.com/pm/tenantEdit/${this.propId}`, newTenantInfo)
+            .then((response)=>{
+                console.log(response);
+            }).finally(() => {
+                navigation.goBack();
+            });
         } 
     }
 

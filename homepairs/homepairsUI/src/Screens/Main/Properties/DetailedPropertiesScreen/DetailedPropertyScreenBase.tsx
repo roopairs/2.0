@@ -145,7 +145,6 @@ export default function DetailedPropertyScreenBase(props: Props) {
 
             appliances.forEach(appliance => {
                 const {category, name, manufacturer, modelNum, serialNum, location} = appliance;
-                console.log(applianceInfo);
                 applianceInfo.push({
                     applianceId: serialNum, 
                     category: selectCategory(category), 
