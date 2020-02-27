@@ -32,7 +32,6 @@ class CreateAppliance(TestCase):
         serialNum = 70
         location = 'Garage'
         propId = Property.objects.filter()[0].id
-
         data = {
                   'name': name,
                   'manufacturer': manufacturer,

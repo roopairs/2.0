@@ -2,7 +2,7 @@
 # Imports
 from django.test import TestCase
 
-from ..helperFuncsForTesting import getInfoPost, setUpHelper
+from ..helperFuncsForTesting import getInfoGet, getInfoPost, setUpHelper
 from .views import STATUS, SUCCESS
 
 
@@ -12,7 +12,7 @@ from .views import STATUS, SUCCESS
 # Vars
 
 # EXTRA URLS
-PRO_VIEW = 'service_provider_view'
+REQ_VIEW = 'service_request_view'
 
 ################################################################################
 # Tests

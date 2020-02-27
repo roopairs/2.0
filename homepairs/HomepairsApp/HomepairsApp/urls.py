@@ -16,6 +16,8 @@ Including another URLconf
 from Apps.PropertyManagers.views import LoginView
 from Apps.Properties.views import PropertyView
 from Apps.Appliances.views import ApplianceView
+from Apps.ServiceProvider.views import ServiceProviderView
+from Apps.ServiceRequest.views import ServiceRequestView
 from django.contrib import admin
 from django.urls import include, path
 
@@ -26,6 +28,8 @@ urlpatterns = [
     path('property/', PropertyView.as_view(), name='tempIguess'),
     path('property/<str:inPropId>/', PropertyView.as_view(), name='otherOne'),
     path('tenant/', include('Apps.Tenants.urls')),
-    path('appliance/', ApplianceView.as_view(), name='appliance_view'),
+    path('appliances/', ApplianceView.as_view(), name='appliance_view'),
+    path('serviceprovider/', ServiceProviderView.as_view(), name='service_provider_view'),
+    path('servicerequest/', ServiceRequestView.as_view(), name='service_request_view'),
     path('login/', LoginView.as_view(), name='login'),
 ]

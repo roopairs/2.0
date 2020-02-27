@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'Apps.Tenants',
     'Apps.Appliances',
     'Apps.ServiceProvider',
+    'Apps.ServiceRequest',
 ]
 
 MIDDLEWARE = [
@@ -81,15 +82,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'HomepairsApp.wsgi.application'
-
-# TOKEN AUTH STUFF
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated', ]
-}
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

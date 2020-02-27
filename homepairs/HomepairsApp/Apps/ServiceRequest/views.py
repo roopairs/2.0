@@ -4,7 +4,9 @@ import json
 from django.http import JsonResponse
 from django.views import View
 
-from .models import ServiceProvider
+from .models import ServiceRequest
+from ..Properties.models import Property
+from ..Appliances.models import Appliance
 
 
 ################################################################################
@@ -26,6 +28,7 @@ INVALID_PROPERTY = 'Invalid property'
 PROPERTY_ALREADY_EXISTS = 'Property given already exists'
 NON_FIELD_ERRORS = 'non_field_errors'
 SERVPRO_DOESNT_EXIST = 'Service provider does not exist.'
+SERVREQ_DOESNT_EXIST = 'Service request does not exist.'
 SERVPRO_ALREADY_EXIST = 'Service provider already exists.'
 APPLIANCE_DOESNT_EXIST = 'Appliance does not exist.'
 PROPERTY_DOESNT_EXIST = 'Property does not exist.'
@@ -62,85 +65,98 @@ def missingError(missingFields):
 ##############################################################
 
 
-class ServiceProviderView(View):
+class ServiceRequestView(View):
     def post(self, request):
         inData = json.loads(request.body)
-        required = ['name', 'email', 'phoneNum', 'contractLic', 'skills', 'founded']
+        required = ['job', 'serviceCompany', 'client', 'status', 'dayStarted', 'details', 'propId', 'appId']
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) == 0):
-            name = inData.get('name')
-            email = inData.get('email')
-            phoneNum = inData.get('phoneNum')
-            contractLic = inData.get('contractLic')
-            skills = inData.get('skills')
-            dateStr = inData.get('founded')
-            founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
-            proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
-            if not proList.exists():
-                pro = ServiceProvider(name=name,
-                                      email=email,
-                                      phoneNum=phoneNum,
-                                      contractLic=contractLic,
-                                      skills=skills,
-                                      founded=founded)
-                pro.save()
-                return JsonResponse(data={STATUS: SUCCESS})
+            job = inData.get('job')
+            serviceCompany = inData.get('serviceCompany')
+            client = inData.get('client')
+            status = inData.get('status')
+            dayStartedStr = inData.get('dayStarted')
+            details = inData.get('details')
+            propId = inData.get('propId')
+            appId = inData.get('appId')
+            dayStarted = datetime.datetime.strptime(dayStartedStr, "%Y-%m-%d").date()
+            propList = Property.objects.filter(id=propId)
+            appList = Appliance.objects.filter(id=appId)
+            if propList.exists() and appList.exists():
+                prop = propList[0]
+                app = appList[0]
+                req = ServiceRequest(job=job,
+                                    serviceCompany=serviceCompany,
+                                    client=client,
+                                    status=status,
+                                    dayStarted=dayStarted,
+                                    details=details,
+                                    location=prop,
+                                    appFixed=app)
+                req.save()
+                data = {
+                        STATUS: SUCCESS,
+                        'id': req.id
+                        }
+                return JsonResponse(data=data)
             else:
-                return JsonResponse(data=returnError(SERVPRO_ALREADY_EXIST))
+                print('Prop doesnt exist')
+                return JsonResponse(data=missingError(PROPERTY_DOESNT_EXIST))
         else:
+            print(missingFields)
             return JsonResponse(data=missingError(missingFields))
 
     def put(self, request):
         inData = json.loads(request.body)
-        required = ['oldPhoneNum', 'name', 'email', 'phoneNum', 'contractLic', 'skills', 'founded']
+        required = ['id', 'job', 'serviceCompany', 'client', 'status', 'dayStarted', 'details']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) == 0):
-            oldPhoneNum = inData.get('oldPhoneNum')
-            name = inData.get('name')
-            email = inData.get('email')
-            phoneNum = inData.get('phoneNum')
-            contractLic = inData.get('contractLic')
-            skills = inData.get('skills')
-            dateStr = inData.get('founded')
-            founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
+            id = inData.get('id')
+            job = inData.get('job')
+            serviceCompany = inData.get('serviceCompany')
+            client = inData.get('client')
+            status = inData.get('status')
+            dayStartedStr = inData.get('dayStarted')
+            details = inData.get('details')
+            dayStarted = datetime.datetime.strptime(dayStartedStr, "%Y-%m-%d").date()
 
-            # The ServiceProvider
-            proList = ServiceProvider.objects.filter(phoneNum=oldPhoneNum)
-            if proList.exists():
-                newProList = ServiceProvider.objects.filter(phoneNum=phoneNum)
-                if newProList.exists():
-                    return JsonResponse(data=returnError(SERVPRO_ALREADY_EXIST))
-                pro = proList[0]
-                pro.name = name
-                pro.email = email
-                pro.phoneNum = phoneNum
-                pro.contractLic = contractLic
-                pro.skills = skills
-                pro.founded = founded
-                pro.save()
+            # The ServiceRequest
+            reqList = ServiceRequest.objects.filter(id=id)
+            if reqList.exists():
+                req = reqList[0]
+                req.job = job
+                req.serviceCompany = serviceCompany
+                req.client = client
+                req.status = status
+                req.dayStarted = dayStarted
+                req.details = details
+                req.save()
                 return JsonResponse(data={STATUS: SUCCESS})
             else:
-                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
+                return JsonResponse(data=returnError(SERVREQ_DOESNT_EXIST))
         else:
             return JsonResponse(data=missingError(missingFields))
 
     def get(self, request):
+        print('HERE: ', request.body)
         inData = json.loads(request.body)
-        required = ['phoneNum']
+        required = ['propId']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) == 0):
-            phoneNum = inData.get('phoneNum')
-            proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
-            if proList.exists():
-                pro = proList[0]
+            propId = inData.get('propId')
+            reqList = ServiceRequest.objects.filter(location=propId)
+            if reqList.exists():
+                newList = []
+                for i in reqList:
+                    newList.append(i.toDict())
                 data = {
                            STATUS: SUCCESS,
-                           'pro': pro.toDict(),
+                           'reqs': newList,
                        }
                 return JsonResponse(data=data)
             else:
-                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
+                return JsonResponse(data=returnError(SERVREQ_DOESNT_EXIST))
         else:
             return JsonResponse(data=missingError(missingFields))
 

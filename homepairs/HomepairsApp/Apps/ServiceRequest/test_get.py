@@ -2,8 +2,10 @@
 # Imports
 from django.conf import settings
 from django.test import TestCase
+from ..Properties.models import Property
+from ..Appliances.models import Appliance
 
-from ..helperFuncsForTesting import getInfoPost, getInfoPut, setUpHelper
+from ..helperFuncsForTesting import getInfoGet, getInfoPost, getInfoPut, setUpHelper
 from .views import STATUS, SUCCESS
 
 
@@ -13,7 +15,8 @@ from .views import STATUS, SUCCESS
 # Vars
 
 # EXTRA URLS
-PRO_VIEW = 'service_provider_view'
+REQ_VIEW = 'service_request_view'
+APP_VIEW = 'appliance_view'
 
 ################################################################################
 # Tests
@@ -24,51 +27,81 @@ class UpdateServiceProvider(TestCase):
     def setUp(self):
         setUpHelper()
 
-    def test_update_service_provider_allCorrect(self):
+    def test_update_service_request_allCorrect(self):
         '''Everything is correct, I create the property first, then update it.'''
-        name = 'McDs'
-        email = 'mcds@gmail.com'
-        phoneNum = '8007733030'
-        contractLic = '681234'
-        skills = 'can cook burgers okay'
-        founded = '2014-04-07'
-
+        name = 'Fridge'
+        manufacturer = 'Company'
+        category = 'cool'
+        modelNum = 68
+        serialNum = 70
+        location = 'Garage'
+        propId = Property.objects.filter()[0].id
         data = {
                   'name': name,
-                  'email': email,
-                  'phoneNum': phoneNum,
-                  'contractLic': contractLic,
-                  'skills': skills,
-                  'founded': founded,
+                  'manufacturer': manufacturer,
+                  'category': category,
+                  'modelNum': modelNum,
+                  'serialNum': serialNum,
+                  'location': location,
+                  'propId': propId,
                }
-        responseData = getInfoPost(PRO_VIEW, data)
+        responseData = getInfoPost(APP_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        oldPhoneNum = phoneNum
-        name = 'Burger King'
-        email = 'burgerking@gmail.com'
-        phoneNum = '555555555'
-        contractLic = '666666'
-        skills = 'can cook burgers not great'
-        founded = '2000-01-01'
+        job = 'Fix sink'
+        serviceCompany = 'Joe Plumbing'
+        client = 'McDs'
+        status = 'Pending'
+        dayStarted = '2000-01-01'
+        details = 'Sink dont work so good'
+        propId = Property.objects.filter()[0].id
+        appId = Appliance.objects.filter()[0].id
         data = {
-                  'oldPhoneNum': oldPhoneNum,
-                  'name': name,
-                  'email': email,
-                  'phoneNum': phoneNum,
-                  'contractLic': contractLic,
-                  'skills': skills,
-                  'founded': founded,
+                  'job': job,
+                  'serviceCompany': serviceCompany,
+                  'client': client,
+                  'status': status,
+                  'dayStarted': dayStarted,
+                  'details': details,
+                  'propId': propId,
+                  'appId': appId
+               }
+        responseData = getInfoPost(REQ_VIEW, data)
+        self.assertEqual(responseData.get(STATUS), SUCCESS)
+
+        job = 'Break sink'
+        serviceCompany = 'King kong'
+        client = 'BK'
+        status = 'Done'
+        dayStarted = '2014-04-07'
+        details = 'Sink works too well'
+
+        data = {
+                  'job': job,
+                  'serviceCompany': serviceCompany,
+                  'client': client,
+                  'status': status,
+                  'dayStarted': dayStarted,
+                  'details': details,
+                  'propId': propId,
+                  'appId': appId
                }
 
-        responseData = getInfoPut(PRO_VIEW, data)
-
+        responseData = getInfoPost(REQ_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
         data = {
-                  'phoneNum': phoneNum,
+                    'propId': propId
                }
+        responseData = getInfoGet(REQ_VIEW, data)
 
+        self.assertEqual(responseData.get(STATUS), SUCCESS)
+        self.assertEqual(len(responseData.get('reqs')), 2)
+
+        # data = {
+        #           'phoneNum': phoneNum,
+        #        }
+        #
         # responseData = getInfoGet(PRO_VIEW, data)
         #
         # self.assertEqual(responseData.get(STATUS), SUCCESS)
