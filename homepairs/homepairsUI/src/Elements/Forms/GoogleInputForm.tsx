@@ -59,7 +59,7 @@ const DefaultInputFormStyle = StyleSheet.create({
         fontSize: 14,
     },
     locationsContainers: {
-        maxHeight: 180,
+        maxHeight: 230,
         borderLeftColor: BaseStyles.LightColorTheme.lightGray,
         borderLeftWidth: 1, 
         borderRightColor: BaseStyles.LightColorTheme.lightGray,
