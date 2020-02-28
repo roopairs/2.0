@@ -161,6 +161,7 @@ export default function ViewPropertyCard(props: ViewPropertyCardProps) {
 
 
     function renderImageContent() {
+        
         return (
             <ImageBackground
                 source={image}
