@@ -84,6 +84,7 @@ describe('HomePairsMenu Test', () => {
 
                 // Test Selected Page 
                 fireEvent.press(pressables[0]);
+                console.log(navigationStackSpyFunction)
                 expect(navigationStackSpyFunction).toHaveBeenCalledWith(testAppStack[0].navigate);
                 expect(parentCallBackSpy).toHaveBeenCalledWith(testAppStack[0]);
 

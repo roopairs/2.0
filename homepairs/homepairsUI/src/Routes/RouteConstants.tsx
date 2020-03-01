@@ -1,4 +1,7 @@
 import { MainAppStackType } from 'homepairs-types';
+import * as Endpoints from './RemoteEndpoints';
+
+export {Endpoints};
 
 /**
  * All keys that can be mapped to any page in the react navigator should 

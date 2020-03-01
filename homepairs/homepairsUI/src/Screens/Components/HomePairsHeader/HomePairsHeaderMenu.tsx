@@ -5,8 +5,8 @@ import { FontTheme} from 'homepairs-base-styles';
 import { MainAppStackType, AccountTypes } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { ChooseMainPage } from 'src/state/account/actions';
-import {NavigationRouteHandler} from 'homepairs-utilities';
-import {MainAppStack} from '../../../Routes/RouteConstants';
+import { NavigationRouteHandler } from 'homepairs-utilities';
+import { MainAppStack } from '../../../Routes/RouteConstants';
 
 export type HomePairsMenuProps = {
 
@@ -123,6 +123,7 @@ export default class HomePairsMenu extends React.Component<Props> {
         isDropDown: false,
         showMenu: false,
         toggleMenu: (toggle?: boolean) => {return toggle;},
+        setAuthenticatedState: (auth: boolean) => {return auth},
     };
 
     constructor(props: Readonly<Props>) {
@@ -163,6 +164,7 @@ export default class HomePairsMenu extends React.Component<Props> {
         // to the Properties
         this.setSelected(value);
         this.closeMenu();
+        console.log(setAuthenticatedState)
         if(value.title === 'Log Out'){
             setAuthenticatedState(false);
         }

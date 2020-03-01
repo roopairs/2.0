@@ -11,6 +11,7 @@ import {
     ServiceState,
     PropertyListState,
     Contact,
+    AuthenticationState,
 } from 'homepairs-types';
 
 const middleWares = [thunk];
@@ -55,8 +56,7 @@ const PropertyManagerAcount: PropertyManagerAccount = {
     firstName: 'Darrel',
     lastName: 'Williams',
     email: 'dWilliams@SpeechGrammarList.com',
-    streetAddress: '21 Macalister Drive',
-    city: 'Oakland',
+    address: '21 Macalister Drive, Oakland, California',
     roopairsToken: '',
     manId: 1000,
 };
@@ -65,17 +65,15 @@ const PropertyManagerAcount: PropertyManagerAccount = {
 /** Property data for testing! */
 export const PropertyList1: Property[] = [
     {
-        streetAddress: '560 Hathway Ap. 2',
-        city: 'San Luis Obispo',
-        state: 'Ca',
+        propId: '1',
+        address: '560 Hathway Ap. 2, San Luis Obispo, California',
         tenants: 3,
         bedrooms: 3,
         bathrooms: 3,
     },
     {
-        streetAddress: '481 Del Sur Way',
-        city: 'San Luis Obispo',
-        state: 'Ca',
+        propId: '2',
+        address: '481 Del Sur Way, San Luis Obispo, California',
         tenants: 5,
         bedrooms: 3,
         bathrooms: 2,
@@ -95,6 +93,7 @@ const propertyListState : PropertyListState = {
     selectedPropertyIndex: 0,
     properties: PropertyList1,
     propertyManager: PropertyManager1,
+    appliances: [],
 };
 /** Property data for testing! */
 
@@ -183,12 +182,19 @@ const ConfigurationSettings1: ConfigurationSettings = {
 };
 /** Settings data for testing! */
 
+/** Checking to see if user has been authenticated. May be deprecated soon. */
+export const authenticationState: AuthenticationState ={
+    authed: true,
+};
+/** Checking to see if user has been authenticated. May be deprecated soon. */
+
 export const testStore1: AppState = {
     properties: propertyListState,
     accountProfile: PropertyManagerAcount,
     header: HeaderState1,
     serviceRequests: serviceRequest1,
     settings: ConfigurationSettings1,
+    authenticated: authenticationState,
 };
 
 export const propertyManagerMock1 = mockStore(testStore1);
@@ -200,6 +206,7 @@ export const HeaderMockStores = {
         header: HeaderState1,
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
+        authenticated: authenticationState,
     }),
     dropDownHiddenWithBack: mockStore({
         properties: propertyListState,
@@ -207,6 +214,7 @@ export const HeaderMockStores = {
         header: HeaderState2,
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
+        authenticated: authenticationState,
     }),
     navBarNoBack: mockStore({
         properties: propertyListState,
@@ -214,6 +222,7 @@ export const HeaderMockStores = {
         header: HeaderState3,
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
+        authenticated: undefined,
     }),
     navBarWithBack: mockStore({
         properties: propertyListState,
@@ -221,6 +230,7 @@ export const HeaderMockStores = {
         header: HeaderState4,
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
+        authenticated: authenticationState,
     }),
     dropDownRevealedWithBack: mockStore({
         properties: propertyListState,
@@ -228,6 +238,7 @@ export const HeaderMockStores = {
         header: HeaderState5,
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
+        authenticated: authenticationState,
     }),
     navBarOnChangeDropDownRevealMenu: mockStore({
         properties: propertyListState,
@@ -235,6 +246,7 @@ export const HeaderMockStores = {
         header: HeaderState6,
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
+        authenticated: authenticationState,
     }),
     dropDownRevealedNoBack: mockStore({
         properties: propertyListState,
@@ -242,5 +254,6 @@ export const HeaderMockStores = {
         header: HeaderState7,
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
+        authenticated: authenticationState,
     }),
 };

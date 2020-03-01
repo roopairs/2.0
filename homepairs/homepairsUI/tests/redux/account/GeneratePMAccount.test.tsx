@@ -3,16 +3,19 @@ import { AccountTypes, AccountStateAction, Account, Property, FetchPropertiesAct
 import { NavigationSwitchProp } from 'react-navigation';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import { navigationPages, Endpoints } from 'src/Routes/RouteConstants';
+import { SetAccountAuthenticationStateAction } from 'src/state/types';
 import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
 import { PROPERTY_LIST_ACTION_TYPES } from '../../../src/state/property-list/actions';
-import { mockSwitchNavigation, navigationSwitchSpyFunction } from '../../fixtures/DummyComponents';
+import { prepareNavigationSwitchMock } from '../../fixtures/DummyComponents';
 
 const TYPE = 'ACCOUNT/FETCH_PROFILE';
-const URL = 'http://homepairs-alpha.herokuapp.com/API/register/pm/';
+const URL = Endpoints.HOMEPAIRS_REGISTER_PM_ENDPOINT;
+const [mockSwitchNavigation, navigationSwitchSpyFunction ] = prepareNavigationSwitchMock();
 const navSpyFunction = navigationSwitchSpyFunction;
 const AccountPropertiesPageKey = navigationPages.PropertiesScreen;
 const {FETCH_PROPERTIES} = PROPERTY_LIST_ACTION_TYPES;
+
 const testPMAccount1: Account = {
     accountType: AccountTypes.Landlord,
     firstName: 'Jacky',
@@ -23,12 +26,12 @@ const testPMAccount1: Account = {
 };
 
 const testJsonValue1 = {
+    role: 'pm',
     pm: {
         firstName: 'Jacky',
         lastName: 'Lynne',
         email: 'jackyLynne@gmail.com',
-        manId: 100,
-        streetAddress: 'ABC Street',
+        address: 'ABC Street',
       },
     token: '1d9f80e98e9b16b94bf76c2dc49fe15b8b30d1a2',
     properties: [{
@@ -36,31 +39,38 @@ const testJsonValue1 = {
         numBath: 4,
         numBed: 10,
         pm: 'Jacky Lynne',
-        streetAddress: 'ABG Street',
+        propId: '1',
+        address: 'ABG Street',
     }],
 };
 
 const expectedFetchResult1: AccountStateAction = {
     type: TYPE,
     profile:{
-        accountType: AccountTypes.Landlord,
+        accountType: AccountTypes.PropertyManager,
         firstName: 'Jacky',
         lastName: 'Lynne',
         email: 'jackyLynne@gmail.com',
-        streetAddress: 'ABC Street',
+        address: 'ABC Street',
+        manId: undefined,
         roopairsToken: '1d9f80e98e9b16b94bf76c2dc49fe15b8b30d1a2',
-        manId: 100,
     },
 };
 
 const expectedProperties: FetchPropertiesAction ={
     type: FETCH_PROPERTIES,
     properties: [{
+      propId: '1',
       tenants: 10,
       bathrooms: 4,
       bedrooms: 10,
-      streetAddress: "ABG Street",
+      address: "ABG Street",
     }],
+};
+
+const expectedSessionResult : SetAccountAuthenticationStateAction = {
+  authed: true, 
+  type: "SESSION/SET_AUTH_STATE",
 };
 
 const mockNavigation: NavigationSwitchProp = mockSwitchNavigation;
@@ -97,9 +107,10 @@ describe('generateAccountForPM Action', () => {
             .then(() => {
                 expect(spyFunction.call).toHaveLength(1);
                 const actionResults = propertyManagerMock1.getActions();
-                expect(actionResults).toHaveLength(2);
-                expect(actionResults[0]).toStrictEqual(expectedFetchResult1);
-                expect(actionResults[1]).toStrictEqual(expectedProperties);
+                expect(actionResults).toHaveLength(3);
+                expect(actionResults[0]).toStrictEqual(expectedSessionResult);
+                expect(actionResults[1]).toStrictEqual(expectedFetchResult1);
+                expect(actionResults[2]).toStrictEqual(expectedProperties);
                 expect(navSpyFunction).toBeCalledWith(AccountPropertiesPageKey);
             });
       });

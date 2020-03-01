@@ -119,7 +119,7 @@ export const postNewProperty = (
             .post(
                 'https://homepairs-alpha.herokuapp.com/property/',
                 {
-                    streetAddress: newProperty.address,
+                    address: newProperty.address,
                     numBed: newProperty.bedrooms,
                     numBath: newProperty.bathrooms,
                     maxTenants: newProperty.tenants,
@@ -148,7 +148,7 @@ export const postNewProperty = (
                     );
                 }
             })
-            .catch();
+            .catch(() => {});
     };
 };
 
@@ -186,7 +186,7 @@ export const postUpdatedProperty = (
     editProperty: Property,
     info: EditPropertyState,
     displayError: (msg: string) => void,
-    navigation: NavigationRouteHandler,
+    navigation: any,
 ) => {
     return async (dispatch: (arg0: any) => void) => {
         return axios
@@ -203,14 +203,15 @@ export const postUpdatedProperty = (
                 },
             )
             .then(response => {
-                console.log(`Post Updated Response:`)
-                console.log(response)
                 if (
                     response[responseKeys.DATA][responseKeys.STATUS] ===
                     responseKeys.STATUS_RESULTS.SUCCESS
                 ) {
                     dispatch(updateProperty(info.index, editProperty));
+                    console.log('Post Updated Property: Recieved Request');
                     navigation.goBack();
+                    console.log('Post Updated Property: Recieved Request');
+
                 } else {
                     displayError(
                         response[responseKeys.DATA][responseKeys.ERROR],
@@ -246,8 +247,6 @@ export const removeProperty = (
  * @param {Property} linkedProperty -Property recieved from the homepairs servers
  */
 export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => {
-  console.log(linkedProperty)
-
   const fetchedProperties: Property[] = [];
   const fetchedProperty = {
     propId: linkedProperty[propertyKeys.PROPERTYID],
@@ -307,8 +306,6 @@ export const fetchPropertyAndPropertyManager = (linkedProperty: Property, linked
  * @param linkedProperties -Array of objects that contain the data for properties
  */
 export const fetchProperties = (linkedProperties: Array<any>): FetchPropertiesAction => {
-  console.log(linkedProperties)
-
   const fetchedProperties: Property[] = [];
   linkedProperties?.forEach(linkedProperty => {
     fetchedProperties.push({
@@ -319,7 +316,6 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertiesAc
       bathrooms: linkedProperty[propertyKeys.BATHROOMS],
     });
   });
-  console.log(fetchedProperties)
   storePropertyData(fetchedProperties);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
@@ -398,27 +394,6 @@ export const postNewAppliance = (
     };
 };
 
-// fix docs
-/**
- * ----------------------------------------------------
- * updateProperty
- * ----------------------------------------------------
- * Action intended to mutate a specified property after it has been updated
- * in the homepairs servers. Should be called after postUpdatedProperty.
- * @param {Property} updatedProperty -the new contents of the selected property
- */
-/*
-export const updateAppliance = (
-    propertyIndex: number, 
-    updatedAppliance: Appliance,
-): UpdateApplianceAction => {
-    return {
-        type: PROPERTY_LIST_ACTION_TYPES.UPDATE_APPLIANCE,
-        userData: updatedAppliance,
-        index: propertyIndex,
-    };
-};
-*/
 /**
  * ----------------------------------------------------
  * postUpdatedProperty
