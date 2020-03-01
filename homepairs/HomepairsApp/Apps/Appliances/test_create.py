@@ -10,8 +10,6 @@ from .views import ERROR, FAIL, PROPERTY_DOESNT_EXIST, STATUS, SUCCESS
 ################################################################################
 # Vars
 
-# globUrl = settings.TEST_URL
-
 # EXTRA URLS
 APP_VIEW = 'appliance_view'
 
@@ -63,7 +61,7 @@ class CreateAppliance(TestCase):
         # self.assertEqual(app.get('location'), location)
 
     # Test that passes bad propId
-    def test_CREATE_APP_bad_address(self):
+    def test_CREATE_APP_bad_propId(self):
         '''Incorrect Fields Being Sent'''
         name = 'Fridge'
         manufacturer = 'Company'

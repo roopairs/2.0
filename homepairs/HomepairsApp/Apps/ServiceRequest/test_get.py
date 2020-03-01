@@ -1,11 +1,10 @@
 ################################################################################
 # Imports
-from django.conf import settings
 from django.test import TestCase
-from ..Properties.models import Property
-from ..Appliances.models import Appliance
 
-from ..helperFuncsForTesting import getInfoGet, getInfoPost, getInfoPut, setUpHelper
+from ..Appliances.models import Appliance
+from ..helperFuncsForTesting import getInfoGet, getInfoPost, setUpHelper
+from ..Properties.models import Property
 from .views import STATUS, SUCCESS
 
 
@@ -22,7 +21,7 @@ APP_VIEW = 'appliance_view'
 # Tests
 
 
-class UpdateServiceProvider(TestCase):
+class GetServiceRequest(TestCase):
 
     def setUp(self):
         setUpHelper()

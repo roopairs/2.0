@@ -23,6 +23,7 @@ TOO_MANY_PROPERTIES = 'Too many properties associated with tenant'
 PROPERTY_SQUISH = 'This address and city are associated with more than one property'
 PM_SQUISH = 'This email is associated with more than one pm'
 INVALID_PROPERTY = 'Invalid property'
+INVALID_DATE = 'Invalid date'
 PROPERTY_ALREADY_EXISTS = 'Property given already exists'
 NON_FIELD_ERRORS = 'non_field_errors'
 SERVPRO_DOESNT_EXIST = 'Service provider does not exist.'
@@ -75,7 +76,11 @@ class ServiceProviderView(View):
             contractLic = inData.get('contractLic')
             skills = inData.get('skills')
             dateStr = inData.get('founded')
-            founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
+            try:
+                founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
+            except:
+                return JsonResponse(data=returnError(INVALID_DATE))
+
             proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
             if not proList.exists():
                 pro = ServiceProvider(name=name,
@@ -103,7 +108,10 @@ class ServiceProviderView(View):
             contractLic = inData.get('contractLic')
             skills = inData.get('skills')
             dateStr = inData.get('founded')
-            founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
+            try:
+                founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
+            except:
+                return JsonResponse(data=returnError(INVALID_DATE))
 
             # The ServiceProvider
             proList = ServiceProvider.objects.filter(phoneNum=oldPhoneNum)

@@ -4,9 +4,9 @@ import json
 from django.http import JsonResponse
 from django.views import View
 
-from .models import ServiceRequest
-from ..Properties.models import Property
 from ..Appliances.models import Appliance
+from ..Properties.models import Property
+from .models import ServiceRequest
 
 
 ################################################################################
@@ -87,13 +87,13 @@ class ServiceRequestView(View):
                 prop = propList[0]
                 app = appList[0]
                 req = ServiceRequest(job=job,
-                                    serviceCompany=serviceCompany,
-                                    client=client,
-                                    status=status,
-                                    dayStarted=dayStarted,
-                                    details=details,
-                                    location=prop,
-                                    appFixed=app)
+                                     serviceCompany=serviceCompany,
+                                     client=client,
+                                     status=status,
+                                     dayStarted=dayStarted,
+                                     details=details,
+                                     location=prop,
+                                     appFixed=app)
                 req.save()
                 data = {
                         STATUS: SUCCESS,
@@ -101,8 +101,10 @@ class ServiceRequestView(View):
                         }
                 return JsonResponse(data=data)
             else:
-                print('Prop doesnt exist')
-                return JsonResponse(data=missingError(PROPERTY_DOESNT_EXIST))
+                if propList.exists():
+                    return JsonResponse(data=missingError(APPLIANCE_DOESNT_EXIST))
+                else:
+                    return JsonResponse(data=missingError(PROPERTY_DOESNT_EXIST))
         else:
             print(missingFields)
             return JsonResponse(data=missingError(missingFields))
@@ -157,21 +159,5 @@ class ServiceRequestView(View):
                 return JsonResponse(data=data)
             else:
                 return JsonResponse(data=returnError(SERVREQ_DOESNT_EXIST))
-        else:
-            return JsonResponse(data=missingError(missingFields))
-
-    def delete(self, request):
-        inData = json.loads(request.body)
-        required = ['phoneNum']
-        missingFields = checkRequired(required, inData)
-        if(len(missingFields) == 0):
-            phoneNum = inData.get('phoneNum')
-            proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
-            if proList.exists():
-                pro = proList[0]
-                pro.delete()
-                return JsonResponse(data={STATUS: SUCCESS})
-            else:
-                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
         else:
             return JsonResponse(data=missingError(missingFields))

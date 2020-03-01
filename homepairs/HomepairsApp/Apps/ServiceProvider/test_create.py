@@ -3,10 +3,8 @@
 from django.test import TestCase
 
 from ..helperFuncsForTesting import getInfoPost, setUpHelper
-from .views import STATUS, SUCCESS
+from .views import ERROR, FAIL, INVALID_DATE, SERVPRO_ALREADY_EXIST, STATUS, SUCCESS
 
-
-# from .views import FAIL
 
 ################################################################################
 # Vars
@@ -61,24 +59,63 @@ class CreateServiceProvider(TestCase):
         # self.assertEqual(pro.get('skills'), skills)
 
     # Test that passes bad propId
-    # def test_create_pro_bad_date(self):
-    #     '''Incorrect Fields Being Sent'''
-    #     name = 'McDs'
-    #     email = 'mcds@gmail.com'
-    #     phoneNum = '8007733030'
-    #     contractLic = '681234'
-    #     skills = 'can cook burgers okay'
-    #     founded = 'bad'
-    #
-    #     data = {
-    #               'name': name,
-    #               'email': email,
-    #               'phoneNum': phoneNum,
-    #               'contractLic': contractLic,
-    #               'skills': skills,
-    #               'founded': founded,
-    #            }
-    #     responseData = getInfoPost(PRO_VIEW, data)
-    #
-    #     self.assertEqual(responseData.get(STATUS), FAIL)
-    #     self.assertEqual(responseData.get(ERROR), PROPERTY_DOESNT_EXIST)
+    def test_create_pro_bad_date(self):
+        '''Invalid Date Being Sent'''
+        name = 'McDs'
+        email = 'mcds@gmail.com'
+        phoneNum = '8007733030'
+        contractLic = '681234'
+        skills = 'can cook burgers okay'
+        founded = 'bad'
+
+        data = {
+                  'name': name,
+                  'email': email,
+                  'phoneNum': phoneNum,
+                  'contractLic': contractLic,
+                  'skills': skills,
+                  'founded': founded,
+               }
+        responseData = getInfoPost(PRO_VIEW, data)
+
+        self.assertEqual(responseData.get(STATUS), FAIL)
+        self.assertEqual(responseData.get(ERROR), INVALID_DATE)
+
+    def test_create_service_provider_dup_phone(self):
+        '''Everything is correct'''
+        name = 'McDs'
+        email = 'mcds@gmail.com'
+        phoneNum = '8007733030'
+        contractLic = '681234'
+        skills = 'can cook burgers okay'
+        founded = '2014-04-07'
+
+        data = {
+                  'name': name,
+                  'email': email,
+                  'phoneNum': phoneNum,
+                  'contractLic': contractLic,
+                  'skills': skills,
+                  'founded': founded,
+               }
+        responseData = getInfoPost(PRO_VIEW, data)
+        self.assertEqual(responseData.get(STATUS), SUCCESS)
+
+        name = 'McDs'
+        email = 'mcds@gmail.com'
+        phoneNum = '8007733030'
+        contractLic = '681234'
+        skills = 'can cook burgers okay'
+        founded = '2014-04-07'
+
+        data = {
+                  'name': name,
+                  'email': email,
+                  'phoneNum': phoneNum,
+                  'contractLic': contractLic,
+                  'skills': skills,
+                  'founded': founded,
+               }
+        responseData = getInfoPost(PRO_VIEW, data)
+        self.assertEqual(responseData.get(STATUS), FAIL)
+        self.assertEqual(responseData.get(ERROR), SERVPRO_ALREADY_EXIST)

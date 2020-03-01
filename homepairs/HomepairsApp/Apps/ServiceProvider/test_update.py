@@ -1,10 +1,9 @@
 ################################################################################
 # Imports
-from django.conf import settings
 from django.test import TestCase
 
 from ..helperFuncsForTesting import getInfoPost, getInfoPut, setUpHelper
-from .views import STATUS, SUCCESS
+from .views import ERROR, FAIL, INVALID_DATE, SERVPRO_DOESNT_EXIST, STATUS, SUCCESS
 
 
 # from .views import FAIL
@@ -79,42 +78,86 @@ class UpdateServiceProvider(TestCase):
         # self.assertEqual(app.get('contractLic'), contractLic)
         # self.assertEqual(app.get('skills'), skills)
 
-    # def test_update_service_provider_bad_date(self):
-    #     '''Incorrect Fields Being Sent'''
-    #     name = 'McDs'
-    #     email = 'mcds@gmail.com'
-    #     phoneNum = '8007733030'
-    #     contractLic = '681234'
-    #     skills = 'can cook burgers okay'
-    #     founded = '2014-04-07'
-    #
-    #     data = {
-    #               'name': name,
-    #               'email': email,
-    #               'phoneNum': phoneNum,
-    #               'contractLic': contractLic,
-    #               'skills': skills,
-    #               'founded': founded,
-    #            }
-    #     responseData = getInfoPost(PRO_VIEW, data)
-    #     self.assertEqual(responseData.get(STATUS), SUCCESS)
-    #     id = responseData.get(id)
-    #
-    #     name = 'Burger King'
-    #     email = 'burgerking@gmail.com'
-    #     phoneNum = '555555555'
-    #     contractLic = '666666'
-    #     skills = 'can cook burgers not great'
-    #     founded = 'bad'
-    #     data = {
-    #               'name': name,
-    #               'email': email,
-    #               'phoneNum': phoneNum,
-    #               'contractLic': contractLic,
-    #               'skills': skills,
-    #               'founded': founded,
-    #            }
-    #
-    #     responseData = getInfoPut(PRO_VIEW, data)
-    #
-    #     self.assertEqual(responseData.get(STATUS), FAIL)
+    def test_update_service_provider_bad_date(self):
+        '''Incorrect Fields Being Sent'''
+        name = 'McDs'
+        email = 'mcds@gmail.com'
+        phoneNum = '8007733030'
+        contractLic = '681234'
+        skills = 'can cook burgers okay'
+        founded = '2014-04-07'
+
+        data = {
+                  'name': name,
+                  'email': email,
+                  'phoneNum': phoneNum,
+                  'contractLic': contractLic,
+                  'skills': skills,
+                  'founded': founded,
+               }
+        responseData = getInfoPost(PRO_VIEW, data)
+        self.assertEqual(responseData.get(STATUS), SUCCESS)
+
+        oldPhoneNum = '8007733030'
+        name = 'Burger King'
+        email = 'burgerking@gmail.com'
+        phoneNum = '555555555'
+        contractLic = '666666'
+        skills = 'can cook burgers not great'
+        founded = 'bad'
+        data = {
+                  'oldPhoneNum': oldPhoneNum,
+                  'name': name,
+                  'email': email,
+                  'phoneNum': phoneNum,
+                  'contractLic': contractLic,
+                  'skills': skills,
+                  'founded': founded,
+               }
+
+        responseData = getInfoPut(PRO_VIEW, data)
+
+        self.assertEqual(responseData.get(STATUS), FAIL)
+        self.assertEqual(responseData.get(ERROR), INVALID_DATE)
+
+    def test_update_service_provider_bad_phone_num(self):
+        '''Incorrect Fields Being Sent'''
+        name = 'McDs'
+        email = 'mcds@gmail.com'
+        phoneNum = '8007733030'
+        contractLic = '681234'
+        skills = 'can cook burgers okay'
+        founded = '2014-04-07'
+
+        data = {
+                  'name': name,
+                  'email': email,
+                  'phoneNum': phoneNum,
+                  'contractLic': contractLic,
+                  'skills': skills,
+                  'founded': founded,
+               }
+        responseData = getInfoPost(PRO_VIEW, data)
+        self.assertEqual(responseData.get(STATUS), SUCCESS)
+
+        oldPhoneNum = '555'
+        name = 'Burger King'
+        email = 'burgerking@gmail.com'
+        phoneNum = '555555555'
+        contractLic = '666666'
+        skills = 'can cook burgers not great'
+        founded = '2014-05-01'
+        data = {
+                  'oldPhoneNum': oldPhoneNum,
+                  'name': name,
+                  'email': email,
+                  'phoneNum': phoneNum,
+                  'contractLic': contractLic,
+                  'skills': skills,
+                  'founded': founded,
+               }
+
+        responseData = getInfoPut(PRO_VIEW, data)
+
+        self.assertEqual(responseData.get(STATUS), FAIL)
+        self.assertEqual(responseData.get(ERROR), SERVPRO_DOESNT_EXIST)
