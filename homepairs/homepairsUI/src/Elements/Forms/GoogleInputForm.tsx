@@ -133,7 +133,7 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
                                     parentCallBack(text);
                                 }}
                             />
-                            <ScrollView testID='autocomplete-scrollview'style={locationsContainer}>
+                            <ScrollView testID='autocomplete-scrollview' style={locationsContainer}>
                                 {locationResults.map((el, i) => (
                                 <LocationItem
                                     testID='autocomplete-location-item'

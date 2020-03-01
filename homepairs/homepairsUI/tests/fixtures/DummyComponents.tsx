@@ -207,7 +207,7 @@ export const mockFirstRoute = {
     },
     push: mockRouterFunction,
     pop: mockRouterFunction,
-    replace: mockRouterFunction
+    replace: mockRouterFunction,
   },
   location: {
     pathName: '/admin/properties',

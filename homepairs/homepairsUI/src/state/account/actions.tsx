@@ -148,6 +148,7 @@ export const fetchAccount = (
             password: Password,
           })
           .then((response) => {
+            console.log(response);
             const {data} = response;
             const {status} = data;
             const accountType = getAccountType(response[responseKeys.DATA]);
@@ -168,13 +169,16 @@ export const fetchAccount = (
               // Navigate page based on the Account Type
               ChooseMainPage(accountType, navigation);
             }else{
+              console.log(response);
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
             }
           })
           .catch((error) => {
+            console.log(error);
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
           })
-          .finally(() => {
+          .finally((response) => {
+            console.log(response);
           });
         }; 
 };

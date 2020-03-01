@@ -12,6 +12,7 @@ import { fireEvent, render } from 'react-native-testing-library';
 import strings from 'homepairs-strings';
 
 jest.mock('homepairs-images');
+// Mock the test envirnment that would initially render a navBar
 
 describe("Category Panel", () => {
     const testFunc = (appType: ApplianceType) => { return appType;};
@@ -27,6 +28,7 @@ describe("Category Panel", () => {
         expect(wrapper.find(Image)).toHaveLength(1);
     });
 
+    
     it ("Method test", () => {
         const {getByTestId, getByType} = rendered;
         const categoryStrings = strings.applianceInfo.categories;
