@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite errors="0" failures="0" file="Apps/ServiceRequest/test_update.py" name="Apps.ServiceRequest.test_update.UpdateServiceProvider-20200303214930" skipped="0" tests="1" time="0.008" timestamp="2020-03-03T21:49:30">
-	<testcase classname="Apps.ServiceRequest.test_update.UpdateServiceProvider" file="Apps/ServiceRequest/test_update.py" line="97" name="test_update_service_request_allCorrect" time="0.008" timestamp="2020-03-03T21:49:30">
-		<system-out>
-<![CDATA[]]>		</system-out>
-		<system-err>
-<![CDATA[]]>		</system-err>
-	</testcase>
-</testsuite>
