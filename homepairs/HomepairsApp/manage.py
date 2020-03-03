@@ -1,4 +1,4 @@
-# roopairs!/usr/bin/env python
+#!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
@@ -26,8 +26,7 @@ if __name__ == '__main__':
         os.environ["COVERAGE_PROCESS_START"] = "setup.cfg"
         coverage.process_startup()
         # Switch to the test settings file
-        os.environ["DJANGO_SETTINGS_MODULE"] = "HomepairsApp.settings.test"
-    else:
-        os.environ['DJANGO_SETTINGS_MODULE'] = 'HomepairsApp.settings.base'
+
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'HomepairsApp.settings'
 
     main()

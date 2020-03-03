@@ -1,0 +1,26 @@
+/login
+
+/pm/login/
+/pm/register/
+/pm/tenantEdit/
+
+/tenant/register/
+
+/property/
+    * PUT FOR UPDATE *
+    * POST FOR CREATE*
+
+/appliance/create/
+/appliance/view/
+/appliance/update/
+/appliance/delete/
+
+* COMING SOON *
+Appliance will follow Get, Post, Put
+Property will gain a Get method
+
+For appliance and property GET
+
+Send a get request to
+/appliance/appId/
+/property/propId/
