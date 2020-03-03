@@ -102,9 +102,9 @@ class ServiceRequestView(View):
                 return JsonResponse(data=data)
             else:
                 if propList.exists():
-                    return JsonResponse(data=missingError(APPLIANCE_DOESNT_EXIST))
+                    return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
                 else:
-                    return JsonResponse(data=missingError(PROPERTY_DOESNT_EXIST))
+                    return JsonResponse(data=returnError(PROPERTY_DOESNT_EXIST))
         else:
             print(missingFields)
             return JsonResponse(data=missingError(missingFields))

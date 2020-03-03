@@ -54,7 +54,7 @@ class UpdateAppliance(TestCase):
         newModelNum = 1
         newSerialNum = 2
         newLocation = 'bedroom'
-        appId = responseData.get('id')
+        appId = responseData.get('appId')
         data = {
                   'newName': newName,
                   'newManufacturer': newManufacturer,
