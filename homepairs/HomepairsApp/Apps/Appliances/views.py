@@ -88,7 +88,7 @@ class ApplianceView(View):
                 app.save()
                 data = {
                         STATUS: SUCCESS,
-                        'id': app.id
+                        'appId': app.id
                        }
                 return JsonResponse(data=data)
             else:
