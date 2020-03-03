@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite errors="0" failures="0" file="Apps/PropertyManagers/test_login.py" name="Apps.PropertyManagers.test_login.Login-20200303214930" skipped="0" tests="9" time="0.018" timestamp="2020-03-03T21:49:32">
+	<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="32" name="test_login_correct" time="0.005" timestamp="2020-03-03T21:49:32">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="86" name="test_pm_incorrectEmailField" time="0.001" timestamp="2020-03-03T21:49:32">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="102" name="test_pm_incorrectFields" time="0.001" timestamp="2020-03-03T21:49:32">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="94" name="test_pm_incorrectPassField" time="0.001" timestamp="2020-03-03T21:49:32">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="114" name="test_pm_propOnRoopairs" time="0.003" timestamp="2020-03-03T21:49:32">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="142" name="test_pm_propOnRoopairsXFour" time="0.005" timestamp="2020-03-03T21:49:32">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="62" name="test_pm_wrongEmail" time="0.001" timestamp="2020-03-03T21:49:32">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="70" name="test_pm_wrongPass" time="0.001" timestamp="2020-03-03T21:49:32">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_login.Login" file="Apps/PropertyManagers/test_login.py" line="78" name="test_pm_wrongPassAndEmail" time="0.001" timestamp="2020-03-03T21:49:32">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+</testsuite>

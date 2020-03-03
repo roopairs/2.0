@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite errors="0" failures="0" file="Apps/PropertyManagers/test_register.py" name="Apps.PropertyManagers.test_register.PMRegistrationRoopairs-20200303214930" skipped="0" tests="4" time="0.007" timestamp="2020-03-03T21:49:31">
+	<testcase classname="Apps.PropertyManagers.test_register.PMRegistrationRoopairs" file="Apps/PropertyManagers/test_register.py" line="107" name="test_pm_allCorrect" time="0.002" timestamp="2020-03-03T21:49:31">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_register.PMRegistrationRoopairs" file="Apps/PropertyManagers/test_register.py" line="149" name="test_pm_allCorrectPlusProps" time="0.004" timestamp="2020-03-03T21:49:31">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_register.PMRegistrationRoopairs" file="Apps/PropertyManagers/test_register.py" line="123" name="test_pm_noEmail" time="0.001" timestamp="2020-03-03T21:49:31">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_register.PMRegistrationRoopairs" file="Apps/PropertyManagers/test_register.py" line="132" name="test_pm_noPass" time="0.001" timestamp="2020-03-03T21:49:31">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+</testsuite>

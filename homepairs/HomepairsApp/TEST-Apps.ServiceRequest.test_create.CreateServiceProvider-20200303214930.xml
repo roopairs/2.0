@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite errors="0" failures="2" file="Apps/ServiceRequest/test_create.py" name="Apps.ServiceRequest.test_create.CreateServiceProvider-20200303214930" skipped="0" tests="3" time="0.016" timestamp="2020-03-03T21:49:30">
+	<testcase classname="Apps.ServiceRequest.test_create.CreateServiceProvider" file="Apps/ServiceRequest/test_create.py" line="28" name="test_create_service_request_allCorrect" time="0.006" timestamp="2020-03-03T21:49:30">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.ServiceRequest.test_create.CreateServiceProvider" file="Apps/ServiceRequest/test_create.py" line="115" name="test_create_service_request_bad_app" time="0.004" timestamp="2020-03-03T21:49:30">
+		<failure message="'Incorrect fields: A p p l i a n c e   d o e s   n o t   e x i s t .' != 'Appliance does not exist.'
+- Incorrect fields: A p p l i a n c e   d o e s   n o t   e x i s t .
++ Appliance does not exist.
+" type="AssertionError">
+<![CDATA[Traceback (most recent call last):
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 615, in run
+    testMethod()
+  File "/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/ServiceRequest/test_create.py", line 137, in test_create_service_request_bad_app
+    self.assertEqual(responseData.get(ERROR), APPLIANCE_DOESNT_EXIST)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 839, in assertEqual
+    assertion_func(first, second, msg=msg)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 1220, in assertMultiLineEqual
+    self.fail(self._formatMessage(msg, standardMsg))
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 680, in fail
+    raise self.failureException(msg)
+AssertionError: 'Incorrect fields: A p p l i a n c e   d o e s   n o t   e x i s t .' != 'Appliance does not exist.'
+- Incorrect fields: A p p l i a n c e   d o e s   n o t   e x i s t .
++ Appliance does not exist.
+
+]]>		</failure>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.ServiceRequest.test_create.CreateServiceProvider" file="Apps/ServiceRequest/test_create.py" line="71" name="test_create_service_request_bad_prop" time="0.007" timestamp="2020-03-03T21:49:30">
+		<failure message="'Incorrect fields: P r o p e r t y   d o e s   n o t   e x i s t .' != 'Property does not exist.'
+- Incorrect fields: P r o p e r t y   d o e s   n o t   e x i s t .
++ Property does not exist.
+" type="AssertionError">
+<![CDATA[Traceback (most recent call last):
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 615, in run
+    testMethod()
+  File "/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/ServiceRequest/test_create.py", line 112, in test_create_service_request_bad_prop
+    self.assertEqual(responseData.get(ERROR), PROPERTY_DOESNT_EXIST)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 839, in assertEqual
+    assertion_func(first, second, msg=msg)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 1220, in assertMultiLineEqual
+    self.fail(self._formatMessage(msg, standardMsg))
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 680, in fail
+    raise self.failureException(msg)
+AssertionError: 'Incorrect fields: P r o p e r t y   d o e s   n o t   e x i s t .' != 'Property does not exist.'
+- Incorrect fields: P r o p e r t y   d o e s   n o t   e x i s t .
++ Property does not exist.
+
+]]>		</failure>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+</testsuite>

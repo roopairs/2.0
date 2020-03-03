@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite errors="0" failures="0" file="Apps/Appliances/test_create.py" name="Apps.Appliances.test_create.CreateAppliance-20200303214930" skipped="0" tests="2" time="0.007" timestamp="2020-03-03T21:49:30">
+	<testcase classname="Apps.Appliances.test_create.CreateAppliance" file="Apps/Appliances/test_create.py" line="64" name="test_CREATE_APP_bad_propId" time="0.003" timestamp="2020-03-03T21:49:30">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.Appliances.test_create.CreateAppliance" file="Apps/Appliances/test_create.py" line="24" name="test_create_appliance_allCorrect" time="0.003" timestamp="2020-03-03T21:49:30">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+</testsuite>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite errors="4" failures="0" file="unittest/loader.py" name="unittest.loader._FailedTest-20200303214930" skipped="0" tests="4" time="0.004" timestamp="2020-03-03T21:49:30">
+	<testcase classname="unittest.loader._FailedTest.Apps.Properties.old" file="/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py" line="33" name="test_create" time="0.001" timestamp="2020-03-03T21:49:30">
+		<error message="Failed to import test module: Apps.Properties.old.test_create
+Traceback (most recent call last):
+  File &quot;/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py&quot;, line 436, in _find_test_path
+    module = self._get_module_from_name(name)
+  File &quot;/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py&quot;, line 377, in _get_module_from_name
+    __import__(name)
+  File &quot;/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/Properties/old/test_create.py&quot;, line 7, in &lt;module&gt;
+    from ..helperFuncsForTesting import getInfoPost, setUpHelper
+ModuleNotFoundError: No module named 'Apps.Properties.helperFuncsForTesting'
+" type="ImportError">
+<![CDATA[Traceback (most recent call last):
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 615, in run
+    testMethod()
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py", line 34, in testFailure
+    raise self._exception
+ImportError: Failed to import test module: Apps.Properties.old.test_create
+Traceback (most recent call last):
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py", line 436, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py", line 377, in _get_module_from_name
+    __import__(name)
+  File "/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/Properties/old/test_create.py", line 7, in <module>
+    from ..helperFuncsForTesting import getInfoPost, setUpHelper
+ModuleNotFoundError: No module named 'Apps.Properties.helperFuncsForTesting'
+
+]]>		</error>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="unittest.loader._FailedTest.Apps.Properties.old" file="/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py" line="33" name="test_info" time="0.001" timestamp="2020-03-03T21:49:30">
+		<error message="Failed to import test module: Apps.Properties.old.test_info
+Traceback (most recent call last):
+  File &quot;/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py&quot;, line 436, in _find_test_path
+    module = self._get_module_from_name(name)
+  File &quot;/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py&quot;, line 377, in _get_module_from_name
+    __import__(name)
+  File &quot;/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/Properties/old/test_info.py&quot;, line 5, in &lt;module&gt;
+    from ..helperFuncsForTesting import getInfoPost, setUpHelper
+ModuleNotFoundError: No module named 'Apps.Properties.helperFuncsForTesting'
+" type="ImportError">
+<![CDATA[Traceback (most recent call last):
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 615, in run
+    testMethod()
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py", line 34, in testFailure
+    raise self._exception
+ImportError: Failed to import test module: Apps.Properties.old.test_info
+Traceback (most recent call last):
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py", line 436, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py", line 377, in _get_module_from_name
+    __import__(name)
+  File "/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/Properties/old/test_info.py", line 5, in <module>
+    from ..helperFuncsForTesting import getInfoPost, setUpHelper
+ModuleNotFoundError: No module named 'Apps.Properties.helperFuncsForTesting'
+
+]]>		</error>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="unittest.loader._FailedTest.Apps.Properties.old" file="/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py" line="33" name="test_update" time="0.001" timestamp="2020-03-03T21:49:30">
+		<error message="Failed to import test module: Apps.Properties.old.test_update
+Traceback (most recent call last):
+  File &quot;/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py&quot;, line 436, in _find_test_path
+    module = self._get_module_from_name(name)
+  File &quot;/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py&quot;, line 377, in _get_module_from_name
+    __import__(name)
+  File &quot;/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/Properties/old/test_update.py&quot;, line 7, in &lt;module&gt;
+    from ..helperFuncsForTesting import getInfoPost, getInfoPut, setUpHelper
+ModuleNotFoundError: No module named 'Apps.Properties.helperFuncsForTesting'
+" type="ImportError">
+<![CDATA[Traceback (most recent call last):
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 615, in run
+    testMethod()
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py", line 34, in testFailure
+    raise self._exception
+ImportError: Failed to import test module: Apps.Properties.old.test_update
+Traceback (most recent call last):
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py", line 436, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py", line 377, in _get_module_from_name
+    __import__(name)
+  File "/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/Properties/old/test_update.py", line 7, in <module>
+    from ..helperFuncsForTesting import getInfoPost, getInfoPut, setUpHelper
+ModuleNotFoundError: No module named 'Apps.Properties.helperFuncsForTesting'
+
+]]>		</error>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="unittest.loader._FailedTest.Apps.PropertyManagers" file="/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py" line="33" name="test_tenEdit" time="0.001" timestamp="2020-03-03T21:49:30">
+		<error message="Failed to import test module: Apps.PropertyManagers.test_tenEdit
+Traceback (most recent call last):
+  File &quot;/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py&quot;, line 436, in _find_test_path
+    module = self._get_module_from_name(name)
+  File &quot;/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py&quot;, line 377, in _get_module_from_name
+    __import__(name)
+  File &quot;/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/PropertyManagers/test_tenEdit.py&quot;, line 13, in &lt;module&gt;
+    globUrl = settings.TEST_URL
+  File &quot;/Users/aberard/Programming/HomePairs/django_env/lib/python3.7/site-packages/django/conf/__init__.py&quot;, line 77, in __getattr__
+    val = getattr(self._wrapped, name)
+AttributeError: 'Settings' object has no attribute 'TEST_URL'
+" type="ImportError">
+<![CDATA[Traceback (most recent call last):
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/case.py", line 615, in run
+    testMethod()
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py", line 34, in testFailure
+    raise self._exception
+ImportError: Failed to import test module: Apps.PropertyManagers.test_tenEdit
+Traceback (most recent call last):
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py", line 436, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/unittest/loader.py", line 377, in _get_module_from_name
+    __import__(name)
+  File "/Users/aberard/Programming/HomePairs/2.0/homepairs/HomepairsApp/Apps/PropertyManagers/test_tenEdit.py", line 13, in <module>
+    globUrl = settings.TEST_URL
+  File "/Users/aberard/Programming/HomePairs/django_env/lib/python3.7/site-packages/django/conf/__init__.py", line 77, in __getattr__
+    val = getattr(self._wrapped, name)
+AttributeError: 'Settings' object has no attribute 'TEST_URL'
+
+]]>		</error>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+</testsuite>

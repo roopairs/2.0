@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite errors="0" failures="0" file="Apps/ServiceProvider/test_update.py" name="Apps.ServiceProvider.test_update.UpdateServiceProvider-20200303214930" skipped="0" tests="3" time="0.016" timestamp="2020-03-03T21:49:30">
+	<testcase classname="Apps.ServiceProvider.test_update.UpdateServiceProvider" file="Apps/ServiceProvider/test_update.py" line="26" name="test_update_service_provider_allCorrect" time="0.006" timestamp="2020-03-03T21:49:30">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.ServiceProvider.test_update.UpdateServiceProvider" file="Apps/ServiceProvider/test_update.py" line="81" name="test_update_service_provider_bad_date" time="0.005" timestamp="2020-03-03T21:49:30">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.ServiceProvider.test_update.UpdateServiceProvider" file="Apps/ServiceProvider/test_update.py" line="123" name="test_update_service_provider_bad_phone_num" time="0.005" timestamp="2020-03-03T21:49:30">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+</testsuite>

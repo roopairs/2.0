@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite errors="0" failures="0" file="Apps/PropertyManagers/test_register.py" name="Apps.PropertyManagers.test_register.PMRegistration-20200303214930" skipped="0" tests="5" time="0.012" timestamp="2020-03-03T21:49:30">
+	<testcase classname="Apps.PropertyManagers.test_register.PMRegistration" file="Apps/PropertyManagers/test_register.py" line="28" name="test_pm_allCorrect" time="0.004" timestamp="2020-03-03T21:49:30">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_register.PMRegistration" file="Apps/PropertyManagers/test_register.py" line="73" name="test_pm_missing_email" time="0.002" timestamp="2020-03-03T21:49:30">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_register.PMRegistration" file="Apps/PropertyManagers/test_register.py" line="50" name="test_pm_missing_firstName" time="0.002" timestamp="2020-03-03T21:49:30">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_register.PMRegistration" file="Apps/PropertyManagers/test_register.py" line="62" name="test_pm_missing_lastName" time="0.002" timestamp="2020-03-03T21:49:30">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+	<testcase classname="Apps.PropertyManagers.test_register.PMRegistration" file="Apps/PropertyManagers/test_register.py" line="84" name="test_pm_missing_password" time="0.002" timestamp="2020-03-03T21:49:30">
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testcase>
+</testsuite>
