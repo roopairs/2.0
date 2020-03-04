@@ -14,6 +14,7 @@ import { defaultProperty } from 'homepairs-images';
 import strings from 'homepairs-strings';
 import { HomePairsDimensions, Property } from 'homepairs-types';
 
+
 /**
  * Main App Components will have similar functionality to the parent components ONLY
  * in terms of Presentation. These are NOT SMART COMPONENTS. These components should never
@@ -131,7 +132,7 @@ export type ViewPropertyCardProps = {
      * An optional image that is used when the card is rendered. If none is provided, a default 
      * image will be used instead.
      */
-    image?: ImageSourcePropType;
+    image?: any;
 };
 
 const viewPropertyButtonText = strings.propertiesPage.viewPropertyCardButton;
@@ -161,7 +162,6 @@ export default function ViewPropertyCard(props: ViewPropertyCardProps) {
 
 
     function renderImageContent() {
-        
         return (
             <ImageBackground
                 source={image}

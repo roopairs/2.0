@@ -17,5 +17,5 @@ export {
 	roopairsLogo,
 	splash,
 	trash,
-	upArrow
-}
+	upArrow,
+};

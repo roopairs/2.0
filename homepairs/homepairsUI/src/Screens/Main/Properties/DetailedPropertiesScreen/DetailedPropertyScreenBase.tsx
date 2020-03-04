@@ -8,7 +8,6 @@ import {
     StyleSheet,
     ImageProps,
 } from 'react-native';
-import { ServiceRequestButton } from 'homepairs-elements';
 import { defaultProperty } from 'homepairs-images';
 import {
     GeneralHomeInfo,
@@ -18,18 +17,14 @@ import {
     ServiceRequestCount,
 } from 'homepairs-components';
 import {
-    HomepairsPropertyAttributes,
     Property,
     HomePairsDimensions,
     Appliance, 
-    ApplianceType,
     TenantInfo,
-    ServiceRequest,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { navigationPages } from 'src/Routes/RouteConstants';
 import axios from 'axios';
-import strings from 'homepairs-strings';
 import {prepareNavigationHandlerComponent, NavigationRouteScreenProps, stringToCategory} from 'homepairs-utilities';
 
 export type DetailedPropertyStateProps = {
@@ -40,10 +35,6 @@ type Props = NavigationRouteScreenProps & DetailedPropertyStateProps;
 
 const CurrentTenants = prepareNavigationHandlerComponent(CurrentTenantCard);
 const ApplianceInfo = prepareNavigationHandlerComponent(ApplianceInfoBase);
-
-
-const propertyKeys = HomepairsPropertyAttributes;
-const categoryStrings = strings.applianceInfo.categories;
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -106,31 +97,9 @@ const styles = StyleSheet.create({
     },
 });
 
-const fakeApp: Appliance = {
-    applianceId: 1, 
-    category: ApplianceType.Plumbing, 
-    appName: 'Oven', 
-    manufacturer: 'Vulcan Equipment', 
-    modelNum: 123, 
-    serialNum: 432, 
-    location: 'Bathroom',
-};
-
-const fakeSR : ServiceRequest = {
-    address: '123 Service Request', 
-    technician: 'Johnny White', 
-    startDate: new Date().toString(),
-    poc: '(805)-123-4321', 
-    pocName: 'Sally Jones', 
-    companyName: 'Fix N Fix', 
-    details: 'The oven is not heating properly. It was working fine last week, but we have not been able to get it to light since then.', 
-    appliance: fakeApp,
-};
-
 export default function DetailedPropertyScreenBase(props: Props) {
-    console.log(props);
     const { property, navigation } = props;
-    const { propId, address, bedrooms, bathrooms } = property;
+    const { propId, address } = property;
     const [tenantInfoState, setTenantInfo] = useState([]);
     const [applianceInfoState, setApplianceInfo] = useState([]);
 
@@ -184,7 +153,6 @@ export default function DetailedPropertyScreenBase(props: Props) {
     function openAddApplianceModal() {
         navigation.push(navigationPages.AddApplianceModal, {property, propId}, true);
     }
-
 
     function openEditApplianceModal(appliance: Appliance) {
         navigation.navigate(navigationPages.EditApplianceModal, {appliance, propId}, true);
