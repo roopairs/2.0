@@ -69,7 +69,7 @@ class UpdateServiceProvider(TestCase):
         responseData = getInfoPost(REQ_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        id = responseData.get('id')
+        id = responseData.get('reqId')
         job = 'Break sink'
         serviceCompany = 'King kong'
         client = 'BK'
@@ -78,7 +78,7 @@ class UpdateServiceProvider(TestCase):
         details = 'Sink works too well'
 
         data = {
-                  'id': id,
+                  'reqId': id,
                   'job': job,
                   'serviceCompany': serviceCompany,
                   'client': client,
@@ -137,7 +137,7 @@ class UpdateServiceProvider(TestCase):
         responseData = getInfoPost(REQ_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        id = responseData.get('id')
+        id = responseData.get('reqId')
         job = 'Break sink'
         serviceCompany = 'King kong'
         client = 'BK'
@@ -146,7 +146,7 @@ class UpdateServiceProvider(TestCase):
         details = 'Sink works too well'
 
         data = {
-                  'id': id,
+                  'reqId': id,
                   'job': job,
                   'serviceCompany': serviceCompany,
                   'client': client,

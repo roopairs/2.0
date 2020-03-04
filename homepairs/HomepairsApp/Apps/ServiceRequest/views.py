@@ -70,6 +70,8 @@ class ServiceRequestView(View):
         inData = json.loads(request.body)
         required = ['job', 'serviceCompany', 'client', 'status', 'dayStarted', 'details', 'propId', 'appId']
         missingFields = checkRequired(required, inData)
+        #propId for our database is the same for roopairs id so use same on for both things
+        #ask about shit I dont know
 
         if(len(missingFields) == 0):
             job = inData.get('job')
@@ -97,7 +99,7 @@ class ServiceRequestView(View):
                 req.save()
                 data = {
                         STATUS: SUCCESS,
-                        'id': req.id
+                        'reqId': req.id
                         }
                 return JsonResponse(data=data)
             else:
@@ -111,7 +113,7 @@ class ServiceRequestView(View):
 
     def put(self, request):
         inData = json.loads(request.body)
-        required = ['id', 'job', 'serviceCompany', 'client', 'status', 'dayStarted', 'details']
+        required = ['reqId', 'job', 'serviceCompany', 'client', 'status', 'dayStarted', 'details']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) == 0):
             id = inData.get('id')
