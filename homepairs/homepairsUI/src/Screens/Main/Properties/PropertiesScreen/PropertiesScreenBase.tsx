@@ -1,7 +1,6 @@
 import React from 'react';
 import { PropertyListState, HeaderState } from 'homepairs-types';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import { NavigationRouteScreenProps } from 'homepairs-utilities';
 import {
     ViewPropertyCard,
     SceneInjectedProps,

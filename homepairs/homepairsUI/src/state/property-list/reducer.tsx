@@ -77,14 +77,6 @@ export const properties = (
                 selectedPropertyIndex: updateIndex,
                 properties: updatedPropertyList,
             };
-        /*
-        case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY:
-            return {
-                ...newState,
-                selectedPropertyIndex: null,
-                properties: (action as FetchPropertyAction).property,
-            };
-        */
         case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_AND_PROPERTY_MANAGER:
             return {
                 ...newState,
