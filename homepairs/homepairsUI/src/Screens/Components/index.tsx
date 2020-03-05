@@ -54,7 +54,7 @@ export { default as ServiceRequestModal} from './Modals/ServiceRequestModal/Serv
 export { default as ServiceRequestModalBase} from './Modals/ServiceRequestModal/ServiceRequestModalBase';
 export { default as CurrentTenantCard} from './CurrentTenantCard/CurrentTenantCard';
 export { default as EditTenantModal} from './Modals/EditTenantModal';
-export { default as AddTenantModal} from './Modals/AddTenantModal/AddTenantModal';
+export { default as AddTenantModal} from './Modals/AddTenantModal';
 export { default as LocationItem} from './LocationItem/LocationItem';
 /**
  * When importing non default modules, we must rename it in order to export it since bable only allows

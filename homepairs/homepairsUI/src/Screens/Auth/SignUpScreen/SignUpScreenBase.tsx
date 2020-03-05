@@ -8,7 +8,8 @@ import strings from 'homepairs-strings';
 import { AccountTypes, Account } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet, View, Text } from 'react-native';
-import { isNullOrUndefined, isPasswordValid, isEmailSyntaxValid, isAlphaCharacterOnly, isEmptyOrSpaces, NavigationRouteHandler, NavigationRouteScreenProps } from 'homepairs-utilities';
+import { isNullOrUndefined, isPasswordValid, isEmailSyntaxValid, 
+    isAlphaCharacterOnly, isEmptyOrSpaces, NavigationRouteHandler, NavigationRouteScreenProps } from 'homepairs-utilities';
 import { navigationPages } from 'src/Routes/RouteConstants';
 
 export type SignUpViewDispatchProps = {
@@ -49,57 +50,52 @@ const initalState : SignUpState = {
     ...baseState,
 };
 const signUpScreenStrings = strings.signUpPage;
+const colors = BaseStyles.LightColorTheme;
 
-function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
-    const colors = isNullOrUndefined(colorTheme)
-        ? BaseStyles.LightColorTheme
-        : colorTheme;
-    return StyleSheet.create({
-        formTitle: {
-            marginVertical: '3.5%',
-            fontFamily: BaseStyles.FontTheme.primary,
-            color: colors.lightGray,
-        },
-        input: {
-            alignItems: 'center',
-            alignSelf: 'center',
-            margin: BaseStyles.MarginPadding.xsmallConst,
-            minWidth: 40,
-            width: BaseStyles.ContentWidth.max,
-            height: 40,
-            color: colors.lightGray,
-            borderColor: colors.lightGray,
-            borderWidth: 1,
-            borderRadius: BaseStyles.BorderRadius.small,
-            paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
-        },
-        errorFormTitle: {
-            marginVertical: '3.5%',
-            fontFamily: BaseStyles.FontTheme.primary,
-            color: colors.red,
-        },
-        errorInput: {
-            alignItems: 'center',
-            alignSelf: 'center',
-            margin: BaseStyles.MarginPadding.xsmallConst,
-            minWidth: 40,
-            width: BaseStyles.ContentWidth.max,
-            height: 40,
-            color: colors.red,
-            borderColor: colors.red,
-            shadowColor: colors.red,
-            shadowRadius: 5,
-            shadowOpacity: .5,
-            borderWidth: 1,
-            borderRadius: BaseStyles.BorderRadius.small,
-            paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
-        },
-    });
-}
+const styles = StyleSheet.create({
+    formTitle: {
+        marginVertical: '3.5%',
+        fontFamily: BaseStyles.FontTheme.primary,
+        color: colors.lightGray,
+    },
+    input: {
+        alignItems: 'center',
+        alignSelf: 'center',
+        margin: BaseStyles.MarginPadding.xsmallConst,
+        minWidth: 40,
+        width: BaseStyles.ContentWidth.max,
+        height: 40,
+        color: colors.lightGray,
+        borderColor: colors.lightGray,
+        borderWidth: 1,
+        borderRadius: BaseStyles.BorderRadius.small,
+        paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
+    },
+    errorFormTitle: {
+        marginVertical: '3.5%',
+        fontFamily: BaseStyles.FontTheme.primary,
+        color: colors.red,
+    },
+    errorInput: {
+        alignItems: 'center',
+        alignSelf: 'center',
+        margin: BaseStyles.MarginPadding.xsmallConst,
+        minWidth: 40,
+        width: BaseStyles.ContentWidth.max,
+        height: 40,
+        color: colors.red,
+        borderColor: colors.red,
+        shadowColor: colors.red,
+        shadowRadius: 5,
+        shadowOpacity: .5,
+        borderWidth: 1,
+        borderRadius: BaseStyles.BorderRadius.small,
+        paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
+    },
+});
+
 
 export default class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
-    inputFormStyle;
-
     firstNameRef;
 
     lastNameRef;
@@ -115,7 +111,6 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
 
     constructor(props: Readonly<SignUpProps>) {
         super(props);
-        this.inputFormStyle = setInputStyles(null);
         this.getAccountType = this.getAccountType.bind(this);
         this.getFormFirstName = this.getFormFirstName.bind(this);
         this.getFormLastName = this.getFormLastName.bind(this);
@@ -244,7 +239,7 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
     }
 
     renderInputForms() {
-        const {formTitle, input } = this.inputFormStyle;
+        const {formTitle, input } = styles;
         const inputFormProps = [
             {
                 ref: this.firstNameRef,
@@ -319,8 +314,8 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
                 key={signUpScreenStrings.inputForms.address}
                 name={signUpScreenStrings.inputForms.address}
                 parentCallBack={this.getFormAddress}
-                formTitleStyle={this.inputFormStyle.formTitle}
-                inputStyle={this.inputFormStyle.input}
+                formTitleStyle={styles.formTitle}
+                inputStyle={styles.input}
                 value={address}
                 errorMessage='Address cannot be empty'        
             />

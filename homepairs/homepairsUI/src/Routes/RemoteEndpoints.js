@@ -11,3 +11,4 @@ export const HOMEPAIRS_REGISTER_PM_ENDPOINT = 'https://homepairs-alpha.herokuapp
 
 export const HOMEPAIRS_PROPERTY_ENDPOINT = 'https://homepairs-alpha.herokuapp.com/property/';
 export const HOMEPAIRS_APPLIANCE_ENDPOINT = 'https://homepairs-alpha.herokuapp.com/appliance/';
+export const HOMEPAIRS_TENANT_EDIT_ENDPOINT = 'https://homepairs-alpha.herokuapp.com/pm/tenantEdit';

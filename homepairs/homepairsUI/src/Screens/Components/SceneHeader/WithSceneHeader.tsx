@@ -13,13 +13,16 @@ import { connect } from 'react-redux';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 import SceneHeader from './SceneHeader';
+import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
 
 type SceneDispatchProps = {
     onSetNavHeaderGoBackButton?: (isSet: boolean) => any;
     onCloseNavHeaderMenu?: () => any;
 };
 
-export type SceneInjectedProps = SceneDispatchProps 
+export type SceneInjectedProps = SceneDispatchProps & {
+    navigation?: NavigationRouteHandler
+}
 
 type Props = NavigationStackScreenProps<any, any> &
 SceneDispatchProps;
@@ -102,7 +105,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
         }
 
         renderContents() {
-            const {onSetNavHeaderGoBackButton,onCloseNavHeaderMenu} = this.props;
+            const {onSetNavHeaderGoBackButton,onCloseNavHeaderMenu,navigation} = this.props;
             const directionalLockEnabled = true;
             const automaticallyAdjustContentInsets = false;
             return (
@@ -118,7 +121,8 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
                         <WrappedComponent
                             testID='with-scene-header-wrapped-component'
                             onSetNavHeaderGoBackButton={onSetNavHeaderGoBackButton}
-                            onCloseNavHeaderMenu={onCloseNavHeaderMenu}/>
+                            onCloseNavHeaderMenu={onCloseNavHeaderMenu}
+                            navigation={navigation}/>
                     </ScrollView>
                 </>
             );

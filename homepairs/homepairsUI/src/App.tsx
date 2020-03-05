@@ -19,7 +19,7 @@ const checkSession = async () => {
     await LoadFonts();
     /*
     await AsyncStorage.getItem('session').then(async (sessionToken) => {
-        if(isNullOrUndefined(sessionToken)){
+       if(isNullOrUndefined(sessionToken)){
             await AsyncStorage.clear();
             AppNavigator.navigation.navigate(navigationPages.LoginScreen);
             return;

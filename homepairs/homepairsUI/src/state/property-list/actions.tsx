@@ -6,7 +6,6 @@ import {
     AddPropertyAction,
     UpdatePropertyAction,
     RemovePropertyAction,
-    FetchPropertyAction,
     FetchPropertiesAction,
     Property,
     Appliance,
@@ -236,32 +235,6 @@ export const removeProperty = (
   type: PROPERTY_LIST_ACTION_TYPES.REMOVE_PROPERTY,
   index: propertyIndex,
 });
-
-/**
- * ----------------------------------------------------
- * fetchProperty
- * ----------------------------------------------------
- * Function used to extract a single property from fetching an account profile.
- * This should be called after generating a new account or authentication for specifically
- * Tenants
- * @param {Property} linkedProperty -Property recieved from the homepairs servers
- */
-export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => {
-  const fetchedProperties: Property[] = [];
-  const fetchedProperty = {
-    propId: linkedProperty[propertyKeys.PROPERTYID],
-    address: linkedProperty[propertyKeys.ADDRESS],
-    tenants: linkedProperty[propertyKeys.TENANTS],
-    bedrooms: linkedProperty[propertyKeys.BEDROOMS],
-    bathrooms: linkedProperty[propertyKeys.BATHROOMS],
-  };
-  fetchedProperties.push(fetchedProperty);
-  storePropertyData(fetchedProperties);
-  return {
-    type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
-    property: fetchedProperties,
-  };
-};
 
 /**
  * ----------------------------------------------------
