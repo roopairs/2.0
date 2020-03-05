@@ -148,31 +148,6 @@ describe('PropertyList Reducer Test', () => {
         });
     });
 
-    describe('Test action with FETCH_PROPERTY type', () => {
-        const testProperty: Property[] = [
-            {
-                tenants: 5,
-                bathrooms: 2,
-                bedrooms: 3,
-                address: '200 N. Santa Rosa, San Luis Obispo, CA',
-            },
-        ];
-        const testAction: FetchPropertyAction = {
-            type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
-            property: testProperty,
-        };
-        it('Default State', () => {
-            const expectedResult: PropertyListState = {
-                selectedPropertyIndex: null,
-                properties: testProperty,
-                propertyManager: null,
-                appliances: [],
-            };
-            const updatedProperties = properties(undefined, testAction);
-            expect(updatedProperties).toStrictEqual(expectedResult);
-        });
-    });
-
     describe('Test action with FETCH_PROPERTIES type', () => {
         const testAction: FetchPropertiesAction = {
             type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,

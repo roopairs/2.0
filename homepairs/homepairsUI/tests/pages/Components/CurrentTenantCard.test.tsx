@@ -70,8 +70,8 @@ describe('Current Tenant Card Test', () => {
             
             // Web will have different values passed in to it's spy. So here we define different test. 
             if(Platform.OS === 'web'){
-                const expectedWebRoute = `${navigationPages.AddTenantModal}/undefined`
-                const expectedWebParam = {background: mockStackNavigation.navigation.location,}
+                const expectedWebRoute = `${navigationPages.AddTenantModal}`;
+                const expectedWebParam = {background: mockStackNavigation.navigation.location};
                 expect(navigationStackSpyFunction).toHaveBeenLastCalledWith(expectedWebRoute, expectedWebParam);
             }else{
                 expect(navigationStackSpyFunction).toHaveBeenCalledWith(navigationPages.AddTenantModal);

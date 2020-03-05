@@ -16,8 +16,9 @@ import axios from 'axios';
 
 const checkSession = async () => {
     await LoadFonts();
+    /*
     await AsyncStorage.getItem('session').then(async (sessionToken) => {
-        if(isNullOrUndefined(sessionToken)){
+       if(isNullOrUndefined(sessionToken)){
             await AsyncStorage.clear();
             AppNavigator.navigation.navigate(navigationPages.LoginScreen);
             return;
@@ -39,6 +40,7 @@ const checkSession = async () => {
     }).catch(async () => {
         await AsyncStorage.clear();
     });
+    */
 
     /**
      * TODO: Create async request that confirms if a session token from the Homepairs api is still valid. If it is 

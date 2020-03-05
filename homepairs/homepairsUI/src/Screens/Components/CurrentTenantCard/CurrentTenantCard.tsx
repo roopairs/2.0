@@ -19,7 +19,7 @@ type CurrentTenantsCardProps = NavigationRouteHandler & {
      * Unique identifier for the property. This is how the component knows where to edit 
      * the tenant.
      */
-    propId: number,
+    propId: string,
 
     /**
      * Maximum amount of tenants defined for the property. If somehow, the 
@@ -237,7 +237,7 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
                 <Text style={{fontFamily: BaseStyles.FontTheme.tertiary, fontSize: BaseStyles.FontTheme.small, color: BaseStyles.LightColorTheme.lightGray}}>{tenant.email}</Text>
                 <Text style={{fontFamily: BaseStyles.FontTheme.tertiary, fontSize: BaseStyles.FontTheme.small, color: BaseStyles.LightColorTheme.lightGray}}>{tenant.phoneNumber}</Text>
             </View>
-            <ThinButton name='Edit' onClick={() => {navigateToEditTenantModal(tenant);}} buttonStyle={styles.editButton} buttonTextStyle={styles.editButtonText} containerStyle={styles.buttonContainer}/>
+            <ThinButton testID='edit-tenant-button' name='Edit' onClick={() => {navigateToEditTenantModal(tenant);}} buttonStyle={styles.editButton} buttonTextStyle={styles.editButtonText} containerStyle={styles.buttonContainer}/>
         </View>);
     }
 

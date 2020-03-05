@@ -8,7 +8,7 @@ import { ApplianceInfo, ApplianceCategorizer } from 'homepairs-components';
 import {Appliance, ApplianceType} from 'homepairs-types';
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { fireEvent, render } from 'react-native-testing-library';
 
 jest.mock('homepairs-images');
@@ -66,7 +66,7 @@ describe("Panel", () => {
 
     it ("Method test", () => {
         const {getByTestId} = rendered;
-        const button = getByTestId('add-appliance-button');
+        const button = getByTestId('add-appliance-button').findByType(TouchableOpacity);
         
         fireEvent.press(button);
         fireEvent.press(button);

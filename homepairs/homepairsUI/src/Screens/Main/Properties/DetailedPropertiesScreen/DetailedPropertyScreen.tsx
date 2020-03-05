@@ -7,7 +7,6 @@ import DetailedPropertyScreenBase, {
 
 function mapStateToProps(state: AppState): DetailedPropertyStateProps {
     const {properties} = state;
-    console.log(properties);
     return { 
         property: properties.properties[properties.selectedPropertyIndex],
     };

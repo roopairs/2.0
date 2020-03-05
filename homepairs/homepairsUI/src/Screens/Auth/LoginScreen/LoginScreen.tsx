@@ -6,12 +6,12 @@ import {
 } from "homepairs-components";
 import strings from "homepairs-strings";
 import HomePairColors from "res/colors";
-import {NavigationSwitchProp, withNavigation } from "react-navigation";
-import { RouteProps, withRouter } from "react-router-dom";
+import { withNavigation } from "react-navigation";
+import { withRouter } from "react-router-dom";
 import { Platform } from "react-native";
 import {NavigationRouteHandler} from 'homepairs-utilities';
-import LoginScreenBase, { LoginViewDispatchProps } from "./LoginScreenBase";
 import { withNavigationRouteHandler } from 'src/utility/NavigationRouterHandler';
+import LoginScreenBase, { LoginViewDispatchProps } from "./LoginScreenBase";
 
 
 const signInStrings = strings.signInPage;

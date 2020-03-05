@@ -1,7 +1,6 @@
 import React from 'react';
 import { PropertyListState, HeaderState } from 'homepairs-types';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import { NavigationRouteScreenProps } from 'homepairs-utilities';
 import {
     ViewPropertyCard,
     SceneInjectedProps,
@@ -19,7 +18,7 @@ export type PropertiesScreenDispatchProps = {
     onSelectProperty: (index: number) => any;
 };
 
-export type PropertiesScreenProps = SceneInjectedProps & NavigationRouteScreenProps &
+export type PropertiesScreenProps = SceneInjectedProps &
     PropertiesScreenStateProps &
     PropertiesScreenDispatchProps 
 
