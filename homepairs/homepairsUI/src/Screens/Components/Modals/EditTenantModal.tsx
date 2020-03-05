@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
 });
 
 
-class EditTenantModalBase extends React.Component<Props, EditTenantState> {
+export class EditTenantModalBase extends React.Component<Props, EditTenantState> {
     firstNameRef;
 
     lastNameRef;
@@ -232,7 +232,6 @@ class EditTenantModalBase extends React.Component<Props, EditTenantState> {
         this.lastNameRef.current.setError(false);
         this.emailRef.current.setError(false);
         this.phoneNumberRef.current.setError(false);
-
     }
 
     clickSubmitButton() {
@@ -317,20 +316,22 @@ class EditTenantModalBase extends React.Component<Props, EditTenantState> {
     }
 
     renderThinButtons() {
-        return (<View style={{flexDirection: 'row', alignItems:'center', alignSelf:'center'}}>
-            <ThinButton 
-                name='Edit'
-                onClick={() => {this.clickSubmitButton();}} 
-                buttonStyle={styles.editTenantButtonStyle}
-                buttonTextStyle={styles.editTenantButtonTextStyle}
-                containerStyle={styles.buttonContainerStyle}/>
-            <ThinButton 
-                name='Remove'
-                onClick={() => {this.clickRemoveButton();}} 
-                buttonStyle={styles.removeTenantButtonStyle}
-                buttonTextStyle={styles.removeTenantButtonTextStyle}
-                containerStyle={styles.buttonContainerStyle}/>
-        </View>);
+        return (
+            <View style={{flexDirection: 'row', alignItems:'center', alignSelf:'center'}}>
+                <ThinButton 
+                    name='Edit'
+                    onClick={() => {this.clickSubmitButton();}} 
+                    buttonStyle={styles.editTenantButtonStyle}
+                    buttonTextStyle={styles.editTenantButtonTextStyle}
+                    containerStyle={styles.buttonContainerStyle}/>
+                <ThinButton 
+                    name='Remove'
+                    onClick={() => {this.clickRemoveButton();}} 
+                    buttonStyle={styles.removeTenantButtonStyle}
+                    buttonTextStyle={styles.removeTenantButtonTextStyle}
+                    containerStyle={styles.buttonContainerStyle}/>
+            </View>
+        );
     }
     
     render() {

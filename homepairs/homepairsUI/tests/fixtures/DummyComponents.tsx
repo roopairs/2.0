@@ -2,169 +2,172 @@ import React from 'react';
 import {View, Platform} from 'react-native';
 import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
-import { MainAppStackType, ApplianceType } from 'src/state/types';
+import { MainAppStackType, ApplianceType, TenantInfo } from 'src/state/types';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
+import NavigationRouteHandler, { prepareRoute } from 'src/utility/NavigationRouterHandler';
+import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 
 
+// Object that will hold the parameter state for when getParam is called on a mock navigator (mobile)
+const testParamObject = { 
+  tenant: {
+    firstName: 'Alex',
+    lastName: 'Kavanaugh',
+    email: 'alex@roopairs.com',
+    phoneNumber: '838-034-3333',
+  },
+  propertyId : 1,
+  appliance : {
+    applianceId: '123jh', 
+    category: ApplianceType.HVAC, 
+    manufacturer: 'Vulcan Equipment', 
+    appName: 'Oven', 
+    modelNum: 123, 
+    serialNum: 321,
+    location: 'Kitchen',
+  },
+};
+
+/* Mock objects and functions that will be used for our tests */
 export const SingleViewComponent = <View style={{height: '25%', width: '25%', backgroundColor: 'black'}}/>;
 export const navigationSwitchSpyFunction = jest.fn((arg?:string) => {return arg;});
 export const navigationStackSpyFunction = jest.fn((arg?:any) => {return arg;});
 export const navigationSetParamsSpyFunction = jest.fn((params?:any) => {return params;});
 export const navigationGetParamsSpyFunction = jest.fn((params?:any) => {return params;});
-
 export const mockRouterFunction = jest.fn((params?:any) => {return params;});
-
 export const displayErrorMock = jest.fn((error?:string) => {return error;});
 
 export const mockSwitchNavigation: NavigationSwitchProp = {
-    navigate: (routeNameOrOptions)=>{
-      navigationSwitchSpyFunction(routeNameOrOptions);
-      return true;
-    },
-    state: undefined,
-    dispatch: undefined, 
-    goBack: ()=> {
-      navigationSwitchSpyFunction();
-      return true;
-    },
-    dismiss: undefined, 
-    getParam: undefined,
-    setParams: (params) => {
-      navigationSetParamsSpyFunction(params);
-      return true;
-    },
-    emit: undefined, 
-    addListener: undefined, 
-    isFocused: undefined, 
-    isFirstRouteInParent: undefined, 
-    dangerouslyGetParent: undefined,
-    jumpTo: undefined,
-  };
+  navigate: (routeNameOrOptions)=>{
+    navigationSwitchSpyFunction(routeNameOrOptions);
+    return true;
+  },
+  state: undefined,
+  dispatch: undefined, 
+  goBack: ()=> {
+    navigationSwitchSpyFunction();
+    return true;
+  },
+  dismiss: undefined, 
+  getParam: (param:string) => {
+    navigationGetParamsSpyFunction(param);
+    return testParamObject[param];
+  },
+  setParams: (params) => {
+    navigationSetParamsSpyFunction(params);
+    return true;
+  },
+  emit: undefined, 
+  addListener: undefined, 
+  isFocused: undefined, 
+  isFirstRouteInParent: undefined, 
+  dangerouslyGetParent: undefined,
+  jumpTo: undefined,
+};
 
-  export const mockStackNavigation: NavigationStackProp = {
-      navigate: (routeNameOrOptions)=>{
-        navigationStackSpyFunction(routeNameOrOptions);
-        return true;
-      },
-      state: {
-        key: 'iamatestkey',
-        index: 1,
-        routeName: navigationPages.SingleProperty,
-        routes: undefined,
-        isTransitioning: false,
-      },
-      dispatch: undefined, 
-      goBack: ()=>{
-        navigationStackSpyFunction();
-        return true;
-      },
-      dismiss: undefined,
-      getParam: (param) => {
-        navigationGetParamsSpyFunction(param);
-        if(param === 'appliance') {
-          return {
-            applianceId: '123jh', 
-            category: ApplianceType.HVAC, 
-            manufacturer: 'Vulcan Equipment', 
-            appName: 'Oven', 
-            modelNum: 123, 
-            serialNum: 321,
-            location: 'Kitchen',
-          };
-        }
-        return true;
-      },
-      setParams: (params) => {
-        navigationSetParamsSpyFunction(params);
-        return true;
-      },
-      emit: undefined, 
-      addListener: undefined, 
-      isFocused: undefined, 
-      isFirstRouteInParent: undefined, 
-      dangerouslyGetParent: undefined,
-      push: (routeNameOrOptions)=>{
-          navigationStackSpyFunction(routeNameOrOptions);
-          return true;
-      }, 
-      replace:(routeNameOrOptions)=>{
-          navigationStackSpyFunction(routeNameOrOptions);
-          return true;
-      }, 
-      reset: (routeNameOrOptions)=>{
-          navigationStackSpyFunction(routeNameOrOptions);
-          return true;
-      }, 
-      pop: (routeNameOrOptions)=>{
-          navigationStackSpyFunction(routeNameOrOptions);
-          return true;
-      }, 
-      popToTop: (routeNameOrOptions)=>{
-          navigationStackSpyFunction(routeNameOrOptions);
-          return true;
-      },
-  };
-
-  export const mockStackNavigationFirstRoute: NavigationStackProp = {
-    navigate: (routeNameOrOptions)=>{
+export const mockStackNavigation: NavigationStackProp = {
+  navigate: (routeNameOrOptions)=>{
+    navigationStackSpyFunction(routeNameOrOptions);
+    return true;
+  },
+  state: {
+    key: 'iamatestkey',
+    index: 1,
+    routeName: navigationPages.SingleProperty,
+    routes: undefined,
+    isTransitioning: false,
+  },
+  dispatch: undefined, 
+  goBack: ()=>{
+    navigationStackSpyFunction();
+    return true;
+  },
+  dismiss: undefined,
+  getParam: (param:string) => {
+    navigationGetParamsSpyFunction(param);
+    return testParamObject[param];
+  },
+  setParams: (params) => {
+    navigationSetParamsSpyFunction(params);
+    return true;
+  },
+  emit: undefined, 
+  addListener: undefined, 
+  isFocused: undefined, 
+  isFirstRouteInParent: undefined, 
+  dangerouslyGetParent: undefined,
+  push: (routeNameOrOptions)=>{
       navigationStackSpyFunction(routeNameOrOptions);
       return true;
-    },
-    state: {
-      key: 'iamatestkey',
-      index: 0,
-      routeName: navigationPages.PropertiesScreen,
-      routes: undefined,
-      isTransitioning: false,
-    },
-    dispatch: undefined, 
-    goBack: ()=>{
-      navigationStackSpyFunction();
+  }, 
+  replace:(routeNameOrOptions)=>{
+      navigationStackSpyFunction(routeNameOrOptions);
       return true;
-    },
-    dismiss: undefined,
-    getParam: (params) => {
-      return {
-        tenant: 
-        {
-              firstName: 'Alex',
-              lastName: 'Kavanaugh',
-              email: 'alex@roopairs.com',
-              phoneNumber: '838-0034-3333',
-          },
-        propertyId : 1,
-      };
-    },
-    setParams: (params) => {
-      navigationSetParamsSpyFunction(params);
+  }, 
+  reset: (routeNameOrOptions)=>{
+      navigationStackSpyFunction(routeNameOrOptions);
       return true;
-    },
-    emit: undefined, 
-    addListener: undefined, 
-    isFocused: undefined, 
-    isFirstRouteInParent: undefined, 
-    dangerouslyGetParent: undefined,
-    push: (routeNameOrOptions)=>{
-        navigationStackSpyFunction(routeNameOrOptions);
-        return true;
-    }, 
-    replace:(routeNameOrOptions)=>{
-        navigationStackSpyFunction(routeNameOrOptions);
-        return true;
-    }, 
-    reset: (routeNameOrOptions)=>{
-        navigationStackSpyFunction(routeNameOrOptions);
-        return true;
-    }, 
-    pop: (routeNameOrOptions)=>{
-        navigationStackSpyFunction(routeNameOrOptions);
-        return true;
-    }, 
-    popToTop: (routeNameOrOptions)=>{
-        navigationStackSpyFunction(routeNameOrOptions);
-        return true;
-    },
+  }, 
+  pop: (routeNameOrOptions)=>{
+      navigationStackSpyFunction(routeNameOrOptions);
+      return true;
+  }, 
+  popToTop: (routeNameOrOptions)=>{
+      navigationStackSpyFunction(routeNameOrOptions);
+      return true;
+  },
+};
+
+export const mockStackNavigationFirstRoute: NavigationStackProp = {
+  navigate: (routeNameOrOptions)=>{
+    navigationStackSpyFunction(routeNameOrOptions);
+    return true;
+  },
+  state: {
+    key: 'iamatestkey',
+    index: 0,
+    routeName: navigationPages.PropertiesScreen,
+    routes: undefined,
+    isTransitioning: false,
+  },
+  dispatch: undefined, 
+  goBack: ()=>{
+    navigationStackSpyFunction();
+    return true;
+  },
+  dismiss: undefined,
+  getParam: (param:string) => {
+   return testParamObject[param];
+  },
+  setParams: (params) => {
+    navigationSetParamsSpyFunction(params);
+    return true;
+  },
+  emit: undefined, 
+  addListener: undefined, 
+  isFocused: undefined, 
+  isFirstRouteInParent: undefined, 
+  dangerouslyGetParent: undefined,
+  push: (routeNameOrOptions)=>{
+      navigationStackSpyFunction(routeNameOrOptions);
+      return true;
+  }, 
+  replace:(routeNameOrOptions)=>{
+      navigationStackSpyFunction(routeNameOrOptions);
+      return true;
+  }, 
+  reset: (routeNameOrOptions)=>{
+      navigationStackSpyFunction(routeNameOrOptions);
+      return true;
+  }, 
+  pop: (routeNameOrOptions)=>{
+      navigationStackSpyFunction(routeNameOrOptions);
+      return true;
+  }, 
+  popToTop: (routeNameOrOptions)=>{
+      navigationStackSpyFunction(routeNameOrOptions);
+      return true;
+  },
 };
 
 export const mockRoute = {
@@ -180,7 +183,7 @@ export const mockRoute = {
     },
     push: mockRouterFunction,
     pop: mockRouterFunction,
-    replace: mockRouterFunction
+    replace: mockRouterFunction,
   },
   location: {
     pathName: '/test/path',
@@ -192,7 +195,7 @@ export const mockRoute = {
     url: '/test/path',
     isExact: true,
   },
-}
+};
 
 export const mockFirstRoute = {
   history: {
@@ -217,15 +220,20 @@ export const mockFirstRoute = {
   match: {
     path: '/admin/properties',
     url: '/admin/properties',
+    params: undefined,
     isExact: true,
   },
-}
+};
 
 export const thinButtonFireEventTestId = {
   onClick: 'click-thin-button',
   onPress: 'click-thin-button',
 };
 
+
+/**
+ * Primary mock stack for testing navigation in both web and mobile
+ */
 export const MainAppStackTest: Array<MainAppStackType> = [
     {
         title: 'Properties',
@@ -252,22 +260,121 @@ export const MainAppStackTest: Array<MainAppStackType> = [
 ];
 
 
+// Test params that are inserted into Route Object
+const dummyTenantPropertyParam = '{"firstName":"Alex","lastName":"Kavanaugh","email":"alex@roopairs.com","phoneNumber":"838-034-3333"}';
+const dummyPropIdParam = 'okwXExP';
+
+// Object that should be the result of the tenantInfo parsed in the navigationRouterHandler object 
+export const dummyTenantParamParsed : TenantInfo = {
+  firstName: 'Alex',
+  lastName: 'Kavanaugh',
+  email: 'alex@roopairs.com',
+  phoneNumber: '838-034-3333',
+};
+
+
+export type SetOptionalRouteParams = {
+  /**
+   * Tells function to include a propId param 
+   */
+  propId?: boolean;
+
+  /**
+   * tells function to include tenant param 
+   */
+  tenant?: boolean;
+}
+
+/**
+ * ------------------------------------------
+ * prepareRouteParams
+ * ------------------------------------------
+ * Sets up the route with the test params to be used in certain scenarios. Usefull for 
+ * testing web components with parameters.
+ * @param routeObject -original route object 
+ * @param routeOptions -test params to be given to the route 
+ */
+function prepareRouteParams(routeObject:any, routeOptions: any){
+  if(isNullOrUndefined(routeOptions))
+    return routeObject;
+  
+  const navRouteObject = {...routeObject};
+    const {propId, tenant} = routeOptions;
+    let selectedOptions = {
+      propId: propId ? dummyPropIdParam : null,
+      tenant: tenant ? dummyTenantPropertyParam : null,
+    };
+    let selectedMatch = {
+      propId: propId ? ':propId' : null,
+      tenant: tenant ? ':tenant' : null,
+    };
+
+    // Remove any null or undefined objects 
+    Object.keys(selectedOptions).forEach((key) => (selectedOptions[key] == null) && delete selectedOptions[key]);
+    Object.keys(selectedMatch).forEach((key) => (selectedMatch[key] == null) && delete selectedMatch[key]);
+
+    const fullRoute = prepareRoute(mockFirstRoute.location.pathName, selectedOptions);
+    const matchRoute = prepareRoute(mockFirstRoute.location.pathName, selectedMatch);
+
+    navRouteObject.location.pathName = fullRoute;
+    navRouteObject.history.location.pathName = fullRoute;
+    navRouteObject.match.path = fullRoute;
+    navRouteObject.match = {
+      ...navRouteObject.match, 
+      params: selectedOptions,
+    };
+    navRouteObject.match.url = matchRoute;
+    return navRouteObject;
+}
 
 /* Helper functions for getting the mock navigators */
-export function prepareNavigationMock(){
-  return Platform.OS === 'web' ? [new NavigationRouteHandler(mockRoute), mockRouterFunction ]
+
+/**
+ * ------------------------------------------
+ * prepareNavigationMock
+ * ------------------------------------------
+ * Returns a navigation Mock object with either a stack navigator for mobile 
+ * or a router object with for web. Use the routeOptions parameters to give 
+ * a route parameters for testing on web. 
+ * @param routeOptions -test params to be given to the route 
+ */
+export function prepareNavigationMock(routeOptions?: SetOptionalRouteParams){
+  const navObj = prepareRouteParams(mockRoute, routeOptions);
+  return Platform.OS === 'web' ? [new NavigationRouteHandler(navObj), mockRouterFunction ]
   : 
   [new NavigationRouteHandler(mockStackNavigation), navigationStackSpyFunction]; 
 }
 
-export function prepareNavigationSwitchMock(){
-  return Platform.OS === 'web' ? [new NavigationRouteHandler(mockRoute), mockRouterFunction ]
+/**
+ * ------------------------------------------
+ * prepareNavigationSwitchMock
+ * ------------------------------------------
+ * Returns a navigation Mock object with either a switch navigator for mobile 
+ * or a router object with for web. Use the routeOptions parameters to give 
+ * a route parameters for testing on web. 
+ * @param routeOptions -test params to be given to the route 
+ */
+export function prepareNavigationSwitchMock(routeOptions?: SetOptionalRouteParams){
+  const navObj = prepareRouteParams(mockRoute, routeOptions);
+  return Platform.OS === 'web' ? [new NavigationRouteHandler(navObj), mockRouterFunction ]
   : 
   [new NavigationRouteHandler(mockSwitchNavigation), navigationSwitchSpyFunction]; 
 }
 
-export function prepareNavigationStackFirstRouteMock(){
-  return Platform.OS === 'web' ? [new NavigationRouteHandler(mockFirstRoute), mockRouterFunction ]
+/**
+ * ------------------------------------------
+ * prepareNavigationStackFirstRouteMock
+ * ------------------------------------------
+ * Returns a navigation Mock object with either a stack navigator for mobile 
+ * or a router object with for web. The navigator will be intialized with a route 
+ * this is defined as a 'base' route that will cause the isFirstRoute to return true.
+ * Use the routeOptions parameters to give 
+ * a route parameters for testing on web. 
+ * @param routeOptions -test params to be given to the route 
+ */
+export function prepareNavigationStackFirstRouteMock(routeOptions?: SetOptionalRouteParams){
+  const navObj = prepareRouteParams(mockFirstRoute, routeOptions);
+  return Platform.OS === 'web' ? [new NavigationRouteHandler(navObj), mockRouterFunction ]
   : 
   [new NavigationRouteHandler(mockStackNavigationFirstRoute), navigationStackSpyFunction]; 
 }

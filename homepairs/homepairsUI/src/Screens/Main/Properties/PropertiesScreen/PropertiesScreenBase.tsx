@@ -19,7 +19,7 @@ export type PropertiesScreenDispatchProps = {
     onSelectProperty: (index: number) => any;
 };
 
-export type PropertiesScreenProps = SceneInjectedProps & NavigationRouteScreenProps &
+export type PropertiesScreenProps = SceneInjectedProps &
     PropertiesScreenStateProps &
     PropertiesScreenDispatchProps 
 

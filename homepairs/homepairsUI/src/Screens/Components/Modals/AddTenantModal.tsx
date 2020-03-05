@@ -6,11 +6,15 @@ import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid, 
     NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-utilities';
 import axios from 'axios';
+import { Endpoints } from 'src/Routes/RouteConstants';
+
+
 
 type Props =  NavigationRouteScreenProps;
 
 type AddTenantState = TenantInfo
 
+const {HOMEPAIRS_TENANT_EDIT_ENDPOINT} = Endpoints;
 const {width} = Dimensions.get('window');
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -136,7 +140,7 @@ const styles = StyleSheet.create({
 });
 
 
-class AddTenantModalBase extends React.Component<Props, AddTenantState> {
+export class AddTenantModalBase extends React.Component<Props, AddTenantState> {
     firstNameRef;
 
     lastNameRef;
@@ -228,9 +232,11 @@ class AddTenantModalBase extends React.Component<Props, AddTenantState> {
         this.resetForms();
         if (this.validateForms()) {
             const newTenantInfo : TenantInfo = this.generateNewTenantInfo();
-            await axios.post(`https://homepairs-alpha.herokuapp.com/pm/tenantEdit/${this.propId}`, newTenantInfo)
+            // TODO: Collaborate with Adam and Tommy to get the proper endpoint working 
+            await axios.post(`${HOMEPAIRS_TENANT_EDIT_ENDPOINT}/${this.propId}`, newTenantInfo)
             .then((response)=>{
                 console.log(response);
+            }).catch(()=>{
             }).finally(() => {
                 navigation.goBack();
             });

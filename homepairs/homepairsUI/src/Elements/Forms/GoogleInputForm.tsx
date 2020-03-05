@@ -6,7 +6,7 @@ import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 import * as BaseStyles from 'homepairs-base-styles';
 
-export type InputFormProps = {
+export type GoogleInputFormProps = {
     key?: any;
     name?: string;
     ref?: any;
@@ -22,11 +22,11 @@ export type InputFormProps = {
     errorMessage?: string;
     locationsContainer?: any
 };
-type InputFormState = {
+type GoogleInputFormState = {
     value?: string;
     error?: boolean;
 };
-const initialState: InputFormState = { value: '', error: false};
+const initialState: GoogleInputFormState = { value: '', error: false};
 
 const DefaultInputFormStyle = StyleSheet.create({
     container: {
@@ -79,9 +79,9 @@ const DefaultInputFormStyle = StyleSheet.create({
  *
  * 
  * */
-export default class InputForm extends React.Component<InputFormProps, InputFormState> {
+export default class GoogleInputForm extends React.Component<GoogleInputFormProps, GoogleInputFormState> {
 
-    static defaultProps: InputFormProps;
+    static defaultProps: GoogleInputFormProps;
 
     constructor(props){
         super(props);
@@ -160,7 +160,7 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
     }
 }
 
-InputForm.defaultProps = {
+GoogleInputForm.defaultProps = {
     ref: undefined,
     key: null,
     name: null,

@@ -5,7 +5,8 @@ import { NavigationSwitchProp, withNavigation } from 'react-navigation';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { Platform } from 'react-native';
 import React from 'react';
-import {navigationPages} from 'homepairs-routes'
+import {navigationPages} from 'homepairs-routes';
+
 type Navigators = NavigationStackProp | RouteProps | NavigationSwitchProp
 
 const {PropertiesScreen, TenantProperty, ServiceRequestScreen, AccountSettings} = navigationPages;
@@ -21,7 +22,7 @@ const BASE_ROUTES: string[] = [PropertiesScreen, TenantProperty, ServiceRequestS
  * @param route -the base route passed 
  * @param params -values to be appended to the route
  */
-function prepareRoute(route:string, params?:any){
+export function prepareRoute(route:string, params?:any){
     // We need to proccess any potential params passed in via web router. This is achieved through sorting and 
     // appending the value of the params through the string. All values are sorted in ASCII order. 
     const passedParams = isNullOrUndefined(params) ? {} : params;
@@ -29,7 +30,9 @@ function prepareRoute(route:string, params?:any){
     let fullRoute = `${route}`;
     sortedItems.forEach(item => {
         const [, value] = item;
-        fullRoute = `${fullRoute}/${typeof value === 'object' ? JSON.stringify(value) : value}`;
+        if(!isNullOrUndefined(value)){
+            fullRoute = `${fullRoute}/${typeof value === 'object' ? JSON.stringify(value) : value}`;
+        }
     });
     return fullRoute;
 }
@@ -157,7 +160,6 @@ export default class NavigationRouteHandler{
     getParam(param:string){
         if(!isNullOrUndefined(this.navigation.navigate))
             return this.navigation.getParam(param);
-
         let value = this.navigation.match.params[param];
         try{
             value = JSON.parse(value);
@@ -174,14 +176,10 @@ export default class NavigationRouteHandler{
     isNavigatorAtBaseRoute(){
         let route: string;
         if(isNullOrUndefined(this.navigation.navigate))
-            route = this.navigation.location.pathName
+            route = this.navigation.location.pathName;
         else 
-            route = this.navigation.state.routeName
-
-        console.log(`${route}`)
-        console.log(BASE_ROUTES)
-        console.log(BASE_ROUTES.includes(route))
-        return BASE_ROUTES.includes(route)
+            route = this.navigation.state.routeName;
+        return BASE_ROUTES.includes(route);
     };
 }
 
