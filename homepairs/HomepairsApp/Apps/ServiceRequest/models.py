@@ -16,16 +16,18 @@ class ServiceRequest(models.Model):
     location = models.ForeignKey(Property, on_delete=models.CASCADE)
 
 
-def __str__(self):
-    return self.job + " " + self.details
+    def __str__(self):
+        return self.job + " " + self.details
 
 
-def toDict(self):
-    return {
-              "job": self.job,
-              "details": self.details,
-              "serviceCompany": self.serviceCompany,
-              "client": self.client,
-              "status": self.status,
-              "dayStarted": self.dayStarted,
-           }
+    def toDict(self):
+        return {
+                "job": self.job,
+                "details": self.details,
+                "serviceCompany": self.serviceCompany,
+                "client": self.client,
+                "status": self.status,
+                "dayStarted": self.dayStarted,
+                "appFixed": self.appFixed.toDict(),
+                "location": self.location.toDict()
+                }

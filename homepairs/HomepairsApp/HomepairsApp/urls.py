@@ -31,5 +31,6 @@ urlpatterns = [
     path('appliances/', ApplianceView.as_view(), name='appliance_view'),
     path('serviceprovider/', ServiceProviderView.as_view(), name='service_provider_view'),
     path('servicerequest/', ServiceRequestView.as_view(), name='service_request_view'),
+    path('servicerequest/<str:inPropId>/', ServiceRequestView.as_view(), name='request_get'),
     path('login/', LoginView.as_view(), name='login'),
 ]

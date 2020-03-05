@@ -116,7 +116,7 @@ class ServiceRequestView(View):
         required = ['reqId', 'job', 'serviceCompany', 'client', 'status', 'dayStarted', 'details']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) == 0):
-            id = inData.get('id')
+            id = inData.get('reqId')
             job = inData.get('job')
             serviceCompany = inData.get('serviceCompany')
             client = inData.get('client')
@@ -142,24 +142,18 @@ class ServiceRequestView(View):
         else:
             return JsonResponse(data=missingError(missingFields))
 
-    def get(self, request):
-        print('HERE: ', request.body)
-        inData = json.loads(request.body)
-        required = ['propId']
-        missingFields = checkRequired(required, inData)
-        if(len(missingFields) == 0):
-            propId = inData.get('propId')
-            reqList = ServiceRequest.objects.filter(location=propId)
-            if reqList.exists():
-                newList = []
-                for i in reqList:
-                    newList.append(i.toDict())
-                data = {
-                           STATUS: SUCCESS,
-                           'reqs': newList,
-                       }
-                return JsonResponse(data=data)
-            else:
-                return JsonResponse(data=returnError(SERVREQ_DOESNT_EXIST))
+    def get(self, request, inPropId):
+        print('GETS HERE: ', request.body)
+        propId = inPropId
+        reqList = ServiceRequest.objects.filter(location=propId)
+        if reqList.exists():
+            newList = []
+            for i in reqList:
+                newList.append(i.toDict())
+            data = {
+                       STATUS: SUCCESS,
+                       'reqs': newList,
+                   }
+            return JsonResponse(data=data)
         else:
-            return JsonResponse(data=missingError(missingFields))
+            return JsonResponse(data=returnError(SERVREQ_DOESNT_EXIST))

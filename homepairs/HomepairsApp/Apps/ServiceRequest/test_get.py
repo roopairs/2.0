@@ -15,6 +15,7 @@ from .views import STATUS, SUCCESS
 
 # EXTRA URLS
 REQ_VIEW = 'service_request_view'
+REQ_GET_VIEW = 'request_get'
 APP_VIEW = 'appliance_view'
 
 ################################################################################
@@ -89,64 +90,9 @@ class GetServiceRequest(TestCase):
         responseData = getInfoPost(REQ_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        data = {
-                    'propId': propId
-               }
-        responseData = getInfoGet(REQ_VIEW, data)
+        url = 'request_get' + '/' + str(propId) + '/'
+        #url = 'servicerequest' + '/' + str(propId)
+        responseData = getInfoGet('request_get', propId)
 
         self.assertEqual(responseData.get(STATUS), SUCCESS)
         self.assertEqual(len(responseData.get('reqs')), 2)
-
-        # data = {
-        #           'phoneNum': phoneNum,
-        #        }
-        #
-        # responseData = getInfoGet(PRO_VIEW, data)
-        #
-        # self.assertEqual(responseData.get(STATUS), SUCCESS)
-        # app = responseData.get('pro')
-        # self.assertEqual(app.get('name'), name)
-        # self.assertEqual(app.get('email'), email)
-        # self.assertEqual(app.get('phoneNum'), phoneNum)
-        # self.assertEqual(app.get('contractLic'), contractLic)
-        # self.assertEqual(app.get('skills'), skills)
-
-    # def test_update_service_provider_bad_date(self):
-    #     '''Incorrect Fields Being Sent'''
-    #     name = 'McDs'
-    #     email = 'mcds@gmail.com'
-    #     phoneNum = '8007733030'
-    #     contractLic = '681234'
-    #     skills = 'can cook burgers okay'
-    #     founded = '2014-04-07'
-    #
-    #     data = {
-    #               'name': name,
-    #               'email': email,
-    #               'phoneNum': phoneNum,
-    #               'contractLic': contractLic,
-    #               'skills': skills,
-    #               'founded': founded,
-    #            }
-    #     responseData = getInfoPost(PRO_VIEW, data)
-    #     self.assertEqual(responseData.get(STATUS), SUCCESS)
-    #     id = responseData.get(id)
-    #
-    #     name = 'Burger King'
-    #     email = 'burgerking@gmail.com'
-    #     phoneNum = '555555555'
-    #     contractLic = '666666'
-    #     skills = 'can cook burgers not great'
-    #     founded = 'bad'
-    #     data = {
-    #               'name': name,
-    #               'email': email,
-    #               'phoneNum': phoneNum,
-    #               'contractLic': contractLic,
-    #               'skills': skills,
-    #               'founded': founded,
-    #            }
-    #
-    #     responseData = getInfoPut(PRO_VIEW, data)
-    #
-    #     self.assertEqual(responseData.get(STATUS), FAIL)

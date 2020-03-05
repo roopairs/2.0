@@ -5,10 +5,8 @@ from django.test import TestCase
 from ..Appliances.models import Appliance
 from ..helperFuncsForTesting import getInfoPost, getInfoPut, setUpHelper
 from ..Properties.models import Property
-from .views import STATUS, SUCCESS
+from .views import STATUS, SUCCESS, FAIL, SERVREQ_DOESNT_EXIST, ERROR
 
-
-# from .views import FAIL
 
 ################################################################################
 # Vars
@@ -94,7 +92,7 @@ class UpdateServiceProvider(TestCase):
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
     # update with wrong request id
-    def test_update_service_request_allCorrect(self):
+    def test_update_service_request_bad_reqid(self):
         '''Everything is correct, I create the property first, then update it.'''
         name = 'Fridge'
         manufacturer = 'Company'
@@ -137,7 +135,7 @@ class UpdateServiceProvider(TestCase):
         responseData = getInfoPost(REQ_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        id = responseData.get('reqId')
+        #id = responseData.get('reqId')
         job = 'Break sink'
         serviceCompany = 'King kong'
         client = 'BK'
@@ -146,7 +144,7 @@ class UpdateServiceProvider(TestCase):
         details = 'Sink works too well'
 
         data = {
-                  'reqId': id,
+                  'reqId': -1,
                   'job': job,
                   'serviceCompany': serviceCompany,
                   'client': client,
@@ -159,4 +157,5 @@ class UpdateServiceProvider(TestCase):
 
         responseData = getInfoPut(REQ_VIEW, data)
 
-        self.assertEqual(responseData.get(STATUS), SUCCESS)
+        self.assertEqual(responseData.get(STATUS), FAIL)
+        self.assertEqual(responseData.get(ERROR), SERVREQ_DOESNT_EXIST)

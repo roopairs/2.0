@@ -56,7 +56,7 @@ def getInfoPost(endpoint, data):
     return response.json()
 
 
-def getInfoGet(endpoint, data):
+def getInfoGet(endpoint, id):
     client = APIClient()
-    response = client.get(path=reverse(endpoint), data=data, format="json")
+    response = client.get(path=reverse(endpoint, args=[id]), format="json")
     return response.json()

@@ -67,102 +67,105 @@ class ApplianceView(View):
         required = ['name', 'manufacturer', 'category', 'modelNum', 'serialNum', 'location', 'propId']
         missingFields = checkRequired(required, inData)
 
-        if(len(missingFields) == 0):
-            name = inData.get('name')
-            manufacturer = inData.get('manufacturer')
-            category = inData.get('category')
-            modelNum = inData.get('modelNum')
-            serialNum = inData.get('serialNum')
-            location = inData.get('location')
-            propId = inData.get('propId')
-            propList = Property.objects.filter(id=propId)
-            if propList.exists():
-                prop = propList[0]
-                app = Appliance(name=name,
-                                manufacturer=manufacturer,
-                                category=category,
-                                modelNum=modelNum,
-                                serialNum=serialNum,
-                                location=location,
-                                place=prop)
-                app.save()
-                data = {
-                        STATUS: SUCCESS,
-                        'appId': app.id
-                       }
-                return JsonResponse(data=data)
-            else:
-                return JsonResponse(data=returnError(PROPERTY_DOESNT_EXIST))
-        else:
+        if(len(missingFields) != 0):
             return JsonResponse(data=missingError(missingFields))
+
+        name = inData.get('name')
+        manufacturer = inData.get('manufacturer')
+        category = inData.get('category')
+        modelNum = inData.get('modelNum')
+        serialNum = inData.get('serialNum')
+        location = inData.get('location')
+        propId = inData.get('propId')
+        propList = Property.objects.filter(id=propId)
+        if propList.exists():
+            prop = propList[0]
+            app = Appliance(name=name,
+                            manufacturer=manufacturer,
+                            category=category,
+                            modelNum=modelNum,
+                            serialNum=serialNum,
+                            location=location,
+                            place=prop)
+            app.save()
+            data = {
+                    STATUS: SUCCESS,
+                    'appId': app.id
+                   }
+            return JsonResponse(data=data)
+        else:
+            return JsonResponse(data=returnError(PROPERTY_DOESNT_EXIST))
+
 
     # Update a appliance
     def put(self, request):
         inData = json.loads(request.body)
         required = ['appId', 'newName', 'newCategory', 'newManufacturer', 'newModelNum', 'newSerialNum', 'newLocation']
         missingFields = checkRequired(required, inData)
-        if(len(missingFields) == 0):
-            appId = inData.get('appId')
-            newName = inData.get('newName')
-            newCategory = inData.get('newCategory')
-            newManufacturer = inData.get('newManufacturer')
-            newModelNum = inData.get('newModelNum')
-            newSerialNum = inData.get('newSerialNum')
-            newLocation = inData.get('newLocation')
-
-            # The Appliance
-            appList = Appliance.objects.filter(id=appId)
-            if appList.exists():
-                app = appList[0]
-                app.name = newName
-                app.location = newLocation
-                app.category = newCategory
-                app.manufacturer = newManufacturer
-                app.serialNum = newSerialNum
-                app.modelNum = newModelNum
-                app.save()
-                return JsonResponse(data={STATUS: SUCCESS})
-            else:
-                return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
-        else:
+        if(len(missingFields) != 0):
             return JsonResponse(data=missingError(missingFields))
+
+        appId = inData.get('appId')
+        newName = inData.get('newName')
+        newCategory = inData.get('newCategory')
+        newManufacturer = inData.get('newManufacturer')
+        newModelNum = inData.get('newModelNum')
+        newSerialNum = inData.get('newSerialNum')
+        newLocation = inData.get('newLocation')
+
+        # The Appliance
+        appList = Appliance.objects.filter(id=appId)
+        if appList.exists():
+            app = appList[0]
+            app.name = newName
+            app.location = newLocation
+            app.category = newCategory
+            app.manufacturer = newManufacturer
+            app.serialNum = newSerialNum
+            app.modelNum = newModelNum
+            app.save()
+            return JsonResponse(data={STATUS: SUCCESS})
+        else:
+            return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
+
 
     # Read a appliance (unused)
     def get(self, request):
         inData = json.loads(request.body)
         required = ['appId']
         missingFields = checkRequired(required, inData)
-        if(len(missingFields) == 0):
-            appId = inData.get('appId')
-            appList = Appliance.objects.filter(id=appId)
-            if appList.exists():
-                app = appList[0]
-                data = {
-                           STATUS: SUCCESS,
-                           'app': app.toDict(),
-                       }
-                return JsonResponse(data=data)
-            else:
-                return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
-        else:
+        if(len(missingFields) != 0):
             return JsonResponse(data=missingError(missingFields))
+
+        appId = inData.get('appId')
+        appList = Appliance.objects.filter(id=appId)
+        if appList.exists():
+            app = appList[0]
+            data = {
+                       STATUS: SUCCESS,
+                       'app': app.toDict(),
+                   }
+            return JsonResponse(data=data)
+        else:
+            return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
+
 
     # delete a appliance (unused)
     def delete(self, request):
         inData = json.loads(request.body)
         required = ['appId']
         missingFields = checkRequired(required, inData)
-        if(len(missingFields) == 0):
-            appId = inData.get('appId')
-            appList = Appliance.objects.filter(id=appId)
-            if appList.exists():
-                app = appList[0]
-                app.delete()
-                data = {
-                           STATUS: SUCCESS,
-                       }
-                return JsonResponse(data=data)
-            else:
-                return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
-        else:
+        if(len(missingFields) != 0):
             return JsonResponse(data=missingError(missingFields))
+
+        appId = inData.get('appId')
+        appList = Appliance.objects.filter(id=appId)
+        if appList.exists():
+            app = appList[0]
+            app.delete()
+            data = {
+                       STATUS: SUCCESS,
+                   }
+            return JsonResponse(data=data)
+        else:
+            return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
