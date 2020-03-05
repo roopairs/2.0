@@ -19,7 +19,7 @@ type CurrentTenantsCardProps = NavigationRouteHandler & {
      * Unique identifier for the property. This is how the component knows where to edit 
      * the tenant.
      */
-    propId: number,
+    propId: string,
 
     /**
      * Maximum amount of tenants defined for the property. If somehow, the 
@@ -256,7 +256,7 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
         <View style={{paddingBottom: BaseStyles.MarginPadding.largeConst}}>
         <Card title='Current Tenants' containerStyle={styles.container} titleStyle={styles.cardTitle} titleContainerStyle={styles.titleContainerStyle} >
             {renderError()}
-            {renderContent()}
+            <>{renderContent()}</>
             <ThinButton name='Add Tenant' onClick={navigateToAddTenantModal} buttonTextStyle={styles.addButtonText} buttonStyle={styles.addButton} containerStyle={styles.addButtonContainer} />
         </Card>
         </View>

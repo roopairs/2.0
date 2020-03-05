@@ -14,7 +14,6 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
 import { upArrow, downArrow} from 'homepairs-images';
 import { navigationPages } from '../../Routes/RouteConstants';
-import { NavigationRouteScreenProps } from 'homepairs-utilities';
 
 
 export type PanelProps = {
@@ -31,7 +30,7 @@ export type PanelState = {
     maxHeight: number;
 };
 
-type Props = PanelProps & NavigationRouteScreenProps;
+type Props = PanelProps;
 
 const initialState: PanelState = {
     expanded: false,

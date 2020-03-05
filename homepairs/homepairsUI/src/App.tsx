@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { registerRootComponent, AppLoading} from 'expo';
 import { Provider, connect } from 'react-redux';
 import { LoadFonts } from 'homepairs-fonts';
+import { AppState } from 'homepairs-types';
 import { ActivityIndicator, StatusBar, AsyncStorage } from 'react-native';
 import { fetchProperties, setSelectedProperty } from 'src/state/property-list/actions';
 import { fetchAccountProfile } from 'src/state/account/actions';
@@ -9,8 +10,8 @@ import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { navigationPages } from 'src/Routes/RouteConstants';
 import { AppNavigator } from './Routes/Routes';
 import store from './state/store';
-import { authenticated } from 'src/state/session/reducer';
-import axios from 'axios';
+
+
 /* TODO: We can optimize this. Instead of holding the entire response, 
     we can hold only the information we need and create actions that deal with this use case.*/
 

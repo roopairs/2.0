@@ -27,6 +27,7 @@ SceneDispatchProps;
 type State = {
     showModal: boolean;
 };
+
 const colorTheme = BaseStyles.LightColorTheme;
 
 const styles = StyleSheet.create({
@@ -82,10 +83,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
         // HOC or it passes in the neccessary props of this component to allow for 
         // navigation. NOTE: REMEMBER TO CALL withNavigation if a navigator is to be used. 
         onPressButton() {
-            const { onChangeModalVisibility } = this.props;
-            return Page.doesButtonUseNavigate
-                ? Page.onNavButtonClick(this.props)
-                : onChangeModalVisibility(true);
+            return Page.onNavButtonClick(this.props);
         }
 
         // TODO: Either remove this entirely or get the navigation header (when on drop down) to 

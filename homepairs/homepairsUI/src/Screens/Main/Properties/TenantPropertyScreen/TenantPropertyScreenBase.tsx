@@ -94,7 +94,7 @@ export default function TenantPropertyScreenBase(props:Props){
 
 
     const property: Property = properties[0]; // THIS IS BAD CODING, ASSUMING AN ARRAY IS OF SIZE 1
-    const {streetAddress, city, state} = property;
+    const {address} = property;
 
     /* BEWARE: styles.addBottomMargin doesn't always work, had to add it manually 
         / overlapping styles aen't currently supported by react
@@ -104,9 +104,7 @@ export default function TenantPropertyScreenBase(props:Props){
         <ScrollView style={{flexGrow: 1}}>
             <View style={styles.addBottomMargin}>
                 <AddressSticker
-                address={streetAddress}
-                city={city}
-                state={state}/>
+                address={address}/>
                 <View style={styles.imageWrapper}>
                   <View style={styles.imageContainer}>
                       <Image 
