@@ -2,10 +2,12 @@ import React from 'react';
 import { TenantAccount, AccountTypes } from 'src/state/types';
 import { fireEvent, render } from 'react-native-testing-library';
 import CurrentTenantCard from 'src/Screens/Components/CurrentTenantCard/CurrentTenantCard';
-import { mockStackNavigation , navigationStackSpyFunction, navigationSetParamsSpyFunction } from 'tests/fixtures/DummyComponents';
+import { prepareNavigationMock } from 'tests/fixtures/DummyComponents';
 import ThinButton from 'src/Elements/Buttons/ThinButton';
-import { navigationKeys } from 'src/Routes/RouteConstants';
-import { TouchableOpacity } from 'react-native';
+import { navigationPages } from 'src/Routes/RouteConstants';
+import { TouchableOpacity, Platform } from 'react-native';
+
+const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock();
 
 const fakeTenants: TenantAccount[] = [
     {
@@ -56,8 +58,7 @@ describe('Current Tenant Card Test', () => {
                 maxTenants={maxTenants} 
                 navigation={mockStackNavigation}/>);
             const {getByTestId, queryAllByType, getByText} = rendered;
-
-
+            
             // Check if the correct title has been rendered
             expect(getByText('Current Tenants')).toBeDefined();
             // Check if only one thin button has been rendered. The add tenant button
@@ -66,7 +67,15 @@ describe('Current Tenant Card Test', () => {
             // Test to see if the button fires the correct event 
             fireEvent.press(getByTestId('click-thin-button'));
             expect(navigationStackSpyFunction).toHaveBeenCalled();
-            expect(navigationStackSpyFunction).toHaveBeenCalledWith(navigationKeys.AddTenantModal);
+            
+            // Web will have different values passed in to it's spy. So here we define different test. 
+            if(Platform.OS === 'web'){
+                const expectedWebRoute = `${navigationPages.AddTenantModal}/undefined`
+                const expectedWebParam = {background: mockStackNavigation.navigation.location,}
+                expect(navigationStackSpyFunction).toHaveBeenLastCalledWith(expectedWebRoute, expectedWebParam);
+            }else{
+                expect(navigationStackSpyFunction).toHaveBeenCalledWith(navigationPages.AddTenantModal);
+            }
 
         });
 
@@ -77,7 +86,6 @@ describe('Current Tenant Card Test', () => {
         const error= 'This property has reached its maximum amount of tenants. Please remove a tenant if you wish to add another.';
 
         beforeEach(() => {
-            navigationSetParamsSpyFunction.mockClear();
             navigationStackSpyFunction.mockClear();
         });
         it('The list is less than the max amount of tenants', () => {
@@ -97,16 +105,8 @@ describe('Current Tenant Card Test', () => {
             pressables.forEach(pressable => {
                 fireEvent.press(pressable);
             });
-            expect(navigationSetParamsSpyFunction).toHaveBeenCalledTimes(3);
             expect(navigationStackSpyFunction).toHaveBeenCalledTimes(4);
-
-            tenants.forEach(tenant => {
-                expect(navigationSetParamsSpyFunction).toHaveBeenCalledWith({tenant});
-            });
-
             expect(queryByText(error)).toBeNull();
-
-
         });
 
         it('The list is equal to the max amount of tenants', () => {
@@ -127,12 +127,7 @@ describe('Current Tenant Card Test', () => {
                 fireEvent.press(pressable);
             });
             
-            expect(navigationSetParamsSpyFunction).toHaveBeenCalledTimes(3);
             expect(navigationStackSpyFunction).toHaveBeenCalledTimes(3);
-
-            tenants.forEach(tenant => {
-                expect(navigationSetParamsSpyFunction).toHaveBeenCalledWith({tenant});
-            });
 
             // Now check if error had been rendered. It should in this case
             expect(getByText(error)).toBeDefined();

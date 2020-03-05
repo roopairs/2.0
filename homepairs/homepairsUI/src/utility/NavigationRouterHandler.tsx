@@ -5,9 +5,11 @@ import { NavigationSwitchProp, withNavigation } from 'react-navigation';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { Platform } from 'react-native';
 import React from 'react';
-
+import {navigationPages} from 'homepairs-routes'
 type Navigators = NavigationStackProp | RouteProps | NavigationSwitchProp
 
+const {PropertiesScreen, TenantProperty, ServiceRequestScreen, AccountSettings} = navigationPages;
+const BASE_ROUTES: string[] = [PropertiesScreen, TenantProperty, ServiceRequestScreen, AccountSettings]
 
 /**
  * ---------------------------------------------------
@@ -64,7 +66,6 @@ export default class NavigationRouteHandler{
     static createFromProps(props:any){
         const {navigation, history, match, location } = props;
         const navObject = Platform.OS === 'web' ? {history, match, location} : {navigation};
-
         // Case if the navigation has already been converted to a NavigationRouteHandler.
         if(!isNullOrUndefined(navigation) && navigation instanceof NavigationRouteHandler){
             return navigation;
@@ -165,6 +166,23 @@ export default class NavigationRouteHandler{
         }
         return value;
     }
+
+    /**
+     * Checks to see if the base homepairs route is the current location of the navigator. Returns a 
+     * boolean value based on the result. The Base Routes are pre-defined. 
+     */
+    isNavigatorAtBaseRoute(){
+        let route: string;
+        if(isNullOrUndefined(this.navigation.navigate))
+            route = this.navigation.location.pathName
+        else 
+            route = this.navigation.state.routeName
+
+        console.log(`${route}`)
+        console.log(BASE_ROUTES)
+        console.log(BASE_ROUTES.includes(route))
+        return BASE_ROUTES.includes(route)
+    };
 }
 
 /**

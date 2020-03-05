@@ -1,17 +1,18 @@
 import { AccountActions, PropertyListActions } from 'homepairs-redux-actions';
-import { AccountTypes, AccountStateAction, Account, FetchPropertyAction} from 'homepairs-types';
-import { NavigationSwitchProp } from 'react-navigation';
+import { AccountTypes, AccountStateAction, Account, FetchPropertyAndPropertyManagerAction} from 'homepairs-types';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import { navigationPages, Endpoints } from 'src/Routes/RouteConstants';
 import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
-import { mockSwitchNavigation, navigationSwitchSpyFunction } from '../../fixtures/DummyComponents';
+import {prepareNavigationSwitchMock} from '../../fixtures/DummyComponents';
+import { SetAccountAuthenticationStateAction } from 'src/state/types';
 
 
 const {FETCH_PROFILE} = AccountActions.FETCH_PROFILE_ACTION_TYPES;
-const {FETCH_PROPERTY} = PropertyListActions.PROPERTY_LIST_ACTION_TYPES;
+const {FETCH_PROPERTY_AND_PROPERTY_MANAGER} = PropertyListActions.PROPERTY_LIST_ACTION_TYPES;
 
-const URL = 'http://homepairs-alpha.herokuapp.com/API/register/tenant/';
+const URL = Endpoints.HOMEPAIRS_REGISTER_TENANT_ENDPOINT;
+const [mockSwitchNavigation, navigationSwitchSpyFunction] = prepareNavigationSwitchMock();
 const navSpyFunction = navigationSwitchSpyFunction;
 const TenantPropertyPageKey = navigationPages.TenantProperty;
 
@@ -26,20 +27,28 @@ const testTenantAccount1: Account = {
 
 const testJsonValue1 = {
     tenant: {
-        accountType: AccountTypes.Tenant,
         firstName: 'Jacky',
         lastName: 'Lynne',
-        streetAddress: 'ABC Street',
+        address: 'ABC Street',
         email: 'jackyLynne@gmail.com',
-        propId: 100,
+        propId: '100',
         tenantID: 15,
-        place:{
-            maxTenants: 3,
-            numBath: 2,
-            numBed: 3,
-            pm: "Eeron Grant",
-            streetAddress: "ABC Street",
+        pm:{
+            pmInfo: {
+                firstName: "Eeron",
+                lastName: 'Grant',
+                accountType: AccountTypes.PropertyManager,
+                email: 'eerongrant@gmail.com',
+            }
           },
+      },
+      properties:{
+        propId: '100',
+        maxTenants: 3,
+        numBath: 2,
+        numBed: 3,
+        pm: "Eeron Grant",
+        address: "ABC Street",
       },
       token: '',
 };
@@ -53,13 +62,19 @@ const expectedFetchResult1: AccountStateAction = {
         email: 'jackyLynne@gmail.com',
         address: 'ABC Street',
         roopairsToken: '',
-        propId: 100,
+        propId: '100',
         tenantId: 15,
     },
 };
 
-const expectedTenantProperty1: FetchPropertyAction = {
-    type: FETCH_PROPERTY,
+const expectedTenantProperty1: FetchPropertyAndPropertyManagerAction = {
+    type: FETCH_PROPERTY_AND_PROPERTY_MANAGER,
+    propertyManager: {
+        accountType: 1,
+        email: "eerongrant@gmail.com",
+        firstName: "Eeron",
+        lastName: "Grant",
+    },
     property: [{
       tenants: 3,
       bathrooms: 2,
@@ -68,7 +83,12 @@ const expectedTenantProperty1: FetchPropertyAction = {
       propId: '100',
     }]};
 
-const mockNavigation: NavigationSwitchProp = mockSwitchNavigation;
+const expectedSessionResults: SetAccountAuthenticationStateAction = {
+    authed: true,
+    type: "SESSION/SET_AUTH_STATE",
+};
+
+const mockNavigation = mockSwitchNavigation;
 
 const createTestProps = (props: Object) => ({
   navigation: mockNavigation,
@@ -88,7 +108,7 @@ describe('generateAccountForTenant Action', () => {
     });
 
     describe('Tests Action when account created successfully', () => {
-        it('Test when the role is a PM', async () => {
+        it('Test when the role is tenant', async () => {
           const data = { 
               status: 'success',
               ...testJsonValue1,
@@ -97,13 +117,14 @@ describe('generateAccountForTenant Action', () => {
           const spyFunction = jest.fn(() => {});
           mock.onPost(URL).reply(200, data);
           await propertyManagerMock1.dispatch(
-            AccountActions.generateAccountForTenant(testTenantAccount1, password, mockNavigation, spyFunction))
+            AccountActions.generateAccountForTenant(testTenantAccount1, password, mockSwitchNavigation, spyFunction))
             .then(() => {
                 expect(spyFunction.call).toHaveLength(1);
                 const actionResults = propertyManagerMock1.getActions();
-                expect(actionResults).toHaveLength(2);
-                expect(actionResults[0]).toStrictEqual(expectedFetchResult1);
-                expect(actionResults[1]).toStrictEqual(expectedTenantProperty1);
+                expect(actionResults).toHaveLength(3); // Three actions: Session, FetchProfile, and FetchProperty
+                expect(actionResults[0]).toStrictEqual(expectedSessionResults);
+                expect(actionResults[1]).toStrictEqual(expectedFetchResult1);
+                expect(actionResults[2]).toStrictEqual(expectedTenantProperty1);
                 expect(navSpyFunction).toBeCalledWith(TenantPropertyPageKey);
             });
       });

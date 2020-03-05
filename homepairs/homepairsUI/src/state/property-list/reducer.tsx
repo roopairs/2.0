@@ -69,11 +69,7 @@ export const properties = (
                 }
                 // Otherwise, this is the one we want - return an updated value
                 return {
-                    ...newState,
-                    properties: {
-                        ...item,
-                        ...property,
-                    },
+                    ...property,
                 };
             });
             return {

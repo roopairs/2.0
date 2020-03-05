@@ -7,8 +7,8 @@ import {
     HeaderState,
 } from 'homepairs-types';
 import strings from 'homepairs-strings';
+import { MainAppStack } from 'homepairs-routes';
 import { header, initialState } from '../../../src/state/header/reducer';
-import MainAppStack from '../../../src/Routes/RouteConstants';
 
 
 const types = HeaderActions.HEADER_ACTION_TYPES;

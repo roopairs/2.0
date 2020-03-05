@@ -129,7 +129,6 @@ describe('Test isAlphaCharacterOnly Function', () =>{
 
 /** isEmptyOrSpaces Test * */
 const emptyStrings: string[] = [
-    null,
     '',
     '           ',
     '\t\n',

@@ -6,14 +6,17 @@ import {
 } from 'homepairs-types';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { mockStackNavigation, navigationStackSpyFunction } from 'tests/fixtures/DummyComponents';
+import {Endpoints} from 'homepairs-routes';
+import { prepareNavigationMock, displayErrorMock } from 'tests/fixtures/DummyComponents';
 import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
 
-const URL = 'https://homepairs-alpha.herokuapp.com/API/property/create/';
-
+const {HOMEPAIRS_PROPERTY_ENDPOINT} = Endpoints;
+const URL = HOMEPAIRS_PROPERTY_ENDPOINT;
 const { postNewProperty, PROPERTY_LIST_ACTION_TYPES } = PropertyListActions;
+const [mockStackNavigator, navigationStackSpyFunction] = prepareNavigationMock();
+
 const newPropertyTest: Property = {
-    streetAddress: 'Cool Aid Drive',
+    address: 'Cool Aid Drive, HoodRat City, GA',
     tenants: 3,
     bedrooms: 3,
     bathrooms: 3,
@@ -34,6 +37,8 @@ describe('postNewProperty Action', () => {
         beforeEach(() => {
             propertyManagerMock1.clearActions();
             navigationStackSpyFunction.mockClear();
+            setInitialStateSpy.mockClear();
+            displayErrorMock.mockClear();
         });
 
         it('Test the dispatch and callback methods', async () => {
@@ -43,10 +48,11 @@ describe('postNewProperty Action', () => {
             const expectedResult: AddPropertyAction = {
                 type: PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY,
                 userData: {
-                    streetAddress: 'Cool Aid Drive',
+                    address: 'Cool Aid Drive, HoodRat City, GA',
                     tenants: 3,
                     bedrooms: 3,
                     bathrooms: 3,
+                    propId: undefined,
                 },
             };
 
@@ -57,11 +63,12 @@ describe('postNewProperty Action', () => {
                         newPropertyTest,
                         newPropertyCredentials,
                         setInitialStateSpy,
-                        mockStackNavigation,
+                        displayErrorMock,
+                        mockStackNavigator,
                     ),
                 )
                 .then(() => {
-                    expect(setInitialStateSpy.mock.calls).toHaveLength(1);
+                    expect(setInitialStateSpy).toHaveBeenCalledTimes(1);
                     const actionResults = propertyManagerMock1.getActions();
                     expect(actionResults).toHaveLength(1);
                     expect(actionResults[0]).toStrictEqual(expectedResult);
@@ -76,21 +83,24 @@ describe('postNewProperty Action', () => {
         beforeEach(() => {
             propertyManagerMock1.clearActions();
             navigationStackSpyFunction.mockClear();
+            setInitialStateSpy.mockClear();
+            displayErrorMock.mockClear();
         });
 
         it('Test when failure to get response', async () => {
-            mock.onPost(URL).reply(500, null);
+            mock.onPost(URL).reply(404);
             await propertyManagerMock1
                 .dispatch(
                     postNewProperty(
                         newPropertyTest,
                         newPropertyCredentials,
                         setInitialStateSpy,
-                        mockStackNavigation,
+                        displayErrorMock,
+                        mockStackNavigator,
                     ),
                 )
                 .then(() => {
-                    expect(setInitialStateSpy.mock.calls).toHaveLength(0);
+                    expect(setInitialStateSpy).toHaveBeenCalledTimes(0);
                     const actionResults = propertyManagerMock1.getActions();
                     expect(actionResults).toHaveLength(0);
                     expect(navigationStackSpyFunction).toHaveBeenCalledTimes(0);                    
@@ -108,11 +118,12 @@ describe('postNewProperty Action', () => {
                         newPropertyTest,
                         newPropertyCredentials,
                         setInitialStateSpy,
-                        mockStackNavigation,
+                        displayErrorMock,
+                        mockStackNavigator,
                     ),
                 )
                 .then(() => {
-                    expect(setInitialStateSpy.mock.calls).toHaveLength(0);
+                    expect(setInitialStateSpy).toHaveBeenCalledTimes(0);
                     const actionResults = propertyManagerMock1.getActions();
                     expect(actionResults).toHaveLength(0);
                     expect(navigationStackSpyFunction).toHaveBeenCalledTimes(0);                    

@@ -1,15 +1,21 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, Platform} from 'react-native';
 import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
 import { MainAppStackType, ApplianceType } from 'src/state/types';
 import { navigationPages } from 'src/Routes/RouteConstants';
+import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
+
 
 export const SingleViewComponent = <View style={{height: '25%', width: '25%', backgroundColor: 'black'}}/>;
 export const navigationSwitchSpyFunction = jest.fn((arg?:string) => {return arg;});
 export const navigationStackSpyFunction = jest.fn((arg?:any) => {return arg;});
 export const navigationSetParamsSpyFunction = jest.fn((params?:any) => {return params;});
 export const navigationGetParamsSpyFunction = jest.fn((params?:any) => {return params;});
+
+export const mockRouterFunction = jest.fn((params?:any) => {return params;});
+
+export const displayErrorMock = jest.fn((error?:string) => {return error;});
 
 export const mockSwitchNavigation: NavigationSwitchProp = {
     navigate: (routeNameOrOptions)=>{
@@ -44,7 +50,7 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
       state: {
         key: 'iamatestkey',
         index: 1,
-        routeName: 'Properties',
+        routeName: navigationPages.SingleProperty,
         routes: undefined,
         isTransitioning: false,
       },
@@ -108,7 +114,7 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
     state: {
       key: 'iamatestkey',
       index: 0,
-      routeName: 'Properties',
+      routeName: navigationPages.PropertiesScreen,
       routes: undefined,
       isTransitioning: false,
     },
@@ -161,12 +167,66 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
     },
 };
 
-  export const thinButtonFireEventTestId = {
-    onClick: 'click-thin-button',
-    onPress: 'click-thin-button',
-  };
+export const mockRoute = {
+  history: {
+    go: mockRouterFunction,
+    goBack: mockRouterFunction,
+    goForward: mockRouterFunction,
+    listen: undefined,
+    location: {
+      pathName: '/test/path',
+      search: '/test/search',
+      hash: '/test/hash',
+    },
+    push: mockRouterFunction,
+    pop: mockRouterFunction,
+    replace: mockRouterFunction
+  },
+  location: {
+    pathName: '/test/path',
+    search: '/test/search',
+    hash: '/test/hash',
+  },
+  match: {
+    path: '/test/path',
+    url: '/test/path',
+    isExact: true,
+  },
+}
 
-  export const MainAppStackTest: Array<MainAppStackType> = [
+export const mockFirstRoute = {
+  history: {
+    go: mockRouterFunction,
+    goBack: mockRouterFunction,
+    goForward: mockRouterFunction,
+    listen: undefined,
+    location: {
+      pathName: '/admin/properties',
+      search: '/test/search',
+      hash: '/test/hash',
+    },
+    push: mockRouterFunction,
+    pop: mockRouterFunction,
+    replace: mockRouterFunction,
+  },
+  location: {
+    pathName: '/admin/properties',
+    search: '/test/search',
+    hash: '/test/hash',
+  },
+  match: {
+    path: '/admin/properties',
+    url: '/admin/properties',
+    isExact: true,
+  },
+}
+
+export const thinButtonFireEventTestId = {
+  onClick: 'click-thin-button',
+  onPress: 'click-thin-button',
+};
+
+export const MainAppStackTest: Array<MainAppStackType> = [
     {
         title: 'Properties',
         navigate: navigationPages.PropertiesScreen,
@@ -190,3 +250,24 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
         key: 'LogOut',
     },
 ];
+
+
+
+/* Helper functions for getting the mock navigators */
+export function prepareNavigationMock(){
+  return Platform.OS === 'web' ? [new NavigationRouteHandler(mockRoute), mockRouterFunction ]
+  : 
+  [new NavigationRouteHandler(mockStackNavigation), navigationStackSpyFunction]; 
+}
+
+export function prepareNavigationSwitchMock(){
+  return Platform.OS === 'web' ? [new NavigationRouteHandler(mockRoute), mockRouterFunction ]
+  : 
+  [new NavigationRouteHandler(mockSwitchNavigation), navigationSwitchSpyFunction]; 
+}
+
+export function prepareNavigationStackFirstRouteMock(){
+  return Platform.OS === 'web' ? [new NavigationRouteHandler(mockFirstRoute), mockRouterFunction ]
+  : 
+  [new NavigationRouteHandler(mockStackNavigationFirstRoute), navigationStackSpyFunction]; 
+}
