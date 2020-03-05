@@ -40,6 +40,9 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
     isFirstRouteInParent: undefined, 
     dangerouslyGetParent: undefined,
     jumpTo: undefined,
+    toggleDrawer: undefined, 
+    openDrawer: undefined, 
+    closeDrawer: undefined,
   };
 
   export const mockStackNavigation: NavigationStackProp = {
@@ -104,6 +107,9 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
           navigationStackSpyFunction(routeNameOrOptions);
           return true;
       },
+      toggleDrawer: undefined, 
+      openDrawer: undefined, 
+      closeDrawer: undefined,
   };
 
   export const mockStackNavigationFirstRoute: NavigationStackProp = {
@@ -165,6 +171,9 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
         navigationStackSpyFunction(routeNameOrOptions);
         return true;
     },
+    toggleDrawer: undefined, 
+    openDrawer: undefined, 
+    closeDrawer: undefined,
 };
 
 export const mockRoute = {
@@ -258,6 +267,7 @@ export function prepareNavigationMock(){
   return Platform.OS === 'web' ? [new NavigationRouteHandler(mockRoute), mockRouterFunction ]
   : 
   [new NavigationRouteHandler(mockStackNavigation), navigationStackSpyFunction]; 
+  
 }
 
 export function prepareNavigationSwitchMock(){

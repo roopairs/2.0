@@ -98,7 +98,6 @@ const styles = StyleSheet.create({
 });
 
 export default function DetailedPropertyScreenBase(props: Props) {
-    console.log(props);
     const { property, navigation } = props;
     const { propId, address } = property;
     const [tenantInfoState, setTenantInfo] = useState([]);
@@ -207,7 +206,3 @@ export default function DetailedPropertyScreenBase(props: Props) {
         </View>
     );
 }
-
-DetailedPropertyScreenBase.defaultProps = {
-    primaryColorTheme: BaseStyles.LightColorTheme,
-};

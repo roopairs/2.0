@@ -17,12 +17,14 @@ import store from './state/store';
 
 const checkSession = async () => {
     await LoadFonts();
+    /*
     await AsyncStorage.getItem('session').then(async (sessionToken) => {
         if(isNullOrUndefined(sessionToken)){
             await AsyncStorage.clear();
             AppNavigator.navigation.navigate(navigationPages.LoginScreen);
             return;
         }
+        
         // TODO: Sene session token to backend to check if valid
         await AsyncStorage.getItem('profile').then(profile => {
             console.log(profile);
@@ -40,6 +42,7 @@ const checkSession = async () => {
     }).catch(async () => {
         await AsyncStorage.clear();
     });
+    */
 
     /**
      * TODO: Create async request that confirms if a session token from the Homepairs api is still valid. If it is 

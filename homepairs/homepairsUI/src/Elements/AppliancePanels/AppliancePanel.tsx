@@ -154,10 +154,7 @@ export default class AppliancePanel extends React.Component<Props, PanelState> {
         buttonTextStyle: {
             color: colors.lightGray,
         },
-        onClick: () => {
-            const {navigation, appliance}= this.props;
-            navigation.navigate(navigationPages.EditApplianceModal, {appliance}, true);
-        },
+        onClick: () => {},
     };
 
     constructor(props: Readonly<Props>) {

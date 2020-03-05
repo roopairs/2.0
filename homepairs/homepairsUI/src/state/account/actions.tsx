@@ -169,16 +169,11 @@ export const fetchAccount = (
               // Navigate page based on the Account Type
               ChooseMainPage(accountType, navigation);
             }else{
-              console.log(response);
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
             }
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
-          })
-          .finally((response) => {
-            console.log(response);
           });
         }; 
 };
