@@ -10,7 +10,6 @@ import {
 import { propertyManagerMock1 } from 'tests/fixtures/StoreFixture';
 import { Provider } from 'react-redux';
 import { fireEvent, render} from 'react-native-testing-library';
-import {create} from 'react-test-renderer'
 import { prepareNavigationMock, mockRoute } from 'tests/fixtures/DummyComponents';
 import { TextInput, TouchableOpacity, Platform } from 'react-native';
 import { navigationPages, Endpoints } from 'src/Routes/RouteConstants';
@@ -60,23 +59,29 @@ const ComponentWithStore = Platform.OS === 'web' ?
 <Provider store={mockStore}><DetailedPropertyScreen navigation={mockStackNavigation}/></Provider>;
 
 mockAxios.onGet(mockAddress).reply(200, mockData);
-const rendered = create(ComponentWithStore);
 
 describe('Integration Test for the Properties Lists Screen Page', () => {
-    //const {getByType, queryAllByType, getAllByType} = rendered;
-    console.log(rendered.root.findByType(DetailedPropertyScreenBase).instance)
+    const rendered = render(ComponentWithStore);
 
-    const currentTenantCard = queryAllByType(CurrentTenantCard);
-    const currentTenantPressables = currentTenantCard[0].findAllByType(TouchableOpacity)
+    const {getByType, queryAllByType, getAllByType} = rendered;
 
     const generalHomeInfo = queryAllByType(GeneralHomeInfo);
     const addressSticker= queryAllByType(AddressSticker);
     const applianceInfo = queryAllByType(ApplianceInfoBase);
     const serviceRequestInfo = queryAllByType(ServiceRequestCount);
+    const currentTenantCard = queryAllByType(CurrentTenantCard);
+
+    rendered.getByType(DetailedPropertyScreenBase);
     const rootObj = getByType(DetailedPropertyScreenBase).instance;
     
+
+    const openEditPropertyModalSpy = jest.spyOn(rootObj, 'openEditPropertyModal');
+    const openAddApplianceModalSpy = jest.spyOn(rootObj, 'openAddApplianceModal');
+    const openEditApplianceModalSpy = jest.spyOn(rootObj, 'openEditApplianceModal');
+
     beforeEach(() =>{
         navigationStackSpyFunction.mockClear();
+        
     });
 
     it('Test for basic structure', () => {
@@ -87,14 +92,21 @@ describe('Integration Test for the Properties Lists Screen Page', () => {
         expect(applianceInfo).toHaveLength(1);
 
         expect(serviceRequestInfo).toHaveLength(1);
-        console.log(rootObj.state)
+        console.log(rootObj.state);
     });
 
-    it('Test function behaviors', () => {
-        const navigateModalSpy = jest.spyOn(rootObj, 'navigateModal');
-        const openAddApplianceModalSpy = jest.spyOn(rootObj, 'openAddApplianceModal');
-        const openEditApplianceModalSpy = jest.spyOn(rootObj, 'openEditApplianceModal');
 
+    // TODO: There seems to be a problem with animation when rendering for web. We need to mock this library
+    // Also, there seems to be a problem with loading the state on mobile. I'm just going to leave these tests here
+    it('Test function behaviors', () => {
+       
+        rootObj.openEditPropertyModal();
+        rootObj.openAddApplianceModal();
+        rootObj.openEditApplianceModal();
+
+        expect(openEditPropertyModalSpy).toHaveBeenCalled();
+        expect(openAddApplianceModalSpy).toHaveBeenCalled();
+        expect(openEditApplianceModalSpy).toHaveBeenCalled();
 
     });
 });

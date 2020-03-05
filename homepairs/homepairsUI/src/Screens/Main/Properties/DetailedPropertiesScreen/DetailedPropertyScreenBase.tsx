@@ -40,6 +40,7 @@ type Props = NavigationRouteScreenProps & DetailedPropertyStateProps;
 type State = {
     tenantInfo: TenantInfo[],
     appliances: Appliance[],
+    modalOpen: boolean,
 }
 const propertyKeys = HomepairsPropertyAttributes;
 const categoryStrings = strings.applianceInfo.categories;
@@ -148,55 +149,57 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
         this.state = {
             tenantInfo: [],
             appliances: [],
+            modalOpen: false,
         };
         this.property = props.property; 
         this.navigation = props.navigation;
         this.propId = this.property.propId;
-        this.navigateModal = this.navigateModal.bind(this);
+        this.openEditPropertyModal = this.openEditPropertyModal.bind(this);
     }
 
-    componentDidMount(){
-        this.fetchTenantsAndAppliances();
-        console.log('mounted component')
+    async componentDidMount(){
+        await this.fetchTenantsAndAppliances();
     }
 
-    componentDidUpdate(){
-        this.fetchTenantsAndAppliances();
+    async componentDidUpdate(){
+        await this.fetchTenantsAndAppliances();
     }
 
     fetchTenantsAndAppliances = async () => {
-        const result = await axios.get(`https://homepairs-alpha.herokuapp.com/property/${this.propId}`);
+        await axios.get(`https://homepairs-alpha.herokuapp.com/property/${this.propId}`).then((result) =>{
+            const {tenants, appliances} = result.data;
+            const tenantInfo: TenantInfo[] = [];
+            const applianceInfo: Appliance[] = [];
 
-        const {tenants, appliances} = result.data;
-        const tenantInfo: TenantInfo[] = [];
-        const applianceInfo: Appliance[] = [];
-
-        tenants.forEach(tenant => {
-            const {firstName, lastName, email, phoneNumber} = tenant;
-            tenantInfo.push({
-                firstName,
-                lastName,
-                email,
-                phoneNumber,
+            tenants.forEach(tenant => {
+                const {firstName, lastName, email, phoneNumber} = tenant;
+                tenantInfo.push({
+                    firstName,
+                    lastName,
+                    email,
+                    phoneNumber,
+                });
             });
-        });
 
-        appliances.forEach(appliance => {
-            const {applianceId, category, name, manufacturer, modelNum, serialNum, location} = appliance;
-            applianceInfo.push({
-                applianceId,
-                category: stringToCategory(category), 
-                appName: name, manufacturer, modelNum, serialNum, location,
+            appliances.forEach(appliance => {
+                const {applianceId, category, name, manufacturer, modelNum, serialNum, location} = appliance;
+                applianceInfo.push({
+                    applianceId,
+                    category: stringToCategory(category), 
+                    appName: name, manufacturer, modelNum, serialNum, location,
+                });
             });
-        });
-        this.setState({
-            tenantInfo,
-            appliances: applianceInfo, 
-        });
+
+            this.setState({
+                tenantInfo,
+                appliances: applianceInfo,
+            });
+        });  
     };
        
-    navigateModal() {
+    openEditPropertyModal() {
         this.navigation.navigate(navigationPages.EditPropertyModal, {propId: this.propId}, true);
+        this.setState({modalOpen: true});
     }
 
     openAddApplianceModal() {
@@ -224,7 +227,7 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
                     </View>
                     <GeneralHomeInfo
                         property={this.property}
-                        onClick={this.navigateModal}/>
+                        onClick={this.openEditPropertyModal}/>
                     <ApplianceInfo 
                         navigation={this.navigation} 
                         appliances={appliances} 

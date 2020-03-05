@@ -17,7 +17,7 @@ import { navigationPages } from 'src/Routes/RouteConstants';
 import {BrowserRouter as Router} from 'react-router-dom';
 
 
-const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock()
+const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock();
 const [mockStackNavigationFirstRoute] = prepareNavigationStackFirstRouteMock();
 
 const mockStore = propertyManagerMock1;

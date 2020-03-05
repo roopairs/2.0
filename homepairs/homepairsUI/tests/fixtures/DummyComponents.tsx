@@ -338,7 +338,7 @@ function prepareRouteParams(routeObject:any, routeOptions: any){
  * a route parameters for testing on web. 
  * @param routeOptions -test params to be given to the route 
  */
-export function prepareNavigationMock(routeOptions?: SetOptionalRouteParams){
+export function prepareNavigationMock(routeOptions?: SetOptionalRouteParams) : [NavigationRouteHandler, jest.Mock<any, [any?]>]{
   const navObj = prepareRouteParams(mockRoute, routeOptions);
   return Platform.OS === 'web' ? [new NavigationRouteHandler(navObj), mockRouterFunction ]
   : 
@@ -354,7 +354,7 @@ export function prepareNavigationMock(routeOptions?: SetOptionalRouteParams){
  * a route parameters for testing on web. 
  * @param routeOptions -test params to be given to the route 
  */
-export function prepareNavigationSwitchMock(routeOptions?: SetOptionalRouteParams){
+export function prepareNavigationSwitchMock(routeOptions?: SetOptionalRouteParams): [NavigationRouteHandler, jest.Mock<any, [any?]>]{
   const navObj = prepareRouteParams(mockRoute, routeOptions);
   return Platform.OS === 'web' ? [new NavigationRouteHandler(navObj), mockRouterFunction ]
   : 
@@ -372,7 +372,7 @@ export function prepareNavigationSwitchMock(routeOptions?: SetOptionalRouteParam
  * a route parameters for testing on web. 
  * @param routeOptions -test params to be given to the route 
  */
-export function prepareNavigationStackFirstRouteMock(routeOptions?: SetOptionalRouteParams){
+export function prepareNavigationStackFirstRouteMock(routeOptions?: SetOptionalRouteParams): [NavigationRouteHandler, jest.Mock<any, [any?]>]{
   const navObj = prepareRouteParams(mockFirstRoute, routeOptions);
   return Platform.OS === 'web' ? [new NavigationRouteHandler(navObj), mockRouterFunction ]
   : 
