@@ -11,7 +11,7 @@ import {
   AccountTypes,
   HomePairsResponseKeys, 
 } from '../types';
-import { fetchProperty, fetchProperties, fetchPropertyAndPropertyManager } from '../property-list/actions';
+import { fetchProperties, fetchPropertyAndPropertyManager } from '../property-list/actions';
 import { setAccountAuthenticationState } from '../session/actions';
 
 
@@ -148,7 +148,6 @@ export const fetchAccount = (
             password: Password,
           })
           .then((response) => {
-            console.log(response);
             const {data} = response;
             const {status} = data;
             const accountType = getAccountType(response[responseKeys.DATA]);

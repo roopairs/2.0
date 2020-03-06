@@ -7,9 +7,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairFonts } from 'res/fonts';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import { NavigationRouteHandler } from 'homepairs-utilities';
 
-type CurrentTenantsCardProps = NavigationRouteHandler & {
+type CurrentTenantsCardProps =  {
     /**
      * Used to identify this component during testing
      */
@@ -33,6 +32,7 @@ type CurrentTenantsCardProps = NavigationRouteHandler & {
      * The tenant information passed into this component. Used to present the information.
      */
     tenants?: TenantInfo[],
+    navigation?: any, 
 }
 
 const colors = BaseStyles.LightColorTheme;

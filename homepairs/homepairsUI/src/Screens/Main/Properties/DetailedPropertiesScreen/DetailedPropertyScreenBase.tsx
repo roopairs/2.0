@@ -6,7 +6,6 @@ import {
     ScrollView,
     Image,
     StyleSheet,
-    ImageProps,
 } from 'react-native';
 import { defaultProperty } from 'homepairs-images';
 import {
@@ -25,31 +24,17 @@ import {
 import * as BaseStyles from 'homepairs-base-styles';
 import { navigationPages } from 'src/Routes/RouteConstants';
 import axios from 'axios';
-<<<<<<< HEAD
-import {prepareNavigationHandlerComponent, NavigationRouteScreenProps, stringToCategory} from 'homepairs-utilities';
-=======
-import strings from 'homepairs-strings';
 import {NavigationRouteScreenProps, stringToCategory} from 'homepairs-utilities';
->>>>>>> e7966a4d3c40285bfd5f984c3efd2d070bc2f1ab
 
 export type DetailedPropertyStateProps = {
     property: Property;
 };
 
 type Props = NavigationRouteScreenProps & DetailedPropertyStateProps;
-<<<<<<< HEAD
-
-const CurrentTenants = prepareNavigationHandlerComponent(CurrentTenantCard);
-const ApplianceInfo = prepareNavigationHandlerComponent(ApplianceInfoBase);
-=======
 type State = {
     tenantInfo: TenantInfo[],
     appliances: Appliance[],
-    modalOpen: boolean,
 }
-const propertyKeys = HomepairsPropertyAttributes;
-const categoryStrings = strings.applianceInfo.categories;
->>>>>>> e7966a4d3c40285bfd5f984c3efd2d070bc2f1ab
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -112,43 +97,6 @@ const styles = StyleSheet.create({
     },
 });
 
-<<<<<<< HEAD
-export default function DetailedPropertyScreenBase(props: Props) {
-    const { property, navigation } = props;
-    const { propId, address } = property;
-    const [tenantInfoState, setTenantInfo] = useState([]);
-    const [applianceInfoState, setApplianceInfo] = useState([]);
-=======
-const fakeApp: Appliance = {
-    applianceId: '1', 
-    category: ApplianceType.Plumbing, 
-    appName: 'Oven', 
-    manufacturer: 'Vulcan Equipment', 
-    modelNum: 123, 
-    serialNum: 432, 
-    location: 'Bathroom',
-};
-
-const fakeSR : ServiceRequest = {
-    address: '123 Service Request', 
-    technician: 'Johnny White', 
-    startDate: new Date().toString(),
-    poc: '(805)-123-4321', 
-    pocName: 'Sally Jones', 
-    companyName: 'Fix N Fix', 
-    details: 'The oven is not heating properly. It was working fine last week, but we have not been able to get it to light since then.', 
-    appliance: fakeApp,
-};
-
-function renderImage() {
-    return <Image 
-            source={defaultProperty} 
-            style={Platform.OS === 'web'
-            ? styles.homePairsPropertiesImageWeb
-            : styles.homePairsPropertiesImage} 
-            resizeMode='cover'/>;
-}
-
 export default class DetailedPropertyScreenBase extends React.Component<Props, State> {
 
     property
@@ -162,7 +110,6 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
         this.state = {
             tenantInfo: [],
             appliances: [],
-            modalOpen: false,
         };
         this.property = props.property; 
         this.navigation = props.navigation;
@@ -177,7 +124,6 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
     async componentDidUpdate(){
         await this.fetchTenantsAndAppliances();
     }
->>>>>>> e7966a4d3c40285bfd5f984c3efd2d070bc2f1ab
 
     fetchTenantsAndAppliances = async () => {
         await axios.get(`https://homepairs-alpha.herokuapp.com/property/${this.propId}`).then((result) =>{
@@ -213,7 +159,6 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
        
     openEditPropertyModal() {
         this.navigation.navigate(navigationPages.EditPropertyModal, {propId: this.propId}, true);
-        this.setState({modalOpen: true});
     }
 
     openAddApplianceModal() {
@@ -236,7 +181,12 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
                     />
                     <View style={styles.imageWrapper}>
                         <View style={styles.imageContainer}>
-                            {renderImage()}
+                            <Image 
+                                source={defaultProperty} 
+                                style={Platform.OS === 'web'
+                                ? styles.homePairsPropertiesImageWeb
+                                : styles.homePairsPropertiesImage} 
+                                resizeMode='cover'/>
                         </View>
                     </View>
                     <GeneralHomeInfo
@@ -272,7 +222,3 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
         );
     }
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> e7966a4d3c40285bfd5f984c3efd2d070bc2f1ab
