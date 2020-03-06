@@ -8,8 +8,8 @@ import { fetchProperties, setSelectedProperty } from 'src/state/property-list/ac
 import { fetchAccountProfile } from 'src/state/account/actions';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import { AppNavigator } from './Routes/Routes';
-import store from './state/store';
+import { AppNavigator } from 'src/Routes/Routes';
+import store from './src/state/store';
 
 
 /* TODO: We can optimize this. Instead of holding the entire response, 
