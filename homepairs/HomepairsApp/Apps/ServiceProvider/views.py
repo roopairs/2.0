@@ -62,7 +62,7 @@ def missingError(missingFields):
 
 ##############################################################
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class ServiceProviderView(View):
     def post(self, request):
         inData = json.loads(request.body)

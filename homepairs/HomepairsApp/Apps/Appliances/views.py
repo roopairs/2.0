@@ -59,7 +59,7 @@ def missingError(missingFields):
 
 ##############################################################
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class ApplianceView(View):
     # Create a new appliance
     def post(self, request):

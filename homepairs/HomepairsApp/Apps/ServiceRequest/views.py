@@ -67,7 +67,7 @@ def missingError(missingFields):
 
 ##############################################################
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class ServiceRequestView(View):
     def post(self, request):
         inData = json.loads(request.body)
@@ -80,7 +80,7 @@ class ServiceRequestView(View):
 
         if(len(missingFields) != 0):
             return JsonResponse(data=missingError(missingFields))
-            
+
         job = inData.get('job')
         provId = inData.get('provId')
         client = inData.get('client')
@@ -98,7 +98,7 @@ class ServiceRequestView(View):
             prop = propList[0]
             app = appList[0]
             prov = provList[0]
-            
+
             data = {
                         'service_company': provId,
                         'service_category': 1,
@@ -132,7 +132,7 @@ class ServiceRequestView(View):
                 return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
             else:
                 return JsonResponse(data=returnError(PROPERTY_DOESNT_EXIST))
-            
+
 
     def put(self, request):
         inData = json.loads(request.body)
@@ -166,7 +166,6 @@ class ServiceRequestView(View):
             return JsonResponse(data=missingError(missingFields))
 
     def get(self, request, inPropId):
-        print('GETS HERE: ', request.body)
         propId = inPropId
         reqList = ServiceRequest.objects.filter(location=propId)
         if reqList.exists():
