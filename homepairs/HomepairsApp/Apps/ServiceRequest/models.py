@@ -3,12 +3,13 @@ from django.db.models.fields import CharField, DateTimeField
 
 from ..Appliances.models import Appliance
 from ..Properties.models import Property
+from ..ServiceProvider.models import ServiceProvider
 
 
 class ServiceRequest(models.Model):
     job = CharField(max_length=100)
     details = CharField(max_length=300)
-    serviceCompany = CharField(max_length=100)
+    serviceCompany = models.ForeignKey(ServiceProvider, on_delete=models.CASCADE)
     client = CharField(max_length=100)
     status = CharField(max_length=20)
     dayStarted = DateTimeField()

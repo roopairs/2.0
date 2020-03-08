@@ -2,7 +2,10 @@
 # Imports
 from django.test import TestCase
 
+from unittest import mock
+
 from ..Appliances.models import Appliance
+from ..ServiceProvider.models import ServiceProvider
 from ..helperFuncsForTesting import getInfoPost, setUpHelper
 from ..Properties.models import Property
 from .views import APPLIANCE_DOESNT_EXIST, ERROR, FAIL, PROPERTY_DOESNT_EXIST, STATUS, SUCCESS
@@ -16,6 +19,8 @@ from .views import APPLIANCE_DOESNT_EXIST, ERROR, FAIL, PROPERTY_DOESNT_EXIST, S
 # EXTRA URLS
 REQ_VIEW = 'service_request_view'
 APP_VIEW = 'appliance_view'
+PRO_VIEW = 'service_provider_view'
+LOGIN = 'login'
 
 ################################################################################
 # Tests
@@ -25,7 +30,11 @@ class CreateServiceProvider(TestCase):
     def setUp(self):
         setUpHelper()
 
-    def test_create_service_request_allCorrect(self):
+    mockVal = {"token": "cb3e47056453b655d9f9052f7368dfe170e91f39"}
+    mockVal2 = {'id': 'd1oDOK5', 'physical_address_formatted': '130 Grand Ave, San Luis Obispo, CA 93405, USA'}
+    @mock.patch('Apps.PropertyManagers.views.postRooAPI', return_value=mockVal, autospec=True)
+    @mock.patch('Apps.Properties.views.postRooTokenAPI', return_value=mockVal2, autospec=True)
+    def test_create_service_request_allCorrect(self, mocked, mocked2):
         '''Everything is correct'''
         name = 'Fridge'
         manufacturer = 'Company'
@@ -45,9 +54,30 @@ class CreateServiceProvider(TestCase):
                }
         responseData = getInfoPost(APP_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
+        
+        name = 'McDs'
+        email = 'mcds@gmail.com'
+        phoneNum = '8007733030'
+        contractLic = '681234'
+        skills = 'can cook burgers okay'
+        founded = '2014-04-07'
+
+        data = {
+                  'name': name,
+                  'email': email,
+                  'phoneNum': phoneNum,
+                  'contractLic': contractLic,
+                  'skills': skills,
+                  'founded': founded,
+               }
+        responseData = getInfoPost(PRO_VIEW, data)
+        self.assertEqual(responseData.get(STATUS), SUCCESS)
+
+        data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
+        responseData = getInfoPost(LOGIN, data)
 
         job = 'Fix sink'
-        serviceCompany = 'Joe Plumbing'
+        serviceCompany = ServiceProvider.objects.filter()[0].id
         client = 'McDs'
         status = 'Pending'
         dayStarted = '2000-01-01'
@@ -56,15 +86,17 @@ class CreateServiceProvider(TestCase):
         appId = Appliance.objects.filter()[0].id
         data = {
                   'job': job,
-                  'serviceCompany': serviceCompany,
+                  'provId': serviceCompany,
                   'client': client,
                   'status': status,
                   'dayStarted': dayStarted,
                   'details': details,
                   'propId': propId,
-                  'appId': appId
+                  'appId': appId,
+                  'token': responseData.get('token')
                }
         responseData = getInfoPost(REQ_VIEW, data)
+        print(responseData.get(ERROR))
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
     # Test that passes bad propId
@@ -89,8 +121,29 @@ class CreateServiceProvider(TestCase):
         responseData = getInfoPost(APP_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
+        name = 'McDs'
+        email = 'mcds@gmail.com'
+        phoneNum = '8007733030'
+        contractLic = '681234'
+        skills = 'can cook burgers okay'
+        founded = '2014-04-07'
+
+        data = {
+                  'name': name,
+                  'email': email,
+                  'phoneNum': phoneNum,
+                  'contractLic': contractLic,
+                  'skills': skills,
+                  'founded': founded,
+               }
+        responseData = getInfoPost(PRO_VIEW, data)
+        self.assertEqual(responseData.get(STATUS), SUCCESS)
+
+        #data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
+        #responseData = getInfoPost(LOGIN, data)
+
         job = 'Fix sink'
-        serviceCompany = 'Joe Plumbing'
+        serviceCompany = ServiceProvider.objects.filter()[0].id
         client = 'McDs'
         status = 'Pending'
         dayStarted = '2000-01-01'
@@ -99,13 +152,14 @@ class CreateServiceProvider(TestCase):
         appId = Appliance.objects.filter()[0].id
         data = {
                   'job': job,
-                  'serviceCompany': serviceCompany,
+                  'provId': serviceCompany,
                   'client': client,
                   'status': status,
                   'dayStarted': dayStarted,
                   'details': details,
                   'propId': propId,
-                  'appId': appId
+                  'appId': appId,
+                  'token': 'cb3e47056453b655d9f9052f7368dfe170e91f39'
                }
         responseData = getInfoPost(REQ_VIEW, data)
         self.assertEqual(responseData.get(STATUS), FAIL)
@@ -114,8 +168,29 @@ class CreateServiceProvider(TestCase):
     # Test that passes bad appId
     def test_create_service_request_bad_app(self):
         '''Everything is correct'''
+        name = 'McDs'
+        email = 'mcds@gmail.com'
+        phoneNum = '8007733030'
+        contractLic = '681234'
+        skills = 'can cook burgers okay'
+        founded = '2014-04-07'
+
+        data = {
+                  'name': name,
+                  'email': email,
+                  'phoneNum': phoneNum,
+                  'contractLic': contractLic,
+                  'skills': skills,
+                  'founded': founded,
+               }
+        responseData = getInfoPost(PRO_VIEW, data)
+        self.assertEqual(responseData.get(STATUS), SUCCESS)
+
+        #data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
+        #responseData = getInfoPost(LOGIN, data)
+
         job = 'Fix sink'
-        serviceCompany = 'Joe Plumbing'
+        serviceCompany = ServiceProvider.objects.filter()[0].id
         client = 'McDs'
         status = 'Pending'
         dayStarted = '2000-01-01'
@@ -124,13 +199,14 @@ class CreateServiceProvider(TestCase):
         appId = -1
         data = {
                   'job': job,
-                  'serviceCompany': serviceCompany,
+                  'provId': serviceCompany,
                   'client': client,
                   'status': status,
                   'dayStarted': dayStarted,
                   'details': details,
                   'propId': propId,
-                  'appId': appId
+                  'appId': appId,
+                  'token': 'cb3e47056453b655d9f9052f7368dfe170e91f39'
                }
         responseData = getInfoPost(REQ_VIEW, data)
         self.assertEqual(responseData.get(STATUS), FAIL)

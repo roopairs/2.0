@@ -4,8 +4,11 @@ import json
 from django.http import JsonResponse
 from django.views import View
 
+from ..helperFuncs import getRooTokenAPI, postRooTokenAPI
+
 from ..Appliances.models import Appliance
 from ..Properties.models import Property
+from ..ServiceProvider.models import ServiceProvider
 from .models import ServiceRequest
 
 
@@ -68,48 +71,68 @@ def missingError(missingFields):
 class ServiceRequestView(View):
     def post(self, request):
         inData = json.loads(request.body)
-        required = ['job', 'serviceCompany', 'client', 'status', 'dayStarted', 'details', 'propId', 'appId']
+        required = ['job', 'provId', 'client', 'status', 'dayStarted', 'details', 'token', 'propId', 'appId']
         missingFields = checkRequired(required, inData)
         #propId for our database is the same for roopairs id so use same on for both things
         #ask about shit I dont know
 
-        if(len(missingFields) == 0):
-            job = inData.get('job')
-            serviceCompany = inData.get('serviceCompany')
-            client = inData.get('client')
-            status = inData.get('status')
-            dayStartedStr = inData.get('dayStarted')
-            details = inData.get('details')
-            propId = inData.get('propId')
-            appId = inData.get('appId')
-            dayStarted = datetime.datetime.strptime(dayStartedStr, "%Y-%m-%d").date()
-            propList = Property.objects.filter(id=propId)
-            appList = Appliance.objects.filter(id=appId)
-            if propList.exists() and appList.exists():
-                prop = propList[0]
-                app = appList[0]
-                req = ServiceRequest(job=job,
-                                     serviceCompany=serviceCompany,
-                                     client=client,
-                                     status=status,
-                                     dayStarted=dayStarted,
-                                     details=details,
-                                     location=prop,
-                                     appFixed=app)
-                req.save()
-                data = {
-                        STATUS: SUCCESS,
-                        'reqId': req.id
-                        }
-                return JsonResponse(data=data)
-            else:
-                if propList.exists():
-                    return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
-                else:
-                    return JsonResponse(data=returnError(PROPERTY_DOESNT_EXIST))
-        else:
-            print(missingFields)
+        url = BASE_URL + 'service-locations/' + '/propId/jobs/'
+
+        if(len(missingFields) != 0):
             return JsonResponse(data=missingError(missingFields))
+            
+        job = inData.get('job')
+        provId = inData.get('provId')
+        client = inData.get('client')
+        status = inData.get('status')
+        dayStartedStr = inData.get('dayStarted')
+        details = inData.get('details')
+        propId = inData.get('propId')
+        appId = inData.get('appId')
+        token = inData.get('token')
+        dayStarted = datetime.datetime.strptime(dayStartedStr, "%Y-%m-%d").date()
+        propList = Property.objects.filter(id=propId)
+        appList = Appliance.objects.filter(id=appId)
+        provList = ServiceProvider.objects.filter(id=provId)
+        if propList.exists() and appList.exists():
+            prop = propList[0]
+            app = appList[0]
+            prov = provList[0]
+            
+            data = {
+                        'service_company': provId,
+                        'service_category': 1,
+                        'service_type': 1,
+                        'details': details,
+                        'point_of_contact_name': str(prop.pm),
+                        'requested_arrival_time': str(dayStarted)
+                   }
+            info = postRooTokenAPI(url, data, token)
+            if NON_FIELD_ERRORS in info:
+                return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
+            elif(info.get('detail') == 'Invalid token.'):
+                return JsonResponse(data=returnError(info.get('detail')))
+
+            req = ServiceRequest(job=job,
+                                 serviceCompany=prov,
+                                 client=client,
+                                 status=status,
+                                 dayStarted=dayStarted,
+                                 details=details,
+                                 location=prop,
+                                 appFixed=app)
+            req.save()
+            data = {
+                    STATUS: SUCCESS,
+                    'reqId': req.id
+                    }
+            return JsonResponse(data=data)
+        else:
+            if propList.exists():
+                return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
+            else:
+                return JsonResponse(data=returnError(PROPERTY_DOESNT_EXIST))
+            
 
     def put(self, request):
         inData = json.loads(request.body)
