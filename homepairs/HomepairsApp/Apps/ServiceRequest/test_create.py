@@ -31,10 +31,8 @@ class CreateServiceProvider(TestCase):
         setUpHelper()
 
     mockVal = {"token": "cb3e47056453b655d9f9052f7368dfe170e91f39"}
-    mockVal2 = {'id': 'd1oDOK5', 'physical_address_formatted': '130 Grand Ave, San Luis Obispo, CA 93405, USA'}
-    @mock.patch('Apps.PropertyManagers.views.postRooAPI', return_value=mockVal, autospec=True)
-    @mock.patch('Apps.Properties.views.postRooTokenAPI', return_value=mockVal2, autospec=True)
-    def test_create_service_request_allCorrect(self, mocked, mocked2):
+    @mock.patch('Apps.ServiceRequest.views.postRooTokenAPI', return_value=mockVal, autospec=True)
+    def test_create_service_request_allCorrect(self, mocked):
         '''Everything is correct'''
         name = 'Fridge'
         manufacturer = 'Company'
@@ -96,7 +94,6 @@ class CreateServiceProvider(TestCase):
                   'token': responseData.get('token')
                }
         responseData = getInfoPost(REQ_VIEW, data)
-        print(responseData.get(ERROR))
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
     # Test that passes bad propId
