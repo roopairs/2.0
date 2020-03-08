@@ -13,7 +13,7 @@ class Appliance(models.Model):
     modelNum = models.IntegerField(null=True)
     serialNum = models.IntegerField(null=True)
     location = models.CharField(max_length=100, null=True)
-    rooAppId = models.CharField(null=True)
+    rooAppId = models.CharField(max_length=100, null=True)
     place = models.ForeignKey(Property, on_delete=models.CASCADE)
 
     def __str__(self):
