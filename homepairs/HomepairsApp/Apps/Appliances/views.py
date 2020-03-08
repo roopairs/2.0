@@ -80,12 +80,25 @@ class ApplianceView(View):
         propList = Property.objects.filter(id=propId)
         if propList.exists():
             prop = propList[0]
+
+            url = BASE_URL + 'service-locations/' + str(propId) + '/equipment/'
+            data = {
+                       'display_name': name,
+                       'type': category
+                   }
+            info = postRooTokenAPI(url, data, token)
+            if NON_FIELD_ERRORS in info:
+                return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
+            elif(info.get('detail') == 'Invalid token.'):
+                return JsonResponse(data=returnError(info.get('detail')))
+
             app = Appliance(name=name,
                             manufacturer=manufacturer,
                             category=category,
                             modelNum=modelNum,
                             serialNum=serialNum,
                             location=location,
+                            rooAppId=info.get('id'),
                             place=prop)
             app.save()
             data = {
