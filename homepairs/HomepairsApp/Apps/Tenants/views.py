@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt
 
 from ..Properties.models import Property
 from .models import Tenant
@@ -92,6 +93,11 @@ class LoginView(View):
         required = ['email', 'password']
         missingFields = checkRequired(required, inData)
 
+        tenantTest = getTenant(request)
+        if tenantTest.get(STATUS) == SUCCESS:
+           tenantTest['role'] = 'tenant'
+           return Response(data=tenantTest)
+
         if(len(missingFields) == 0):
             email = inData.get('email')
             password = inData.get('password')
@@ -100,6 +106,7 @@ class LoginView(View):
             return JsonResponse(data=missingError(missingFields))
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(View):
     def post(self, request):
         inData = json.loads(request.body)

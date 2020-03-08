@@ -2,6 +2,8 @@ import json
 
 from django.http import JsonResponse
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 from ..Properties.models import Property
 from .models import Appliance
@@ -60,6 +62,7 @@ def missingError(missingFields):
 ##############################################################
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class ApplianceView(View):
     # Create a new appliance
     def post(self, request):
@@ -75,7 +78,7 @@ class ApplianceView(View):
             serialNum = inData.get('serialNum')
             location = inData.get('location')
             propId = inData.get('propId')
-            propList = Property.objects.filter(id=propId)
+            propList = Property.objects.filter(rooId=propId)
             if propList.exists():
                 prop = propList[0]
                 app = Appliance(name=name,
