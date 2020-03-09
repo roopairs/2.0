@@ -221,16 +221,9 @@ export class AddTenantModalBase extends React.Component<Props, AddTenantState> {
         const {firstName, lastName, email, phoneNumber} = this.state;
         this.resetForms();
         if (this.validateForms()) {
-<<<<<<< HEAD:homepairs/homepairsUI/src/Screens/Components/Modals/AddTenantModal/AddTenantModal.tsx
-            await axios.post(`https://homepairs-mytest.herokuapp.com/pm/tenantEdit/${this.propId}`, {
-                    firstName, lastName, email, phoneNumber, 
-                    propId: this.propId,
-                })
-=======
             const newTenantInfo : TenantInfo = this.generateNewTenantInfo();
             // TODO: Collaborate with Adam and Tommy to get the proper endpoint working 
             await axios.post(`${HOMEPAIRS_TENANT_EDIT_ENDPOINT}/${this.propId}`, newTenantInfo)
->>>>>>> d15bd2ca93f25f7478b6220bf190536871245644:homepairs/homepairsUI/src/Screens/Components/Modals/AddTenantModal.tsx
             .then((response)=>{
                 console.log(response);
             }).catch(()=>{

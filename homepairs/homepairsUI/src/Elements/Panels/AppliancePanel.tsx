@@ -154,10 +154,6 @@ export default class AppliancePanel extends React.Component<Props, PanelState> {
         buttonTextStyle: {
             color: colors.lightGray,
         },
-<<<<<<< HEAD:homepairs/homepairsUI/src/Elements/Panels/AppliancePanel.tsx
-=======
-        onClick: () => {},
->>>>>>> d15bd2ca93f25f7478b6220bf190536871245644:homepairs/homepairsUI/src/Elements/AppliancePanels/AppliancePanel.tsx
     };
 
     constructor(props: Readonly<Props>) {

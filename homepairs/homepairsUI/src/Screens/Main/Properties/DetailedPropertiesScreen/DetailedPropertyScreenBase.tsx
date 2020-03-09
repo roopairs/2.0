@@ -24,27 +24,17 @@ import {
 import * as BaseStyles from 'homepairs-base-styles';
 import { navigationPages } from 'src/Routes/RouteConstants';
 import axios from 'axios';
-<<<<<<< HEAD
-import {prepareNavigationHandlerComponent, NavigationRouteScreenProps, stringToCategory} from 'homepairs-utilities';
-=======
 import {NavigationRouteScreenProps, stringToCategory} from 'homepairs-utilities';
->>>>>>> d15bd2ca93f25f7478b6220bf190536871245644
 
 export type DetailedPropertyStateProps = {
     property: Property;
 };
 
 type Props = NavigationRouteScreenProps & DetailedPropertyStateProps;
-<<<<<<< HEAD
-
-const CurrentTenants = prepareNavigationHandlerComponent(CurrentTenantCard);
-const ApplianceInfo = prepareNavigationHandlerComponent(ApplianceInfoBase);
-=======
 type State = {
     tenantInfo: TenantInfo[],
     appliances: Appliance[],
 }
->>>>>>> d15bd2ca93f25f7478b6220bf190536871245644
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -107,13 +97,6 @@ const styles = StyleSheet.create({
     },
 });
 
-<<<<<<< HEAD
-export default function DetailedPropertyScreenBase(props: Props) {
-    const { property, navigation } = props;
-    const { propId, address } = property;
-    const [tenantInfoState, setTenantInfo] = useState([]);
-    const [applianceInfoState, setApplianceInfo] = useState([]);
-=======
 export default class DetailedPropertyScreenBase extends React.Component<Props, State> {
 
     property
@@ -145,7 +128,6 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
 
     // TODO: Cancel all async requests that are still occurring. Will focus on this next quarter!!!
     componentWillUnmount(){}
->>>>>>> d15bd2ca93f25f7478b6220bf190536871245644
 
     fetchTenantsAndAppliances = async () => {
         await axios.get(`https://homepairs-alpha.herokuapp.com/property/${this.propId}`).then((result) =>{
@@ -187,14 +169,9 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
         this.navigation.navigate(navigationPages.AddApplianceModal, {property: this.property, propdId: this.propId}, true);
     }
 
-<<<<<<< HEAD
-    function openEditApplianceModal(appliance: Appliance) {
-        navigation.navigate(navigationPages.EditApplianceModal, {appliance, propId}, true);
-=======
 
     openEditApplianceModal(appliance: Appliance) {
         this.navigation.navigate(navigationPages.EditApplianceModal, {appliance, propId: this.propId}, true);
->>>>>>> d15bd2ca93f25f7478b6220bf190536871245644
     }
 
     renderContents() {

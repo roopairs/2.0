@@ -50,5 +50,3 @@ export type StickerProps = SP;
 export type PanelProps = PP;
 export type CategoryPanelProps = CPP;
 export type ServiceRequestButtonProps = SRBP;
-
-export {renderInputForm};

@@ -171,11 +171,7 @@ export const fetchAccount = (
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
             }
           })
-<<<<<<< HEAD
-          .catch((error) => {
-=======
           .catch(() => {
->>>>>>> d15bd2ca93f25f7478b6220bf190536871245644
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
           });
         }; 

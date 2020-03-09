@@ -281,10 +281,6 @@ export const fetchPropertyAndPropertyManager = (linkedProperty: Property, linked
  * @param linkedProperties -Array of objects that contain the data for properties
  */
 export const fetchProperties = (linkedProperties: Array<any>): FetchPropertiesAction => {
-<<<<<<< HEAD
-
-=======
->>>>>>> d15bd2ca93f25f7478b6220bf190536871245644
   const fetchedProperties: Property[] = [];
   linkedProperties?.forEach(linkedProperty => {
     fetchedProperties.push({
@@ -295,10 +291,6 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertiesAc
       bathrooms: linkedProperty[propertyKeys.BATHROOMS],
     });
   });
-<<<<<<< HEAD
-  console.log(fetchedProperties);
-=======
->>>>>>> d15bd2ca93f25f7478b6220bf190536871245644
   storePropertyData(fetchedProperties);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,

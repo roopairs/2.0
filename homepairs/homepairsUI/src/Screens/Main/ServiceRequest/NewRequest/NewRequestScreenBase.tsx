@@ -3,8 +3,9 @@ import { HeaderState, Property, ApplianceType, ServiceRequest } from 'homepairs-
 import strings from 'homepairs-strings';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { NavigationRouteScreenProps, NavigationRouteHandler } from 'homepairs-utilities';
-import {AddressPanel} from 'homepairs-elements';
+import {AddressPanel, InputForm, InputFormProps} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
+import {ChooseServiceCategory} from 'homepairs-components';
 
 export type NewRequestDispatchProps = {
     header: HeaderState, 
@@ -28,16 +29,17 @@ type NewRequestState = {
     phoneNumber: string
 };
 
+const styles = StyleSheet.create({
+    scrollContainer: {
+        padding: BaseStyles.MarginPadding.large,
+    },
+});
+
 type Props = NavigationRouteScreenProps & NewRequestDispatchProps & PropertyState;
 
 const serviceRequestStrings = strings.serviceRequestPage;
 
 export default class ServiceRequestBase extends Component<Props, NewRequestState> {
-    styles = StyleSheet.create({
-        scrollContainer: {
-            padding: BaseStyles.MarginPadding.large,
-        },
-    });
 
     addressRef;
 
@@ -56,6 +58,23 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
     serviceNameRef;
 
     phoneNumberRef;
+
+    formProps : InputFormProps = {
+        inputStyle: {
+            alignItems: 'center',
+            alignSelf: 'center',
+            margin: 1,
+            minWidth: 40,
+            width: '100%',
+            height: 100,
+            borderColor: '#AFB3B5',
+            borderWidth: 1,
+            borderRadius: 4,
+            paddingHorizontal: 10,
+        },
+        numberOfLines: 3, 
+        multiline: true,
+    }
 
     constructor(props: Readonly<Props>) {
         super(props);
@@ -122,9 +141,17 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
     render() {
         const {properties} = this.props;
         return (
-            <ScrollView style={this.styles.scrollContainer}>
-                <T
+            <ScrollView style={styles.scrollContainer}>
+                <Text>Address</Text>
                 <AddressPanel properties={properties} parentCallBack={this.getFormAddress}/>
+                <Text>Choose service Category</Text>
+                <ChooseServiceCategory onPress={this.getFormCategory}/>
+                <Text>What happened?</Text>
+                <InputForm 
+                    numberOfLines={this.formProps.numberOfLines} 
+                    inputStyle={this.formProps.inputStyle}
+                    multiline={this.formProps.multiline}
+                    />
             </ScrollView>
         );
     }

@@ -21,7 +21,6 @@ const mapDispatchToProps : (dispatch: any) => NewRequestDispatchProps = (dispatc
 });
 
 function mapStateToProps(state: AppState) : any {
-    console.log(state.properties.properties.length);
     return {
         properties: state.properties.properties,
     };
@@ -32,6 +31,10 @@ const ServiceRequestScreen = connect(
     mapDispatchToProps,
 )(NewRequestScreenBase);
 
+
+// Make sure the base also has Navigation Props, this is not passed down in withSceneHeader
+const ServiceRequestScreenWithNavigation = prepareNavigationHandlerComponent(ServiceRequestScreen);
+
 // Now render the component with the SceneHeader. This way, if the child needs to the use the 
 // navigator, it is not reliant on the parent. 
-export default prepareNavigationHandlerComponent(withSceneHeader(ServiceRequestScreen, sceneParam));
+export default prepareNavigationHandlerComponent(withSceneHeader(ServiceRequestScreenWithNavigation, sceneParam));
