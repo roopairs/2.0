@@ -5,9 +5,15 @@ import { NavigationSwitchProp, withNavigation } from 'react-navigation';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { Platform } from 'react-native';
 import React from 'react';
+import {navigationPages} from 'homepairs-routes';
 
 type Navigators = NavigationStackProp | RouteProps | NavigationSwitchProp
-
+enum NavigationObjects {
+    Navigator = 'Navigator',
+    Router = 'Router',
+}
+const {PropertiesScreen, TenantProperty, ServiceRequestScreen, AccountSettings} = navigationPages;
+const BASE_ROUTES: string[] = [PropertiesScreen, TenantProperty, ServiceRequestScreen, AccountSettings]
 
 /**
  * ---------------------------------------------------
@@ -19,7 +25,7 @@ type Navigators = NavigationStackProp | RouteProps | NavigationSwitchProp
  * @param route -the base route passed 
  * @param params -values to be appended to the route
  */
-function prepareRoute(route:string, params?:any){
+export function prepareRoute(route:string, params?:any){
     // We need to proccess any potential params passed in via web router. This is achieved through sorting and 
     // appending the value of the params through the string. All values are sorted in ASCII order. 
     const passedParams = isNullOrUndefined(params) ? {} : params;
@@ -27,7 +33,9 @@ function prepareRoute(route:string, params?:any){
     let fullRoute = `${route}`;
     sortedItems.forEach(item => {
         const [, value] = item;
-        fullRoute = `${fullRoute}/${typeof value === 'object' ? JSON.stringify(value) : value}`;
+        if(!isNullOrUndefined(value)){
+            fullRoute = `${fullRoute}/${typeof value === 'object' ? JSON.stringify(value) : value}`;
+        }
     });
     return fullRoute;
 }
@@ -52,6 +60,8 @@ export default class NavigationRouteHandler{
      */
     navigation;
 
+    static type: NavigationObjects;
+
     /**
      * ---------------------------------------------------
      * createFromProps 
@@ -63,7 +73,8 @@ export default class NavigationRouteHandler{
      */
     static createFromProps(props:any){
         const {navigation, history, match, location } = props;
-        const navObject = Platform.OS === 'web' ? {history, match, location} : {navigation};
+        const navObject = Platform.OS === 'web' ? {history, match, location} : navigation;
+        NavigationRouteHandler.type = Platform.OS === 'web' ? NavigationObjects.Router : NavigationObjects.Navigator;
 
         // Case if the navigation has already been converted to a NavigationRouteHandler.
         if(!isNullOrUndefined(navigation) && navigation instanceof NavigationRouteHandler){
@@ -74,6 +85,7 @@ export default class NavigationRouteHandler{
     }
 
     constructor(navigation: Navigators){
+        NavigationRouteHandler.type = Platform.OS === 'web' ? NavigationObjects.Router : NavigationObjects.Navigator;
         this.navigation = navigation; 
     }
 
@@ -86,10 +98,9 @@ export default class NavigationRouteHandler{
      */
     // TODO: pass in state param to allow user to pass in state for router 
     navigate(route:string, params?:any, asBackground?:boolean){
-        if(isNullOrUndefined(this.navigation.navigate)){
+        if(NavigationRouteHandler.type === NavigationObjects.Router){
             const {location, history} = this.navigation;
             const fullRoute = prepareRoute(route, params);
-           
             if(asBackground)
                 history.push(fullRoute, {background: location});
             else
@@ -106,7 +117,7 @@ export default class NavigationRouteHandler{
      * @param {boolean} asBackground -Indicates if the state of the navigation object should be a modal only 
      */
     push(route:string, params?:any, asBackground?:boolean){
-        if(isNullOrUndefined(this.navigation.navigate)){
+        if(NavigationRouteHandler.type === NavigationObjects.Router){
             const fullRoute = prepareRoute(route, params);
             const {location, history} = this.navigation;
             if(asBackground){
@@ -126,7 +137,7 @@ export default class NavigationRouteHandler{
      * Invokes the goBackFunction. All possible router objects have built in goBack Functions. 
      */
     goBack(){
-        if(isNullOrUndefined(this.navigation.navigate)){
+        if(NavigationRouteHandler.type === NavigationObjects.Router){
             this.navigation.history.goBack();
             return;
         }
@@ -154,9 +165,8 @@ export default class NavigationRouteHandler{
      * @param {string} param -key of the parameter stored 
      */
     getParam(param:string){
-        if(!isNullOrUndefined(this.navigation.navigate))
+        if(NavigationRouteHandler.type === NavigationObjects.Navigator)
             return this.navigation.getParam(param);
-
         let value = this.navigation.match.params[param];
         try{
             value = JSON.parse(value);
@@ -165,6 +175,19 @@ export default class NavigationRouteHandler{
         }
         return value;
     }
+
+    /**
+     * Checks to see if the base homepairs route is the current location of the navigator. Returns a 
+     * boolean value based on the result. The Base Routes are pre-defined. 
+     */
+    isNavigatorAtBaseRoute(){
+        let route: string;
+        if(NavigationRouteHandler.type === NavigationObjects.Router)
+            route = this.navigation.location.pathName;
+        else 
+            route = this.navigation.state.routeName;
+        return BASE_ROUTES.includes(route);
+    };
 }
 
 /**

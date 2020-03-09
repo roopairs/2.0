@@ -293,8 +293,6 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                 location,
             };
             const info : AddApplianceState = {property: this.property};
-            console.log(`Add Appliance Validation`)
-            console.log(info)
             onCreateAppliance(newAppliance, info, this.setInitialState, this.displayError, navigation);
         }
     }

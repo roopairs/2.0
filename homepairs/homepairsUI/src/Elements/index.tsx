@@ -29,6 +29,7 @@ import { ServiceRequestButtonProps as SRBP} from './Buttons/ServiceRequestButton
 import { CardProps as CP} from './Cards/Card';
 import { StickerProps as SP} from './Stickers/Sticker';
 
+export {default as ButtonWithBitmap} from 'src/Elements/Buttons/ButtonWithBitmap';
 export {default as InputForm } from './Forms/InputForm';
 export {default as GoogleInputForm} from './Forms/GoogleInputForm';
 export {default as ThinButton} from './Buttons/ThinButton';

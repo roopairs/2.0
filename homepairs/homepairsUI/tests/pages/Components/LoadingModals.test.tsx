@@ -1,7 +1,7 @@
 import React from 'react';
 import {LoadingModal, LoggingInModal, CreatingAccountModal} from 'homepairs-components';
 import { ActivityIndicator, StatusBar, Text } from 'react-native';
-import { fireEvent, render } from 'react-native-testing-library';
+import { render } from 'react-native-testing-library';
 import { Card } from 'homepairs-elements';
 
 

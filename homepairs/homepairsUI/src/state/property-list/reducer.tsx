@@ -69,23 +69,13 @@ export const properties = (
                 }
                 // Otherwise, this is the one we want - return an updated value
                 return {
-                    ...newState,
-                    properties: {
-                        ...item,
-                        ...property,
-                    },
+                    ...property,
                 };
             });
             return {
                 ...newState,
                 selectedPropertyIndex: updateIndex,
                 properties: updatedPropertyList,
-            };
-        case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY:
-            return {
-                ...newState,
-                selectedPropertyIndex: null,
-                properties: (action as FetchPropertyAction).property,
             };
         case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_AND_PROPERTY_MANAGER:
             return {

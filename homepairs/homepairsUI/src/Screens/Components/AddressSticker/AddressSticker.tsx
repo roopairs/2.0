@@ -1,21 +1,19 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text } from 'react-native';
 import { Sticker } from 'homepairs-elements';
-import { FontTheme, ContentWidth, MarginPadding} from 'homepairs-base-styles';
-
+import { FontTheme, ContentWidth, MarginPadding } from 'homepairs-base-styles';
 import * as BaseStyles from 'homepairs-base-styles';
-import { defaultProperty } from 'homepairs-images';
 
 export type AddressStickerProps = {
     /**
      * Slightly greyed text to represent street address.
      */
-    address: string
-}
+    address: string;
+};
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
-    container:{
+    container: {
         backgroundColor: colors.veryLightGray,
         width: ContentWidth.thin,
         alignSelf: 'center',
@@ -41,20 +39,18 @@ const styles = StyleSheet.create({
     },
 });
 
-
 /**
  * ---------------------------------------------------
- * Address Sticker 
+ * Address Sticker
  * ---------------------------------------------------
  * A very simple component that essentiall formats text components into a stylized
- * visual. It only takes 3 properties for address, city, and state. 
+ * visual. It only takes 3 properties for address, city, and state.
  * */
 export default function AddressSticker(props: AddressStickerProps) {
-    const {address} = props;
-    return(
-       <Sticker style={styles.container}>
+    const { address } = props;
+    return (
+        <Sticker style={styles.container}>
             <Text style={styles.streetText}>{address}</Text>
         </Sticker>
     );
 }
-

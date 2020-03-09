@@ -150,7 +150,7 @@ const viewPropertyButtonText = strings.propertiesPage.viewPropertyCardButton;
  */
 export default function ViewPropertyCard(props: ViewPropertyCardProps) {
     const { viewButtonSelectedCallBack, property, propertyIndex, image} = props;
-    const {address} = property;
+    const { address } = property;
     
     /**
      * This function is intended to invoke the callback to its parent function. It will return the index of the

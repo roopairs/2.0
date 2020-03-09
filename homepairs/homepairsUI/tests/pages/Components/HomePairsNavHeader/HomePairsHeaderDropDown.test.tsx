@@ -1,7 +1,7 @@
 import React from 'react';
 import { propertyManagerMock1, HeaderMockStores } from 'tests/fixtures/StoreFixture';
 import { HomePairsHeader } from 'homepairs-components';
-import { mockStackNavigation, mockStackNavigationFirstRoute, navigationStackSpyFunction } from 'tests/fixtures/DummyComponents';
+import { prepareNavigationStackFirstRouteMock, prepareNavigationMock } from 'tests/fixtures/DummyComponents';
 import { fireEvent, render } from 'react-native-testing-library';
 import { Provider } from 'react-redux';
 import { HEADER_ACTION_TYPES } from 'src/state/header/actions';
@@ -12,8 +12,13 @@ import {
     ToggleMenuAction,
     MainAppStackType,
 } from 'homepairs-types';
-import { TouchableOpacity} from 'react-native';
+import { TouchableOpacity, Platform} from 'react-native';
 import { navigationPages } from 'src/Routes/RouteConstants';
+import {BrowserRouter as Router} from 'react-router-dom';
+
+
+const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock();
+const [mockStackNavigationFirstRoute] = prepareNavigationStackFirstRouteMock();
 
 const mockStore = propertyManagerMock1;
 const navigationHeaderMockStores = HeaderMockStores;
@@ -84,7 +89,9 @@ describe('HomePairsHeader Integration Test for DropDownMenu', () => {
                 isDropDown: true,
             },
         ];
-        const HeaderComponent = (
+        const HeaderComponent = Platform.OS === 'web' ? (
+            <Provider store={mockStore}><Router><HomePairsHeader navigation={mockStackNavigation}/></Router></Provider>
+        ) : (
             <Provider store={mockStore}><HomePairsHeader navigation={mockStackNavigation}/></Provider>
         );
         const rendered = render(HeaderComponent);
@@ -122,7 +129,9 @@ describe('HomePairsHeader Integration Test for DropDownMenu', () => {
         ];
 
         const store = navigationHeaderMockStores.dropDownHiddenNoBack;
-        const HeaderComponent = (
+        const HeaderComponent = Platform.OS === 'web' ? (
+            <Provider store={store}><Router><HomePairsHeader navigation={mockStackNavigation}/></Router></Provider>
+        ) : (
             <Provider store={store}><HomePairsHeader navigation={mockStackNavigation}/></Provider>
         );
         const rendered = render(HeaderComponent);
@@ -142,7 +151,9 @@ describe('HomePairsHeader Integration Test for DropDownMenu', () => {
 
     describe('Test for dropDown hidden and with goBackButton', () =>{
         const store = navigationHeaderMockStores.dropDownHiddenWithBack;
-        const HeaderComponent = (
+        const HeaderComponent = Platform.OS === 'web' ? (
+            <Provider store={store}><Router><HomePairsHeader navigation={mockStackNavigation}/></Router></Provider>
+        ) : (
             <Provider store={store}><HomePairsHeader navigation={mockStackNavigation}/></Provider>
         );
         const rendered = render(HeaderComponent);
@@ -192,7 +203,9 @@ describe('HomePairsHeader Integration Test for DropDownMenu', () => {
 
     describe('Test for dropDown revealed and no goBackButton', () =>{
         const store = navigationHeaderMockStores.dropDownRevealedNoBack;
-        const HeaderComponent = (
+        const HeaderComponent = Platform.OS === 'web' ? (
+            <Provider store={store}><Router><HomePairsHeader navigation={mockStackNavigation}/></Router></Provider>
+        ) : (
             <Provider store={store}><HomePairsHeader navigation={mockStackNavigation}/></Provider>
         );
         const rendered = render(HeaderComponent);
@@ -254,7 +267,9 @@ describe('HomePairsHeader Integration Test for DropDownMenu', () => {
 
     describe('Test for dropDown revealed and with goBackButton, this will also test navigation rendering base on route', () =>{
         const store = navigationHeaderMockStores.dropDownRevealedWithBack;
-        const HeaderComponent = (
+        const HeaderComponent = Platform.OS === 'web' ? (
+            <Provider store={store}><Router><HomePairsHeader navigation={mockStackNavigationFirstRoute}/></Router></Provider>
+        ) : (
             <Provider store={store}><HomePairsHeader navigation={mockStackNavigationFirstRoute}/></Provider>
         );
         const rendered = render(HeaderComponent);
@@ -284,7 +299,7 @@ describe('HomePairsHeader Integration Test for DropDownMenu', () => {
         });
 
         it('Test GoBack button', () => {
-            const expectedBackAction: HeaderAction[] = [ 
+            const expectedBackAction: HeaderAction[] = [
                 {
                     type: HEADER_ACTION_TYPES.SHOW_GOBACK_BUTTON,
                     showBackButton: false,

@@ -7,9 +7,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairFonts } from 'res/fonts';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import { NavigationRouteHandler } from 'homepairs-utilities';
 
-type CurrentTenantsCardProps = NavigationRouteHandler & {
+type CurrentTenantsCardProps =  {
     /**
      * Used to identify this component during testing
      */
@@ -19,7 +18,7 @@ type CurrentTenantsCardProps = NavigationRouteHandler & {
      * Unique identifier for the property. This is how the component knows where to edit 
      * the tenant.
      */
-    propId: number,
+    propId: string,
 
     /**
      * Maximum amount of tenants defined for the property. If somehow, the 
@@ -33,6 +32,7 @@ type CurrentTenantsCardProps = NavigationRouteHandler & {
      * The tenant information passed into this component. Used to present the information.
      */
     tenants?: TenantInfo[],
+    navigation?: any, 
 }
 
 const colors = BaseStyles.LightColorTheme;
@@ -237,7 +237,7 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
                 <Text style={{fontFamily: BaseStyles.FontTheme.tertiary, fontSize: BaseStyles.FontTheme.small, color: BaseStyles.LightColorTheme.lightGray}}>{tenant.email}</Text>
                 <Text style={{fontFamily: BaseStyles.FontTheme.tertiary, fontSize: BaseStyles.FontTheme.small, color: BaseStyles.LightColorTheme.lightGray}}>{tenant.phoneNumber}</Text>
             </View>
-            <ThinButton name='Edit' onClick={() => {navigateToEditTenantModal(tenant);}} buttonStyle={styles.editButton} buttonTextStyle={styles.editButtonText} containerStyle={styles.buttonContainer}/>
+            <ThinButton testID='edit-tenant-button' name='Edit' onClick={() => {navigateToEditTenantModal(tenant);}} buttonStyle={styles.editButton} buttonTextStyle={styles.editButtonText} containerStyle={styles.buttonContainer}/>
         </View>);
     }
 
@@ -256,7 +256,7 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
         <View style={{paddingBottom: BaseStyles.MarginPadding.largeConst}}>
         <Card title='Current Tenants' containerStyle={styles.container} titleStyle={styles.cardTitle} titleContainerStyle={styles.titleContainerStyle} >
             {renderError()}
-            {renderContent()}
+            <>{renderContent()}</>
             <ThinButton name='Add Tenant' onClick={navigateToAddTenantModal} buttonTextStyle={styles.addButtonText} buttonStyle={styles.addButton} containerStyle={styles.addButtonContainer} />
         </Card>
         </View>

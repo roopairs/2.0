@@ -1,15 +1,14 @@
 import React from "react";
 import { Card } from "homepairs-elements";
-import { ModalInjectedProps } from '../WithModal/WithModal';
 
-type Props = ModalInjectedProps
+type Props = {};
 export default function PrefferedProviderModal(props: Props) {
   // TODO: Present Modal for new Request
   return (
       <Card
         showCloseButton
         title="New Property"
-        closeButtonPressedCallBack={()=>props.onChangeModalVisibility(false)}
+        closeButtonPressedCallBack={()=>{}}
       />
  
   );

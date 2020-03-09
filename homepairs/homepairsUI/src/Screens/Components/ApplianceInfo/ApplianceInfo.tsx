@@ -116,7 +116,7 @@ export default function ApplianceInfo(props: Props) {
                     appliances={appliances}
                     navigation={navigation}/>
                 <ThinButton 
-                    idTest='add-appliance-button'
+                    testID='add-appliance-button'
                     name={thinButtonProps.name} 
                     buttonStyle={thinButtonProps.buttonStyle} 
                     buttonTextStyle={thinButtonProps.buttonTextStyle} 

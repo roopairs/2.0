@@ -1,4 +1,4 @@
-import { AuthenticationState, SessionActions, SetAccountAuthenticationStateAction } from 'src/state/types';
+import { AuthenticationState, SessionAction, SetAccountAuthenticationStateAction } from 'src/state/types';
 import { SESSION_ACTION_TYPES } from 'src/state/session/actions';
 
 export const initialState = {

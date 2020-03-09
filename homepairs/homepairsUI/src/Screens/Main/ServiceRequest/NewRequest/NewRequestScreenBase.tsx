@@ -123,6 +123,7 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         const {properties} = this.props;
         return (
             <ScrollView style={this.styles.scrollContainer}>
+                <T
                 <AddressPanel properties={properties} parentCallBack={this.getFormAddress}/>
             </ScrollView>
         );

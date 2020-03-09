@@ -4,7 +4,7 @@ import {
     ShowGoBackOnButtonClick,
     UpdateSelectedPageAction,
 } from 'homepairs-types';
-import MainAppStack from '../../../src/Routes/RouteConstants';
+import { MainAppStack}  from 'homepairs-routes';
 import * as HeaderActions from '../../../src/state/header/actions';
 
 

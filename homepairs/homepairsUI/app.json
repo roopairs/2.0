@@ -9,7 +9,7 @@
         "orientation": "portrait",
         "icon": "./res/assets/images/icon.png",
         "splash": {
-            "image": "./res/assets/images/roopairsLogo.png",
+            "image": "./res/assets/images/roopairsLogo.jpg",
             "resizeMode": "contain",
             "backgroundColor": "#ffffff"
         },

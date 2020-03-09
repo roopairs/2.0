@@ -1,5 +1,5 @@
 {
-    "main": "src/App",
+    "main": "App",
     "scripts": {
         "start": "expo start",
         "android": "expo start --android",

@@ -5,7 +5,6 @@ import {AuthPageInjectedProps} from 'homepairs-components';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet} from 'react-native';
 import { navigationPages } from 'src/Routes/RouteConstants';
-
 import {
     isEmailSyntaxValid,
     isPasswordValid,

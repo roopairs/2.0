@@ -45,23 +45,35 @@ describe("InputForm", () => {
 
   it("Test for proper Components", () => {
     expect(wrapper.getByType(GoogleAutoComplete)).toBeDefined();
-    expect(wrapper.getAllByTestId('autocomplete-view')).toHaveLength(1);
-    expect(wrapper.getAllByTestId('autocomplete-text-input')).toHaveLength(1);
-    // fails because it does not exist but that technically passes lol
-    // expect(wrapper.getAllByTestId('autocomplete-text')).toHaveLength(0);
-    expect(wrapper.getAllByTestId('autocomplete-scrollview')).toHaveLength(1);
-    expect(wrapper.getAllByTestId('autocomplete-helper-text')).toHaveLength(1);
+    const root = wrapper.getByType(GoogleAutoComplete);
 
-    expect(wrapper2.getByType(GoogleAutoComplete)).toBeDefined();
-    expect(wrapper2.getAllByTestId('autocomplete-view')).toHaveLength(1);
-    expect(wrapper2.getAllByTestId('autocomplete-text-input')).toHaveLength(1);
-    expect(wrapper2.getAllByTestId('autocomplete-text')).toHaveLength(1);
-    expect(wrapper2.getAllByTestId('autocomplete-scrollview')).toHaveLength(1);
-    expect(wrapper2.getAllByTestId('autocomplete-helper-text')).toHaveLength(1);
+    /**
+     * Note to Cesar: This is failing because of how the component for google input is rendered. 
+     * It seems that you will need to search for these objects by type, not id. 
+     */
+
+    // Check to see if topmost view has been rendered
+    const autoCompleteView = root.findAllByProps({testID: 'autocomplete-view'}, {deep: false});
+    expect(autoCompleteView).toHaveLength(1);
+
+    // Check if sole TextInput is rendered 
+    expect(wrapper.getAllByType(TextInput)).toHaveLength(1);
+    // fails because it does not exist but that technically passes lol
+    
+    // Check to see if the rendered text that should only show when text has been inputted is not rendered. 
+    const renderedText = root.findAllByProps({testID: 'autocomplete-text'}, {deep: false});
+    expect(renderedText).toHaveLength(0);
+    
+    // Check if sole scroll view is rendered
+    expect(wrapper.getAllByType(ScrollView)).toHaveLength(1);
+
+    // Check to see if Helper Text has been rendered
+    expect(wrapper.getAllByType(HelperText)).toHaveLength(1);
+
   });
 
   it("Method Test: Checks the onClick Method and checks to see if the image was updated", () => {
-    const {getByTestId, getByType} = rendered;
+    const {getByType} = rendered;
     const messageText = 'My Message';
     const messageText2 = 'Hello World';
     // Use getByType to get the instance of the type. However, we should not unit test components. 
@@ -69,7 +81,7 @@ describe("InputForm", () => {
     // only unit test when not dealing with direct components. 
     const renderedForm = getByType(GoogleInputForm);
     // We will need to go into elements that we want to examine and give them test ids
-    fireEvent.changeText(getByTestId('autocomplete-text-input'), messageText);
+    fireEvent.changeText(getByType(TextInput), messageText);
     expect(spyFunction).toHaveBeenCalledWith(messageText);
     
     renderedForm.props.parentCallBack(messageText2);

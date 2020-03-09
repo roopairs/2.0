@@ -407,7 +407,7 @@ enum HOMEPAIRS_ACCOUNT_KEYS {
     EMAIL = 'email',
     MANID = 'manId',
     PASSWORD = 'password',
-    ADDRESS = 'streetAddress',
+    ADDRESS = 'address',
     PLACE = 'place',
     PROPID = 'propId',
     TENANTID = 'tenantID',
@@ -420,14 +420,14 @@ enum HOMEPAIRS_LOGIN_STATUS {
 
 enum HOMEPAIRS_PROPERTY_KEYS {
     PROPERTYID = 'propId',
-    ADDRESS = 'streetAddress',
+    ADDRESS = 'address',
     TENANTS = 'maxTenants',
     BEDROOMS = 'numBed',
     BATHROOMS = 'numBath',
 }
 
 export enum HomepairsPropertyAttributes {
-    ADDRESS = 'streetAddress',
+    ADDRESS = 'address',
     TENANTS = 'tenants',
     BEDROOMS = 'bedrooms',
     BATHROOMS = 'bathrooms',

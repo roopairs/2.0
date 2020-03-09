@@ -13,39 +13,30 @@ import { setSelectedProperty, removeProperty } from 'src/state/property-list/act
 import { properties, initialState } from '../../../src/state/property-list/reducer';
 
 const { PROPERTY_LIST_ACTION_TYPES } = PropertyListActions;
-
 const PMProperties: Property[] = [
     {
-        city: 'San Luis Obispo',
         tenants: 5,
         bathrooms: 2,
         bedrooms: 3,
-        state: 'CA',
-        streetAddress: '200 N. Santa Rosa',
+        address: '200 N. Santa Rosa, San Luis Obispo, CA',
     },
     {
-        city: 'Glenndale',
         tenants: 5,
         bathrooms: 2,
         bedrooms: 3,
-        state: 'CA',
-        streetAddress: '200 N. Santa Fey',
+        address: '200 N. Santa Fey, Glenndale, CA',
     },
     {
-        city: 'Dublin',
         tenants: 5,
         bathrooms: 2,
         bedrooms: 3,
-        state: 'CA',
-        streetAddress: '200 New Fields Lane',
+        address: '200 New Fields Lane, Dublin, CA',
     },
 ];
-
 const testPropertyListStateWithoutIndex: PropertyListState = {
     selectedPropertyIndex: undefined,
     properties: PMProperties,
 };
-
 const testPropertyListStateWithIndex: PropertyListState = {
     selectedPropertyIndex: 1,
     properties: PMProperties,
@@ -71,12 +62,10 @@ describe('PropertyList Reducer Test', () => {
 
     describe('Test action with ADD_PROPERTY type', () => {
         const testProperty: Property = {
-            city: 'San Luis Obispo',
             tenants: 5,
             bathrooms: 2,
             bedrooms: 3,
-            state: 'CA',
-            streetAddress: '200 N. Santa Rosa',
+            address: '200 N. Santa Rosa, San Luis Obispo, CA',
         };
         const testAction: AddPropertyAction = {
             type: PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY,
@@ -84,8 +73,10 @@ describe('PropertyList Reducer Test', () => {
         };
         it('Default State', () => {
             const expectedResult: PropertyListState = {
+                appliances: [],
                 selectedPropertyIndex: null,
                 properties: [testProperty],
+                propertyManager: null,
             };
             const updatedProperties = properties(undefined, testAction);
             expect(updatedProperties).toStrictEqual(expectedResult);
@@ -129,12 +120,10 @@ describe('PropertyList Reducer Test', () => {
 
     describe('Test action with UPDATE_PROPERTY type', () => {
         const testProperty: Property = {
-            city: 'Los Lobos',
             tenants: 4,
             bathrooms: 2,
             bedrooms: 3,
-            state: 'CA',
-            streetAddress: '200 N. Santa Rosa',
+            address: '200 N. Santa Rosa, Los Lobos, CA',
         };
         const testAction: UpdatePropertyAction = {
             type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
@@ -159,31 +148,6 @@ describe('PropertyList Reducer Test', () => {
         });
     });
 
-    describe('Test action with FETCH_PROPERTY type', () => {
-        const testProperty: Property[] = [
-            {
-                city: 'San Luis Obispo',
-                tenants: 5,
-                bathrooms: 2,
-                bedrooms: 3,
-                state: 'CA',
-                streetAddress: '200 N. Santa Rosa',
-            },
-        ];
-        const testAction: FetchPropertyAction = {
-            type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
-            property: testProperty,
-        };
-        it('Default State', () => {
-            const expectedResult: PropertyListState = {
-                selectedPropertyIndex: null,
-                properties: testProperty,
-            };
-            const updatedProperties = properties(undefined, testAction);
-            expect(updatedProperties).toStrictEqual(expectedResult);
-        });
-    });
-
     describe('Test action with FETCH_PROPERTIES type', () => {
         const testAction: FetchPropertiesAction = {
             type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
@@ -193,8 +157,10 @@ describe('PropertyList Reducer Test', () => {
         // This means, no state was passed into the reducer
         it('Default State', () => {
             const expectedResult: PropertyListState = {
+                appliances: [],
                 selectedPropertyIndex: null,
                 properties: PMProperties,
+                propertyManager: null,
             };
             const updatedProperties = properties(undefined, testAction);
             expect(updatedProperties).toStrictEqual(expectedResult);

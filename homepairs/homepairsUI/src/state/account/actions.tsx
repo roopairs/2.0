@@ -11,7 +11,7 @@ import {
   AccountTypes,
   HomePairsResponseKeys, 
 } from '../types';
-import { fetchProperty, fetchProperties, fetchPropertyAndPropertyManager } from '../property-list/actions';
+import { fetchProperties, fetchPropertyAndPropertyManager } from '../property-list/actions';
 import { setAccountAuthenticationState } from '../session/actions';
 
 
@@ -57,12 +57,12 @@ const storeAccountData = async (accountJSON: any) => {
  * @param {AccountTypes} accountType
  * @param {NavigationRouteHandler} navigation -navigator passed from calling component */
 export function ChooseMainPage(accountType: AccountTypes, navigation: NavigationRouteHandler) {
-    if(accountType === AccountTypes.PropertyManager){
-      navigation.navigate(navigationPages.PropertiesScreen);  
+    if(accountType === AccountTypes.Tenant){
+      navigation.navigate(navigationPages.TenantProperty);
       return;
     }
-    navigation.navigate(navigationPages.TenantProperty);
-}
+    navigation.navigate(navigationPages.PropertiesScreen);  
+  }
 
 
 /**
@@ -94,7 +94,7 @@ function getAccountType(accountJSON : any): AccountTypes{
  * @param {any} accountJSON -Json Object from backend response
  * */
 export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileAction => {
-  const accountType: AccountTypes = getAccountType(accountJSON) ;
+  const accountType: AccountTypes = getAccountType(accountJSON);
   const profile = (accountType === AccountTypes.PropertyManager) ? accountJSON[accountKeys.PM] : accountJSON[accountKeys.TENANT]; 
   let fetchedProfile : AccountState;
   const baseProfile : Account = {
@@ -105,7 +105,7 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
         address: profile[accountKeys.ADDRESS], 
         roopairsToken: accountJSON[responseKeys.ROOPAIRS_TOKEN],
     };
-    if(profile[accountKeys.TENANTID] === TENANT){
+    if(accountType === AccountTypes.PropertyManager){
         const landLordProfile : PropertyManagerAccount = { ...baseProfile,
             manId: profile[accountKeys.MANID],
         };
@@ -151,7 +151,6 @@ export const fetchAccount = (
             const {data} = response;
             const {status} = data;
             const accountType = getAccountType(response[responseKeys.DATA]);
-            console.log(response);
             if(status === responseStatus.SUCCESS){
               // Set the login state of the application to authenticated
               dispatch(setAccountAuthenticationState(true));
@@ -163,20 +162,21 @@ export const fetchAccount = (
               else { // Assume role = tenant
                 const {properties, tenant} = data;
                 const {pm} = tenant;
-                const [pmInfo] = pm;
+                const {pmInfo} = pm;
                 dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
               }
-
               // Navigate page based on the Account Type
               ChooseMainPage(accountType, navigation);
             }else{
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
             }
           })
+<<<<<<< HEAD
           .catch((error) => {
+=======
+          .catch(() => {
+>>>>>>> d15bd2ca93f25f7478b6220bf190536871245644
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
-          })
-          .finally(() => {
           });
         }; 
 };
@@ -195,18 +195,23 @@ export const fetchAccount = (
  */
 export const generateAccountForTenant = (accountDetails: Account, password: String, navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
   return async (dispatch: (arg0: any) => void) => {
-      await axios.post('http://homepairs-alpha.herokuapp.com/tenant/register/', {
+      await axios.post('https://homepairs-alpha.herokuapp.com/tenant/register/', {
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
         email: accountDetails.email, 
-        streetAddress: accountDetails.address, 
+        address: accountDetails.address, 
         password, 
       })
       .then((response) => {
         if(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.SUCCESS){
           dispatch(setAccountAuthenticationState(true));
           dispatch(fetchAccountProfile(response[responseKeys.DATA]));
-          dispatch(fetchProperty(response[responseKeys.DATA][TENANT][responseKeys.PLACE]));
+
+          const {properties, tenant} = response.data;
+          const {pm} = tenant;
+          const {pmInfo} = pm;
+
+          dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
           ChooseMainPage(AccountTypes.Tenant, navigation);
         } else {
           modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
@@ -232,7 +237,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
  */
 export const generateAccountForPM = (accountDetails: Account, password: String, navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
     return async (dispatch: (arg0: any) => void) => {
-      await axios.post('http://homepairs-alpha.herokuapp.com/pm/register', {
+      await axios.post('https://homepairs-alpha.herokuapp.com/pm/register', {
           firstName: accountDetails.firstName, 
           lastName: accountDetails.lastName,
           email: accountDetails.email, 

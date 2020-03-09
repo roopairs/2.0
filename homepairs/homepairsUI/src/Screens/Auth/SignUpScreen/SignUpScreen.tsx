@@ -7,12 +7,12 @@ import {
   withAuthPage,
 } from "homepairs-components";
 import HomePairColors from "res/colors";
-import { NavigationSwitchProp, withNavigation } from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import { withRouter } from "react-router-dom";
 import { Platform } from "react-native";
-import SignUpScreenBase, { SignUpViewDispatchProps } from "./SignUpScreenBase";
 import {NavigationRouteHandler} from 'homepairs-utilities';
 import { withNavigationRouteHandler } from 'src/utility/NavigationRouterHandler';
+import SignUpScreenBase, { SignUpViewDispatchProps } from "./SignUpScreenBase";
 
 
 const signUpStrings = strings.signUpPage;
