@@ -1,6 +1,6 @@
 import React from 'react';
 import {} from 'react-native';
-import {ChooseServiceRequest} from 'homepairs-components';
+import {ChooseServiceCategory} from 'homepairs-components';
 import { fireEvent, render } from 'react-native-testing-library';
 import { ApplianceType } from 'src/state/types';
 import ButtonWithBitmap from 'src/Elements/Buttons/ButtonWithBitmap';
@@ -9,9 +9,9 @@ import ButtonWithBitmap from 'src/Elements/Buttons/ButtonWithBitmap';
 jest.mock('homepairs-images');
 
 const {Plumbing, LightingAndElectric, HVAC, GeneralAppliance, None} = ApplianceType;
-describe('Test for Choose Service Request Component', () => {
+describe('Test for Choose Service Category Component', () => {
     const mockSelectCategory = jest.fn((applianceType: ApplianceType) => {return applianceType;});
-    const rendered = render(<ChooseServiceRequest onPress={mockSelectCategory} />);
+    const rendered = render(<ChooseServiceCategory onPress={mockSelectCategory} />);
 
     const {getAllByType, getByText} = rendered;
     const bitMapButtons = getAllByType(ButtonWithBitmap);

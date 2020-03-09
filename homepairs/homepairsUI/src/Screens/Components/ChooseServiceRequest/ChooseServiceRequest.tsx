@@ -60,16 +60,16 @@ type Props = {
 
 /**
  * ------------------------------------------------------------
- * Choose Service Request Component 
+ * Choose Service Category Component 
  * ------------------------------------------------------------
  * A visual component that shows the user four buttons that help in navigating to different 
  * pages for requesting a new requests. Depending on the 
  * @param props 
  */
-export default function ChooseServiceRequest(props: any){
+export default function ChooseServiceCategory(props: any){
     const {onPress} = props;
     const {container, formTitle, buttonContainer, button} = styles;
-    
+
     function setPlumbing() { onPress(ApplianceType.Plumbing); }
     function setLightingAndElectric() { onPress(ApplianceType.LightingAndElectric); }
     function setHVAC() { onPress(ApplianceType.HVAC); }
@@ -112,6 +112,6 @@ export default function ChooseServiceRequest(props: any){
     );
 }
 
-ChooseServiceRequest.defaultProps ={
-    testID: 'choose-service-request',
+ChooseServiceCategory.defaultProps ={
+    testID: 'choose-service-category',
 };

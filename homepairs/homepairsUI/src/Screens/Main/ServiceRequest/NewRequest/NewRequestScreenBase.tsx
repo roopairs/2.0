@@ -5,7 +5,7 @@ import { View, Text } from 'react-native';
 import { NavigationRouteScreenProps } from 'homepairs-utilities';
 import {ButtonWithBitmap} from 'homepairs-elements';
 import {bolt, defaultProperty} from 'homepairs-images';
-import {ChooseServiceRequest} from 'homepairs-components';
+import {ChooseServiceCategory} from 'homepairs-components';
 import { ApplianceType } from 'src/state/types';
 
 export type NewRequestScreenProps = {
@@ -21,5 +21,5 @@ export default function NewRequestScreenBase(props: Props) {
         return applianceType;
     }
     // TODO: Insert Business/Non-View related logic here
-    return <><ChooseServiceRequest onPress={getServiceRequestCategory}/></>;
+    return <><ChooseServiceCategory onPress={getServiceRequestCategory}/></>;
 }
