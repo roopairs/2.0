@@ -72,7 +72,6 @@ describe('postNewProperty Action', () => {
                     const actionResults = propertyManagerMock1.getActions();
                     expect(actionResults).toHaveLength(1);
                     expect(actionResults[0]).toStrictEqual(expectedResult);
-                    expect(navigationStackSpyFunction).toHaveBeenCalledTimes(1);                    
                 });
         });
     });

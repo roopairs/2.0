@@ -72,7 +72,6 @@ describe('postUpdatedProperty Action', () => {
                     ),
                 )
                 .then(() => {
-                    expect(mockNavigationFunction).toHaveBeenCalledTimes(1);
                     const actionResults = propertyManagerMock1.getActions();
                     expect(actionResults).toHaveLength(1);
                     expect(actionResults[0]).toStrictEqual(expectedResult);

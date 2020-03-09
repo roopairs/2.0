@@ -159,9 +159,9 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
      * */
     goBack() {
         const { navigation, onToggleMenu, onShowGoBackbutton } = this.props;
-        navigation.pop();
-        console.log(navigation.navigation)
-        console.log(navigation.isNavigatorAtBaseRoute())
+        navigation.goBack();
+        console.log(navigation.navigation);
+        console.log(navigation.isNavigatorAtBaseRoute());
         if (navigation.isNavigatorAtBaseRoute()) {
             onShowGoBackbutton(false);
         }

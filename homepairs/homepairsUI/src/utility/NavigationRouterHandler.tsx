@@ -8,7 +8,10 @@ import React from 'react';
 import {navigationPages} from 'homepairs-routes';
 
 type Navigators = NavigationStackProp | RouteProps | NavigationSwitchProp
-
+enum NavigationObjects {
+    Navigator = 'Navigator',
+    Router = 'Router',
+}
 const {PropertiesScreen, TenantProperty, ServiceRequestScreen, AccountSettings} = navigationPages;
 const BASE_ROUTES: string[] = [PropertiesScreen, TenantProperty, ServiceRequestScreen, AccountSettings]
 
@@ -57,6 +60,8 @@ export default class NavigationRouteHandler{
      */
     navigation;
 
+    static type: NavigationObjects;
+
     /**
      * ---------------------------------------------------
      * createFromProps 
@@ -68,7 +73,9 @@ export default class NavigationRouteHandler{
      */
     static createFromProps(props:any){
         const {navigation, history, match, location } = props;
-        const navObject = Platform.OS === 'web' ? {history, match, location} : {navigation};
+        const navObject = Platform.OS === 'web' ? {history, match, location} : navigation;
+        NavigationRouteHandler.type = Platform.OS === 'web' ? NavigationObjects.Router : NavigationObjects.Navigator;
+
         // Case if the navigation has already been converted to a NavigationRouteHandler.
         if(!isNullOrUndefined(navigation) && navigation instanceof NavigationRouteHandler){
             return navigation;
@@ -78,6 +85,7 @@ export default class NavigationRouteHandler{
     }
 
     constructor(navigation: Navigators){
+        NavigationRouteHandler.type = Platform.OS === 'web' ? NavigationObjects.Router : NavigationObjects.Navigator;
         this.navigation = navigation; 
     }
 
@@ -90,10 +98,9 @@ export default class NavigationRouteHandler{
      */
     // TODO: pass in state param to allow user to pass in state for router 
     navigate(route:string, params?:any, asBackground?:boolean){
-        if(isNullOrUndefined(this.navigation.navigate)){
+        if(NavigationRouteHandler.type === NavigationObjects.Router){
             const {location, history} = this.navigation;
             const fullRoute = prepareRoute(route, params);
-           
             if(asBackground)
                 history.push(fullRoute, {background: location});
             else
@@ -110,7 +117,7 @@ export default class NavigationRouteHandler{
      * @param {boolean} asBackground -Indicates if the state of the navigation object should be a modal only 
      */
     push(route:string, params?:any, asBackground?:boolean){
-        if(isNullOrUndefined(this.navigation.navigate)){
+        if(NavigationRouteHandler.type === NavigationObjects.Router){
             const fullRoute = prepareRoute(route, params);
             const {location, history} = this.navigation;
             if(asBackground){
@@ -130,7 +137,7 @@ export default class NavigationRouteHandler{
      * Invokes the goBackFunction. All possible router objects have built in goBack Functions. 
      */
     goBack(){
-        if(isNullOrUndefined(this.navigation.navigate)){
+        if(NavigationRouteHandler.type === NavigationObjects.Router){
             this.navigation.history.goBack();
             return;
         }
@@ -158,7 +165,7 @@ export default class NavigationRouteHandler{
      * @param {string} param -key of the parameter stored 
      */
     getParam(param:string){
-        if(!isNullOrUndefined(this.navigation.navigate))
+        if(NavigationRouteHandler.type === NavigationObjects.Navigator)
             return this.navigation.getParam(param);
         let value = this.navigation.match.params[param];
         try{
@@ -175,7 +182,7 @@ export default class NavigationRouteHandler{
      */
     isNavigatorAtBaseRoute(){
         let route: string;
-        if(isNullOrUndefined(this.navigation.navigate))
+        if(NavigationRouteHandler.type === NavigationObjects.Router)
             route = this.navigation.location.pathName;
         else 
             route = this.navigation.state.routeName;

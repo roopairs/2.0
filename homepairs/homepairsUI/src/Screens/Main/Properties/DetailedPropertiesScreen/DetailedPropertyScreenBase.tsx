@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
+import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import {
     View,
     Platform,
@@ -115,6 +115,7 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
         this.navigation = props.navigation;
         this.propId = this.property.propId;
         this.openEditPropertyModal = this.openEditPropertyModal.bind(this);
+        this.openAddApplianceModal = this.openAddApplianceModal.bind(this);
     }
 
     async componentDidMount(){
@@ -124,6 +125,9 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
     async componentDidUpdate(){
         await this.fetchTenantsAndAppliances();
     }
+
+    // TODO: Cancel all async requests that are still occurring. Will focus on this next quarter!!!
+    componentWillUnmount(){}
 
     fetchTenantsAndAppliances = async () => {
         await axios.get(`https://homepairs-alpha.herokuapp.com/property/${this.propId}`).then((result) =>{
@@ -162,7 +166,7 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
     }
 
     openAddApplianceModal() {
-        this.navigation.push(navigationPages.AddApplianceModal, {property: this.property, propdId: this.propId}, true);
+        this.navigation.navigate(navigationPages.AddApplianceModal, {property: this.property, propdId: this.propId}, true);
     }
 
 

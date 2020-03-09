@@ -125,7 +125,6 @@ describe('generateAccountForTenant Action', () => {
                 expect(actionResults[0]).toStrictEqual(expectedSessionResults);
                 expect(actionResults[1]).toStrictEqual(expectedFetchResult1);
                 expect(actionResults[2]).toStrictEqual(expectedTenantProperty1);
-                expect(navSpyFunction).toBeCalledWith(TenantPropertyPageKey);
             });
       });
     });
