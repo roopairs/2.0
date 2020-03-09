@@ -20,7 +20,8 @@ export type PanelProps = {
     key?: string;
     appliance: Appliance;
     hasButton: boolean;
-    onEditApplianceModal?: (app: Appliance) => any;
+    buttonName: string;
+    onClick?: (child?: any) => any;
 };
 
 export type PanelState = {
@@ -141,7 +142,6 @@ export default class AppliancePanel extends React.Component<Props, PanelState> {
     icons;
 
     thinButtonProps: ThinButtonProps = {
-        name: 'Edit',
         buttonStyle: {
             alignItems: 'center',
             backgroundColor: colors.transparent,
@@ -154,7 +154,6 @@ export default class AppliancePanel extends React.Component<Props, PanelState> {
         buttonTextStyle: {
             color: colors.lightGray,
         },
-        onClick: () => {},
     };
 
     constructor(props: Readonly<Props>) {
@@ -189,8 +188,27 @@ export default class AppliancePanel extends React.Component<Props, PanelState> {
         Animated.spring(animation, { toValue: finalValue }).start();
     }
 
+    renderThinButton() {
+        const {hasButton, buttonName, onClick, appliance} = this.props;
+        if (hasButton) {
+            if (buttonName === 'Select') {
+                return <ThinButton 
+                    name={buttonName} 
+                    buttonStyle={this.thinButtonProps.buttonStyle} 
+                    buttonTextStyle={this.thinButtonProps.buttonTextStyle} 
+                    onClick={() => onClick()}/>;
+            }
+            return <ThinButton 
+                name={buttonName} 
+                buttonStyle={this.thinButtonProps.buttonStyle} 
+                buttonTextStyle={this.thinButtonProps.buttonTextStyle} 
+                onClick={() => onClick(appliance)}/>;
+        }
+        return <></>;
+    }
+
     renderBody() {
-        const { appliance, onEditApplianceModal, hasButton } = this.props;
+        const { appliance } = this.props;
         const { manufacturer, modelNum, serialNum, location } = appliance;
         return (
             <View style={this.styles.body} onLayout={this.setMaxHeight}>
@@ -236,14 +254,7 @@ export default class AppliancePanel extends React.Component<Props, PanelState> {
                         <Text style={this.styles.detail}>--</Text>
                     </View>
                 </View>
-                {hasButton ? 
-                    <ThinButton 
-                    name={this.thinButtonProps.name} 
-                    buttonStyle={this.thinButtonProps.buttonStyle} 
-                    buttonTextStyle={this.thinButtonProps.buttonTextStyle} 
-                    onClick={() => onEditApplianceModal(appliance)}/>
-                    : <></>
-                }
+                {this.renderThinButton()}
             </View>
         );
     }

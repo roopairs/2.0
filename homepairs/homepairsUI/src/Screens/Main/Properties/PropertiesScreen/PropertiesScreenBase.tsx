@@ -5,6 +5,7 @@ import {
     ViewPropertyCard,
     SceneInjectedProps,
 } from 'homepairs-components';
+import axios from 'axios';
 
 export type PropertiesScreenStateProps = {
     propertyState: PropertyListState;
@@ -34,6 +35,9 @@ export type PropertiesScreenProps = SceneInjectedProps &
  *  -ViewPropertyCard
  */
 export default class PropertiesScreenBase extends React.Component<PropertiesScreenProps> {
+
+    apiKey = process.env.GOOGLE_APIKEY;
+
     constructor(props: Readonly<PropertiesScreenProps>) {
         super(props);
         this.navigateToDetailedProperty = this.navigateToDetailedProperty.bind(this);
@@ -49,16 +53,28 @@ export default class PropertiesScreenBase extends React.Component<PropertiesScre
         navigation.push(navigationPages.SingleProperty, {propId: properties[index].propId});
     }
 
+    async fetchPropertyImage(address: string) {
+        const result = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${this.apiKey}`);
+        console.log(result);
+        // const photoRef = result['candidates'][0]['photos'][0]['photo_reference'];
+        // console.log(photoRef);
+        // const propImage = await axios.get(`https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}`);
+        // console.log(photoRef);
+        // return propImage;
+    }
+
     render() {
         const { propertyState} = this.props;
         const {properties} = propertyState;
         let nextIndex = 0;
         const PropertyCards = properties.map(property => {
+            const propImage = this.fetchPropertyImage(property.address);
             const curIndex = nextIndex;
             nextIndex += 1;
             return (
                 <ViewPropertyCard
                     key={curIndex}
+                    image={propImage}
                     viewButtonSelectedCallBack={this.navigateToDetailedProperty}
                     property={property}
                     propertyIndex={curIndex}

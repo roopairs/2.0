@@ -209,17 +209,6 @@ export class AddTenantModalBase extends React.Component<Props, AddTenantState> {
         return check;
     }
 
-    generateNewTenantInfo(){
-        const {firstName, lastName, email, phoneNumber} = this.state;
-        const newTenantInfo : TenantInfo = {
-            firstName,
-            lastName,
-            email,
-            phoneNumber,
-        };
-        return newTenantInfo;
-    }
-
     resetForms() {
         this.firstNameRef.current.setError(false);
         this.lastNameRef.current.setError(false);
@@ -229,6 +218,7 @@ export class AddTenantModalBase extends React.Component<Props, AddTenantState> {
 
     async clickSubmitButton() {
         const {navigation} = this.props;
+        const {firstName, lastName, email, phoneNumber} = this.state;
         this.resetForms();
         if (this.validateForms()) {
             const newTenantInfo : TenantInfo = this.generateNewTenantInfo();

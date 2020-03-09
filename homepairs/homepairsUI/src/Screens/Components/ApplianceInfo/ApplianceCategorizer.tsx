@@ -88,14 +88,14 @@ export default function ApplianceCategorizer(props: Props) {
                         return (
                             <AppliancePanel
                                 hasButton={buttonCheck}
-                                onEditApplianceModal={onEditApplianceModal}
+                                buttonName='Edit'
+                                onClick={onEditApplianceModal}
                                 key={app.applianceId}
                                 appliance={app}
                             />
                         );
                     })}
-                </View>,
-            );
+                </View>);
         });
         return finalApps;
     }

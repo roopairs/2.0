@@ -90,12 +90,14 @@ const PropertyStack = createStackNavigator(
     },
     propertyStackConfig,
 );
+
 const ServiceRequestStack = createStackNavigator(
     {
       [navigationKeys.ServiceRequestScreen]: MainAppPages.ServiceRequestPages.ServiceRequestScreen, 
       [navigationKeys.NewRequest]: MainAppPages.ServiceRequestPages.NewRequestScreen,
     }, 
   serviceRequestStackConfig);
+  
 const AccountStack = createStackNavigator(
     {
         [navigationKeys.AccountSettings]: MainAppPages.AccountPages.AccountScreen,

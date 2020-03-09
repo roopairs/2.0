@@ -143,7 +143,7 @@ export const fetchAccount = (
     Email: string, Password: string, navigation: NavigationRouteHandler, modalSetOffCallBack: (error?:String) => void = (error:String) => {}) => 
     {return async (dispatch: (arg0: any) => void) => {
         // TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
-        await axios.post('https://homepairs-alpha.herokuapp.com/login/', {
+        await axios.post('https://homepairs-mytest.herokuapp.com/login/', {
             email: Email,
             password: Password,
           })

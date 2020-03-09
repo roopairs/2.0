@@ -1,3 +1,5 @@
+import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
+import axios from 'axios';
 import { 
     RequestServiceAction,
     AcceptServiceAction,
@@ -9,7 +11,10 @@ import {
     Service,
     AcceptedService,
     ServiceRequestStatus,
+    ServiceRequest,
+    HomePairsResponseKeys,
 } from '../types';
+const responseKeys = HomePairsResponseKeys;
 
 export const SERVICES_ACTION_TYPES = {
     REQUEST_SERVICE: 'SERVICES/REQUEST_SERVICE',
@@ -17,6 +22,28 @@ export const SERVICES_ACTION_TYPES = {
     DENY_SERVICE: 'SERVICES/DENY_SERVICE',
     CANCEL_SERVICE: 'SERVICES/CANCEL_SERVICE',
     COMPLETE_SERVICE: 'SERVICES/COMPLETE_SERVICE',
+};
+
+
+export const postNewServiceRequest = (
+    newServRequest: ServiceRequest, 
+    setInitialState: () => void, 
+    displayError: (msg: string) => void, 
+    navigation: NavigationRouteHandler,
+) => {
+    return async () => {
+        await axios
+            .post('', {})
+            .then(response => {
+                if (response[responseKeys.DATA][responseKeys.STATUS] ===
+                    responseKeys.STATUS_RESULTS.SUCCESS) {
+                    setInitialState();
+                    // navigation go to confirmation screen
+                } else {
+                    displayError(response[responseKeys.DATA][responseKeys.ERROR]);
+                }
+            });
+    };
 };
 
 export const requestServiceAction = (serviceProvider : ServiceProvider) : RequestServiceAction => {

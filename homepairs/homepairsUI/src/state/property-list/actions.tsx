@@ -2,6 +2,8 @@ import axios from 'axios';
 import { NavigationStackProp } from 'react-navigation-stack';
 import { AsyncStorage } from 'react-native';
 import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
+import {categoryToString} from 'homepairs-utilities';
+
 import {
     AddPropertyAction,
     UpdatePropertyAction,
@@ -116,7 +118,7 @@ export const postNewProperty = (
     return async (dispatch: (arg0: any) => void) => {
         await axios
             .post(
-                'https://homepairs-alpha.herokuapp.com/property/',
+                'https://homepairs-mytest.herokuapp.com/property/',
                 {
                     address: newProperty.address,
                     numBed: newProperty.bedrooms,
@@ -190,7 +192,7 @@ export const postUpdatedProperty = (
     return async (dispatch: (arg0: any) => void) => {
         return axios
             .put(
-                'https://homepairs-alpha.herokuapp.com/property/',
+                'https://homepairs-mytest.herokuapp.com/property/',
                 {
                   propId: editProperty.propId,
                   streetAddress: editProperty.address,
@@ -339,12 +341,12 @@ export const postNewAppliance = (
     return async () => {
         await axios
             .post(
-                'https://homepairs-alpha.herokuapp.com/appliance/',
+                'https://homepairs-mytest.herokuapp.com/appliances/',
                 {
                     propId: info.property.propId,
                     name: newAppliance.appName, 
                     manufacturer: newAppliance.manufacturer, 
-                    category: newAppliance.category,
+                    category: categoryToString(newAppliance.category),
                     modelNum: newAppliance.modelNum, 
                     serialNum: newAppliance.serialNum, 
                     location: newAppliance.location, 
@@ -388,12 +390,12 @@ export const postUpdatedAppliance = (
     return async () => {
         return axios
             .put(
-                'https://homepairs-alpha.herokuapp.com/appliance/',
+                'https://homepairs-mytest.herokuapp.com/appliances/',
                 {
                     appId: editAppliance.applianceId,
                     newName: editAppliance.appName, 
                     newManufacturer: editAppliance.manufacturer, 
-                    newCategory: editAppliance.category,
+                    newCategory: categoryToString(editAppliance.category),
                     newModelNum: editAppliance.modelNum, 
                     newSerialNum: editAppliance.serialNum, 
                     newLocation: editAppliance.location,
