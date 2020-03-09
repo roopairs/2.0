@@ -111,7 +111,6 @@ describe('generateAccountForPM Action', () => {
                 expect(actionResults[0]).toStrictEqual(expectedSessionResult);
                 expect(actionResults[1]).toStrictEqual(expectedFetchResult1);
                 expect(actionResults[2]).toStrictEqual(expectedProperties);
-                expect(navSpyFunction).toBeCalledWith(AccountPropertiesPageKey);
             });
       });
     });
