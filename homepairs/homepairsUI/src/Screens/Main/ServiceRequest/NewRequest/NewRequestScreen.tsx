@@ -1,11 +1,9 @@
-import { AppState, MainAppStackType } from 'homepairs-types';
+import { AppState, MainAppStackType, ServiceRequest } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { withSceneHeader} from 'homepairs-components';
 import { ServiceActions } from 'homepairs-redux-actions';
-import { prepareNavigationHandlerComponent } from 'homepairs-utilities';
-import NewRequestScreenBase, {
-    NewRequestScreenProps,
-} from './NewRequestScreenBase';
+import { prepareNavigationHandlerComponent, NavigationRouteHandler } from 'homepairs-utilities';
+import NewRequestScreenBase, {NewRequestDispatchProps} from './NewRequestScreenBase';
 
 // const serviceRequestStrings = strings.serviceRequestPage;
 const sceneParam: MainAppStackType = {
@@ -14,16 +12,20 @@ const sceneParam: MainAppStackType = {
     key: 'NewRequest',
 };
 
-function mapStateToProps(state: AppState): NewRequestScreenProps {
+const mapDispatchToProps : (dispatch: any) => NewRequestDispatchProps = (dispatch: any) => ({
+    onCreateServiceRequest: (newServReq: ServiceRequest, setInitialState: () => void, 
+         displayError: (msg: string) => void, navigation: NavigationRouteHandler) => 
+    {
+        dispatch(ServiceActions.postNewServiceRequest(newServReq, setInitialState, displayError, navigation));
+    },
+});
+
+function mapStateToProps(state: AppState) : any {
+    console.log(state.properties.properties.length);
     return {
-        // TODO: Add pass favorite Service Providers into props
-        header: state.header,
+        properties: state.properties.properties,
     };
 }
-
-const mapDispatchToProps = dispatch => ({
-    // TODO: map proper methods into Service Requests page
-});
 
 const ServiceRequestScreen = connect(
     mapStateToProps,

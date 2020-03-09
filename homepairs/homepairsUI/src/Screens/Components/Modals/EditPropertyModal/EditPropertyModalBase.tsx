@@ -177,7 +177,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
             tenants: tenants.toString(),
             errorMsg: '',
             errorCheck: false,
-
         };
         this.addressRef = React.createRef();
         this.bedRef = React.createRef();

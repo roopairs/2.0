@@ -16,7 +16,7 @@ const sceneParam: MainAppStackType = {
     key: 'ServiceRequest',
     button: serviceRequestStrings.button,
     onNavButtonClick: (props: ServiceRequestScreenProps) => {
-        props.navigation.push(navigationPages.NewRequest);
+        props.navigation.navigate(navigationPages.NewRequest);
         props.onSetNavHeaderGoBackButton(true);
     },
     doesButtonUseNavigate: true,

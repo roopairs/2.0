@@ -205,17 +205,6 @@ class AddTenantModalBase extends React.Component<Props, AddTenantState> {
         return check;
     }
 
-    generateNewTenantInfo(){
-        const {firstName, lastName, email, phoneNumber} = this.state;
-        const newTenantInfo : TenantInfo = {
-            firstName,
-            lastName,
-            email,
-            phoneNumber,
-        };
-        return newTenantInfo;
-    }
-
     resetForms() {
         this.firstNameRef.current.setError(false);
         this.lastNameRef.current.setError(false);
@@ -225,10 +214,13 @@ class AddTenantModalBase extends React.Component<Props, AddTenantState> {
 
     async clickSubmitButton() {
         const {navigation} = this.props;
+        const {firstName, lastName, email, phoneNumber} = this.state;
         this.resetForms();
         if (this.validateForms()) {
-            const newTenantInfo : TenantInfo = this.generateNewTenantInfo();
-            await axios.post(`https://homepairs-alpha.herokuapp.com/pm/tenantEdit/${this.propId}`, newTenantInfo)
+            await axios.post(`https://homepairs-mytest.herokuapp.com/pm/tenantEdit/${this.propId}`, {
+                    firstName, lastName, email, phoneNumber, 
+                    propId: this.propId,
+                })
             .then((response)=>{
                 console.log(response);
             }).finally(() => {
