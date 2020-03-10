@@ -2,13 +2,12 @@
  * @jest-environment jsdom
  */
 
-import {Panel} from 'homepairs-elements';
+import {AppliancePanel} from 'homepairs-elements';
 import {ApplianceCategorizer} from 'homepairs-components';
 import {Appliance, ApplianceType} from 'homepairs-types';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { View, Text} from 'react-native';
-import { render } from 'react-native-testing-library';
 
 jest.mock('homepairs-images');
 
@@ -58,20 +57,12 @@ describe("Panel", () => {
     it ("Test for proper components", () => {
         expect(wrapper.find(View)).toHaveLength(4);
         expect(wrapper.find(Text)).toHaveLength(3);
-        expect(wrapper.find(Panel)).toHaveLength(4);
+        expect(wrapper.find(AppliancePanel)).toHaveLength(4);
     });
 
     it ("Test for empty appliances components", () => {
         expect(emptyWrapper.find(View)).toHaveLength(1);
         expect(emptyWrapper.find(Text)).toHaveLength(1);
     });
-
-    /*
-    it ("Method test", () => {
-        const {getAllByType} = rendered;
-        const categories = getAllByType(View);
-        expect(categories).toHaveLength(3);
-    });
-    */
 });
 

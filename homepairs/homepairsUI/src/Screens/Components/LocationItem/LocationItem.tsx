@@ -4,6 +4,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairFonts } from 'res/fonts.web';
 
 type LocationItemProps = {
+    testID?: string,
     key?: string,
     description?: string,
     placeId?: string, 
@@ -14,7 +15,7 @@ type LocationItemProps = {
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
     container: {
-        padding: BaseStyles.MarginPadding.small,
+        padding: BaseStyles.MarginPadding.medium,
         borderBottomColor: colors.lightGray, 
         borderBottomWidth: 1,
     },

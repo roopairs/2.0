@@ -92,7 +92,7 @@ export enum ApplianceType {
 };
 
 export type Appliance = {
-    applianceId: number,
+    applianceId: string,
     category: ApplianceType,
     appName: string,
     manufacturer: string, 
@@ -377,6 +377,20 @@ export type SettingsActions = ToggleDarkModeActivationAction &
     ToggleNotificationActivationAction;
 /* *-------------------Setting Types-------------------* */
 
+/* *-------------------SessionTypes-------------------* */
+export type AuthenticationState = {
+    authed: boolean,
+};
+
+export type SetAccountAuthenticationStateAction = {
+    type: string;
+    authed: boolean;
+};
+
+export type SessionAction = SetAccountAuthenticationStateAction;
+/* *-------------------SessionTypes-------------------* */
+
+
 /* *-------------------App State-------------------* */
 export type AppState = {
     properties: PropertyListState;
@@ -384,6 +398,7 @@ export type AppState = {
     header: HeaderState;
     serviceRequests: ServiceState;
     settings: SettingsState;
+    authenticated: AuthenticationState;
     // add future state slices here
 }
 /* *-------------------App State-------------------* */
@@ -433,7 +448,7 @@ enum HOMEPAIRS_ACCOUNT_KEYS {
     EMAIL = 'email',
     MANID = 'manId',
     PASSWORD = 'password',
-    ADDRESS = 'streetAddress',
+    ADDRESS = 'address',
     PLACE = 'place',
     PROPID = 'propId',
     TENANTID = 'tenantID',
@@ -446,17 +461,19 @@ enum HOMEPAIRS_LOGIN_STATUS {
 
 enum HOMEPAIRS_PROPERTY_KEYS {
     PROPERTYID = 'propId',
-    ADDRESS = 'streetAddress',
+    ADDRESS = 'address',
     TENANTS = 'maxTenants',
     BEDROOMS = 'numBed',
     BATHROOMS = 'numBath',
 }
 
 export enum HomepairsPropertyAttributes {
-    ADDRESS = 'streetAddress',
+    ADDRESS = 'address',
     TENANTS = 'tenants',
     BEDROOMS = 'bedrooms',
     BATHROOMS = 'bathrooms',
+    CITY = 'city',
+    STATE = 'state',
 }
 
 export const HomePairsResponseKeys = {

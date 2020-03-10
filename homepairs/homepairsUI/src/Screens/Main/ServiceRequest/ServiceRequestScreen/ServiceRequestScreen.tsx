@@ -2,8 +2,8 @@ import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { withSceneHeader} from 'homepairs-components';
 import strings from 'homepairs-strings';
-import { withNavigation } from 'react-navigation';
 import { navigationPages } from 'src/Routes/RouteConstants';
+import { prepareNavigationHandlerComponent } from 'homepairs-utilities';
 import ServiceRequestScreenBase, {
     ServiceRequestScreenStateProps,
     ServiceRequestScreenProps,
@@ -16,7 +16,7 @@ const sceneParam: MainAppStackType = {
     key: 'ServiceRequest',
     button: serviceRequestStrings.button,
     onNavButtonClick: (props: ServiceRequestScreenProps) => {
-        props.navigation.push(navigationPages.NewRequest);
+        props.navigation.navigate(navigationPages.NewRequest);
         props.onSetNavHeaderGoBackButton(true);
     },
     doesButtonUseNavigate: true,
@@ -39,9 +39,6 @@ const ServiceRequestScreen = connect(
     mapDispatchToProps,
 )(ServiceRequestScreenBase);
 
-const ServiceRequestScreenBaseWithNavigation = withNavigation(ServiceRequestScreen);
-const ServiceRequestScreenWithHeader = withSceneHeader(ServiceRequestScreenBaseWithNavigation, sceneParam);
-
 /**
  * ---------------------------------------------------
  * ServiceRequestScreen
@@ -51,6 +48,5 @@ const ServiceRequestScreenWithHeader = withSceneHeader(ServiceRequestScreenBaseW
  * can be injected with a Modal; this gives this component the capability to reveal a smaller page 
  * that allows the user to add a new service request to their account. 
  */
-const ServiceRequestScreenWithNavigation = withNavigation(ServiceRequestScreenWithHeader);
 
-export default ServiceRequestScreenWithNavigation;
+export default prepareNavigationHandlerComponent(withSceneHeader(ServiceRequestScreen, sceneParam));

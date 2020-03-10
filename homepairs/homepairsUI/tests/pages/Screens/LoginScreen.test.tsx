@@ -3,18 +3,22 @@ import {AuthenticationPages} from 'homepairs-pages';
 import { propertyManagerMock1 } from 'tests/fixtures/StoreFixture';
 import { Provider } from 'react-redux';
 import { fireEvent, render } from 'react-native-testing-library';
-import { mockStackNavigation, navigationStackSpyFunction } from 'tests/fixtures/DummyComponents';
-import { TextInput, TouchableOpacity } from 'react-native';
+import { prepareNavigationMock } from 'tests/fixtures/DummyComponents';
+import { TextInput, TouchableOpacity, Platform } from 'react-native';
 import LoginScreenBase from 'src/Screens/Auth/LoginScreen/LoginScreenBase';
 import { navigationPages } from 'src/Routes/RouteConstants';
+import {BrowserRouter as Router} from 'react-router-dom';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 
 const mockStore = propertyManagerMock1;
 const {LoginScreen} = AuthenticationPages;
 const mockAxios = new MockAdapter(axios);
-
-const ComponentWithStore = <Provider store={mockStore}><LoginScreen navigation={mockStackNavigation}/></Provider>;
+const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock()
+const ComponentWithStore = Platform.OS === 'web' ? 
+<Provider store={mockStore}><Router><LoginScreen navigation={mockStackNavigation}/></Router></Provider>
+:
+<Provider store={mockStore}><LoginScreen navigation={mockStackNavigation}/></Provider>;
 
 describe("Test for Login Screen", () => {
     const expectedInitialState= {
@@ -69,7 +73,12 @@ describe("Test for Login Screen", () => {
         expect(resetFormsSpy).toHaveBeenCalled();  
         
         // This should test if the information was valid and that onFetchAccountProfile and navigator has been called
-        expect(navigationStackSpyFunction).toHaveBeenCalledWith(navigationPages.LoggingInModal);
+        if(Platform.OS === 'web'){
+            const expectedPassParam = {background: mockStackNavigation.navigation.location}
+            expect(navigationStackSpyFunction).toHaveBeenCalledWith(navigationPages.LoggingInModal, expectedPassParam);
+        }else{
+            expect(navigationStackSpyFunction).toHaveBeenCalledWith(navigationPages.LoggingInModal);
+        }
     });
 
     it('Now test for invalid value changes ', () => {
@@ -90,28 +99,5 @@ describe("Test for Login Screen", () => {
         setModalOff('Error');
         expect(navigationStackSpyFunction).toHaveBeenNthCalledWith(2, navigationPages.LoginScreen);
     });
-
-    /*
-        it('Finally, test if request to api fails and sets the error modal off', async () => {
-            const data = { 
-                status: 'failure',
-            };
-            mockAxios.onPost('https://homepairs-alpha.herokuapp.com/API/login/').reply(405);
-
-            fireEvent.changeText(loginInputForms[0], 'eerongrant@gmail.com');
-            fireEvent.changeText(loginInputForms[1], 'hello000');
-            
-            fireEvent.press(loginThinButton);
-
-            expect(validateFormsSpy).toHaveReturnedWith(true);
-            expect(resetFormsSpy).toHaveBeenCalled();  
-            
-            // This should test if the information was valid and that onFetchAccountProfile and navigator has been called
-            expect(navigationStackSpyFunction).toHaveBeenCalledWith(navigationPages.LoggingInModal);
-            //expect(setModalOffSpy).toHaveBeenCalled();
-            expect(navigationStackSpyFunction).toHaveBeenNthCalledWith(2, navigationPages.LoginScreen);
-
-        });
-    */
 
 });

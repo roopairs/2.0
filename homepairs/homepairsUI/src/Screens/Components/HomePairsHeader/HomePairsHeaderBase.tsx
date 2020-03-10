@@ -10,32 +10,34 @@ import {
 } from 'react-native';
 import React from 'react';
 import * as BaseStyles from 'homepairs-base-styles';
-import { isNullOrUndefined } from 'homepairs-utilities';
 import { HamburgerButton } from 'src/Elements';
 import {
     HomePairsDimensions,
     HeaderState,
     MainAppStackType,
+    AccountTypes,
 } from 'homepairs-types';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu';
+import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
 
 const backSymbol = '<';
 const { DROP_MENU_WIDTH } = HomePairsDimensions;
 
 export type HomePairsHeaderStateProps = {
     header: HeaderState;
+    accountType: AccountTypes
 };
 export type HomePairsHeaderDispatchProps = {
     onToggleMenu: (showMenu: boolean) => any;
     onShowGoBackbutton: (showBackButton: boolean) => any;
     onSwitchNavBar: (switchNavBar: boolean) => any;
     onUpdateSelected: (selected: MainAppStackType) => any;
+    onLogOut: (authed:boolean) => any;
 };
 export type HomePairsHeaderProps = HomePairsHeaderDispatchProps &
     HomePairsHeaderStateProps &
-    NavigationStackScreenProps & 
+    NavigationRouteHandler & 
     {
         /**
          * Used to indicate an instance of this component when testing
@@ -157,12 +159,10 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
      * */
     goBack() {
         const { navigation, onToggleMenu, onShowGoBackbutton } = this.props;
-        navigation.pop();
-
-        // TODO: Bug here. Will need to adjust navigation to give us indices. Currently retuns undefined!!
-        const navigationIndex = navigation.state.index;
-        const isFirst = isNullOrUndefined(navigationIndex) || navigationIndex === 0;
-        if (isFirst) {
+        navigation.goBack();
+        console.log(navigation.navigation);
+        console.log(navigation.isNavigatorAtBaseRoute());
+        if (navigation.isNavigatorAtBaseRoute()) {
             onShowGoBackbutton(false);
         }
         onToggleMenu(false);
@@ -197,7 +197,7 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
     }
 
     render() {
-        const { header, navigation } = this.props;
+        const { header, navigation, accountType, onLogOut } = this.props;
         return (
             <View style={styles.container}>
                 <View
@@ -220,7 +220,9 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
                         parentCallBack={this.changePage}
                         toggleMenu={this.toggleMenu}
                         isDropDown={header.isDropDown}
-                        showMenu={header.showMenu}/>
+                        showMenu={header.showMenu}
+                        setAuthenticatedState={(authed:boolean) => onLogOut(authed)}
+                        accountType={accountType}/>
                 </View>
             </View>
         );

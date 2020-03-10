@@ -12,10 +12,9 @@ const expectedResults: {[id:string]: AccountStateAction} = {
   PM_WITHOUT_TOKEN: { // PM Account w/out token 
     type: TYPE,
     profile: {
-      accountType: AccountTypes.Landlord,
+      accountType: AccountTypes.PropertyManager,
       firstName: 'Jack',
-      streetAddress: undefined,
-      city: undefined,
+      address: undefined,
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
       roopairsToken: '',
@@ -25,10 +24,9 @@ const expectedResults: {[id:string]: AccountStateAction} = {
   PM_WITH_TOKEN: { // PM Account with token
     type: TYPE,
     profile: {
-      accountType: AccountTypes.Landlord,
+      accountType: AccountTypes.PropertyManager,
       firstName: 'Jack',
-      streetAddress: 'lifelike line Apt. 3',
-      city: undefined,
+      address: 'lifelike line Apt. 3',
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
       roopairsToken: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
@@ -40,8 +38,7 @@ const expectedResults: {[id:string]: AccountStateAction} = {
     profile: {
       accountType: AccountTypes.Tenant,
       firstName: 'Kyle',
-      streetAddress: undefined,
-      city: undefined,
+      address: undefined,
       lastName: 'Lion',
       email: 'kylelion@gmail.com',
       roopairsToken: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
@@ -54,8 +51,7 @@ const expectedResults: {[id:string]: AccountStateAction} = {
     profile: {
       accountType: AccountTypes.Tenant,
       firstName: 'Kyle',
-      streetAddress: 'lifelike line Apt. 3',
-      city: 'San Luis Obispo',
+      address: 'lifelike line Apt. 3',
       lastName: 'Lion',
       email: 'kylelion@gmail.com',
       roopairsToken: '',
@@ -66,10 +62,9 @@ const expectedResults: {[id:string]: AccountStateAction} = {
   NO_TOKEN_DEFINED: { // Account of a response with no token
     type: TYPE,
     profile: {
-      accountType: AccountTypes.Landlord,
+      accountType: AccountTypes.PropertyManager,
       firstName: 'Jack',
-      streetAddress: undefined,
-      city: undefined,
+      address: undefined,
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
       roopairsToken: undefined,
@@ -81,8 +76,9 @@ const expectedResults: {[id:string]: AccountStateAction} = {
 const testJsonValues: {[id:string]: any} =
 {
   PM_WITHOUT_TOKEN: { // PM without token
+    role: 'pm',
     pm: {
-      accountType: AccountTypes.Landlord,
+      accountType: AccountTypes.PropertyManager,
       firstName: 'Jack',
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
@@ -91,17 +87,19 @@ const testJsonValues: {[id:string]: any} =
     token: '',
   },
   PM_WITH_TOKEN: { // PM with token
+    role: 'pm',
     pm: {
       accountType: AccountTypes.Tenant,
       firstName: 'Jack',
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
-      streetAddress: 'lifelike line Apt. 3',
+      address: 'lifelike line Apt. 3',
       manId: 102449555,
     },
     token: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
   },
   TENANT_WITH_TOKEN: {
+    role: 'tenant',
     tenant: {
       accountType: AccountTypes.Tenant,
       firstName: 'Kyle',
@@ -113,12 +111,12 @@ const testJsonValues: {[id:string]: any} =
     token: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
   },
   TENANT_WITHOUT_TOKEN: { // Tenant without a token
+    role: 'tenant',
     tenant: {
       accountType: AccountTypes.Tenant,
       firstName: 'Kyle',
       lastName: 'Lion',
-      streetAddress: 'lifelike line Apt. 3',
-      city: 'San Luis Obispo',
+      address: 'lifelike line Apt. 3',
       email: 'kylelion@gmail.com',
       propId: 99,
       tenantID: 20,
@@ -126,8 +124,9 @@ const testJsonValues: {[id:string]: any} =
     token: '',
   },
   NO_TOKEN_DEFINED: { // Response with no token key
+    role: 'pm',
     pm: {
-      accountType: AccountTypes.Landlord,
+      accountType: AccountTypes.PropertyManager,
       firstName: 'Jack',
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',

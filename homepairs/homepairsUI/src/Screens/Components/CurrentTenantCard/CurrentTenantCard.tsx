@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { Card } from 'homepairs-elements';
 import ThinButton from 'src/Elements/Buttons/ThinButton';
@@ -9,7 +8,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairFonts } from 'res/fonts';
 import { navigationPages } from 'src/Routes/RouteConstants';
 
-type CurrentTenantsCardProps = NavigationStackScreenProps & {
+type CurrentTenantsCardProps =  {
     /**
      * Used to identify this component during testing
      */
@@ -19,7 +18,7 @@ type CurrentTenantsCardProps = NavigationStackScreenProps & {
      * Unique identifier for the property. This is how the component knows where to edit 
      * the tenant.
      */
-    propId: number,
+    propId: string,
 
     /**
      * Maximum amount of tenants defined for the property. If somehow, the 
@@ -33,6 +32,7 @@ type CurrentTenantsCardProps = NavigationStackScreenProps & {
      * The tenant information passed into this component. Used to present the information.
      */
     tenants?: TenantInfo[],
+    navigation?: any, 
 }
 
 const colors = BaseStyles.LightColorTheme;
@@ -210,11 +210,11 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
             return;
         }
         setError(null);
-        navigation.navigate(navigationPages.AddTenantModal);
+        navigation.navigate(navigationPages.AddTenantModal, {propId}, true);
     }
 
     function navigateToEditTenantModal(tenant: TenantInfo){
-        navigation.navigate(navigationPages.EditTenantModal, {tenant, propId});
+        navigation.navigate(navigationPages.EditTenantModal, {propId, tenant}, true);
     }
 
     function renderError(){
@@ -237,7 +237,7 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
                 <Text style={{fontFamily: BaseStyles.FontTheme.tertiary, fontSize: BaseStyles.FontTheme.small, color: BaseStyles.LightColorTheme.lightGray}}>{tenant.email}</Text>
                 <Text style={{fontFamily: BaseStyles.FontTheme.tertiary, fontSize: BaseStyles.FontTheme.small, color: BaseStyles.LightColorTheme.lightGray}}>{tenant.phoneNumber}</Text>
             </View>
-            <ThinButton name='Edit' onClick={() => {navigateToEditTenantModal(tenant);}} buttonStyle={styles.editButton} buttonTextStyle={styles.editButtonText} containerStyle={styles.buttonContainer}/>
+            <ThinButton testID='edit-tenant-button' name='Edit' onClick={() => {navigateToEditTenantModal(tenant);}} buttonStyle={styles.editButton} buttonTextStyle={styles.editButtonText} containerStyle={styles.buttonContainer}/>
         </View>);
     }
 
@@ -256,7 +256,7 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
         <View style={{paddingBottom: BaseStyles.MarginPadding.largeConst}}>
         <Card title='Current Tenants' containerStyle={styles.container} titleStyle={styles.cardTitle} titleContainerStyle={styles.titleContainerStyle} >
             {renderError()}
-            {renderContent()}
+            <>{renderContent()}</>
             <ThinButton name='Add Tenant' onClick={navigateToAddTenantModal} buttonTextStyle={styles.addButtonText} buttonStyle={styles.addButton} containerStyle={styles.addButtonContainer} />
         </Card>
         </View>
@@ -266,27 +266,7 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
 CurrentTenantsCard.defaultProps = {
     testID: 'current-tenant-card',
     maxTenants: 100,
-    tenants: [
-        {
-            firstName: 'Alex',
-            lastName: 'Kavanaugh',
-            email: 'alex@roopairs.com',
-            phoneNumber: '838-0034-3333',
-        },
-        {
-            firstName: 'David',
-            lastName: 'Bartolomucci',
-            email: 'david@roopairs.com',
-            phoneNumber: '838-0034-3333',
-        },
-        {
-   
-            firstName: 'Ray',
-            lastName: 'Bartolomucci',
-            email: 'ray@roopairs.com',
-            phoneNumber: '838-0031-3333',
-        },
-   ],
+    tenants: [],
 };
 
 export default CurrentTenantsCard;

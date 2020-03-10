@@ -21,8 +21,10 @@ import {
     ServiceRequestStatusEnums,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
+// import { ServiceState, HeaderState } from 'homepairs-types';
 import strings from 'homepairs-strings';
 import { SceneInjectedProps } from 'homepairs-components';
+import { NavigationRouteScreenProps } from 'homepairs-utilities';
 
 export type ServiceRequestScreenStateProps = {
     serviceRequestsState: ServiceState;

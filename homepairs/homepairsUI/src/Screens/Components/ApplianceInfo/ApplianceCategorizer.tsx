@@ -4,13 +4,16 @@ import { AppliancePanel } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import * as BaseStyles from 'homepairs-base-styles';
 import { Appliance } from 'homepairs-types';
+import {NavigationRouteScreenProps} from 'homepairs-utilities';
+
+
 
 type ApplianceCategorizerProps = {
     appliances: Appliance[];
     onEditApplianceModal?: (appliance: Appliance) => any;
 };
 
-type Props = ApplianceCategorizerProps;
+type Props = ApplianceCategorizerProps & NavigationRouteScreenProps;
 
 function setStyles(colorTheme?: BaseStyles.ColorTheme) {
     const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;
@@ -85,14 +88,14 @@ export default function ApplianceCategorizer(props: Props) {
                         return (
                             <AppliancePanel
                                 hasButton={buttonCheck}
-                                onEditApplianceModal={onEditApplianceModal}
-                                key={app.applianceId.toString()}
+                                buttonName='Edit'
+                                onClick={onEditApplianceModal}
+                                key={app.applianceId}
                                 appliance={app}
                             />
                         );
                     })}
-                </View>,
-            );
+                </View>);
         });
         return finalApps;
     }

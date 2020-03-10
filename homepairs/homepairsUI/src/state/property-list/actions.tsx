@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { NavigationStackProp } from 'react-navigation-stack';
-import { TenantInfo } from 'homepairs-types';
+import { AsyncStorage } from 'react-native';
+import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
+import {categoryToString} from 'homepairs-utilities';
+
 import {
     AddPropertyAction,
     UpdatePropertyAction,
     RemovePropertyAction,
-    FetchPropertyAction,
     FetchPropertiesAction,
     Property,
     Appliance,
@@ -17,6 +19,7 @@ import {
     FetchPropertyAndPropertyManagerAction,
     AccountTypes,
     Contact,
+    TenantInfo,
 } from '../types';
 
 const responseKeys = HomePairsResponseKeys;
@@ -45,6 +48,21 @@ export enum PROPERTY_LIST_ACTION_TYPES {
 
 /**
  * ----------------------------------------------------
+ * Store Property Data
+ * ----------------------------------------------------
+ * Stores the list of properties into the local storage as a string object.  
+ * @param {Property[]} propertyList -should only have a length of 1 if it is for a tenant 
+ */
+const storePropertyData = async (propertyList: Property[]) => {
+  try {
+    await AsyncStorage.setItem('propertyList', JSON.stringify(propertyList));
+  } catch (error) {
+    // Error saving data
+  }
+};
+
+/**
+ * ----------------------------------------------------
  * setSelectedProperty
  * ----------------------------------------------------
  * Action whom indicates to the reducer what property is currently selected
@@ -53,6 +71,8 @@ export enum PROPERTY_LIST_ACTION_TYPES {
  * @param {number} index -position of the property in the array of the state
  */
 export const setSelectedProperty = (index: number): SetSelectedPropertyAction => {
+  // Set the store the selectedProperty in the local state for useage after the app falls asleep
+  AsyncStorage.setItem('selectedProperty', index.toString());
   return {
     type: PROPERTY_LIST_ACTION_TYPES.SET_SELECTED_PROPERTY,
     index,
@@ -78,6 +98,11 @@ export const addProperty = (newProperty: Property): AddPropertyAction => {
  * ----------------------------------------------------
  * postNewProperty
  * ----------------------------------------------------
+ * Sends an request to the homepairs backend attempting to mutate the data of an exisiting property. It takes in
+ * the previous property (TODO: Update this to be propId when backend resolves properties from propId) and sends this 
+ * data to backend in order for it to resolve which property is to be updated. The intitial state of the component is invoked 
+ * and the modal navigates to back to the previous page upon a success. 
+ * 
  * @param {Property} newProperty -property to add to the homepairs database
  * @param {AddNewPropertyState} info -information used to indicate the property manager of the property
  * @param {setIntialState} setInitialState -sets state of calling component to its original state. Should be used for forms
@@ -88,14 +113,14 @@ export const postNewProperty = (
     info: AddNewPropertyState,
     setInitialState: () => void,
     displayError: (msg: string) => void,
-    navigation: NavigationStackProp,
+    navigation: NavigationRouteHandler,
 ) => {
     return async (dispatch: (arg0: any) => void) => {
         await axios
             .post(
-                'https://homepairs-alpha.herokuapp.com/property/',
+                'https://homepairs-mytest.herokuapp.com/property/',
                 {
-                    streetAddress: newProperty.address,
+                    address: newProperty.address,
                     numBed: newProperty.bedrooms,
                     numBath: newProperty.bathrooms,
                     maxTenants: newProperty.tenants,
@@ -124,7 +149,7 @@ export const postNewProperty = (
                     );
                 }
             })
-            .catch();
+            .catch(() => {});
     };
 };
 
@@ -162,12 +187,12 @@ export const postUpdatedProperty = (
     editProperty: Property,
     info: EditPropertyState,
     displayError: (msg: string) => void,
-    navigation: NavigationStackProp,
+    navigation: any,
 ) => {
     return async (dispatch: (arg0: any) => void) => {
         return axios
             .put(
-                'https://homepairs-alpha.herokuapp.com/property/',
+                'https://homepairs-mytest.herokuapp.com/property/',
                 {
                   propId: editProperty.propId,
                   streetAddress: editProperty.address,
@@ -184,7 +209,10 @@ export const postUpdatedProperty = (
                     responseKeys.STATUS_RESULTS.SUCCESS
                 ) {
                     dispatch(updateProperty(info.index, editProperty));
+                    console.log('Post Updated Property: Recieved Request');
                     navigation.goBack();
+                    console.log('Post Updated Property: Recieved Request');
+
                 } else {
                     displayError(
                         response[responseKeys.DATA][responseKeys.ERROR],
@@ -212,36 +240,11 @@ export const removeProperty = (
 
 /**
  * ----------------------------------------------------
- * fetchProperty
- * ----------------------------------------------------
- * Function used to extract a single property from fetching an account profile.
- * This should be called after generating a new account or authentication for specifically
- * TENANTS
- * @param {Property} linkedProperty -Property recieved from the homepairs servers
- */
-export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => {
-  const fetchedProperties: Property[] = [];
-  const fetchedProperty = {
-    propId: linkedProperty[propertyKeys.PROPERTYID],
-    address: linkedProperty[propertyKeys.ADDRESS],
-    tenants: linkedProperty[propertyKeys.TENANTS],
-    bedrooms: linkedProperty[propertyKeys.BEDROOMS],
-    bathrooms: linkedProperty[propertyKeys.BATHROOMS],
-  };
-  fetchedProperties.push(fetchedProperty);
-  return {
-    type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY,
-    property: fetchedProperties,
-  };
-};
-
-/**
- * ----------------------------------------------------
  * fetchPropertyManager
  * ----------------------------------------------------
  * Function used to extract a single property and its owner from fetching an account profile. 
  * This should be called after generating a new account or authentication for specifically
- * TENANTS
+ * Tenants 
  * @param {Contact} linkedPropertyManager -Property Manager recieved from the homepairs servers  
  */
 export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], linkedPropertyManager: Contact): FetchPropertyAndPropertyManagerAction => {
@@ -261,6 +264,7 @@ export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], li
     bathrooms: linkedProperty[propertyKeys.BATHROOMS],
   };
   fetchedProperties.push(fetchedProperty);
+  storePropertyData(fetchedProperties);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_AND_PROPERTY_MANAGER,
     property: fetchedProperties,
@@ -277,9 +281,7 @@ export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], li
  * PROPERTY MANAGERS
  * @param linkedProperties -Array of objects that contain the data for properties
  */
-export const fetchProperties = (
-  linkedProperties: Array<any>,
-): FetchPropertiesAction => {
+export const fetchProperties = (linkedProperties: Array<any>): FetchPropertiesAction => {
   const fetchedProperties: Property[] = [];
   linkedProperties?.forEach(linkedProperty => {
     fetchedProperties.push({
@@ -290,6 +292,7 @@ export const fetchProperties = (
       bathrooms: linkedProperty[propertyKeys.BATHROOMS],
     });
   });
+  storePropertyData(fetchedProperties);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
     properties: fetchedProperties,
@@ -334,17 +337,17 @@ export const postNewAppliance = (
     info: AddApplianceState,
     setInitialState: () => void,
     displayError: (msg: string) => void,
-    navigation: NavigationStackProp,
+    navigation: NavigationRouteHandler,
 ) => {
     return async () => {
         await axios
             .post(
-                'https://homepairs-alpha.herokuapp.com/appliance/',
+                'https://homepairs-mytest.herokuapp.com/appliances/',
                 {
                     propId: info.property.propId,
                     name: newAppliance.appName, 
                     manufacturer: newAppliance.manufacturer, 
-                    category: newAppliance.category,
+                    category: categoryToString(newAppliance.category),
                     modelNum: newAppliance.modelNum, 
                     serialNum: newAppliance.serialNum, 
                     location: newAppliance.location, 
@@ -367,27 +370,6 @@ export const postNewAppliance = (
     };
 };
 
-// fix docs
-/**
- * ----------------------------------------------------
- * updateProperty
- * ----------------------------------------------------
- * Action intended to mutate a specified property after it has been updated
- * in the homepairs servers. Should be called after postUpdatedProperty.
- * @param {Property} updatedProperty -the new contents of the selected property
- */
-/*
-export const updateAppliance = (
-    propertyIndex: number, 
-    updatedAppliance: Appliance,
-): UpdateApplianceAction => {
-    return {
-        type: PROPERTY_LIST_ACTION_TYPES.UPDATE_APPLIANCE,
-        userData: updatedAppliance,
-        index: propertyIndex,
-    };
-};
-*/
 /**
  * ----------------------------------------------------
  * postUpdatedProperty
@@ -404,17 +386,17 @@ export const updateAppliance = (
 export const postUpdatedAppliance = (
     editAppliance: Appliance,
     displayError: (msg: string) => void,
-    navigation: NavigationStackProp,
+    navigation: NavigationRouteHandler,
 ) => {
     return async () => {
         return axios
             .put(
-                'https://homepairs-alpha.herokuapp.com/appliance/',
+                'https://homepairs-mytest.herokuapp.com/appliances/',
                 {
                     appId: editAppliance.applianceId,
                     newName: editAppliance.appName, 
                     newManufacturer: editAppliance.manufacturer, 
-                    newCategory: editAppliance.category,
+                    newCategory: categoryToString(editAppliance.category),
                     newModelNum: editAppliance.modelNum, 
                     newSerialNum: editAppliance.serialNum, 
                     newLocation: editAppliance.location,

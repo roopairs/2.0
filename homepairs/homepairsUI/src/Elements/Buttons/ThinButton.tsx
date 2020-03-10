@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 export type ThinButtonProps = {
+    testID?: string;
     key?: any;
     name?: String;
     onClick?: () => any;
@@ -90,6 +91,7 @@ const DefaultThinButtonStyles = StyleSheet.create({
 });
 
 ThinButton.defaultProps = {
+    testID: 'thin-button',
     name: '',
     onClick: () => {},
     onPressIn: () => {},

@@ -17,6 +17,8 @@ export type InputFormProps = {
     placeholder?: string;
     value?: string;
     errorMessage?: string;
+    numberOfLines?: number;
+    multiline?: boolean;
 };
 type InputFormState = {
     value?: string;
@@ -104,6 +106,8 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
             placeholder,
             value,
             errorMessage,
+            numberOfLines,
+            multiline,
         } = this.props;
         const {error} = this.state;
 
@@ -111,13 +115,16 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
             <View style={containerStyle}>
                 {this.renderName()}
                 <TextInput
+                    multiline={multiline}
                     testID='user-text-input'
                     style={inputStyle}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
                     value={value}
+                    textAlignVertical='top'
                     placeholder={placeholder}
                     secureTextEntry={secureTextEntry}
+                    numberOfLines={numberOfLines}
                     onChangeText={text => {this.passInputValue(text);}}
                 />
                 <HelperText
@@ -148,33 +155,7 @@ InputForm.defaultProps = {
     errorStyle: DefaultInputFormStyle.errorStyle,
     value: undefined,
     placeholder: null,
+    numberOfLines: 1,
+    multiline: false,
     errorMessage: 'Placeholder error message',
 };
-
-
-/**
- * ------------------------------------------------------------
- * renderInputForm (deprecated)
- * ------------------------------------------------------------
- * @deprecated Please do not use this function. We are going to remove it in 
- * future use. 
- */
-export function renderInputForm(formProps: InputFormProps) {
-    console.log("Warning: renderInputForm is deprecated and will be removed upon the next release.");
-    const {ref, name, parentCallBack, formTitleStyle, inputStyle, secureTextEntry, value, placeholder, key, errorStyle, errorMessage} = formProps;
-    return (
-        <InputForm
-            ref={ref}
-            key={key}
-            name={name}
-            parentCallBack={parentCallBack}
-            formTitleStyle={formTitleStyle}
-            inputStyle={inputStyle}
-            errorStyle={errorStyle}
-            secureTextEntry={secureTextEntry}
-            value={value}
-            placeholder={placeholder}
-            errorMessage={errorMessage}
-        />
-    );
-}

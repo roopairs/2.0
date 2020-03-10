@@ -174,7 +174,7 @@ export default class AccountTypeRadioButton extends React.Component<AccountTypeR
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          testID='account-radio-landlord'
+          testID='account-radio-pm'
           style={rightButtonStyle}
           onPress={this.onPressPropertyManager}>
           <Text style={propertyManagerSelected ? 

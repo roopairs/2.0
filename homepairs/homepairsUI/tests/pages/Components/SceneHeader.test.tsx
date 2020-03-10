@@ -113,7 +113,7 @@ describe('withSceneHeader Test', () => {
         const TestComponent = withSceneHeader(View, pageParams);
         const TestComponetWithStore = (
             <Provider store={mockStore}>
-                <TestComponent navigation={mockNavigation} theme={null} screenProps={null} onChangeModalVisibility={modalVisibilitySpy}/>
+                <TestComponent navigation={mockNavigation} theme={null} screenProps={null}/>
             </Provider>);
         const rendered = render(TestComponetWithStore);
 
@@ -143,10 +143,10 @@ describe('withSceneHeader Test', () => {
         };
 
         describe ('Button is configured for revealing Modal', () => {
-            const neverShouldInvoke = jest.fn();
+            const onNavButtonClickMock = jest.fn();
             const buttonModalDefinedParams: MainAppStackType = {
                 ...buttonDefinedParams,
-                onNavButtonClick: neverShouldInvoke,
+                onNavButtonClick: onNavButtonClickMock,
             };
 
             it('Param does not assign value to doesButtonUseNavigate', () => {
@@ -155,8 +155,7 @@ describe('withSceneHeader Test', () => {
                     <Provider store={mockStore}>
                         <TestComponent navigation={mockNavigation} 
                         theme={null} 
-                        screenProps={null} 
-                        onChangeModalVisibility={modalVisibilitySpy}/>
+                        screenProps={null} />
                     </Provider>);
                 const rendered = render(TestComponetWithStore);
                 const {queryAllByType, getByTestId} = rendered;
@@ -175,9 +174,8 @@ describe('withSceneHeader Test', () => {
         
                 // Check to see if the button clicked performs the correct action 
                 fireEvent.press(clickable);
-                expect(modalVisibilitySpy).toHaveBeenCalledTimes(1);
                 expect(navigationSpyFunction).toHaveBeenCalledTimes(0);
-                expect(neverShouldInvoke).toHaveBeenCalledTimes(0);
+                expect(onNavButtonClickMock).toHaveBeenCalledTimes(1);
                 
             });
 
@@ -191,8 +189,7 @@ describe('withSceneHeader Test', () => {
                     <Provider store={mockStore}>
                         <TestComponent navigation={mockNavigation} 
                         theme={null} 
-                        screenProps={null} 
-                        onChangeModalVisibility={modalVisibilitySpy}/>
+                        screenProps={null} />
                     </Provider>);
 
                 const rendered = render(TestComponetWithStore);
@@ -212,9 +209,8 @@ describe('withSceneHeader Test', () => {
         
                 // Check to see if the button clicked performs the correct action 
                 fireEvent.press(clickable);
-                expect(modalVisibilitySpy).toHaveBeenCalledTimes(1);
                 expect(navigationSpyFunction).toHaveBeenCalledTimes(0);
-                expect(neverShouldInvoke).toHaveBeenCalledTimes(0);
+                expect(onNavButtonClickMock).toHaveBeenCalledTimes(2);
             });
         });
 
@@ -230,8 +226,7 @@ describe('withSceneHeader Test', () => {
                 <Provider store={mockStore}>
                     <TestComponent navigation={mockNavigation} 
                     theme={null} 
-                    screenProps={null} 
-                    onChangeModalVisibility={modalVisibilitySpy}/>
+                    screenProps={null} />
                 </Provider>);
 
             const rendered = render(TestComponetWithStore);
@@ -263,7 +258,7 @@ describe('withSceneHeader Test', () => {
         const TestComponent = withSceneHeader(TestClass, pageParams);
         const TestComponetWithStore = (
             <Provider store={mockStore}>
-                <TestComponent navigation={mockNavigation} theme={null} screenProps={null} onChangeModalVisibility={modalVisibilitySpy}/>
+                <TestComponent navigation={mockNavigation} theme={null} screenProps={null}/>
             </Provider>);
         const rendered = render(TestComponetWithStore);
         const {queryAllByType, getByTestId} = rendered;

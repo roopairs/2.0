@@ -12,24 +12,25 @@ import { HeaderActions } from 'homepairs-redux-actions';
 import { connect } from 'react-redux';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
-import {isNullOrUndefined} from 'homepairs-utilities';
 import SceneHeader from './SceneHeader';
-import { ModalInjectedProps } from '../Modals/WithModal/WithModal';
+import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
 
 type SceneDispatchProps = {
     onSetNavHeaderGoBackButton?: (isSet: boolean) => any;
     onCloseNavHeaderMenu?: () => any;
 };
 
-export type SceneInjectedProps = SceneDispatchProps 
+export type SceneInjectedProps = SceneDispatchProps & {
+    navigation?: NavigationRouteHandler
+}
 
 type Props = NavigationStackScreenProps<any, any> &
-SceneDispatchProps &
-ModalInjectedProps;
+SceneDispatchProps;
 
 type State = {
     showModal: boolean;
 };
+
 const colorTheme = BaseStyles.LightColorTheme;
 
 const styles = StyleSheet.create({
@@ -85,10 +86,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
         // HOC or it passes in the neccessary props of this component to allow for 
         // navigation. NOTE: REMEMBER TO CALL withNavigation if a navigator is to be used. 
         onPressButton() {
-            const { onChangeModalVisibility } = this.props;
-            return Page.doesButtonUseNavigate
-                ? Page.onNavButtonClick(this.props)
-                : onChangeModalVisibility(true);
+            return Page.onNavButtonClick(this.props);
         }
 
         // TODO: Either remove this entirely or get the navigation header (when on drop down) to 
@@ -107,7 +105,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
         }
 
         renderContents() {
-            const {onSetNavHeaderGoBackButton,onCloseNavHeaderMenu} = this.props;
+            const {onSetNavHeaderGoBackButton,onCloseNavHeaderMenu,navigation} = this.props;
             const directionalLockEnabled = true;
             const automaticallyAdjustContentInsets = false;
             return (
@@ -123,7 +121,8 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
                         <WrappedComponent
                             testID='with-scene-header-wrapped-component'
                             onSetNavHeaderGoBackButton={onSetNavHeaderGoBackButton}
-                            onCloseNavHeaderMenu={onCloseNavHeaderMenu}/>
+                            onCloseNavHeaderMenu={onCloseNavHeaderMenu}
+                            navigation={navigation}/>
                     </ScrollView>
                 </>
             );

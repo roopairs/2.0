@@ -1,4 +1,7 @@
 import { MainAppStackType } from 'homepairs-types';
+import * as Endpoints from './RemoteEndpoints';
+
+export {Endpoints};
 
 /**
  * All keys that can be mapped to any page in the react navigator should 
@@ -88,7 +91,7 @@ export const navigationPages = {
 };
 
 
-const MainAppStack: Array<MainAppStackType> = [
+export const MainAppStack: Array<MainAppStackType> = [
     {
         title: 'Properties',
         navigate: navigationPages.PropertiesScreen,
@@ -112,4 +115,9 @@ const MainAppStack: Array<MainAppStackType> = [
         key: 'LogOut',
     },
 ];
-export default MainAppStack; 
+
+
+export const LOGIN = '/login';
+export const SIGNUP = '/sign-up';
+export const ROOPAIRS_LOGIN = '/roopairs-login';
+export const PROPERTY_LIST = '/properties';

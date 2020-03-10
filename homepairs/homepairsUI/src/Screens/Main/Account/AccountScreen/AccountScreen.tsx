@@ -2,7 +2,7 @@ import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { AccountActions } from 'homepairs-redux-actions';
 import { withSceneHeader} from 'homepairs-components';
-import { withNavigation } from 'react-navigation';
+import { prepareNavigationHandlerComponent } from 'homepairs-utilities';
 import AccountScreenBase, {
     AccountScreenStateProps,
     AccountScreenDispatchProps,
@@ -34,4 +34,4 @@ const AccountScreen = connect(
     mapDispatchToProps,
 )(AccountScreenBase);
 
-export default withNavigation(withSceneHeader(AccountScreen, sceneParam));
+export default prepareNavigationHandlerComponent(withSceneHeader(AccountScreen, sceneParam));

@@ -2,10 +2,11 @@
 import React from 'react';
 import { HeaderMockStores } from 'tests/fixtures/StoreFixture';
 import { HomePairsHeader } from 'homepairs-components';
-import { mockStackNavigationFirstRoute, navigationStackSpyFunction } from 'tests/fixtures/DummyComponents';
+import { prepareNavigationStackFirstRouteMock } from 'tests/fixtures/DummyComponents';
 import { fireEvent, render } from 'react-native-testing-library';
 import { Provider } from 'react-redux';
 import { HEADER_ACTION_TYPES } from 'src/state/header/actions';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { 
     HeaderAction, 
     UpdateSelectedPageAction, 
@@ -13,7 +14,7 @@ import {
     ToggleMenuAction,
     MainAppStackType,
 } from 'homepairs-types';
-import { TouchableOpacity} from 'react-native';
+import { TouchableOpacity, Platform} from 'react-native';
 import { navigationPages } from 'src/Routes/RouteConstants';
 
 
@@ -49,6 +50,7 @@ const HAMBURGER_TEST= 'homepairs-header-hamburger-button';
 const HOMEPAIRS_HEADER_TEST = 'homepairs-header-base';
 const mockAddEventListener = jest.fn();
 const mockRemoveEventListener = jest.fn();
+const [mockStackNavigationFirstRoute, navigationStackSpyFunction] = prepareNavigationStackFirstRouteMock();
 
 // Mock the test envirnment that would initially render a navBar
 jest.mock('react-native', () => {
@@ -71,7 +73,11 @@ describe('HomePairsHeader Integration Test for NavBarMenu', () => {
    
     describe('Test for navBar and no goBackButton', () =>{
         const store = navigationHeaderMockStores.navBarNoBack;
-        const HeaderComponent = (
+        const HeaderComponent = Platform.OS === 'web' ? (
+            <Provider store={store}><Router><HomePairsHeader navigation={mockStackNavigationFirstRoute}/></Router></Provider>
+        )
+        :
+        (
             <Provider store={store}><HomePairsHeader navigation={mockStackNavigationFirstRoute}/></Provider>
         );
         const rendered = render(HeaderComponent);
@@ -120,7 +126,10 @@ describe('HomePairsHeader Integration Test for NavBarMenu', () => {
     // a component specifically for testing the handle change function
     it('Test Handle Change Function', () =>{
         const store = navigationHeaderMockStores.navBarNoBack;
-        const HeaderComponent = (
+        const HeaderComponent = Platform.OS === 'web' ? (
+            <Provider store={store}><Router><HomePairsHeader navigation={mockStackNavigationFirstRoute}/></Router></Provider>
+        )
+        :(
             <Provider store={store}><HomePairsHeader navigation={mockStackNavigationFirstRoute}/></Provider>
         );
         const rendered = render(HeaderComponent);

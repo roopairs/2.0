@@ -1,6 +1,6 @@
 import { AppState } from 'homepairs-types';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { prepareNavigationHandlerComponent } from 'src/utility/NavigationRouterHandler';
 import DetailedPropertyScreenBase, {
     DetailedPropertyStateProps,
 } from './DetailedPropertyScreenBase';
@@ -16,5 +16,6 @@ const DetailedPropertyScreen = connect(
     mapStateToProps,
 )(DetailedPropertyScreenBase);
 
-const DetailedPropertyScreenWithNavigation = withNavigation(DetailedPropertyScreen);
+
+const DetailedPropertyScreenWithNavigation = prepareNavigationHandlerComponent(DetailedPropertyScreen);
 export default DetailedPropertyScreenWithNavigation;

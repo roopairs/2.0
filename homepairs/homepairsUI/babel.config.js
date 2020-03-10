@@ -29,10 +29,9 @@ module.exports = function(api) {
                         'homepairs-redux-actions': './src/state/actions.ts',
                         'homepairs-pages': './src/Screens/index.ts',
                         'homepairs-base-styles': './res/Styles/base.ts',
-                        'homepairs-components':
-                            './src/Screens/Components/index.tsx',
+                        'homepairs-components': './src/Screens/Components/index.tsx',
                         'homepairs-utilities': './src/utility/index.tsx',
-                        'homepairs-routes' : './src/Routes/index.tsx',
+                        'homepairs-routes' : './src/Routes/RouteConstants',
                     },
                 },
             ],

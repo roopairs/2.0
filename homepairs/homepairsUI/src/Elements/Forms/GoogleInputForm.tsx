@@ -6,7 +6,7 @@ import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 import * as BaseStyles from 'homepairs-base-styles';
 
-export type InputFormProps = {
+export type GoogleInputFormProps = {
     key?: any;
     name?: string;
     ref?: any;
@@ -22,11 +22,11 @@ export type InputFormProps = {
     errorMessage?: string;
     locationsContainer?: any
 };
-type InputFormState = {
+type GoogleInputFormState = {
     value?: string;
     error?: boolean;
 };
-const initialState: InputFormState = { value: '', error: false};
+const initialState: GoogleInputFormState = { value: '', error: false};
 
 const DefaultInputFormStyle = StyleSheet.create({
     container: {
@@ -59,7 +59,7 @@ const DefaultInputFormStyle = StyleSheet.create({
         fontSize: 14,
     },
     locationsContainers: {
-        maxHeight: 180,
+        maxHeight: 230,
         borderLeftColor: BaseStyles.LightColorTheme.lightGray,
         borderLeftWidth: 1, 
         borderRightColor: BaseStyles.LightColorTheme.lightGray,
@@ -79,9 +79,9 @@ const DefaultInputFormStyle = StyleSheet.create({
  *
  * 
  * */
-export default class InputForm extends React.Component<InputFormProps, InputFormState> {
+export default class GoogleInputForm extends React.Component<GoogleInputFormProps, GoogleInputFormState> {
 
-    static defaultProps: InputFormProps;
+    static defaultProps: GoogleInputFormProps;
 
     constructor(props){
         super(props);
@@ -96,7 +96,7 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
     renderName() {
         const {name, formTitleStyle} = this.props;
         if (name == null) return <></>;
-        return <Text style={formTitleStyle}>{name}</Text>;
+        return <Text testID='autocomplete-text'style={formTitleStyle}>{name}</Text>;
     }
     
     render(){
@@ -118,10 +118,10 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
                 components="country:us" >
                 {({ handleTextChange, locationResults, clearSearch }) => (
                     <React.Fragment key='google autocomplete'>
-                        <View style={containerStyle}>
+                        <View testID='autocomplete-view' style={containerStyle}>
                             {this.renderName()}
                             <TextInput
-                                testID='user-autocomplete-input'
+                                testID='autocomplete-text-input'
                                 style={inputStyle}
                                 underlineColorAndroid="transparent"
                                 autoCapitalize="none"
@@ -133,9 +133,10 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
                                     parentCallBack(text);
                                 }}
                             />
-                            <ScrollView style={locationsContainer}>
+                            <ScrollView testID='autocomplete-scrollview' style={locationsContainer}>
                                 {locationResults.map((el, i) => (
                                 <LocationItem
+                                    testID='autocomplete-location-item'
                                     description={el.description}
                                     key={String(i)}
                                     parentCallBack={parentCallBack}
@@ -144,7 +145,7 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
                                 ))}
                             </ScrollView>
                             <HelperText
-                                testID= 'autcomplete-helper-text'
+                                testID= 'autocomplete-helper-text'
                                 type= 'error'
                                 visible={error}
                                 style={errorStyle}
@@ -159,7 +160,7 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
     }
 }
 
-InputForm.defaultProps = {
+GoogleInputForm.defaultProps = {
     ref: undefined,
     key: null,
     name: null,

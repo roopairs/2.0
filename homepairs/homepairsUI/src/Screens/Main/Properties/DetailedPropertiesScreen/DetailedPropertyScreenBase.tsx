@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
+import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import {
     View,
     Platform,
@@ -6,7 +6,6 @@ import {
     ScrollView,
     Image,
     StyleSheet,
-    ImageProps,
 } from 'react-native';
 import { defaultProperty } from 'homepairs-images';
 import {
@@ -17,31 +16,25 @@ import {
     ServiceRequestCount,
 } from 'homepairs-components';
 import {
-    HomepairsPropertyAttributes,
     Property,
     HomePairsDimensions,
-    AccountTypes,
-    TenantAccount,
     Appliance, 
-    ApplianceType,
     TenantInfo,
 } from 'homepairs-types';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
-import { navigationKeys, navigationPages } from 'src/Routes/RouteConstants';
-import { withNavigation } from 'react-navigation';
+import { navigationPages } from 'src/Routes/RouteConstants';
 import axios from 'axios';
-import strings from 'homepairs-strings';
+import {NavigationRouteScreenProps, stringToCategory} from 'homepairs-utilities';
 
 export type DetailedPropertyStateProps = {
     property: Property;
 };
 
-type Props = NavigationStackScreenProps & DetailedPropertyStateProps;
-const CurrentTenants = withNavigation(CurrentTenantCard);
-const propertyKeys = HomepairsPropertyAttributes;
-const categoryStrings = strings.applianceInfo.categories;
+type Props = NavigationRouteScreenProps & DetailedPropertyStateProps;
+type State = {
+    tenantInfo: TenantInfo[],
+    appliances: Appliance[],
+}
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -104,158 +97,131 @@ const styles = StyleSheet.create({
     },
 });
 
-/*
-async function getTenantInfo(propId: number){
-    await axios.get('https://homepairs-alpha.herokuapp.com/API/property/list/').then((response)=>{
-        console.log(response)
-        const {data} = response;
-        const {tenants} = data;
-        tenantInfo = [];
+export default class DetailedPropertyScreenBase extends React.Component<Props, State> {
+    // BEWARE FORMATTING, NEED EMPTY LINE BETWEEN THESE 
+    property
+  
+    navigation
+  
+    propId
 
-        tenants.forEach(tenant => {
-            const {firstName, lastName, email} = tenant;
-            tenantInfo.push({
-                firstName,
-                lastName,
-                email,
-                phoneNumber: '888-999-3030',
-            });
-        });
-    });
-}
-*/
-
-export default function DetailedPropertyScreenBase(props: Props) {
-    const { property, navigation } = props;
-    const [tenantInfoState, setTenantInfo] = useState([]);
-    const [applianceInfoState, setApplianceInfo] = useState([]);
-
-    function selectCategory(selected: string) {
-        let appType = ApplianceType.None;
-        if (selected === categoryStrings.PLUMBING) {
-            appType = ApplianceType.Plumbing;
-        } else if (selected === categoryStrings.GA) {
-            appType = ApplianceType.GeneralAppliance;
-        } else if (selected === categoryStrings.HVAC) {
-            appType = ApplianceType.HVAC;
-        } else if (selected === categoryStrings.LE) {
-            appType = ApplianceType.LightingAndElectric;
-        }
-        return appType;
+    constructor(props: Readonly<Props>){
+        super(props);
+        this.state = {
+            tenantInfo: [],
+            appliances: [],
+        };
+        this.property = props.property; 
+        this.navigation = props.navigation;
+        this.propId = this.property.propId;
+        this.openEditPropertyModal = this.openEditPropertyModal.bind(this);
+        this.openAddApplianceModal = this.openAddApplianceModal.bind(this);
     }
 
-    useEffect(() => {
-        const fetchTenantsAndAppliances = async () => {
-            const result = await axios.get(`https://homepairs-alpha.herokuapp.com/property/${property.propId}/`);
+    async componentDidMount(){
+        await this.fetchTenantsAndAppliances();
+    }
+
+    async componentDidUpdate(){
+        await this.fetchTenantsAndAppliances();
+    }
+
+    // TODO: Cancel all async requests that are still occurring. Will focus on this next quarter!!!
+    componentWillUnmount(){}
+
+    fetchTenantsAndAppliances = async () => {
+        await axios.get(`https://homepairs-alpha.herokuapp.com/property/${this.propId}`).then((result) =>{
             const {tenants, appliances} = result.data;
             const tenantInfo: TenantInfo[] = [];
             const applianceInfo: Appliance[] = [];
 
             tenants.forEach(tenant => {
-                const {firstName, lastName, email} = tenant;
+                const {firstName, lastName, email, phoneNumber} = tenant;
                 tenantInfo.push({
                     firstName,
                     lastName,
                     email,
-                    phoneNumber: '888-999-3030',
+                    phoneNumber,
                 });
             });
 
             appliances.forEach(appliance => {
-                const {category, name, manufacturer, modelNum, serialNum, location} = appliance;
+                const {applianceId, category, name, manufacturer, modelNum, serialNum, location} = appliance;
                 applianceInfo.push({
-                    applianceId: serialNum, 
-                    category: selectCategory(category), 
+                    applianceId,
+                    category: stringToCategory(category), 
                     appName: name, manufacturer, modelNum, serialNum, location,
                 });
             });
 
-            setApplianceInfo(applianceInfo);
-            setTenantInfo(tenantInfo);
-        };
-        fetchTenantsAndAppliances();
-      }, []);
-     
-    
-
-    const imageProps: ImageProps = {
-        source: defaultProperty,
-        style:
-            Platform.OS === 'web'
-                ? styles.homePairsPropertiesImageWeb
-                : styles.homePairsPropertiesImage,
-        resizeMode: 'cover',
+            this.setState({
+                tenantInfo,
+                appliances: applianceInfo,
+            });
+        });  
     };
-
-    function navigateModal() {
-        const {streetAddress, city, state, bedrooms, bathrooms, tenants} = property;
-        const oldProp = {
-            address: streetAddress,
-            city,
-            state,
-            bedrooms,
-            bathrooms,
-            tenants, 
-        };
-        navigation.navigate(navigationPages.EditPropertyModal, {oldProp});
+       
+    openEditPropertyModal() {
+        this.navigation.navigate(navigationPages.EditPropertyModal, {propId: this.propId}, true);
     }
 
-    function openAddApplianceModal() {
-        navigation.push(navigationPages.AddApplianceModal);
+    openAddApplianceModal() {
+        this.navigation.navigate(navigationPages.AddApplianceModal, {property: this.property, propdId: this.propId}, true);
     }
 
-    function openEditApplianceModal(appliance: Appliance) {
-        navigation.navigate(navigationPages.EditApplianceModal, {appliance});
+    openEditApplianceModal(appliance: Appliance) {
+        this.navigation.navigate(navigationPages.EditApplianceModal, {appliance, propId: this.propId}, true);
     }
 
-    function renderImage() {
-        const { source, style, resizeMode } = imageProps;
-        return <Image source={source} style={style} resizeMode={resizeMode} />;
-    }
-
-    function renderContents() {
+    renderContents() {
+        const {address} = this.property;
+        const {appliances, tenantInfo} = this.state;
         return (
             <ScrollView style={{ flexGrow: 1 }}>
                 <View style={styles.addBottomMargin}>
                     <AddressSticker
-                        address={property[propertyKeys.ADDRESS]}
-                        city={property[propertyKeys.CITY]}
-                        state={property[propertyKeys.STATE]}
+                        address={address}
                     />
                     <View style={styles.imageWrapper}>
                         <View style={styles.imageContainer}>
-                            {renderImage()}
+                            <Image 
+                                source={defaultProperty} 
+                                style={Platform.OS === 'web'
+                                ? styles.homePairsPropertiesImageWeb
+                                : styles.homePairsPropertiesImage} 
+                                resizeMode='cover'/>
                         </View>
                     </View>
                     <GeneralHomeInfo
-                        property={property}
-                        onClick={navigateModal}/>
+                        property={this.property}
+                        onClick={this.openEditPropertyModal}/>
                     <ApplianceInfo 
-                        onAddApplianceModal={openAddApplianceModal} 
-                        onEditApplianceModal={openEditApplianceModal}
-                        appliances={applianceInfoState}/>
-                    <CurrentTenants 
-                    propertyId={1 /**TODO: get property id from key when backend has support this */} 
-                    tenants={tenantInfoState}/>
-                    <ServiceRequestCount property={property}/>
+                        navigation={this.navigation} 
+                        appliances={appliances} 
+                        propId={this.propId}
+                        onAddApplianceModal={this.openAddApplianceModal} 
+                        onEditApplianceModal={this.openEditApplianceModal}/>
+                    <CurrentTenantCard
+                        navigation={this.navigation}
+                        propId={this.propId}
+                        tenants={tenantInfo}/>
+                    <ServiceRequestCount property={this.property}/>
                 </View>
             </ScrollView>
         );
     }
 
-    return !(Platform.OS === 'ios') ? (
-        <View style={styles.container}>
-            <View style={styles.pallet}>{renderContents()}</View>
-        </View>
-    ) : (
-        <View style={styles.container}>
-            <SafeAreaView style={styles.pallet}>
-                {renderContents()}
-            </SafeAreaView>
-        </View>
-    );
+    render(){
+        return !(Platform.OS === 'ios') ? (
+            <View style={styles.container}>
+                <View style={styles.pallet}>{this.renderContents()}</View>
+            </View>
+        ) : (
+            <View style={styles.container}>
+                <SafeAreaView style={styles.pallet}>
+                    {this.renderContents()}
+                </SafeAreaView>
+            </View>
+        );
+    }
 }
-
-DetailedPropertyScreenBase.defaultProps = {
-    primaryColorTheme: BaseStyles.LightColorTheme,
-};

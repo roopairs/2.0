@@ -6,12 +6,10 @@ import strings from 'homepairs-strings';
 import {ThinButton} from 'homepairs-elements';
 
 const testProperty: Property = {
-    city: 'San Luis Obispo',
     tenants: 5,
     bathrooms: 2,
     bedrooms: 3,
-    state: 'CA',
-    streetAddress: '200 N. Santa Rosa',
+    address: '200 N. Santa Rosa, San Luis Obispo, CA',
 };
 const generalHomeStrings = strings.detailedPropertyPage.generalHomeInfo;
 
@@ -26,15 +24,13 @@ describe('General Home Info Test', () => {
     describe('has Edit cases', () => {
         const hasEditTrue = [undefined, null, true];
         const editButtonSpy = jest.fn();
-        const expectedStreetAddressText = testProperty.streetAddress;
-        const expectedCityStateText:string = `${testProperty.city}, ${testProperty.state}`;
+        const expectedStreetAddressText = testProperty.address;
         const expectedTenantAmount = '5';
         const expectedBedroomAmount = '3';
         const expectedBathroomAmount = '2';
 
         const expectedTexts: string[] = [
             expectedStreetAddressText,
-            expectedCityStateText,
             expectedTenantAmount,
             expectedBedroomAmount,
             expectedBathroomAmount,

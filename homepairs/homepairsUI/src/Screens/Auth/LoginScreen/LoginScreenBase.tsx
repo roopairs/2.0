@@ -3,12 +3,13 @@ import { InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import {AuthPageInjectedProps} from 'homepairs-components';
 import * as BaseStyles from 'homepairs-base-styles';
-import { StyleSheet } from 'react-native';
-import { NavigationSwitchProp, NavigationSwitchScreenProps} from 'react-navigation';
+import { StyleSheet} from 'react-native';
 import { navigationPages } from 'src/Routes/RouteConstants';
 import {
     isEmailSyntaxValid,
     isPasswordValid,
+    NavigationRouteHandler,
+    NavigationRouteScreenProps,
 } from 'homepairs-utilities';
 
 export type LoginViewDispatchProps = {
@@ -16,13 +17,13 @@ export type LoginViewDispatchProps = {
         username: string,
         password: string,
         modalSetOff: () => any,
-        navigation: NavigationSwitchProp
+        navigation: NavigationRouteHandler
     ) => void;
 };
 
 export type LoginProps = LoginViewDispatchProps &
     AuthPageInjectedProps &
-    NavigationSwitchScreenProps;
+    NavigationRouteScreenProps;
 
 export type LoginState = {
     username: string;
@@ -57,6 +58,9 @@ const styles = StyleSheet.create({
     },
 });
 
+
+
+
 /**
  * ---------------------------------------------------
  * Login Screen Base
@@ -83,7 +87,6 @@ export default class LoginScreenBase extends React.Component<LoginProps,LoginSta
         this.state = initialState;
         this.loginRef = React.createRef();
         this.passwordRef = React.createRef();
-
         props.clickButton(this.clickButton);
         props.clickHighlightedText(this.clickHighlightedText);
     }
@@ -92,6 +95,12 @@ export default class LoginScreenBase extends React.Component<LoginProps,LoginSta
      * Sets the state of the modal to hidden and then displays an error message. If none is passed
      * defaults to 'Error Message'
      */
+
+     /* 
+        TODO: There is no clean way to redirect from a modal. You must simply 
+        navigate back to the previous page and then move forward from the previous page.
+     */
+     
     setModalOff(error?:string) {
         const { navigation, setErrorState } = this.props;
         navigation.navigate(navigationPages.LoginScreen);
@@ -134,7 +143,7 @@ export default class LoginScreenBase extends React.Component<LoginProps,LoginSta
         const { username, password } = this.state;
         this.resetForms();
         if (this.validateForms(username, password)) {
-            navigation.navigate(navigationPages.LoggingInModal);
+            navigation.navigate(navigationPages.LoggingInModal, null, true);
             onFetchAccountProfile(username, password, this.setModalOff, navigation);
         }
     }

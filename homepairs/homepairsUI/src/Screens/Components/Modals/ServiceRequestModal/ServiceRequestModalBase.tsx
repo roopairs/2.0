@@ -156,7 +156,7 @@ export default class ServiceRequestModalBase extends React.Component<Props> {
             <View>
                 <View style={this.styles.subContainer}>
                     <Text style={this.styles.formTitle}>{serviceRequestStrings.address}</Text>
-                    <Text style={this.styles.detailText}>{this.serviceRequest.address}, {this.serviceRequest.city}, {this.serviceRequest.state}</Text>
+                    <Text style={this.styles.detailText}>{this.serviceRequest.address}</Text>
                 </View>
                 <View style={this.styles.subContainer}>
                     <Text style={this.styles.formTitle}>{serviceRequestStrings.serviceType}</Text>

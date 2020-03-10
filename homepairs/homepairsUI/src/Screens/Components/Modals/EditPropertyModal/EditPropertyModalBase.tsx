@@ -6,17 +6,16 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, EditPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {HelperText} from 'react-native-paper';
-import {isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces} from 'homepairs-utilities';
-import { NavigationStackProp, NavigationStackScreenProps } from 'react-navigation-stack';
+import { isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces, NavigationRouteScreenProps, NavigationRouteHandler } from 'homepairs-utilities';
 import { InputFormProps } from 'src/Elements/Forms/InputForm';
 
 export type EditPropertyDispatchProps = {
     onEditProperty: (newProperty: Property, info: EditPropertyState, 
-        displayError: (msg: string) => void, navigation: NavigationStackProp) => void
+        displayError: (msg: string) => void, navigation: NavigationRouteHandler) => void
 }
 
 
-type Props =  NavigationStackScreenProps & EditPropertyDispatchProps & EditPropertyState;
+type Props =  NavigationRouteScreenProps & EditPropertyDispatchProps & EditPropertyState;
 
 type EditState = {
     address: string, 
@@ -73,7 +72,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             alignSelf: 'center',
             width: BaseStyles.ContentWidth.reg,
             paddingVertical: BaseStyles.MarginPadding.large,
-            flexGrow: 1, // Needed to center the contents of the scroll container
+            flexGrow: Platform.OS === 'web' ? null : 1, // Needed to center the contents of the scroll container
         },
         cardContainer: {
             backgroundColor: 'white',
@@ -178,7 +177,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
             tenants: tenants.toString(),
             errorMsg: '',
             errorCheck: false,
-
         };
         this.addressRef = React.createRef();
         this.bedRef = React.createRef();
@@ -362,12 +360,17 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                         navigation.goBack();
                         this.setInitialState();
                         this.resetForms();
-                    }}
-                    >
+                    }}>
                     {this.renderAddressForm()}
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
-                    {ThinButton(this.submitButton)}
+                    <ThinButton
+                    name={this.submitButton.name}
+                    onClick={this.submitButton.onClick}
+                    buttonStyle={this.submitButton.buttonStyle}
+                    buttonTextStyle={this.submitButton.buttonTextStyle}
+                    containerStyle={this.submitButton.containerStyle}
+                    />
                 </Card>
             </ScrollView>
         </SafeAreaView>);

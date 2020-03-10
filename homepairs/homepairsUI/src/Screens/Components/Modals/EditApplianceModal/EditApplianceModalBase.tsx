@@ -5,8 +5,7 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance, ApplianceType } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isPositiveWholeNumber, isEmptyOrSpaces} from 'homepairs-utilities';
-import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
+import {isPositiveWholeNumber, isEmptyOrSpaces, NavigationRouteHandler, NavigationRouteScreenProps} from 'homepairs-utilities'; 
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
@@ -14,14 +13,14 @@ import {FontTheme} from 'homepairs-base-styles';
 
 export type EditApplianceDispatchProps = {
     onEditAppliance: (newAppliance: Appliance,
-         displayError: (msg: string) => void, navigation: NavigationStackProp) => void
+         displayError: (msg: string) => void, navigation: NavigationRouteHandler) => void
 }
 
-type Props = NavigationStackScreenProps &
+type Props = NavigationRouteScreenProps &
     EditApplianceDispatchProps;
 
 type EditState = {
-    applianceId: number, 
+    applianceId: string, 
     category: ApplianceType, 
     appName: string, 
     manufacturer: string, 
@@ -75,7 +74,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             alignSelf: 'center',
             width: BaseStyles.ContentWidth.reg,
             paddingVertical: BaseStyles.MarginPadding.large,
-            flexGrow: 1, // Needed to center the contents of the scroll container
+            flexGrow: Platform.OS === 'web' ? null : 1, // Needed to center the contents of the scroll container for mobile 
         },
         cardContainer: {
             backgroundColor: 'white',
@@ -362,7 +361,6 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
         const {navigation} = this.props;
         const {category} = this.state;
         const showCloseButton = true;
-        console.log(category.toString());
         return(
             <View style={this.inputFormStyle.modalContainer}>
             <ScrollView style={this.inputFormStyle.scrollStyle}
@@ -385,7 +383,13 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                     <ApplianceCategoryPanel initialCategory={category} parentCallBack={this.getFormCategory}/>
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
-                    {ThinButton(this.submitButton)}
+                    <ThinButton
+                    name={this.submitButton.name}
+                    onClick={this.submitButton.onClick}
+                    buttonStyle={this.submitButton.buttonStyle}
+                    buttonTextStyle={this.submitButton.buttonTextStyle}
+                    containerStyle={this.submitButton.containerStyle}
+                    />
                 </Card>
             </ScrollView>
         </View>);

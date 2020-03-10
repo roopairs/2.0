@@ -8,7 +8,7 @@ import {
 } from 'homepairs-types';
 import strings from 'homepairs-strings';
 import { header, initialState } from '../../../src/state/header/reducer';
-import MainAppStack from '../../../src/Routes/RouteConstants';
+import { MainAppStack } from '../../../src/Routes/RouteConstants';
 
 /**
  * This entire test suite may seem redundant. That is because under normal circumstances, it is. 

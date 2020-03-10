@@ -5,19 +5,17 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance, AddApplianceState, ApplianceType } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isPositiveWholeNumber, isEmptyOrSpaces} from 'homepairs-utilities';
-import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
+import {isPositiveWholeNumber, isEmptyOrSpaces, isNullOrUndefined, NavigationRouteHandler, NavigationRouteScreenProps} from 'homepairs-utilities';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 
 
 export type AddApplianceDispatchProps = {
     onCreateAppliance: (newAppliance: Appliance, info: AddApplianceState, setInitialState: () => void, 
-         displayError: (msg: string) => void, navigation: NavigationStackProp) => void
+         displayError: (msg: string) => void, navigation: NavigationRouteHandler) => void
 }
 
-type Props = NavigationStackScreenProps &
+type Props = NavigationRouteScreenProps &
     AddApplianceDispatchProps;
 
 type CreateState = {
@@ -84,7 +82,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             alignSelf: 'center',
             width: BaseStyles.ContentWidth.reg,
             paddingVertical: BaseStyles.MarginPadding.large,
-            flexGrow: 1, // Needed to center the contents of the scroll container
+            flexGrow: Platform.OS === 'web' ? null : 1, // Needed to center the contents of the scroll container for mobile 
         },
         cardContainer: {
             backgroundColor: 'white',
@@ -248,7 +246,6 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
         const {category, appName,  modelNum, serialNum, location} = this.state;
         let check = true;
         if (category.toString() === 'None') {
-            console.log('Please select a category');
             check = false;
         }
         if (isEmptyOrSpaces(appName)) {
@@ -404,7 +401,13 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                     <ApplianceCategoryPanel initialCategory={category} parentCallBack={this.getFormCategory}/>
                     <>{this.renderInputForms()}</>
                     {this.renderError()}
-                    {ThinButton(this.submitButton)}
+                    <ThinButton
+                    name={this.submitButton.name}
+                    onClick={this.submitButton.onClick}
+                    buttonStyle={this.submitButton.buttonStyle}
+                    buttonTextStyle={this.submitButton.buttonTextStyle}
+                    containerStyle={this.submitButton.containerStyle}
+                    />
                 </Card>
             </ScrollView>
         </View>);
