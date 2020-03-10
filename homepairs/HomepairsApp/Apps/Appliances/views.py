@@ -132,7 +132,7 @@ class ApplianceView(View):
         newLocation = inData.get('newLocation')
 
         # The Appliance
-        appList = Appliance.objects.filter(id=appId)
+        appList = Appliance.objects.filter(rooAppId=appId)
         if appList.exists():
             app = appList[0]
             app.name = newName

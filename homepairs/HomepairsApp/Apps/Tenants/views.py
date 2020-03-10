@@ -139,11 +139,11 @@ class RegisterView(View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class TenantMove(View):
+class TenantUpdate(View):
     def post(self, request):
         print("Got here")
         inData = json.loads(request.body)
-        required = ['email', 'propId']
+        required = ['email', 'propId', 'firstName', 'lastName']
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) > 0):
@@ -161,7 +161,7 @@ class TenantMove(View):
             return JsonResponse(data=returnError(TOO_MANY_PROPERTIES))
 
         if(not tenList.exists()):
-            returnsonResponse(data=returnError(NO_TENANTS))
+            return JsonResponse(data=returnError(NO_TENANTS))
         if(tenList.count() > 1):
             return JsonResponse(data=returnError(TOO_MANY_TNENANTS))
 
@@ -169,6 +169,8 @@ class TenantMove(View):
         tenant = tenList[0]
 
         tenant.place = tenantsProp
+        tenant.firstName = firstName
+        tenant.lastName = lastName
         tenant.save()
 
         return JsonResponse(data={STATUS: SUCCESS})
