@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import { navigationPages, Endpoints } from 'src/Routes/RouteConstants';
 import { AsyncStorage } from 'react-native';
 import { NavigationRouteHandler } from 'homepairs-utilities';
 import { 
@@ -13,7 +13,6 @@ import {
 } from '../types';
 import { fetchProperties, fetchPropertyAndPropertyManager } from '../property-list/actions';
 import { setAccountAuthenticationState } from '../session/actions';
-
 
 const responseKeys = HomePairsResponseKeys;
 const accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
@@ -191,7 +190,7 @@ export const fetchAccount = (
  */
 export const generateAccountForTenant = (accountDetails: Account, password: String, navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
   return async (dispatch: (arg0: any) => void) => {
-      await axios.post('https://homepairs-alpha.herokuapp.com/tenant/register/', {
+      await axios.post('https://homepairs-mytest.herokuapp.com/tenant/register/', {
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
         email: accountDetails.email, 
@@ -233,7 +232,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
  */
 export const generateAccountForPM = (accountDetails: Account, password: String, navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
     return async (dispatch: (arg0: any) => void) => {
-      await axios.post('https://homepairs-alpha.herokuapp.com/pm/register', {
+      await axios.post('https://homepairs-mytest.herokuapp.com/pm/register', {
           firstName: accountDetails.firstName, 
           lastName: accountDetails.lastName,
           email: accountDetails.email, 

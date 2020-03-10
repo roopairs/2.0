@@ -1,11 +1,9 @@
-import { AsyncStorage } from 'react-native';
 import {
     PropertyListState,
     PropertyListAction,
     AddPropertyAction,
     RemovePropertyAction,
     UpdatePropertyAction,
-    FetchPropertyAction,
     FetchPropertyAndPropertyManagerAction,
     SetSelectedPropertyAction,
     FetchPropertiesAction,

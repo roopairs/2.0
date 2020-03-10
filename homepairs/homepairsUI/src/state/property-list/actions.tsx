@@ -292,6 +292,7 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertiesAc
     });
   });
   storePropertyData(fetchedProperties);
+  console.log(fetchedProperties);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
     properties: fetchedProperties,

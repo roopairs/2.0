@@ -6,6 +6,7 @@ import { NavigationRouteScreenProps, NavigationRouteHandler } from 'homepairs-ut
 import {AddressPanel, InputForm, InputFormProps} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import {ChooseServiceCategory} from 'homepairs-components';
+import ServiceTypePanel from 'src/Elements/Panels/ServiceTypePanel';
 
 export type NewRequestDispatchProps = {
     header: HeaderState, 
@@ -32,6 +33,12 @@ type NewRequestState = {
 const styles = StyleSheet.create({
     scrollContainer: {
         padding: BaseStyles.MarginPadding.large,
+    },
+    formTitle: {
+        fontFamily: BaseStyles.FontTheme.primary,
+        fontSize: BaseStyles.FontTheme.reg,
+        color: '#AFB3B5',
+        paddingVertical: BaseStyles.MarginPadding.medium,
     },
 });
 
@@ -82,7 +89,8 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         this.getFormCategory = this.getFormCategory.bind(this);
         this.getFormAddress = this.getFormAddress.bind(this);
         this.getFormAppliance = this.getFormAppliance.bind(this);
-
+        this.getFormServiceType = this.getFormServiceType.bind(this);
+        
         this.addressRef = React.createRef();
         this.serviceCategoryRef = React.createRef();
         this.applianceIdRef = React.createRef();
@@ -142,11 +150,13 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         const {properties} = this.props;
         return (
             <ScrollView style={styles.scrollContainer}>
-                <Text>Address</Text>
+                <Text style={styles.formTitle}>ADDRESS</Text>
                 <AddressPanel properties={properties} parentCallBack={this.getFormAddress}/>
-                <Text>Choose service Category</Text>
+                <Text style={styles.formTitle}>CHOOSE SERVICE CATEGORY</Text>
                 <ChooseServiceCategory onPress={this.getFormCategory}/>
-                <Text>What happened?</Text>
+                <Text style={styles.formTitle}>CHOOSE SERVICE TYPE</Text>
+                <ServiceTypePanel parentCallBack={this.getFormServiceType}/>
+                <Text style={styles.formTitle}>WHAT HAPPENED?</Text>
                 <InputForm 
                     numberOfLines={this.formProps.numberOfLines} 
                     inputStyle={this.formProps.inputStyle}

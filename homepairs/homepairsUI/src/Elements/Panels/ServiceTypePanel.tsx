@@ -20,20 +20,24 @@ export type PanelState = {
     selectedString: string;
     minHeight: number;
     maxHeight: number;
+     /**
+     * If a button has been selected, this state value will force a string to render 
+     */
+    hasBeenClicked: boolean,
 };
 
 
 const initialState: PanelState = {
     expanded: false,
     selectedIndex: 0,
-    selectedString: 'Choose an Address',
+    selectedString: 'Choose a Service Type',
     animation: undefined,
     minHeight: 0,
     maxHeight: 0,
+    hasBeenClicked: false,
 };
 
 type PanelProps = {
-    properties: Property[],
     parentCallBack: (child: string) => any
 };
 
@@ -88,10 +92,16 @@ function setStyles() {
             paddingBottom: 35,
             width: '100%',
         },
+        option: {
+            fontSize : BaseStyles.FontTheme.reg,
+            fontFamily: HomePairFonts.nunito_regular,
+        },
     });
 }
 
-export default class ApplianceCategoryPanel extends React.Component<PanelProps, PanelState> {
+const serviceTypes = ['Repair', 'Cleaning', 'Maintenance'];
+
+export default class ServiceTypePanel extends React.Component<PanelProps, PanelState> {
     styles;
 
     icons;
@@ -108,15 +118,6 @@ export default class ApplianceCategoryPanel extends React.Component<PanelProps, 
             up: upArrow,
             down: downArrow,
         };
-    }
-
-    getAddressStrings() {
-        const addressList = [];
-        const {properties} = this.props;
-        properties.forEach((property) => {
-            addressList.push(property.address);   
-        });
-        return addressList;
     }
 
     setMaxHeight(event) {
@@ -138,23 +139,21 @@ export default class ApplianceCategoryPanel extends React.Component<PanelProps, 
         Animated.spring(animation, { toValue: finalValue }).start();
     }
 
-    selectAddress(selected: string) {
+    selectServiceType(selected: string) {
         const {parentCallBack} = this.props;
         parentCallBack(selected);
-        this.setState({selectedString: selected});
+        this.setState({selectedString: selected, hasBeenClicked: true,});
         this.toggle();
     }
 
     renderBody() {
-        const addressList = this.getAddressStrings();
-        console.log(addressList.length);
         return (
             <View style={this.styles.body} onLayout={this.setMaxHeight}>
-                <>{addressList.map((address) => 
+                <>{serviceTypes.map((address) => 
                     <TouchableHighlight 
-                        testID='click-plumbing'
+                        testID='click-service-type'
                         underlayColor="#f1f1f1"
-                        onPress={() => this.selectAddress(address)}
+                        onPress={() => this.selectServiceType(address)}
                         style={this.styles.infoRowContainer}>
                         <Text style={this.styles.detail}>{address}</Text>
                     </TouchableHighlight>)}</>
@@ -164,13 +163,18 @@ export default class ApplianceCategoryPanel extends React.Component<PanelProps, 
 
     render() {
         const { up, down } = this.icons;
-        const { expanded, animation, selectedString } = this.state;
+        const { expanded, animation, selectedString, hasBeenClicked } = this.state;
         let icon = down;
         if (expanded) {
             icon = up;
         }
 
-        return (
+        return hasBeenClicked ? 
+        (<View style={{alignSelf: 'center', width: BaseStyles.ContentWidth.reg}}>
+            <Text style={this.styles.option}>{selectedString}</Text>
+            </View>)
+        :
+        (
             <Animated.View
                 style={[this.styles.container, { height: animation}, {borderColor: expanded ? colors.primary : colors.lightGray}]}
             >

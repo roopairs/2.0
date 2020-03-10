@@ -17,6 +17,21 @@ import store from './src/state/store';
 
 const checkSession = async () => {
     await LoadFonts();
+    await AsyncStorage.getItem('profile').then(profile => {
+        console.log(profile);
+        const storedAccountProfile= JSON.parse(profile);
+        const {properties} = storedAccountProfile;
+
+        store.dispatch(fetchAccountProfile(storedAccountProfile));
+        store.dispatch(fetchProperties(properties));
+    }).catch();
+    await AsyncStorage.getItem('selectedProperty').then(selectedPropertyIndex => {
+        console.log(`Selected Property is: ${selectedPropertyIndex}`);
+        const storedSelectedPropertyIndex = Number(selectedPropertyIndex);
+        store.dispatch(setSelectedProperty(storedSelectedPropertyIndex));
+    });
+
+    
     /*
     await AsyncStorage.getItem('session').then(async (sessionToken) => {
        if(isNullOrUndefined(sessionToken)){

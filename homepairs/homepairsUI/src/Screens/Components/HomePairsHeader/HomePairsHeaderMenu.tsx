@@ -71,7 +71,7 @@ const setStyles = (isDropDown: boolean) => {
             flexDirection: 'row',
             width: '100%',
             maxHeight: 150,
-            minWidth: 500,
+            maxWidth: 500,
             backgroundColor: colorScheme.secondary,
         },
         containerDropDown: {
@@ -164,14 +164,11 @@ export default class HomePairsMenu extends React.Component<Props> {
         // to the Properties
         this.setSelected(value);
         this.closeMenu();
-        console.log(setAuthenticatedState)
         if(value.title === 'Log Out'){
             setAuthenticatedState(false);
         }
 
         if(value.title === 'Properties'){
-            console.log('Correctly navigating to the correct property');
-            console.log(accountType)
             ChooseMainPage(accountType, navigation);
         }else{
             navigation.navigate(value.navigate);

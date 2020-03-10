@@ -4,7 +4,8 @@ import { ApplianceType } from 'src/state/types';
 import { ButtonWithBitmap } from 'homepairs-elements';
 import {bolt, fan, tint, blender} from 'homepairs-images';
 import * as BaseStyles from 'homepairs-base-styles';
-
+import { HomePairFonts } from 'res/fonts';
+import { categoryToString } from 'src/utility/ApplianceCategories';
 
 const styles = StyleSheet.create({
     container: {
@@ -44,6 +45,10 @@ const styles = StyleSheet.create({
         shadowOpacity: .2,
         elevation: 2,
     },
+    option: {
+        fontSize : BaseStyles.FontTheme.reg,
+        fontFamily: HomePairFonts.nunito_regular,
+    },
 });
 
 type Props = {
@@ -58,6 +63,18 @@ type Props = {
     onPress: (...args) => any,
 }
 
+type State = {
+    /**
+     * If a button has been selected, this state value will force a string to render 
+     */
+    hasBeenClicked: boolean,
+
+    /**
+     * String that will be presented when an option has been selected. 
+     */
+    selectedOption: string,
+}
+
 /**
  * ------------------------------------------------------------
  * Choose Service Category Component 
@@ -66,50 +83,77 @@ type Props = {
  * pages for requesting a new requests. Depending on the 
  * @param props 
  */
-export default function ChooseServiceCategory(props: any){
-    const {onPress} = props;
-    const {container, formTitle, buttonContainer, button} = styles;
+export default class ChooseServiceCategory extends React.Component<Props, State>{
 
-    function setPlumbing() { onPress(ApplianceType.Plumbing); }
-    function setLightingAndElectric() { onPress(ApplianceType.LightingAndElectric); }
-    function setHVAC() { onPress(ApplianceType.HVAC); }
-    function setGeneralAppliance() { onPress(ApplianceType.GeneralAppliance); }
+    onPress
 
-    return(
-        <View style={{alignSelf: 'center', width: BaseStyles.ContentWidth.reg}}>
-            <Text style={formTitle}>CHOOSE SERVICE REQUEST CATEGORY</Text>
-            <View style={container}>
-                <View style={{flexDirection:'row', flex: 1, marginBottom: BaseStyles.MarginPadding.large}}>
-                    <ButtonWithBitmap 
-                        image={bolt} 
-                        name='Lighting and Electrical' 
-                        onPress={setLightingAndElectric}
-                        containerStyle={buttonContainer}
-                        buttonStyle={button}/>
-                    <ButtonWithBitmap 
-                        image={tint} 
-                        name='Plumbing' 
-                        onPress={setPlumbing}
-                        containerStyle={buttonContainer}
-                        buttonStyle={button}/>
-                </View>
-                <View style={{flexDirection:'row', flex: 1, marginTop: BaseStyles.MarginPadding.large}}>
-                    <ButtonWithBitmap 
-                        image={fan} 
-                        name='Heating and Air Conditioning' 
-                        onPress={setHVAC}
-                        containerStyle={buttonContainer}
-                        buttonStyle={button}/>
-                    <ButtonWithBitmap 
-                        image={blender} 
-                        name='Appliance' 
-                        onPress={setGeneralAppliance}
-                        containerStyle={buttonContainer}
-                        buttonStyle={button}/>
+    constructor(props: Readonly<Props>){
+        super(props);
+
+        this.state = {
+            hasBeenClicked: false,
+            selectedOption: '',
+        };
+        const {onPress} = props;
+        this.onPress = onPress;
+    }
+
+    setOptionString(option: string){
+        this.setState({
+            hasBeenClicked: true,
+            selectedOption: option,
+        });
+    }
+
+    setServiceCategory(type: ApplianceType){
+        this.onPress(type);
+        this.setOptionString(categoryToString(type));
+    }
+    
+    render(){
+        const {container, buttonContainer, button, option} = styles;
+        const {hasBeenClicked, selectedOption} = this.state;
+        return hasBeenClicked ? 
+        (<View style={{alignSelf: 'center', width: BaseStyles.ContentWidth.reg}}>
+            <Text style={option}>{selectedOption}</Text>
+            </View>
+        ) 
+        : 
+        (
+            <View style={{alignSelf: 'center', width: BaseStyles.ContentWidth.reg}}>
+                <View style={container}>
+                    <View style={{flexDirection:'row', flex: 1, marginBottom: BaseStyles.MarginPadding.large}}>
+                        <ButtonWithBitmap 
+                            image={bolt} 
+                            name='Lighting and Electrical' 
+                            onPress={() => {this.setServiceCategory(ApplianceType.LightingAndElectric);}}
+                            containerStyle={buttonContainer}
+                            buttonStyle={button}/>
+                        <ButtonWithBitmap 
+                            image={tint} 
+                            name='Plumbing' 
+                            onPress={() => {this.setServiceCategory(ApplianceType.Plumbing);}}
+                            containerStyle={buttonContainer}
+                            buttonStyle={button}/>
+                    </View>
+                    <View style={{flexDirection:'row', flex: 1, marginTop: BaseStyles.MarginPadding.large}}>
+                        <ButtonWithBitmap 
+                            image={fan} 
+                            name='Heating and Air Conditioning' 
+                            onPress={() => {this.setServiceCategory(ApplianceType.HVAC);}}
+                            containerStyle={buttonContainer}
+                            buttonStyle={button}/>
+                        <ButtonWithBitmap 
+                            image={blender} 
+                            name='Appliance' 
+                            onPress={() => {this.setServiceCategory(ApplianceType.GeneralAppliance);}}
+                            containerStyle={buttonContainer}
+                            buttonStyle={button}/>
+                    </View>
                 </View>
             </View>
-        </View>
-    );
+        );
+    };
 }
 
 ChooseServiceCategory.defaultProps ={
