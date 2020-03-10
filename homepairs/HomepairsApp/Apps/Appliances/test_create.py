@@ -6,12 +6,14 @@ from ..helperFuncsForTesting import getInfoPost, setUpHelper
 from ..Properties.models import Property
 from .views import ERROR, FAIL, PROPERTY_DOESNT_EXIST, STATUS, SUCCESS
 
+from unittest import mock
 
 ################################################################################
 # Vars
 
 # EXTRA URLS
 APP_VIEW = 'appliance_view'
+LOGIN = 'login'
 
 ################################################################################
 # Tests
@@ -21,8 +23,13 @@ class CreateAppliance(TestCase):
     def setUp(self):
         setUpHelper()
 
-    def test_create_appliance_allCorrect(self):
+    mockVal = {"token": "cb3e47056453b655d9f9052f7368dfe170e91f39"}
+    @mock.patch('Apps.ServiceRequest.views.postRooTokenAPI', return_value=mockVal, autospec=True)
+    def test_create_appliance_allCorrect(self, mocked):
         '''Everything is correct'''
+        data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
+        responseData = getInfoPost(LOGIN, data)
+
         name = 'Fridge'
         manufacturer = 'Company'
         category = 'cool'
@@ -38,31 +45,17 @@ class CreateAppliance(TestCase):
                   'serialNum': serialNum,
                   'location': location,
                   'propId': propId,
+                  'token': responseData.get('token')
                }
         responseData = getInfoPost(APP_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        # this code is not necessary so is commented out (because I'm too scared to delete it)
-
-        # appId = responseData.get('id')
-        # data = {
-        #           'appId': appId
-        #        }
-        # print('HERE: ', appId)
-        # responseData = getInfoGet(APP_VIEW, data)
-        #
-        # self.assertEqual(responseData.get(STATUS), SUCCESS)
-        # app = responseData.get('app')
-        # self.assertEqual(app.get('name'), name)
-        # self.assertEqual(app.get('manufacturer'), manufacturer)
-        # self.assertEqual(app.get('category'), category)
-        # self.assertEqual(app.get('modelNum'), modelNum)
-        # self.assertEqual(app.get('serialNum'), serialNum)
-        # self.assertEqual(app.get('location'), location)
-
     # Test that passes bad propId
     def test_CREATE_APP_bad_propId(self):
         '''Incorrect Fields Being Sent'''
+        data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
+        responseData = getInfoPost(LOGIN, data)
+
         name = 'Fridge'
         manufacturer = 'Company'
         category = 'cool'
@@ -78,6 +71,7 @@ class CreateAppliance(TestCase):
                   'serialNum': serialNum,
                   'location': location,
                   'propId': -1,
+                  'token': responseData.get('token')
                }
         responseData = getInfoPost(APP_VIEW, data)
 

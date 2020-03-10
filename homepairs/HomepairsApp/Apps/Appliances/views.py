@@ -8,6 +8,7 @@ from django.views import View
 
 from ..Properties.models import Property
 from .models import Appliance
+from ..helperFuncs import getRooTokenAPI, postRooTokenAPI, putRooTokenAPI
 
 
 ################################################################################
@@ -67,7 +68,7 @@ class ApplianceView(View):
     # Create a new appliance
     def post(self, request):
         inData = json.loads(request.body)
-        required = ['name', 'manufacturer', 'category', 'modelNum', 'serialNum', 'location', 'propId']
+        required = ['name', 'manufacturer', 'category', 'modelNum', 'serialNum', 'location', 'propId', 'token']
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) != 0):
@@ -80,6 +81,7 @@ class ApplianceView(View):
         serialNum = inData.get('serialNum')
         location = inData.get('location')
         propId = inData.get('propId')
+        token = inData.get('token')
         propList = Property.objects.filter(id=propId)
         if propList.exists():
             prop = propList[0]
