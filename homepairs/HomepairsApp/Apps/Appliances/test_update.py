@@ -27,13 +27,16 @@ class UpdateAppliance(TestCase):
 
     def test_update_appliance_allCorrect(self):
         '''Everything is correct, I create the appliance first, then update it.'''
+        data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
+        responseData = getInfoPost(LOGIN, data)
+        
         name = 'Fridge'
         manufacturer = 'Company'
         category = 'cool'
         modelNum = 68
         serialNum = 70
         location = 'Garage'
-        propId = Property.objects.filter()[0].id
+        propId = Property.objects.filter()[0].rooId
 
         data = {
                   'name': name,
@@ -43,6 +46,7 @@ class UpdateAppliance(TestCase):
                   'serialNum': serialNum,
                   'location': location,
                   'propId': propId,
+                  'token': responseData.get('token')
                }
         responseData = getInfoPost(APP_VIEW, data)
 
@@ -86,13 +90,16 @@ class UpdateAppliance(TestCase):
 
     def test_update_app_bad_app_id(self):
         '''Incorrect Fields Being Sent'''
+        data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
+        responseData = getInfoPost(LOGIN, data)
+
         name = 'Fridge'
         manufacturer = 'Company'
         category = 'cool'
         modelNum = 68
         serialNum = 70
         location = 'Garage'
-        propId = Property.objects.filter()[0].id
+        propId = Property.objects.filter()[0].rooId
 
         data = {
                   'name': name,
@@ -102,6 +109,7 @@ class UpdateAppliance(TestCase):
                   'serialNum': serialNum,
                   'location': location,
                   'propId': propId,
+                  'token': responseData.get('token')
                }
         responseData = getInfoPost(APP_VIEW, data)
 
