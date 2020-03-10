@@ -28,7 +28,7 @@ import { NavigationRouteScreenProps } from 'homepairs-utilities';
 
 export type ServiceRequestScreenStateProps = {
     serviceRequestsState: ServiceState;
-    tabServiceRequestCompletionSelected: ServiceRequestCompletionStatus;
+    // tabServiceRequestCompletionSelected: ServiceRequestCompletionStatus;
     header: HeaderState;
 };
 
@@ -47,7 +47,7 @@ export type ServiceRequestRadioProps = {
     parentCallBack2?: (childData2: ServiceRequestStatus) => any;
 }
 
-export type ServiceRequestScreenProps = NavigationStackScreenProps &
+export type ServiceRequestScreenProps = NavigationRouteScreenProps &
     SceneInjectedProps &
     ServiceRequestScreenStateProps &
     ServiceRequestsScreenDispatchProps &
@@ -383,7 +383,7 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
 
     openServiceRequestModal(serviceRequest: ServiceRequest) {
         const { navigation } = this.props;
-        navigation.navigate(navigationPages.ServiceRequestModal, { serviceRequest });
+        navigation.navigate(navigationPages.ServiceRequestModal, { serviceRequest }, true);
     }
 
     renderCard(serviceRequest: ServiceRequest) {

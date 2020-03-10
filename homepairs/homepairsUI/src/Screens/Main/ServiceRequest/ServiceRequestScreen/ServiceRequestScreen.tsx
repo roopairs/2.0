@@ -23,10 +23,11 @@ const sceneParam: MainAppStackType = {
 };
 
 function mapStateToProps(state: AppState): ServiceRequestScreenStateProps {
+    const {header, serviceRequests} = state
     return {
         // TODO: Add pass favorite Service Providers into props
-        serviceRequests: state.serviceRequests,
-        header: state.header,
+        serviceRequestsState: serviceRequests,
+        header: header,
     };
 }
 

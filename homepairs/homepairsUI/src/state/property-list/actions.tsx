@@ -219,7 +219,9 @@ export const postUpdatedProperty = (
                     );
                 }
             })
-            .catch(() => {});
+            .catch((error) => {
+              console.log(error);
+            });
     };
 };
 
@@ -390,7 +392,6 @@ export const postUpdatedAppliance = (
     editAppliance: Appliance,
     displayError: (msg: string) => void,
     navigation: NavigationRouteHandler,
-    fetch: () => any,
 ) => {
     return async () => {
         return axios
