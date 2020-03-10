@@ -244,7 +244,8 @@ export const fetchProperty = (linkedProperty: Property): FetchPropertyAction => 
  * TENANTS
  * @param {Contact} linkedPropertyManager -Property Manager recieved from the homepairs servers  
  */
-export const fetchPropertyAndPropertyManager = (linkedProperty: Property, linkedPropertyManager: Contact): FetchPropertyAndPropertyManagerAction => {
+export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], linkedPropertyManager: Contact): FetchPropertyAndPropertyManagerAction => {
+  const linkedProperty = linkedProperties[0];
   const fetchedPropertyManager: Contact = {
     email: linkedPropertyManager[accountKeys.EMAIL],
     firstName: linkedPropertyManager[accountKeys.FIRSTNAME],

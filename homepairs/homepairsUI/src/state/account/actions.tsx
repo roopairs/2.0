@@ -125,7 +125,7 @@ export const fetchAccount = (
     Email: string, Password: string, navigation: NavigationPropType, modalSetOffCallBack: (error?:String) => void = () => {}) => 
     {return async (dispatch: (arg0: any) => void) => {
         // TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
-        await axios.post('https://homepairs-alpha.herokuapp.com/login/', {
+        await axios.post('https://homepairs-mytest.herokuapp.com/login/', {
             email: Email,
             password: Password,
           })
@@ -137,16 +137,19 @@ export const fetchAccount = (
                 dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
               }
               else { // Assume role = tenant
-                dispatch(fetchPropertyAndPropertyManager(response[responseKeys.DATA][TENANT][responseKeys.PLACE],
+                console.log(response[responseKeys.DATA][responseKeys.PROPERTIES]);
+                dispatch(fetchPropertyAndPropertyManager(response[responseKeys.DATA][responseKeys.PROPERTIES],
                   response[responseKeys.DATA][TENANT][responseKeys.ACCOUNT_KEYS.PM]));
               }
               ChooseMainPage(accountType, navigation);
             }else{
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
+              console.log(response);
             }
           })
-          .catch(() => {
+          .catch((error) => {
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
+            console.log(error);
           })
           .finally(() => {
           });
@@ -177,7 +180,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
       .then((response) => {
         if(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.SUCCESS){
           dispatch(fetchAccountProfile(response[responseKeys.DATA]));
-          dispatch(fetchProperty(response[responseKeys.DATA][TENANT][responseKeys.PLACE]));
+          dispatch(fetchProperty(response[responseKeys.DATA][TENANT][responseKeys.PROPERTIES]));
           ChooseMainPage(AccountTypes.Tenant, navigation);
         } else {
           modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");

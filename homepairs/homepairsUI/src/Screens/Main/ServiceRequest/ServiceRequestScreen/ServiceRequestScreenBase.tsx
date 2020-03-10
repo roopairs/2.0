@@ -1,10 +1,10 @@
 import React from 'react';
 import {
     View,
+    Text,
     ScrollView,
     StyleSheet,
-    Platform,
-    SafeAreaView,
+    TouchableOpacity,
 } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { navigationPages } from 'src/Routes/RouteConstants';
@@ -16,13 +16,17 @@ import {
     ServiceRequest,
     ServiceState,
     HeaderState,
+    ServiceRequestStatus,
+    ServiceRequestCompletionStatus,
+    ServiceRequestActiveStatus,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import strings from 'homepairs-strings';
-import { SceneInjectedProps } from 'homepairs-components';
+import { SceneInjectedProps} from 'homepairs-components';
 
 export type ServiceRequestScreenStateProps = {
-    serviceRequests: ServiceState;
+    serviceRequestsState: ServiceState;
+    tabServiceRequestCompletionSelected: ServiceRequestCompletionStatus;
     header: HeaderState;
 };
 
@@ -31,7 +35,19 @@ export type ServiceRequestsScreenDispatchProps = {
     onSelectServiceRequest: (index: number) => any;
 };
 
-type Props = NavigationStackScreenProps & ServiceRequestScreenStateProps & ServiceRequestsScreenDispatchProps & SceneInjectedProps;
+type ServiceRequestRadioState = {
+    currentRequestsSelected : boolean
+}
+
+export type ServiceRequestRadioProps = {
+    parentCallBack?: (childData: ServiceRequestCompletionStatus) => any;
+}
+
+export type ServiceRequestScreenProps = NavigationStackScreenProps &
+    SceneInjectedProps &
+    ServiceRequestScreenStateProps &
+    ServiceRequestsScreenDispatchProps & 
+    ServiceRequestRadioProps 
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -92,9 +108,94 @@ const styles = StyleSheet.create({
         height: '100%',
         overflow: 'hidden',
     },
+    buttonContainer: {
+        flexDirection: 'row',
+        marginBottom: BaseStyles.MarginPadding.inputForm,
+        paddingTop: BaseStyles.MarginPadding.xsmallConst,
+        paddingHorizontal: BaseStyles.MarginPadding.xsmallConst,
+        width: BaseStyles.ContentWidth.max,
+    },
+    title: {
+        marginVertical: BaseStyles.MarginPadding.inputForm,
+        fontFamily: BaseStyles.FontTheme.primary,
+        color: colors.lightGray,
+    },
+    titleContainer: {
+        width: BaseStyles.ContentWidth.max,
+    },
+    selectedLeftButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.primary,
+        padding: BaseStyles.MarginPadding.mediumConst,
+        width: BaseStyles.ContentWidth.half,
+        borderTopLeftRadius: BaseStyles.BorderRadius.small,
+        borderBottomLeftRadius: BaseStyles.BorderRadius.small,
+        borderWidth: 1,
+        borderColor: colors.space,
+        height: 40,
+    },
+    selectedRightButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.primary,
+        padding: BaseStyles.MarginPadding.mediumConst,
+        width: BaseStyles.ContentWidth.half,
+        borderTopRightRadius: BaseStyles.BorderRadius.small,
+        borderBottomRightRadius: BaseStyles.BorderRadius.small,
+        borderWidth: 1,
+        borderColor: colors.space,
+        height: 40,
+    },
+    selectedText: {
+        color: colors.secondary,
+        fontSize: BaseStyles.FontTheme.reg,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    unselectedLeftButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.transparent,
+        padding: BaseStyles.MarginPadding.mediumConst,
+        width: BaseStyles.ContentWidth.half,
+        borderTopLeftRadius: BaseStyles.BorderRadius.small,
+        borderBottomLeftRadius: BaseStyles.BorderRadius.small,
+        borderWidth: 1,
+        borderColor: colors.lightGray,
+        height: 40,
+    },
+    unselectedRightButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.transparent,
+        padding: BaseStyles.MarginPadding.mediumConst,
+        width: BaseStyles.ContentWidth.half,
+        borderTopRightRadius: BaseStyles.BorderRadius.small,
+        borderBottomRightRadius: BaseStyles.BorderRadius.small,
+        borderWidth: 1,
+        borderColor: colors.lightGray,
+        height: 40,
+    },
+    unselectedText: {
+        color: colors.lightGray,
+        fontSize: BaseStyles.FontTheme.reg,
+        alignSelf: 'center',
+    },
 });
 
 const serviceRequestStrings = strings.serviceRequestPage;
+
+/*
+type ServiceRequestsTabState = {
+    serviceRequestType: ServiceRequestCompletionStatus
+}
+
+const initalState: ServiceRequestsTabState = {
+    serviceRequestType: ServiceRequestCompletionStatus.Current,
+};
+*/
 
 const fakeApp: Appliance = {
     applianceId: 1,
@@ -106,10 +207,18 @@ const fakeApp: Appliance = {
     location: 'Bathroom',
 };
 
+const fakeApp2: Appliance = {
+    applianceId: 2,
+    category: ApplianceType.LightingAndElectric,
+    appName: 'Microwave',
+    manufacturer: 'Hamilton Beach',
+    modelNum: 78236,
+    serialNum: 324235,
+    location: 'Bathroom',
+};
+
 const fakeSR: ServiceRequest = {
-    address: '123 Service Request',
-    city: 'Service',
-    state: 'SR',
+    address: '001 Service Request, Fremont, CA',
     technician: 'Johnny White',
     startDate: new Date().toString(),
     poc: '(805)-123-4321',
@@ -117,34 +226,186 @@ const fakeSR: ServiceRequest = {
     companyName: 'Fix N Fix',
     details: 'The oven is not heating properly. It was working fine last week, but we have not been able to get it to light since then.',
     appliance: fakeApp,
+    status: ServiceRequestActiveStatus.Pending,
 };
 
-export default function ServiceRequestScreenBase(props: Props) {
-    const { serviceRequests, navigation } = props;
+const fakeSR2: ServiceRequest = {
+    address: '002 Service Request, Fremont, CA',
+    technician: 'Johnny White',
+    startDate: new Date().toString(),
+    poc: '(805)-123-4321',
+    pocName: 'Sally Jones',
+    companyName: 'Fix N Fix',
+    details: 'The oven is not heating properly. It was working fine last week, but we have not been able to get it to light since then.',
+    appliance: fakeApp,
+    status: ServiceRequestActiveStatus.Pending,
+};
 
-    function openServiceRequestModal(serviceRequest: ServiceRequest) {
+const fakeSR3: ServiceRequest = {
+    address: '003 Service Request, Fremont, CA',
+    technician: 'Johnny White',
+    startDate: new Date().toString(),
+    poc: '(805)-123-4321',
+    pocName: 'Sally Jones',
+    companyName: 'Fix N Fix',
+    details: 'The oven is not heating properly. It was working fine last week, but we have not been able to get it to light since then.',
+    appliance: fakeApp,
+    status: ServiceRequestActiveStatus.Scheduled,
+};
+
+const fakeSR4: ServiceRequest = {
+    address: '004 Service Request, Fremont, CA',
+    technician: 'Jimmy Green',
+    startDate: new Date().toString(),
+    poc: '(805)-123-4321',
+    pocName: 'Sally Jones',
+    companyName: 'Fix N Fix',
+    details: 'Microwave caught on Fire',
+    appliance: fakeApp2,
+    status: ServiceRequestActiveStatus.Pending,
+};
+
+/**
+ * ---------------------------------------------------
+ * Service Request Screen Base
+ * ---------------------------------------------------
+ */
+
+function filteredTabbedObjects(unfilteredServiceRequests: ServiceRequest[], activeStatus: ServiceRequestStatus) {
+    return unfilteredServiceRequests.filter(sr => sr.status === activeStatus);
+}
+
+export default class ServiceRequestScreenBase extends React.Component<ServiceRequestScreenProps, ServiceRequestRadioState>{
+    tabs = ["PENDING", "SCHEDULED", "IN_PROGRESS"];
+
+    // eslint-disable-next-line react/static-property-placement
+    static defaultProps: ServiceRequestRadioProps = {
+        parentCallBack: (childData : ServiceRequestCompletionStatus) => {return childData;},
+    };
+
+    constructor(props: Readonly<ServiceRequestScreenProps>) {
+        super(props);
+        
+        this.openServiceRequestModal = this.openServiceRequestModal.bind(this);
+        this.onPressCompletedRequests = this.onPressCompletedRequests.bind(this);
+        this.onPressCurrentRequests = this.onPressCurrentRequests.bind(this);
+        this.openServiceRequestModal = this.openServiceRequestModal.bind(this);
+        this.renderCard = this.renderCard.bind(this);
+        this.renderRadioButton = this.renderRadioButton.bind(this);
+        this.renderServiceRequests = this.renderServiceRequests.bind(this);
+        this.render = this.render.bind(this);
+
+        this.state = {currentRequestsSelected : false };
+        props.parentCallBack(ServiceRequestCompletionStatus.Current);
+    }
+
+    onPressCompletedRequests() {
+        const { parentCallBack } = this.props;
+        this.setState({ currentRequestsSelected: true });
+        parentCallBack(ServiceRequestCompletionStatus.Completed);
+    }
+
+    onPressCurrentRequests() {
+        const { parentCallBack } = this.props;
+        this.setState({ currentRequestsSelected: false });
+        parentCallBack(ServiceRequestCompletionStatus.Current);
+    }
+
+    /* 
+    TO DO: for sub tabs
+    getServiceRequestType(childData: ServiceRequestCompletionStatus) {
+        this.setState({ serviceRequestType: childData });
+    }
+    */
+
+    openServiceRequestModal(serviceRequest: ServiceRequest) {
+        const { navigation } = this.props;
         navigation.navigate(navigationPages.ServiceRequestModal, { serviceRequest });
     }
 
-    function renderContents() {
+    renderCard(serviceRequest: ServiceRequest) {
+        return (
+            <ServiceRequestButton onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />
+        );
+    }
+
+    renderRadioButton(currentRequestsSelected: boolean) {
+        const leftButtonStyle = currentRequestsSelected ? styles.unselectedLeftButton : styles.selectedLeftButton;
+        const rightButtonStyle = currentRequestsSelected ? styles.selectedRightButton : styles.unselectedRightButton;
+        return (
+            <>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>
+                        VIEW SERVICE REQUESTS
+             </Text>
+                </View>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                        testID='service-radio-current'
+                        style={leftButtonStyle}
+                        onPress={this.onPressCurrentRequests}>
+                        <Text style={currentRequestsSelected ?
+                            styles.unselectedText : styles.selectedText}>
+                            {serviceRequestStrings.tabA}
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        testID='service-radio-completed'
+                        style={rightButtonStyle}
+                        onPress={this.onPressCompletedRequests}>
+                        <Text style={currentRequestsSelected ?
+                            styles.selectedText : styles.unselectedText}>
+                            {serviceRequestStrings.tabB}
+
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </>
+        );
+    }
+
+    renderServiceRequests() {
+        const activeTab = ServiceRequestActiveStatus.Pending;
+        /*
+         TO DO: actually implement serviceRequestsState
+        const { serviceRequestsState } = this.props;
+        const{serviceRequests} = serviceRequestsState;
+        */
+        const { currentRequestsSelected } = this.state;
+        // const subTabSelected = ServiceRequestActiveStatus.Pending;
+        const serviceRequests = [fakeSR2, fakeSR3, fakeSR4];
+        const filteredServiceRequests: ServiceRequest[] = filteredTabbedObjects(serviceRequests, activeTab);
+        const objectName = serviceRequestStrings.tabA;
+        return (
+            <div className="card-container" aria-label="Card Container Test">
+                <div className="full-width-bar">
+                    <ul className={"card-tab-switcher card-tab-switcher--" + objectName.toLowerCase() + "s"} aria-label="Card Tab Switcher">
+                       {this.renderRadioButton(currentRequestsSelected)}
+                    </ul>
+                </div>
+                <div className="card-list" aria-label="Card List Test">
+                    <div className="card-category-container" aria-label="Category Container">
+                        {filteredServiceRequests.map(serviceRequest => {
+                            return (
+                                <ServiceRequestButton onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    render() {
         return (
             <ScrollView style={{ flexGrow: 1 }}>
                 <View style={styles.addBottomMargin}>
-                    <ServiceRequestButton onClick={openServiceRequestModal} serviceRequest={fakeSR} />
+                    <div className="tabbed-container">
+                        <div className="full-width-bar"> </div>
+                        {this.renderServiceRequests()}
+                    </div>
                 </View>
             </ScrollView>
         );
     }
-
-    return !(Platform.OS === 'ios') ? (
-        <View style={styles.container}>
-            <View style={styles.pallet}>{renderContents()}</View>
-        </View>
-    ) : (
-            <View style={styles.container}>
-                <SafeAreaView style={styles.pallet}>
-                    {renderContents()}
-                </SafeAreaView>
-            </View>
-        );
 }

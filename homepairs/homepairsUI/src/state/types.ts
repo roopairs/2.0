@@ -166,6 +166,7 @@ export type ServiceRequest = {
     companyName: string, 
     details: string, 
     appliance: Appliance, 
+    status: ServiceRequestStatus
 };
 
 export type ServiceProvider = {
@@ -173,20 +174,21 @@ export type ServiceProvider = {
     name: string;
 };
 
-export enum ServiceRequestStatus {
-    Pending,
-    Denied,
-    Accepted
-}
-
-export enum ServiceStatus {
-    NotAccepted,
-    Idle,
-    InProgress,
+export enum ServiceRequestCompletionStatus {
+    Current,
     Completed,
-    Canceled
+    Canceled,
 }
 
+export enum ServiceRequestActiveStatus {
+    Pending,
+    Scheduled,
+    InProgress,
+}
+
+export type ServiceRequestStatus = ServiceRequestCompletionStatus | ServiceRequestStatusActive;
+
+/*
 export type RequestedService = {
     provider: ServiceProvider;
     status: ServiceRequestStatus;
@@ -204,8 +206,14 @@ export type ServiceState = {
     requested: RequestedService[];
     accepted: AcceptedService[];
     closed: Service[];
-};
+}; 
+*/
 
+export type ServiceState = {
+    serviceRequests: ServiceRequest[],
+}
+
+/*
 export type RequestServiceAction = {
     type: string;
     request: RequestedService;
@@ -237,6 +245,40 @@ export type ServiceAction =
     | AcceptServiceAction
     | DenyServiceAction
     | CancelServiceAction;
+*/
+
+export type RequestServiceAction = {
+    type: string;
+    request: ServiceRequest;
+};
+
+export type AcceptServiceAction = {
+    type: string;
+    request: ServiceRequest;
+};
+
+export type DenyServiceAction = {
+    type: string;
+    request: ServiceRequest;
+};
+
+export type CancelServiceAction = {
+    type: string;
+    service: ServiceRequest;
+};
+
+export type CompleteServiceAction = {
+    type: string;
+    service: ServiceRequest;
+};
+
+export type ServiceAction =
+    | RequestServiceAction
+    | CompleteServiceAction
+    | AcceptServiceAction
+    | DenyServiceAction
+    | CancelServiceAction;
+
 /* *-------------------Service Types-------------------* */
 
 /* *-------------------Header Types-------------------* */
@@ -421,7 +463,6 @@ export enum HomepairsPropertyAttributes {
 export const HomePairsResponseKeys = {
     DATA: 'data',
     ACCOUNT_KEYS: HOMEPAIRS_ACCOUNT_KEYS,
-    PLACE: 'place',
     PROPERTIES: 'properties',
     PROPERTY_KEYS: HOMEPAIRS_PROPERTY_KEYS,
     ROLE: 'role',
