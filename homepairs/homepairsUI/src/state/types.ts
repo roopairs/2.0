@@ -177,16 +177,17 @@ export type ServiceProvider = {
 export enum ServiceRequestCompletionStatus {
     Current,
     Completed,
-    Canceled,
 }
 
-export enum ServiceRequestActiveStatus {
+export enum ServiceRequestStatusEnums {
     Pending,
     Scheduled,
     InProgress,
+    Completed,
+    Canceled,
 }
 
-export type ServiceRequestStatus = ServiceRequestCompletionStatus | ServiceRequestStatusActive;
+export type ServiceRequestStatus = ServiceRequestStatusEnums;
 
 /*
 export type RequestedService = {
@@ -207,13 +208,7 @@ export type ServiceState = {
     accepted: AcceptedService[];
     closed: Service[];
 }; 
-*/
 
-export type ServiceState = {
-    serviceRequests: ServiceRequest[],
-}
-
-/*
 export type RequestServiceAction = {
     type: string;
     request: RequestedService;
@@ -246,6 +241,10 @@ export type ServiceAction =
     | DenyServiceAction
     | CancelServiceAction;
 */
+
+export type ServiceState = {
+    serviceRequests: ServiceRequest[],
+}
 
 export type RequestServiceAction = {
     type: string;

@@ -17,7 +17,8 @@ const strings = {
         tabA1: 'Pending',
         tabA2: 'Scheduled',
         tabA3: 'In Progress',
-
+        tabB1: 'Completed',
+        tabB2: 'Canceled',
     },
     serviceRequestModal: {
         title: 'Active Service Request',
