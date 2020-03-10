@@ -16,10 +16,8 @@ class ServiceRequest(models.Model):
     appFixed = models.ForeignKey(Appliance, on_delete=models.CASCADE)
     location = models.ForeignKey(Property, on_delete=models.CASCADE)
 
-
     def __str__(self):
         return self.job + " " + self.details
-
 
     def toDict(self):
         return {

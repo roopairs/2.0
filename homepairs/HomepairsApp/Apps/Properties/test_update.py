@@ -1,13 +1,11 @@
 ################################################################################
 # Imports
-from unittest import mock
+# from unittest import mock
 
 from django.test import TestCase
 
 from ..helperFuncsForTesting import getInfoPost, getInfoPut, setUpHelper
-from ..PropertyManagers.models import PropertyManager
-from .models import Property
-from .views import ERROR, FAIL, INCORRECT_FIELDS, PROPERTY_ALREADY_EXISTS, STATUS, SUCCESS
+from .views import ERROR, FAIL, INCORRECT_FIELDS, PROPERTY_ALREADY_EXISTS, STATUS
 
 
 ################################################################################

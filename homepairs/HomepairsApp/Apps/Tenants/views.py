@@ -158,7 +158,7 @@ class TenantUpdate(View):
         tenList = Tenant.objects.filter(email=email)
 
         if(not propertyList.exists()):
-            returnsonResponse(data=returnError(INVALID_PROPERTY))
+            return JsonResponse(data=returnError(INVALID_PROPERTY))
         if(propertyList.count() > 1):
             return JsonResponse(data=returnError(TOO_MANY_PROPERTIES))
 

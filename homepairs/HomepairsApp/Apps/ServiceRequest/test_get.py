@@ -90,8 +90,6 @@ class GetServiceRequest(TestCase):
         responseData = getInfoPost(REQ_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        url = 'request_get' + '/' + str(propId) + '/'
-        #url = 'servicerequest' + '/' + str(propId)
         responseData = getInfoGet('request_get', propId)
 
         self.assertEqual(responseData.get(STATUS), SUCCESS)

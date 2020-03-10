@@ -1,12 +1,13 @@
 ################################################################################
 # Imports
+from unittest import mock
+
 from django.test import TestCase
 
 from ..helperFuncsForTesting import getInfoPost, setUpHelper
 from ..Properties.models import Property
 from .views import ERROR, FAIL, PROPERTY_DOESNT_EXIST, STATUS, SUCCESS
 
-from unittest import mock
 
 ################################################################################
 # Vars

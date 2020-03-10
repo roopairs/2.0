@@ -1,13 +1,13 @@
 ################################################################################
 # Imports
-from django.test import TestCase
-
 from unittest import mock
 
+from django.test import TestCase
+
 from ..Appliances.models import Appliance
-from ..ServiceProvider.models import ServiceProvider
 from ..helperFuncsForTesting import getInfoPost, setUpHelper
 from ..Properties.models import Property
+from ..ServiceProvider.models import ServiceProvider
 from .views import APPLIANCE_DOESNT_EXIST, ERROR, FAIL, PROPERTY_DOESNT_EXIST, STATUS, SUCCESS
 
 
@@ -56,7 +56,7 @@ class CreateServiceProvider(TestCase):
                }
         responseData = getInfoPost(APP_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
-        
+
         name = 'McDs'
         email = 'mcds@gmail.com'
         phoneNum = '8007733030'
@@ -141,8 +141,8 @@ class CreateServiceProvider(TestCase):
         responseData = getInfoPost(PRO_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        #data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
-        #responseData = getInfoPost(LOGIN, data)
+        # data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
+        # responseData = getInfoPost(LOGIN, data)
 
         job = 'Fix sink'
         serviceCompany = ServiceProvider.objects.filter()[0].id
@@ -188,8 +188,8 @@ class CreateServiceProvider(TestCase):
         responseData = getInfoPost(PRO_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        #data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
-        #responseData = getInfoPost(LOGIN, data)
+        # data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
+        # responseData = getInfoPost(LOGIN, data)
 
         job = 'Fix sink'
         serviceCompany = ServiceProvider.objects.filter()[0].id

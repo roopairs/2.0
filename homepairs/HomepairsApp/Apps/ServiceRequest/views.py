@@ -1,15 +1,13 @@
 import datetime
 import json
 
+from django.http import JsonResponse
 from django.utils.decorators import method_decorator
+from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from django.http import JsonResponse
-from django.views import View
-
-from ..helperFuncs import getRooTokenAPI, postRooTokenAPI
-
 from ..Appliances.models import Appliance
+from ..helperFuncs import postRooTokenAPI
 from ..Properties.models import Property
 from ..ServiceProvider.models import ServiceProvider
 from .models import ServiceRequest
@@ -70,14 +68,15 @@ def missingError(missingFields):
 
 ##############################################################
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 class ServiceRequestView(View):
     def post(self, request):
         inData = json.loads(request.body)
         required = ['job', 'provId', 'client', 'status', 'dayStarted', 'details', 'token', 'propId', 'appId']
         missingFields = checkRequired(required, inData)
-        #propId for our database is the same for roopairs id so use same on for both things
-        #ask about shit I dont know
+        # propId for our database is the same for roopairs id so use same on for both things
+        # ask about shit I dont know
 
         url = BASE_URL + 'service-locations/' + '/propId/jobs/'
 
@@ -136,7 +135,6 @@ class ServiceRequestView(View):
             else:
                 return JsonResponse(data=returnError(PROPERTY_DOESNT_EXIST))
 
-
     def put(self, request):
         inData = json.loads(request.body)
         required = ['reqId', 'job', 'provId', 'client', 'status', 'dayStarted', 'details', 'propId', 'appId']
@@ -163,7 +161,7 @@ class ServiceRequestView(View):
                 prop = propList[0]
                 app = appList[0]
                 prov = provList[0]
-                
+
                 req.job = job
                 req.serviceCompany = prov
                 req.client = client

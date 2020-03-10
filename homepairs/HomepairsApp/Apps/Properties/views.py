@@ -5,10 +5,10 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
+from ..Appliances.models import Appliance
 from ..helperFuncs import getRooTokenAPI, postRooTokenAPI, putRooTokenAPI
 from ..PropertyManagers.models import PropertyManager
 from ..Tenants.models import Tenant
-from ..Appliances.models import Appliance
 from .models import Property
 
 
@@ -150,7 +150,7 @@ def addNewProperties(email, token):
 class PropertyView(View):
     def post(self, request):
         inData = json.loads(request.body)
-        required = ['streetAddress', 'pm', 'numBed', 
+        required = ['streetAddress', 'pm', 'numBed',
                     'numBath', 'maxTenants', 'token']
         missingFields = checkRequired(required, inData)
 
@@ -240,7 +240,8 @@ class PropertyView(View):
             possibleMatches = Property.objects.filter(streetAddress=streetAddress,
                                                       city=city)
             if(possibleMatches.exists()):
-                return JsonResponse(returnError(PROPERTY_ALREADY_EXISTS))
+                if(not possibleMatches[0].rooId == propId):
+                    return JsonResponse(returnError(PROPERTY_ALREADY_EXISTS))
 
             url = url + propId + '/'
 
@@ -277,15 +278,15 @@ class PropertyView(View):
             return JsonResponse(data=missingError(missingFields))
 
     def get(self, request, inPropId):
-        listOfTenants = Tenant.objects.filter(place__rooId=inPropId) 
+        listOfTenants = Tenant.objects.filter(place__rooId=inPropId)
         listOfNice = []
         for ten in listOfTenants:
-           listOfNice.append(ten.toDict())
+            listOfNice.append(ten.toDict())
 
-        listOfApps = Appliance.objects.filter(place__rooId=inPropId) 
+        listOfApps = Appliance.objects.filter(place__rooId=inPropId)
         listOfNiceApps = []
         for app in listOfApps:
-           listOfNiceApps.append(app.toDict())
+            listOfNiceApps.append(app.toDict())
 
         returnable = {
                          STATUS: SUCCESS,

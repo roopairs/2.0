@@ -3,10 +3,10 @@
 from django.test import TestCase
 
 from ..Appliances.models import Appliance
-from ..ServiceProvider.models import ServiceProvider
 from ..helperFuncsForTesting import getInfoPost, getInfoPut, setUpHelper
 from ..Properties.models import Property
-from .views import STATUS, SUCCESS, FAIL, SERVREQ_DOESNT_EXIST, ERROR
+from ..ServiceProvider.models import ServiceProvider
+from .views import ERROR, FAIL, SERVREQ_DOESNT_EXIST, STATUS, SUCCESS
 
 
 ################################################################################

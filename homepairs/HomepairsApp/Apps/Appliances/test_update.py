@@ -4,7 +4,7 @@ from django.test import TestCase
 
 from ..helperFuncsForTesting import getInfoPost, getInfoPut, setUpHelper
 from .models import Property
-from .views import FAIL, STATUS, SUCCESS, ERROR
+from .views import ERROR, FAIL, STATUS, SUCCESS
 
 
 ################################################################################

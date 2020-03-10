@@ -1,14 +1,13 @@
 import json
 
+from django.http import JsonResponse
 from django.utils.decorators import method_decorator
+from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from django.http import JsonResponse
-from django.views import View
-
+from ..helperFuncs import getRooTokenAPI, postRooTokenAPI, putRooTokenAPI
 from ..Properties.models import Property
 from .models import Appliance
-from ..helperFuncs import getRooTokenAPI, postRooTokenAPI, putRooTokenAPI
 
 
 ################################################################################

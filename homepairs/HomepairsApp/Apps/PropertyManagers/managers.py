@@ -1,4 +1,5 @@
 from datetime import timedelta
+
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager
 from django.db.models.expressions import Case, Value, When
