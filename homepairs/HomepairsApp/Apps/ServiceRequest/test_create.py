@@ -43,7 +43,7 @@ class CreateServiceProvider(TestCase):
         modelNum = 68
         serialNum = 70
         location = 'Garage'
-        propId = Property.objects.filter()[0].id
+        propId = Property.objects.filter()[0].rooId
         data = {
                   'name': name,
                   'manufacturer': manufacturer,
@@ -109,7 +109,7 @@ class CreateServiceProvider(TestCase):
         modelNum = 68
         serialNum = 70
         location = 'Garage'
-        propId = Property.objects.filter()[0].id
+        propId = Property.objects.filter()[0].rooId
         data = {
                   'name': name,
                   'manufacturer': manufacturer,
