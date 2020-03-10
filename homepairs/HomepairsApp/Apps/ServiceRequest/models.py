@@ -7,26 +7,26 @@ from ..ServiceProvider.models import ServiceProvider
 
 
 class ServiceRequest(models.Model):
-    job = CharField(max_length=100)
     details = CharField(max_length=300)
+    serviceCategory = CharField(max_length=50, default='unknown')
     serviceCompany = models.ForeignKey(ServiceProvider, on_delete=models.CASCADE)
     client = CharField(max_length=100)
     status = CharField(max_length=20)
-    dayStarted = DateTimeField()
+    serviceDate = DateTimeField()
     appFixed = models.ForeignKey(Appliance, on_delete=models.CASCADE)
     location = models.ForeignKey(Property, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.job + " " + self.details
+        return self.details
 
     def toDict(self):
         return {
-                "job": self.job,
                 "details": self.details,
-                "serviceCompany": self.serviceCompany,
+                "serviceCategory": self.serviceCategory,
+                "serviceCompany": self.serviceCompany.toDict(),
                 "client": self.client,
                 "status": self.status,
-                "dayStarted": self.dayStarted,
+                "serviceDate": self.serviceDate,
                 "appFixed": self.appFixed.toDict(),
                 "location": self.location.toDict()
                 }
