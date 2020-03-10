@@ -160,6 +160,10 @@ export const fetchAccount = (
                 dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
               }
               else { // Assume role = tenant
+                /* same as
+                   dispatch(fetchPropertyAndPropertyManager(response[responseKeys.DATA][responseKeys.PROPERTIES],
+                   response[responseKeys.DATA][TENANT][responseKeys.ACCOUNT_KEYS.PM]));
+                */
                 const {properties, tenant} = data;
                 const {pm} = tenant;
                 const {pmInfo} = pm;
@@ -169,10 +173,12 @@ export const fetchAccount = (
               ChooseMainPage(accountType, navigation);
             }else{
               modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
+              console.log(response);
             }
           })
-          .catch(() => {
+          .catch((error) => {
             modalSetOffCallBack("Unable to establish a connection with HomePairs servers");
+            console.log(error);
           });
         }; 
 };
@@ -202,7 +208,9 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
         if(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.SUCCESS){
           dispatch(setAccountAuthenticationState(true));
           dispatch(fetchAccountProfile(response[responseKeys.DATA]));
-
+          /* same as 
+             dispatch(fetchProperty(response[responseKeys.DATA][TENANT][responseKeys.PROPERTIES]));
+          */
           const {properties, tenant} = response.data;
           const {pm} = tenant;
           const {pmInfo} = pm;

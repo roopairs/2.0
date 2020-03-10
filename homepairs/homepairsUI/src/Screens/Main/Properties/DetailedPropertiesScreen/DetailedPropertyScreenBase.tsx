@@ -98,11 +98,11 @@ const styles = StyleSheet.create({
 });
 
 export default class DetailedPropertyScreenBase extends React.Component<Props, State> {
-
+    // BEWARE FORMATTING, NEED EMPTY LINE BETWEEN THESE 
     property
-
+  
     navigation
-
+  
     propId
 
     constructor(props: Readonly<Props>){
@@ -168,7 +168,6 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
     openAddApplianceModal() {
         this.navigation.navigate(navigationPages.AddApplianceModal, {property: this.property, propdId: this.propId}, true);
     }
-
 
     openEditApplianceModal(appliance: Appliance) {
         this.navigation.navigate(navigationPages.EditApplianceModal, {appliance, propId: this.propId}, true);
