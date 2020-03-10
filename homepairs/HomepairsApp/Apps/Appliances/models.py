@@ -27,6 +27,7 @@ class Appliance(models.Model):
                   "serialNum": self.serialNum,
                   "modelNum": self.modelNum,
                   "category": self.category,
+                  "appId": self.rooAppId,
                   "place": [self.place.toDict()]
                   
                }

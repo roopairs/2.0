@@ -14,6 +14,7 @@ from unittest import mock
 # EXTRA URLS
 APP_VIEW = 'appliance_view'
 LOGIN = 'login'
+PROP_VIEW = 'property_view'
 
 ################################################################################
 # Tests
@@ -29,6 +30,7 @@ class CreateAppliance(TestCase):
         '''Everything is correct'''
         data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
         responseData = getInfoPost(LOGIN, data)
+        self.assertEqual(responseData.get(STATUS), SUCCESS)
 
         name = 'Fridge'
         manufacturer = 'Company'
@@ -36,7 +38,8 @@ class CreateAppliance(TestCase):
         modelNum = 68
         serialNum = 70
         location = 'Garage'
-        propId = Property.objects.filter()[0].id
+        propId = Property.objects.filter()[0].rooId
+        print('HERE: ', propId)
         data = {
                   'name': name,
                   'manufacturer': manufacturer,
@@ -48,6 +51,7 @@ class CreateAppliance(TestCase):
                   'token': responseData.get('token')
                }
         responseData = getInfoPost(APP_VIEW, data)
+        print(responseData.get(ERROR))
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
     # Test that passes bad propId
