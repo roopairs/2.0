@@ -5,7 +5,9 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, TenantInfo} from 'homepairs-types';
 import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid, 
     prepareNavigationHandlerComponent, NavigationRouteScreenProps } from 'homepairs-utilities';
+import {Endpoints} from 'homepairs-routes';
 
+const {updateTenant} = Endpoints;
 
 type Props =  NavigationRouteScreenProps
 
@@ -143,7 +145,7 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
 
     currentTenant: TenantInfo;
 
-    propertyId : number;
+    propId : number;
   
     constructor(props: Readonly<Props>) {
         super(props);
@@ -154,7 +156,7 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
         this.resetForms = this.resetForms.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
         this.currentTenant = props.navigation.getParam('tenant');
-        this.propertyId = props.navigation.getParam('propId');
+        this.propId = props.navigation.getParam('propId');
         const {firstName, lastName, email, phoneNumber} = this.currentTenant;
         this.state = {
             firstName, 
@@ -234,15 +236,18 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
         this.phoneNumberRef.current.setError(false);
     }
 
-    clickSubmitButton() {
+    async clickSubmitButton() {
         const {navigation} = this.props;
         this.resetForms();
         if (this.validateForms()) {
             const newTenantInfo : TenantInfo = this.generateNewTenantInfo();
+            const postValues = {propId: this.propId, ...newTenantInfo};
+            console.log(postValues)
             // TODO: set up fetch request for editing tenant.
-            alert('We need the backend to set up an endpoint to Edit the Tenant');
+            // alert('We need the backend to set up an endpoint to Edit the Tenant');
+            await updateTenant(postValues); 
             navigation.goBack();
-        } 
+        };
     }
 
     clickRemoveButton() {

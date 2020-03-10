@@ -108,6 +108,7 @@ export default class NavigationRouteHandler{
         } else {
           this.navigation.navigate(route, params);  
         }
+        console.log(this.navigation)
     }
 
     /**

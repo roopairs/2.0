@@ -10,12 +10,12 @@ import * as BaseStyles from 'homepairs-base-styles';
 import {ChooseServiceCategory, ChooseAppliance} from 'homepairs-components';
 import {DateTimePicker} from 'react-widgets';
 import {DatePicker} from 'react-native-datepicker';
+import ServiceTypePanel from 'src/Elements/Panels/ServiceTypePanel';
 import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
 
 Moment.locale('en');
 momentLocalizer();
-
 
 export type NewRequestDispatchProps = {
     header: HeaderState, 
@@ -57,6 +57,11 @@ const styles = StyleSheet.create({
     scrollContainer: {
         padding: BaseStyles.MarginPadding.large,
     },
+    formTitle: {
+        fontFamily: BaseStyles.FontTheme.primary,
+        fontSize: BaseStyles.FontTheme.reg,
+        color: '#AFB3B5',
+        paddingVertical: BaseStyles.MarginPadding.medium,
     datePickerContainer: {
         padding: BaseStyles.MarginPadding.medium,
         backgroundColor: 'red',
@@ -143,8 +148,8 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         this.getFormAddress = this.getFormAddress.bind(this);
         this.getFormCategory = this.getFormCategory.bind(this);
         this.getFormAppliance = this.getFormAppliance.bind(this);
-        this.getFormServiceProvider = this.getFormServiceProvider.bind(this);
         this.getFormServiceType = this.getFormServiceType.bind(this);
+        this.getFormServiceProvider = this.getFormServiceProvider.bind(this);
         this.getFormDescription = this.getFormDescription.bind(this);
         this.getFormDate = this.getFormDate.bind(this);
         this.getFormClientName = this.getFormClientName.bind(this);
@@ -240,10 +245,13 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         const {properties} = this.props;
         return (
             <ScrollView style={styles.scrollContainer}>
-                <Text>Address</Text>
+                <Text style={styles.formTitle}>ADDRESS</Text>
                 <AddressPanel properties={properties} parentCallBack={this.getFormAddress}/>
-                <Text>Choose service Category</Text>
+                <Text style={styles.formTitle}>CHOOSE SERVICE CATEGORY</Text>
                 <ChooseServiceCategory onPress={this.getFormCategory}/>
+                <Text style={styles.formTitle}>CHOOSE SERVICE TYPE</Text>
+                <ServiceTypePanel parentCallBack={this.getFormServiceType}/>
+                <Text style={styles.formTitle}>WHAT HAPPENED?</Text>
                 <Text>Choose an appliance (if applicable)</Text>
                 <Text>What happened?</Text>
                 <InputForm 

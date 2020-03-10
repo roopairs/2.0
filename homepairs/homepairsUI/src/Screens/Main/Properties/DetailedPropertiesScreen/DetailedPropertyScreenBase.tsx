@@ -22,9 +22,12 @@ import {
     TenantInfo,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import { navigationPages, Endpoints } from 'src/Routes/RouteConstants';
 import axios from 'axios';
 import {NavigationRouteScreenProps, stringToCategory} from 'homepairs-utilities';
+
+
+const {HOMEPAIRS_PROPERTY_ENDPOINT} = Endpoints;
 
 export type DetailedPropertyStateProps = {
     property: Property;
@@ -119,6 +122,7 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
         this.token = props.token;
         this.propId = this.property.propId;
         this.openEditPropertyModal = this.openEditPropertyModal.bind(this);
+        this.openEditApplianceModal = this.openEditApplianceModal.bind(this);
         this.openAddApplianceModal = this.openAddApplianceModal.bind(this);
         this.openEditApplianceModal = this.openEditApplianceModal.bind(this);
         this.fetchTenantsAndAppliances = this.fetchTenantsAndAppliances.bind(this);
@@ -128,13 +132,12 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
         await this.fetchTenantsAndAppliances();
     }
 
-    componentDidUpdate() {}
     // TODO: Cancel all async requests that are still occurring. Will focus on this next quarter!!!
 
     componentWillUnmount(){}
 
     fetchTenantsAndAppliances = async () => {
-        await axios.get(`https://homepairs-mytest.herokuapp.com/property/${this.propId}`).then((result) =>{
+        await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${this.propId}`).then((result) =>{
             const {tenants, appliances} = result.data;
             const tenantInfo: TenantInfo[] = [];
             const applianceInfo: Appliance[] = [];

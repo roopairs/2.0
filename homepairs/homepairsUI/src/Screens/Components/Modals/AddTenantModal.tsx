@@ -5,10 +5,10 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid, 
     NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-utilities';
-import axios from 'axios';
 import { Endpoints } from 'src/Routes/RouteConstants';
 
 
+const {updateTenant} = Endpoints;
 
 type Props =  NavigationRouteScreenProps;
 
@@ -187,6 +187,18 @@ export class AddTenantModalBase extends React.Component<Props, AddTenantState> {
         this.setState({phoneNumber});
     }
 
+
+    generateNewTenantInfo(){
+        const {firstName, lastName, email, phoneNumber} = this.state;
+        const newTenantInfo : TenantInfo = {
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+        };
+        return newTenantInfo;
+    }
+
     validateForms() {
         const {firstName, lastName, email, phoneNumber} = this.state;
         let check = true;
@@ -218,19 +230,16 @@ export class AddTenantModalBase extends React.Component<Props, AddTenantState> {
 
     async clickSubmitButton() {
         const {navigation} = this.props;
-        const {firstName, lastName, email, phoneNumber} = this.state;
         this.resetForms();
         if (this.validateForms()) {
             const newTenantInfo : TenantInfo = this.generateNewTenantInfo();
-            // TODO: Collaborate with Adam and Tommy to get the proper endpoint working 
-            await axios.post(`${HOMEPAIRS_TENANT_EDIT_ENDPOINT}/${this.propId}`, newTenantInfo)
-            .then((response)=>{
-                console.log(response);
-            }).catch(()=>{
-            }).finally(() => {
-                navigation.goBack();
-            });
-        } 
+            const postValues = {propId: this.propId, ...newTenantInfo};
+            console.log(postValues)
+            // TODO: set up fetch request for editing tenant.
+            // alert('We need the backend to set up an endpoint to Edit the Tenant');
+            await updateTenant(postValues); 
+            navigation.goBack();
+        }; 
     }
 
     renderInputForms() {
