@@ -82,7 +82,7 @@ class ApplianceView(View):
         location = inData.get('location')
         propId = inData.get('propId')
         token = inData.get('token')
-        propList = Property.objects.filter(id=propId)
+        propList = Property.objects.filter(rooId=propId)
         if propList.exists():
             prop = propList[0]
 
