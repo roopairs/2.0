@@ -34,6 +34,9 @@ class CreateServiceProvider(TestCase):
     @mock.patch('Apps.ServiceRequest.views.postRooTokenAPI', return_value=mockVal, autospec=True)
     def test_create_service_request_allCorrect(self, mocked):
         '''Everything is correct'''
+        data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
+        responseData = getInfoPost(LOGIN, data)
+
         name = 'Fridge'
         manufacturer = 'Company'
         category = 'cool'
@@ -49,6 +52,7 @@ class CreateServiceProvider(TestCase):
                   'serialNum': serialNum,
                   'location': location,
                   'propId': propId,
+                  'token': responseData.get('token')
                }
         responseData = getInfoPost(APP_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
@@ -70,9 +74,6 @@ class CreateServiceProvider(TestCase):
                }
         responseData = getInfoPost(PRO_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
-
-        data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
-        responseData = getInfoPost(LOGIN, data)
 
         job = 'Fix sink'
         serviceCompany = ServiceProvider.objects.filter()[0].id
@@ -99,6 +100,9 @@ class CreateServiceProvider(TestCase):
     # Test that passes bad propId
     def test_create_service_request_bad_prop(self):
         '''Everything is correct'''
+        data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
+        responseData = getInfoPost(LOGIN, data)
+
         name = 'Fridge'
         manufacturer = 'Company'
         category = 'cool'
@@ -114,6 +118,7 @@ class CreateServiceProvider(TestCase):
                   'serialNum': serialNum,
                   'location': location,
                   'propId': propId,
+                  'token': responseData.get('token')
                }
         responseData = getInfoPost(APP_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
