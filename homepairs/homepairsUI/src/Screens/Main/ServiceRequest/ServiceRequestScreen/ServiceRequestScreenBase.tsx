@@ -327,20 +327,6 @@ const fakeSR4: ServiceRequest = {
 
 function filterTabbedObjects(unfilteredServiceRequests: ServiceRequest[], requestStatus: ServiceRequestStatus) {
     const filteredServiceRequests: ServiceRequest[] = unfilteredServiceRequests.filter(sr => sr.status === requestStatus);
-    filteredServiceRequests.forEach(function (value) {
-        console.log("\nnext value: ");
-        if (value.status === ServiceRequestStatusEnums.Completed)
-            console.log("completed, ");
-        if (value.status === ServiceRequestStatusEnums.Canceled)
-            console.log("canceled, ");
-        if (value.status === ServiceRequestStatusEnums.Pending)
-            console.log("pending, ");
-        if (value.status === ServiceRequestStatusEnums.Scheduled)
-            console.log("scheduled, ");
-        if (value.status === ServiceRequestStatusEnums.InProgress)
-            console.log("inprogress, ");
-    });
-    console.log("\n");
     return filteredServiceRequests;
 }
 
