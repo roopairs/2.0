@@ -26,6 +26,8 @@ ERROR = 'error'
 ROOPAIR_ACCOUNT_CREATION_FAILED = 'Failed to create a Roopairs account'
 HOMEPAIRS_ACCOUNT_CREATION_FAILED = 'Failed to create a Homepairs account'
 TOO_MANY_PROPERTIES = 'Too many properties associated with tenant'
+TOO_MANY_TNENANTS = 'Too many tenants associated with this email.'
+NO_TENANTS = 'No tenants associated with this email'
 PROPERTY_SQUISH = 'This address and city are associated with more than one property'
 PM_SQUISH = 'This email is associated with more than one pm'
 INVALID_PROPERTY = 'Invalid property'
@@ -100,6 +102,7 @@ class LoginView(View):
             return JsonResponse(data=missingError(missingFields))
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(View):
     def post(self, request):
         inData = json.loads(request.body)
@@ -133,3 +136,39 @@ class RegisterView(View):
                 return JsonResponse(data=returnError(INVALID_PROPERTY))
         else:
             return JsonResponse(data=missingError(missingFields))
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class TenantMove(View):
+    def post(self, request):
+        print("Got here")
+        inData = json.loads(request.body)
+        required = ['email', 'propId']
+        missingFields = checkRequired(required, inData)
+
+        if(len(missingFields) > 0):
+            return JsonResponse(data=missingError(missingFields))
+            
+
+        email = inData.get('email')
+        propId = inData.get('propId')
+        propertyList = Property.objects.filter(rooId=propId)
+        tenList = Tenant.objects.filter(email=email)
+
+        if(not propertyList.exists()):
+            returnsonResponse(data=returnError(INVALID_PROPERTY))
+        if(propertyList.count() > 1):
+            return JsonResponse(data=returnError(TOO_MANY_PROPERTIES))
+
+        if(not tenList.exists()):
+            returnsonResponse(data=returnError(NO_TENANTS))
+        if(tenList.count() > 1):
+            return JsonResponse(data=returnError(TOO_MANY_TNENANTS))
+
+        tenantsProp = propertyList[0]
+        tenant = tenList[0]
+
+        tenant.place = tenantsProp
+        tenant.save()
+
+        return JsonResponse(data={STATUS: SUCCESS})

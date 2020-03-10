@@ -139,6 +139,7 @@ class ApplianceView(View):
             app.manufacturer = newManufacturer
             app.serialNum = newSerialNum
             app.modelNum = newModelNum
+            app.rooAppId = appId
             app.save()
             return JsonResponse(data={STATUS: SUCCESS})
         else:
