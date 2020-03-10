@@ -152,6 +152,8 @@ class TenantUpdate(View):
 
         email = inData.get('email')
         propId = inData.get('propId')
+        firstName = inData.get('firstName')
+        lastName = inData.get('lastName')
         propertyList = Property.objects.filter(rooId=propId)
         tenList = Tenant.objects.filter(email=email)
 

@@ -150,7 +150,7 @@ def addNewProperties(email, token):
 class PropertyView(View):
     def post(self, request):
         inData = json.loads(request.body)
-        required = ['streetAddress', 'city', 'state', 'pm', 'numBed', 
+        required = ['streetAddress', 'pm', 'numBed', 
                     'numBath', 'maxTenants', 'token']
         missingFields = checkRequired(required, inData)
 
@@ -160,9 +160,10 @@ class PropertyView(View):
         if(len(missingFields) > 0):
             return JsonResponse(data=missingError(missingFields))
 
-        streetAddress = inData.get('streetAddress')
-        city = inData.get('city')
-        state = inData.get('state')
+        splitAddress = inData.get('streetAddress')
+        streetAddress = splitAddress[0]
+        city = splitAddress[1]
+        state = splitAddress[2]
         pm = inData.get('pm')
         numBed = inData.get('numBed')
         numBath = inData.get('numBath')
