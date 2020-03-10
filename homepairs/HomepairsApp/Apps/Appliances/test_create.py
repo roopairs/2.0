@@ -39,7 +39,6 @@ class CreateAppliance(TestCase):
         serialNum = 70
         location = 'Garage'
         propId = Property.objects.filter()[0].rooId
-        print('HERE: ', propId)
         data = {
                   'name': name,
                   'manufacturer': manufacturer,
@@ -51,7 +50,6 @@ class CreateAppliance(TestCase):
                   'token': responseData.get('token')
                }
         responseData = getInfoPost(APP_VIEW, data)
-        print(responseData.get(ERROR))
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
     # Test that passes bad propId
