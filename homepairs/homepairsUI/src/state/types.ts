@@ -421,6 +421,8 @@ export type EditPropertyState = {
 
 export type AddApplianceState = {
     property: Property;
+    token: string;
+    fetch: () => any;
 }
 
 export type EditApplianceState = {
@@ -461,7 +463,7 @@ enum HOMEPAIRS_LOGIN_STATUS {
 
 enum HOMEPAIRS_PROPERTY_KEYS {
     PROPERTYID = 'propId',
-    ADDRESS = 'address',
+    ADDRESS = 'streetAddress',
     TENANTS = 'maxTenants',
     BEDROOMS = 'numBed',
     BATHROOMS = 'numBath',

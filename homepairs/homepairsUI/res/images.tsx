@@ -11,11 +11,13 @@ const splash = require('./assets/images/splash.png');
 const tint = require('./assets/images/tint.png');
 const trash = require('./assets/images/trash.png');
 const upArrow = require('./assets/images/upArrow.png');
+const calendar = require('./assets/images/calendar.png');
 
 export { 
 	blender,
 	bolt,
 	clock,
+	calendar,
 	defaultProperty,
 	downArrow,
 	fan,

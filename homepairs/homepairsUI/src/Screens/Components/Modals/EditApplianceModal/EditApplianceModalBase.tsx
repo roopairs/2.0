@@ -13,7 +13,7 @@ import {FontTheme} from 'homepairs-base-styles';
 
 export type EditApplianceDispatchProps = {
     onEditAppliance: (newAppliance: Appliance,
-         displayError: (msg: string) => void, navigation: NavigationRouteHandler) => void
+         displayError: (msg: string) => void, navigation: NavigationRouteHandler, fetch: () => void) => void
 }
 
 type Props = NavigationRouteScreenProps &
@@ -138,6 +138,8 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
 
     oldAppliance: Appliance;
 
+    fetch;
+
     submitButton : ThinButtonProps = {
         name: editApplianceStrings.editSave, 
         onClick: () => {this.clickSubmitButton();}, 
@@ -180,6 +182,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
         this.resetForms = this.resetForms.bind(this);
         this.displayError = this.displayError.bind(this);
         this.oldAppliance = props.navigation.getParam('appliance');
+        this.fetch = props.navigation.getParam('fetch');
         const {applianceId, category, manufacturer, appName, modelNum, serialNum, location} = this.oldAppliance;
         this.state = {
             applianceId, category, manufacturer, appName, 
@@ -275,7 +278,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                 serialNum: Number(serialNum), 
                 location,
             };
-            onEditAppliance(newAppliance, this.displayError, navigation);
+            onEditAppliance(newAppliance, this.displayError, navigation, this.fetch);
         }
     }
 

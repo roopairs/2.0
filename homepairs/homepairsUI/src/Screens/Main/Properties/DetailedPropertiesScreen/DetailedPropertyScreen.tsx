@@ -9,6 +9,7 @@ function mapStateToProps(state: AppState): DetailedPropertyStateProps {
     const {properties} = state;
     return { 
         property: properties.properties[properties.selectedPropertyIndex],
+        token: state.accountProfile.roopairsToken,
     };
 }
 

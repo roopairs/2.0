@@ -28,12 +28,13 @@ import {NavigationRouteScreenProps, stringToCategory} from 'homepairs-utilities'
 
 export type DetailedPropertyStateProps = {
     property: Property;
+    token: string,
 };
 
 type Props = NavigationRouteScreenProps & DetailedPropertyStateProps;
 type State = {
     tenantInfo: TenantInfo[],
-    appliances: Appliance[],
+    applianceInfo: Appliance[],
 }
 
 const colors = BaseStyles.LightColorTheme;
@@ -98,39 +99,42 @@ const styles = StyleSheet.create({
 });
 
 export default class DetailedPropertyScreenBase extends React.Component<Props, State> {
-    // BEWARE FORMATTING, NEED EMPTY LINE BETWEEN THESE 
-    property
-  
-    navigation
-  
-    propId
+
+    property;
+
+    navigation;
+
+    propId;
+
+    token;
 
     constructor(props: Readonly<Props>){
         super(props);
         this.state = {
             tenantInfo: [],
-            appliances: [],
+            applianceInfo: [],
         };
         this.property = props.property; 
         this.navigation = props.navigation;
+        this.token = props.token;
         this.propId = this.property.propId;
         this.openEditPropertyModal = this.openEditPropertyModal.bind(this);
         this.openAddApplianceModal = this.openAddApplianceModal.bind(this);
+        this.openEditApplianceModal = this.openEditApplianceModal.bind(this);
+        this.fetchTenantsAndAppliances = this.fetchTenantsAndAppliances.bind(this);
     }
 
     async componentDidMount(){
         await this.fetchTenantsAndAppliances();
     }
 
-    async componentDidUpdate(){
-        await this.fetchTenantsAndAppliances();
-    }
-
+    componentDidUpdate() {}
     // TODO: Cancel all async requests that are still occurring. Will focus on this next quarter!!!
+
     componentWillUnmount(){}
 
     fetchTenantsAndAppliances = async () => {
-        await axios.get(`https://homepairs-alpha.herokuapp.com/property/${this.propId}`).then((result) =>{
+        await axios.get(`https://homepairs-mytest.herokuapp.com/property/${this.propId}`).then((result) =>{
             const {tenants, appliances} = result.data;
             const tenantInfo: TenantInfo[] = [];
             const applianceInfo: Appliance[] = [];
@@ -146,9 +150,10 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
             });
 
             appliances.forEach(appliance => {
-                const {applianceId, category, name, manufacturer, modelNum, serialNum, location} = appliance;
+                const {appId, category, name, manufacturer, modelNum, serialNum, location} = appliance;
+
                 applianceInfo.push({
-                    applianceId,
+                    applianceId: appId,
                     category: stringToCategory(category), 
                     appName: name, manufacturer, modelNum, serialNum, location,
                 });
@@ -156,7 +161,7 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
 
             this.setState({
                 tenantInfo,
-                appliances: applianceInfo,
+                applianceInfo,
             });
         });  
     };
@@ -166,16 +171,16 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
     }
 
     openAddApplianceModal() {
-        this.navigation.navigate(navigationPages.AddApplianceModal, {property: this.property, propdId: this.propId}, true);
+        this.navigation.navigate(navigationPages.AddApplianceModal, {property: this.property, token: this.token, fetch: this.fetchTenantsAndAppliances}, true);
     }
 
     openEditApplianceModal(appliance: Appliance) {
-        this.navigation.navigate(navigationPages.EditApplianceModal, {appliance, propId: this.propId}, true);
+        this.navigation.navigate(navigationPages.EditApplianceModal, {appliance, propId: this.propId, fetch: this.fetchTenantsAndAppliances}, true);
     }
 
     renderContents() {
         const {address} = this.property;
-        const {appliances, tenantInfo} = this.state;
+        const {applianceInfo, tenantInfo} = this.state;
         return (
             <ScrollView style={{ flexGrow: 1 }}>
                 <View style={styles.addBottomMargin}>
@@ -197,7 +202,7 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
                         onClick={this.openEditPropertyModal}/>
                     <ApplianceInfo 
                         navigation={this.navigation} 
-                        appliances={appliances} 
+                        appliances={applianceInfo} 
                         propId={this.propId}
                         onAddApplianceModal={this.openAddApplianceModal} 
                         onEditApplianceModal={this.openEditApplianceModal}/>
