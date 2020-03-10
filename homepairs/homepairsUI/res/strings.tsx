@@ -12,6 +12,13 @@ const strings = {
     serviceRequestPage: {
         title: 'Service Requests',
         button: 'New Request',
+        tabA: 'Current Requests',
+        tabB: 'Completed Requests',
+        tabA1: 'Pending',
+        tabA2: 'Scheduled',
+        tabA3: 'In Progress',
+        tabB1: 'Completed',
+        tabB2: 'Canceled',
     },
     serviceRequestModal: {
         title: 'Active Service Request',

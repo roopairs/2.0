@@ -39,6 +39,14 @@ const ServiceRequestScreen = connect(
     mapDispatchToProps,
 )(ServiceRequestScreenBase);
 
-// Now render the component with the SceneHeader. This way, if the child needs to the use the 
-// navigator, it is not reliant on the parent. 
+/**
+ * ---------------------------------------------------
+ * ServiceRequestScreen
+ * ---------------------------------------------------
+ * This is intended to be used in the Main Navigation Stack. This component is connected to the 
+ * HomePairs redux store, the react-native Navigator, and our very own withSceneHeader HOC. It also 
+ * can be injected with a Modal; this gives this component the capability to reveal a smaller page 
+ * that allows the user to add a new service request to their account. 
+ */
+
 export default prepareNavigationHandlerComponent(withSceneHeader(ServiceRequestScreen, sceneParam));
