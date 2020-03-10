@@ -5,11 +5,11 @@ import {
 } from 'homepairs-components';
 import { HeaderActions, PropertyListActions } from 'homepairs-redux-actions';
 import { withNavigation } from 'react-navigation';
+import { navigationPages } from 'src/Routes/RouteConstants';
 import PropertiesScreenBase, {
     PropertiesScreenStateProps,
     PropertiesScreenDispatchProps,
 } from './PropertiesScreenBase';
-import { navigationPages } from 'src/Routes/RouteConstants';
 
 const sceneParams: MainAppStackType = {
     title: 'Properties',
