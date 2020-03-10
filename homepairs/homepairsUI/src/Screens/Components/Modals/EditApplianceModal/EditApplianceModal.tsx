@@ -7,9 +7,9 @@ import  EditApplianceModalBase, { EditApplianceDispatchProps} from './EditApplia
 
 const mapDispatchToProps : (dispatch: any) => EditApplianceDispatchProps = (dispatch: any) => ({
     onEditAppliance: (newAppliance: Appliance,
-         displayError: (msg: string) => void, navigation: NavigationRouteHandler) => 
+         displayError: (msg: string) => void, navigation: NavigationRouteHandler, fetch: () => any) => 
     {
-        dispatch(PropertyListActions.postUpdatedAppliance(newAppliance, displayError, navigation));
+        dispatch(PropertyListActions.postUpdatedAppliance(newAppliance, displayError, navigation, fetch));
     },
 });
 

@@ -6,6 +6,7 @@ import {
     SceneInjectedProps,
 } from 'homepairs-components';
 import axios from 'axios';
+import {defaultProperty} from 'homepairs-images';
 
 export type PropertiesScreenStateProps = {
     propertyState: PropertyListState;
@@ -36,7 +37,7 @@ export type PropertiesScreenProps = SceneInjectedProps &
  */
 export default class PropertiesScreenBase extends React.Component<PropertiesScreenProps> {
 
-    apiKey = process.env.GOOGLE_APIKEY;
+    apiKey = 'AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg';
 
     constructor(props: Readonly<PropertiesScreenProps>) {
         super(props);
@@ -53,22 +54,22 @@ export default class PropertiesScreenBase extends React.Component<PropertiesScre
         navigation.push(navigationPages.SingleProperty, {propId: properties[index].propId});
     }
 
-    async fetchPropertyImage(address: string) {
-        const result = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${this.apiKey}`);
-        console.log(result);
-        // const photoRef = result['candidates'][0]['photos'][0]['photo_reference'];
-        // console.log(photoRef);
-        // const propImage = await axios.get(`https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}`);
-        // console.log(photoRef);
-        // return propImage;
-    }
+    // async fetchPropertyImage(address: string) {
+    //     const result = await axios.get(`https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&key=${this.apiKey}`);
+    //     console.log(result);
+    //     const photoRef = result['candidates'][0]['photos'][0]['photo_reference'];
+    //     console.log(photoRef);
+    //     const propImage = await axios.get(`https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}`);
+    //     console.log(photoRef);
+    //     return propImage;
+    // }
 
     render() {
         const { propertyState} = this.props;
         const {properties} = propertyState;
         let nextIndex = 0;
         const PropertyCards = properties.map(property => {
-            const propImage = this.fetchPropertyImage(property.address);
+            const propImage = defaultProperty;
             const curIndex = nextIndex;
             nextIndex += 1;
             return (

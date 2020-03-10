@@ -14,7 +14,6 @@ import {
 import { fetchProperties, fetchPropertyAndPropertyManager } from '../property-list/actions';
 import { setAccountAuthenticationState } from '../session/actions';
 
-
 const responseKeys = HomePairsResponseKeys;
 const accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
 const responseStatus = HomePairsResponseKeys.STATUS_RESULTS;
@@ -191,7 +190,7 @@ export const fetchAccount = (
  */
 export const generateAccountForTenant = (accountDetails: Account, password: String, navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
   return async (dispatch: (arg0: any) => void) => {
-      await axios.post('https://homepairs-alpha.herokuapp.com/tenant/register/', {
+      await axios.post('https://homepairs-mytest.herokuapp.com/tenant/register/', {
         firstName: accountDetails.firstName, 
         lastName: accountDetails.lastName,
         email: accountDetails.email, 
@@ -233,7 +232,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
  */
 export const generateAccountForPM = (accountDetails: Account, password: String, navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
     return async (dispatch: (arg0: any) => void) => {
-      await axios.post('https://homepairs-alpha.herokuapp.com/pm/register', {
+      await axios.post('https://homepairs-mytest.herokuapp.com/pm/register', {
           firstName: accountDetails.firstName, 
           lastName: accountDetails.lastName,
           email: accountDetails.email, 

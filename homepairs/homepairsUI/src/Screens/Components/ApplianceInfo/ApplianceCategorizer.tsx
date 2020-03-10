@@ -6,11 +6,10 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { Appliance } from 'homepairs-types';
 import {NavigationRouteScreenProps} from 'homepairs-utilities';
 
-
-
 type ApplianceCategorizerProps = {
     appliances: Appliance[];
     onEditApplianceModal?: (appliance: Appliance) => any;
+    hasButton?: boolean,
 };
 
 type Props = ApplianceCategorizerProps & NavigationRouteScreenProps;
@@ -46,7 +45,7 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
 }
 
 export default function ApplianceCategorizer(props: Props) {
-    const { appliances, onEditApplianceModal } = props;
+    const { appliances, onEditApplianceModal, hasButton } = props;
     const styles = setStyles();
 
     const locations: string[] = [];
@@ -76,18 +75,17 @@ export default function ApplianceCategorizer(props: Props) {
     }
 
     function categorize() {
-        const buttonCheck = true;
         findCategories();
         categorizeAppliances();
         categories.forEach((value, locationKey) => {
             const key = locationKey;
             finalApps.push(
                 <View key={key} style={styles.categoryContainer}>
-                    <Text style={styles.categoryText}>{locationKey}</Text>
+                    <Text key={key} style={styles.categoryText}>{locationKey}</Text>
                     {value.map(app => {
                         return (
                             <AppliancePanel
-                                hasButton={buttonCheck}
+                                hasButton={hasButton}
                                 buttonName='Edit'
                                 onClick={onEditApplianceModal}
                                 key={app.applianceId}
@@ -112,3 +110,7 @@ export default function ApplianceCategorizer(props: Props) {
         </View>
     );
 }
+
+ApplianceCategorizer.defaultProps = {
+    hasButton: true,
+};

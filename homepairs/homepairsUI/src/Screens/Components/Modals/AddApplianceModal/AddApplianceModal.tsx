@@ -6,7 +6,7 @@ import  AddApplianceModalBase, { AddApplianceDispatchProps} from './AddAppliance
 
 
 const mapDispatchToProps : (dispatch: any) => AddApplianceDispatchProps = (dispatch: any) => ({
-    onCreateAppliance: (newAppliance: Appliance, info: AddApplianceState, setInitialState: () => void, 
+    onCreateAppliance: (newAppliance: Appliance, info: AddApplianceState, setInitialState: () => any, 
          displayError: (msg: string) => void, navigation: NavigationRouteHandler) => 
     {
         dispatch(PropertyListActions.postNewAppliance(newAppliance, info, setInitialState, displayError, navigation));
