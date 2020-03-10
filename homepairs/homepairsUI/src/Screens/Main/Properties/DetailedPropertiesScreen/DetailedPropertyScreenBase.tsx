@@ -133,9 +133,11 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
     }
 
     // TODO: Cancel all async requests that are still occurring. Will focus on this next quarter!!!
+    /*
     async componentDidUpdate() {
         await this.fetchTenantsAndAppliances();
     }
+    */
 
 
     componentWillUnmount(){}

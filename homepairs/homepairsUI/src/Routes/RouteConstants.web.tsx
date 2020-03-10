@@ -26,7 +26,7 @@ export const SERVICE_REQUEST = '/admin/service-requests';
 export const NEW_SERVICE_REQUEST = '/admin/service-requests/new-service-requests';
 export const SERVICE_REQUEST_INFO_MODAL = '/admin/service-requests/information';
 
-export const ACCOUNT_SETTINGS = '/admin/account-settings/dashboard';
+export const ACCOUNT_SETTINGS = '/admin/account-settings';
 
 
 /**

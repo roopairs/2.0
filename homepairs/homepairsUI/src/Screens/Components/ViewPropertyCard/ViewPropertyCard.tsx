@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontFamily: 'nunito-regular',
         color: '#fff',
+        textAlign: 'center',
     },
     cityText: {
         fontSize: 18,
