@@ -28,4 +28,5 @@ class Appliance(models.Model):
                   "modelNum": self.modelNum,
                   "category": self.category,
                   "place": [self.place.toDict()]
+                  
                }

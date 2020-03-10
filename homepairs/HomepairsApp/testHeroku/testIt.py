@@ -11,14 +11,14 @@ globUrl = 'http://localhost:8000/'
 
 
 # Everything is correct
-# def test_basic_connection():
-#     email = 'adamberard99@gmail.com'
-#     propId = 'abcdef'
-#     data = {'email': email, 'propId': propId}
-#     url = globUrl + 'tenant/move/'
-# 
-#     x = requests.post(url, json=data)
-#     print(x.text)
+ def test_basic_connection():
+     email = 'adamberard99@gmail.com'
+     propId = 'abcdef'
+     data = {'email': email, 'propId': propId}
+     url = globUrl + 'tenant/move/'
+ 
+     x = requests.post(url, json=data)
+     print(x.text)
 
 
 # Everything is correct
