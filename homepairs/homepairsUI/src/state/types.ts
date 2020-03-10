@@ -422,7 +422,6 @@ export type EditPropertyState = {
 export type AddApplianceState = {
     property: Property;
     token: string;
-    fetch: () => any;
 }
 
 export type EditApplianceState = {

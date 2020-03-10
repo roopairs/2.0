@@ -11,9 +11,10 @@ import {FontTheme} from 'homepairs-base-styles';
 import { HomePairFonts } from 'homepairs-fonts';
 import { categoryToString} from 'homepairs-utilities';
 import Moment from 'moment';
+import { NavigationRouteScreenProps } from 'src/utility/index';
 
 
-type Props = NavigationStackScreenProps;
+type Props = NavigationRouteScreenProps;
 
 const serviceRequestStrings = strings.serviceRequestModal;
 

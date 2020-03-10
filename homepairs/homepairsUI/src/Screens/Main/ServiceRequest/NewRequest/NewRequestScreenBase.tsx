@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
         fontSize: BaseStyles.FontTheme.reg,
         color: '#AFB3B5',
         paddingVertical: BaseStyles.MarginPadding.medium,
+    },
     datePickerContainer: {
         padding: BaseStyles.MarginPadding.medium,
         backgroundColor: 'red',
@@ -252,8 +253,6 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
                 <Text style={styles.formTitle}>CHOOSE SERVICE TYPE</Text>
                 <ServiceTypePanel parentCallBack={this.getFormServiceType}/>
                 <Text style={styles.formTitle}>WHAT HAPPENED?</Text>
-                <Text>Choose an appliance (if applicable)</Text>
-                <Text>What happened?</Text>
                 <InputForm 
                     parentCallBack={this.getFormDescription}
                     numberOfLines={this.formProps.numberOfLines} 
@@ -261,9 +260,9 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
                     multiline={this.formProps.multiline}
                     maxLength={this.formProps.maxLength}
                     />
-                <Text>When do you need it fixed?</Text>
+                <Text style={styles.formTitle}>WHEN DO YOU WANT IT TO BE FIXED?</Text>
                 <>{this.renderDatePicker()}</>
-                <Text>Who should they ask for?</Text>
+                <Text style={styles.formTitle}>WHO SHOULD THEY ASK FOR?</Text>
                 <InputForm
                     parentCallBack={this.getFormClientName}
                 />

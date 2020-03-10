@@ -133,6 +133,10 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
     }
 
     // TODO: Cancel all async requests that are still occurring. Will focus on this next quarter!!!
+    async componentDidUpdate() {
+        await this.fetchTenantsAndAppliances();
+    }
+
 
     componentWillUnmount(){}
 
@@ -174,11 +178,11 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
     }
 
     openAddApplianceModal() {
-        this.navigation.navigate(navigationPages.AddApplianceModal, {property: this.property, token: this.token, fetch: this.fetchTenantsAndAppliances}, true);
+        this.navigation.navigate(navigationPages.AddApplianceModal, {property: this.property, token: this.token}, true);
     }
 
     openEditApplianceModal(appliance: Appliance) {
-        this.navigation.navigate(navigationPages.EditApplianceModal, {appliance, propId: this.propId, fetch: this.fetchTenantsAndAppliances}, true);
+        this.navigation.navigate(navigationPages.EditApplianceModal, {appliance, propId: this.propId}, true);
     }
 
     renderContents() {

@@ -9,15 +9,15 @@ import {
   LOGIN, SIGNUP, ROOPAIRS_LOGIN, PROPERTY_LIST, TENANT_PROPERTY,
   PROPERTY, LOGIN_MODAL, CREATE_ACCOUNT_MODAL, ADD_PROPERTY_MODAL, EDIT_PROPERTY_MODAL, 
   ROOPAIRS_LOGIN_MODAL, EDIT_TENANT_MODAL, ADD_TENANT_MODAL, ADD_APPLIANCE_MODAL, EDIT_APPLIANCE_MODAL,
-  SERVICE_REQUEST, NEW_SERVICE_REQUEST, ACCOUNT_SETTINGS,
+  SERVICE_REQUEST, NEW_SERVICE_REQUEST, ACCOUNT_SETTINGS, SERVICE_REQUEST_INFO_MODAL,
 } from 'src/Routes/RouteConstants.web';
 import { HomePairsHeader, CreatingAccountModal, LoggingInModal, AddNewPropertyModal, 
-  EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, EditTenantModal } from 'homepairs-components';
+  EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, EditTenantModal, ServiceRequestModal } from 'homepairs-components';
 
 
 // Pages and components that need to be retrieved in order to route properly 
 const {LoginScreen, SignUpScreen, RoopairsLogin} = AuthenticationPages; 
-const {PropertiesScreen, TenantPropertiesScreen, DetailedPropertyScreen} = MainAppPages.PropertyPages;
+const {PropertiesScreen, TenantPropertiesScreen, DetailedPropertyScreen, } = MainAppPages.PropertyPages;
 const {ServiceRequestScreen, NewRequestScreen} = MainAppPages.ServiceRequestPages;
 const {AccountScreen} = MainAppPages.AccountPages;
 
@@ -87,6 +87,8 @@ const AddApplianceReadyModal = withModal(AddApplianceModal);
 const EditApplianceReadyModal = withModal(EditApplianceModal);
 const AddTenantReadyModal = withModal(AddTenantModal);
 const EditTenantReadyModal = withModal(EditTenantModal);
+
+const ServiceRequestInfoReadyModal = withModal(ServiceRequestModal)
 /* Modal Ready Components for Routers */
 
 
@@ -184,13 +186,17 @@ function ServiceRequestSwitch() {
   const location = useLocation();
   const background = location.state && location.state.background;
   return (
-    <Route path='/admin/service-requests' render={(matches) => (
+    <Route path={SERVICE_REQUEST} render={(matches) => (
           <>                
               <HomePairsHeader />
-              <Switch path='/admin/service-requests' location={background || location}>
+              <Switch path={SERVICE_REQUEST} location={background || location}>
                   <Route exact path={`${SERVICE_REQUEST}`}><ServiceRequestScreen/></Route>
                   <Route exact path={`${NEW_SERVICE_REQUEST}`}><NewRequestScreen /></Route>
+                  <Route exact path={`${SERVICE_REQUEST_INFO_MODAL}/:serviceRequest`}> <ServiceRequestModal/></Route>
               </Switch>
+
+              {background && <Route path={`${SERVICE_REQUEST_INFO_MODAL}/:serviceRequest`}><ServiceRequestInfoReadyModal/></Route>}
+
           </>
       )}/>
   );
@@ -217,8 +223,8 @@ function SinglePropertySwitch() {
               {background && <Route path={`${EDIT_PROPERTY_MODAL}/:propId`}> <EditPropertyReadyModal /> </Route>}
               {background && <Route path={`${ADD_TENANT_MODAL}/:propId`}><AddTenantReadyModal/></Route>}
               {background && <Route path={`${EDIT_TENANT_MODAL}/:tenant/:propId`}><EditTenantReadyModal/></Route>}
-              {background && <Route path={`${ADD_APPLIANCE_MODAL}/:token/:fetch/:property`}><AddApplianceReadyModal/></Route>}
-              {background && <Route path={`${EDIT_APPLIANCE_MODAL}/:propID/:fetch/:appliance`}><EditApplianceReadyModal/></Route>}
+              {background && <Route path={`${ADD_APPLIANCE_MODAL}/:token/:property`}><AddApplianceReadyModal/></Route>}
+              {background && <Route path={`${EDIT_APPLIANCE_MODAL}/:propID/:appliance`}><EditApplianceReadyModal/></Route>}
 
           </>
       )}/>

@@ -22,9 +22,12 @@ export const ADD_APPLIANCE_MODAL = '/admin/property/add-appliance';
 export const EDIT_APPLIANCE_MODAL = '/admin/property/edit-appliance';
 
 
-export const SERVICE_REQUEST = '/admin/service-requests/dashboard';
+export const SERVICE_REQUEST = '/admin/service-requests';
 export const NEW_SERVICE_REQUEST = '/admin/service-requests/new-service-requests';
+export const SERVICE_REQUEST_INFO_MODAL = '/admin/service-requests/information';
+
 export const ACCOUNT_SETTINGS = '/admin/account-settings/dashboard';
+
 
 /**
  * All keys that can be mapped to any page in the react navigator should 
@@ -95,6 +98,7 @@ export const navigationPages = {
     // Service Request Pages
     ServiceRequestScreen: SERVICE_REQUEST,
     NewRequest: NEW_SERVICE_REQUEST,
+    ServiceRequestModal: SERVICE_REQUEST_INFO_MODAL,
 
     // Account Settings Pages 
     AccountSettings: ACCOUNT_SETTINGS, 
