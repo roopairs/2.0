@@ -4,7 +4,7 @@ from django.test import TestCase
 
 from ..helperFuncsForTesting import getInfoPost, getInfoPut, setUpHelper
 from .models import Property
-from .views import FAIL, STATUS, SUCCESS
+from .views import FAIL, STATUS, SUCCESS, ERROR
 
 
 ################################################################################
@@ -29,7 +29,8 @@ class UpdateAppliance(TestCase):
         '''Everything is correct, I create the appliance first, then update it.'''
         data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
         responseData = getInfoPost(LOGIN, data)
-        
+        token = responseData.get('token')
+
         name = 'Fridge'
         manufacturer = 'Company'
         category = 'cool'
@@ -49,8 +50,9 @@ class UpdateAppliance(TestCase):
                   'token': responseData.get('token')
                }
         responseData = getInfoPost(APP_VIEW, data)
-
         self.assertEqual(responseData.get(STATUS), SUCCESS)
+
+        appId = responseData.get('appId')
 
         newName = 'freezer'
         newManufacturer = 'different company'
@@ -67,10 +69,11 @@ class UpdateAppliance(TestCase):
                   'newSerialNum': newSerialNum,
                   'newLocation': newLocation,
                   'appId': appId,
+                  'token': token
                }
 
         responseData = getInfoPut(APP_VIEW, data)
-
+        print(responseData.get(ERROR))
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
         # data = {

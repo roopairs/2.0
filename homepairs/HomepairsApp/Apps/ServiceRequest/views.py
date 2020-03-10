@@ -139,28 +139,39 @@ class ServiceRequestView(View):
 
     def put(self, request):
         inData = json.loads(request.body)
-        required = ['reqId', 'job', 'serviceCompany', 'client', 'status', 'dayStarted', 'details']
+        required = ['reqId', 'job', 'provId', 'client', 'status', 'dayStarted', 'details', 'propId', 'appId']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) == 0):
             id = inData.get('reqId')
             job = inData.get('job')
-            serviceCompany = inData.get('serviceCompany')
+            provId = inData.get('provId')
             client = inData.get('client')
             status = inData.get('status')
             dayStartedStr = inData.get('dayStarted')
             details = inData.get('details')
+            propId = inData.get('propId')
+            appId = inData.get('appId')
             dayStarted = datetime.datetime.strptime(dayStartedStr, "%Y-%m-%d").date()
+            propList = Property.objects.filter(id=propId)
+            appList = Appliance.objects.filter(id=appId)
+            provList = ServiceProvider.objects.filter(id=provId)
 
             # The ServiceRequest
             reqList = ServiceRequest.objects.filter(id=id)
             if reqList.exists():
                 req = reqList[0]
+                prop = propList[0]
+                app = appList[0]
+                prov = provList[0]
+                
                 req.job = job
-                req.serviceCompany = serviceCompany
+                req.serviceCompany = prov
                 req.client = client
                 req.status = status
                 req.dayStarted = dayStarted
                 req.details = details
+                req.location = prop
+                req.appFixed = app
                 req.save()
                 return JsonResponse(data={STATUS: SUCCESS})
             else:
