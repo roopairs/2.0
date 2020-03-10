@@ -160,7 +160,7 @@ class PropertyView(View):
         if(len(missingFields) > 0):
             return JsonResponse(data=missingError(missingFields))
 
-        splitAddress = inData.get('streetAddress')
+        splitAddress = inData.get('streetAddress').split(',')
         streetAddress = splitAddress[0]
         city = splitAddress[1]
         state = splitAddress[2]
@@ -218,16 +218,15 @@ class PropertyView(View):
         url = BASE_URL + 'service-locations/'
         inData = json.loads(request.body)
 
-        required = ['streetAddress', 'city', 'state', 'pm', 'numBed', 'numBath',
+        required = ['streetAddress', 'pm', 'numBed', 'numBath',
                     'maxTenants', 'token', 'propId']
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) == 0):
-            oldStreetAddress = inData.get('oldStreetAddress')
-            oldCity = inData.get('oldCity')
-            streetAddress = inData.get('streetAddress')
-            city = inData.get('city')
-            state = inData.get('state')
+            splitAddress = inData.get('streetAddress').split(',')
+            streetAddress = splitAddress[0]
+            city = splitAddress[1]
+            state = splitAddress[2]
             pm = inData.get('pm')
             numBed = inData.get('numBed')
             numBath = inData.get('numBath')
