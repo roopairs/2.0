@@ -120,7 +120,7 @@ export const postNewProperty = (
             .post(
                 'https://homepairs-mytest.herokuapp.com/property/',
                 {
-                    address: newProperty.address,
+                    streetAddress: newProperty.address,
                     numBed: newProperty.bedrooms,
                     numBath: newProperty.bathrooms,
                     maxTenants: newProperty.tenants,
@@ -247,7 +247,8 @@ export const removeProperty = (
  * Tenants 
  * @param {Contact} linkedPropertyManager -Property Manager recieved from the homepairs servers  
  */
-export const fetchPropertyAndPropertyManager = (linkedProperty: Property, linkedPropertyManager: Contact): FetchPropertyAndPropertyManagerAction => {
+export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], linkedPropertyManager: Contact): FetchPropertyAndPropertyManagerAction => {
+  const linkedProperty = linkedProperties[0];
   const fetchedPropertyManager: Contact = {
     email: linkedPropertyManager[accountKeys.EMAIL],
     firstName: linkedPropertyManager[accountKeys.FIRSTNAME],
@@ -339,12 +340,14 @@ export const postNewAppliance = (
     displayError: (msg: string) => void,
     navigation: NavigationRouteHandler,
 ) => {
+    console.log(info);
     return async () => {
         await axios
             .post(
                 'https://homepairs-mytest.herokuapp.com/appliances/',
                 {
                     propId: info.property.propId,
+                    token: info.token,
                     name: newAppliance.appName, 
                     manufacturer: newAppliance.manufacturer, 
                     category: categoryToString(newAppliance.category),
@@ -387,6 +390,7 @@ export const postUpdatedAppliance = (
     editAppliance: Appliance,
     displayError: (msg: string) => void,
     navigation: NavigationRouteHandler,
+    fetch: () => any,
 ) => {
     return async () => {
         return axios
@@ -407,7 +411,6 @@ export const postUpdatedAppliance = (
                     response[responseKeys.DATA][responseKeys.STATUS] ===
                     responseKeys.STATUS_RESULTS.SUCCESS
                 ) {
-                    // dispatch(updateAppliance(info.index, editAppliance));
                     navigation.goBack();
                 } else {
                     displayError(

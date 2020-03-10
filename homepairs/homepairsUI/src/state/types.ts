@@ -166,6 +166,7 @@ export type ServiceRequest = {
     companyName: string, 
     details: string, 
     appliance: Appliance, 
+    status: ServiceRequestStatus
 };
 
 export type ServiceProvider = {
@@ -173,20 +174,22 @@ export type ServiceProvider = {
     name: string;
 };
 
-export enum ServiceRequestStatus {
-    Pending,
-    Denied,
-    Accepted
+export enum ServiceRequestCompletionStatus {
+    Current,
+    Completed,
 }
 
-export enum ServiceStatus {
-    NotAccepted,
-    Idle,
+export enum ServiceRequestStatusEnums {
+    Pending,
+    Scheduled,
     InProgress,
     Completed,
-    Canceled
+    Canceled,
 }
 
+export type ServiceRequestStatus = ServiceRequestStatusEnums;
+
+/*
 export type RequestedService = {
     provider: ServiceProvider;
     status: ServiceRequestStatus;
@@ -204,7 +207,7 @@ export type ServiceState = {
     requested: RequestedService[];
     accepted: AcceptedService[];
     closed: Service[];
-};
+}; 
 
 export type RequestServiceAction = {
     type: string;
@@ -237,6 +240,44 @@ export type ServiceAction =
     | AcceptServiceAction
     | DenyServiceAction
     | CancelServiceAction;
+*/
+
+export type ServiceState = {
+    serviceRequests: ServiceRequest[],
+}
+
+export type RequestServiceAction = {
+    type: string;
+    request: ServiceRequest;
+};
+
+export type AcceptServiceAction = {
+    type: string;
+    request: ServiceRequest;
+};
+
+export type DenyServiceAction = {
+    type: string;
+    request: ServiceRequest;
+};
+
+export type CancelServiceAction = {
+    type: string;
+    service: ServiceRequest;
+};
+
+export type CompleteServiceAction = {
+    type: string;
+    service: ServiceRequest;
+};
+
+export type ServiceAction =
+    | RequestServiceAction
+    | CompleteServiceAction
+    | AcceptServiceAction
+    | DenyServiceAction
+    | CancelServiceAction;
+
 /* *-------------------Service Types-------------------* */
 
 /* *-------------------Header Types-------------------* */
@@ -380,6 +421,8 @@ export type EditPropertyState = {
 
 export type AddApplianceState = {
     property: Property;
+    token: string;
+    fetch: () => any;
 }
 
 export type EditApplianceState = {
@@ -420,7 +463,7 @@ enum HOMEPAIRS_LOGIN_STATUS {
 
 enum HOMEPAIRS_PROPERTY_KEYS {
     PROPERTYID = 'propId',
-    ADDRESS = 'address',
+    ADDRESS = 'streetAddress',
     TENANTS = 'maxTenants',
     BEDROOMS = 'numBed',
     BATHROOMS = 'numBath',
@@ -438,7 +481,6 @@ export enum HomepairsPropertyAttributes {
 export const HomePairsResponseKeys = {
     DATA: 'data',
     ACCOUNT_KEYS: HOMEPAIRS_ACCOUNT_KEYS,
-    PLACE: 'place',
     PROPERTIES: 'properties',
     PROPERTY_KEYS: HOMEPAIRS_PROPERTY_KEYS,
     ROLE: 'role',

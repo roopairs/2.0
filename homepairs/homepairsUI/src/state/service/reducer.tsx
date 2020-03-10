@@ -5,9 +5,7 @@ import {
 import { SERVICES_ACTION_TYPES } from './actions';
 
 export const initialState : ServiceState = {
-    requested : [],
-    accepted : [],
-    closed : [],
+    serviceRequests : [],
 };
 
 export const serviceRequests = (

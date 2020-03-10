@@ -20,6 +20,7 @@ export type PanelState = {
     selectedString: string;
     minHeight: number;
     maxHeight: number;
+    clicked: boolean;
 };
 
 
@@ -30,6 +31,7 @@ const initialState: PanelState = {
     animation: undefined,
     minHeight: 0,
     maxHeight: 0,
+    clicked: false,
 };
 
 type PanelProps = {
@@ -141,13 +143,16 @@ export default class ApplianceCategoryPanel extends React.Component<PanelProps, 
     selectAddress(selected: string) {
         const {parentCallBack} = this.props;
         parentCallBack(selected);
-        this.setState({selectedString: selected});
+        this.setState({
+            selectedString: selected, 
+            clicked: true,
+        });
         this.toggle();
+
     }
 
     renderBody() {
         const addressList = this.getAddressStrings();
-        console.log(addressList.length);
         return (
             <View style={this.styles.body} onLayout={this.setMaxHeight}>
                 <>{addressList.map((address) => 
@@ -164,27 +169,28 @@ export default class ApplianceCategoryPanel extends React.Component<PanelProps, 
 
     render() {
         const { up, down } = this.icons;
-        const { expanded, animation, selectedString } = this.state;
+        const { expanded, animation, selectedString, clicked } = this.state;
         let icon = down;
         if (expanded) {
             icon = up;
         }
 
         return (
-            <Animated.View
-                style={[this.styles.container, { height: animation}, {borderColor: expanded ? colors.primary : colors.lightGray}]}
-            >
-                <View style={this.styles.titleContainer} onLayout={this.setMinHeight}>
-                    <Text style={this.styles.titleText}>{selectedString}</Text>
-                    <TouchableHighlight
-                        onPress={this.toggle}
-                        underlayColor="#f1f1f1"
-                    >
-                        <Image style={this.styles.buttonImage} source={icon} />
-                    </TouchableHighlight>
-                </View>
-                {this.renderBody()}
-            </Animated.View>
+            <>{clicked ? <Text style={this.styles.titleText}>{selectedString}</Text>:
+                <Animated.View
+                    style={[this.styles.container, { height: animation}, {borderColor: expanded ? colors.primary : colors.lightGray}]}>
+                    <View style={this.styles.titleContainer} onLayout={this.setMinHeight}>
+                        <Text style={this.styles.titleText}>{selectedString}</Text>
+                        <TouchableHighlight
+                            onPress={this.toggle}
+                            underlayColor="#f1f1f1"
+                        >
+                            <Image style={this.styles.buttonImage} source={icon} />
+                        </TouchableHighlight>
+                    </View>
+                    {this.renderBody()}
+                </Animated.View>
+            }</>
         );
     }
 }

@@ -19,6 +19,7 @@ export type InputFormProps = {
     errorMessage?: string;
     numberOfLines?: number;
     multiline?: boolean;
+    maxLength?: number;
 };
 type InputFormState = {
     value?: string;
@@ -108,6 +109,7 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
             errorMessage,
             numberOfLines,
             multiline,
+            maxLength,
         } = this.props;
         const {error} = this.state;
 
@@ -115,16 +117,16 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
             <View style={containerStyle}>
                 {this.renderName()}
                 <TextInput
-                    multiline={multiline}
                     testID='user-text-input'
                     style={inputStyle}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
                     value={value}
-                    textAlignVertical='top'
                     placeholder={placeholder}
                     secureTextEntry={secureTextEntry}
                     numberOfLines={numberOfLines}
+                    multiline={multiline}
+                    maxLength={maxLength}
                     onChangeText={text => {this.passInputValue(text);}}
                 />
                 <HelperText
@@ -157,5 +159,6 @@ InputForm.defaultProps = {
     placeholder: null,
     numberOfLines: 1,
     multiline: false,
+    maxLength: 200,
     errorMessage: 'Placeholder error message',
 };

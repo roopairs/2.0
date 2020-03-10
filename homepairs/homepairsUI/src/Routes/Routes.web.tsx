@@ -217,8 +217,8 @@ function SinglePropertySwitch() {
               {background && <Route path={`${EDIT_PROPERTY_MODAL}/:propId`}> <EditPropertyReadyModal /> </Route>}
               {background && <Route path={`${ADD_TENANT_MODAL}/:propId`}><AddTenantReadyModal/></Route>}
               {background && <Route path={`${EDIT_TENANT_MODAL}/:tenant/:propId`}><EditTenantReadyModal/></Route>}
-              {background && <Route path={`${ADD_APPLIANCE_MODAL}/:propId/:property`}><AddApplianceReadyModal/></Route>}
-              {background && <Route path={`${EDIT_APPLIANCE_MODAL}/:propId/:appliance`}><EditApplianceReadyModal/></Route>}
+              {background && <Route path={`${ADD_APPLIANCE_MODAL}/:token/:fetch/:property`}><AddApplianceReadyModal/></Route>}
+              {background && <Route path={`${EDIT_APPLIANCE_MODAL}/:propID/:fetch/:appliance`}><EditApplianceReadyModal/></Route>}
 
           </>
       )}/>

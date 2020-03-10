@@ -164,6 +164,10 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
 
     property;
 
+    token;
+
+    fetch;
+
     submitButton : ThinButtonProps = {
         name: addApplianceStrings.add, 
         onClick: () => {this.clickSubmitButton();}, 
@@ -205,6 +209,8 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
         this.resetForms = this.resetForms.bind(this);
         this.displayError = this.displayError.bind(this);
         this.property = props.navigation.getParam('property');
+        this.token = props.navigation.getParam('token');
+        this.fetch = props.navigation.getParam('fetch');
         this.state = initialState;
         this.categoryRef = React.createRef();
         this.nameRef = React.createRef();
@@ -292,7 +298,7 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                 serialNum: Number(serialNum), 
                 location,
             };
-            const info : AddApplianceState = {property: this.property};
+            const info : AddApplianceState = {property: this.property, token: this.token, fetch: this.fetch};
             onCreateAppliance(newAppliance, info, this.setInitialState, this.displayError, navigation);
         }
     }
