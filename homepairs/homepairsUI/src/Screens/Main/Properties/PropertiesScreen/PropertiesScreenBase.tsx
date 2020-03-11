@@ -50,26 +50,19 @@ export default class PropertiesScreenBase extends React.Component<PropertiesScre
 
         onSelectProperty(index);
         onRevealGoBack(true);
-        console.log(`Navigation to Detailed Property: ${properties[index].propId}`);
         navigation.push(navigationPages.SingleProperty, {propId: properties[index].propId});
     }
 
-    // async fetchPropertyImage(address: string) {
-    //     const result = await axios.get(`https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&key=${this.apiKey}`);
-    //     console.log(result);
-    //     const photoRef = result['candidates'][0]['photos'][0]['photo_reference'];
-    //     console.log(photoRef);
-    //     const propImage = await axios.get(`https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}`);
-    //     console.log(photoRef);
-    //     return propImage;
-    // }
+    fetchPropertyImage(address: string) {
+        return `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${this.apiKey}`;
+    }
 
     render() {
         const { propertyState} = this.props;
         const {properties} = propertyState;
         let nextIndex = 0;
         const PropertyCards = properties.map(property => {
-            const propImage = defaultProperty;
+            const propImage = this.fetchPropertyImage(property.address);
             const curIndex = nextIndex;
             nextIndex += 1;
             return (

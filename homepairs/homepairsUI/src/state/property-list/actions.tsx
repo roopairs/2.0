@@ -364,6 +364,7 @@ export const postNewAppliance = (
                     responseKeys.STATUS_RESULTS.SUCCESS
                 ) {
                     setInitialState();
+                    console.log(response[responseKeys.DATA]);
                     navigation.goBack();
                 } else {
                     displayError(

@@ -36,7 +36,7 @@ const initialState: PanelState = {
 
 type PanelProps = {
     properties: Property[],
-    parentCallBack: (child: string) => any
+    parentCallBack: (child: string, propId: string) => any
 };
 
 const colors = BaseStyles.LightColorTheme;
@@ -112,15 +112,6 @@ export default class ApplianceCategoryPanel extends React.Component<PanelProps, 
         };
     }
 
-    getAddressStrings() {
-        const addressList = [];
-        const {properties} = this.props;
-        properties.forEach((property) => {
-            addressList.push(property.address);   
-        });
-        return addressList;
-    }
-
     setMaxHeight(event) {
         this.setState({ maxHeight: event.nativeEvent.layout.height });
     }
@@ -140,28 +131,27 @@ export default class ApplianceCategoryPanel extends React.Component<PanelProps, 
         Animated.spring(animation, { toValue: finalValue }).start();
     }
 
-    selectAddress(selected: string) {
+    selectAddress(property: Property) {
         const {parentCallBack} = this.props;
-        parentCallBack(selected);
+        parentCallBack(property.address, property.propId);
         this.setState({
-            selectedString: selected, 
+            selectedString: property.address, 
             clicked: true,
         });
         this.toggle();
-
     }
 
     renderBody() {
-        const addressList = this.getAddressStrings();
+        const {properties} = this.props;
         return (
             <View style={this.styles.body} onLayout={this.setMaxHeight}>
-                <>{addressList.map((address) => 
+                <>{properties.map((property) => 
                     <TouchableHighlight 
                         testID='click-plumbing'
                         underlayColor="#f1f1f1"
-                        onPress={() => this.selectAddress(address)}
+                        onPress={() => this.selectAddress(property)}
                         style={this.styles.infoRowContainer}>
-                        <Text style={this.styles.detail}>{address}</Text>
+                        <Text style={this.styles.detail}>{property.address}</Text>
                     </TouchableHighlight>)}</>
             </View>
         );

@@ -1,18 +1,21 @@
 import React, {Component} from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { HeaderState, Property, ApplianceType, ServiceRequest, HomePairsDimensions } from 'homepairs-types';
+import { HeaderState, Property, ApplianceType, ServiceRequest, HomePairsDimensions, Appliance } from 'homepairs-types';
 import strings from 'homepairs-strings';
 import Colors from 'homepairs-colors';
 import 'react-widgets/dist/css/react-widgets.css';
 import { StyleSheet, Text, View, ScrollView, Platform } from 'react-native';
-import { NavigationRouteScreenProps, NavigationRouteHandler } from 'homepairs-utilities';
-import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps} from 'homepairs-elements';
+import { NavigationRouteScreenProps, NavigationRouteHandler, stringToCategory, isEmptyOrSpaces } from 'homepairs-utilities';
+import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import {ChooseServiceCategory, ChooseAppliance} from 'homepairs-components';
 import {DateTimePicker} from 'react-widgets';
 import {DatePicker} from 'react-native-datepicker';
-import ServiceTypePanel from 'src/Elements/Panels/ServiceTypePanel';
 import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
+import { Endpoints } from 'src/Routes/RouteConstants';
+import axios from 'axios';
+
+const {HOMEPAIRS_PROPERTY_ENDPOINT} = Endpoints;
 
 Moment.locale('en');
 momentLocalizer();
@@ -29,7 +32,6 @@ export type PropertyState = {
 
 type NewRequestState = {
     address: string,
-    selectedPropId: string, 
     serviceCategory: ApplianceType,
     applianceId: string,
     serviceProvider: string, 
@@ -37,12 +39,12 @@ type NewRequestState = {
     description: string, 
     serviceDate: Date, 
     clientName: string, 
-    phoneNumber: string
+    phoneNumber: string, 
+    appliances: Appliance[],
 };
 
 const initialState : NewRequestState = {
     address: '', 
-    selectedPropId: '',
     serviceCategory: ApplianceType.None, 
     applianceId: '', 
     serviceProvider: '', 
@@ -51,6 +53,7 @@ const initialState : NewRequestState = {
     serviceDate: null, 
     clientName: '', 
     phoneNumber: '',
+    appliances: [],
 };
 
 const styles = StyleSheet.create({
@@ -155,6 +158,7 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         this.getFormDate = this.getFormDate.bind(this);
         this.getFormClientName = this.getFormClientName.bind(this);
         this.getFormPhoneNumber = this.getFormPhoneNumber.bind(this);
+        this.fetchAppliances = this.fetchAppliances.bind(this);
         this.state = initialState;
         this.addressRef = React.createRef();
         this.serviceCategoryRef = React.createRef();
@@ -167,8 +171,10 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         this.phoneNumberRef = React.createRef();
     }
 
-    getFormAddress(childData : string) {
+    async getFormAddress(childData : string, propId: string) {
         this.setState({address: childData});
+        console.log(`inside of get form address ${propId}`);
+        await this.fetchAppliances(propId);
     }
 
     getFormCategory(childData : ApplianceType) {
@@ -203,12 +209,51 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         this.setState({phoneNumber: childData});
     }
 
-    validateForms() {
-        return true;
-    }
+    fetchAppliances = async (propId: string) => {
+        if (propId !== '') {
+            await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`).then((result) =>{
+                const {appliances} = result.data;
+                console.log(appliances);
+                const applianceInfo: Appliance[] = [];
+
+                appliances.forEach(appliance => {
+                    const {appId, category, name, manufacturer, modelNum, serialNum, location} = appliance;
+
+                    applianceInfo.push({
+                        applianceId: appId,
+                        category: stringToCategory(category), 
+                        appName: name, manufacturer, modelNum, serialNum, location,
+                    });
+                });
+
+                this.setState({appliances: applianceInfo});
+            });  
+        }   
+    };
 
     clickSubmitButton() {
         const {address, serviceCategory, applianceId, serviceProvider, serviceType, description, serviceDate, clientName, phoneNumber} = this.state;
+        if (this.validateForms()) {
+
+        }
+    }
+
+    validateForms() {
+        const {address, serviceCategory, applianceId, serviceProvider, serviceType, description, serviceDate} = this.state;
+        let check = true;
+        if (isEmptyOrSpaces(address)) {
+            check = false;
+        }
+        if (serviceCategory === ApplianceType.None) {
+            check = false;
+        }
+        if (isEmptyOrSpaces(applianceId)) {
+            check = false;
+        }
+        if (serviceDate === null) {
+            check = false;
+        }
+        return check;
     }
 
     renderDatePicker() {
@@ -219,38 +264,39 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         maxDate.setDate(startDate.getDate() + 90);
         maxDate.setHours(0, 0, 0);
         if (Platform.OS === 'web') {
-            const picker = <DateTimePicker 
+            return <DateTimePicker 
                 key='web datetime picker'
                 dropDown
-                placeholder='Choose a date and time'
                 value={serviceDate}
                 onChange={value => this.getFormDate(value)}
                 min={startDate}
                 time
             />;
-            return picker;
         }
         return <DatePicker 
-            key='mobile date time picker'
+            key='mobile datetime picker'
             minDate={startDate}
             maxDate={startDate.setDate(startDate.getDate() + 90)}
             onDateChange={(date) => this.getFormDate(date)}
             mode='datetime'
             confirmBtnText='Confirm'
-            cancelBtnText='Cancel'
-            placeholder='Choose a date and time'        
+            cancelBtnText='Cancel'    
         />;
     }
 
     render() {
         const {properties} = this.props;
+        const {appliances, serviceCategory} = this.state;
         return (
             <ScrollView style={styles.scrollContainer}>
                 <Text style={styles.formTitle}>ADDRESS</Text>
                 <AddressPanel properties={properties} parentCallBack={this.getFormAddress}/>
-                <Text style={styles.formTitle}>CHOOSE SERVICE CATEGORY</Text>
+                <Text style={styles.formTitle}>SERVICE CATEGORY</Text>
                 <ChooseServiceCategory onPress={this.getFormCategory}/>
-                <Text style={styles.formTitle}>CHOOSE SERVICE TYPE</Text>
+                <Text style={styles.formTitle}>APPLIANCE (IF APPLICABLE)</Text>
+                <ChooseAppliance parentCallBack={this.getFormAppliance} applianceType={serviceCategory} appliances={appliances}/>
+                <Text style={styles.formTitle}>SERVICE PROVIDER</Text>
+                <Text style={styles.formTitle}>SERVICE TYPE</Text>
                 <ServiceTypePanel parentCallBack={this.getFormServiceType}/>
                 <Text style={styles.formTitle}>WHAT HAPPENED?</Text>
                 <InputForm 
@@ -262,10 +308,6 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
                     />
                 <Text style={styles.formTitle}>WHEN DO YOU WANT IT TO BE FIXED?</Text>
                 <>{this.renderDatePicker()}</>
-                <Text style={styles.formTitle}>WHO SHOULD THEY ASK FOR?</Text>
-                <InputForm
-                    parentCallBack={this.getFormClientName}
-                />
                 <ThinButton 
                     name={this.buttonProps.name}
                     onClick={this.buttonProps.onClick}
