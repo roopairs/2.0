@@ -70,15 +70,18 @@ const innerStackConfig: any = {
 const propertyStackConfig = {
     initialRouteName: navigationPages.PropertiesScreen,
     ...innerStackConfig,
+    mode: 'modal',
 };
 
 const serviceRequestStackConfig = {
     initialRouteName: navigationPages.ServiceRequestScreen,
     ...innerStackConfig,
+    mode: 'modal',
 };
 const accountStackConfig = {
     initialRouteName: navigationPages.AccountSettings,
     ...innerStackConfig,
+    mode: 'modal',
 };
 
 /** Define the Navigation Stacks now that our configuration is ready */
@@ -87,6 +90,12 @@ const PropertyStack = createStackNavigator(
         [navigationKeys.PropertiesScreen]: MainAppPages.PropertyPages.PropertiesScreen,
         [navigationKeys.TenantProperty]: MainAppPages.PropertyPages.TenantPropertiesScreen,
         [navigationKeys.SingleProperty]: MainAppPages.PropertyPages.DetailedPropertyScreen,
+
+        [navigationKeys.EditPropertyModal]: EditPropertyModal,
+        [navigationKeys.AddApplianceModal]: AddApplianceModal, 
+        [navigationKeys.EditApplianceModal]: EditApplianceModal,
+        [navigationKeys.EditTenantModal]: EditTenantModal,
+        [navigationKeys.AddTenantModal]: AddTenantModal,
     },
     propertyStackConfig,
 );
@@ -95,6 +104,9 @@ const ServiceRequestStack = createStackNavigator(
     {
       [navigationKeys.ServiceRequestScreen]: MainAppPages.ServiceRequestPages.ServiceRequestScreen, 
       [navigationKeys.NewRequest]: MainAppPages.ServiceRequestPages.NewRequestScreen,
+
+      [navigationKeys.ServiceRequestModal]: ServiceRequestModal,
+
     }, 
   serviceRequestStackConfig);
   
@@ -114,14 +126,7 @@ const MainStack = createStackNavigator(
         [navigationKeys.ServiceRequest]: ServiceRequestStack,
         [navigationKeys.Account]: AccountStack,
 
-        // Add all modals here. This way, the page will overlay the entire page including the header
         [navigationKeys.AddNewPropertyModal]: AddNewPropertyModal,
-        [navigationKeys.EditPropertyModal]: EditPropertyModal,
-        [navigationKeys.AddApplianceModal]: AddApplianceModal, 
-        [navigationKeys.EditApplianceModal]: EditApplianceModal,
-        [navigationKeys.EditTenantModal]: EditTenantModal,
-        [navigationKeys.AddTenantModal]: AddTenantModal,
-        [navigationKeys.ServiceRequestModal]: ServiceRequestModal,
     },
     {
         initialRouteName: navigationKeys.Properties,

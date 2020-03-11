@@ -126,6 +126,8 @@ const styles = StyleSheet.create({
  */
 export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
     const { property, hasEdit, onClick } = props;
+    console.log(`In General Home Info`)
+    console.log(property);
     const {address, tenants, bedrooms, bathrooms} = property;
 
     function renderDetailBox(arg0: String, arg1: number) {

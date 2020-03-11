@@ -66,6 +66,7 @@ export const navigationPages = {
     AddNewPropertyModal: 'AddNewPropertyModal',
     EditPropertyModal: 'EditPropertyModal',
     AddTenantModal: 'AddTenantModal',
+    
     EditTenantModal: 'EditTenantModal',
     AddApplianceModal: 'AddApplianceModal', 
     EditApplianceModal: 'EditApplianceModal',

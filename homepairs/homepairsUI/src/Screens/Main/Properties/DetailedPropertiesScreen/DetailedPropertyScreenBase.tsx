@@ -24,13 +24,14 @@ import {
 import * as BaseStyles from 'homepairs-base-styles';
 import { navigationPages, Endpoints } from 'src/Routes/RouteConstants';
 import axios from 'axios';
-import {NavigationRouteScreenProps, stringToCategory} from 'homepairs-utilities';
+import {NavigationRouteScreenProps, stringToCategory, hasPageBeenReloaded} from 'homepairs-utilities';
 
 
 const {HOMEPAIRS_PROPERTY_ENDPOINT} = Endpoints;
 
 export type DetailedPropertyStateProps = {
     property: Property;
+    properties: Property[];
     token: string,
 };
 
@@ -38,13 +39,15 @@ type Props = NavigationRouteScreenProps & DetailedPropertyStateProps;
 type State = {
     tenantInfo: TenantInfo[],
     applianceInfo: Appliance[],
-}
+    pathname: string,
+    key: string,
+};
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        backgroundColor: colors.space,
+        backgroundColor: colors.primary,
         width: BaseStyles.ContentWidth.max,
         flex: 1,
     },
@@ -101,49 +104,61 @@ const styles = StyleSheet.create({
     },
 });
 
+/**
+ * Helper function to recieve propId and property from passed in props 
+ * @param props 
+ */
+function getPropIdAndProperty(props:any){
+    const {property} = props;
+    const {propId} = property;
+    return [propId, property];
+}
+
 export default class DetailedPropertyScreenBase extends React.Component<Props, State> {
 
-    property;
-
     navigation;
-
-    propId;
 
     token;
 
     constructor(props: Readonly<Props>){
         super(props);
+        const [pathname, key] = props.navigation.getLocationPathnameAndKey();
         this.state = {
             tenantInfo: [],
             applianceInfo: [],
+            pathname,
+            key,
         };
-        this.property = props.property; 
         this.navigation = props.navigation;
         this.token = props.token;
-        this.propId = this.property.propId;
         this.openEditPropertyModal = this.openEditPropertyModal.bind(this);
         this.openEditApplianceModal = this.openEditApplianceModal.bind(this);
         this.openAddApplianceModal = this.openAddApplianceModal.bind(this);
         this.openEditApplianceModal = this.openEditApplianceModal.bind(this);
         this.fetchTenantsAndAppliances = this.fetchTenantsAndAppliances.bind(this);
-    }
+    };
 
     async componentDidMount(){
         await this.fetchTenantsAndAppliances();
     }
 
+    componentDidUpdate() {
+        if(hasPageBeenReloaded(this.props, this.state)){
+            const {navigation} = this.props;
+            const [newPath, newKey] = navigation.getLocationPathnameAndKey();
+            this.fetchTenantsAndAppliances();
+            this.setState({pathname: newPath, key: newKey});
+        }
+    };
+    
+
     // TODO: Cancel all async requests that are still occurring. Will focus on this next quarter!!!
-    /*
-    async componentDidUpdate() {
-        await this.fetchTenantsAndAppliances();
-    }
-    */
-
-
     componentWillUnmount(){}
 
     fetchTenantsAndAppliances = async () => {
-        await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${this.propId}`).then((result) =>{
+        const [propId] = getPropIdAndProperty(this.props);
+
+        await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`).then((result) =>{
             const {tenants, appliances} = result.data;
             const tenantInfo: TenantInfo[] = [];
             const applianceInfo: Appliance[] = [];
@@ -176,20 +191,25 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
     };
        
     openEditPropertyModal() {
-        this.navigation.navigate(navigationPages.EditPropertyModal, {propId: this.propId}, true);
+        const [propId] = getPropIdAndProperty(this.props);
+        this.navigation.replace(navigationPages.EditPropertyModal, {propId}, true);
     }
 
     openAddApplianceModal() {
-        this.navigation.navigate(navigationPages.AddApplianceModal, {property: this.property, token: this.token}, true);
+        const [,property] = getPropIdAndProperty(this.props);
+        this.navigation.replace(navigationPages.AddApplianceModal, {property, token: this.token}, true);
     }
 
     openEditApplianceModal(appliance: Appliance) {
-        this.navigation.navigate(navigationPages.EditApplianceModal, {appliance, propId: this.propId}, true);
+        const [propId] = getPropIdAndProperty(this.props);
+        this.navigation.replace(navigationPages.EditApplianceModal, {appliance, propId}, true);
     }
 
     renderContents() {
-        const {address} = this.property;
+        const [propId, property] = getPropIdAndProperty(this.props);
+        const {address} = property;
         const {applianceInfo, tenantInfo} = this.state;
+
         return (
             <ScrollView style={{ flexGrow: 1 }}>
                 <View style={styles.addBottomMargin}>
@@ -207,19 +227,19 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
                         </View>
                     </View>
                     <GeneralHomeInfo
-                        property={this.property}
+                        property={property}
                         onClick={this.openEditPropertyModal}/>
                     <ApplianceInfo 
                         navigation={this.navigation} 
                         appliances={applianceInfo} 
-                        propId={this.propId}
+                        propId={propId}
                         onAddApplianceModal={this.openAddApplianceModal} 
                         onEditApplianceModal={this.openEditApplianceModal}/>
                     <CurrentTenantCard
                         navigation={this.navigation}
-                        propId={this.propId}
+                        propId={propId}
                         tenants={tenantInfo}/>
-                    <ServiceRequestCount property={this.property}/>
+                    <ServiceRequestCount property={property}/>
                 </View>
             </ScrollView>
         );

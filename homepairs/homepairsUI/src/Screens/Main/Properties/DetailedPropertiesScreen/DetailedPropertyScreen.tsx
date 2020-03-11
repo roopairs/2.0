@@ -8,10 +8,12 @@ import DetailedPropertyScreenBase, {
 function mapStateToProps(state: AppState): DetailedPropertyStateProps {
     const {properties} = state;
     return { 
-        property: properties.properties[properties.selectedPropertyIndex],
+        property: {...properties.properties[properties.selectedPropertyIndex]},
+        properties: properties.properties,
         token: state.accountProfile.roopairsToken,
     };
 }
+
 
 const DetailedPropertyScreen = connect(
     mapStateToProps,

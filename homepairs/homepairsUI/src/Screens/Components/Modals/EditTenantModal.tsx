@@ -5,9 +5,10 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, TenantInfo} from 'homepairs-types';
 import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid, 
     prepareNavigationHandlerComponent, NavigationRouteScreenProps } from 'homepairs-utilities';
-import {Endpoints} from 'homepairs-routes';
+import {Endpoints, navigationPages} from 'homepairs-routes';
 
 const {updateTenant} = Endpoints;
+const {SingleProperty} = navigationPages;
 
 type Props =  NavigationRouteScreenProps
 
@@ -153,6 +154,7 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
         this.getFormLastName = this.getFormLastName.bind(this);
         this.getFormEmail = this.getFormEmail.bind(this);
         this.getFormPhoneNumber = this.getFormPhoneNumber.bind(this);
+        this.goBackToPreviousPage = this.goBackToPreviousPage.bind(this);
         this.resetForms = this.resetForms.bind(this);
         this.setInitialState = this.setInitialState.bind(this);
         this.currentTenant = props.navigation.getParam('tenant');
@@ -170,6 +172,7 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
         this.phoneNumberRef = React.createRef();
     } 
 
+    
     getFormFirstName(firstName : string) {
         this.setState({firstName});
     }
@@ -184,6 +187,11 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
 
     getFormPhoneNumber(phoneNumber: string) {
         this.setState({phoneNumber});
+    }
+
+    goBackToPreviousPage() {
+        const{navigation} = this.props;
+        navigation.replace(SingleProperty, {propId: this.propId});
     }
 
     setInitialState() {
@@ -237,24 +245,21 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
     }
 
     async clickSubmitButton() {
-        const {navigation} = this.props;
         this.resetForms();
         if (this.validateForms()) {
             const newTenantInfo : TenantInfo = this.generateNewTenantInfo();
             const postValues = {propId: this.propId, ...newTenantInfo};
-            console.log(postValues)
             // TODO: set up fetch request for editing tenant.
             // alert('We need the backend to set up an endpoint to Edit the Tenant');
             await updateTenant(postValues); 
-            navigation.goBack();
+            this.goBackToPreviousPage();
         };
     }
 
     clickRemoveButton() {
-        const {navigation} = this.props;
         this.resetForms();
         alert('We need the backend to create the endpoint in order to remove this tenant');
-        navigation.goBack();
+        this.goBackToPreviousPage();
     }
 
     renderInputForms() {
@@ -340,7 +345,6 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
     }
     
     render() {
-        const {navigation} = this.props;
         const showCloseButton = true;
         return(
             <SafeAreaView style={styles.modalContainer}>
@@ -355,7 +359,7 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
                     wrapperStyle={styles.cardWrapperStyle}
                     title='Edit Tenant'
                     closeButtonPressedCallBack={() => {
-                        navigation.goBack();
+                        this.goBackToPreviousPage();
                         this.setInitialState();
                         this.resetForms();
                     }}

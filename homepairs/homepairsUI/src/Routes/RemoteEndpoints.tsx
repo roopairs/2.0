@@ -17,5 +17,7 @@ export const updateTenant = async ({...props}) => {
     const {propId, email, firstName, lastName} = props;
     await axios.post(HOMEPAIRS_TENANT_EDIT_ENDPOINT, {email, propId, firstName, lastName}).then((result) =>{
         console.log(result);
+    }).catch(error =>{
+        console.log(error);
     });
 };

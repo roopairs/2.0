@@ -9,10 +9,13 @@ import {isPositiveWholeNumber, isEmptyOrSpaces, NavigationRouteHandler, Navigati
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
+import { navigationPages } from 'src/Routes/RouteConstants.web';
 
+
+const {SingleProperty} = navigationPages;
 
 export type EditApplianceDispatchProps = {
-    onEditAppliance: (newAppliance: Appliance,
+    onEditAppliance: (propId: string, newAppliance: Appliance,
          displayError: (msg: string) => void, navigation: NavigationRouteHandler) => void
 }
 
@@ -219,6 +222,12 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
         this.setState({location: childData});
     }
 
+    goBackToPreviousPage() {
+        const{navigation} = this.props;
+        const propId = navigation.getParam('propId');
+        navigation.replace(SingleProperty, {propId});
+    }
+
     setInitialState() {
         const {category, manufacturer, appName, modelNum, serialNum, location} = this.oldAppliance;
         this.setState ({
@@ -269,13 +278,16 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
         this.resetForms();
         this.setState({errorCheck: false});
         if (this.validateForms()) {
+            const propId = navigation.getParam('propId');
+            console.log(propId);
+            console.log(navigation)
             const newAppliance : Appliance = {
                 applianceId, category, appName, manufacturer, 
                 modelNum: Number(modelNum), 
                 serialNum: Number(serialNum), 
                 location,
             };
-            onEditAppliance(newAppliance, this.displayError, navigation);
+            onEditAppliance(propId, newAppliance, this.displayError, navigation);
         }
     }
 
@@ -358,7 +370,6 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
     }
 
     render() {
-        const {navigation} = this.props;
         const {category} = this.state;
         const showCloseButton = true;
         return(
@@ -371,7 +382,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
                     showCloseButton={showCloseButton}
                     title={editApplianceStrings.editTitle} 
                     closeButtonPressedCallBack={() => { 
-                        navigation.goBack();
+                        this.goBackToPreviousPage();
                         this.setInitialState();
                         this.resetForms();
                     }} 
