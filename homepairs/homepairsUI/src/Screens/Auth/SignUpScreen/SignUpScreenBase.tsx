@@ -11,6 +11,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { isNullOrUndefined, isPasswordValid, isEmailSyntaxValid, 
     isAlphaCharacterOnly, isEmptyOrSpaces, NavigationRouteHandler, NavigationRouteScreenProps } from 'homepairs-utilities';
 import { navigationPages } from 'src/Routes/RouteConstants';
+import {Divider} from 'react-native-elements';
 
 export type SignUpViewDispatchProps = {
     generateHomePairsAccount: (
@@ -330,15 +331,12 @@ export default class SignUpScreenBase extends React.Component<SignUpProps,SignUp
                     name="Login with your Roopairs Account"
                     onClick={this.toRoopairsLogin}
                 />
-                <View
-                    style={{
-                        minHeight: 30,
-                        alignItems: 'center',
-                        marginTop: 20,
-                    }}
-                >
-                    <Text style={{ fontSize: 20 }}>OR</Text>
-                </View>
+                <Divider style={{
+                    alignItems: 'center',
+                    marginTop: 25,
+                    marginBottom: 20,
+                    width: 400,
+                }}/> 
             </View>
         ) : (
             <></>

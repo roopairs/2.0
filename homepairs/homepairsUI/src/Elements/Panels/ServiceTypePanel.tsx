@@ -99,7 +99,7 @@ function setStyles() {
     });
 }
 
-const serviceTypes = ['Repair', 'Cleaning', 'Maintenance'];
+const serviceTypes = ['Repair', 'Installation', 'Maintenance'];
 
 export default class ServiceTypePanel extends React.Component<PanelProps, PanelState> {
     styles;

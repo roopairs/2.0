@@ -13,8 +13,6 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
 import { upArrow, downArrow} from 'homepairs-images';
-import { navigationPages } from '../../Routes/RouteConstants';
-
 
 export type PanelProps = {
     key?: string;
@@ -191,13 +189,6 @@ export default class AppliancePanel extends React.Component<Props, PanelState> {
     renderThinButton() {
         const {hasButton, buttonName, onClick, appliance} = this.props;
         if (hasButton) {
-            if (buttonName === 'Select') {
-                return <ThinButton 
-                    name={buttonName} 
-                    buttonStyle={this.thinButtonProps.buttonStyle} 
-                    buttonTextStyle={this.thinButtonProps.buttonTextStyle} 
-                    onClick={() => onClick()}/>;
-            }
             return <ThinButton 
                 name={buttonName} 
                 buttonStyle={this.thinButtonProps.buttonStyle} 
