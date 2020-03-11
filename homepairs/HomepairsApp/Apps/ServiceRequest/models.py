@@ -9,11 +9,12 @@ from ..ServiceProvider.models import ServiceProvider
 class ServiceRequest(models.Model):
     details = CharField(max_length=300)
     serviceCategory = CharField(max_length=50, default='unknown')
-    serviceCompany = models.ForeignKey(ServiceProvider, on_delete=models.CASCADE)
+    serviceCompany = models.ForeignKey(ServiceProvider, on_delete=models.CASCADE, null=True)
+    serviceType = CharField(max_length=100)
     client = CharField(max_length=100)
     status = CharField(max_length=20)
     serviceDate = DateTimeField()
-    appFixed = models.ForeignKey(Appliance, on_delete=models.CASCADE)
+    appFixed = models.ForeignKey(Appliance, on_delete=models.CASCADE, null=True)
     location = models.ForeignKey(Property, on_delete=models.CASCADE)
 
     def __str__(self):

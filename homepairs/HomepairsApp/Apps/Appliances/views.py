@@ -95,14 +95,15 @@ class ApplianceView(View):
                 return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
             elif(info.get('detail') == 'Invalid token.'):
                 return JsonResponse(data=returnError(info.get('detail')))
-
+            rooAppId = info.get('id')
+            print("HERE: ", rooAppId)
             app = Appliance(name=name,
                             manufacturer=manufacturer,
                             category=category,
                             modelNum=modelNum,
                             serialNum=serialNum,
                             location=location,
-                            rooAppId=info.get('id'),
+                            rooAppId=rooAppId,
                             place=prop)
             app.save()
             data = {

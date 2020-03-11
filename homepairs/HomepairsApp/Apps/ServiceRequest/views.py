@@ -74,10 +74,8 @@ def missingError(missingFields):
 class ServiceRequestView(View):
     def post(self, request):
         inData = json.loads(request.body)
-        required = ['provId', 'serviceCategory', 'serviceDate', 'details', 'token', 'propId', 'appId']
+        required = ['provId', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'token', 'propId', 'appId']
         missingFields = checkRequired(required, inData)
-        # propId for our database is the same for roopairs id so use same on for both things
-        # ask about shit I dont know
 
         url = BASE_URL + 'service-locations/' + '/propId/jobs/'
 
@@ -87,6 +85,7 @@ class ServiceRequestView(View):
         provId = inData.get('provId')
         serviceCategory = inData.get('serviceCategory')
         serviceDateStr = inData.get('serviceDate')
+        serviceType = inData.get('serviceType')
         details = inData.get('details')
         propId = inData.get('propId')
         appId = inData.get('appId')
@@ -97,13 +96,21 @@ class ServiceRequestView(View):
         provList = ServiceProvider.objects.filter(id=provId)
         if propList.exists() and appList.exists():
             prop = propList[0]
-            app = appList[0]
+            if appId != -1:
+                app = appList[0]
+            else:
+                app = None
             prov = provList[0]
-
+            
+            types = ['Repair', 'Installation', 'Maintenance']
+            for i in range(0, len(types)):
+                if types[i] == serviceType:
+                    serviceType = i + 1
+            
             data = {
                         'service_company': provId,
                         'service_category': 1,
-                        'service_type': 1,
+                        'service_type': serviceType,
                         'details': details,
                         'point_of_contact_name': str(prop.pm),
                         'requested_arrival_time': str(serviceDate)
@@ -113,9 +120,9 @@ class ServiceRequestView(View):
                 return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
             elif(info.get('detail') == 'Invalid token.'):
                 return JsonResponse(data=returnError(info.get('detail')))
-
             req = ServiceRequest(serviceCategory=serviceCategory,
                                  serviceCompany=prov,
+                                 serviceType=serviceType,
                                  status='pending',
                                  client=str(prop.pm),
                                  serviceDate=serviceDate,
