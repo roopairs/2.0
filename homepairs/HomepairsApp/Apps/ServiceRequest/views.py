@@ -96,21 +96,22 @@ class ServiceRequestView(View):
         provList = ServiceProvider.objects.filter(id=provId)
         if propList.exists() and appList.exists():
             prop = propList[0]
-            if appId != -1:
+            if str(appId) != '-1':
                 app = appList[0]
             else:
                 app = None
             prov = provList[0]
             
             types = ['Repair', 'Installation', 'Maintenance']
+            typeNum = -1
             for i in range(0, len(types)):
                 if types[i] == serviceType:
-                    serviceType = i + 1
+                    typeNum = i + 1
             
             data = {
                         'service_company': provId,
                         'service_category': 1,
-                        'service_type': serviceType,
+                        'service_type': typeNum,
                         'details': details,
                         'point_of_contact_name': str(prop.pm),
                         'requested_arrival_time': str(serviceDate)
@@ -122,7 +123,7 @@ class ServiceRequestView(View):
                 return JsonResponse(data=returnError(info.get('detail')))
             req = ServiceRequest(serviceCategory=serviceCategory,
                                  serviceCompany=prov,
-                                 serviceType=serviceType,
+                                 serviceType=str(typeNum),
                                  status='pending',
                                  client=str(prop.pm),
                                  serviceDate=serviceDate,
