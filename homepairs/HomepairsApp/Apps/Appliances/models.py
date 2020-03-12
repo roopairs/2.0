@@ -40,5 +40,5 @@ class Appliance(models.Model):
                   "modelNum": self.modelNum,
                   "category": self.category,
                   "appId": self.rooAppId,
-                  "place": str(place)
+                  "place": str(self.place)
                }
