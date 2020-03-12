@@ -182,12 +182,18 @@ export type NewServiceRequest = {
 
 export type ServiceProvider = {
     // TODO: Define attributes for service Provider
-    name: string;
+    provId: number,
+    name: string,
+    email: string,
+    phoneNum: string,
+    contractLic: string, // contract license
+    skills: string,
+    founded: string, // date founded
 };
 
 export enum ServiceRequestCompletionStatus {
     Current,
-    Completed,
+    Archived,
 }
 
 export enum ServiceRequestStatusEnums {
@@ -196,6 +202,7 @@ export enum ServiceRequestStatusEnums {
     InProgress,
     Completed,
     Canceled,
+    Declined,
 }
 
 export type ServiceRequestStatus = ServiceRequestStatusEnums;

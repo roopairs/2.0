@@ -1,5 +1,5 @@
 import React, {Component} from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance } from 'homepairs-types';
+import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider } from 'homepairs-types';
 import strings from 'homepairs-strings';
 import Colors from 'homepairs-colors';
 import 'react-widgets/dist/css/react-widgets.css';
@@ -7,7 +7,7 @@ import { StyleSheet, Text, View, ScrollView, Platform } from 'react-native';
 import { NavigationRouteScreenProps, NavigationRouteHandler, stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'homepairs-utilities';
 import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
-import {ChooseServiceCategory, ChooseAppliance} from 'homepairs-components';
+import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from 'homepairs-components';
 import {DateTimePicker} from 'react-widgets';
 import {DatePicker} from 'react-native-datepicker';
 import {HelperText} from 'react-native-paper';
@@ -15,6 +15,7 @@ import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
 import { Endpoints } from 'src/Routes/RouteConstants';
 import axios from 'axios';
+import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT } from 'src/Routes/RemoteEndpoints';
 
 const {HOMEPAIRS_PROPERTY_ENDPOINT} = Endpoints;
 
@@ -29,6 +30,7 @@ export type NewRequestDispatchProps = {
 type NewRequestScreenProps = {
     properties: Property[]
     token: string,
+    pmId: number,
 };
 
 type NewRequestState = {
@@ -45,7 +47,7 @@ type NewRequestState = {
     appliances: Appliance[],
     errorMsg: string,
     errorCheck: boolean,
-
+    serviceProviders: ServiceProvider[],
 };
 
 const initialState : NewRequestState = {
@@ -53,7 +55,7 @@ const initialState : NewRequestState = {
     propId: '',
     serviceCategory: ApplianceType.None, 
     applianceId: '', 
-    providerId: 1, 
+    providerId: '', 
     serviceType: '',
     details: '', 
     serviceDate: null, 
@@ -62,6 +64,7 @@ const initialState : NewRequestState = {
     appliances: [],
     errorMsg: '',
     errorCheck: false,
+    serviceProviders: [],
 };
 
 const styles = StyleSheet.create({
@@ -171,6 +174,7 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         this.getFormPhoneNumber = this.getFormPhoneNumber.bind(this);
         this.fetchAppliances = this.fetchAppliances.bind(this);
         this.displayError = this.displayError.bind(this);
+        this.fetchServiceProviders = this.fetchServiceProviders.bind(this);
         this.state = initialState;
         this.addressRef = React.createRef();
         this.serviceCategoryRef = React.createRef();
@@ -181,6 +185,10 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         this.serviceDateRef = React.createRef();
         this.clientNameRef = React.createRef();
         this.phoneNumberRef = React.createRef();
+    }
+
+    componentDidMount() {
+        this.fetchServiceProviders();
     }
 
     async getFormAddress(childData : string, propId: string) {
@@ -243,6 +251,24 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
     displayError(msg: string) {
         this.setState({errorMsg: msg, errorCheck: true});
     }
+
+    fetchServiceProviders = async () => {
+            const {pmId} = this.props;
+            await axios.get(`${HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT}${pmId}/`).then((result) =>{
+                const {providers} = result.data;
+                console.log(providers);
+                const providerInfo: ServiceProvider[] = [];
+
+                providers.forEach(provider => {
+                    const { provId, name, email, phoneNum, contractLic, skills, founded } = provider;
+
+                    providerInfo.push({provId, name, email, phoneNum, contractLic, skills, founded});
+                });
+
+                console.log(providerInfo);
+                this.setState({serviceProviders: providerInfo});
+            });  
+    };
 
     clickSubmitButton() {
         const { serviceCategory, applianceId, providerId, serviceType, details, serviceDate, propId} = this.state;
@@ -324,7 +350,7 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
 
     render() {
         const {properties} = this.props;
-        const {appliances, serviceCategory} = this.state;
+        const {appliances, serviceCategory, serviceProviders} = this.state;
         return (
             <ScrollView style={styles.scrollContainer}>
                 <Text style={styles.formTitle}>ADDRESS</Text>
@@ -334,6 +360,7 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
                 <Text style={styles.formTitle}>APPLIANCE (IF APPLICABLE)</Text>
                 <ChooseAppliance parentCallBack={this.getFormAppliance} applianceType={serviceCategory} appliances={appliances}/>
                 <Text style={styles.formTitle}>SERVICE PROVIDER</Text>
+                <ChooseServiceProvider serviceProviders={serviceProviders} parentCallBack={this.getFormServiceProvider}/>
                 <Text style={styles.formTitle}>SERVICE TYPE</Text>
                 <ServiceTypePanel parentCallBack={this.getFormServiceType}/>
                 <Text style={styles.formTitle}>WHAT HAPPENED?</Text>
