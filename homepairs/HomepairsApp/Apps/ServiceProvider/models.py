@@ -13,12 +13,11 @@ class ServiceProvider(models.Model):
     contractLic = models.CharField(max_length=15, null=True)
     skills = models.CharField(max_length=200, null=True)
     founded = models.DateField(default=datetime.date.today)
-    rooProvId = models.CharField(max_length=100, null=True)
 
     # image????
 
     def __str__(self):
-        return self.name + " " + self.email
+        return self.name + ", " + self.email + ", " + self.id
 
     def toDict(self):
         return {
