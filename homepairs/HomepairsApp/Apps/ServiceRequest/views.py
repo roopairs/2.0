@@ -116,6 +116,8 @@ class ServiceRequestView(View):
                         'point_of_contact_name': str(prop.pm),
                         'requested_arrival_time': str(serviceDate)
                    }
+            print("TOKEN?")
+            print(token)
             info = postRooTokenAPI(url, data, token)
             if NON_FIELD_ERRORS in info:
                 return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
