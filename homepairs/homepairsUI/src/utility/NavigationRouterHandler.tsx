@@ -90,6 +90,21 @@ export default class NavigationRouteHandler{
     }
 
     /**
+     * Reloads the page if the navigation object is a router. Otherwise nothing is done. 
+     */
+    getLocationPathnameAndKey(){
+        if(NavigationRouteHandler.type === NavigationObjects.Router){
+            const {location} = this.navigation;
+            const {pathname, key} = location;
+            return [pathname, key];
+        }
+
+        const{key, routename} = this.navigation.state;
+        return [routename, key];
+        
+    }
+
+    /**
      * Invokes a forward navigation to a page on the navigation route stack. 
      * @param {string} route -the route a navigator should go to
      * @param {any} params -the data to be stored into the url for proper rendering
@@ -108,7 +123,6 @@ export default class NavigationRouteHandler{
         } else {
           this.navigation.navigate(route, params);  
         }
-        console.log(this.navigation)
     }
 
     /**
@@ -135,7 +149,7 @@ export default class NavigationRouteHandler{
     }
 
     /**
-     * Invokes the goBackFunction. All possible router objects have built in goBack Functions. 
+     * Invokes the goBack function. All possible router objects have built in goBack Functions. 
      */
     goBack(){
         if(NavigationRouteHandler.type === NavigationObjects.Router){
@@ -175,6 +189,38 @@ export default class NavigationRouteHandler{
             console.log('This is not a valid object');
         }
         return value;
+    }
+
+    /**
+     * A function that changes the current location to a different location found in the navigation stack or 
+     * history stack. If a switch navigator object is the used, then an error message will print to the console 
+     * instead. 
+     * @param {string} route -Path intended to replace the current location with 
+     * @param {any} params -parameters pass for the new url of the object 
+     * @param {boolean} asBackground -Indicates if the state of the navigation object should be a modal, only 
+     * works for react-router
+     */
+    replace(route:string, params?:any, asBackground?:boolean){
+        if(NavigationRouteHandler.type === NavigationObjects.Router){
+            const {location, history} = this.navigation;
+            const fullRoute = prepareRoute(route, params);
+            if(asBackground)
+                history.replace(fullRoute, {background: location});
+            else
+                history.replace(fullRoute);
+        } else {
+          this.navigation.replace(route, params);  
+        }
+    }
+
+    /**
+     * Forces a router page to reload.
+     */
+    reload(){
+        if(NavigationRouteHandler.type === NavigationObjects.Router){
+            const {history} = this.navigation;
+            history.go(0);
+        }
     }
 
     /**
@@ -221,3 +267,24 @@ export function prepareNavigationHandlerComponent(Component: any){
     const NavigableComponent = withNavigationRouteHandler(Component);
     return Platform.OS === 'web' ? withRouter(NavigableComponent) : withNavigation(NavigableComponent);
 } 
+
+
+/**
+ * ---------------------------------------------------
+ * Prepare Navigation Handler Component
+ * ---------------------------------------------------
+ * A utility function that checks to see if a component has been navigated back to. This function should often 
+ * be called after a component has been updated and navigated backward to especially from modal components. 
+ * NOTE: This function will on properly invoke within a stateful component.
+ * @param {any} props -the passed in parameters of the component. This should include a navigation object
+ * @param {any} state -the state of the component. This should store the pathname and key of the navigator object of
+ * the previous render. 
+ */
+export function hasPageBeenReloaded(props: any, state:any){
+    const {navigation} = props;
+    const {pathname, key}= state;
+    const [newPath, newKey] = navigation.getLocationPathnameAndKey();
+    //console.log(`New:${newPath} and ${newKey}`)
+    //onsole.log(`Old:${pathname} and ${key}`)
+    return (pathname === newPath && key !== newKey);
+}

@@ -57,10 +57,10 @@ const storeAccountData = async (accountJSON: any) => {
  * @param {NavigationRouteHandler} navigation -navigator passed from calling component */
 export function ChooseMainPage(accountType: AccountTypes, navigation: NavigationRouteHandler) {
     if(accountType === AccountTypes.Tenant){
-      navigation.navigate(navigationPages.TenantProperty);
+      navigation.replace(navigationPages.TenantProperty);
       return;
     }
-    navigation.navigate(navigationPages.PropertiesScreen);  
+    navigation.replace(navigationPages.PropertiesScreen);  
   }
 
 

@@ -5,16 +5,16 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid, 
     NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-utilities';
-import { Endpoints } from 'src/Routes/RouteConstants';
+import { Endpoints, navigationPages } from 'src/Routes/RouteConstants';
 
 
 const {updateTenant} = Endpoints;
+const {SingleProperty} = navigationPages;
 
 type Props =  NavigationRouteScreenProps;
 
 type AddTenantState = TenantInfo
 
-const {HOMEPAIRS_TENANT_EDIT_ENDPOINT} = Endpoints;
 const {width} = Dimensions.get('window');
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -96,8 +96,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
     },
-
-
     editTenantButtonStyle: {
         alignItems: 'center',
         backgroundColor: BaseStyles.LightColorTheme.transparent,
@@ -157,6 +155,7 @@ export class AddTenantModalBase extends React.Component<Props, AddTenantState> {
         this.getFormLastName = this.getFormLastName.bind(this);
         this.getFormEmail = this.getFormEmail.bind(this);
         this.getFormPhoneNumber = this.getFormPhoneNumber.bind(this);
+        this.goBackToPreviousPage = this.goBackToPreviousPage.bind(this);
         this.resetForms = this.resetForms.bind(this);
         this.propId = props.navigation.getParam('propId');
         this.state = {
@@ -187,6 +186,10 @@ export class AddTenantModalBase extends React.Component<Props, AddTenantState> {
         this.setState({phoneNumber});
     }
 
+    goBackToPreviousPage() {
+        const{navigation} = this.props;
+        navigation.replace(SingleProperty, {propId: this.propId});
+    }
 
     generateNewTenantInfo(){
         const {firstName, lastName, email, phoneNumber} = this.state;
@@ -229,16 +232,14 @@ export class AddTenantModalBase extends React.Component<Props, AddTenantState> {
     }
 
     async clickSubmitButton() {
-        const {navigation} = this.props;
         this.resetForms();
         if (this.validateForms()) {
             const newTenantInfo : TenantInfo = this.generateNewTenantInfo();
             const postValues = {propId: this.propId, ...newTenantInfo};
-            console.log(postValues)
             // TODO: set up fetch request for editing tenant.
             // alert('We need the backend to set up an endpoint to Edit the Tenant');
             await updateTenant(postValues); 
-            navigation.goBack();
+            this.goBackToPreviousPage();
         }; 
     }
 
@@ -301,7 +302,6 @@ export class AddTenantModalBase extends React.Component<Props, AddTenantState> {
     }
 
     render() {
-        const {navigation} = this.props;
         const showCloseButton = true;
         return(
             <SafeAreaView style={styles.modalContainer}>
@@ -316,7 +316,7 @@ export class AddTenantModalBase extends React.Component<Props, AddTenantState> {
                     wrapperStyle={styles.cardWrapperStyle}
                     title='Add Tenant'
                     closeButtonPressedCallBack={() => {
-                        navigation.goBack();
+                        this.goBackToPreviousPage();
                         this.resetForms();
                     }}
                     >

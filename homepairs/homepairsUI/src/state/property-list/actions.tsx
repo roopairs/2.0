@@ -3,7 +3,7 @@ import { NavigationStackProp } from 'react-navigation-stack';
 import { AsyncStorage } from 'react-native';
 import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
 import {categoryToString} from 'homepairs-utilities';
-
+import {navigationPages} from 'homepairs-routes';
 import {
     AddPropertyAction,
     UpdatePropertyAction,
@@ -25,6 +25,7 @@ import {
 const responseKeys = HomePairsResponseKeys;
 const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
 const accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
+const {SingleProperty} = navigationPages;
 
 /**
  * ----------------------------------------------------
@@ -208,11 +209,8 @@ export const postUpdatedProperty = (
                     response[responseKeys.DATA][responseKeys.STATUS] ===
                     responseKeys.STATUS_RESULTS.SUCCESS
                 ) {
+                    navigation.replace(SingleProperty, {propId: editProperty.propId});
                     dispatch(updateProperty(info.index, editProperty));
-                    console.log('Post Updated Property: Recieved Request');
-                    navigation.goBack();
-                    console.log('Post Updated Property: Recieved Request');
-
                 } else {
                     displayError(
                         response[responseKeys.DATA][responseKeys.ERROR],
@@ -295,7 +293,6 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertiesAc
     });
   });
   storePropertyData(fetchedProperties);
-  console.log(fetchedProperties);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
     properties: fetchedProperties,
@@ -363,9 +360,10 @@ export const postNewAppliance = (
                     response[responseKeys.DATA][responseKeys.STATUS] ===
                     responseKeys.STATUS_RESULTS.SUCCESS
                 ) {
+                    const {property} = info;
+                    const {propId} = property;
                     setInitialState();
-                    console.log(response[responseKeys.DATA]);
-                    navigation.goBack();
+                    navigation.replace(SingleProperty, {propId});
                 } else {
                     displayError(
                         response[responseKeys.DATA][responseKeys.ERROR],
@@ -390,6 +388,7 @@ export const postNewAppliance = (
  * of the calling component
  */
 export const postUpdatedAppliance = (
+    propId: string,
     editAppliance: Appliance,
     displayError: (msg: string) => void,
     navigation: NavigationRouteHandler,
@@ -413,7 +412,7 @@ export const postUpdatedAppliance = (
                     response[responseKeys.DATA][responseKeys.STATUS] ===
                     responseKeys.STATUS_RESULTS.SUCCESS
                 ) {
-                    navigation.goBack();
+                  navigation.replace(SingleProperty, {propId});
                 } else {
                     displayError(
                         response[responseKeys.DATA][responseKeys.ERROR],

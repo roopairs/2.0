@@ -8,7 +8,10 @@ import Colors from 'homepairs-colors';
 import {isPositiveWholeNumber, isEmptyOrSpaces, isNullOrUndefined, NavigationRouteHandler, NavigationRouteScreenProps} from 'homepairs-utilities';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
+import { navigationPages } from 'src/Routes/RouteConstants';
 
+
+const { SingleProperty } = navigationPages;
 
 export type AddApplianceDispatchProps = {
     onCreateAppliance: (newAppliance: Appliance, info: AddApplianceState, setInitialState: () => void, 
@@ -197,6 +200,8 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
     constructor(props: Readonly<Props>) {
         super(props);
         this.inputFormStyle = setInputStyles(null);
+
+        this.goBackToPreviousPage = this.goBackToPreviousPage.bind(this);
         this.getFormCategory= this.getFormCategory.bind(this);
         this.getFormName = this.getFormName.bind(this);
         this.getFormManufacturer = this.getFormManufacturer.bind(this);
@@ -206,6 +211,7 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
         this.setInitialState = this.setInitialState.bind(this);
         this.resetForms = this.resetForms.bind(this);
         this.displayError = this.displayError.bind(this);
+
         this.property = props.navigation.getParam('property');
         this.token = props.navigation.getParam('token');
         this.state = initialState;
@@ -243,6 +249,12 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
 
     setInitialState() {
         this.setState(initialState);
+    }
+
+    goBackToPreviousPage() {
+        const{navigation} = this.props;
+        const {propId} = this.property;
+        navigation.replace(SingleProperty, {propId});
     }
 
     validateForms() {
@@ -379,7 +391,6 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
     }
 
     render() {
-        const {navigation} = this.props;
         const {category} = this.state;
         const showCloseButton = true;
         return(
@@ -392,7 +403,7 @@ export default class AddApplianceModalBase extends React.Component<Props,CreateS
                     showCloseButton={showCloseButton}
                     title={addApplianceStrings.addTitle} 
                     closeButtonPressedCallBack={() => { 
-                        navigation.goBack();
+                        this.goBackToPreviousPage();
                         this.setInitialState();
                         this.resetForms();
                     }} 

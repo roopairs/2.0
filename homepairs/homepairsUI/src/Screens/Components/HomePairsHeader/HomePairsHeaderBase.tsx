@@ -17,9 +17,9 @@ import {
     MainAppStackType,
     AccountTypes,
 } from 'homepairs-types';
+import {NavigationRouteHandler} from 'homepairs-utilities';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu';
-import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
 
 const backSymbol = '<';
 const { DROP_MENU_WIDTH } = HomePairsDimensions;
@@ -168,7 +168,7 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
 
     showBackButton() {
         const { header } = this.props;
-        return header.showBackButton ? (
+        return (header.showBackButton && Platform.OS !== 'web') ? (
             <TouchableOpacity 
                 testID='homepairs-header-go-back'
                 onPress={this.goBack} 

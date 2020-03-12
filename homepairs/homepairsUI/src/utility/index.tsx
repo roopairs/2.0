@@ -4,7 +4,9 @@ import isPasswordValid from './SyntaxVerification/PasswordVerification';
 import isPhoneNumberValid from './SyntaxVerification/PhoneNumberVerification';
 import isAlphaCharacterOnly from './SyntaxVerification/AlphaCharacterVerification';
 import { isNullOrUndefined } from './ParameterChecker';
-import NavigationRouteHandler, {withNavigationRouteHandler, prepareNavigationHandlerComponent, prepareRoute} from './NavigationRouterHandler';
+import NavigationRouteHandler, {withNavigationRouteHandler, 
+    prepareNavigationHandlerComponent, prepareRoute, hasPageBeenReloaded,
+} from './NavigationRouterHandler';
 import { categoryToString, stringToCategory } from './ApplianceCategories';
 
 /**
@@ -17,7 +19,7 @@ import { categoryToString, stringToCategory } from './ApplianceCategories';
  */
 export {isEmailSyntaxValid, isPasswordValid, isEmptyOrSpaces, isPhoneNumberValid, isAlphaCharacterOnly, 
     isNullOrUndefined, isPositiveWholeNumber, NavigationRouteHandler, withNavigationRouteHandler,
-    prepareNavigationHandlerComponent, categoryToString, stringToCategory, prepareRoute,
+    prepareNavigationHandlerComponent, categoryToString, stringToCategory, prepareRoute, hasPageBeenReloaded
 };
 
 
