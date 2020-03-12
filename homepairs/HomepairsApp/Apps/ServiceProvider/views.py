@@ -139,7 +139,7 @@ class ServiceProviderView(View):
         preferredProviders = PreferredProviders.objects.filter(pm__id=inPmId)
         niceList = []
         for prov in preferredProviders:
-            niceList = prov.pm.toDict()
+            niceList = prov.provider.toDict()
         return JsonResponse(data={'providers': niceList})
 
     def delete(self, request):
