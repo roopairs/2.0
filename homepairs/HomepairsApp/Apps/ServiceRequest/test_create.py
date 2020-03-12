@@ -75,20 +75,16 @@ class CreateServiceProvider(TestCase):
         responseData = getInfoPost(PRO_VIEW, data)
         self.assertEqual(responseData.get(STATUS), SUCCESS)
 
-        job = 'Fix sink'
         serviceCompany = ServiceProvider.objects.filter()[0].id
-        client = 'McDs'
-        status = 'Pending'
-        dayStarted = '2000-01-01'
+        serviceCategory = 'Plumbing'
+        serviceDate = '2008-04-10 11:47:58-05'
         details = 'Sink dont work so good'
         propId = Property.objects.filter()[0].id
         appId = Appliance.objects.filter()[0].id
         data = {
-                  'job': job,
                   'provId': serviceCompany,
-                  'client': client,
-                  'status': status,
-                  'dayStarted': dayStarted,
+                  'serviceCategory': serviceCategory,
+                  'serviceDate': serviceDate,
                   'details': details,
                   'propId': propId,
                   'appId': appId,
@@ -144,24 +140,20 @@ class CreateServiceProvider(TestCase):
         # data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
         # responseData = getInfoPost(LOGIN, data)
 
-        job = 'Fix sink'
         serviceCompany = ServiceProvider.objects.filter()[0].id
-        client = 'McDs'
-        status = 'Pending'
-        dayStarted = '2000-01-01'
+        serviceCategory = 'Plumbing'
+        serviceDate = '2008-04-10 11:47:58-05'
         details = 'Sink dont work so good'
         propId = -1
         appId = Appliance.objects.filter()[0].id
         data = {
-                  'job': job,
                   'provId': serviceCompany,
-                  'client': client,
-                  'status': status,
-                  'dayStarted': dayStarted,
+                  'serviceCategory': serviceCategory,
+                  'serviceDate': serviceDate,
                   'details': details,
                   'propId': propId,
                   'appId': appId,
-                  'token': 'cb3e47056453b655d9f9052f7368dfe170e91f39'
+                  'token': responseData.get('token')
                }
         responseData = getInfoPost(REQ_VIEW, data)
         self.assertEqual(responseData.get(STATUS), FAIL)
@@ -191,24 +183,20 @@ class CreateServiceProvider(TestCase):
         # data = {'email': 'eerongrant@gmail.com', 'password': 'pass4eeron'}
         # responseData = getInfoPost(LOGIN, data)
 
-        job = 'Fix sink'
         serviceCompany = ServiceProvider.objects.filter()[0].id
-        client = 'McDs'
-        status = 'Pending'
-        dayStarted = '2000-01-01'
+        serviceCategory = 'Plumbing'
+        serviceDate = '2008-04-10 11:47:58-05'
         details = 'Sink dont work so good'
         propId = Property.objects.filter()[0].id
         appId = -1
         data = {
-                  'job': job,
                   'provId': serviceCompany,
-                  'client': client,
-                  'status': status,
-                  'dayStarted': dayStarted,
+                  'serviceCategory': serviceCategory,
+                  'serviceDate': serviceDate,
                   'details': details,
                   'propId': propId,
                   'appId': appId,
-                  'token': 'cb3e47056453b655d9f9052f7368dfe170e91f39'
+                  'token': responseData.get('token')
                }
         responseData = getInfoPost(REQ_VIEW, data)
         self.assertEqual(responseData.get(STATUS), FAIL)
