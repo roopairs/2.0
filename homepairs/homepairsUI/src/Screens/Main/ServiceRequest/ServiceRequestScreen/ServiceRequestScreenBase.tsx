@@ -222,98 +222,6 @@ const styles = StyleSheet.create({
 
 const serviceRequestStrings = strings.serviceRequestPage;
 
-const fakeApp: Appliance = {
-    applianceId: "1",
-    category: ApplianceType.Plumbing,
-    appName: 'Oven',
-    manufacturer: 'Vulcan Equipment',
-    modelNum: 123,
-    serialNum: 432,
-    location: 'Bathroom',
-};
-
-const fakeApp2: Appliance = {
-    applianceId: "2",
-    category: ApplianceType.LightingAndElectric,
-    appName: 'Microwave',
-    manufacturer: 'Hamilton Beach',
-    modelNum: 78236,
-    serialNum: 324235,
-    location: 'Bathroom',
-};
-
-const fakeSR: ServiceRequest = {
-    address: '001 Service Request, Fremont, CA',
-    technician: 'Johnny White',
-    startDate: new Date().toString(),
-    poc: '(805)-123-4321',
-    pocName: 'Sally Jones',
-    companyName: 'Fix N Fix',
-    details: 'The oven is not heating properly. It was working fine last week, but we have not been able to get it to light since then.',
-    appliance: fakeApp,
-    status: ServiceRequestStatusEnums.Completed,
-};
-
-const fakeSR2: ServiceRequest = {
-    address: '002 Service Request, Fremont, CA',
-    technician: 'Johnny White',
-    startDate: new Date().toString(),
-    poc: '(805)-123-4321',
-    pocName: 'Sally Jones',
-    companyName: 'Fix N Fix',
-    details: 'The oven is not heating properly. It was working fine last week, but we have not been able to get it to light since then.',
-    appliance: fakeApp,
-    status: ServiceRequestStatusEnums.Pending,
-};
-
-const fakeSR3: ServiceRequest = {
-    address: '003 Service Request, Fremont, CA',
-    technician: 'Johnny White',
-    startDate: new Date().toString(),
-    poc: '(805)-123-4321',
-    pocName: 'Sally Jones',
-    companyName: 'Fix N Fix',
-    details: 'The oven is not heating properly. It was working fine last week, but we have not been able to get it to light since then.',
-    appliance: fakeApp,
-    status: ServiceRequestStatusEnums.Scheduled,
-};
-
-const fakeSR4: ServiceRequest = {
-    address: '004 Service Request, Fremont, CA',
-    technician: 'Jimmy Green',
-    startDate: new Date().toString(),
-    poc: '(805)-123-4321',
-    pocName: 'Sally Jones',
-    companyName: 'Fix N Fix',
-    details: 'Microwave caught on Fire',
-    appliance: fakeApp2,
-    status: ServiceRequestStatusEnums.Pending,
-};
-
-const fakeSR5: ServiceRequest = {
-    address: '005 Service Request, Fremont, CA',
-    technician: 'Jimmy Green',
-    startDate: new Date().toString(),
-    poc: '(805)-123-4321',
-    pocName: 'Sally Jones',
-    companyName: 'Fix N Fix',
-    details: 'Microwave caught on Fire',
-    appliance: fakeApp2,
-    status: ServiceRequestStatusEnums.Canceled,
-};
-
-const fakeSR6: ServiceRequest = {
-    address: '006 Service Request, Fremont, CA',
-    technician: 'Jimmy Green',
-    startDate: new Date().toString(),
-    poc: '(805)-123-4321',
-    pocName: 'Sally Jones',
-    companyName: 'Fix N Fix',
-    details: 'Microwave caught on Fire',
-    appliance: fakeApp2,
-    status: ServiceRequestStatusEnums.Declined,
-};
-
 function filterTabbedObjects(unfilteredServiceRequests: ServiceRequest[], requestStatus: ServiceRequestStatus) {
     const filteredServiceRequests: ServiceRequest[] = unfilteredServiceRequests.filter(sr => sr.status === requestStatus);
     return filteredServiceRequests;
@@ -546,7 +454,7 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
         /*
          TO DO: actually implement serviceRequestsState so we get a list of real requests
         */
-        const serviceRequests = [fakeSR, fakeSR2, fakeSR3, fakeSR4, fakeSR5, fakeSR6];
+        const serviceRequests = [];
 
         return (
             <div className="card-container" aria-label="Card Container Test">
