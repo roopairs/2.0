@@ -145,7 +145,7 @@ class TenantUpdate(View):
     def post(self, request):
         print("Got here")
         inData = json.loads(request.body)
-        required = ['email', 'propId', 'firstName', 'lastName']
+        required = ['email', 'propId', 'firstName', 'lastName', 'phoneNumber']
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) > 0):
@@ -156,6 +156,7 @@ class TenantUpdate(View):
         propId = inData.get('propId')
         firstName = inData.get('firstName')
         lastName = inData.get('lastName')
+        phoneNumber = inData.get('phoneNumber')
         propertyList = Property.objects.filter(rooId=propId)
         tenList = Tenant.objects.filter(email=email)
 
@@ -175,6 +176,7 @@ class TenantUpdate(View):
         tenant.place = tenantsProp
         tenant.firstName = firstName
         tenant.lastName = lastName
+        tenant.phoneNumber = phoneNumber
         tenant.save()
 
         return JsonResponse(data={STATUS: SUCCESS})
