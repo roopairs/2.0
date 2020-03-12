@@ -79,7 +79,7 @@ export default function ServiceProviderButton(props: ServiceProviderButtonProps)
                     {serviceProvider.skills}
                 </Text>
                 <Text style={styles.companyDetailsText}>
-                    {serviceProvider.provId}
+                    {serviceProvider.email}
                 </Text>
             </TouchableOpacity>
         </View>
