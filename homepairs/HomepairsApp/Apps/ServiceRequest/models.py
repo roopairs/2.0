@@ -10,7 +10,7 @@ class ServiceRequest(models.Model):
     details = CharField(max_length=300)
     serviceCategory = CharField(max_length=50, default='unknown')
     serviceCompany = models.ForeignKey(ServiceProvider, on_delete=models.CASCADE, null=True)
-    serviceType = CharField(max_length=100)
+    serviceType = CharField(max_length=100, null=True)
     client = CharField(max_length=100)
     status = CharField(max_length=20)
     serviceDate = DateTimeField()
