@@ -24,10 +24,10 @@ class ServiceRequest(models.Model):
         return {
                 "details": self.details,
                 "serviceCategory": self.serviceCategory,
-                "serviceCompany": self.serviceCompany.toDict(),
+                "serviceCompany": str(self.serviceCompany),
                 "client": self.client,
                 "status": self.status,
                 "serviceDate": self.serviceDate,
-                "appFixed": self.appFixed.toDict(),
-                "location": self.location.toDict()
+                "appFixed": str(self.appFixed),
+                "location": str(self.location)
                 }

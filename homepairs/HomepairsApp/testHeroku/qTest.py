@@ -5,21 +5,19 @@ import requests
 
 ################################################################################
 # Vars
-globUrl = 'https://homepairs-mytest.herokuapp.com/'
+globUrl = 'https://capstone.api.roopairs.com/v0/'
 globUrl = 'https://homepairs-alpha.herokuapp.com/'
 globUrl = 'http://localhost:8000/'
+globUrl = 'https://homepairs-mytest.herokuapp.com/'
 
 
 # Everything is correct
 def test_basic_connection():
      tokenSend = "Token " + '34b0348afafbe01042f7af1ba4949a9bbb4d0883'
 
-     data = {'display_name': 'Different Display Name', 'type': 1}
-
-     url = 'https://capstone.api.roopairs.com/v0/service-locations/zKnLDxl/equipment/'
+     url = globUrl + 'servicerequest/Y10BAke'
  
-     x = requests.post(url, json=data, headers={"Authorization": tokenSend})
-     # x = requests.get(url, headers={"Authorization": tokenSend})
+     x = requests.get(url)
      print(x.text)
 
 

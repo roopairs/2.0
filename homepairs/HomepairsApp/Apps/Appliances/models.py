@@ -30,3 +30,15 @@ class Appliance(models.Model):
                   "appId": self.rooAppId,
                   "place": [self.place.toDict()]
                }
+
+    def toDictNoRecurs(self):
+        return {
+                  "name": self.name,
+                  "location": self.location,
+                  "manufacturer": self.manufacturer,
+                  "serialNum": self.serialNum,
+                  "modelNum": self.modelNum,
+                  "category": self.category,
+                  "appId": self.rooAppId,
+                  "place": str(place)
+               }
