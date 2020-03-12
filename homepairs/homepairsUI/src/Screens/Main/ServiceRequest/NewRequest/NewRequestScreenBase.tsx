@@ -36,7 +36,7 @@ type NewRequestState = {
     address: string,
     serviceCategory: ApplianceType,
     applianceId: string,
-    providerId: string, 
+    providerId: number, 
     serviceType: string, 
     description: string, 
     serviceDate: Date, 
@@ -49,8 +49,8 @@ type NewRequestState = {
 const initialState : NewRequestState = {
     address: '', 
     serviceCategory: ApplianceType.None, 
-    applianceId: '', 
-    providerId: '', 
+    applianceId: '', //BAD NAME CHOSEN APPLIANCE
+    providerId: -1, //BAD NAME CHOSEN PROVidER
     serviceType: '',
     description: '', 
     serviceDate: null, 

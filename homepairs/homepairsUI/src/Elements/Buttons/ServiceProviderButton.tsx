@@ -15,7 +15,7 @@ import {categoryToString} from 'homepairs-utilities';
 
 export type ServiceProviderButtonProps = {
     key?: string,
-    onClick?: (child: string) => any,
+    onClick?: (provId: number, name: string) => any,
     active?: boolean,
     serviceProvider?: ServiceProvider,
 }
@@ -70,7 +70,7 @@ export default function ServiceProviderButton(props: ServiceProviderButtonProps)
             <TouchableOpacity
                 testID='click-service-request-button'
                 style={styles.buttonStyle}
-                onPress={() => onClick(serviceProvider.provId)}
+                onPress={() => onClick(serviceProvider.provId, serviceProvider.name)}
             >
                 <Text style={styles.titleText}>
                     {serviceProvider.name}
@@ -79,7 +79,7 @@ export default function ServiceProviderButton(props: ServiceProviderButtonProps)
                     {serviceProvider.skills}
                 </Text>
                 <Text style={styles.companyDetailsText}>
-                    {serviceProvider.email}
+                    {serviceProvider.provId}
                 </Text>
             </TouchableOpacity>
         </View>
