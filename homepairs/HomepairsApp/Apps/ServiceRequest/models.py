@@ -21,6 +21,10 @@ class ServiceRequest(models.Model):
         return self.details
 
     def toDict(self):
+        if(appFixed is not null):
+            appFixedStr = self.appFixed.toDictNoRecurs()
+        else:
+            appFixedStr = ''
         return {
                 "details": self.details,
                 "serviceCategory": self.serviceCategory,
@@ -28,6 +32,6 @@ class ServiceRequest(models.Model):
                 "client": self.client,
                 "status": self.status,
                 "serviceDate": self.serviceDate,
-                "appFixed": self.appFixed.toDictNoRecurs(),
+                "appFixed": appFixedStr,
                 "location": str(self.location)
                 }
