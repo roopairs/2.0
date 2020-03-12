@@ -93,7 +93,7 @@ class ServiceRequestView(View):
         serviceDate = dateutil.parser.parse(serviceDateStr)
         propList = Property.objects.filter(rooId=propId)
         appList = Appliance.objects.filter(rooAppId=appId)
-        provList = ServiceProvider.objects.filter(rooProvId=provId)
+        provList = ServiceProvider.objects.filter(id=provId)
         if propList.exists() and appList.exists():
             prop = propList[0]
             if str(appId) != '-1':
