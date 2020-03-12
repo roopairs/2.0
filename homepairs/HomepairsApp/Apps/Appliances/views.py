@@ -88,7 +88,7 @@ class ApplianceView(View):
             url = BASE_URL + 'service-locations/' + str(propId) + '/equipment/'
             data = {
                        'display_name': name,
-                       'type': category
+                       'type': 1
                    }
             info = postRooTokenAPI(url, data, token)
             if NON_FIELD_ERRORS in info:
