@@ -18,7 +18,7 @@ class ServiceProvider(models.Model):
     # image????
 
     def __str__(self):
-        return self.name + ", " + self.email + ", ID HERE ---->" + str(self.id)
+        return self.name
 
     def toDict(self):
         return {
