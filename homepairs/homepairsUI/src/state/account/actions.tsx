@@ -106,7 +106,7 @@ export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileA
     };
     if(accountType === AccountTypes.PropertyManager){
         const landLordProfile : PropertyManagerAccount = { ...baseProfile,
-            manId: profile[accountKeys.MANID],
+            pmId: profile[accountKeys.PM_ID],
         };
         // Make sure to change from Tenant Account to Landlord
         landLordProfile[accountKeys.TYPE] = AccountTypes.PropertyManager;

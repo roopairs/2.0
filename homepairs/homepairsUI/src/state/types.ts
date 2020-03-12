@@ -122,7 +122,7 @@ export type Account = {
 };
 
 export type PropertyManagerAccount = Account & {
-    manId: number;
+    pmId: number;
 };
 
 export type TenantAccount = Account & {
@@ -171,12 +171,18 @@ export type ServiceRequest = {
 
 export type ServiceProvider = {
     // TODO: Define attributes for service Provider
-    name: string;
+    provId: number,
+    name: string,
+    email: string,
+    phoneNum: string,
+    contractLic: string, // contract license
+    skills: string,
+    founded: string, // date founded
 };
 
 export enum ServiceRequestCompletionStatus {
     Current,
-    Completed,
+    Archived,
 }
 
 export enum ServiceRequestStatusEnums {
@@ -185,6 +191,7 @@ export enum ServiceRequestStatusEnums {
     InProgress,
     Completed,
     Canceled,
+    Declined,
 }
 
 export type ServiceRequestStatus = ServiceRequestStatusEnums;
@@ -447,7 +454,7 @@ enum HOMEPAIRS_ACCOUNT_KEYS {
     FIRSTNAME = 'firstName',
     LASTNAME = 'lastName',
     EMAIL = 'email',
-    MANID = 'manId',
+    PM_ID = 'pmId',
     PASSWORD = 'password',
     ADDRESS = 'address',
     PLACE = 'place',

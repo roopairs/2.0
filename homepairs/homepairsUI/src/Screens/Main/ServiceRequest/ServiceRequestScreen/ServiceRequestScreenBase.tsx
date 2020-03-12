@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     selectedLeftButton: {
         alignItems: 'flex-start',
         justifyContent: 'center',
-        backgroundColor: colors.roopairs,
+        backgroundColor: colors.primary,
         padding: BaseStyles.MarginPadding.mediumConst,
         width: BaseStyles.ContentWidth.almostHalf,
         borderTopLeftRadius: BaseStyles.BorderRadius.small,
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     selectedRightButton: {
         alignItems: 'flex-end',
         justifyContent: 'center',
-        backgroundColor: colors.roopairs,
+        backgroundColor: colors.primary,
         padding: BaseStyles.MarginPadding.mediumConst,
         width: BaseStyles.ContentWidth.almostHalf,
         borderTopRightRadius: BaseStyles.BorderRadius.small,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     selectedLeftThirdButton: {
         alignItems: 'flex-start',
         justifyContent: 'center',
-        backgroundColor: colors.roopairs,
+        backgroundColor: colors.primary,
         padding: BaseStyles.MarginPadding.mediumConst,
         width: BaseStyles.ContentWidth.almostThird,
         borderTopLeftRadius: BaseStyles.BorderRadius.small,
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     selectedMiddleThirdButton: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: colors.roopairs,
+        backgroundColor: colors.primary,
         padding: BaseStyles.MarginPadding.mediumConst,
         width: BaseStyles.ContentWidth.almostThird,
         borderWidth: 1,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     selectedRightThirdButton: {
         alignItems: 'flex-end',
         justifyContent: 'center',
-        backgroundColor: colors.roopairs,
+        backgroundColor: colors.primary,
         padding: BaseStyles.MarginPadding.mediumConst,
         width: BaseStyles.ContentWidth.almostThird,
         borderTopRightRadius: BaseStyles.BorderRadius.small,
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
 const serviceRequestStrings = strings.serviceRequestPage;
 
 const fakeApp: Appliance = {
-    applianceId: 1,
+    applianceId: "1",
     category: ApplianceType.Plumbing,
     appName: 'Oven',
     manufacturer: 'Vulcan Equipment',
@@ -233,7 +233,7 @@ const fakeApp: Appliance = {
 };
 
 const fakeApp2: Appliance = {
-    applianceId: 2,
+    applianceId: "2",
     category: ApplianceType.LightingAndElectric,
     appName: 'Microwave',
     manufacturer: 'Hamilton Beach',
@@ -290,6 +290,30 @@ const fakeSR4: ServiceRequest = {
     status: ServiceRequestStatusEnums.Pending,
 };
 
+const fakeSR5: ServiceRequest = {
+    address: '005 Service Request, Fremont, CA',
+    technician: 'Jimmy Green',
+    startDate: new Date().toString(),
+    poc: '(805)-123-4321',
+    pocName: 'Sally Jones',
+    companyName: 'Fix N Fix',
+    details: 'Microwave caught on Fire',
+    appliance: fakeApp2,
+    status: ServiceRequestStatusEnums.Canceled,
+};
+
+const fakeSR6: ServiceRequest = {
+    address: '006 Service Request, Fremont, CA',
+    technician: 'Jimmy Green',
+    startDate: new Date().toString(),
+    poc: '(805)-123-4321',
+    pocName: 'Sally Jones',
+    companyName: 'Fix N Fix',
+    details: 'Microwave caught on Fire',
+    appliance: fakeApp2,
+    status: ServiceRequestStatusEnums.Declined,
+};
+
 function filterTabbedObjects(unfilteredServiceRequests: ServiceRequest[], requestStatus: ServiceRequestStatus) {
     const filteredServiceRequests: ServiceRequest[] = unfilteredServiceRequests.filter(sr => sr.status === requestStatus);
     return filteredServiceRequests;
@@ -320,6 +344,7 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
         this.onPressInProgressRequests = this.onPressInProgressRequests.bind(this);
         this.onPressCompletedRequests = this.onPressCompletedRequests.bind(this);
         this.onPressCanceledRequests = this.onPressCanceledRequests.bind(this);
+        this.onPressDeclinedRequests = this.onPressDeclinedRequests.bind(this);
         this.openServiceRequestModal = this.openServiceRequestModal.bind(this);
         this.renderCard = this.renderCard.bind(this);
         this.renderCompletionStatusRadioButton = this.renderCompletionStatusRadioButton.bind(this);
@@ -338,7 +363,7 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
     onPressInactiveRequests() {
         const { parentCallBack, parentCallBack2 } = this.props;
         this.setState({ currentRequestsSelected: false });
-        parentCallBack(ServiceRequestCompletionStatus.Completed);
+        parentCallBack(ServiceRequestCompletionStatus.Archived);
         this.setState({ requestSelected: ServiceRequestStatusEnums.Completed });
         parentCallBack2(ServiceRequestStatusEnums.Completed);
     }
@@ -379,6 +404,12 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
         const { parentCallBack2 } = this.props;
         this.setState({ requestSelected: ServiceRequestStatusEnums.Canceled });
         parentCallBack2(ServiceRequestStatusEnums.Canceled);
+    }
+
+    onPressDeclinedRequests() {
+        const { parentCallBack2 } = this.props;
+        this.setState({ requestSelected: ServiceRequestStatusEnums.Declined });
+        parentCallBack2(ServiceRequestStatusEnums.Declined);
     }
 
     openServiceRequestModal(serviceRequest: ServiceRequest) {
@@ -461,24 +492,23 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>{"ACTIVE REQUESTS"}</Text>
-                    </View>
                 </View>
             </>
         );
     }
 
     renderInactiveStatusRadioButton(requestsSelected: ServiceRequestStatus) {
-        const leftButtonStyle = (requestsSelected === ServiceRequestStatusEnums.Completed) ? styles.selectedLeftButton : styles.unselectedLeftButton;
-        const rightButtonStyle = (requestsSelected === ServiceRequestStatusEnums.Canceled) ? styles.selectedRightButton : styles.unselectedRightButton;
+        const leftThirdButtonStyle = (requestsSelected === ServiceRequestStatusEnums.Completed) ? styles.selectedLeftThirdButton : styles.unselectedLeftThirdButton;
+        const middleThirdButtonStyle = (requestsSelected === ServiceRequestStatusEnums.Canceled) ? styles.selectedMiddleThirdButton : styles.unselectedMiddleThirdButton;
+        const rightThirdButtonStyle = (requestsSelected === ServiceRequestStatusEnums.Declined) ? styles.selectedRightThirdButton : styles.unselectedRightThirdButton;
+        
         return (
             <>
                 <View style={styles.container}>
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity
                             testID='service-radio-completed'
-                            style={leftButtonStyle}
+                            style={leftThirdButtonStyle}
                             onPress={this.onPressCompletedRequests}>
                             <Text style={(requestsSelected === ServiceRequestStatusEnums.Completed) ?
                                 styles.selectedText : styles.unselectedText}>
@@ -487,7 +517,7 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
                         </TouchableOpacity>
                         <TouchableOpacity
                             testID='service-radio-canceled'
-                            style={rightButtonStyle}
+                            style={middleThirdButtonStyle}
                             onPress={this.onPressCanceledRequests}>
                             <Text style={(requestsSelected === ServiceRequestStatusEnums.Canceled) ?
                                 styles.selectedText : styles.unselectedText}>
@@ -495,9 +525,16 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
 
                             </Text>
                         </TouchableOpacity>
-                    </View>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>{"INACTIVE REQUESTS"}</Text>
+                        <TouchableOpacity
+                            testID='service-radio-declined'
+                            style={rightThirdButtonStyle}
+                            onPress={this.onPressDeclinedRequests}>
+                            <Text style={(requestsSelected === ServiceRequestStatusEnums.Declined) ?
+                                styles.selectedText : styles.unselectedText}>
+                                {serviceRequestStrings.tabB3}
+
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </>
@@ -509,7 +546,7 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
         /*
          TO DO: actually implement serviceRequestsState so we get a list of real requests
         */
-        const serviceRequests = [fakeSR, fakeSR2, fakeSR3, fakeSR4];
+        const serviceRequests = [fakeSR, fakeSR2, fakeSR3, fakeSR4, fakeSR5, fakeSR6];
 
         return (
             <div className="card-container" aria-label="Card Container Test">
