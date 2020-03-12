@@ -11,7 +11,8 @@ import {
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import Colors from 'homepairs-colors';
-import { ServiceRequestButton, ServiceProviderButton, ThinButton, ThinButtonProps } from 'src/Elements';
+import { ServiceRequestButton, ServiceProviderButton, ThinButton, ThinButtonProps } from 'homepairs-elements';
+import { HomePairFonts } from 'res/fonts';
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -50,6 +51,10 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: BaseStyles.FontTheme.primary,
         color: colors.lightGray,
+    },
+    option: {
+        fontSize : BaseStyles.FontTheme.reg,
+        fontFamily: HomePairFonts.nunito_regular,
     },
     selectedLeftButton: {
         alignItems: 'flex-start',
@@ -115,15 +120,19 @@ const styles = StyleSheet.create({
 
 export type ServiceProviderRadioState = {
     preferredProvidersSelected: boolean,
+    providerName: string,
+    clicked: boolean,
 }
 
 export type ServiceProviderRadioProps = {
-    parentCallBack?: (childData: string) => any;
+    parentCallBack?: (childData: number) => any;
     serviceProviders: ServiceProvider[],
 }
 
 const initialState: ServiceProviderRadioState = {
     preferredProvidersSelected: true,
+    providerName: '',
+    clicked: false,
 };
 
 function filterTabbedObjects(unfilteredServiceProviders: ServiceRequest[]) {
@@ -144,7 +153,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
 
     // eslint-disable-next-line react/static-property-placement
     static defaultProps: ServiceProviderRadioProps = {
-        parentCallBack: (childData: string) => { return childData; },
+        parentCallBack: (childData: number) => { return childData; },
         serviceProviders: [],
     }
 
@@ -153,6 +162,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
         this.state = initialState;
         this.onPressNetwork = this.onPressNetwork.bind(this);
         this.onPressPreferred = this.onPressPreferred.bind(this);
+        this.selectProvider = this.selectProvider.bind(this);
     }
 
     onPressNetwork() {
@@ -161,6 +171,12 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
 
     onPressPreferred() {
         this.setState({ preferredProvidersSelected: true });
+    }
+
+    selectProvider(provId: number, name: string) {
+        const { parentCallBack } = this.props;
+        parentCallBack(provId);
+        this.setState({ providerName: name, clicked: true });
     }
 
     renderProviderTypeRadioButton(preferredProvidersSelected: boolean) {
@@ -172,7 +188,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                     <TouchableOpacity
                         testID='service-radio-current'
                         style={leftButtonStyle}
-                        onPress={this.onPressPreferred}>
+                        onPressIn={this.onPressPreferred}>
                         <Text style={preferredProvidersSelected ?
                             styles.selectedText : styles.unselectedText}>
                             {"Preferred"}
@@ -181,7 +197,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                     <TouchableOpacity
                         testID='service-radio-completed'
                         style={rightButtonStyle}
-                        onPress={this.onPressNetwork}>
+                        onPressIn={this.onPressNetwork}>
                         <Text style={preferredProvidersSelected ?
                             styles.unselectedText : styles.selectedText}>
                             {"Network"}
@@ -231,6 +247,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                             </Text>
                         </View>
                         <ThinButton
+                            onClick={() => this.selectProvider(-1, "Network")}
                             name={buttonProps.name}
                             containerStyle={buttonProps.containerStyle}
                             buttonStyle={buttonProps.buttonStyle}
@@ -241,28 +258,33 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
         );
     }
 
+
+
     // eslint-disable-next-line class-methods-use-this
     renderPreferredProviders() {
-        const { serviceProviders, parentCallBack } = this.props;
+        const { serviceProviders } = this.props;
         const filteredServiceProviders = serviceProviders; // TO DO IMPLEMENT FILTER
 
         return (
             filteredServiceProviders.map(
                 serviceProvider => {
-                    return (<ServiceProviderButton onClick={parentCallBack} key={serviceProvider.name} serviceProvider={serviceProvider} />);
+                    return (<ServiceProviderButton onClick={this.selectProvider} key={serviceProvider.name} serviceProvider={serviceProvider} />);
                 }));
     }
 
     render() {
-        const { preferredProvidersSelected } = this.state;
+        const { preferredProvidersSelected, clicked, providerName } = this.state;
 
-        return (
-            <ScrollView style={{ flexGrow: 1 }}>
-                <View style={styles.addBottomMargin}>
-                    {this.renderProviderTypeRadioButton(preferredProvidersSelected)}
-                    {this.renderServiceProviders()}
-                </View>
-            </ScrollView>
-        );
+        return clicked ? (
+            <View style={{ alignSelf: 'center', width: BaseStyles.ContentWidth.reg }}>
+                <Text style={styles.option}>{providerName}</Text>
+            </View>) : (
+                <ScrollView style={{ flexGrow: 1 }}>
+                    <View style={styles.addBottomMargin}>
+                        {this.renderProviderTypeRadioButton(preferredProvidersSelected)}
+                        {this.renderServiceProviders()}
+                    </View>
+                </ScrollView>
+            );
     }
 }
