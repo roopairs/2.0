@@ -16,7 +16,7 @@ def test_basic_connection():
 
      data = {'display_name': 'Different Display Name', 'type': 1}
 
-     url = 'https://capstone.api.roopairs.com/v0/service-locations/zKnLDxl/equipment'
+     url = 'https://capstone.api.roopairs.com/v0/service-locations/zKnLDxl/equipment/'
  
      x = requests.post(url, json=data, headers={"Authorization": tokenSend})
      # x = requests.get(url, headers={"Authorization": tokenSend})
