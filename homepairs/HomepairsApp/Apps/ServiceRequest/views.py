@@ -94,9 +94,9 @@ class ServiceRequestView(View):
         propList = Property.objects.filter(rooId=propId)
         appList = Appliance.objects.filter(rooAppId=appId)
         provList = ServiceProvider.objects.filter(id=provId)
-        if propList.exists() and appList.exists():
+        if propList.exists():
             prop = propList[0]
-            if str(appId) != '-1':
+            if (appList.exists()):
                 app = appList[0]
             else:
                 app = None
