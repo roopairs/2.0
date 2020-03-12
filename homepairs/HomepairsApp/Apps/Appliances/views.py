@@ -96,7 +96,7 @@ class ApplianceView(View):
             elif(info.get('detail') == 'Invalid token.'):
                 return JsonResponse(data=returnError(info.get('detail')))
             rooAppId = info.get('id')
-            print("HERE: ", rooAppId)
+            print("HERE: ", info)
             app = Appliance(name=name,
                             manufacturer=manufacturer,
                             category=category,
