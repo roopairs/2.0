@@ -12,13 +12,14 @@ export const HOMEPAIRS_REGISTER_PM_ENDPOINT = 'https://homepairs-mytest.herokuap
 export const HOMEPAIRS_PROPERTY_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/property/';
 export const HOMEPAIRS_APPLIANCE_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/appliance/';
 export const HOMEPAIRS_TENANT_EDIT_ENDPOINT = "https://homepairs-mytest.herokuapp.com/tenant/update/";
+export const HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT = "https://homepairs-mytest.herokuapp.com/serviceprovider/";
 
 export const HOMEPAIRS_SERVICE_REQUEST_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/servicerequest/';
 
 
 export const updateTenant = async ({...props}) => {
-    const {propId, email, firstName, lastName} = props;
-    await axios.post(HOMEPAIRS_TENANT_EDIT_ENDPOINT, {email, propId, firstName, lastName}).then((result) =>{
+    const {propId, email, firstName, lastName, phoneNumber} = props;
+    await axios.post(HOMEPAIRS_TENANT_EDIT_ENDPOINT, {email, propId, firstName, lastName, phoneNumber}).then((result) =>{
         console.log(result);
     }).catch(error =>{
         console.log(error);

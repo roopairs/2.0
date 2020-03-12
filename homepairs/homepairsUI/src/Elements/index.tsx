@@ -26,6 +26,7 @@ import { ThinButtonProps as TBP} from './Buttons/ThinButton';
 import { PanelProps as PP} from './Panels/AppliancePanel';
 import { CategoryPanelProps as CPP} from './Panels/ApplianceCategoryPanel';
 import { ServiceRequestButtonProps as SRBP} from './Buttons/ServiceRequestButton';
+import { ServiceProviderButtonProps as SPBP} from './Buttons/ServiceProviderButton';
 import { CardProps as CP} from './Cards/Card';
 import { StickerProps as SP} from './Stickers/Sticker';
 
@@ -43,6 +44,7 @@ export {default as AddressPanel} from './Panels/AddressPanel';
 export {default as ApplianceCategoryPanel} from './Panels/ApplianceCategoryPanel';
 export {default as ServiceTypePanel} from './Panels/ServiceTypePanel';
 export {default as ServiceRequestButton} from './Buttons/ServiceRequestButton';
+export {default as ServiceProviderButton} from './Buttons/ServiceProviderButton';
 
 /** A hack that works when exporting types */
 export type InputFormProps = IFP;
@@ -52,3 +54,4 @@ export type StickerProps = SP;
 export type PanelProps = PP;
 export type CategoryPanelProps = CPP;
 export type ServiceRequestButtonProps = SRBP;
+export type ServiceProviderButtonProps = SPBP;

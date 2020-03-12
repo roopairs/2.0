@@ -33,6 +33,7 @@ export { default as AddressSticker } from './AddressSticker/AddressSticker';
 export { default as SceneHeader } from './SceneHeader/SceneHeader';
 export { default as GeneralHomeInfo } from './GeneralHomeInfo/GeneralHomeInfo';
 export { default as ChooseServiceCategory} from './ChooseServiceCategory/ChooseServiceCategory';
+export { default as ChooseServiceProvider} from './ChooseServiceProvider/ChooseServiceProvider';
 export { default as ApplianceInfo } from './ApplianceInfo/ApplianceInfo';
 export { default as ApplianceCategorizer } from './ApplianceInfo/ApplianceCategorizer';
 export { default as PrimaryContactInfo } from './PrimaryContactInfo/PrimaryContactInfo';

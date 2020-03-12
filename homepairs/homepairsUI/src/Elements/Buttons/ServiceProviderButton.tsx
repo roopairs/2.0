@@ -6,24 +6,24 @@ import {
     StyleSheet,
     Image,
 } from 'react-native';
-import {ServiceRequest} from 'homepairs-types';
+import {ServiceRequest, ServiceProvider} from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairFonts } from 'homepairs-fonts';
 import { clock } from 'homepairs-images';
 import Moment from 'moment';
 import {categoryToString} from 'homepairs-utilities';
 
-export type ServiceRequestButtonProps = {
-    onClick?: (serviceRequest: ServiceRequest) => any,
+export type ServiceProviderButtonProps = {
+    key?: string,
+    onClick?: (provId: number, name: string) => any,
     active?: boolean,
-    serviceRequest?: ServiceRequest,
+    serviceProvider?: ServiceProvider,
 }
 
 const colors = BaseStyles.LightColorTheme;
 
 const styles = StyleSheet.create({
     container: {
-        borderLeftWidth: 10,
         borderRadius: BaseStyles.BorderRadius.medium, 
         padding: BaseStyles.MarginPadding.medium,
         borderColor: colors.lightGray,
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
         margin: 20,
     },
     buttonStyle: {
-        paddingLeft: BaseStyles.MarginPadding.medium,
     },
     titleText: {
         color: colors.tertiary,
@@ -61,39 +60,33 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function ServiceRequestButton(props: ServiceRequestButtonProps) {
-    const {onClick, active, serviceRequest} = props;
+export default function ServiceProviderButton(props: ServiceProviderButtonProps) {
+    const {onClick, serviceProvider} = props;
     Moment.locale('en');
-    const date = Moment(serviceRequest.startDate.toString()).format('LLL');
+    //const date = Moment(serviceProvider.startDate.toString()).format('LLL');
 
     return (
-        <View style={[styles.container, {borderLeftColor: active ? colors.primary : colors.lightGray}]}>
+        <View style={[styles.container]}>
             <TouchableOpacity
                 testID='click-service-request-button'
                 style={styles.buttonStyle}
-                onPress={() => onClick(serviceRequest)}
+                onPress={() => onClick(serviceProvider.provId, serviceProvider.name)}
             >
                 <Text style={styles.titleText}>
-                    {categoryToString(serviceRequest.appliance.category)} Repair
+                    {serviceProvider.name}
                 </Text>
                 <Text style={styles.companyDetailsText}>
-                    {serviceRequest.companyName}
+                    {serviceProvider.skills}
                 </Text>
                 <Text style={styles.companyDetailsText}>
-                    {serviceRequest.poc}
+                    {serviceProvider.provId}
                 </Text>
-                <View style={styles.dateContainer}>
-                    <Image style={styles.buttonImage} source={clock}/>
-                    <Text style={styles.dateText}>
-                        {date}
-                    </Text>
-                </View>
             </TouchableOpacity>
         </View>
     );
 }
 
-ServiceRequestButton.defaultProps = {
+ServiceProviderButton.defaultProps = {
     onClick: () => {}, 
     active: true,
 };
