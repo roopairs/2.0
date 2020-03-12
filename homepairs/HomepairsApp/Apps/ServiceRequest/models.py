@@ -21,10 +21,10 @@ class ServiceRequest(models.Model):
         return self.details
 
     def toDict(self):
-        if(self.appFixed is not null):
-            appFixedStr = self.appFixed.toDictNoRecurs()
-        else:
+        if(self.appFixed is None):
             appFixedStr = ''
+        else:
+            appFixedStr = self.appFixed.toDictNoRecurs()
         return {
                 "details": self.details,
                 "serviceCategory": self.serviceCategory,
