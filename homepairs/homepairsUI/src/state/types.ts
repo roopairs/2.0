@@ -169,6 +169,17 @@ export type ServiceRequest = {
     status: ServiceRequestStatus
 };
 
+export type NewServiceRequest = {
+    token: string, 
+    propId: string, 
+    appId: string, 
+    providerId: number, 
+    serviceType: string,
+    serviceCategory: string, 
+    serviceDate: string, 
+    details: string,
+}
+
 export type ServiceProvider = {
     // TODO: Define attributes for service Provider
     provId: number,

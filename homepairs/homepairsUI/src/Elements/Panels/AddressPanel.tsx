@@ -165,9 +165,12 @@ export default class ApplianceCategoryPanel extends React.Component<PanelProps, 
             icon = up;
         }
 
-        return (
-            <>{clicked ? <Text style={this.styles.titleText}>{selectedString}</Text>:
-                <Animated.View
+        return clicked ? 
+            (
+                <View style={{alignSelf: 'center', width: BaseStyles.ContentWidth.reg}}>
+                    <Text style={this.styles.titleText}>{selectedString}</Text>
+                </View>
+            ) : (<Animated.View
                     style={[this.styles.container, { height: animation}, {borderColor: expanded ? colors.primary : colors.lightGray}]}>
                     <View style={this.styles.titleContainer} onLayout={this.setMinHeight}>
                         <Text style={this.styles.titleText}>{selectedString}</Text>
@@ -180,7 +183,6 @@ export default class ApplianceCategoryPanel extends React.Component<PanelProps, 
                     </View>
                     {this.renderBody()}
                 </Animated.View>
-            }</>
-        );
+            );
     }
 }

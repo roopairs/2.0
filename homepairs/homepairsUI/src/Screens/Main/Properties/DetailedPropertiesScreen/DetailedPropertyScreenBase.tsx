@@ -218,6 +218,7 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
         const [propId, property] = getPropIdAndProperty(this.props);
         const {address} = property;
         const {applianceInfo, tenantInfo} = this.state;
+        const {navigation} = this.props;
 
         return (
             <ScrollView style={{ flexGrow: 1 }}>
@@ -228,7 +229,7 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
                     <View style={styles.imageWrapper}>
                         <View style={styles.imageContainer}>
                             <Image 
-                                source={defaultProperty} 
+                                source={{uri: `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${this.apiKey}`}} 
                                 style={Platform.OS === 'web'
                                 ? styles.homePairsPropertiesImageWeb
                                 : styles.homePairsPropertiesImage} 
@@ -247,7 +248,10 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
                         navigation={this.navigation}
                         propId={propId}
                         tenants={tenantInfo}/>
-                    <ServiceRequestCount property={property}/>
+                    <ServiceRequestCount 
+                        onClick={() => navigation.navigate(navigationPages.ServiceRequestScreen)}
+                        property={property}
+                    />
                 </View>
             </ScrollView>
         );

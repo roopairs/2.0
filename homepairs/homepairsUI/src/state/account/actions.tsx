@@ -94,7 +94,9 @@ function getAccountType(accountJSON : any): AccountTypes{
  * */
 export const fetchAccountProfile = (accountJSON : any): FetchUserAccountProfileAction => {
   const accountType: AccountTypes = getAccountType(accountJSON);
+  console.log(accountJSON);
   const profile = (accountType === AccountTypes.PropertyManager) ? accountJSON[accountKeys.PM] : accountJSON[accountKeys.TENANT]; 
+  console.log(profile);
   let fetchedProfile : AccountState;
   const baseProfile : Account = {
         accountType,
@@ -240,7 +242,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
  */
 export const generateAccountForPM = (accountDetails: Account, password: String, navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
     return async (dispatch: (arg0: any) => void) => {
-      await axios.post('https://homepairs-mytest.herokuapp.com/pm/register', {
+      await axios.post('https://homepairs-mytest.herokuapp.com/pm/register/', {
           firstName: accountDetails.firstName, 
           lastName: accountDetails.lastName,
           email: accountDetails.email, 
@@ -248,15 +250,19 @@ export const generateAccountForPM = (accountDetails: Account, password: String, 
         })
         .then((response) => {
           if(response[responseKeys.DATA][responseKeys.STATUS] === responseStatus.SUCCESS){
+            console.log("inside success");
+            console.log(response);
             dispatch(setAccountAuthenticationState(true));
             dispatch(fetchAccountProfile(response[responseKeys.DATA]));
             dispatch(fetchProperties(response[responseKeys.DATA][responseKeys.PROPERTIES]));
             ChooseMainPage(AccountTypes.PropertyManager, navigation);
           }else{
+            console.log(response);
             modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
           }
         })
-        .catch(() => {
+        .catch((error) => {
+          console.log(error);
           modalSetOffCallBack("Connection to the server could not be established.");
         });
     };
