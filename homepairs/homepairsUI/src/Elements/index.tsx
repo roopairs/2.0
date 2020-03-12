@@ -38,6 +38,7 @@ export {default as Card } from './Cards/Card';
 export {default as Sticker} from './Stickers/Sticker';
 export {default as HamburgerButton} from './Buttons/HamburgerButton';
 export {default as AppliancePanel} from './Panels/AppliancePanel';
+export {default as ServiceRequestAddressPanel} from './Panels/ServiceRequestAddressPanel';
 export {default as AddressPanel} from './Panels/AddressPanel';
 export {default as ApplianceCategoryPanel} from './Panels/ApplianceCategoryPanel';
 export {default as ServiceTypePanel} from './Panels/ServiceTypePanel';

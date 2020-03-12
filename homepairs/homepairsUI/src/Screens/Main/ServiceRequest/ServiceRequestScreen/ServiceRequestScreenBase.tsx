@@ -6,9 +6,8 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import { ServiceRequestButton } from 'homepairs-elements';
+import { ServiceRequestButton, ServiceRequestAddressPanel } from 'homepairs-elements';
 import {
     HomePairsDimensions,
     Appliance,
@@ -19,17 +18,23 @@ import {
     ServiceRequestStatus,
     ServiceRequestCompletionStatus,
     ServiceRequestStatusEnums,
+    Property,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 // import { ServiceState, HeaderState } from 'homepairs-types';
 import strings from 'homepairs-strings';
 import { SceneInjectedProps } from 'homepairs-components';
 import { NavigationRouteScreenProps } from 'homepairs-utilities';
+import { fetchServiceRequests } from 'src/Routes/RemoteEndpoints';
+import { stringToCategory } from 'src/utility/ApplianceCategories';
+
+
 
 export type ServiceRequestScreenStateProps = {
     serviceRequestsState: ServiceState;
     // tabServiceRequestCompletionSelected: ServiceRequestCompletionStatus;
     header: HeaderState;
+    properties: Property[];
 };
 
 export type ServiceRequestsScreenDispatchProps = {
@@ -40,6 +45,10 @@ export type ServiceRequestsScreenDispatchProps = {
 type ServiceRequestRadioState = {
     currentRequestsSelected: boolean,
     requestSelected: ServiceRequestStatus,
+}
+
+type ServiceRequestState = ServiceRequestRadioState & {
+    serviceRequests: ServiceRequest[]
 }
 
 export type ServiceRequestRadioProps = {
@@ -222,75 +231,9 @@ const styles = StyleSheet.create({
 
 const serviceRequestStrings = strings.serviceRequestPage;
 
-const fakeApp: Appliance = {
-    applianceId: 1,
-    category: ApplianceType.Plumbing,
-    appName: 'Oven',
-    manufacturer: 'Vulcan Equipment',
-    modelNum: 123,
-    serialNum: 432,
-    location: 'Bathroom',
-};
-
-const fakeApp2: Appliance = {
-    applianceId: 2,
-    category: ApplianceType.LightingAndElectric,
-    appName: 'Microwave',
-    manufacturer: 'Hamilton Beach',
-    modelNum: 78236,
-    serialNum: 324235,
-    location: 'Bathroom',
-};
-
-const fakeSR: ServiceRequest = {
-    address: '001 Service Request, Fremont, CA',
-    technician: 'Johnny White',
-    startDate: new Date().toString(),
-    poc: '(805)-123-4321',
-    pocName: 'Sally Jones',
-    companyName: 'Fix N Fix',
-    details: 'The oven is not heating properly. It was working fine last week, but we have not been able to get it to light since then.',
-    appliance: fakeApp,
-    status: ServiceRequestStatusEnums.Completed,
-};
-
-const fakeSR2: ServiceRequest = {
-    address: '002 Service Request, Fremont, CA',
-    technician: 'Johnny White',
-    startDate: new Date().toString(),
-    poc: '(805)-123-4321',
-    pocName: 'Sally Jones',
-    companyName: 'Fix N Fix',
-    details: 'The oven is not heating properly. It was working fine last week, but we have not been able to get it to light since then.',
-    appliance: fakeApp,
-    status: ServiceRequestStatusEnums.Pending,
-};
-
-const fakeSR3: ServiceRequest = {
-    address: '003 Service Request, Fremont, CA',
-    technician: 'Johnny White',
-    startDate: new Date().toString(),
-    poc: '(805)-123-4321',
-    pocName: 'Sally Jones',
-    companyName: 'Fix N Fix',
-    details: 'The oven is not heating properly. It was working fine last week, but we have not been able to get it to light since then.',
-    appliance: fakeApp,
-    status: ServiceRequestStatusEnums.Scheduled,
-};
-
-const fakeSR4: ServiceRequest = {
-    address: '004 Service Request, Fremont, CA',
-    technician: 'Jimmy Green',
-    startDate: new Date().toString(),
-    poc: '(805)-123-4321',
-    pocName: 'Sally Jones',
-    companyName: 'Fix N Fix',
-    details: 'Microwave caught on Fire',
-    appliance: fakeApp2,
-    status: ServiceRequestStatusEnums.Pending,
-};
 
 function filterTabbedObjects(unfilteredServiceRequests: ServiceRequest[], requestStatus: ServiceRequestStatus) {
+    console.log(`In filtered Tabbed`)
     const filteredServiceRequests: ServiceRequest[] = unfilteredServiceRequests.filter(sr => sr.status === requestStatus);
     return filteredServiceRequests;
 }
@@ -301,8 +244,10 @@ function filterTabbedObjects(unfilteredServiceRequests: ServiceRequest[], reques
  * ---------------------------------------------------
  */
 
-export default class ServiceRequestScreenBase extends React.Component<ServiceRequestScreenProps, ServiceRequestRadioState>{
+export default class ServiceRequestScreenBase extends React.Component<ServiceRequestScreenProps, ServiceRequestState>{
     tabs = ["PENDING", "SCHEDULED", "IN_PROGRESS"];
+
+    currentServiceRequests;
 
     // eslint-disable-next-line react/static-property-placement
     static defaultProps: ServiceRequestRadioProps = {
@@ -329,10 +274,16 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
         this.renderFilteredServiceRequests = this.renderFilteredServiceRequests.bind(this);
         this.render = this.render.bind(this);
 
-        this.state = { currentRequestsSelected: true, requestSelected: ServiceRequestStatusEnums.Pending };
+        this.state = { currentRequestsSelected: true, requestSelected: ServiceRequestStatusEnums.Pending, serviceRequests: [] };
         props.parentCallBack(ServiceRequestCompletionStatus.Current);
         props.parentCallBack2(ServiceRequestStatusEnums.Pending);
 
+    }
+
+    componentWillUnmount(){
+        this.setState({
+            serviceRequests: [],
+        });
     }
 
     onPressInactiveRequests() {
@@ -384,6 +335,53 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
     openServiceRequestModal(serviceRequest: ServiceRequest) {
         const { navigation } = this.props;
         navigation.navigate(navigationPages.ServiceRequestModal, { serviceRequest }, true);
+    }
+
+    async callFetchServiceRequests(propId: string){
+        await fetchServiceRequests(propId).then(response =>{
+            const {data} = response;
+            const {reqs} = data;
+
+            let serviceRequests : ServiceRequest[] = [];
+
+            reqs.forEach(req => {
+                const {appFixed, location, serviceDate, status, client, serviceCompany, serviceCategory, details } = req;
+                const appliance = {
+                    applianceId: appFixed.appId,
+                    category: stringToCategory(appFixed.category),
+                    appName: appFixed.name,
+                    manufacturer: appFixed.manufacturer,
+                    modelNum: appFixed.modelNum,
+                    serialNum: appFixed.serialNum,
+                    location: appFixed.location,
+                };
+
+                const serviceRequest: ServiceRequest = {
+                    address: location,
+                    startDate: serviceDate,
+                    companyName: serviceCompany,
+                    details,
+                    appliance,
+                    status : ServiceRequestStatusEnums[status],
+                };
+
+                console.log(serviceRequest);
+                serviceRequests.push(serviceRequest);
+            });
+            this.setState({serviceRequests});  
+        });
+    }
+
+
+    renderServiceRequestButtons(){
+        const {serviceRequests} = this.state;
+        return (
+            <>
+            {serviceRequests.forEach(request => {
+                return (<ServiceRequestButton serviceRequest={request} />);
+            })}
+            </>
+        );
     }
 
     renderCard(serviceRequest: ServiceRequest) {
@@ -505,28 +503,29 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
     }
 
     renderServiceRequests() {
+        const {properties} = this.props;
         const { currentRequestsSelected, requestSelected } = this.state;
         /*
          TO DO: actually implement serviceRequestsState so we get a list of real requests
         */
-        const serviceRequests = [fakeSR, fakeSR2, fakeSR3, fakeSR4];
 
         return (
-            <div className="card-container" aria-label="Card Container Test">
-                <ul className="card-tab-switcher completion-status" aria-label="Card Tab Switcher Completion">
+            <>
+                <ServiceRequestAddressPanel properties={properties} parentCallBack={async (propId: string)  => {await this.callFetchServiceRequests(propId);}}/>
+                <>
                     {this.renderCompletionStatusRadioButton(currentRequestsSelected)}
-                </ul>
-                <div className="full-width-bar">
-                    <ul className="card-tab-switcher active-status" aria-label="Card Tab Switcher Active">
+                </>
+                <>
+                    <>
                         {currentRequestsSelected ? this.renderActive(requestSelected) : this.renderInactive(requestSelected)}
-                    </ul>
-                </div>
-                <div className="card-list" aria-label="Card List Test">
-                    <div className="card-category-container" aria-label="Category Container">
-                        {this.renderFilteredServiceRequests(serviceRequests)}
-                    </div>
-                </div>
-            </div>
+                    </>
+                </>
+                <>
+                    <>
+                        { this.renderFilteredServiceRequests() }
+                    </>
+                </>
+            </>
         );
     }
 
@@ -538,14 +537,16 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
         return (<>{this.renderInactiveStatusRadioButton(requestSelected)}</>);
     }
 
-    renderFilteredServiceRequests(serviceRequests: ServiceRequest[]) {
-        const { requestSelected } = this.state;
+    renderFilteredServiceRequests() {
+        const { requestSelected, serviceRequests } = this.state;
         const filteredServiceRequests: ServiceRequest[] = filterTabbedObjects(serviceRequests, requestSelected);
 
         return (
             filteredServiceRequests.map(
                 serviceRequest => {
-                    return (<ServiceRequestButton onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
+                    const {appliance} = serviceRequest;
+                    const {applianceId} = appliance;
+                    return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
                 }));
     }
 
@@ -553,11 +554,7 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
         return (
             <ScrollView style={{ flexGrow: 1 }}>
                 <View style={styles.addBottomMargin}>
-                    <div className="tabbed-container">
-                        <div className="full-width-bar"> </div>
-
-                        {this.renderServiceRequests()}
-                    </div>
+                    {this.renderServiceRequests()}
                 </View>
             </ScrollView>
         );

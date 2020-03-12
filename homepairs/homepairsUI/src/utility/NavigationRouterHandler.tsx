@@ -5,7 +5,7 @@ import { NavigationSwitchProp, withNavigation } from 'react-navigation';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { Platform } from 'react-native';
 import React from 'react';
-import {navigationPages} from 'homepairs-routes';
+import {navigationPages, MainAppStack} from 'homepairs-routes';
 
 type Navigators = NavigationStackProp | RouteProps | NavigationSwitchProp
 enum NavigationObjects {
@@ -13,8 +13,8 @@ enum NavigationObjects {
     Router = 'Router',
 }
 const {PropertiesScreen, TenantProperty, ServiceRequestScreen, AccountSettings} = navigationPages;
-const BASE_ROUTES: string[] = [PropertiesScreen, TenantProperty, ServiceRequestScreen, AccountSettings]
-
+const BASE_ROUTES: string[] = [PropertiesScreen, TenantProperty, ServiceRequestScreen, AccountSettings];
+const [PropertyStack, ServiceRequestStack, AccountSettingStack] = MainAppStack;
 /**
  * ---------------------------------------------------
  * Prepare Route Helper
@@ -98,10 +98,8 @@ export default class NavigationRouteHandler{
             const {pathname, key} = location;
             return [pathname, key];
         }
-
         const{key, routename} = this.navigation.state;
-        return [routename, key];
-        
+        return [routename, key];   
     }
 
     /**
@@ -224,6 +222,25 @@ export default class NavigationRouteHandler{
     }
 
     /**
+     * Retrieves the current Router/Stack location and returns the MainAppStack 
+     * object for the location. This is intended to be used by the header. 
+     */
+    getCurrentRouteStack(){
+        if(NavigationRouteHandler.type === NavigationObjects.Router){
+            const {location} = this.navigation;
+            const {pathname} = location;
+            if(pathname.match(`${ServiceRequestScreen}*`)){
+                return ServiceRequestStack;
+            } 
+            if(pathname.match(`${AccountSettings}*`)){
+                return AccountSettingStack;
+            } 
+            return PropertyStack;
+        }
+        return undefined;
+    }
+
+    /**
      * Checks to see if the base homepairs route is the current location of the navigator. Returns a 
      * boolean value based on the result. The Base Routes are pre-defined. 
      */
@@ -284,7 +301,5 @@ export function hasPageBeenReloaded(props: any, state:any){
     const {navigation} = props;
     const {pathname, key}= state;
     const [newPath, newKey] = navigation.getLocationPathnameAndKey();
-    //console.log(`New:${newPath} and ${newKey}`)
-    //onsole.log(`Old:${pathname} and ${key}`)
     return (pathname === newPath && key !== newKey);
 }

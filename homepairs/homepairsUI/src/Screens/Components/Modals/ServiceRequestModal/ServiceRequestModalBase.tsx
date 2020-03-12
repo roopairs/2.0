@@ -5,7 +5,6 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions} from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import {FontTheme} from 'homepairs-base-styles';
 import { HomePairFonts } from 'homepairs-fonts';
@@ -79,8 +78,10 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             alignSelf: 'center',
         },
         cardTitleContainer: {
+            borderTopRightRadius: 7,
+            borderTopLeftRadius: 7,
             width: BaseStyles.ContentWidth.max,
-            backgroundColor: colors.roopairs, 
+            backgroundColor: colors.primary, 
             paddingVertical: BaseStyles.MarginPadding.largeConst,
             paddingHorizontal: BaseStyles.MarginPadding.largeConst,
             alignSelf: 'center',
@@ -110,6 +111,20 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
     });
 }
 
+/**
+ * Helper function to format POC information in component 
+ * @param {string} poc 
+ * @param {string} pocName 
+ */
+function formatPointOfContact(pocName:string, poc: string){
+    if(isNullOrUndefined(poc) && isNullOrUndefined(pocName))
+        return 'Not Applicable';
+    if(isNullOrUndefined(poc))
+        return pocName;
+    if(isNullOrUndefined(pocName))
+        return poc;
+    return `${pocName} ${poc}`;
+}
 
 export default class ServiceRequestModalBase extends React.Component<Props> {
     styles;
@@ -156,6 +171,10 @@ export default class ServiceRequestModalBase extends React.Component<Props> {
         return (
             <View>
                 <View style={this.styles.subContainer}>
+                    <Text style={this.styles.formTitle}>{serviceRequestStrings.status}</Text>
+                    <Text style={this.styles.detailText}>{this.serviceRequest.status}</Text>
+                </View>
+                <View style={this.styles.subContainer}>
                     <Text style={this.styles.formTitle}>{serviceRequestStrings.address}</Text>
                     <Text style={this.styles.detailText}>{this.serviceRequest.address}</Text>
                 </View>
@@ -165,7 +184,8 @@ export default class ServiceRequestModalBase extends React.Component<Props> {
                 </View>
                 <View style={this.styles.subContainer}>
                     <Text style={this.styles.formTitle}>{serviceRequestStrings.technician}</Text>
-                    <Text style={this.styles.detailText}>{this.serviceRequest.technician}</Text>
+                    <Text style={this.styles.detailText}>{isNullOrUndefined(this.serviceRequest.technician) 
+                        ? 'Not Applicable' : this.serviceRequest.technician} </Text>
                 </View>
                 <View style={this.styles.subContainer}>
                     <Text style={this.styles.formTitle}>{serviceRequestStrings.startDate}</Text>
@@ -173,7 +193,7 @@ export default class ServiceRequestModalBase extends React.Component<Props> {
                 </View>
                 <View style={this.styles.subContainer}>
                     <Text style={this.styles.formTitle}>{serviceRequestStrings.poc}</Text>
-                    <Text style={this.styles.detailText}>{this.serviceRequest.pocName} {this.serviceRequest.poc}</Text>
+                    <Text style={this.styles.detailText}>{formatPointOfContact(this.serviceRequest.pocName, this.serviceRequest.poc)}</Text>
                 </View>
                 <View style={this.styles.subContainer}>
                     <Text style={this.styles.formTitle}>{serviceRequestStrings.details}</Text>

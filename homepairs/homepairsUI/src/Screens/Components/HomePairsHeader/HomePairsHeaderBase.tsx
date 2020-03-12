@@ -20,6 +20,7 @@ import {
 import {NavigationRouteHandler} from 'homepairs-utilities';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu';
+import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 
 const backSymbol = '<';
 const { DROP_MENU_WIDTH } = HomePairsDimensions;
@@ -110,6 +111,11 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
     }
 
     componentDidMount() {
+        const {navigation, onUpdateSelected} = this.props;
+        const startingOption = navigation.getCurrentRouteStack();
+        if(!isNullOrUndefined(startingOption))
+            onUpdateSelected(startingOption);
+
         // Here we will add our window listener
         const { width } = Dimensions.get('window');
         const { onSwitchNavBar } = this.props;

@@ -21,7 +21,8 @@ const strings = {
         tabB2: 'Canceled',
     },
     serviceRequestModal: {
-        title: 'Active Service Request',
+        title: 'Service Request',
+        status: 'STATUS',
         address: 'ADDRESS', 
         serviceType: 'SERVICE TYPE',
         technician: 'ASSIGNED TECHNICIAN', 

@@ -8,6 +8,9 @@ import Colors from 'homepairs-colors';
 import {HelperText} from 'react-native-paper';
 import { isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces, NavigationRouteScreenProps, NavigationRouteHandler } from 'homepairs-utilities';
 import { InputFormProps } from 'src/Elements/Forms/InputForm';
+import {navigationPages} from 'homepairs-routes';
+
+const {SingleProperty} = navigationPages;
 
 export type EditPropertyDispatchProps = {
     onEditProperty: (newProperty: Property, info: EditPropertyState, 
@@ -200,6 +203,12 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
         this.setState({bathrooms: childData});
     } 
 
+    goBackToPreviousPage() {
+        const{navigation} = this.props;
+        const propId = navigation.getParam('propId');
+        navigation.replace(SingleProperty, {propId});
+    }
+
     setInitialState() {
         const {oldProp} = this.props;
         const {address, bedrooms, bathrooms, tenants} = oldProp;
@@ -342,7 +351,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
     }
     
     render() {
-        const {navigation} = this.props;
         const showCloseButton = true;
         return(
             <SafeAreaView style={this.inputFormStyle.modalContainer}>
@@ -357,7 +365,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     title={editPropertyStrings.title}
                     closeButtonPressedCallBack={() => {
-                        navigation.goBack();
+                        this.goBackToPreviousPage();
                         this.setInitialState();
                         this.resetForms();
                     }}>
