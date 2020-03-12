@@ -115,8 +115,6 @@ def addNewProperties(email, token):
             return returnError("Invalid token.")
     for prop in properties:
         propId = prop.get('id')
-        print("PROPID")
-        print(propId)
         others = Property.objects.filter(rooId=propId)
         if not others.exists():
             # We know the pm account exists in our database and only ours
