@@ -40,6 +40,7 @@ export {default as HamburgerButton} from './Buttons/HamburgerButton';
 export {default as AppliancePanel} from './Panels/AppliancePanel';
 export {default as AddressPanel} from './Panels/AddressPanel';
 export {default as ApplianceCategoryPanel} from './Panels/ApplianceCategoryPanel';
+export {default as ServiceTypePanel} from './Panels/ServiceTypePanel';
 export {default as ServiceRequestButton} from './Buttons/ServiceRequestButton';
 
 /** A hack that works when exporting types */

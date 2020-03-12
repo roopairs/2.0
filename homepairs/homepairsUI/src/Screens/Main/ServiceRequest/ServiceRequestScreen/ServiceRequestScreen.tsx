@@ -27,7 +27,7 @@ function mapStateToProps(state: AppState): ServiceRequestScreenStateProps {
     return {
         // TODO: Add pass favorite Service Providers into props
         serviceRequestsState: serviceRequests,
-        header: header,
+        header,
     };
 }
 

@@ -102,6 +102,10 @@ const styles = StyleSheet.create({
         height: '100%',
         overflow: 'hidden',
     },
+    imageStyle: {
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10,
+    },
 });
 
 /**
@@ -115,6 +119,8 @@ function getPropIdAndProperty(props:any){
 }
 
 export default class DetailedPropertyScreenBase extends React.Component<Props, State> {
+
+    apiKey = 'AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg';
 
     navigation;
 
@@ -183,6 +189,8 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
                 });
             });
 
+            console.log(applianceInfo);
+
             this.setState({
                 tenantInfo,
                 applianceInfo,
@@ -204,6 +212,7 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
         const [propId] = getPropIdAndProperty(this.props);
         this.navigation.replace(navigationPages.EditApplianceModal, {appliance, propId}, true);
     }
+
 
     renderContents() {
         const [propId, property] = getPropIdAndProperty(this.props);
@@ -230,7 +239,6 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
                         property={property}
                         onClick={this.openEditPropertyModal}/>
                     <ApplianceInfo 
-                        navigation={this.navigation} 
                         appliances={applianceInfo} 
                         propId={propId}
                         onAddApplianceModal={this.openAddApplianceModal} 

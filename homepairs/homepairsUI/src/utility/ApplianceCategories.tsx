@@ -12,6 +12,8 @@ export function categoryToString(appType: ApplianceType) {
         appTypeString = categoryStrings.HVAC;
     } else if (appType === ApplianceType.LightingAndElectric) {
         appTypeString = categoryStrings.LE;
+    } else {
+        appTypeString = '';
     }
     return appTypeString;
 }
