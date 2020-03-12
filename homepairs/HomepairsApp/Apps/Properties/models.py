@@ -20,7 +20,7 @@ class Property(models.Model):
 
     def toDict(self):
         return {
-                  "streetAddress": self.streetAddress,
+                  "streetAddress": self.streetAddress + ", " + self.city + ", " + self.state,
                   "city": self.city,
                   "state": self.state,
                   "numBath": self.numBath,
