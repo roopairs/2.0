@@ -1,5 +1,6 @@
 import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
 import axios from 'axios';
+import {navigationPages} from 'homepairs-routes';
 import { 
     RequestServiceAction,
     AcceptServiceAction,
@@ -12,8 +13,13 @@ import {
     AcceptedService,
     ServiceRequestStatus,
     ServiceRequest,
+    NewServiceRequest,
     HomePairsResponseKeys,
 } from '../types';
+
+const {ServiceRequestScreen} = navigationPages;
+
+
 const responseKeys = HomePairsResponseKeys;
 
 export const SERVICES_ACTION_TYPES = {
@@ -26,19 +32,29 @@ export const SERVICES_ACTION_TYPES = {
 
 
 export const postNewServiceRequest = (
-    newServRequest: ServiceRequest, 
-    setInitialState: () => void, 
+    newServiceRequest: NewServiceRequest, 
     displayError: (msg: string) => void, 
     navigation: NavigationRouteHandler,
 ) => {
     return async () => {
+        console.log(newServiceRequest.token);
         await axios
-            .post('', {})
+            .post('https://homepairs-mytest.herokuapp.com/servicerequest/', 
+            {
+                token: newServiceRequest.token, 
+                propId: newServiceRequest.propId, 
+                appId: newServiceRequest.appId, 
+                provId: newServiceRequest.providerId, 
+                serviceType: newServiceRequest.serviceType,
+                serviceCategory: newServiceRequest.serviceCategory, 
+                serviceDate: newServiceRequest.serviceDate, 
+                details: newServiceRequest.details,
+            })
             .then(response => {
                 if (response[responseKeys.DATA][responseKeys.STATUS] ===
                     responseKeys.STATUS_RESULTS.SUCCESS) {
-                    setInitialState();
                     // navigation go to confirmation screen
+                    navigation.replace(ServiceRequestScreen);
                 } else {
                     displayError(response[responseKeys.DATA][responseKeys.ERROR]);
                 }

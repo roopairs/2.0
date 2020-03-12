@@ -122,8 +122,7 @@ const styles = StyleSheet.create({
         width: BaseStyles.ContentWidth.almostThird,
         borderTopLeftRadius: BaseStyles.BorderRadius.small,
         borderBottomLeftRadius: BaseStyles.BorderRadius.small,
-        borderWidth: 1,
-        borderColor: colors.lightGray,
+        borderBottomWidth: 1,
         height: 40,
     },
     selectedMiddleThirdButton: {
@@ -217,6 +216,9 @@ const styles = StyleSheet.create({
         color: colors.lightGray,
         fontSize: BaseStyles.FontTheme.reg,
         alignSelf: 'center',
+    },
+    underline: {
+        borderBottomWidth: 2, 
     },
 });
 
@@ -440,6 +442,7 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
                                 styles.selectedText : styles.unselectedText}>
                                 {serviceRequestStrings.tabA1}
                             </Text>
+                            <View style={styles.underline}/>
                         </TouchableOpacity>
                         <TouchableOpacity
                             testID='service-radio-scheduled'

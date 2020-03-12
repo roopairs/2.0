@@ -14,8 +14,8 @@ export const HOMEPAIRS_APPLIANCE_ENDPOINT = 'https://homepairs-mytest.herokuapp.
 export const HOMEPAIRS_TENANT_EDIT_ENDPOINT = "https://homepairs-mytest.herokuapp.com/tenant/update/";
 
 export const updateTenant = async ({...props}) => {
-    const {propId, email, firstName, lastName} = props;
-    await axios.post(HOMEPAIRS_TENANT_EDIT_ENDPOINT, {email, propId, firstName, lastName}).then((result) =>{
+    const {propId, email, firstName, lastName, phoneNumber} = props;
+    await axios.post(HOMEPAIRS_TENANT_EDIT_ENDPOINT, {email, propId, firstName, lastName, phoneNumber}).then((result) =>{
         console.log(result);
     }).catch(error =>{
         console.log(error);

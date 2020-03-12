@@ -1,15 +1,16 @@
 import React, {Component} from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { HeaderState, Property, ApplianceType, ServiceRequest, HomePairsDimensions, Appliance } from 'homepairs-types';
+import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance } from 'homepairs-types';
 import strings from 'homepairs-strings';
 import Colors from 'homepairs-colors';
 import 'react-widgets/dist/css/react-widgets.css';
 import { StyleSheet, Text, View, ScrollView, Platform } from 'react-native';
-import { NavigationRouteScreenProps, NavigationRouteHandler, stringToCategory, isEmptyOrSpaces } from 'homepairs-utilities';
+import { NavigationRouteScreenProps, NavigationRouteHandler, stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'homepairs-utilities';
 import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import {ChooseServiceCategory, ChooseAppliance} from 'homepairs-components';
 import {DateTimePicker} from 'react-widgets';
 import {DatePicker} from 'react-native-datepicker';
+import {HelperText} from 'react-native-paper';
 import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
 import { Endpoints } from 'src/Routes/RouteConstants';
@@ -21,39 +22,46 @@ Moment.locale('en');
 momentLocalizer();
 
 export type NewRequestDispatchProps = {
-    header: HeaderState, 
-    onCreateServiceRequest: (newServReq: ServiceRequestBase, setInitialState: () => void, 
-        displayError: (msg: string) => void, navigation: NavigationRouteHandler) => void
+    onCreateServiceRequest: (newServiceRequest: NewServiceRequest, displayError: (msg: string) => void, 
+        navigation: NavigationRouteHandler) => void
 };
 
-export type PropertyState = {
+type NewRequestScreenProps = {
     properties: Property[]
+    token: string,
 };
 
 type NewRequestState = {
     address: string,
+    propId: string,
     serviceCategory: ApplianceType,
     applianceId: string,
-    serviceProvider: string, 
+    providerId: number, 
     serviceType: string, 
-    description: string, 
+    details: string, 
     serviceDate: Date, 
     clientName: string, 
     phoneNumber: string, 
     appliances: Appliance[],
+    errorMsg: string,
+    errorCheck: boolean,
+
 };
 
 const initialState : NewRequestState = {
     address: '', 
+    propId: '',
     serviceCategory: ApplianceType.None, 
     applianceId: '', 
-    serviceProvider: '', 
+    providerId: 1, 
     serviceType: '',
-    description: '', 
+    details: '', 
     serviceDate: null, 
     clientName: '', 
     phoneNumber: '',
     appliances: [],
+    errorMsg: '',
+    errorCheck: false,
 };
 
 const styles = StyleSheet.create({
@@ -74,9 +82,13 @@ const styles = StyleSheet.create({
         height: 20, 
         width: 20, 
     },
+    errorStyle: {
+        fontFamily: BaseStyles.FontTheme.secondary, 
+        fontSize: 16,
+    },
 });
 
-type Props = NavigationRouteScreenProps & NewRequestDispatchProps & PropertyState;
+type Props = NavigationRouteScreenProps & NewRequestDispatchProps & NewRequestScreenProps;
 
 const serviceRequestStrings = strings.serviceRequestPage;
 
@@ -120,7 +132,6 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
 
     buttonProps: ThinButtonProps = {
         name: 'Send Request', 
-        onClick: () => {}, 
         containerStyle: {
             flex: 1,
             alignSelf: 'center',
@@ -159,6 +170,7 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         this.getFormClientName = this.getFormClientName.bind(this);
         this.getFormPhoneNumber = this.getFormPhoneNumber.bind(this);
         this.fetchAppliances = this.fetchAppliances.bind(this);
+        this.displayError = this.displayError.bind(this);
         this.state = initialState;
         this.addressRef = React.createRef();
         this.serviceCategoryRef = React.createRef();
@@ -172,8 +184,7 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
     }
 
     async getFormAddress(childData : string, propId: string) {
-        this.setState({address: childData});
-        console.log(`inside of get form address ${propId}`);
+        this.setState({address: childData, propId});
         await this.fetchAppliances(propId);
     }
 
@@ -185,8 +196,8 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         this.setState({applianceId: childData});
     }
 
-    getFormServiceProvider(childData: string) {
-        this.setState({serviceProvider: childData});
+    getFormServiceProvider(childData: number) {
+        this.setState({providerId: childData});
     }
 
     getFormServiceType(childData: string) {
@@ -194,7 +205,7 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
     }
 
     getFormDescription(childData: string) {
-        this.setState({description: childData});
+        this.setState({details: childData});
     }
 
     getFormDate(childData: Date) {
@@ -213,7 +224,6 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         if (propId !== '') {
             await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`).then((result) =>{
                 const {appliances} = result.data;
-                console.log(appliances);
                 const applianceInfo: Appliance[] = [];
 
                 appliances.forEach(appliance => {
@@ -225,21 +235,36 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
                         appName: name, manufacturer, modelNum, serialNum, location,
                     });
                 });
-
                 this.setState({appliances: applianceInfo});
             });  
         }   
     };
 
-    clickSubmitButton() {
-        const {address, serviceCategory, applianceId, serviceProvider, serviceType, description, serviceDate, clientName, phoneNumber} = this.state;
-        if (this.validateForms()) {
+    displayError(msg: string) {
+        this.setState({errorMsg: msg, errorCheck: true});
+    }
 
+    clickSubmitButton() {
+        const { serviceCategory, applianceId, providerId, serviceType, details, serviceDate, propId} = this.state;
+        const {onCreateServiceRequest, navigation, token} = this.props;
+        this.setState({errorCheck: false});
+        if (this.validateForms()) {
+            const newServiceRequest : NewServiceRequest = {
+                token,
+                propId, 
+                appId: applianceId, 
+                providerId, 
+                serviceType,
+                serviceCategory: categoryToString(serviceCategory), 
+                serviceDate: serviceDate.toISOString(), 
+                details,
+            };
+            onCreateServiceRequest(newServiceRequest, this.displayError, navigation);
         }
     }
 
     validateForms() {
-        const {address, serviceCategory, applianceId, serviceProvider, serviceType, description, serviceDate} = this.state;
+        const {address, serviceCategory, applianceId, providerId, serviceType, serviceDate} = this.state;
         let check = true;
         if (isEmptyOrSpaces(address)) {
             check = false;
@@ -251,6 +276,12 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
             check = false;
         }
         if (serviceDate === null) {
+            check = false;
+        }
+        if (isEmptyOrSpaces(serviceType)) {
+            check = false;
+        }
+        if (!isPositiveWholeNumber(providerId.toString())) {
             check = false;
         }
         return check;
@@ -284,6 +315,13 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         />;
     }
 
+    renderError() {
+        const {errorMsg, errorCheck} = this.state;
+        return <View style={{alignSelf:'center'}}>
+            <HelperText type='error' visible={errorCheck} style={styles.errorStyle}>{errorMsg}</HelperText>
+        </View>;
+    }
+
     render() {
         const {properties} = this.props;
         const {appliances, serviceCategory} = this.state;
@@ -308,9 +346,10 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
                     />
                 <Text style={styles.formTitle}>WHEN DO YOU WANT IT TO BE FIXED?</Text>
                 <>{this.renderDatePicker()}</>
+                {this.renderError()}
                 <ThinButton 
                     name={this.buttonProps.name}
-                    onClick={this.buttonProps.onClick}
+                    onClick={() => this.clickSubmitButton()}
                     containerStyle={this.buttonProps.containerStyle}
                     buttonStyle={this.buttonProps.buttonStyle}
                     buttonTextStyle={this.buttonProps.buttonTextStyle}

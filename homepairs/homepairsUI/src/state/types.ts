@@ -122,7 +122,7 @@ export type Account = {
 };
 
 export type PropertyManagerAccount = Account & {
-    manId: number;
+    pmId: number;
 };
 
 export type TenantAccount = Account & {
@@ -168,6 +168,17 @@ export type ServiceRequest = {
     appliance: Appliance, 
     status: ServiceRequestStatus
 };
+
+export type NewServiceRequest = {
+    token: string, 
+    propId: string, 
+    appId: string, 
+    providerId: number, 
+    serviceType: string,
+    serviceCategory: string, 
+    serviceDate: string, 
+    details: string,
+}
 
 export type ServiceProvider = {
     // TODO: Define attributes for service Provider
@@ -447,7 +458,7 @@ enum HOMEPAIRS_ACCOUNT_KEYS {
     FIRSTNAME = 'firstName',
     LASTNAME = 'lastName',
     EMAIL = 'email',
-    MANID = 'manId',
+    PM_ID = 'pmId',
     PASSWORD = 'password',
     ADDRESS = 'address',
     PLACE = 'place',

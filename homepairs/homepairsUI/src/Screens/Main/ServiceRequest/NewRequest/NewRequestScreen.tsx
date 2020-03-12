@@ -1,4 +1,4 @@
-import { AppState, MainAppStackType, ServiceRequest } from 'homepairs-types';
+import { AppState, MainAppStackType, NewServiceRequest, PropertyManagerAccount } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { withSceneHeader} from 'homepairs-components';
 import { ServiceActions } from 'homepairs-redux-actions';
@@ -13,16 +13,18 @@ const sceneParam: MainAppStackType = {
 };
 
 const mapDispatchToProps : (dispatch: any) => NewRequestDispatchProps = (dispatch: any) => ({
-    onCreateServiceRequest: (newServReq: ServiceRequest, setInitialState: () => void, 
-         displayError: (msg: string) => void, navigation: NavigationRouteHandler) => 
+    onCreateServiceRequest: (newServiceRequest: NewServiceRequest, displayError: (msg: string) => void, 
+        navigation: NavigationRouteHandler) => 
     {
-        dispatch(ServiceActions.postNewServiceRequest(newServReq, setInitialState, displayError, navigation));
+        dispatch(ServiceActions.postNewServiceRequest(newServiceRequest, displayError, navigation));
     },
 });
 
 function mapStateToProps(state: AppState) : any {
     return {
         properties: state.properties.properties,
+        token: state.accountProfile.roopairsToken,
+        pmId: (state.accountProfile as (PropertyManagerAccount)).pmId,
     };
 }
 
