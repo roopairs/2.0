@@ -27,5 +27,4 @@ class ServiceProvider(models.Model):
                   "contractLic": self.contractLic,
                   "skills": self.skills,
                   "founded": self.founded,
-                  "provId": self.rooProvId,
                }
