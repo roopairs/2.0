@@ -93,6 +93,8 @@ class ServiceRequestView(View):
         serviceDate = dateutil.parser.parse(serviceDateStr)
         propList = Property.objects.filter(rooId=propId)
         appList = Appliance.objects.filter(rooAppId=appId)
+        print('provId')
+        print(provId)
         provList = ServiceProvider.objects.filter(id=provId)
         if propList.exists() and appList.exists():
             prop = propList[0]
