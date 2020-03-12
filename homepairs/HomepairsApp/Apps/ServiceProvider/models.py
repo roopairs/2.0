@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import models
+from ..PropertyManagers.models import PropertyManager
 
 
 # Create your models here.
@@ -28,3 +29,8 @@ class ServiceProvider(models.Model):
                   "skills": self.skills,
                   "founded": self.founded,
                }
+
+
+class PreferredProviders(models.Model):
+    provider = models.ForeignKey(ServiceProvider, on_delete=models.CASCADE)
+    pm = models.ForeignKey(PropertyManager, on_delete=models.CASCADE)

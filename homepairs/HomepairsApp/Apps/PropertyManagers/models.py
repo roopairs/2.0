@@ -16,4 +16,5 @@ class PropertyManager(models.Model):
                   "firstName": self.firstName,
                   "lastName": self.lastName,
                   "email": self.email,
+                  'pmId': self.id
                }
