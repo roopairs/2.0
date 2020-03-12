@@ -189,8 +189,6 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
                 });
             });
 
-            console.log(applianceInfo);
-
             this.setState({
                 tenantInfo,
                 applianceInfo,
@@ -221,7 +219,9 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
         const {navigation} = this.props;
 
         return (
-            <ScrollView style={{ flexGrow: 1 }}>
+            <ScrollView 
+                contentContainerStyle={ {}}
+                style={{flexGrow: 1}}>
                 <View style={styles.addBottomMargin}>
                     <AddressSticker
                         address={address}

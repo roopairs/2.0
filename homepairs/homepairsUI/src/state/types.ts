@@ -159,10 +159,10 @@ export type Contact = {
 
 export type ServiceRequest = {
     address: string, 
-    technician: string, 
+    technician?: string, 
     startDate: string, 
-    poc: string, 
-    pocName: string, 
+    poc?: string, 
+    pocName?: string, 
     companyName: string, 
     details: string, 
     appliance: Appliance, 
@@ -192,73 +192,20 @@ export type ServiceProvider = {
 };
 
 export enum ServiceRequestCompletionStatus {
-    Current,
-    Archived,
+    Current = 'Current',
+    Completed = 'Completed',
 }
 
 export enum ServiceRequestStatusEnums {
-    Pending,
-    Scheduled,
-    InProgress,
-    Completed,
-    Canceled,
-    Declined,
+    Pending = 'Pending',
+    Scheduled = 'Scheduled',
+    InProgress = 'InProgress',
+    Completed = 'Completed',
+    Canceled = 'Canceled',
+    Declined = 'Declined'
 }
 
 export type ServiceRequestStatus = ServiceRequestStatusEnums;
-
-/*
-export type RequestedService = {
-    provider: ServiceProvider;
-    status: ServiceRequestStatus;
-    // TODO: ADD MORE ATTRIBUTES (i.e Date requested, TenantId)
-};
-export type AcceptedService = {
-    provider: ServiceProvider;
-    status: ServiceStatus;
-    // TODO: ADD MORE ATTRIBUTES
-};
-
-export type Service = RequestedService | AcceptedService;
-
-export type ServiceState = {
-    requested: RequestedService[];
-    accepted: AcceptedService[];
-    closed: Service[];
-}; 
-
-export type RequestServiceAction = {
-    type: string;
-    request: RequestedService;
-};
-
-export type AcceptServiceAction = {
-    type: string;
-    request: RequestedService;
-};
-
-export type DenyServiceAction = {
-    type: string;
-    request: RequestedService;
-};
-
-export type CancelServiceAction = {
-    type: string;
-    service: Service;
-};
-
-export type CompleteServiceAction = {
-    type: string;
-    service: AcceptedService;
-};
-
-export type ServiceAction =
-    | RequestServiceAction
-    | CompleteServiceAction
-    | AcceptServiceAction
-    | DenyServiceAction
-    | CancelServiceAction;
-*/
 
 export type ServiceState = {
     serviceRequests: ServiceRequest[],

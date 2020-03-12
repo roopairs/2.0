@@ -14,6 +14,9 @@ export const HOMEPAIRS_APPLIANCE_ENDPOINT = 'https://homepairs-mytest.herokuapp.
 export const HOMEPAIRS_TENANT_EDIT_ENDPOINT = "https://homepairs-mytest.herokuapp.com/tenant/update/";
 export const HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT = "https://homepairs-mytest.herokuapp.com/serviceprovider/";
 
+export const HOMEPAIRS_SERVICE_REQUEST_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/servicerequest/';
+
+
 export const updateTenant = async ({...props}) => {
     const {propId, email, firstName, lastName, phoneNumber} = props;
     await axios.post(HOMEPAIRS_TENANT_EDIT_ENDPOINT, {email, propId, firstName, lastName, phoneNumber}).then((result) =>{
@@ -21,4 +24,11 @@ export const updateTenant = async ({...props}) => {
     }).catch(error =>{
         console.log(error);
     });
+};
+
+export const fetchServiceRequests = async (propId: string) => {
+    const completedEndpoint = `${HOMEPAIRS_SERVICE_REQUEST_ENDPOINT}${propId}/`;
+    console.log(completedEndpoint);
+    const results = await axios.get(completedEndpoint);
+    return results;
 };

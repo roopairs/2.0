@@ -16,10 +16,10 @@ import { HomePairsHeader, CreatingAccountModal, LoggingInModal, AddNewPropertyMo
 
 
 // Pages and components that need to be retrieved in order to route properly 
-const {LoginScreen, SignUpScreen, RoopairsLogin} = AuthenticationPages; 
-const {PropertiesScreen, TenantPropertiesScreen, DetailedPropertyScreen, } = MainAppPages.PropertyPages;
-const {ServiceRequestScreen, NewRequestScreen} = MainAppPages.ServiceRequestPages;
-const {AccountScreen} = MainAppPages.AccountPages;
+const { LoginScreen, SignUpScreen, RoopairsLogin } = AuthenticationPages; 
+const { PropertiesScreen, TenantPropertiesScreen, DetailedPropertyScreen } = MainAppPages.PropertyPages;
+const { ServiceRequestScreen, NewRequestScreen } = MainAppPages.ServiceRequestPages;
+const { AccountScreen } = MainAppPages.AccountPages;
 
 /**
  * ------------------------------------------------------------
@@ -104,11 +104,11 @@ function LoginModalSwitch() {
       <>
       
             <Switch path={LOGIN} location={background || location}>
-                <Route exact path={LOGIN} children={<LoginScreen />} />
-                <Route path={LOGIN_MODAL} children={<LoggingInModal />} />
+                <Route exact path={LOGIN}><LoginScreen/></Route>
+                <Route path={LOGIN_MODAL}><LoggingInModal/></Route>
             </Switch>
             {/* Show the modal when a background page is set */}
-            {background && <Route path={LOGIN_MODAL} children={<LoginModal />} />}
+            {background && <Route path={LOGIN_MODAL}><LoginModal/></Route> }
        
         </>
     );
@@ -157,12 +157,12 @@ function TenantAccountPropertySwitch() {
   const background = location.state && location.state.background;
   return (
     <Route path='/tenant/home' render={(matches) => (
-          <>                
+          <View style={{overflow: 'hidden'}}>                
               <HomePairsHeader />
               <Switch path={`${TENANT_PROPERTY}`} location={background || location}>
                   <Route exact path={`${TENANT_PROPERTY}`}><TenantPropertiesScreen/></Route>
               </Switch>
-          </>
+          </View>
       )}/>
   );
 }

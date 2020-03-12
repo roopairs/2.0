@@ -116,6 +116,12 @@ const styles = StyleSheet.create({
         fontSize: BaseStyles.FontTheme.reg,
         alignSelf: 'center',
     },
+    networkText: {
+        textAlign: 'center',
+        alignSelf:'center', 
+        fontFamily: BaseStyles.FontTheme.primary,
+        fontSize: BaseStyles.FontTheme.reg,
+    },
 });
 
 export type ServiceProviderRadioState = {
@@ -242,7 +248,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                 : (
                     <View>
                         <View style={styles.textContainer}>
-                            <Text>
+                            <Text style={styles.networkText}>
                                 {"\tYour request will be sent to the Roopairs network. When your service request is ready, you will be able to choose from a handful of bids from qualified service professionals."}
                             </Text>
                         </View>

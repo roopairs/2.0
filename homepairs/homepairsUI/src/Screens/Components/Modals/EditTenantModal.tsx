@@ -123,12 +123,22 @@ const styles = StyleSheet.create({
         fontSize: BaseStyles.FontTheme.reg,
         alignSelf: 'center',
     },
-    buttonContainerStyle: {
+    editButtonContainerStyle: {
         flex: 1,
         alignSelf: 'center',
         justifyContent: 'center',
         marginTop: BaseStyles.MarginPadding.largeConst,
         marginBottom: BaseStyles.MarginPadding.xlarge,
+        marginRight: BaseStyles.MarginPadding.mediumConst,
+        minHeight: 50,
+    },
+    removeButtonContainerStyle: {
+        flex: 1,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginTop: BaseStyles.MarginPadding.largeConst,
+        marginBottom: BaseStyles.MarginPadding.xlarge,
+        marginLeft: BaseStyles.MarginPadding.mediumConst,
         minHeight: 50,
     },
     
@@ -333,13 +343,13 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
                     onClick={() => {this.clickSubmitButton();}} 
                     buttonStyle={styles.editTenantButtonStyle}
                     buttonTextStyle={styles.editTenantButtonTextStyle}
-                    containerStyle={styles.buttonContainerStyle}/>
+                    containerStyle={styles.editButtonContainerStyle}/>
                 <ThinButton 
                     name='Remove'
                     onClick={() => {this.clickRemoveButton();}} 
                     buttonStyle={styles.removeTenantButtonStyle}
                     buttonTextStyle={styles.removeTenantButtonTextStyle}
-                    containerStyle={styles.buttonContainerStyle}/>
+                    containerStyle={styles.removeButtonContainerStyle}/>
             </View>
         );
     }
