@@ -28,6 +28,6 @@ class ServiceRequest(models.Model):
                 "client": self.client,
                 "status": self.status,
                 "serviceDate": self.serviceDate,
-                "appFixed": str(self.appFixed),
+                "appFixed": self.appFixed.toDict(),
                 "location": str(self.location)
                 }
