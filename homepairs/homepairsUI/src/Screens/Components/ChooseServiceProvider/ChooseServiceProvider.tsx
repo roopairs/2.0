@@ -10,7 +10,8 @@ import {
     HomePairsDimensions, ServiceRequest, Appliance, ApplianceType, ServiceRequestStatusEnums, ServiceProvider,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { ServiceRequestButton, ServiceProviderButton } from 'src/Elements';
+import Colors from 'homepairs-colors';
+import { ServiceRequestButton, ServiceProviderButton, ThinButton, ThinButtonProps } from 'src/Elements';
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -195,13 +196,46 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
     renderServiceProviders() {
         const { preferredProvidersSelected } = this.state;
 
+        const buttonProps: ThinButtonProps = {name : 'Continue',
+        containerStyle: {
+            flex: 1,
+            alignSelf: 'center',
+            justifyContent: 'center',
+            marginTop: BaseStyles.MarginPadding.largeConst,
+            marginBottom: BaseStyles.MarginPadding.xlarge,
+            minHeight: 50,
+        }, 
+        buttonStyle: {
+            alignItems: 'center',
+            backgroundColor: Colors.LightModeColors.transparent,
+            padding: BaseStyles.MarginPadding.mediumConst,
+            maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
+            minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
+            borderRadius: BaseStyles.BorderRadius.large,
+            borderWidth: 1,
+            borderColor: Colors.LightModeColors.blueButton,
+        },
+        buttonTextStyle: {
+            color: Colors.LightModeColors.blueButtonText, 
+            fontSize: BaseStyles.FontTheme.reg,
+            alignSelf: 'center',
+        }};
+
         return (
             preferredProvidersSelected ? this.renderPreferredProviders()
                 : (
-                    <View style={styles.textContainer}>
-                        <Text>
-                            {"\tYour request will be sent to the Roopairs network. When your service request is ready, you will be able to choose from a handful of bids from qualified service professionals."}
-                        </Text>
+                    <View>
+                        <View style={styles.textContainer}>
+                            <Text>
+                                {"\tYour request will be sent to the Roopairs network. When your service request is ready, you will be able to choose from a handful of bids from qualified service professionals."}
+                            </Text>
+                        </View>
+                        <ThinButton
+                            name={buttonProps.name}
+                            containerStyle={buttonProps.containerStyle}
+                            buttonStyle={buttonProps.buttonStyle}
+                            buttonTextStyle={buttonProps.buttonTextStyle}
+                        />
                     </View>
                 )
         );
@@ -209,7 +243,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
 
     // eslint-disable-next-line class-methods-use-this
     renderPreferredProviders() {
-        const {serviceProviders, parentCallBack} = this.props;
+        const { serviceProviders, parentCallBack } = this.props;
         const filteredServiceProviders = serviceProviders; // TO DO IMPLEMENT FILTER
 
         return (
