@@ -186,7 +186,7 @@ class ServiceRequestView(View):
 
     def get(self, request, inPropId):
         propId = inPropId
-        reqList = ServiceRequest.objects.filter(location=propId)
+        propList = Property.objects.filter(rooId=propId)
         if reqList.exists():
             newList = []
             for i in reqList:
