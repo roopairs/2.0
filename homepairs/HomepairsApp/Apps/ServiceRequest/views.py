@@ -91,9 +91,9 @@ class ServiceRequestView(View):
         appId = inData.get('appId')
         token = inData.get('token')
         serviceDate = dateutil.parser.parse(serviceDateStr)
-        propList = Property.objects.filter(id=propId)
-        appList = Appliance.objects.filter(id=appId)
-        provList = ServiceProvider.objects.filter(id=provId)
+        propList = Property.objects.filter(rooId=propId)
+        appList = Appliance.objects.filter(rooAppId=appId)
+        provList = ServiceProvider.objects.filter(rooProvId=provId)
         if propList.exists() and appList.exists():
             prop = propList[0]
             if str(appId) != '-1':
