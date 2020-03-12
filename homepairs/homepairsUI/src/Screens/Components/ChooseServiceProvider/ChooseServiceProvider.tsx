@@ -131,27 +131,6 @@ function filterTabbedObjects(unfilteredServiceProviders: ServiceRequest[]) {
        BUT NOT NECESSARILY ANY FIELD THAT CAN CORRESPOND WITH REQUEST OR APPLIANCE TYPES */
     return filteredServiceProviders;
 }
-const fakeApp: Appliance = {
-    applianceId: "2",
-    category: ApplianceType.LightingAndElectric,
-    appName: 'Microwave',
-    manufacturer: 'Hamilton Beach',
-    modelNum: 78236,
-    serialNum: 324235,
-    location: 'Bathroom',
-};
-
-const fakeSR: ServiceRequest = {
-    address: '001 Service Request, Fremont, CA',
-    technician: 'Jimmy Green',
-    startDate: new Date().toString(),
-    poc: '(805)-123-4321',
-    pocName: 'Sally Jones',
-    companyName: 'Fix N Fix',
-    details: 'Microwave caught on Fire',
-    appliance: fakeApp,
-    status: ServiceRequestStatusEnums.Declined,
-};
 
 /**
  * ------------------------------------------------------------
