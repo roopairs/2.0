@@ -160,6 +160,7 @@ class LoginView(View):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(View):
+
     def post(self, request):
         inData = json.loads(request.body)
         required = ['firstName', 'lastName', 'email', 'password']
