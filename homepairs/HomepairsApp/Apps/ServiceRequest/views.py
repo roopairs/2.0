@@ -101,13 +101,13 @@ class ServiceRequestView(View):
             else:
                 app = None
             prov = provList[0]
-            
+
             types = ['Repair', 'Installation', 'Maintenance']
             typeNum = -1
             for i in range(0, len(types)):
                 if types[i] == serviceType:
                     typeNum = i + 1
-            
+
             data = {
                         'service_company': provId,
                         'service_category': 1,
@@ -126,7 +126,7 @@ class ServiceRequestView(View):
             req = ServiceRequest(serviceCategory=serviceCategory,
                                  serviceCompany=prov,
                                  serviceType=str(typeNum),
-                                 status='pending',
+                                 status='Pending',
                                  client=str(prop.pm),
                                  serviceDate=serviceDate,
                                  details=details,
