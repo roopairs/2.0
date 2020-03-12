@@ -129,7 +129,9 @@ class RegisterView(View):
                                  place=tenantsProp,
                                  pm=tenantsPM)
                     ten.save()
-                    return JsonResponse(data=getTenant(email, password))
+                    tempDict = getTenant(email, password)
+                    tempDict['role'] = 'tenant'
+                    return JsonResponse(data=tempDict)
                 else:
                     return JsonResponse(data=returnError(TOO_MANY_PROPERTIES))
             else:

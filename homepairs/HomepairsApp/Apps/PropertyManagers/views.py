@@ -198,8 +198,10 @@ class RegisterView(View):
                 if tempDict[STATUS] == FAIL:
                     return JsonResponse(data=returnError(HOMEPAIRS_ACCOUNT_CREATION_FAILED))
                 tempDict[TOKEN] = info.get(TOKEN)
+                tempDict['role'] = 'pm'
                 return JsonResponse(data=tempDict)
             else:
+                tempDict['role'] = 'pm'
                 return JsonResponse(data=info)
         else:
             return JsonResponse(data=missingError(missingFields))
