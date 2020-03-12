@@ -1,4 +1,4 @@
-import { AppState, MainAppStackType, ServiceRequest } from 'homepairs-types';
+import { AppState, MainAppStackType, ServiceRequest, PropertyManagerAccount } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { withSceneHeader} from 'homepairs-components';
 import { ServiceActions } from 'homepairs-redux-actions';
@@ -23,6 +23,7 @@ const mapDispatchToProps : (dispatch: any) => NewRequestDispatchProps = (dispatc
 function mapStateToProps(state: AppState) : any {
     return {
         properties: state.properties.properties,
+        pmId: (state.accountProfile as (PropertyManagerAccount)).pmId,
     };
 }
 
