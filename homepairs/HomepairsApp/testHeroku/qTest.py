@@ -13,9 +13,7 @@ globUrl = 'https://homepairs-mytest.herokuapp.com/'
 
 # Everything is correct
 def test_basic_connection():
-     tokenSend = "Token " + '34b0348afafbe01042f7af1ba4949a9bbb4d0883'
-
-     url = globUrl + 'servicerequest/Y10BAke'
+     url = globUrl + 'serviceprovider/1'
  
      x = requests.get(url)
      print(x.text)

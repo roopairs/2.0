@@ -135,24 +135,12 @@ class ServiceProviderView(View):
         else:
             return JsonResponse(data=missingError(missingFields))
 
-    def get(self, request):
-        inData = json.loads(request.body)
-        required = ['phoneNum']
-        missingFields = checkRequired(required, inData)
-        if(len(missingFields) == 0):
-            phoneNum = inData.get('phoneNum')
-            proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
-            if proList.exists():
-                pro = proList[0]
-                data = {
-                           STATUS: SUCCESS,
-                           'pro': pro.toDict(),
-                       }
-                return JsonResponse(data=data)
-            else:
-                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
-        else:
-            return JsonResponse(data=missingError(missingFields))
+    def get(self, request, inPmId):
+        preferredProviders = PreferredProviders.objects.filter(pm__id=inPmId)
+        niceList = []
+        for prov in preferredProviders:
+            niceList = prov.pm.toDict()
+        return JsonResponse(data={'providers': niceList})
 
     def delete(self, request):
         inData = json.loads(request.body)
