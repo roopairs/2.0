@@ -21,7 +21,7 @@ class ServiceRequest(models.Model):
         return self.details
 
     def toDict(self):
-        if(appFixed is not null):
+        if(self.appFixed is not null):
             appFixedStr = self.appFixed.toDictNoRecurs()
         else:
             appFixedStr = ''
