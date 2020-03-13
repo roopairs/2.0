@@ -9,6 +9,7 @@ from ..helperFuncs import postRooAPI
 from ..Properties.models import Property
 from ..Properties.views import addNewProperties
 from ..Tenants.models import Tenant
+from ..ServiceProvider.models import PreferredProviders, ServiceProvider
 from ..Tenants.views import getTenant
 from .models import PropertyManager
 
@@ -199,9 +200,22 @@ class RegisterView(View):
                     return JsonResponse(data=returnError(HOMEPAIRS_ACCOUNT_CREATION_FAILED))
                 tempDict[TOKEN] = info.get(TOKEN)
                 tempDict['role'] = 'pm'
+                serProvs = ServiceProvider.objects.all()
+                if(serProvs.exists() and serProvs.count() == 2):
+                    temp = PreferredProviders(provider = serProvs[0], pm=tempPM)
+                    temp.save()
+                    temp = PreferredProviders(provider = serProvs[1], pm=tempPM)
+                    temp.save()
+                tempTenant = Tenant(firstName = 'Adam',
+                                    lastName = 'Berard',
+                                    email = 'adamberard99@gmail.com',
+                                    password = 'pass4adam',
+                                    phoneNumber = '1112223333',
+                                    pm = tempPM)
+                tempTenant.save()
                 return JsonResponse(data=tempDict)
             else:
-                tempDict['role'] = 'pm'
+                info['role'] = 'pm'
                 return JsonResponse(data=info)
         else:
             return JsonResponse(data=missingError(missingFields))
@@ -218,6 +232,9 @@ class TenantControlView(View):
         if(len(missingFields) == 0):
             propId = inData.get('propId')
             tenantEmail = inData.get('tenantEmail')
+            print('propid tenemail')
+            print(propId)
+            print(tenantEmail)
 
             # Make sure tenant is real
             tenantList = Tenant.objects.filter(email=tenantEmail)
