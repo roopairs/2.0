@@ -109,7 +109,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
             const directionalLockEnabled = true;
             const automaticallyAdjustContentInsets = false;
             return (
-                <View style={{marginTop: Platform.OS === 'web' ? undefined: HOMEPAIRS_HEADER}}>
+                <View style={{marginTop: Platform.OS === 'web' ? undefined: 65}}>
                     <SceneHeader
                         title={Page.title}
                         buttonTitle={Page.button}
