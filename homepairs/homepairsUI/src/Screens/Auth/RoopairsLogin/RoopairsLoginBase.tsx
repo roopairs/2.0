@@ -6,14 +6,14 @@ import {
 } from 'homepairs-components';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
-import { isNullOrUndefined, isEmailSyntaxValid, isPasswordValid, NavigationRouteHandler, NavigationRouteScreenProps } from 'homepairs-utilities';
-import { NavigationSwitchProp, NavigationSwitchScreenProps } from 'react-navigation';
+import { isNullOrUndefined, isEmailSyntaxValid, isPasswordValid, NavigationRouteScreenProps } from 'homepairs-utilities';
+import { NavigationSwitchProp } from 'react-navigation';
 import { InputFormProps } from 'src/Elements/Forms/InputForm';
 import {navigationPages} from 'homepairs-routes';
-import { RouteProps, RouterComponentProps } from 'react-router-dom';
+import { RouteProps } from 'react-router-dom';
 
 export type RoopairsLoginDispatchProps = {
-    onFetchAccountProfile: (
+    onFetchAccount: (
         username: string, 
         password: string,
         navigation: NavigationSwitchProp | RouteProps,
@@ -129,12 +129,12 @@ export default class RoopairsLoginBase extends React.Component<
     }
 
     clickButton() {
-        const {onFetchAccountProfile, navigation} = this.props;
+        const {onFetchAccount, navigation} = this.props;
         const {username, password} = this.state;
         this.resetForms();
         if (this.validateForms(username, password)) {
             navigation.navigate(navigationPages.RoopairsLoggingInModal, null, true);
-            onFetchAccountProfile(username, password, navigation, this.setModalOff);
+            onFetchAccount(username, password, navigation, this.setModalOff);
         }
     } 
 

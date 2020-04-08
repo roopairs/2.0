@@ -7,8 +7,8 @@ import {
 import strings from 'homepairs-strings';
 import { AccountTypes, Account } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { StyleSheet, View, Text } from 'react-native';
-import { isNullOrUndefined, isPasswordValid, isEmailSyntaxValid, 
+import { StyleSheet, View } from 'react-native';
+import {isPasswordValid, isEmailSyntaxValid, 
     isAlphaCharacterOnly, isEmptyOrSpaces, NavigationRouteHandler, NavigationRouteScreenProps } from 'homepairs-utilities';
 import { navigationPages } from 'src/Routes/RouteConstants';
 import {Divider} from 'react-native-elements';

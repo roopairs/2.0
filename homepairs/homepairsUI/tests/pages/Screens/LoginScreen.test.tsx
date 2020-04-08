@@ -36,7 +36,7 @@ describe("Test for Login Screen", () => {
     const loginThinButton = getByType(TouchableOpacity);
     const loginHighlightedText = getByTestId('highlighted-pressable-text');
 
-    getByType(LoginScreenBase).props.onFetchAccountProfile();
+    getByType(LoginScreenBase).props.onFetchAccount();
 
     // Spy functions 
     const resetFormsSpy = jest.spyOn(loginScreenBaseInstance, 'resetForms');
@@ -72,7 +72,7 @@ describe("Test for Login Screen", () => {
         expect(validateFormsSpy).toHaveReturnedWith(true);
         expect(resetFormsSpy).toHaveBeenCalled();  
         
-        // This should test if the information was valid and that onFetchAccountProfile and navigator has been called
+        // This should test if the information was valid and that onFetchAccount and navigator has been called
         if(Platform.OS === 'web'){
             const expectedPassParam = {background: mockStackNavigation.navigation.location}
             expect(navigationStackSpyFunction).toHaveBeenCalledWith(navigationPages.LoggingInModal, expectedPassParam);

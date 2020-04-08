@@ -1,27 +1,24 @@
 import React from 'react';
-import {MainAppPages} from 'homepairs-pages';
+import { MainAppPages } from 'homepairs-pages';
 import { propertyManagerMock1 } from 'tests/fixtures/StoreFixture';
 import { Provider } from 'react-redux';
 import { fireEvent, render } from 'react-native-testing-library';
 import { prepareNavigationMock, mockRoute } from 'tests/fixtures/DummyComponents';
-import { TextInput, TouchableOpacity, Platform } from 'react-native';
-import LoginScreenBase from 'src/Screens/Auth/LoginScreen/LoginScreenBase';
+import { TouchableOpacity, Platform } from 'react-native';
 import { navigationPages } from 'src/Routes/RouteConstants';
 import {BrowserRouter as Router} from 'react-router-dom';
-import MockAdapter from 'axios-mock-adapter';
-import axios from 'axios';
 import ViewPropertyCard from 'src/Screens/Components/ViewPropertyCard/ViewPropertyCard';
 import SceneHeader from 'src/Screens/Components/SceneHeader/SceneHeader';
 import ThinButton from 'src/Elements/Buttons/ThinButton';
-import PropertiesScreenBase from 'src/Screens/Main/Properties/PropertiesScreen/PropertiesScreenBase';
 import { SetSelectedPropertyAction, ShowGoBackOnButtonClick } from 'src/state/types';
 
 jest.mock('homepairs-images');
+jest.mock('react-widgets/dist/css/react-widgets.css');
+
 
 const {PropertiesScreen} = MainAppPages.PropertyPages;
 const {AddNewPropertyModal, SingleProperty } = navigationPages;
 const mockStore = propertyManagerMock1;
-const mockAxios = new MockAdapter(axios);
 const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock();
 const ComponentWithStore = Platform.OS === 'web' ? 
 <Provider store={mockStore}><Router><PropertiesScreen navigation={mockStackNavigation}/></Router></Provider>

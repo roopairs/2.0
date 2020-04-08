@@ -1,7 +1,29 @@
 import { MainAppStackType } from 'homepairs-types';
-import * as Endpoints from './RemoteEndpoints';
 
-export {Endpoints};
+export const LOGIN = 'LoginScreen';
+export const SIGNUP = 'SignUp';
+export const ROOPAIRS_LOGIN = 'RoopairsLogin';
+export const LOGIN_MODAL = 'LoggingInModal';
+export const CREATE_ACCOUNT_MODAL = 'CreatingAccountModal';
+export const ROOPAIRS_LOGIN_MODAL = 'RoopairsLoggingInModal';
+
+export const PROPERTY_LIST = 'PropertiesScreen';
+export const TENANT_PROPERTY = 'TenantProperty';
+export const PROPERTY = 'SingleProperty';
+
+export const ADD_PROPERTY_MODAL = '/admin/properties/add-property';
+export const EDIT_PROPERTY_MODAL = '/admin/property/edit-property';
+export const ADD_TENANT_MODAL = '/admin/property/add-tenant';
+export const EDIT_TENANT_MODAL = '/admin/property/edit-tenant';
+export const ADD_APPLIANCE_MODAL = '/admin/property/add-appliance';
+export const EDIT_APPLIANCE_MODAL = '/admin/property/edit-appliance';
+
+
+export const SERVICE_REQUEST = '/admin/service-requests';
+export const NEW_SERVICE_REQUEST = '/admin/service-requests/new-service-requests';
+export const SERVICE_REQUEST_INFO_MODAL = '/admin/service-requests/information';
+
+export const ACCOUNT_SETTINGS = '/admin/account-settings';
 
 /**
  * All keys that can be mapped to any page in the react navigator should 
@@ -118,7 +140,9 @@ export const MainAppStack: Array<MainAppStackType> = [
 ];
 
 
+/*
 export const LOGIN = '/login';
 export const SIGNUP = '/sign-up';
 export const ROOPAIRS_LOGIN = '/roopairs-login';
 export const PROPERTY_LIST = '/properties';
+*/

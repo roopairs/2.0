@@ -186,7 +186,7 @@ export const mockRoute = {
     goForward: mockRouterFunction,
     listen: undefined,
     location: {
-      pathName: '/test/path',
+      pathname: '/test/path',
       search: '/test/search',
       hash: '/test/hash',
     },
@@ -195,7 +195,7 @@ export const mockRoute = {
     replace: mockRouterFunction,
   },
   location: {
-    pathName: '/test/path',
+    pathname: '/test/path',
     search: '/test/search',
     hash: '/test/hash',
   },
@@ -213,7 +213,7 @@ export const mockFirstRoute = {
     goForward: mockRouterFunction,
     listen: undefined,
     location: {
-      pathName: '/admin/properties',
+      pathname: '/admin/properties',
       search: '/test/search',
       hash: '/test/hash',
     },
@@ -222,7 +222,7 @@ export const mockFirstRoute = {
     replace: mockRouterFunction,
   },
   location: {
-    pathName: '/admin/properties',
+    pathname: '/admin/properties',
     search: '/test/search',
     hash: '/test/hash',
   },
@@ -322,11 +322,11 @@ function prepareRouteParams(routeObject:any, routeOptions: any){
     Object.keys(selectedOptions).forEach((key) => (selectedOptions[key] == null) && delete selectedOptions[key]);
     Object.keys(selectedMatch).forEach((key) => (selectedMatch[key] == null) && delete selectedMatch[key]);
 
-    const fullRoute = prepareRoute(mockFirstRoute.location.pathName, selectedOptions);
-    const matchRoute = prepareRoute(mockFirstRoute.location.pathName, selectedMatch);
+    const fullRoute = prepareRoute(mockFirstRoute.location.pathname, selectedOptions);
+    const matchRoute = prepareRoute(mockFirstRoute.location.pathname, selectedMatch);
 
-    navRouteObject.location.pathName = fullRoute;
-    navRouteObject.history.location.pathName = fullRoute;
+    navRouteObject.location.pathname = fullRoute;
+    navRouteObject.history.location.pathname = fullRoute;
     navRouteObject.match.path = fullRoute;
     navRouteObject.match = {
       ...navRouteObject.match, 

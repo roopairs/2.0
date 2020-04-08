@@ -5,10 +5,10 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid, 
     NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-utilities';
-import { Endpoints, navigationPages } from 'src/Routes/RouteConstants';
+import { navigationPages } from 'src/Routes/RouteConstants';
+import { updateTenant } from "homepairs-endpoints";
 
 
-const {updateTenant} = Endpoints;
 const {SingleProperty} = navigationPages;
 
 type Props =  NavigationRouteScreenProps;

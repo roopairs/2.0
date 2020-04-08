@@ -1,10 +1,9 @@
 import React, {Component} from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider } from 'homepairs-types';
-import strings from 'homepairs-strings';
 import Colors from 'homepairs-colors';
-import 'react-widgets/dist/css/react-widgets.css';
+// import './styles.css';
 import { StyleSheet, Text, View, ScrollView, Platform } from 'react-native';
-import { NavigationRouteScreenProps, NavigationRouteHandler, stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'homepairs-utilities';
+import { NavigationRouteScreenProps, stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'homepairs-utilities';
 import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from 'homepairs-components';
@@ -13,19 +12,11 @@ import {DatePicker} from 'react-native-datepicker';
 import {HelperText} from 'react-native-paper';
 import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
-import { Endpoints } from 'src/Routes/RouteConstants';
 import axios from 'axios';
-import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT } from 'src/Routes/RemoteEndpoints';
-
-const {HOMEPAIRS_PROPERTY_ENDPOINT} = Endpoints;
+import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT,  HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest } from 'homepairs-endpoints';
 
 Moment.locale('en');
 momentLocalizer();
-
-export type NewRequestDispatchProps = {
-    onCreateServiceRequest: (newServiceRequest: NewServiceRequest, displayError: (msg: string) => void, 
-        navigation: NavigationRouteHandler) => void
-};
 
 type NewRequestScreenProps = {
     properties: Property[]
@@ -91,9 +82,8 @@ const styles = StyleSheet.create({
     },
 });
 
-type Props = NavigationRouteScreenProps & NewRequestDispatchProps & NewRequestScreenProps;
+type Props = NavigationRouteScreenProps & NewRequestScreenProps;
 
-const serviceRequestStrings = strings.serviceRequestPage;
 
 export default class ServiceRequestBase extends Component<Props, NewRequestState> {
 
@@ -248,31 +238,26 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         }   
     };
 
-    displayError(msg: string) {
-        this.setState({errorMsg: msg, errorCheck: true});
-    }
-
     fetchServiceProviders = async () => {
             const {pmId} = this.props;
             await axios.get(`${HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT}${pmId}/`).then((result) =>{
                 const {providers} = result.data;
-                console.log(providers);
                 const providerInfo: ServiceProvider[] = [];
-
                 providers.forEach(provider => {
                     const { provId, name, email, phoneNum, contractLic, skills, founded } = provider;
-
                     providerInfo.push({provId, name, email, phoneNum, contractLic, skills, founded});
                 });
-
-                console.log(providerInfo);
                 this.setState({serviceProviders: providerInfo});
             });  
     };
 
+    displayError(msg: string) {
+        this.setState({errorMsg: msg, errorCheck: true});
+    }
+
     clickSubmitButton() {
         const { serviceCategory, applianceId, providerId, serviceType, details, serviceDate, propId} = this.state;
-        const {onCreateServiceRequest, navigation, token} = this.props;
+        const {navigation, token} = this.props;
         this.setState({errorCheck: false});
         if (this.validateForms()) {
             const newServiceRequest : NewServiceRequest = {
@@ -285,7 +270,7 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
                 serviceDate: serviceDate.toISOString(), 
                 details,
             };
-            onCreateServiceRequest(newServiceRequest, this.displayError, navigation);
+            postNewServiceRequest(newServiceRequest, this.displayError, navigation);
         }
     }
 

@@ -11,11 +11,10 @@ import ThinButton from 'src/Elements/Buttons/ThinButton';
 import { TenantInfo } from 'homepairs-types';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { Endpoints } from 'src/Routes/RouteConstants';
+import { HOMEPAIRS_TENANT_EDIT_ENDPOINT } from 'homepairs-endpoints';
 
 const mockStore = propertyManagerMock1;
 const mockAxios = new MockAdapter(axios);
-const {HOMEPAIRS_TENANT_EDIT_ENDPOINT} = Endpoints;
 const url = new RegExp(`${HOMEPAIRS_TENANT_EDIT_ENDPOINT}/*`);
 const [mockStackNavigationFirstRoute, navigationStackSpyFunction] = prepareNavigationStackFirstRouteMock({tenant:true});
 const Component = Platform.OS === 'web' ? 

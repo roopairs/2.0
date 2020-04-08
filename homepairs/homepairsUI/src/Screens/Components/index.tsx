@@ -47,13 +47,10 @@ export { default as AddNewPropertyModal } from './Modals/AddNewPropertyModal/Add
 export { default as AddNewPropertyModalBase } from './Modals/AddNewPropertyModal/AddNewPropertyModalBase';
 export { default as EditPropertyModal } from './Modals/EditPropertyModal/EditPropertyModal';
 export { default as EditPropertyModalBase } from './Modals/EditPropertyModal/EditPropertyModalBase';
-export { default as AddApplianceModal } from './Modals/AddApplianceModal/AddApplianceModal';
-export { default as AddApplianceModalBase } from './Modals/AddApplianceModal/AddApplianceModalBase';
-export { default as EditApplianceModal } from './Modals/EditApplianceModal/EditApplianceModal';
-export { default as EditApplianceModalBase } from './Modals/EditApplianceModal/EditApplianceModalBase';
+export { default as AddApplianceModal, AddApplianceModalBase } from './Modals/AddApplianceModal/AddApplianceModal';
+export { default as EditApplianceModal, EditApplianceModalBase } from './Modals/EditApplianceModal/EditApplianceModal';
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
-export { default as ServiceRequestModal} from './Modals/ServiceRequestModal/ServiceRequestModal';
-export { default as ServiceRequestModalBase} from './Modals/ServiceRequestModal/ServiceRequestModalBase';
+export { default as ServiceRequestModal, ServiceRequestModalBase} from './Modals/ServiceRequestModal/ServiceRequestModal';
 export { default as CurrentTenantCard} from './CurrentTenantCard/CurrentTenantCard';
 export { default as EditTenantModal} from './Modals/EditTenantModal';
 export { default as AddTenantModal} from './Modals/AddTenantModal';

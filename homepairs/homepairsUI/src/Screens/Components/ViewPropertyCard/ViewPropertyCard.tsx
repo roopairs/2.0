@@ -5,7 +5,6 @@ import {
     View,
     Platform,
     ImageBackground,
-    ImageSourcePropType,
 } from 'react-native';
 import {
     ThinButton,

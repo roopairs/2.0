@@ -13,7 +13,7 @@ import {
 } from 'homepairs-utilities';
 
 export type LoginViewDispatchProps = {
-    onFetchAccountProfile: (
+    onFetchAccount: (
         username: string,
         password: string,
         modalSetOff: () => any,
@@ -139,12 +139,12 @@ export default class LoginScreenBase extends React.Component<LoginProps,LoginSta
     }
 
     clickButton() {
-        const { onFetchAccountProfile, navigation } = this.props;
+        const { onFetchAccount, navigation } = this.props;
         const { username, password } = this.state;
         this.resetForms();
         if (this.validateForms(username, password)) {
             navigation.navigate(navigationPages.LoggingInModal, null, true);
-            onFetchAccountProfile(username, password, this.setModalOff, navigation);
+            onFetchAccount(username, password, this.setModalOff, navigation);
         }
     }
 

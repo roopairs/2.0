@@ -18,7 +18,7 @@ const expectedResults: {[id:string]: AccountStateAction} = {
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
       roopairsToken: '',
-      manId: 102449555,
+      pmId: 102449555,
     },
   },
   PM_WITH_TOKEN: { // PM Account with token
@@ -30,7 +30,7 @@ const expectedResults: {[id:string]: AccountStateAction} = {
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
       roopairsToken: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
-      manId: 102449555,
+      pmId: 102449555,
     },
   },
   TENANT_WITH_TOKEN: { // Tenant account with Token 
@@ -68,7 +68,7 @@ const expectedResults: {[id:string]: AccountStateAction} = {
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
       roopairsToken: undefined,
-      manId: 102449555,
+      pmId: 102449555,
     },
   },
 };
@@ -82,7 +82,7 @@ const testJsonValues: {[id:string]: any} =
       firstName: 'Jack',
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
-      manId: 102449555,
+      pmId: 102449555,
     },
     token: '',
   },
@@ -94,7 +94,7 @@ const testJsonValues: {[id:string]: any} =
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
       address: 'lifelike line Apt. 3',
-      manId: 102449555,
+      pmId: 102449555,
     },
     token: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
   },
@@ -130,13 +130,13 @@ const testJsonValues: {[id:string]: any} =
       firstName: 'Jack',
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
-      manId: 102449555,
+      pmId: 102449555,
     },
   },
 };
 
 
-describe('FetchAccountProfile Action Test', () => {
+describe('FetchAccount Action Test', () => {
   const mockStore = configureMockStore(middleWares);
   let testStore : any;
   beforeEach(() => {
@@ -144,27 +144,27 @@ describe('FetchAccountProfile Action Test', () => {
   });
 
   it('Test PM without Roopairs Token', async () => {
-    await testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.PM_WITHOUT_TOKEN));
+    await testStore.dispatch(AccountActions.parseAccount(testJsonValues.PM_WITHOUT_TOKEN));
     expect(testStore.getActions()[0]).toStrictEqual(expectedResults.PM_WITHOUT_TOKEN);
   });
 
   it('Test PM with Roopairs Token', async () => {
-    await testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.PM_WITH_TOKEN));
+    await testStore.dispatch(AccountActions.parseAccount(testJsonValues.PM_WITH_TOKEN));
     expect(testStore.getActions()[0]).toStrictEqual(expectedResults.PM_WITH_TOKEN);
   });
 
   it('Test Tenant with Roopairs Token', async () => {
-    await testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.TENANT_WITH_TOKEN));
+    await testStore.dispatch(AccountActions.parseAccount(testJsonValues.TENANT_WITH_TOKEN));
     expect(testStore.getActions()[0]).toStrictEqual(expectedResults.TENANT_WITH_TOKEN);
   });
 
   it('Test Tenant without Roopairs Token', async () => {
-    await testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.TENANT_WITHOUT_TOKEN));
+    await testStore.dispatch(AccountActions.parseAccount(testJsonValues.TENANT_WITHOUT_TOKEN));
     expect(testStore.getActions()[0]).toStrictEqual(expectedResults.TENANT_WITHOUT_TOKEN);
   });
 
   it('Test Account without any Token', async () => {
-    await testStore.dispatch(AccountActions.fetchAccountProfile(testJsonValues.NO_TOKEN_DEFINED));
+    await testStore.dispatch(AccountActions.parseAccount(testJsonValues.NO_TOKEN_DEFINED));
     expect(testStore.getActions()[0]).toStrictEqual(expectedResults.NO_TOKEN_DEFINED);
   });
  });

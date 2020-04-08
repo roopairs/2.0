@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { AccountActions } from 'homepairs-redux-actions';
 import {
     withAuthPage,
     AuthPassProps,
@@ -11,6 +10,7 @@ import { roopairsLogo } from 'homepairs-images';
 import React from 'react';
 import { withNavigation } from 'react-navigation';
 import { withRouter } from 'react-router-dom';
+import { fetchAccount } from 'homepairs-endpoints';
 import { withNavigationRouteHandler } from 'src/utility/NavigationRouterHandler';
 import RoopairsLoginBase , { RoopairsLoginDispatchProps } from './RoopairsLoginBase';
 
@@ -46,9 +46,9 @@ const authPageParam: AuthPassProps = {
 const mapDispatchToProps: (dispatch: any) => RoopairsLoginDispatchProps = (
     dispatch: any,
 ) => ({
-    onFetchAccountProfile: (username: string,password: string,navigation,modalSetOff: () => any) => 
+    onFetchAccount: (username: string,password: string,navigation,modalSetOff: () => any) => 
     {
-        dispatch(AccountActions.fetchAccount( username, password, navigation, modalSetOff));
+        dispatch(fetchAccount( username, password, navigation, modalSetOff));
     },
 });
 

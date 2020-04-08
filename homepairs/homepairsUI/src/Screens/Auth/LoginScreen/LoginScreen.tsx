@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-import { AccountActions } from "homepairs-redux-actions";
 import {
   withAuthPage,
   AuthPassProps,
@@ -9,6 +8,7 @@ import HomePairColors from "res/colors";
 import { withNavigation } from "react-navigation";
 import { withRouter } from "react-router-dom";
 import { Platform } from "react-native";
+import { fetchAccount } from 'homepairs-endpoints';
 import {NavigationRouteHandler} from 'homepairs-utilities';
 import { withNavigationRouteHandler } from 'src/utility/NavigationRouterHandler';
 import LoginScreenBase, { LoginViewDispatchProps } from "./LoginScreenBase";
@@ -25,9 +25,9 @@ const authPageParam: AuthPassProps = {
 };
 
 const mapDispatchToProps : (dispatch: any) => LoginViewDispatchProps = (dispatch: any) => ({
-    onFetchAccountProfile: async (username: string, password: string, 
+    onFetchAccount: async (username: string, password: string, 
         modalSetOff: (error?:string) => any, navigation: NavigationRouteHandler) => {
-        await dispatch(AccountActions.fetchAccount(username, password, navigation, modalSetOff));
+        await dispatch(fetchAccount(username, password, navigation, modalSetOff));
     },
 });
 

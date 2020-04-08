@@ -1,31 +1,19 @@
-import axios from 'axios';
-import { NavigationStackProp } from 'react-navigation-stack';
 import { AsyncStorage } from 'react-native';
-import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
-import {categoryToString} from 'homepairs-utilities';
-import {navigationPages} from 'homepairs-routes';
 import {
     AddPropertyAction,
     UpdatePropertyAction,
     RemovePropertyAction,
     FetchPropertiesAction,
     Property,
-    Appliance,
     HomePairsResponseKeys,
     SetSelectedPropertyAction,
-    EditPropertyState,
-    AddNewPropertyState,
-    AddApplianceState,
     FetchPropertyAndPropertyManagerAction,
     AccountTypes,
     Contact,
-    TenantInfo,
 } from '../types';
 
-const responseKeys = HomePairsResponseKeys;
 const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
 const accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
-const {SingleProperty} = navigationPages;
 
 /**
  * ----------------------------------------------------
@@ -97,65 +85,6 @@ export const addProperty = (newProperty: Property): AddPropertyAction => {
 
 /**
  * ----------------------------------------------------
- * postNewProperty
- * ----------------------------------------------------
- * Sends an request to the homepairs backend attempting to mutate the data of an exisiting property. It takes in
- * the previous property (TODO: Update this to be propId when backend resolves properties from propId) and sends this 
- * data to backend in order for it to resolve which property is to be updated. The intitial state of the component is invoked 
- * and the modal navigates to back to the previous page upon a success. 
- * 
- * @param {Property} newProperty -property to add to the homepairs database
- * @param {AddNewPropertyState} info -information used to indicate the property manager of the property
- * @param {setIntialState} setInitialState -sets state of calling component to its original state. Should be used for forms
- * @param {onChangeModalVisibility} onChangeModalVisibility -changes the visibility of the modal of the calling component
- */
-export const postNewProperty = (
-    newProperty: Property,
-    info: AddNewPropertyState,
-    setInitialState: () => void,
-    displayError: (msg: string) => void,
-    navigation: NavigationRouteHandler,
-) => {
-    return async (dispatch: (arg0: any) => void) => {
-        await axios
-            .post(
-                'https://homepairs-mytest.herokuapp.com/property/',
-                {
-                    streetAddress: newProperty.address,
-                    numBed: newProperty.bedrooms,
-                    numBath: newProperty.bathrooms,
-                    maxTenants: newProperty.tenants,
-                    pm: info.email,
-                    token: info.roopairsToken,
-                },
-            )
-            .then(response => {
-                if (
-                    response[responseKeys.DATA][responseKeys.STATUS] ===
-                    responseKeys.STATUS_RESULTS.SUCCESS
-                ) {
-                    const newProp : Property = {
-                      propId: response[responseKeys.DATA][responseKeys.PROPID],
-                      address: newProperty.address,
-                      bedrooms: newProperty.bedrooms, 
-                      bathrooms: newProperty.bathrooms, 
-                      tenants: newProperty.tenants,
-                    };
-                    dispatch(addProperty(newProp));
-                    setInitialState();
-                    navigation.goBack();
-                } else {
-                    displayError(
-                        response[responseKeys.DATA][responseKeys.ERROR],
-                    );
-                }
-            })
-            .catch(() => {});
-    };
-};
-
-/**
- * ----------------------------------------------------
  * updateProperty
  * ----------------------------------------------------
  * Action intended to mutate a specified property after it has been updated
@@ -169,58 +98,6 @@ export const updateProperty = (propertyIndex: number, updatedProperty: Property)
     index: propertyIndex,
     userData: updatedProperty,
   };
-};
-
-/**
- * ----------------------------------------------------
- * postUpdatedProperty
- * ----------------------------------------------------
- * Sends a request to the homepairs API to update a selected property. On success,
- * it updates the redux-store and invokes a callback intended to close the modal
- * of the calling component. Upon failure, an error message should be sent.
- * @param {Property} editProperty -contents of the property to be updated
- * @param {EditPropertyState} info -information passed to the api to help determine which property in the
- * servers to update
- * @param {onChangeModalVisibility} onChangeModalVisibility -changes the visibility of the modal
- * of the calling component
- */
-export const postUpdatedProperty = (
-    editProperty: Property,
-    info: EditPropertyState,
-    displayError: (msg: string) => void,
-    navigation: any,
-) => {
-    return async (dispatch: (arg0: any) => void) => {
-        return axios
-            .put(
-                'https://homepairs-mytest.herokuapp.com/property/',
-                {
-                  propId: editProperty.propId,
-                  streetAddress: editProperty.address,
-                  numBed: editProperty.bedrooms,
-                  numBath: editProperty.bathrooms,
-                  maxTenants: editProperty.tenants,
-                  pm: info.email,
-                  token: info.roopairsToken,
-                },
-            )
-            .then(response => {
-                if (
-                    response[responseKeys.DATA][responseKeys.STATUS] ===
-                    responseKeys.STATUS_RESULTS.SUCCESS
-                ) {
-                    navigation.replace(SingleProperty, {propId: editProperty.propId});
-                    dispatch(updateProperty(info.index, editProperty));
-                } else {
-                    displayError(
-                        response[responseKeys.DATA][responseKeys.ERROR],
-                    );
-                }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-    };
 };
 
 /**
@@ -255,6 +132,7 @@ export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], li
     lastName: linkedPropertyManager[accountKeys.LASTNAME],
     accountType: AccountTypes.PropertyManager,
   };
+
   const fetchedProperties: Property[] = [];
   const fetchedProperty = {
     propId: linkedProperty[propertyKeys.PROPERTYID],
@@ -263,6 +141,7 @@ export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], li
     bedrooms: linkedProperty[propertyKeys.BEDROOMS],
     bathrooms: linkedProperty[propertyKeys.BATHROOMS],
   };
+
   fetchedProperties.push(fetchedProperty);
   storePropertyData(fetchedProperties);
   return {
@@ -299,126 +178,3 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertiesAc
   };
 };
 
-
-/**
- * ----------------------------------------------------
- * updateTenantInfo
- * ----------------------------------------------------
- * A function that sends to the backend, a put request in order to edit the information of a tenant account 
- * at a specified property. Since the Frontend does not maintain the state of the property tenants, it must 
- * either request the information again from the endpoint, or it must update the information on its own.
- * @param {number} propertyId -The ID of the property that holds the tenant 
- * @param {TenantInfo} info -The editable information that the user wants to change 
- * @param {NavigationStackProp} navigation -An object used for navigating back to the previous page.
- */
-export const updateTenantInfo = (propertyId: number, info: TenantInfo, navigation: NavigationStackProp) => {
-  alert('I need to be updated by the backend!');
-  navigation.goBack();
-  return{
-    type: PROPERTY_LIST_ACTION_TYPES.UPDATE_TENANT,
-  };
-};
-
-/**
- * Callback is intended to set the input forms of the component used to send
- * the request back to the base values. This could be empty or predetermined.
- * @callback setInitialState */
-/**
- * Callback is intended to change the state of a modal of the calling component
- * after the request has been sent. This should be optional.
- * @callback onChangeModalVisibility
- * @param {boolean} check -determines if the components modal should be visible */
-
-// make docs
-
-
-export const postNewAppliance = (
-    newAppliance: Appliance,
-    info: AddApplianceState,
-    setInitialState: () => void,
-    displayError: (msg: string) => void,
-    navigation: NavigationRouteHandler,
-) => {
-    console.log(info);
-    return async () => {
-        await axios
-            .post(
-                'https://homepairs-mytest.herokuapp.com/appliances/',
-                {
-                    propId: info.property.propId,
-                    token: info.token,
-                    name: newAppliance.appName, 
-                    manufacturer: newAppliance.manufacturer, 
-                    category: categoryToString(newAppliance.category),
-                    modelNum: newAppliance.modelNum, 
-                    serialNum: newAppliance.serialNum, 
-                    location: newAppliance.location, 
-                },
-            )
-            .then(response => {
-                if (
-                    response[responseKeys.DATA][responseKeys.STATUS] ===
-                    responseKeys.STATUS_RESULTS.SUCCESS
-                ) {
-                    const {property} = info;
-                    const {propId} = property;
-                    setInitialState();
-                    navigation.replace(SingleProperty, {propId});
-                } else {
-                    displayError(
-                        response[responseKeys.DATA][responseKeys.ERROR],
-                    );
-                }
-            })
-            .catch();
-    };
-};
-
-/**
- * ----------------------------------------------------
- * postUpdatedProperty
- * ----------------------------------------------------
- * Sends a request to the homepairs API to update a selected property. On success,
- * it updates the redux-store and invokes a callback intended to close the modal
- * of the calling component. Upon failure, an error message should be sent.
- * @param {Property} editProperty -contents of the property to be updated
- * @param {EditPropertyState} info -information passed to the api to help determine which property in the
- * servers to update
- * @param {onChangeModalVisibility} onChangeModalVisibility -changes the visibility of the modal
- * of the calling component
- */
-export const postUpdatedAppliance = (
-    propId: string,
-    editAppliance: Appliance,
-    displayError: (msg: string) => void,
-    navigation: NavigationRouteHandler,
-) => {
-    return async () => {
-        return axios
-            .put(
-                'https://homepairs-mytest.herokuapp.com/appliances/',
-                {
-                    appId: editAppliance.applianceId,
-                    newName: editAppliance.appName, 
-                    newManufacturer: editAppliance.manufacturer, 
-                    newCategory: categoryToString(editAppliance.category),
-                    newModelNum: editAppliance.modelNum, 
-                    newSerialNum: editAppliance.serialNum, 
-                    newLocation: editAppliance.location,
-                },
-            )
-            .then(response => {
-                if (
-                    response[responseKeys.DATA][responseKeys.STATUS] ===
-                    responseKeys.STATUS_RESULTS.SUCCESS
-                ) {
-                  navigation.replace(SingleProperty, {propId});
-                } else {
-                    displayError(
-                        response[responseKeys.DATA][responseKeys.ERROR],
-                    );
-                }
-            })
-            .catch(() => {});
-    };
-};

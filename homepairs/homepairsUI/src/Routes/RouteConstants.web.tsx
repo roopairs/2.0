@@ -1,7 +1,4 @@
 import { MainAppStackType } from 'homepairs-types';
-import * as Endpoints from './RemoteEndpoints';
-
-export {Endpoints};
 
 export const LOGIN = '/authentication/login';
 export const SIGNUP = '/authentication/sign-up';

@@ -5,9 +5,9 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, TenantInfo} from 'homepairs-types';
 import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid, 
     prepareNavigationHandlerComponent, NavigationRouteScreenProps } from 'homepairs-utilities';
-import {Endpoints, navigationPages} from 'homepairs-routes';
+import {navigationPages} from 'homepairs-routes';
+import { updateTenant } from "homepairs-endpoints";
 
-const {updateTenant} = Endpoints;
 const {SingleProperty} = navigationPages;
 
 type Props =  NavigationRouteScreenProps
@@ -200,7 +200,7 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
     }
 
     goBackToPreviousPage() {
-        const{navigation} = this.props;
+        const {navigation} = this.props;
         navigation.replace(SingleProperty, {propId: this.propId});
     }
 

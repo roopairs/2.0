@@ -7,7 +7,6 @@ import {
     Image,
     StyleSheet,
 } from 'react-native';
-import { defaultProperty } from 'homepairs-images';
 import {
     GeneralHomeInfo,
     AddressSticker,
@@ -22,12 +21,10 @@ import {
     TenantInfo,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { navigationPages, Endpoints } from 'src/Routes/RouteConstants';
+import { navigationPages } from 'src/Routes/RouteConstants';
+import { HOMEPAIRS_PROPERTY_ENDPOINT } from 'homepairs-endpoints';
 import axios from 'axios';
 import {NavigationRouteScreenProps, stringToCategory, hasPageBeenReloaded} from 'homepairs-utilities';
-
-
-const {HOMEPAIRS_PROPERTY_ENDPOINT} = Endpoints;
 
 export type DetailedPropertyStateProps = {
     property: Property;
@@ -60,14 +57,13 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         width: BaseStyles.ContentWidth.max,
-        height: '100%',
+        flex: 1,
         overflow: 'hidden',
         borderRadius: BaseStyles.BorderRadius.large,
     },
     imageWrapper: {
         width: BaseStyles.ContentWidth.thin,
-        height: '50%',
-        maxHeight: 200,
+        height: 200,
         borderRadius: BaseStyles.BorderRadius.large,
         backgroundColor: 'white',
         alignSelf: 'center',
@@ -100,7 +96,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: BaseStyles.ContentWidth.max,
         height: '100%',
-        overflow: 'hidden',
     },
     imageStyle: {
         borderTopRightRadius: 10,
@@ -220,12 +215,10 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
 
         return (
             <ScrollView 
-                contentContainerStyle={ {}}
+                contentContainerStyle={{}}
                 style={{flexGrow: 1}}>
                 <View style={styles.addBottomMargin}>
-                    <AddressSticker
-                        address={address}
-                    />
+                    <AddressSticker address={address}/>
                     <View style={styles.imageWrapper}>
                         <View style={styles.imageContainer}>
                             <Image 

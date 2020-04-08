@@ -59,13 +59,11 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             flex: 1,
             maxWidth: HomePairsDimensions.MAX_PALLET,
             width: Platform.OS === 'web' ? width : BaseStyles.ContentWidth.max,
-            justifyContent: 'center',
-            alignItems: 'center',
             alignSelf:'center',
         },
         scrollStyle: {
             marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-            alignSelf: 'center',
+            flex: 1,
             width: '100%',
         },
         scrollContentContainerStyle: {
@@ -110,12 +108,15 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             justifyContent: 'flex-start',
         },
         cardWrapperStyle: {
-            // flex:1,
             width: BaseStyles.ContentWidth.thin,
             marginTop: BaseStyles.MarginPadding.small,
             marginBottom: BaseStyles.MarginPadding.smallConst,
             alignSelf: 'center',
             justifyContent: 'center',
+        },
+        errorStyle: {
+            fontFamily: BaseStyles.FontTheme.secondary, 
+            fontSize: 16,
         },
     });
 }
@@ -328,7 +329,6 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
 
     renderAddressForm() {
         const {address} = this.state;
-
         return (
             <GoogleInputForm 
                 ref={this.addressRef}

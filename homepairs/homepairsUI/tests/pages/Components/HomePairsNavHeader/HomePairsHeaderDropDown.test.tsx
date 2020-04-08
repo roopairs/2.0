@@ -68,6 +68,8 @@ jest.mock('react-native', () => {
     });
 });
 
+
+// TODO: Fix tests to account for removal of GoBack Button 
 describe('HomePairsHeader Integration Test for DropDownMenu', () => {
     beforeEach(()=>{
         navigationStackSpyFunction.mockClear();
@@ -310,7 +312,7 @@ describe('HomePairsHeader Integration Test for DropDownMenu', () => {
                 },
             ];
             // Test to see if go Back button invokes the proper actions 
-            const goBackPressable = getByTestId(GO_BACK_BUTTON_TEST);
+            const goBackPressable = getAllByType(GO_BACK_BUTTON_TEST);
             fireEvent.press(goBackPressable);
             expect(navigationStackSpyFunction).toHaveBeenCalled();
 

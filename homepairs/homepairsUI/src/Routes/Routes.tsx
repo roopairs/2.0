@@ -137,11 +137,11 @@ const MainStack = createStackNavigator(
 const AuthStack = createStackNavigator(
     {
         [navigationKeys.LoginScreen]: AuthenticationPages.LoginScreen,
-        [navigationKeys.LoggingInModal]: LoggingInModal,
+        // [navigationKeys.LoggingInModal]: LoggingInModal,
         [navigationKeys.RoopairsLogin]: AuthenticationPages.RoopairsLogin,
-        [navigationKeys.RoopairsLoggingInModal]: LoggingInModal,
+        // [navigationKeys.RoopairsLoggingInModal]: LoggingInModal,
         [navigationKeys.SignUpScreen]: AuthenticationPages.SignUpScreen,
-        [navigationKeys.CreatingAccountModal]: CreatingAccountModal,
+        // [navigationKeys.CreatingAccountModal]: CreatingAccountModal,
     },
     {
         initialRouteName: navigationKeys.LoginScreen,
@@ -149,14 +149,22 @@ const AuthStack = createStackNavigator(
     },
 );
 
+// NOTE: All authentication modals should be defined at the highest parent navigator. This permits the modal to be replaced 
+// from any page in the program. It is just safer to define all modals up here. 
 const container = createStackNavigator(
     {
         [navigationKeys.Main]: MainStack,
         [navigationKeys.Auth]: AuthStack,
+        [navigationKeys.LoginScreen]: AuthenticationPages.LoginScreen,
+        [navigationKeys.RoopairsLogin]: AuthenticationPages.RoopairsLogin,
+        [navigationKeys.SignUpScreen]: AuthenticationPages.SignUpScreen,
+        [navigationKeys.CreatingAccountModal]: CreatingAccountModal,
+        [navigationKeys.RoopairsLoggingInModal]: LoggingInModal,
+        [navigationKeys.LoggingInModal]: LoggingInModal,
     },
     {
         initialRouteName: navigationKeys.Auth,
-        headerMode: 'none',
+        ...navigationConfiguration,
     },
     
 );

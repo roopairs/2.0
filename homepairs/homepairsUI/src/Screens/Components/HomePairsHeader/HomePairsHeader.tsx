@@ -6,6 +6,8 @@ import { withRouter } from 'react-router-dom';
 import { Platform } from "react-native";
 import HomePairsHeaderBase , { HomePairsHeaderStateProps, HomePairsHeaderDispatchProps } from "./HomePairsHeaderBase";
 
+const HEADER_HEIGHT = 65;
+
 function mapStateToProps(state: AppState): HomePairsHeaderStateProps{ 
   return {
     header: state.header,

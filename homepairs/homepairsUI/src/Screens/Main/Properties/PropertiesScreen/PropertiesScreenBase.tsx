@@ -1,12 +1,7 @@
 import React from 'react';
 import { PropertyListState, HeaderState } from 'homepairs-types';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import {
-    ViewPropertyCard,
-    SceneInjectedProps,
-} from 'homepairs-components';
-import axios from 'axios';
-import {defaultProperty} from 'homepairs-images';
+import { ViewPropertyCard, SceneInjectedProps } from 'homepairs-components';
 
 export type PropertiesScreenStateProps = {
     propertyState: PropertyListState;

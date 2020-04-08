@@ -6,6 +6,7 @@ import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { Platform } from 'react-native';
 import React from 'react';
 import {navigationPages, MainAppStack} from 'homepairs-routes';
+import { AccountTypes } from 'homepairs-types';
 
 type Navigators = NavigationStackProp | RouteProps | NavigationSwitchProp
 enum NavigationObjects {
@@ -15,6 +16,7 @@ enum NavigationObjects {
 const {PropertiesScreen, TenantProperty, ServiceRequestScreen, AccountSettings} = navigationPages;
 const BASE_ROUTES: string[] = [PropertiesScreen, TenantProperty, ServiceRequestScreen, AccountSettings];
 const [PropertyStack, ServiceRequestStack, AccountSettingStack] = MainAppStack;
+
 /**
  * ---------------------------------------------------
  * Prepare Route Helper
@@ -207,7 +209,7 @@ export default class NavigationRouteHandler{
             else
                 history.replace(fullRoute);
         } else {
-          this.navigation.replace(route, params);  
+          (this.navigation as NavigationStackProp).replace(route, params);  
         }
     }
 
@@ -302,4 +304,20 @@ export function hasPageBeenReloaded(props: any, state:any){
     const {pathname, key}= state;
     const [newPath, newKey] = navigation.getLocationPathnameAndKey();
     return (pathname === newPath && key !== newKey);
+}
+
+
+/**
+ * ----------------------------------------------------
+ * ChooseMainPage
+ * ----------------------------------------------------
+ * This function navigates to a specific page based on the Account Type passed in.  
+ * @param {AccountTypes} accountType - Type passed in
+ * @param {NavigationRouteHandler} navigation -navigator passed from calling component */
+export function ChooseMainPage(accountType: AccountTypes, navigation: NavigationRouteHandler) {
+    if(accountType === AccountTypes.Tenant){
+      navigation.navigate(navigationPages.TenantProperty);
+      return;
+    }
+    navigation.navigate(navigationPages.PropertiesScreen);  
 }

@@ -7,11 +7,11 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import {
-    HomePairsDimensions, ServiceRequest, Appliance, ApplianceType, ServiceRequestStatusEnums, ServiceProvider,
+    HomePairsDimensions, ServiceRequest, ServiceProvider,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import Colors from 'homepairs-colors';
-import { ServiceRequestButton, ServiceProviderButton, ThinButton, ThinButtonProps } from 'homepairs-elements';
+import { ServiceProviderButton, ThinButton, ThinButtonProps } from 'homepairs-elements';
 import { HomePairFonts } from 'res/fonts';
 
 const colors = BaseStyles.LightColorTheme;
