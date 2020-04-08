@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         flex: 1,
     },
-    scrollViewStyle: {},
+    scrollViewStyle: undefined,
     scrollViewContentContainer: {
         maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
         backgroundColor: colorTheme.secondary,
@@ -109,7 +109,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
             const directionalLockEnabled = true;
             const automaticallyAdjustContentInsets = false;
             return (
-                <View style={{marginTop: Platform.OS === 'web' ? undefined: 65}}>
+                <View style={{marginTop: Platform.OS === 'ios' ? 65: undefined}}>
                     <SceneHeader
                         title={Page.title}
                         buttonTitle={Page.button}

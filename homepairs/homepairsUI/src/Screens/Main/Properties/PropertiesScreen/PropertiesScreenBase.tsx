@@ -2,6 +2,7 @@ import React from 'react';
 import { PropertyListState, HeaderState } from 'homepairs-types';
 import { navigationPages } from 'src/Routes/RouteConstants';
 import { ViewPropertyCard, SceneInjectedProps } from 'homepairs-components';
+import { View } from 'react-native';
 
 export type PropertiesScreenStateProps = {
     propertyState: PropertyListState;
@@ -72,7 +73,7 @@ export default class PropertiesScreenBase extends React.Component<PropertiesScre
         });
 
         return (
-            <>{PropertyCards}</>
+            <View style={{marginBottom: 75}}>{PropertyCards}</View>
         );
     }
 }
