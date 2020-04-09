@@ -27,7 +27,9 @@
             "homepairs-base-styles": ["./res/Styles/base.ts"],
             "homepairs-utilities": ["./src/utility/index.tsx"],
             "homepairs-components": ["./src/Screens/Components/index.tsx"],
-            "homepairs-routes" : ["./src/Routes/RouteConstants"]
+            "homepairs-routes" : ["./src/Routes/RouteConstants"],
+            "homepairs-endpoints" : ["./src/Routes/RemoteEndpoints.tsx"],
+
         }
     },
     "exclude": ["node_modules", "../tests", "build"],

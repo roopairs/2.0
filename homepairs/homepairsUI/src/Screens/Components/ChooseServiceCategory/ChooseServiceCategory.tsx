@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         padding: 10,
         height: '100%',
+        minHeight: 115, // TODO: Play around with the height to keep consistent accross all platforms 
         width: BaseStyles.ContentWidth.thin,
         borderRadius: 8,
         borderWidth: 1,

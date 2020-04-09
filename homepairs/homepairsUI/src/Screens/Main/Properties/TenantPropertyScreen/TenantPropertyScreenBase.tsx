@@ -24,7 +24,7 @@ export type TenantPropertyDispatchProps = {
     onRevealGoBack: (showGoBack:boolean) => any;
   }
 
-type Props = NavigationStackScreenProps & TenantPropertyStateProps // & TenantPropertyDispatchProps
+type Props = NavigationStackScreenProps & TenantPropertyStateProps
 const colors = BaseStyles.LightColorTheme;
 
 const styles =  StyleSheet.create({

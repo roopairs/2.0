@@ -1,6 +1,3 @@
-import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
-import axios from 'axios';
-import {navigationPages} from 'homepairs-routes';
 import { 
     RequestServiceAction,
     AcceptServiceAction,
@@ -12,15 +9,8 @@ import {
     Service,
     AcceptedService,
     ServiceRequestStatus,
-    ServiceRequest,
-    NewServiceRequest,
-    HomePairsResponseKeys,
 } from '../types';
 
-const {ServiceRequestScreen} = navigationPages;
-
-
-const responseKeys = HomePairsResponseKeys;
 
 export const SERVICES_ACTION_TYPES = {
     REQUEST_SERVICE: 'SERVICES/REQUEST_SERVICE',
@@ -28,38 +18,6 @@ export const SERVICES_ACTION_TYPES = {
     DENY_SERVICE: 'SERVICES/DENY_SERVICE',
     CANCEL_SERVICE: 'SERVICES/CANCEL_SERVICE',
     COMPLETE_SERVICE: 'SERVICES/COMPLETE_SERVICE',
-};
-
-
-export const postNewServiceRequest = (
-    newServiceRequest: NewServiceRequest, 
-    displayError: (msg: string) => void, 
-    navigation: NavigationRouteHandler,
-) => {
-    return async () => {
-        console.log(newServiceRequest.token);
-        await axios
-            .post('https://homepairs-mytest.herokuapp.com/servicerequest/', 
-            {
-                token: newServiceRequest.token, 
-                propId: newServiceRequest.propId, 
-                appId: newServiceRequest.appId, 
-                provId: newServiceRequest.providerId, 
-                serviceType: newServiceRequest.serviceType,
-                serviceCategory: newServiceRequest.serviceCategory, 
-                serviceDate: newServiceRequest.serviceDate, 
-                details: newServiceRequest.details,
-            })
-            .then(response => {
-                if (response[responseKeys.DATA][responseKeys.STATUS] ===
-                    responseKeys.STATUS_RESULTS.SUCCESS) {
-                    // navigation go to confirmation screen
-                    navigation.replace(ServiceRequestScreen);
-                } else {
-                    displayError(response[responseKeys.DATA][responseKeys.ERROR]);
-                }
-            });
-    };
 };
 
 export const requestServiceAction = (serviceProvider : ServiceProvider) : RequestServiceAction => {

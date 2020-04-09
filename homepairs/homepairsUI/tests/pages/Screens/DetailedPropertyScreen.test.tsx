@@ -16,11 +16,13 @@ import { navigationPages, Endpoints } from 'src/Routes/RouteConstants';
 import {BrowserRouter as Router} from 'react-router-dom';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
+import {HOMEPAIRS_PROPERTY_ENDPOINT} from 'homepairs-endpoints'
 import ThinButton from 'src/Elements/Buttons/ThinButton';
 import DetailedPropertyScreenBase from '../../../src/Screens/Main/Properties/DetailedPropertiesScreen/DetailedPropertyScreenBase';
 import { SetSelectedPropertyAction, ShowGoBackOnButtonClick, TenantInfo, Appliance, ApplianceType } from 'homepairs-types';
 
 jest.mock('homepairs-images');
+jest.mock('react-widgets/dist/css/react-widgets.css');
 
 const { DetailedPropertyScreen } = MainAppPages.PropertyPages;
 const {AddNewPropertyModal, SingleProperty } = navigationPages;
@@ -48,7 +50,6 @@ const mockData = {
     appliances : fakeApp,
 };
 
-const {HOMEPAIRS_PROPERTY_ENDPOINT} = Endpoints;
 const mockAddress = `https://homepairs-alpha.herokuapp.com/property/1`;
 
 const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock();

@@ -1,11 +1,10 @@
 /* eslint-disable react/static-property-placement */
-import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import React from 'react';
 import { FontTheme} from 'homepairs-base-styles';
 import { MainAppStackType, AccountTypes } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { ChooseMainPage } from 'src/state/account/actions';
-import { NavigationRouteHandler } from 'homepairs-utilities';
+import { NavigationRouteHandler, ChooseMainPage } from 'homepairs-utilities';
 import { MainAppStack } from '../../../Routes/RouteConstants';
 
 export type HomePairsMenuProps = {
@@ -62,22 +61,21 @@ export type HomePairsMenuProps = {
 };
 
 type Props = HomePairsMenuProps;
-
+const {width: screenWidth} = Dimensions.get('window');
 const colorScheme = BaseStyles.LightColorTheme;
 
 const setStyles = (isDropDown: boolean) => {
     const newStyle = StyleSheet.create({
         container: {
             flexDirection: 'row',
-            width: '100%',
+            width: screenWidth,
             maxHeight: 150,
-            maxWidth: 500,
             backgroundColor: colorScheme.secondary,
         },
         containerDropDown: {
             flexDirection: 'column',
             width: '100%',
-            minWidth: 500,
+            minWidth: 300,
             backgroundColor: colorScheme.secondary,
         },
         menuText: {
@@ -123,7 +121,7 @@ export default class HomePairsMenu extends React.Component<Props> {
         isDropDown: false,
         showMenu: false,
         toggleMenu: (toggle?: boolean) => {return toggle;},
-        setAuthenticatedState: (auth: boolean) => {return auth},
+        setAuthenticatedState: (auth: boolean) => {return auth;},
     };
 
     constructor(props: Readonly<Props>) {

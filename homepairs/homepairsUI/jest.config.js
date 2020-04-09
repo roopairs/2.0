@@ -16,9 +16,12 @@ module.exports = {
         // `haste.defaultPlatform` of the provided Jest config
         withEnzyme(webPreset),
     ],
+    moduleNameMapper: {
+        "\\.(css|less|scss)$": "<rootDir>/tests/setup/styleMock.js",
+    },
     transform: {
         ...tsjPreset.transform,
-        '\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
+        '^[@./a-zA-Z0-9$_-]\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
     },
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
     transformIgnorePatterns: [
@@ -46,5 +49,4 @@ module.exports = {
     // This is the only part which you can keep
     // from the above linked tutorial's config:
     cacheDirectory: '.jest/cache',
-    setupFilesAfterEnv: ['<rootDir>/tests/setup/test-setup.js'],
 };

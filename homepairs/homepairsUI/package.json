@@ -15,11 +15,6 @@
         "prettier:write": "npx prettier --write **/*.{js,jsx,ts,tsx,json} && npx prettier --write *.{js,jsx,ts,tsx,json}",
         "init:lint": "eslint --init"
     },
-    "jest": {
-        "moduleNameMapper": {
-            "^[@./a-zA-Z0-9$_-]+\\.(png|jpg|gif)$": "RelativeImageStub"
-        }
-    },
     "dependencies": {
         "@expo/vector-icons": "^10.0.0",
         "@react-native-community/masked-view": "^0.1.6",
@@ -87,6 +82,7 @@
         "jest-expo": "^36.0.0",
         "jest-expo-enzyme": "0.0.1",
         "jest-fetch-mock": "^3.0.1",
+        "jest-transform-css": "^2.0.0",
         "jsdom": "^16.0.1",
         "prettier": "^1.19.1",
         "react-native-jest-mocks": "^1.5.0",

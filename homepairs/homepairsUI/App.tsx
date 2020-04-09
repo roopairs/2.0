@@ -5,7 +5,7 @@ import { LoadFonts } from 'homepairs-fonts';
 import { AppState } from 'homepairs-types';
 import { ActivityIndicator, StatusBar, AsyncStorage } from 'react-native';
 import { fetchProperties, setSelectedProperty } from 'src/state/property-list/actions';
-import { fetchAccountProfile } from 'src/state/account/actions';
+import { parseAccount } from 'src/state/account/actions';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { navigationPages } from 'src/Routes/RouteConstants';
 import { AppNavigator } from 'src/Routes/Routes';
@@ -22,7 +22,7 @@ const checkSession = async () => {
         const storedAccountProfile= JSON.parse(profile);
         const {properties} = storedAccountProfile;
 
-        store.dispatch(fetchAccountProfile(storedAccountProfile));
+        store.dispatch(parseAccount(storedAccountProfile));
         store.dispatch(fetchProperties(properties));
     }).catch();
     await AsyncStorage.getItem('selectedProperty').then(selectedPropertyIndex => {
@@ -31,7 +31,6 @@ const checkSession = async () => {
         store.dispatch(setSelectedProperty(storedSelectedPropertyIndex));
     });
 
-    
     /*
     await AsyncStorage.getItem('session').then(async (sessionToken) => {
        if(isNullOrUndefined(sessionToken)){
@@ -46,7 +45,7 @@ const checkSession = async () => {
             const storedAccountProfile= JSON.parse(profile);
             const {properties} = storedAccountProfile;
     
-            store.dispatch(fetchAccountProfile(storedAccountProfile));
+            store.dispatch(parseAccount(storedAccountProfile));
             store.dispatch(fetchProperties(properties));
         }).catch();
         await AsyncStorage.getItem('selectedProperty').then(selectedPropertyIndex => {
@@ -63,7 +62,7 @@ const checkSession = async () => {
         console.log(profile);
         const storedAccountProfile= JSON.parse(profile);
         const {properties} = storedAccountProfile;
-        store.dispatch(fetchAccountProfile(storedAccountProfile));
+        store.dispatch(parseAccount(storedAccountProfile));
         store.dispatch(fetchProperties(properties));
     }).catch();
         await AsyncStorage.getItem('selectedProperty').then(selectedPropertyIndex => {

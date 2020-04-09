@@ -1,13 +1,13 @@
 import { connect } from "react-redux";
-import { PropertyListActions } from 'homepairs-redux-actions';
 import { Property, AppState, EditPropertyState } from 'homepairs-types';
 import { prepareNavigationHandlerComponent, NavigationRouteHandler } from 'homepairs-utilities';
+import { postUpdatedProperty } from 'homepairs-endpoints';
 import EditPropertyModalBase, {EditPropertyDispatchProps} from './EditPropertyModalBase';
 
 const mapDispatchToProps : (dispatch: any) => EditPropertyDispatchProps = (dispatch: any) => ({
     onEditProperty: (editProperty: Property, info: EditPropertyState, displayError: (msg: string) => void, navigation: NavigationRouteHandler) => 
         {
-            dispatch(PropertyListActions.postUpdatedProperty(editProperty, info, displayError, navigation));
+            dispatch(postUpdatedProperty(editProperty, info, displayError, navigation));
         },
 });
 

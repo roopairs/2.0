@@ -12,8 +12,8 @@ import { HeaderActions } from 'homepairs-redux-actions';
 import { connect } from 'react-redux';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
-import SceneHeader from './SceneHeader';
 import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
+import SceneHeader from './SceneHeader';
 
 type SceneDispatchProps = {
     onSetNavHeaderGoBackButton?: (isSet: boolean) => any;
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         flex: 1,
     },
-    scrollViewStyle: {},
+    scrollViewStyle: undefined,
     scrollViewContentContainer: {
         maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
         backgroundColor: colorTheme.secondary,
@@ -109,7 +109,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
             const directionalLockEnabled = true;
             const automaticallyAdjustContentInsets = false;
             return (
-                <>
+                <View style={{marginTop: Platform.OS === 'ios' ? 65: undefined}}>
                     <SceneHeader
                         title={Page.title}
                         buttonTitle={Page.button}
@@ -124,7 +124,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
                             onCloseNavHeaderMenu={onCloseNavHeaderMenu}
                             navigation={navigation}/>
                     </ScrollView>
-                </>
+                </View>
             );
         }
 
@@ -132,13 +132,13 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
             return !(Platform.OS === 'ios') ? (
                 <View style={styles.container}>
                     <View style={styles.pallet}>
-                        {this.renderTouchArea()}
+                        {this.renderContents()}
                     </View>
                 </View>
             ) : (
                 <View style={styles.container}>
                     <SafeAreaView style={styles.pallet}>
-                        {this.renderTouchArea()}
+                        {this.renderContents()}
                     </SafeAreaView>
                 </View>
             );

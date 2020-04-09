@@ -7,12 +7,11 @@ import {
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { prepareNavigationMock, displayErrorMock } from 'tests/fixtures/DummyComponents';
-import {Endpoints} from 'homepairs-routes';
+import {HOMEPAIRS_PROPERTY_ENDPOINT, postUpdatedProperty} from 'homepairs-endpoints';
 import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
 
-const {HOMEPAIRS_PROPERTY_ENDPOINT} = Endpoints;
 const URL = HOMEPAIRS_PROPERTY_ENDPOINT;
-const { postUpdatedProperty, PROPERTY_LIST_ACTION_TYPES } = PropertyListActions;
+const { PROPERTY_LIST_ACTION_TYPES } = PropertyListActions;
 const [mockNavigator, mockNavigationFunction] = prepareNavigationMock();
 
 const prevProperty: Property = {

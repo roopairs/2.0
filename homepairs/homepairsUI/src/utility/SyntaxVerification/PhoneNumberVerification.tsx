@@ -7,7 +7,7 @@ const expression = new RegExp(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-
  * -------------------------------------------------
  * Phone Number Verfication
  * -------------------------------------------------
- * @parm string 
+ * @param {string} phone 
  * 
  * Test to see if the string is in the a valid telephone 
  * number format. This is global and not specific to the US

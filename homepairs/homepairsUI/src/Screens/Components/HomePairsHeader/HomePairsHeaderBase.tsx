@@ -18,9 +18,9 @@ import {
     AccountTypes,
 } from 'homepairs-types';
 import {NavigationRouteHandler} from 'homepairs-utilities';
+import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu';
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 
 const backSymbol = '<';
 const { DROP_MENU_WIDTH } = HomePairsDimensions;

@@ -1,17 +1,16 @@
 import { AccountActions } from 'homepairs-redux-actions';
-import { AccountTypes, AccountStateAction, FetchPropertiesAction, FetchPropertyAction } from 'homepairs-types';
+import { AccountTypes, AccountStateAction, FetchPropertiesAction, FetchPropertyAction, SetAccountAuthenticationStateAction  } from 'homepairs-types';
 import { NavigationSwitchProp } from 'react-navigation';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import { HOMEPAIRS_LOGIN_ENDPOINT, fetchAccount } from 'homepairs-endpoints';
 import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
-import { prepareNavigationSwitchMock, } from '../../fixtures/DummyComponents';
-import { Endpoints } from 'homepairs-routes';
-import { SetAccountAuthenticationStateAction } from 'src/state/types';
+import { prepareNavigationSwitchMock } from '../../fixtures/DummyComponents';
 
 const TYPE = 'ACCOUNT/FETCH_PROFILE';
-const [mockSwitchNavigation, navigationSwitchSpyFunction] = prepareNavigationSwitchMock()
+const [mockSwitchNavigation, navigationSwitchSpyFunction] = prepareNavigationSwitchMock();
 const spyFunction = navigationSwitchSpyFunction;
-const URL = Endpoints.HOMEPAIRS_LOGIN_ENDPOINT;
+const URL = HOMEPAIRS_LOGIN_ENDPOINT;
 
 const expectedResults: {[id:string]: AccountStateAction} = {
   PM_WITHOUT_TOKEN: { // PM Account w/out token 
@@ -23,7 +22,7 @@ const expectedResults: {[id:string]: AccountStateAction} = {
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
       roopairsToken: '',
-      manId: 102449555,
+      pmId: 102449555,
     },
   },
   PM_WITH_TOKEN: { // PM Account with token
@@ -35,7 +34,7 @@ const expectedResults: {[id:string]: AccountStateAction} = {
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
       roopairsToken: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
-      manId: 102449555,
+      pmId: 102449555,
     },
   },
   TENANT_WITH_TOKEN: { // Tenant account with Token 
@@ -73,7 +72,7 @@ const expectedResults: {[id:string]: AccountStateAction} = {
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
       roopairsToken: undefined,
-      manId: 102449555,
+      pmId: 102449555,
     },
   },
 };
@@ -108,7 +107,7 @@ const testJsonValues: {[id:string]: any} =
       firstName: 'Jack',
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
-      manId: 102449555,
+      pmId: 102449555,
     },
     token: '',
   },
@@ -119,7 +118,7 @@ const testJsonValues: {[id:string]: any} =
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
       address: 'lifelike line Apt. 3',
-      manId: 102449555,
+      pmId: 102449555,
     },
     token: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
   },
@@ -140,13 +139,14 @@ const testJsonValues: {[id:string]: any} =
         },
       },
     },
-    properties:{
+    // TODO: Check with backed to see if they return an Array of Properties or Single Property for Tenant login
+    properties:[{
       maxTenants: 5,
       numBath: 2,
       numBed: 3,
       propId: '99',
-      address: "200 N. Santa Rosa, San Luis Obispo, CA",
-    },
+      streetAddress: "200 N. Santa Rosa, San Luis Obispo, CA",
+    }],
     token: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
   },
   TENANT_WITHOUT_TOKEN: { // Tenant without a token
@@ -168,7 +168,7 @@ const testJsonValues: {[id:string]: any} =
       firstName: 'Jack',
       lastName: 'profile[accountKeys.LASTNAME]',
       email: 'jacklame@gmail.com',
-      manId: 102449555,
+      pmId: 102449555,
     },
   },
 };
@@ -206,7 +206,7 @@ describe('FetchAccount Action', () => {
           };
           mock.onPost(URL).reply(200, data);
           await propertyManagerMock1.dispatch(
-            AccountActions.fetchAccount(email, password, testProps.navigation))
+            fetchAccount(email, password, testProps.navigation))
             .then(() => {
               expect(spyFunction.call).toHaveLength(1);
               const actionResults = propertyManagerMock1.getActions();
@@ -223,7 +223,7 @@ describe('FetchAccount Action', () => {
             ...testJsonValues.TENANT_WITH_TOKEN,
         };
         mock.onPost(URL).reply(200, data);
-        await propertyManagerMock1.dispatch(AccountActions.fetchAccount(email, password, testProps.navigation)).then(() => {
+        await propertyManagerMock1.dispatch(fetchAccount(email, password, testProps.navigation)).then(() => {
           expect(spyFunction.call).toHaveLength(1);
           const actionResults = propertyManagerMock1.getActions();
           expect(actionResults).toHaveLength(3);
@@ -239,7 +239,7 @@ describe('FetchAccount Action', () => {
       it('When response has not been returned', async () => {
         const statusFailedSpy = jest.fn((error?:string) => {});
         mock.onPost(URL).reply(400, null);
-        await propertyManagerMock1.dispatch(AccountActions.fetchAccount(email, password, testProps.navigation, statusFailedSpy))
+        await propertyManagerMock1.dispatch(fetchAccount(email, password, testProps.navigation, statusFailedSpy))
         .then(() => {
           expect(spyFunction.call).toHaveLength(1);
           expect(statusFailedSpy).toBeCalledWith("Unable to establish a connection with HomePairs servers");
@@ -253,7 +253,7 @@ describe('FetchAccount Action', () => {
         };
         const statusFailedSpy = jest.fn(() => {});
         mock.onPost(URL).reply(200, data);
-        await propertyManagerMock1.dispatch(AccountActions.fetchAccount(email, password, testProps.navigation, statusFailedSpy)).then(() => {
+        await propertyManagerMock1.dispatch(fetchAccount(email, password, testProps.navigation, statusFailedSpy)).then(() => {
           expect(propertyManagerMock1.getActions()).toHaveLength(0);
           expect(statusFailedSpy.mock.calls).toHaveLength(1);
           expect(statusFailedSpy).toBeCalledWith("Home Pairs was unable to log in. Please try again.");

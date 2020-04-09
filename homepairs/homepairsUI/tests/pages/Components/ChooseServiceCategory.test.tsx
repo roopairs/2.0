@@ -8,29 +8,44 @@ import ButtonWithBitmap from 'src/Elements/Buttons/ButtonWithBitmap';
 
 jest.mock('homepairs-images');
 
-const {Plumbing, LightingAndElectric, HVAC, GeneralAppliance, None} = ApplianceType;
+const {Plumbing, LightingAndElectric, HVAC, GeneralAppliance} = ApplianceType;
 describe('Test for Choose Service Category Component', () => {
     const mockSelectCategory = jest.fn((applianceType: ApplianceType) => {return applianceType;});
-    const rendered = render(<ChooseServiceCategory onPress={mockSelectCategory} />);
+    let bitMapButtons; 
 
-    const {getAllByType, getByText} = rendered;
-    const bitMapButtons = getAllByType(ButtonWithBitmap);
+    beforeEach(() => {
+        const rendered = render(<ChooseServiceCategory onPress={mockSelectCategory} />);
+        const {getAllByType} = rendered;
+        bitMapButtons = getAllByType(ButtonWithBitmap);
+        mockSelectCategory.mockClear();
+    });
 
     it('Test for proper rendering',  () => {
-        expect(getByText('CHOOSE SERVICE REQUEST CATEGORY')).toBeDefined();
         expect(bitMapButtons).toHaveLength(4);
     });
 
-    it('Test for proper functionality', () =>{
-        // Press each button in the component 
-        bitMapButtons.forEach(bitMapButton => {
-            fireEvent.press(bitMapButton);
-        });
-
-        expect(mockSelectCategory).toHaveBeenCalledTimes(4);
+    // Press each button in the component 
+    it('Test for press for Lighting and Electric', () =>{
+        fireEvent.press(bitMapButtons[0]);
+        expect(mockSelectCategory).toHaveBeenCalledTimes(1);
         expect(mockSelectCategory).toHaveBeenNthCalledWith(1, LightingAndElectric);
-        expect(mockSelectCategory).toHaveBeenNthCalledWith(2, Plumbing);
-        expect(mockSelectCategory).toHaveBeenNthCalledWith(3, HVAC);
-        expect(mockSelectCategory).toHaveBeenNthCalledWith(4, GeneralAppliance);
+    });
+
+    it('Test for press for  Plumbing', () =>{
+        fireEvent.press(bitMapButtons[1]);
+        expect(mockSelectCategory).toHaveBeenCalledTimes(1);
+        expect(mockSelectCategory).toHaveBeenNthCalledWith(1, Plumbing);
+    });
+
+    it('Test for press for Heating, Ventilation, and Air Conditioning', () =>{
+        fireEvent.press(bitMapButtons[2]);
+        expect(mockSelectCategory).toHaveBeenCalledTimes(1);
+        expect(mockSelectCategory).toHaveBeenNthCalledWith(1, HVAC);
+    });
+
+    it('Test for press for General Appliance', () =>{
+        fireEvent.press(bitMapButtons[3]);
+        expect(mockSelectCategory).toHaveBeenCalledTimes(1);
+        expect(mockSelectCategory).toHaveBeenNthCalledWith(1, GeneralAppliance);
     });
 });

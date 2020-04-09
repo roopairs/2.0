@@ -3,14 +3,15 @@ import { AccountTypes, AccountStateAction, Account, Property, FetchPropertiesAct
 import { NavigationSwitchProp } from 'react-navigation';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { navigationPages, Endpoints } from 'src/Routes/RouteConstants';
+import { navigationPages } from 'src/Routes/RouteConstants';
+import { HOMEPAIRS_REGISTER_PM_ENDPOINT, generateAccountForPM } from 'homepairs-endpoints';
 import { SetAccountAuthenticationStateAction } from 'src/state/types';
 import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
 import { PROPERTY_LIST_ACTION_TYPES } from '../../../src/state/property-list/actions';
 import { prepareNavigationSwitchMock } from '../../fixtures/DummyComponents';
 
 const TYPE = 'ACCOUNT/FETCH_PROFILE';
-const URL = Endpoints.HOMEPAIRS_REGISTER_PM_ENDPOINT;
+const URL = HOMEPAIRS_REGISTER_PM_ENDPOINT;
 const [mockSwitchNavigation, navigationSwitchSpyFunction ] = prepareNavigationSwitchMock();
 const navSpyFunction = navigationSwitchSpyFunction;
 const AccountPropertiesPageKey = navigationPages.PropertiesScreen;
@@ -40,7 +41,7 @@ const testJsonValue1 = {
         numBed: 10,
         pm: 'Jacky Lynne',
         propId: '1',
-        address: 'ABG Street',
+        streetAddress: 'ABG Street',
     }],
 };
 
@@ -52,7 +53,7 @@ const expectedFetchResult1: AccountStateAction = {
         lastName: 'Lynne',
         email: 'jackyLynne@gmail.com',
         address: 'ABC Street',
-        manId: undefined,
+        pmId: undefined,
         roopairsToken: '1d9f80e98e9b16b94bf76c2dc49fe15b8b30d1a2',
     },
 };
@@ -103,7 +104,7 @@ describe('generateAccountForPM Action', () => {
           const spyFunction = jest.fn(() => {});
           mock.onPost(URL).reply(200, data);
           await propertyManagerMock1.dispatch(
-            AccountActions.generateAccountForPM(testPMAccount1, password, mockNavigation, spyFunction))
+            generateAccountForPM(testPMAccount1, password, mockNavigation, spyFunction))
             .then(() => {
                 expect(spyFunction.call).toHaveLength(1);
                 const actionResults = propertyManagerMock1.getActions();
@@ -125,7 +126,7 @@ describe('generateAccountForPM Action', () => {
         const statusFailedSpy = jest.fn(() => {});
         mock.onPost(URL).reply(400, null);
         await propertyManagerMock1.dispatch(
-            AccountActions.generateAccountForPM(testPMAccount1, password, testProps.navigation, statusFailedSpy))
+            generateAccountForPM(testPMAccount1, password, testProps.navigation, statusFailedSpy))
             .then(() => {
                 expect(statusFailedSpy.call).toHaveLength(1);
                 expect(propertyManagerMock1.getActions()).toHaveLength(0);
@@ -140,8 +141,8 @@ describe('generateAccountForPM Action', () => {
         };
         const statusFailedSpy = jest.fn(() => {});
         mock.onPost(URL).reply(200, data);
-        await propertyManagerMock1.dispatch(AccountActions
-            .generateAccountForPM(testPMAccount1, password, testProps.navigation, statusFailedSpy))
+        await propertyManagerMock1.dispatch(
+            generateAccountForPM(testPMAccount1, password, testProps.navigation, statusFailedSpy))
             .then(() => {
                 expect(propertyManagerMock1.getActions()).toHaveLength(0);
                 expect(statusFailedSpy.mock.calls).toHaveLength(1);

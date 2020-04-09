@@ -7,7 +7,7 @@ const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-
  * -------------------------------------------------
  * Email Syntax Valid 
  * -------------------------------------------------
- * @parm string 
+ * @param {string} email 
  * Returns a boolean dependant of whether a string matches the 
  * valid email format. 
  * 

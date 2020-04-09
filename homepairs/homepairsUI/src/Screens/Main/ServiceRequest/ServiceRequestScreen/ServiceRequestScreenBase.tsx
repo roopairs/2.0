@@ -346,6 +346,7 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
             const {data} = response;
             const {reqs} = data;
 
+            console.log(response)
             let serviceRequests : ServiceRequest[] = [];
 
             reqs.forEach(req => {
@@ -373,6 +374,8 @@ export default class ServiceRequestScreenBase extends React.Component<ServiceReq
                 serviceRequests.push(serviceRequest);
             });
             this.setState({serviceRequests});  
+        }).catch(error => {
+            console.log(error);
         });
     }
 

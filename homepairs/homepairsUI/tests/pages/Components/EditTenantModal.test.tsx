@@ -32,6 +32,7 @@ describe('Test Edit Tenant Modal', () => {
     const resetFormsSpy = jest.spyOn(rootObject, 'resetForms');
     const generateNewTenantInfoSpy = jest.spyOn(rootObject, 'generateNewTenantInfo');
     const clickSubmitButtonSpy = jest.spyOn(rootObject, 'clickSubmitButton');
+    const goBackToPreviousPageSpy = jest.spyOn(rootObject, 'goBackToPreviousPage');
 
     beforeEach(() => {
         navigationStackSpyFunction.mockClear();
@@ -40,6 +41,7 @@ describe('Test Edit Tenant Modal', () => {
         resetFormsSpy.mockClear();
         generateNewTenantInfoSpy.mockClear();
         rendered.rerender(Component);
+        goBackToPreviousPageSpy.mockClear();
     });
 
     it('Test Edit Tenant defined as expected', () => {
@@ -85,7 +87,7 @@ describe('Test Edit Tenant Modal', () => {
         expect(navigationStackSpyFunction).toHaveBeenCalledTimes(1);
     });
 
-    it('Test Remove Add function for a valid tenant as intended', () => {
+    it('Test Add function for a valid tenant as intended', () => {
         // Change values to be valid input 
         fireEvent.changeText(inputForms[0], 'Alex');
         fireEvent.changeText(inputForms[1], 'Kavanaugh');
@@ -97,10 +99,8 @@ describe('Test Edit Tenant Modal', () => {
 
         expect(clickSubmitButtonSpy).toHaveBeenCalled();
         expect(validateFormsSpy).toHaveReturnedWith(true);
-        // Check to see if remove function executes properly
-        expect(generateNewTenantInfoSpy).toHaveBeenCalled();
-        expect(resetFormsSpy).toHaveBeenCalled();
-        expect(navigationStackSpyFunction).toHaveBeenCalledTimes(1);
+        // TODO: Write mock function for update tenant 
+        expect(true).toBeFalsy();
     });
 
 ;});
