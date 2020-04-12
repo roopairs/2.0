@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
 type Props = NavigationRouteScreenProps & NewRequestScreenProps;
 
 
-export default class ServiceRequestBase extends Component<Props, NewRequestState> {
+export default class NewServiceRequestBase extends Component<Props, NewRequestState> {
 
     addressRef;
 
