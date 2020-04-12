@@ -225,7 +225,7 @@ export default class EditApplianceModalBase extends React.Component<Props,EditSt
     goBackToPreviousPage() {
         const{navigation} = this.props;
         const propId = navigation.getParam('propId');
-        navigation.replace(SingleProperty, {propId});
+        navigation.resolveModalReplaceNavigation(SingleProperty, {propId});
     }
 
     setInitialState() {

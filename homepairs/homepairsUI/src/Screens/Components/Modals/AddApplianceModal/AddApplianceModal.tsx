@@ -251,7 +251,7 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
     goBackToPreviousPage() {
         const{navigation} = this.props;
         const {propId} = this.property;
-        navigation.replace(SingleProperty, {propId});
+        navigation.resolveModalReplaceNavigation(SingleProperty, {propId});
     }
 
     validateForms() {

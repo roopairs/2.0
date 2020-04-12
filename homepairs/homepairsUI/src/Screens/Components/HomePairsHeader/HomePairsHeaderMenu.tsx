@@ -4,7 +4,8 @@ import React from 'react';
 import { FontTheme} from 'homepairs-base-styles';
 import { MainAppStackType, AccountTypes } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { NavigationRouteHandler, ChooseMainPage } from 'homepairs-utilities';
+import { NavigationRouteHandler } from 'homepairs-utilities';
+import { ChooseMainPage } from 'src/Routes/Routes';
 import { MainAppStack } from '../../../Routes/RouteConstants';
 
 export type HomePairsMenuProps = {

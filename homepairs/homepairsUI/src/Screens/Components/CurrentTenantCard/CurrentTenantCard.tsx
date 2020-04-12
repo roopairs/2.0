@@ -210,11 +210,11 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
             return;
         }
         setError(null);
-        navigation.replace(navigationPages.AddTenantModal, {propId}, true);
+        navigation.navigate(navigationPages.AddTenantModal, {propId}, true);
     }
 
     function navigateToEditTenantModal(tenant: TenantInfo){
-        navigation.replace(navigationPages.EditTenantModal, {propId, tenant}, true);
+        navigation.navigate(navigationPages.EditTenantModal, {propId, tenant}, true);
     }
 
     function renderError(){

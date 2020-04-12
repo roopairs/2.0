@@ -14,138 +14,143 @@ type Props =  NavigationRouteScreenProps
 
 type EditTenantState = TenantInfo
 
-const {width} = Dimensions.get('window');
-const colors = BaseStyles.LightColorTheme;
-const styles = StyleSheet.create({
-    formTitle: {
-        marginVertical: '3.5%',
-        fontFamily: BaseStyles.FontTheme.primary,
-        color: colors.lightGray,
-    },
-    input: {
+// Needed to maintain the proper size of each modal. 
+function setInputStyles(){
+    const {width} = Dimensions.get('window');
+    const colors = BaseStyles.LightColorTheme;
+    return StyleSheet.create({
+        formTitle: {
+            marginVertical: '3.5%',
+            fontFamily: BaseStyles.FontTheme.primary,
+            color: colors.lightGray,
+        },
+        input: {
+                alignItems: 'center',
+                alignSelf: 'center',
+                margin: BaseStyles.MarginPadding.xsmallConst,
+                minWidth:40,
+                width: BaseStyles.ContentWidth.max,
+                height: 40,
+                color: colors.lightGray,
+                borderColor: colors.lightGray,
+                borderWidth: 1,
+                borderRadius: BaseStyles.BorderRadius.small,
+                paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
+        },
+        modalContainer: {
+            flex: 1,
+            maxWidth: HomePairsDimensions.MAX_PALLET,
+            width: Platform.OS === 'web' ? width : BaseStyles.ContentWidth.max,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf:'center',
+        },
+        scrollStyle: {
+            marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+            alignSelf: 'center',
+            width: '100%',
+        },
+        scrollContentContainerStyle: {
+            maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignSelf: 'center',
+            width: BaseStyles.ContentWidth.reg,
+            paddingVertical: BaseStyles.MarginPadding.large,
+            flexGrow: 1, // Needed to center the contents of the scroll container
+        },
+        cardContainer: {
+            backgroundColor: 'white',
+            maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+            width: BaseStyles.ContentWidth.reg,
+            marginHorizontal: '5%',
+            borderRadius: 7,
+            shadowColor: 'black',
+            shadowRadius: 20,
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 100,
+            elevation: 9,
+            justifyContent: 'center',
             alignItems: 'center',
             alignSelf: 'center',
-            margin: BaseStyles.MarginPadding.xsmallConst,
-            minWidth:40,
+        },
+        cardTitle: {
+            color: colors.tertiary,
+            fontFamily: 'nunito-regular',
+            fontSize: 20,
+        },
+        cardTitleContainer: {
             width: BaseStyles.ContentWidth.max,
-            height: 40,
-            color: colors.lightGray,
-            borderColor: colors.lightGray,
+            borderBottomColor: '#AFB3B5',
+            paddingVertical: BaseStyles.MarginPadding.largeConst,
+            paddingHorizontal: BaseStyles.MarginPadding.largeConst,
+            borderBottomWidth: 1,
+            alignSelf: 'center',
+            maxHeight: 75,
+            minHeight: 50,
+            justifyContent: 'flex-start',
+        },
+        cardWrapperStyle: {
+            width: BaseStyles.ContentWidth.thin,
+            marginBottom: BaseStyles.MarginPadding.smallConst,
+            alignSelf: 'center',
+        },
+        editTenantButtonStyle: {
+            alignItems: 'center',
+            backgroundColor: BaseStyles.LightColorTheme.transparent,
+            padding: BaseStyles.MarginPadding.mediumConst,
+            maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
+            minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
+            borderRadius: BaseStyles.BorderRadius.large,
             borderWidth: 1,
-            borderRadius: BaseStyles.BorderRadius.small,
-            paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
-    },
-    modalContainer: {
-        flex: 1,
-        maxWidth: HomePairsDimensions.MAX_PALLET,
-        width: Platform.OS === 'web' ? width : BaseStyles.ContentWidth.max,
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf:'center',
-    },
-    scrollStyle: {
-        marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-        alignSelf: 'center',
-        width: '100%',
-    },
-    scrollContentContainerStyle: {
-        maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'center',
-        width: BaseStyles.ContentWidth.reg,
-        paddingVertical: BaseStyles.MarginPadding.large,
-        flexGrow: 1, // Needed to center the contents of the scroll container
-    },
-    cardContainer: {
-        backgroundColor: 'white',
-        maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
-        width: BaseStyles.ContentWidth.reg,
-        marginHorizontal: '5%',
-        borderRadius: 7,
-        shadowColor: 'black',
-        shadowRadius: 20,
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 100,
-        elevation: 9,
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-    },
-    cardTitle: {
-        color: colors.tertiary,
-        fontFamily: 'nunito-regular',
-        fontSize: 20,
-    },
-    cardTitleContainer: {
-        width: BaseStyles.ContentWidth.max,
-        borderBottomColor: '#AFB3B5',
-        paddingVertical: BaseStyles.MarginPadding.largeConst,
-        paddingHorizontal: BaseStyles.MarginPadding.largeConst,
-        borderBottomWidth: 1,
-        alignSelf: 'center',
-        maxHeight: 75,
-        minHeight: 50,
-        justifyContent: 'flex-start',
-    },
-    cardWrapperStyle: {
-        width: BaseStyles.ContentWidth.thin,
-        marginBottom: BaseStyles.MarginPadding.smallConst,
-        alignSelf: 'center',
-    },
-    editTenantButtonStyle: {
-        alignItems: 'center',
-        backgroundColor: BaseStyles.LightColorTheme.transparent,
-        padding: BaseStyles.MarginPadding.mediumConst,
-        maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
-        minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
-        borderRadius: BaseStyles.BorderRadius.large,
-        borderWidth: 1,
-        borderColor: BaseStyles.LightColorTheme.primary,
-    },
-    editTenantButtonTextStyle: {
-        color: BaseStyles.LightColorTheme.primary, 
-        fontSize: BaseStyles.FontTheme.reg,
-        alignSelf: 'center',
-    },
-    removeTenantButtonStyle: {
-        alignItems: 'center',
-        backgroundColor: BaseStyles.LightColorTheme.transparent,
-        padding: BaseStyles.MarginPadding.mediumConst,
-        maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
-        minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
-        borderRadius: BaseStyles.BorderRadius.large,
-        borderWidth: 1,
-        borderColor: BaseStyles.LightColorTheme.red,
-    },
-    removeTenantButtonTextStyle: {
-        color: BaseStyles.LightColorTheme.red, 
-        fontSize: BaseStyles.FontTheme.reg,
-        alignSelf: 'center',
-    },
-    editButtonContainerStyle: {
-        flex: 1,
-        alignSelf: 'center',
-        justifyContent: 'center',
-        marginTop: BaseStyles.MarginPadding.largeConst,
-        marginBottom: BaseStyles.MarginPadding.xlarge,
-        marginRight: BaseStyles.MarginPadding.mediumConst,
-        minHeight: 50,
-    },
-    removeButtonContainerStyle: {
-        flex: 1,
-        alignSelf: 'center',
-        justifyContent: 'center',
-        marginTop: BaseStyles.MarginPadding.largeConst,
-        marginBottom: BaseStyles.MarginPadding.xlarge,
-        marginLeft: BaseStyles.MarginPadding.mediumConst,
-        minHeight: 50,
-    },
-    
-});
+            borderColor: BaseStyles.LightColorTheme.primary,
+        },
+        editTenantButtonTextStyle: {
+            color: BaseStyles.LightColorTheme.primary, 
+            fontSize: BaseStyles.FontTheme.reg,
+            alignSelf: 'center',
+        },
+        removeTenantButtonStyle: {
+            alignItems: 'center',
+            backgroundColor: BaseStyles.LightColorTheme.transparent,
+            padding: BaseStyles.MarginPadding.mediumConst,
+            maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
+            minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
+            borderRadius: BaseStyles.BorderRadius.large,
+            borderWidth: 1,
+            borderColor: BaseStyles.LightColorTheme.red,
+        },
+        removeTenantButtonTextStyle: {
+            color: BaseStyles.LightColorTheme.red, 
+            fontSize: BaseStyles.FontTheme.reg,
+            alignSelf: 'center',
+        },
+        editButtonContainerStyle: {
+            flex: 1,
+            alignSelf: 'center',
+            justifyContent: 'center',
+            marginTop: BaseStyles.MarginPadding.largeConst,
+            marginBottom: BaseStyles.MarginPadding.xlarge,
+            marginRight: BaseStyles.MarginPadding.mediumConst,
+            minHeight: 50,
+        },
+        removeButtonContainerStyle: {
+            flex: 1,
+            alignSelf: 'center',
+            justifyContent: 'center',
+            marginTop: BaseStyles.MarginPadding.largeConst,
+            marginBottom: BaseStyles.MarginPadding.xlarge,
+            marginLeft: BaseStyles.MarginPadding.mediumConst,
+            minHeight: 50,
+        },
+        
+    });
+};
 
 
 export class EditTenantModalBase extends React.Component<Props, EditTenantState> {
+    styles;
+
     firstNameRef;
 
     lastNameRef;
@@ -160,6 +165,7 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
   
     constructor(props: Readonly<Props>) {
         super(props);
+        this.styles = setInputStyles(null);
         this.getFormFirstName = this.getFormFirstName.bind(this);
         this.getFormLastName = this.getFormLastName.bind(this);
         this.getFormEmail = this.getFormEmail.bind(this);
@@ -201,7 +207,7 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
 
     goBackToPreviousPage() {
         const {navigation} = this.props;
-        navigation.replace(SingleProperty, {propId: this.propId});
+        navigation.resolveModalReplaceNavigation(SingleProperty, {propId: this.propId});
     }
 
     setInitialState() {
@@ -280,8 +286,8 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
                 key: 'FIRST NAME',
                 name: 'FIRST NAME',
                 parentCallBack: this.getFormFirstName,
-                formTitleStyle: styles.formTitle,
-                inputStyle: styles.input,
+                formTitleStyle: this.styles.formTitle,
+                inputStyle: this.styles.input,
                 value: firstName,
                 errorMessage: 'Tenant must have a first name.',
             }, 
@@ -290,8 +296,8 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
                 key: 'LAST NAME',
                 name: 'LAST NAME',
                 parentCallBack: this.getFormLastName,
-                formTitleStyle: styles.formTitle,
-                inputStyle: styles.input,
+                formTitleStyle: this.styles.formTitle,
+                inputStyle: this.styles.input,
                 value: lastName,
                 errorMessage: 'Tenant must have a last name.',
             }, 
@@ -300,8 +306,8 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
                 key: 'EMAIL',
                 name: 'EMAIL',
                 parentCallBack: this.getFormEmail,
-                formTitleStyle: styles.formTitle,
-                inputStyle: styles.input,
+                formTitleStyle: this.styles.formTitle,
+                inputStyle: this.styles.input,
                 value: email, 
                 errorMessage: 'Tenant must have an email.',
             }, 
@@ -310,8 +316,8 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
                 key: 'PHONE NUMBER',
                 name: 'PHONE NUMBER',
                 parentCallBack: this.getFormPhoneNumber,
-                formTitleStyle: styles.formTitle,
-                inputStyle: styles.input,
+                formTitleStyle: this.styles.formTitle,
+                inputStyle: this.styles.input,
                 value: phoneNumber,
                 errorMessage: 'Tenant must have a phone number',
             }, 
@@ -341,35 +347,36 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
                 <ThinButton 
                     name='Edit'
                     onClick={() => {this.clickSubmitButton();}} 
-                    buttonStyle={styles.editTenantButtonStyle}
-                    buttonTextStyle={styles.editTenantButtonTextStyle}
-                    containerStyle={styles.editButtonContainerStyle}/>
+                    buttonStyle={this.styles.editTenantButtonStyle}
+                    buttonTextStyle={this.styles.editTenantButtonTextStyle}
+                    containerStyle={this.styles.editButtonContainerStyle}/>
                 <ThinButton 
                     name='Remove'
                     onClick={() => {this.clickRemoveButton();}} 
-                    buttonStyle={styles.removeTenantButtonStyle}
-                    buttonTextStyle={styles.removeTenantButtonTextStyle}
-                    containerStyle={styles.removeButtonContainerStyle}/>
+                    buttonStyle={this.styles.removeTenantButtonStyle}
+                    buttonTextStyle={this.styles.removeTenantButtonTextStyle}
+                    containerStyle={this.styles.removeButtonContainerStyle}/>
             </View>
         );
     }
     
     render() {
         const showCloseButton = true;
+        const {navigation} = this.props;
         return(
-            <SafeAreaView style={styles.modalContainer}>
-            <ScrollView style={styles.scrollStyle}
-            contentContainerStyle={styles.scrollContentContainerStyle}
+            <SafeAreaView style={this.styles.modalContainer}>
+            <ScrollView style={this.styles.scrollStyle}
+            contentContainerStyle={this.styles.scrollContentContainerStyle}
             showsHorizontalScrollIndicator={false}>
                 <Card
-                    containerStyle={styles.cardContainer}
+                    containerStyle={this.styles.cardContainer}
                     showCloseButton={showCloseButton}
-                    titleStyle={styles.cardTitle}
-                    titleContainerStyle={styles.cardTitleContainer}
-                    wrapperStyle={styles.cardWrapperStyle}
+                    titleStyle={this.styles.cardTitle}
+                    titleContainerStyle={this.styles.cardTitleContainer}
+                    wrapperStyle={this.styles.cardWrapperStyle}
                     title='Edit Tenant'
                     closeButtonPressedCallBack={() => {
-                        this.goBackToPreviousPage();
+                        navigation.goBack();
                         this.setInitialState();
                         this.resetForms();
                     }}

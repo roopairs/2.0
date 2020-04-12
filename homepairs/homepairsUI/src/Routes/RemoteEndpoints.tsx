@@ -4,10 +4,11 @@
  * using should be put and referenced from this file.  
  */
 import axios from 'axios';
-import { NavigationRouteHandler, ChooseMainPage, getAccountType, categoryToString } from 'homepairs-utilities';
+import { NavigationRouteHandler, getAccountType, categoryToString } from 'homepairs-utilities';
 import * as HomePairsStateActions from 'homepairs-redux-actions';
 import { AccountTypes, Account, Property, AddNewPropertyState, EditPropertyState, Appliance, AddApplianceState, NewServiceRequest } from 'homepairs-types';
 import { navigationPages } from './RouteConstants';
+import { ChooseMainPage } from './Routes';
 
 export const HOMEPAIRS_LOGIN_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/login/';
 export const HOMEPAIRS_REGISTER_TENANT_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/tenant/register/';

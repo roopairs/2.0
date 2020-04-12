@@ -207,7 +207,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
     goBackToPreviousPage() {
         const{navigation} = this.props;
         const propId = navigation.getParam('propId');
-        navigation.replace(SingleProperty, {propId});
+        navigation.resolveModalReplaceNavigation(SingleProperty, {propId});
     }
 
     setInitialState() {
