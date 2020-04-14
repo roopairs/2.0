@@ -176,16 +176,16 @@ self.__precacheManifest = [
     "url": "/2.0/static/media/date_icon.1edd5017.png"
   },
   {
-    "revision": "5e695e96a003a79f7f97060bf49409a9",
-    "url": "/2.0/expo-service-worker.js"
+    "revision": "d0c694b562b2208635f250762cd7fc79",
+    "url": "/2.0/serve.json"
   },
   {
     "revision": "7a7bc7ead25db795e58b336f04d2624c",
     "url": "/2.0/favicon.ico"
   },
   {
-    "revision": "d0c694b562b2208635f250762cd7fc79",
-    "url": "/2.0/serve.json"
+    "revision": "5e695e96a003a79f7f97060bf49409a9",
+    "url": "/2.0/expo-service-worker.js"
   },
   {
     "revision": "afad2e497f9a9d990607a29a8ae5ec6b",
