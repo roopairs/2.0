@@ -13,77 +13,77 @@
   "theme_color": "#4630EB",
   "icons": [
     {
-      "src": "/cpsecapstone.github.io/apple/splash/icon_1125x2436.9a42d245793ab0963b49be0da58b8018.png",
+      "src": "/2.0/apple/splash/icon_1125x2436.9a42d245793ab0963b49be0da58b8018.png",
       "sizes": "1125x2436",
       "type": "image/png"
     },
     {
-      "src": "/cpsecapstone.github.io/apple/splash/icon_1136x640.7fe2507d28b0b58e6ec90e8b213cbe65.png",
+      "src": "/2.0/apple/splash/icon_1136x640.7fe2507d28b0b58e6ec90e8b213cbe65.png",
       "sizes": "1136x640",
       "type": "image/png"
     },
     {
-      "src": "/cpsecapstone.github.io/apple/splash/icon_1242x2208.8b8fefc3fc9b2d7a0aaf7e09c59da807.png",
+      "src": "/2.0/apple/splash/icon_1242x2208.8b8fefc3fc9b2d7a0aaf7e09c59da807.png",
       "sizes": "1242x2208",
       "type": "image/png"
     },
     {
-      "src": "/cpsecapstone.github.io/apple/splash/icon_1242x2688.2753a9c7db2405ac3a631636630320fa.png",
+      "src": "/2.0/apple/splash/icon_1242x2688.2753a9c7db2405ac3a631636630320fa.png",
       "sizes": "1242x2688",
       "type": "image/png"
     },
     {
-      "src": "/cpsecapstone.github.io/apple/splash/icon_1334x750.25449959ae13a96444f36ea50a5688f5.png",
+      "src": "/2.0/apple/splash/icon_1334x750.25449959ae13a96444f36ea50a5688f5.png",
       "sizes": "1334x750",
       "type": "image/png"
     },
     {
-      "src": "/cpsecapstone.github.io/apple/splash/icon_1792x828.e573e6bcd3674d46b1c2bee1f658b602.png",
+      "src": "/2.0/apple/splash/icon_1792x828.e573e6bcd3674d46b1c2bee1f658b602.png",
       "sizes": "1792x828",
       "type": "image/png"
     },
     {
-      "src": "/cpsecapstone.github.io/apple/icons/icon_180x180.5b430a4f8bb0ea0e4f870974d977a400.png",
+      "src": "/2.0/apple/icons/icon_180x180.5b430a4f8bb0ea0e4f870974d977a400.png",
       "sizes": "180x180",
       "type": "image/png"
     },
     {
-      "src": "/cpsecapstone.github.io/apple/icons/icon_192x192.fe9e90f565e9c529716ca0b7dd0f8990.png",
+      "src": "/2.0/apple/icons/icon_192x192.fe9e90f565e9c529716ca0b7dd0f8990.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/cpsecapstone.github.io/apple/splash/icon_2208x1242.6a5cc06716a45af78def6be8a7385678.png",
+      "src": "/2.0/apple/splash/icon_2208x1242.6a5cc06716a45af78def6be8a7385678.png",
       "sizes": "2208x1242",
       "type": "image/png"
     },
     {
-      "src": "/cpsecapstone.github.io/apple/splash/icon_2436x1125.ff1513af26ef7ffec76cfe9a35372265.png",
+      "src": "/2.0/apple/splash/icon_2436x1125.ff1513af26ef7ffec76cfe9a35372265.png",
       "sizes": "2436x1125",
       "type": "image/png"
     },
     {
-      "src": "/cpsecapstone.github.io/apple/splash/icon_2688x1242.15b88d5db11e9b637bf4ad9276392ac9.png",
+      "src": "/2.0/apple/splash/icon_2688x1242.15b88d5db11e9b637bf4ad9276392ac9.png",
       "sizes": "2688x1242",
       "type": "image/png"
     },
     {
-      "src": "/cpsecapstone.github.io/apple/icons/icon_512x512.cd405482fed247b410cad607ba14b282.png",
+      "src": "/2.0/apple/icons/icon_512x512.cd405482fed247b410cad607ba14b282.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/cpsecapstone.github.io/apple/splash/icon_640x1136.f357c13aacbd2e0caa687027bee4bd13.png",
+      "src": "/2.0/apple/splash/icon_640x1136.f357c13aacbd2e0caa687027bee4bd13.png",
       "sizes": "640x1136",
       "type": "image/png"
     },
     {
-      "src": "/cpsecapstone.github.io/apple/splash/icon_750x1334.767116a551d171d0ec198e79208f49d0.png",
+      "src": "/2.0/apple/splash/icon_750x1334.767116a551d171d0ec198e79208f49d0.png",
       "sizes": "750x1334",
       "type": "image/png"
     },
     {
-      "src": "/cpsecapstone.github.io/apple/splash/icon_828x1792.7a15fb8e3e68182dd5e0931e851e1529.png",
+      "src": "/2.0/apple/splash/icon_828x1792.7a15fb8e3e68182dd5e0931e851e1529.png",
       "sizes": "828x1792",
       "type": "image/png"
     }
