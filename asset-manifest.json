@@ -1,7 +1,7 @@
 {
   "files": {
-    "app.js": "/2.0/static/js/app.d0be5331.chunk.js",
-    "app.js.map": "/2.0/static/js/app.d0be5331.chunk.js.map",
+    "app.js": "/2.0/static/js/app.f697c4a6.chunk.js",
+    "app.js.map": "/2.0/static/js/app.f697c4a6.chunk.js.map",
     "runtime~app.js": "/2.0/static/js/runtime~app.d1cfba67.js",
     "runtime~app.js.map": "/2.0/static/js/runtime~app.d1cfba67.js.map",
     "static/js/2.f7e3d780.chunk.js": "/2.0/static/js/2.f7e3d780.chunk.js",
@@ -47,7 +47,7 @@
     "favicon.ico": "/2.0/favicon.ico",
     "index.html": "/2.0/index.html",
     "manifest.json": "/2.0/manifest.json",
-    "precache-manifest.16634c1982165abe0ebf949b4e5edf72.js": "/2.0/precache-manifest.16634c1982165abe0ebf949b4e5edf72.js",
+    "precache-manifest.b4315d82ce43b1f3010ddb271724891c.js": "/2.0/precache-manifest.b4315d82ce43b1f3010ddb271724891c.js",
     "serve.json": "/2.0/serve.json",
     "static/media/bell.png": "/2.0/static/media/bell.a7b9dc9d.png",
     "static/media/blender.png": "/2.0/static/media/blender.d948a69f.png",
@@ -71,6 +71,6 @@
   "entrypoints": [
     "static/js/runtime~app.d1cfba67.js",
     "static/js/2.f7e3d780.chunk.js",
-    "static/js/app.d0be5331.chunk.js"
+    "static/js/app.f697c4a6.chunk.js"
   ]
 }
