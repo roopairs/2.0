@@ -1,24 +1,31 @@
 {
-    "expo": {
-        "name": "HomePairs",
-        "slug": "homepairs",
-        "privacy": "public",
-        "sdkVersion": "36.0.0",
-        "platforms": ["ios", "android", "web"],
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./res/assets/images/icon.png",
-        "splash": {
-            "image": "./res/assets/images/roopairsLogo.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
-        "updates": {
-            "fallbackToCacheTimeout": 0
-        },
-        "assetBundlePatterns": ["**/*"],
-        "ios": {
-            "supportsTablet": true
-        }
-    }
+  "expo": {
+    "name": "HomePairs",
+    "slug": "homepairs",
+    "privacy": "public",
+    "sdkVersion": "36.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./res/assets/images/icon.png",
+    "splash": {
+      "image": "./res/assets/images/roopairsLogo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "description": ""
+  }
 }
