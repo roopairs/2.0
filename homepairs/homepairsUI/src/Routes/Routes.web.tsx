@@ -266,8 +266,9 @@ function PropertiesSwitch() {
  */
 export default function AppNavigator(props:any){  
     // TODO: Set PrivateRoute to auth status from session token
+    // <Router basename={`${process.env.PUBLIC_URL}`}> is needed for web routing resolution for remote servers 
     return (
-        <Router>         
+        <Router basename={`${process.env.PUBLIC_URL}`}>         
             <Switch>
                 <Route path='/authentication'>
                   <RoopairsLoginModalSwitch/>
