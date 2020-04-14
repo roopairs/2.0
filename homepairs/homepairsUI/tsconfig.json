@@ -1,0 +1,37 @@
+{
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "target": "es5",
+        "jsx": "react-native",
+        "allowJs": true,
+        "lib": ["dom", "esnext"],
+        "forceConsistentCasingInFileNames": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "noEmit": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "isolatedModules": true,
+        "baseUrl": "./",
+        "paths": {
+            "*": ["*", "*.ios", "*.android", "*.web"],
+            "homepairs-fonts": ["./res/fonts"],
+            "homepairs-images": ["./res/images.tsx"],
+            "homepairs-types": ["./src/state/types.ts"],
+            "homepairs-strings": ["./res/strings.tsx"],
+            "homepairs-colors": ["./res/colors.tsx"],
+            "homepairs-elements": ["./src/Elements/index.tsx"],
+            "homepairs-redux-actions": ["./src/state/actions.ts"],
+            "homepairs-pages": ["./src/Screens/index.ts"],
+            "homepairs-base-styles": ["./res/Styles/base.ts"],
+            "homepairs-utilities": ["./src/utility/index.tsx"],
+            "homepairs-components": ["./src/Screens/Components/index.tsx"],
+            "homepairs-routes" : ["./src/Routes/RouteConstants"],
+            "homepairs-endpoints" : ["./src/Routes/RemoteEndpoints.tsx"],
+
+        }
+    },
+    "exclude": ["node_modules", "../tests", "build"],
+    "include": ["src", "res", "tests/redux/property-list/GenerateTenantAccount.test.tsx", "tests/pages/Components/SceneHeader.test.tsx", "tests/pages/Components/HomePairsNavHeader/HomePairsHeaderDropDown.test.tsx"]
+}

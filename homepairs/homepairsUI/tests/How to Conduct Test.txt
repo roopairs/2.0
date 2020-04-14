@@ -1,0 +1,115 @@
+Conducting tests in the React Native enviroment takes a little bit of set-up. 
+Since most Testing Frameworks are designed for React, this can give us a few 
+issues due to the fact that we are designing for both web and native applications. 
+This is not much of an issue for simple unit testing, but this does cause issues 
+if we some level of integration testing. Therefore, we are required to to set up 
+a jsdom enviroment for all tests that require any type of component method 
+execution. 
+
+EXAMPLE: 
+
+/**
+ * @jest-environment jsdom
+ */
+
+
+import {ThinButton} from 'homepairs-elements';
+import { shallow } from 'enzyme';
+import * as React from 'react';
+import { View, TouchableOpacity, Text} from 'react-native';
+import renderer from 'react-test-renderer';
+
+
+describe("ThinButton", () => {
+  const testfunc = () => {return 'Hello World!';};
+  const spyFunction = jest.fn(testfunc);
+
+  const wrapper = shallow(<ThinButton />);
+  const rendered = renderer.create(<ThinButton name='Test' onClick={spyFunction}/>);
+
+  it("Test for proper Components", () => {
+    expect(wrapper.find(View)).toHaveLength(1);
+    expect(wrapper.find(TouchableOpacity)).toHaveLength(1);
+    expect(wrapper.find(Text)).toHaveLength(1);
+  });
+
+
+  it("Method Test", () => {
+    rendered.root.props.onClick();
+    rendered.root.props.onClick();
+    expect(spyFunction.mock.calls).toHaveLength(2);
+  });
+  
+});
+
+How to Input Spy Functions: 
+When using smart Components, it may be necessary to check if a function is 
+calling the proper components when an event has occurred. However, to attempt 
+to inject a spy function into an instance of a smart component (or any HOC) is 
+grounds for issues. Therefore, we use the instance of the Base Component to instead 
+gather the information. It is neccesary to note that all Components that are rendered 
+from HOC should allow their Base Components (if a class) to be exported to get and instance. 
+
+Here is an example of how to get an instance of the Edit Tenant Modal using its base Component: 
+import React from 'react';
+import { EditTenantModal } from 'homepairs-components';
+import { EditTenantModalBase } from 'src/Screens/Components/Modals/EditTenantModal';
+import { propertyManagerMock1 } from 'tests/fixtures/StoreFixture';
+import { BrowserRouter as Router} from 'react-router-dom';
+import { prepareNavigationStackFirstRouteMock } from 'tests/fixtures/DummyComponents';
+import { Provider } from 'react-redux';
+import { render, fireEvent } from 'react-native-testing-library';
+import { TextInput, Platform, TouchableOpacity } from 'react-native';
+import ThinButton from 'src/Elements/Buttons/ThinButton';
+
+const mockStore = propertyManagerMock1;
+const [mockStackNavigationFirstRoute, navigationStackSpyFunction] = prepareNavigationStackFirstRouteMock({tenant:true});
+const Component = Platform.OS === 'web' ? 
+<Provider store={mockStore}><Router><EditTenantModal navigation={mockStackNavigationFirstRoute} /></Router></Provider> 
+:
+<Provider store={mockStore}><EditTenantModal navigation={mockStackNavigationFirstRoute} /></Provider>;
+
+describe('Test Edit Tenant Modal', () => {
+    const rendered = render(Component);
+    const { queryAllByType, getAllByType, getByType } = rendered;
+    const inputForms = queryAllByType(TextInput);
+    // Three buttons, close modal, edit tenant, and remove tenant
+    const thinButtons = queryAllByType(ThinButton);
+    const thinButtonPressable = getAllByType(TouchableOpacity);
+
+    // Use the Base Class to get an instance of the object and insert spy functions 
+    /************************************************************/
+    const rootObject = getByType(EditTenantModalBase).instance;
+    /************************************************************/
+
+    const setInitialStateSpy = jest.spyOn(rootObject, "setInitialState");
+    const validateFormsSpy = jest.spyOn(rootObject, 'validateForms');
+    const resetFormsSpy = jest.spyOn(rootObject, 'resetForms');
+    const generateNewTenantInfoSpy = jest.spyOn(rootObject, 'generateNewTenantInfo');
+
+    
+
+    beforeEach(() => {
+        navigationStackSpyFunction.mockClear();
+        setInitialStateSpy.mockClear();
+        validateFormsSpy.mockClear();
+        resetFormsSpy.mockClear();
+        generateNewTenantInfoSpy.mockClear();
+        rendered.rerender(Component);
+    });
+
+    it('Test Edit Tenant Attempt to add invalid info', () => {
+        // Check if the correct amount of input forms has been rendered. 
+        expect(inputForms).toHaveLength(4);
+        expect(thinButtons).toHaveLength(2);
+
+        // Check if closeButton functions properly
+        fireEvent.press(thinButtonPressable[0]);
+        expect(navigationStackSpyFunction).toHaveBeenCalledTimes(1);
+
+        expect(setInitialStateSpy).toHaveBeenCalled();
+        expect(resetFormsSpy).toHaveBeenCalled();
+
+
+    });
+;});
