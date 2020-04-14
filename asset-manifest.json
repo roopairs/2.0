@@ -1,11 +1,11 @@
 {
   "files": {
-    "app.js": "/2.0/static/js/app.761c7425.chunk.js",
-    "app.js.map": "/2.0/static/js/app.761c7425.chunk.js.map",
-    "runtime~app.js": "/2.0/static/js/runtime~app.d1cfba67.js",
-    "runtime~app.js.map": "/2.0/static/js/runtime~app.d1cfba67.js.map",
-    "static/js/2.f7e3d780.chunk.js": "/2.0/static/js/2.f7e3d780.chunk.js",
-    "static/js/2.f7e3d780.chunk.js.map": "/2.0/static/js/2.f7e3d780.chunk.js.map",
+    "app.js": "/2.0/static/js/app.343f4822.chunk.js",
+    "app.js.map": "/2.0/static/js/app.343f4822.chunk.js.map",
+    "runtime~app.js": "/2.0/static/js/runtime~app.f84cf203.js",
+    "runtime~app.js.map": "/2.0/static/js/runtime~app.f84cf203.js.map",
+    "static/js/2.9e493e51.chunk.js": "/2.0/static/js/2.9e493e51.chunk.js",
+    "static/js/2.9e493e51.chunk.js.map": "/2.0/static/js/2.9e493e51.chunk.js.map",
     "fonts/AntDesign.ttf": "/2.0/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/2.0/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/2.0/./fonts/Feather.ttf",
@@ -29,25 +29,11 @@
     "fonts/Nunito-SemiBold.ttf": "/2.0/./fonts/Nunito-SemiBold.ttf",
     "fonts/Nunito-SemiBoldItalic.ttf": "/2.0/./fonts/Nunito-SemiBoldItalic.ttf",
     "fonts/SimpleLineIcons.ttf": "/2.0/./fonts/SimpleLineIcons.ttf",
-    "apple/icons/icon_180x180.png": "/2.0/apple/icons/icon_180x180.png",
-    "apple/icons/icon_192x192.png": "/2.0/apple/icons/icon_192x192.png",
-    "apple/icons/icon_512x512.png": "/2.0/apple/icons/icon_512x512.png",
-    "apple/splash/icon_1125x2436.png": "/2.0/apple/splash/icon_1125x2436.png",
-    "apple/splash/icon_1136x640.png": "/2.0/apple/splash/icon_1136x640.png",
-    "apple/splash/icon_1242x2208.png": "/2.0/apple/splash/icon_1242x2208.png",
-    "apple/splash/icon_1242x2688.png": "/2.0/apple/splash/icon_1242x2688.png",
-    "apple/splash/icon_1334x750.png": "/2.0/apple/splash/icon_1334x750.png",
-    "apple/splash/icon_1792x828.png": "/2.0/apple/splash/icon_1792x828.png",
-    "apple/splash/icon_2208x1242.png": "/2.0/apple/splash/icon_2208x1242.png",
-    "apple/splash/icon_2436x1125.png": "/2.0/apple/splash/icon_2436x1125.png",
-    "apple/splash/icon_2688x1242.png": "/2.0/apple/splash/icon_2688x1242.png",
-    "apple/splash/icon_640x1136.png": "/2.0/apple/splash/icon_640x1136.png",
-    "apple/splash/icon_750x1334.png": "/2.0/apple/splash/icon_750x1334.png",
-    "apple/splash/icon_828x1792.png": "/2.0/apple/splash/icon_828x1792.png",
+    "favicon-16.png": "/2.0/favicon-16.png",
+    "favicon-32.png": "/2.0/favicon-32.png",
     "favicon.ico": "/2.0/favicon.ico",
     "index.html": "/2.0/index.html",
     "manifest.json": "/2.0/manifest.json",
-    "precache-manifest.f1b1b0083cdc606240aa6bc2fe957496.js": "/2.0/precache-manifest.f1b1b0083cdc606240aa6bc2fe957496.js",
     "serve.json": "/2.0/serve.json",
     "static/media/bell.png": "/2.0/static/media/bell.a7b9dc9d.png",
     "static/media/blender.png": "/2.0/static/media/blender.d948a69f.png",
@@ -69,8 +55,8 @@
     "static/media/upArrow.png": "/2.0/static/media/upArrow.b8d8110c.png"
   },
   "entrypoints": [
-    "static/js/runtime~app.d1cfba67.js",
-    "static/js/2.f7e3d780.chunk.js",
-    "static/js/app.761c7425.chunk.js"
+    "static/js/runtime~app.f84cf203.js",
+    "static/js/2.9e493e51.chunk.js",
+    "static/js/app.343f4822.chunk.js"
   ]
 }
