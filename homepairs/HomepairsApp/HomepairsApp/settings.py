@@ -153,3 +153,6 @@ DATABASES['default'].update(prod_db)
 
 # This should be for coverage I think
 TEST_RUNNER = 'HomepairsApp' + ".runners.CoverageLintingXMLTestRunner"
+
+# This should allow all cors connections
+CORS_ORIGIN_ALLOW_ALL = True

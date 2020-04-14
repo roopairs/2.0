@@ -1,0 +1,16 @@
+error string, description
+'Incorrect fields', When there is an incorrect field.
+'Multiple Accounts Detected', This isn't really an error you'll get ever, its more for my side.
+'Multiple properties with same address found', If you try to edit a property and somehow it finds two properties with the same address then it sends this back. Really more for me
+'Failed to create a Roopairs account', when it fails to create the roopairs account
+'Failed to create a Homepairs account', when it fails to create a homepairs account
+'Too many properties associated with tenant', You probably wont get this
+'This email is associated with more than one pm', not an error you'll run into, more for me. its when i search for an account and somehow two accounts come back
+'Invalid property', just when a property is invalid. 
+'Property given already exists', when you try and create a property that already exists
+'Appliance does not exist.', pretty self explanatory
+'Property does not exist.', when you try and edit a property that doesn't exist but its mostly for me
+'You are not the property owner', when you try and edit a property you don't own
+['Unable to log in with provided credentials.'], when the username or password is wrong. its an array cuz you guys wanted that
+SERVPRO_DOESNT_EXIST = 'Service provider does not exist.', when the service provider doesn't exist
+SERVPRO_ALREADY_EXIST = 'Service provider already exists.', when you are trying to create a service provider that already exists
