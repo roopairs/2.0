@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "b8c4a890338306ff9bc9",
-    "url": "/2.0/static/js/app.343f4822.chunk.js"
+    "revision": "0e3ab5d7d41647624ea6",
+    "url": "/2.0/static/js/app.60ba2b46.chunk.js"
   },
   {
     "revision": "bbe197478977fcc795b4",
@@ -176,12 +176,12 @@ self.__precacheManifest = [
     "url": "/2.0/static/media/date_icon.1edd5017.png"
   },
   {
-    "revision": "48c7ed4e7da9792af288a60d7242d615",
-    "url": "/2.0/expo-service-worker.js"
-  },
-  {
     "revision": "d0c694b562b2208635f250762cd7fc79",
     "url": "/2.0/serve.json"
+  },
+  {
+    "revision": "48c7ed4e7da9792af288a60d7242d615",
+    "url": "/2.0/expo-service-worker.js"
   },
   {
     "revision": "e10ce0552ee7802193950fa9181bd961",
@@ -196,7 +196,7 @@ self.__precacheManifest = [
     "url": "/2.0/favicon.ico"
   },
   {
-    "revision": "5fb0e392106c82f88b63633faca6a67a",
+    "revision": "7dd2c1d67b7c1e205a760eacc031a181",
     "url": "/2.0/index.html"
   },
   {
