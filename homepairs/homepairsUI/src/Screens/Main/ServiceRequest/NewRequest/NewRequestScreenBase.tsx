@@ -7,16 +7,16 @@ import { NavigationRouteScreenProps, stringToCategory, isEmptyOrSpaces, category
 import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from 'homepairs-components';
-import {DateTimePicker} from 'react-widgets';
-import {DatePicker} from 'react-native-datepicker';
+// import {DateTimePicker} from 'react-widgets';
+// import {DatePicker} from 'react-native-datepicker';
 import {HelperText} from 'react-native-paper';
-import Moment from 'moment';
-import momentLocalizer from 'react-widgets-moment';
+// import Moment from 'moment';
+// import momentLocalizer from 'react-widgets-moment';
 import axios from 'axios';
 import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT,  HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest } from 'homepairs-endpoints';
 
-Moment.locale('en');
-momentLocalizer();
+// Moment.locale('en');
+// momentLocalizer();
 
 type NewRequestScreenProps = {
     properties: Property[]
@@ -305,6 +305,7 @@ export default class NewServiceRequestBase extends Component<Props, NewRequestSt
         startDate.setHours(0, 0, 0);
         maxDate.setDate(startDate.getDate() + 90);
         maxDate.setHours(0, 0, 0);
+        /*
         if (Platform.OS === 'web') {
             return <DateTimePicker 
                 key='web datetime picker'
@@ -324,6 +325,8 @@ export default class NewServiceRequestBase extends Component<Props, NewRequestSt
             confirmBtnText='Confirm'
             cancelBtnText='Cancel'    
         />;
+        */
+        return <></>
     }
 
     renderError() {
