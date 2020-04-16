@@ -253,7 +253,8 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                 bathrooms: Number(bathrooms),
             };
             const info : AddNewPropertyState = {email, roopairsToken};
-            onCreateProperty(newProperty, info, this.setInitialState, this.displayError, navigation);
+            onCreateProperty(newProperty, info, this.setInitialState, 
+                this.displayError, navigation);
         }
     }
 
@@ -293,7 +294,9 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         ];
 
         return inputForms.map(inputFormProp => {
-            const {ref, key, name, parentCallBack, formTitleStyle, inputStyle,errorMessage, secureTextEntry, errorStyle, value, placeholder} = inputFormProp;
+            const {ref, key, name, parentCallBack, formTitleStyle, inputStyle,
+                errorMessage, secureTextEntry, errorStyle, value, placeholder } 
+                = inputFormProp;
             return <InputForm
                         ref={ref}
                         key={key}
@@ -329,7 +332,12 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
     renderError () {
         const {errorMsg, errorCheck} = this.state;
         return <View style={{alignSelf:'center'}}>
-            <HelperText type='error' visible={errorCheck} style={this.inputFormStyle.errorStyle}>{errorMsg}</HelperText>
+            <HelperText 
+                type='error' 
+                visible={errorCheck} 
+                style={this.inputFormStyle.errorStyle}>
+                    {errorMsg}
+            </HelperText>
         </View>;
     }
 

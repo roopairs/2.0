@@ -35,15 +35,33 @@ const PM = 'pm';
 
 const {SingleProperty, ServiceRequestScreen} = navigationPages;
 
+/**
+ * ----------------------------------------------------
+ * updateTenant
+ * ---------------------------------------------------- 
+ * Makes an POST request to the homepairs backend overwriting a tenants information.
+ * Upon completion the result of the request is printed to the console.
+ * @param {object} props - list of information used to define the tenant. Expected 
+ * information follows: propId, email, firstName, lastName, phoneNumber
+ */
 export const updateTenant = async ({...props}) => {
     const {propId, email, firstName, lastName, phoneNumber} = props;
-    await axios.post(HOMEPAIRS_TENANT_EDIT_ENDPOINT, {email, propId, firstName, lastName, phoneNumber}).then((result) =>{
+    await axios.post(HOMEPAIRS_TENANT_EDIT_ENDPOINT, 
+        {email, propId, firstName, lastName, phoneNumber}).then((result) =>{
         console.log(result);
     }).catch(error =>{
         console.log(error);
     });
 };
 
+/**
+ * ----------------------------------------------------
+ * fetchServiceRequests
+ * ---------------------------------------------------- 
+ * Makes a GET request to the homepairs backend and retrieves as list of service 
+ * request objects for a specified property
+ * @param {string} propId - identity of the the property service request will fetch
+ */
 export const fetchServiceRequests = async (propId: string) => {
     const completedEndpoint = `${HOMEPAIRS_SERVICE_REQUEST_ENDPOINT}${propId}/`;
     const results = await axios.get(completedEndpoint);
@@ -54,17 +72,20 @@ export const fetchServiceRequests = async (propId: string) => {
  * ----------------------------------------------------
  * fetchAccount
  * ----------------------------------------------------
- * Sends a post requests to the homepairs login endpoint. Upon 
- * success, this function will dispatch the parseAccount 
- * action and then navigate to a different page. If not, it will 
- * call the the modalSetOffCallBack method if defined and return 
- * to the parent component.
+ * Sends a post requests to the homepairs login endpoint. Upon success, this 
+ * function will dispatch the parseAccount action and then navigate to a 
+ * different page. If not, it will call the the modalSetOffCallBack method if 
+ * defined and return to the parent component.
+ * 
+ * Dispatches to redux store. No need to make it async!!
+ * 
  * @param {string} Email - credential passed to the endpoint
  * @param {string} Password - credential passed to the endpoint
  * @param {NavigationRouteHandler} navigation - navigator passed from the component
  * @param {modalSetOffCallBack} modalSetOffCallBack -optional callback */
 export const fetchAccount = (
-    Email: string, Password: string, navigation: NavigationRouteHandler, modalSetOffCallBack: (error?:String) => void = (error:String) => {}) => 
+    Email: string, Password: string, navigation: NavigationRouteHandler, 
+    modalSetOffCallBack: (error?:String) => void = (error: String) => {}) => 
     {
         return async (dispatch: (arg0: any) => void) => {
         // TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
@@ -110,12 +131,16 @@ export const fetchAccount = (
  * Takes in information from the component and sends a request to the 
  * homepairs django api. This specifically will generate a tenant account and 
  * then return a response allowing the user access to the API.
+ * 
+ * Dispatches to redux store. No need to make it async!!
+ * 
  * @param {Account} accountDetails - Details passed from user input 
  * @param {String} password - Password input that the user want for their account
  * @param {NavigationPropType} navigation - navigation prop passed from component
  * @param {modalSetOffCallBack} modalSetOffCallBack - *optional callback
  */
-export const generateAccountForTenant = (accountDetails: Account, password: String, navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
+export const generateAccountForTenant = (accountDetails: Account, password: String, 
+    navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
     const {firstName, lastName, email, address} = accountDetails;
     return async (dispatch: (arg0: any) => void) => {
         await axios.post(HOMEPAIRS_REGISTER_TENANT_ENDPOINT, {
@@ -155,14 +180,20 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
    * generateAccountForPM
    * ----------------------------------------------------
    * Takes in information from the component and sends a request to the 
-   * homepairs django api. This specifically will generate a property manager account and 
-   * then return a response allowing the user access to the API.
+   * homepairs django api. This specifically will generate a property 
+   * manager account and then return a response allowing the user access 
+   * to the API.
+   * 
+   * Dispatches to redux store. No need to make it async!!
+   * 
    * @param {Account} accountDetails - Details passed from user input 
    * @param {String} password - Password input that the user want for their account
    * @param {NavigationPropType} navigation - navigation prop passed from component
-   * @param {modalSetOffCallBack} modalSetOffCallBack - *optional callback to close/navigate from the modal
+   * @param {modalSetOffCallBack} modalSetOffCallBack - *optional callback to 
+   * close/navigate from the modal
    */
-  export const generateAccountForPM = (accountDetails: Account, password: String, navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
+  export const generateAccountForPM = (accountDetails: Account, password: String, 
+    navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
       return async (dispatch: (arg0: any) => void) => {
         await axios.post(HOMEPAIRS_REGISTER_PM_ENDPOINT, {
             firstName: accountDetails.firstName, 
@@ -197,6 +228,8 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
  * the previous property (TODO: Update this to be propId when backend resolves properties from propId) and sends this 
  * data to backend in order for it to resolve which property is to be updated. The intitial state of the component is invoked 
  * and the modal navigates to back to the previous page upon a success. 
+ *  
+ * Dispatches to redux store. No need to make it async!!
  * 
  * @param {Property} newProperty -property to add to the homepairs database
  * @param {AddNewPropertyState} info -information used to indicate the property manager of the property
@@ -241,7 +274,7 @@ export const postNewProperty = (
                     displayError(error);
                 }
             })
-            .catch(() => {});
+            .catch(error => console.log(error));
     };
 };
 
@@ -252,6 +285,9 @@ export const postNewProperty = (
  * Sends a request to the homepairs API to update a selected property. On success,
  * it updates the redux-store and invokes a callback intended to close the modal
  * of the calling component. Upon failure, an error message should be sent.
+ * 
+ * Dispatches to redux store. No need to make it async!!
+ * 
  * @param {Property} editProperty -contents of the property to be updated
  * @param {EditPropertyState} info -information passed to the api to help determine which property in the
  * servers to update
@@ -305,42 +341,40 @@ export const postUpdatedProperty = (
  * @param {boolean} check -determines if the components modal should be visible */
 
 // make docs
-export const postNewAppliance = (
+export const postNewAppliance = async (
     newAppliance: Appliance,
     info: AddApplianceState,
     setInitialState: () => void,
     displayError: (msg: string) => void,
     navigation: NavigationRouteHandler,
 ) => {
-    return async () => {
-        await axios
-            .post(HOMEPAIRS_APPLIANCE_ENDPOINT,
-                {
-                    propId: info.property.propId,
-                    token: info.token,
-                    name: newAppliance.appName, 
-                    manufacturer: newAppliance.manufacturer, 
-                    category: categoryToString(newAppliance.category),
-                    modelNum: newAppliance.modelNum, 
-                    serialNum: newAppliance.serialNum, 
-                    location: newAppliance.location, 
-                },
-            )
-            .then(response => {
-                const {data} = response;
-                const {status} = data;
-                if ( status === SUCCESS) {
-                    const {property} = info;
-                    const {propId} = property;
-                    setInitialState();
-                    navigation.replace(SingleProperty, {propId});
-                } else {
-                    const {error} = data;
-                    displayError(error);
-                }
-            })
-            .catch();
-    };
+    await axios
+        .post(HOMEPAIRS_APPLIANCE_ENDPOINT,
+            {
+                propId: info.property.propId,
+                token: info.token,
+                name: newAppliance.appName, 
+                manufacturer: newAppliance.manufacturer, 
+                category: categoryToString(newAppliance.category),
+                modelNum: newAppliance.modelNum, 
+                serialNum: newAppliance.serialNum, 
+                location: newAppliance.location, 
+            },
+        )
+        .then(response => {
+            const {data} = response;
+            const {status} = data;
+            if (status === SUCCESS) {
+                const {property} = info;
+                const {propId} = property;
+                setInitialState();
+                navigation.replace(SingleProperty, {propId});
+            } else {
+                const {error} = data;
+                displayError(error);
+            }
+        })
+        .catch(error => console.log(error));
 };
 
 /**
@@ -351,12 +385,12 @@ export const postNewAppliance = (
  * it updates the redux-store and invokes a callback intended to close the modal
  * of the calling component. Upon failure, an error message should be sent.
  * @param {Property} editProperty -contents of the property to be updated
- * @param {EditPropertyState} info -information passed to the api to help determine which property in the
- * servers to update
- * @param {onChangeModalVisibility} onChangeModalVisibility -changes the visibility of the modal
- * of the calling component
+ * @param {EditPropertyState} info -information passed to the api to help 
+ * determine which property in the servers to update
+ * @param {onChangeModalVisibility} onChangeModalVisibility -changes the 
+ * visibility of the modal of the calling component
  */
-export const postUpdatedAppliance = (
+export const postUpdatedAppliance = async (
     propId: string,
     editAppliance: Appliance,
     displayError: (msg: string) => void,
@@ -385,38 +419,38 @@ export const postUpdatedAppliance = (
                     displayError(error);
                 }
             })
-            .catch(() => {});
+            .catch(error => console.log(error));
     };
 };
 
-export const postNewServiceRequest = (
+export const postNewServiceRequest = async (
     newServiceRequest: NewServiceRequest, 
     displayError: (msg: string) => void, 
     navigation: NavigationRouteHandler,
 ) => {
-    return async () => {
         await axios
-            .post(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, 
-            {
-                token: newServiceRequest.token, 
-                propId: newServiceRequest.propId, 
-                appId: newServiceRequest.appId, 
-                provId: newServiceRequest.providerId, 
-                serviceType: newServiceRequest.serviceType,
-                serviceCategory: newServiceRequest.serviceCategory, 
-                serviceDate: newServiceRequest.serviceDate, 
-                details: newServiceRequest.details,
-            })
-            .then(response => {
-                const {data} = response;
-                const {status} = data;
-                if (status === SUCCESS) {
-                    // navigation go to confirmation screen
-                    navigation.replace(ServiceRequestScreen);
-                } else {
-                    const {error} = data;
-                    displayError(error);
-                }
-            });
-    };
+        .post(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, 
+        {
+            token: newServiceRequest.token, 
+            propId: newServiceRequest.propId, 
+            appId: newServiceRequest.appId, 
+            provId: newServiceRequest.providerId, 
+            serviceType: newServiceRequest.serviceType,
+            serviceCategory: newServiceRequest.serviceCategory, 
+            serviceDate: newServiceRequest.serviceDate, 
+            details: newServiceRequest.details,
+        })
+        .then(response => {
+            const {data} = response;
+            const {status} = data;
+            if (status === SUCCESS) {
+                // navigation go to confirmation screen
+                navigation.replace(ServiceRequestScreen);
+            } else {
+                const {error} = data;
+                displayError(error);
+            }
+        }).catch(error => {
+            console.log(error);
+        });
 };

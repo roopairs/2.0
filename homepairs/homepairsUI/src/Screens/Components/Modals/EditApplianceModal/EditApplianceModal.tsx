@@ -267,7 +267,7 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
         this.setState({errorMsg: msg, errorCheck: true});
     }
 
-    clickSubmitButton() {
+    async clickSubmitButton() {
         const {applianceId, category, appName, manufacturer, modelNum, serialNum, location} = this.state;
         const {navigation} = this.props;
         this.resetForms();
@@ -280,7 +280,7 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
                 serialNum: Number(serialNum), 
                 location,
             };
-            postUpdatedAppliance(propId, newAppliance, this.displayError, navigation);
+            await postUpdatedAppliance(propId, newAppliance, this.displayError, navigation);
         }
     }
 
