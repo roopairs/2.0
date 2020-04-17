@@ -30,6 +30,7 @@ import { ServiceProviderButtonProps as SPBP} from './Buttons/ServiceProviderButt
 import { CardProps as CP} from './Cards/Card';
 import { StickerProps as SP} from './Stickers/Sticker';
 
+export {default as DatePicker} from './DatePicker/DatePicker';
 export {default as ButtonWithBitmap} from 'src/Elements/Buttons/ButtonWithBitmap';
 export {default as InputForm } from './Forms/InputForm';
 export {default as GoogleInputForm} from './Forms/GoogleInputForm';

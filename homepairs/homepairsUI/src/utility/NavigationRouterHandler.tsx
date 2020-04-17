@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { NavigationStackProp } from 'react-navigation-stack';
 import { RouteProps, withRouter} from 'react-router-dom';
-import { NavigationSwitchProp, withNavigation } from 'react-navigation';
+import { NavigationSwitchProp, withNavigation, NavigationRouter } from 'react-navigation';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { Platform } from 'react-native';
 import React from 'react';
@@ -165,7 +165,7 @@ export default class NavigationRouteHandler{
      * @param {number} amount -Amount of pages to navigate backwards from 
      * @param {any} params -Parameters to passed when navigating backward
      */
-    pop(amount?:number, params?:any){
+    pop(amount:number = 1, params?:any){
         if(!isNullOrUndefined(this.navigation.pop)){
             (this.navigation as NavigationStackProp).pop(amount);
         } else if(isNullOrUndefined(this.navigation.navigate)){
@@ -254,6 +254,18 @@ export default class NavigationRouteHandler{
             route = this.navigation.state.routeName;
         return BASE_ROUTES.includes(route);
     };
+
+    /**
+     * A helper method that returns the proper function for navigating backwards from a modal. Web routes 
+     * use the replace method overwrite the route history while navigation has no such route history so it 
+     * simply will need to navigate backwards. 
+     */
+    resolveModalReplaceNavigation(route:string, params?:any, asBackground?:boolean){
+        if(NavigationRouteHandler.type === NavigationObjects.Router){
+            return this.replace(route, params, asBackground);
+        } 
+        return this.goBack();
+    }
 }
 
 /**
@@ -304,20 +316,4 @@ export function hasPageBeenReloaded(props: any, state:any){
     const {pathname, key}= state;
     const [newPath, newKey] = navigation.getLocationPathnameAndKey();
     return (pathname === newPath && key !== newKey);
-}
-
-
-/**
- * ----------------------------------------------------
- * ChooseMainPage
- * ----------------------------------------------------
- * This function navigates to a specific page based on the Account Type passed in.  
- * @param {AccountTypes} accountType - Type passed in
- * @param {NavigationRouteHandler} navigation -navigator passed from calling component */
-export function ChooseMainPage(accountType: AccountTypes, navigation: NavigationRouteHandler) {
-    if(accountType === AccountTypes.Tenant){
-      navigation.navigate(navigationPages.TenantProperty);
-      return;
-    }
-    navigation.navigate(navigationPages.PropertiesScreen);  
 }

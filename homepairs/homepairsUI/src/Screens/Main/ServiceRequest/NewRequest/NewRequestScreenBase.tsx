@@ -1,25 +1,17 @@
 import React, {Component} from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-// import './styles.css';
-import { StyleSheet, Text, View, ScrollView, Platform } from 'react-native';
+import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import { NavigationRouteScreenProps, stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'homepairs-utilities';
-import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel} from 'homepairs-elements';
+import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel, DatePicker} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from 'homepairs-components';
-import {DateTimePicker} from 'react-widgets';
-import {DatePicker} from 'react-native-datepicker';
 import {HelperText} from 'react-native-paper';
-import Moment from 'moment';
-import momentLocalizer from 'react-widgets-moment';
 import axios from 'axios';
 import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT,  HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest } from 'homepairs-endpoints';
 
-Moment.locale('en');
-momentLocalizer();
-
 type NewRequestScreenProps = {
-    properties: Property[]
+    properties: Property[],
     token: string,
     pmId: number,
 };
@@ -85,7 +77,7 @@ const styles = StyleSheet.create({
 type Props = NavigationRouteScreenProps & NewRequestScreenProps;
 
 
-export default class ServiceRequestBase extends Component<Props, NewRequestState> {
+export default class NewServiceRequestBase extends Component<Props, NewRequestState> {
 
     addressRef;
 
@@ -255,10 +247,11 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         this.setState({errorMsg: msg, errorCheck: true});
     }
 
-    clickSubmitButton() {
+    async clickSubmitButton() {
         const { serviceCategory, applianceId, providerId, serviceType, details, serviceDate, propId} = this.state;
         const {navigation, token} = this.props;
         this.setState({errorCheck: false});
+        console.log(this.validateForms());
         if (this.validateForms()) {
             const newServiceRequest : NewServiceRequest = {
                 token,
@@ -270,7 +263,7 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
                 serviceDate: serviceDate.toISOString(), 
                 details,
             };
-            postNewServiceRequest(newServiceRequest, this.displayError, navigation);
+            await postNewServiceRequest(newServiceRequest, this.displayError, navigation).catch(error => console.log(error));
         }
     }
 
@@ -297,35 +290,7 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
         }
         return check;
     }
-
-    renderDatePicker() {
-        const {serviceDate} = this.state;
-        const startDate = new Date();
-        const maxDate = new Date();
-        startDate.setHours(0, 0, 0);
-        maxDate.setDate(startDate.getDate() + 90);
-        maxDate.setHours(0, 0, 0);
-        if (Platform.OS === 'web') {
-            return <DateTimePicker 
-                key='web datetime picker'
-                dropDown
-                value={serviceDate}
-                onChange={value => this.getFormDate(value)}
-                min={startDate}
-                time
-            />;
-        }
-        return <DatePicker 
-            key='mobile datetime picker'
-            minDate={startDate}
-            maxDate={startDate.setDate(startDate.getDate() + 90)}
-            onDateChange={(date) => this.getFormDate(date)}
-            mode='datetime'
-            confirmBtnText='Confirm'
-            cancelBtnText='Cancel'    
-        />;
-    }
-
+    
     renderError() {
         const {errorMsg, errorCheck} = this.state;
         return <View style={{alignSelf:'center'}}>
@@ -335,7 +300,7 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
 
     render() {
         const {properties} = this.props;
-        const {appliances, serviceCategory, serviceProviders} = this.state;
+        const {appliances, serviceCategory, serviceProviders, serviceDate} = this.state;
         return (
             <ScrollView style={styles.scrollContainer}>
                 <Text style={styles.formTitle}>ADDRESS</Text>
@@ -357,11 +322,11 @@ export default class ServiceRequestBase extends Component<Props, NewRequestState
                     maxLength={this.formProps.maxLength}
                     />
                 <Text style={styles.formTitle}>WHEN DO YOU WANT IT TO BE FIXED?</Text>
-                <>{this.renderDatePicker()}</>
+                <DatePicker serviceDate={serviceDate} getFormDate={this.getFormDate}/> 
                 {this.renderError()}
                 <ThinButton 
                     name={this.buttonProps.name}
-                    onClick={() => this.clickSubmitButton()}
+                    onClick={async () => {await this.clickSubmitButton();}}
                     containerStyle={this.buttonProps.containerStyle}
                     buttonStyle={this.buttonProps.buttonStyle}
                     buttonTextStyle={this.buttonProps.buttonTextStyle}

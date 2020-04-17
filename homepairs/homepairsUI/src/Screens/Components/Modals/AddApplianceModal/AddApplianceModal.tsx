@@ -251,7 +251,7 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
     goBackToPreviousPage() {
         const{navigation} = this.props;
         const {propId} = this.property;
-        navigation.replace(SingleProperty, {propId});
+        navigation.resolveModalReplaceNavigation(SingleProperty, {propId});
     }
 
     validateForms() {
@@ -291,7 +291,7 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
         this.setState({errorMsg: msg, errorCheck: true});
     }
 
-    clickSubmitButton() {
+    async clickSubmitButton() {
         const {category, appName, manufacturer, modelNum, serialNum, location} = this.state;
         const { navigation} = this.props;
         this.resetForms();
@@ -305,7 +305,7 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
                 location,
             };
             const info : AddApplianceState = {property: this.property, token: this.token};
-            postNewAppliance(newAppliance, info, this.setInitialState, this.displayError, navigation);
+            await postNewAppliance(newAppliance, info, this.setInitialState, this.displayError, navigation);
         }
     }
 

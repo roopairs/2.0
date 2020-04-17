@@ -16,7 +16,6 @@ import { navigationPages, Endpoints } from 'src/Routes/RouteConstants';
 import {BrowserRouter as Router} from 'react-router-dom';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
-import {HOMEPAIRS_PROPERTY_ENDPOINT} from 'homepairs-endpoints'
 import ThinButton from 'src/Elements/Buttons/ThinButton';
 import DetailedPropertyScreenBase from '../../../src/Screens/Main/Properties/DetailedPropertiesScreen/DetailedPropertyScreenBase';
 import { SetSelectedPropertyAction, ShowGoBackOnButtonClick, TenantInfo, Appliance, ApplianceType } from 'homepairs-types';

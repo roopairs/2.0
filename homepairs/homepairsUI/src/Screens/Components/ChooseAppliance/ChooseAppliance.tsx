@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {ThinButton, ThinButtonProps} from 'homepairs-elements';
-import {Appliance, HomePairsDimensions, ApplianceType} from 'homepairs-types';
+import {Appliance, ApplianceType} from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import Colors from 'homepairs-colors';
 import {categoryToString} from 'homepairs-utilities';
 import {Divider} from 'react-native-elements';
 import {ApplianceCategorizer} from 'homepairs-components';
-import { HomePairFonts } from 'homepairs-fonts';
 
 
 export type ChooseApplianceProps = {

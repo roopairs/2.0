@@ -6,7 +6,7 @@ import isAlphaCharacterOnly from './SyntaxVerification/AlphaCharacterVerificatio
 import { isNullOrUndefined } from './ParameterChecker';
 import {storeAccountData, getAccountType} from './OtherUtilities';
 import NavigationRouteHandler, {withNavigationRouteHandler, 
-    prepareNavigationHandlerComponent, prepareRoute, hasPageBeenReloaded, ChooseMainPage,
+    prepareNavigationHandlerComponent, prepareRoute, hasPageBeenReloaded,
 } from './NavigationRouterHandler';
 import { categoryToString, stringToCategory } from './ApplianceCategories';
 
@@ -21,7 +21,7 @@ import { categoryToString, stringToCategory } from './ApplianceCategories';
 export {isEmailSyntaxValid, isPasswordValid, isEmptyOrSpaces, isPhoneNumberValid, isAlphaCharacterOnly, 
     isNullOrUndefined, isPositiveWholeNumber, NavigationRouteHandler, withNavigationRouteHandler,
     prepareNavigationHandlerComponent, categoryToString, stringToCategory, prepareRoute, hasPageBeenReloaded,
-    ChooseMainPage, storeAccountData, getAccountType,
+    storeAccountData, getAccountType,
 };
 
 
