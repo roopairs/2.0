@@ -389,7 +389,7 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
                     {this.renderError()}
                     <ThinButton
                     name={this.submitButton.name}
-                    onClick={this.submitButton.onClick}
+                    onClick={async () => {await this.submitButton.onClick();}}
                     buttonStyle={this.submitButton.buttonStyle}
                     buttonTextStyle={this.submitButton.buttonTextStyle}
                     containerStyle={this.submitButton.containerStyle}

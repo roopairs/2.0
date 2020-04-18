@@ -47,7 +47,7 @@ export { default as AddNewPropertyModal } from './Modals/AddNewPropertyModal/Add
 export { default as EditPropertyModal } from './Modals/EditPropertyModal/EditPropertyModal';
 export { default as EditPropertyModalBase } from './Modals/EditPropertyModal/EditPropertyModalBase';
 export { default as AddApplianceModal } from './Modals/AddApplianceModal/AddApplianceModal';
-export { default as EditApplianceModal, EditApplianceModalBase } from './Modals/EditApplianceModal/EditApplianceModal';
+export { default as EditApplianceModal } from './Modals/EditApplianceModal/EditApplianceModal';
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
 export { default as ServiceRequestModal, ServiceRequestModalBase} from './Modals/ServiceRequestModal/ServiceRequestModal';
 export { default as CurrentTenantCard} from './CurrentTenantCard/CurrentTenantCard';

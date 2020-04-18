@@ -1,6 +1,7 @@
 #node_modules/**/*
+.scannerwork/
 .env
-.expo/*
+.expo/
 npm-debug.*
 *.jks
 *.p8
@@ -17,3 +18,5 @@ web-report/
 **/coverage
 node_modules/
 package-lock.json
+.vscode
+yarn-error.log
