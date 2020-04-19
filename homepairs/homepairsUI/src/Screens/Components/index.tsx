@@ -34,7 +34,7 @@ export { default as SceneHeader } from './SceneHeader/SceneHeader';
 export { default as GeneralHomeInfo } from './GeneralHomeInfo/GeneralHomeInfo';
 export { default as ChooseServiceCategory} from './ChooseServiceCategory/ChooseServiceCategory';
 export { default as ChooseServiceProvider} from './ChooseServiceProvider/ChooseServiceProvider';
-export { default as ApplianceInfo } from './ApplianceInfo/ApplianceInfo';
+export { default as ApplianceInfo} from './ApplianceInfo/ApplianceInfo';
 export { default as ApplianceCategorizer } from './ApplianceInfo/ApplianceCategorizer';
 export { default as PrimaryContactInfo } from './PrimaryContactInfo/PrimaryContactInfo';
 export { default as ServiceRequestCount } from "./ServiceRequestCount/ServiceRequestCount";
@@ -49,7 +49,7 @@ export { default as EditPropertyModalBase } from './Modals/EditPropertyModal/Edi
 export { default as AddApplianceModal } from './Modals/AddApplianceModal/AddApplianceModal';
 export { default as EditApplianceModal } from './Modals/EditApplianceModal/EditApplianceModal';
 export { default as PrefferedProviderModal } from './Modals/ServiceRequestModal/PrefferedProviderModal';
-export { default as ServiceRequestModal, ServiceRequestModalBase} from './Modals/ServiceRequestModal/ServiceRequestModal';
+export { default as ServiceRequestModal} from './Modals/ServiceRequestModal/ServiceRequestModal';
 export { default as CurrentTenantCard} from './CurrentTenantCard/CurrentTenantCard';
 export { default as EditTenantModal} from './Modals/EditTenantModal';
 export { default as AddTenantModal} from './Modals/AddTenantModal';

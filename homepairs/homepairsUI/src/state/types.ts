@@ -189,6 +189,9 @@ export type ServiceProvider = {
     contractLic: string, // contract license
     skills: string,
     founded: string, // date founded
+    payRate: number, // amount per hour 
+    timesHired: number, 
+    earliestHire?: Date, // date of first job completed
 };
 
 export enum ServiceRequestCompletionStatus {
@@ -244,6 +247,25 @@ export type ServiceAction =
     | CancelServiceAction;
 
 /* *-------------------Service Types-------------------* */
+
+/* *-------------------Preffered Service Provider Types-------------------* */
+export type RefreshServiceProvidersAction = {
+    type: string;
+    preferredServiceProviders: ServiceProvider[];
+}
+
+export type RemoveServiceProviderAction = {
+    type: string;
+    serviceProvider: ServiceProvider;
+}
+
+export type PreferredServiceProviderAction = 
+    | RefreshServiceProvidersAction
+    | RemoveServiceProviderAction;
+
+/* *-------------------Preffered Service Provider Types-------------------* */
+
+
 
 /* *-------------------Header Types-------------------* */
 export type MainAppStackType = {
