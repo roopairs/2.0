@@ -22,7 +22,7 @@ export const HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT = "https://homepairs-mytest.
 export const HOMEPAIRS_SERVICE_REQUEST_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/servicerequest/';
 
 
-const {AccountActions, PropertyListActions, ServiceActions, SessionActions} = HomePairsStateActions;
+const {AccountActions, PropertyListActions, SessionActions} = HomePairsStateActions;
 const {parseAccount} = AccountActions;
 const {fetchProperties, fetchPropertyAndPropertyManager, addProperty, updateProperty} = PropertyListActions;
 const {setAccountAuthenticationState} = SessionActions;
@@ -166,10 +166,12 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
             dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
             ChooseMainPage(AccountTypes.Tenant, navigation);
           } else {
+            console.log(status);
             modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
           }
         })
-        .catch(() => {
+        .catch(error => {
+          console.log(error);
           modalSetOffCallBack("Connection to the server could not be established.");
         });
     };
@@ -317,7 +319,8 @@ export const postUpdatedProperty = (
                 const {data} = response;
                 const {status} = data;
                 if ( status === SUCCESS) {
-                    navigation.replace(SingleProperty, {propId: editProperty.propId});
+                    navigation.resolveModalReplaceNavigation(SingleProperty, 
+                        {propId: editProperty.propId});
                     dispatch(updateProperty(info.index, editProperty));
                 } else {
                     const {error} = data;
@@ -368,7 +371,7 @@ export const postNewAppliance = async (
                 const {property} = info;
                 const {propId} = property;
                 setInitialState();
-                navigation.replace(SingleProperty, {propId});
+                navigation.resolveModalReplaceNavigation(SingleProperty, {propId});
             } else {
                 const {error} = data;
                 displayError(error);
@@ -396,8 +399,7 @@ export const postUpdatedAppliance = async (
     displayError: (msg: string) => void,
     navigation: NavigationRouteHandler,
 ) => {
-    return async () => {
-        return axios
+        await axios
             .put( HOMEPAIRS_APPLIANCE_ENDPOINT,
                 {
                     appId: editAppliance.applianceId,
@@ -413,14 +415,13 @@ export const postUpdatedAppliance = async (
                 const {data} = response;
                 const {status} = data;
                 if (status === SUCCESS) {
-                  navigation.replace(SingleProperty, {propId});
+                  navigation.resolveModalReplaceNavigation(SingleProperty, {propId});
                 } else {
                     const {error} = data;
                     displayError(error);
                 }
             })
             .catch(error => console.log(error));
-    };
 };
 
 export const postNewServiceRequest = async (
@@ -445,7 +446,7 @@ export const postNewServiceRequest = async (
             const {status} = data;
             if (status === SUCCESS) {
                 // navigation go to confirmation screen
-                navigation.replace(ServiceRequestScreen);
+                navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
             } else {
                 const {error} = data;
                 displayError(error);
