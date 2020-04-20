@@ -3,13 +3,13 @@
  * @jest-environment jsdom
  */
 
-import {ApplianceCategoryPanel, ThinButton} from 'homepairs-elements';
 import {ApplianceType} from 'homepairs-types';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { View,  Animated, TouchableHighlight, Text, Image} from 'react-native';
 import { fireEvent, render } from 'react-native-testing-library';
 import strings from 'homepairs-strings';
+import ApplianceCategoryPanel from '../ApplianceCategoryPanel';
 
 jest.mock('homepairs-images');
 // Mock the test envirnment that would initially render a navBar

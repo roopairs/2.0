@@ -1,10 +1,9 @@
 import React from 'react';
-import {ViewPropertyCard} from 'homepairs-components';
-import {ThinButton} from 'homepairs-elements';
-import { mockStackNavigation } from 'tests/fixtures/DummyComponents';
+import { ThinButton } from 'homepairs-elements';
+import { mockStackNavigation, PropertyList1  } from 'homepairs-test';
 import { fireEvent, render } from 'react-native-testing-library';
-import { PropertyList1 } from 'tests/fixtures/StoreFixture';
 import { ImageBackground } from 'react-native';
+import ViewPropertyCard from './ViewPropertyCard';
 
 // Mock the images so we don't have issues rendering. We shouldn't use actual images in our tests anyway.
 jest.mock('homepairs-images');

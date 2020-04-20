@@ -1,9 +1,9 @@
 import React from 'react';
-import {GeneralHomeInfo} from 'homepairs-components';
 import { fireEvent, render } from 'react-native-testing-library';
 import { Property } from 'homepairs-types';
 import strings from 'homepairs-strings';
 import {ThinButton} from 'homepairs-elements';
+import GeneralHomeInfo from './GeneralHomeInfo';
 
 const testProperty: Property = {
     tenants: 5,

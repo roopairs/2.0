@@ -1,8 +1,8 @@
 import React from 'react';
 import {Text} from 'react-native';
-import {ButtonWithBitmap} from 'homepairs-elements';
 import { render, fireEvent } from 'react-native-testing-library';
 import {bolt} from 'homepairs-images';
+import ButtonWithBitmap from '../ButtonWithBitmap';
 
 jest.mock('homepairs-images');
 

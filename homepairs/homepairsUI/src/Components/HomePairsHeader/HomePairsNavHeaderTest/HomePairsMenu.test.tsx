@@ -1,8 +1,11 @@
 import React from 'react';
-import { MainAppStackTest, mockStackNavigation, navigationStackSpyFunction } from 'tests/fixtures/DummyComponents';
+import { 
+    MainAppStackTest, 
+    mockStackNavigation, 
+    navigationStackSpyFunction } from 'homepairs-test';
 import { render, fireEvent } from 'react-native-testing-library';
 import { TouchableOpacity, View} from 'react-native';
-import HomePairsMenu from '../../../../homepairs-components/HomePairsHeader/HomePairsHeaderMenu';
+import HomePairsMenu from '../HomePairsHeaderMenu';
 
 const testAppStack = MainAppStackTest;
 

@@ -17,7 +17,7 @@ import {
     ServiceRequestModal,
 } from 'homepairs-modals';
 import { HomePairsHeader } from 'homepairs-components';
-import { LightColorTheme } from 'homepairs-base-styles';
+import { LightColorTheme } from '../Components/HomePairsHeader/HomePairsNavHeaderTest/node_modules/homepairs-base-styles';
 import { AccountTypes } from 'src/state/types';
 import { NavigationRouteHandler } from 'homepairs-utilities';
 import { navigationKeys, navigationPages } from './RouteConstants';

@@ -2,12 +2,12 @@
  * @jest-environment jsdom
  */
 
-import {InputForm} from 'homepairs-elements';
 import { shallow} from 'enzyme';
 import * as React from 'react';
 import { View, Text, TextInput} from 'react-native';
 import {fireEvent, render} from 'react-native-testing-library';
 import {HelperText} from 'react-native-paper';
+import InputForm from '../InputForm';
 
 describe("InputForm", () => {
   const TRUE = true;

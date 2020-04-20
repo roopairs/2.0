@@ -4,7 +4,6 @@ import {
     StyleSheet,
 } from 'react-native';
 import React from 'react';
-import { HomePairFonts } from 'homepairs-fonts';
 import * as BaseStyles from 'homepairs-base-styles';
 
 export type HomePairsHeaderTitleProps = {
@@ -40,7 +39,7 @@ const styles = StyleSheet.create({
         backgroundColor: colorScheme.secondary,
     },
     homePairsTitle: {
-        fontFamily: HomePairFonts.nunito_regular,
+        fontFamily: BaseStyles.FontTheme.primary,
         fontSize: 32,
         color: colorScheme.primary,
     },

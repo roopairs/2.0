@@ -2,10 +2,10 @@
  * @jest-environment jsdom
  */
 
-import {Sticker} from 'homepairs-elements';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { View, Text} from 'react-native';
+import Sticker from './Sticker';
 
 
 describe("Sticker", () => {

@@ -2,12 +2,12 @@
  * @jest-environment jsdom
  */
 
-import {LoginButton} from 'homepairs-elements';
 import { shallow, mount} from 'enzyme';
 import * as React from 'react';
 import { View, TouchableOpacity, Text, Image} from 'react-native';
 import { roopairsLogo } from 'homepairs-images';
 import { fireEvent, render } from 'react-native-testing-library';
+import LoginButton from '../LoginButton';
 
 jest.mock('homepairs-images');
 

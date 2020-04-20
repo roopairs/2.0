@@ -1,11 +1,9 @@
 
 import React from 'react';
-import { HeaderMockStores } from 'tests/fixtures/StoreFixture';
-import { HomePairsHeader } from 'homepairs-components';
-import { prepareNavigationStackFirstRouteMock } from 'tests/fixtures/DummyComponents';
+import { HeaderMockStores, prepareNavigationStackFirstRouteMock } from 'homepairs-test';
 import { fireEvent, render } from 'react-native-testing-library';
 import { Provider } from 'react-redux';
-import { HEADER_ACTION_TYPES } from 'src/state/header/actions';
+import { HEADER_ACTION_TYPES } from 'homepairs-redux-actions';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { 
     HeaderAction, 
@@ -16,6 +14,7 @@ import {
 } from 'homepairs-types';
 import { TouchableOpacity, Platform} from 'react-native';
 import { navigationPages } from 'src/Routes/RouteConstants';
+import HomePairsHeader from '../HomePairsHeader';
 
 
 const navigationHeaderMockStores = HeaderMockStores;

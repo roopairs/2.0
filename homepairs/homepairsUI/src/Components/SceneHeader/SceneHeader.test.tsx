@@ -3,15 +3,17 @@
 import * as React from 'react';
 import { View, Button} from 'react-native';
 import {fireEvent, render} from 'react-native-testing-library';
-import { SceneHeader, withSceneHeader} from 'homepairs-components';
 import { NavigationStackProp } from 'react-navigation-stack';
 import { Provider } from 'react-redux';
 import { MainAppStackType } from 'homepairs-types';
-import { SceneHeaderProps } from '../../../homepairs-components/SceneHeader/SceneHeader';
-import ThinButton from '../../../src/Elements/Buttons/ThinButton';
-import { propertyManagerMock1 as store} from '../../fixtures/StoreFixture';
-import { navigationStackSpyFunction, mockStackNavigation, thinButtonFireEventTestId } from '../../fixtures/DummyComponents';
-import { SceneInjectedProps } from '../../../homepairs-components/SceneHeader/WithSceneHeader';
+import { ThinButton } from 'homepairs-elements';
+import { 
+    propertyManagerMock1 as store,
+    navigationStackSpyFunction, 
+    mockStackNavigation, 
+    thinButtonFireEventTestId } from 'homepairs-test';
+import SceneHeader, { SceneHeaderProps } from './SceneHeader';
+import { SceneInjectedProps , withSceneHeader} from './WithSceneHeader';
 
 
 const thinButtonTestId = thinButtonFireEventTestId.onPress;

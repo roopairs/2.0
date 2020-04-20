@@ -2,11 +2,11 @@
  * @jest-environment jsdom
  */
 
-import {ThinButton} from 'homepairs-elements';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { View, TouchableOpacity, Text} from 'react-native';
 import { fireEvent, render } from 'react-native-testing-library';
+import ThinButton from '../ThinButton';
 
 
 describe("ThinButton", () => {

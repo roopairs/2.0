@@ -15,9 +15,10 @@
         "homepairs-redux-actions": "./src/state/actions.ts",
         "homepairs-pages": "./src/Screens/index.ts",
         "homepairs-base-styles": "./res/Styles/base.ts",
-        "homepairs-components": "./src/Screens/Components/index.ts",
-        "homepairs-modals": "./src/Modals/index.ts",
+        "homepairs-components": "./src/Screens/Components/index.tsx",
+        "homepairs-modals": "./src/Modals/index.tsx",
         "homepairs-utilities": "./src/utility/index.tsx",
         "homepairs-routes" : "./src/Routes/RouteConstants.tsx",
+        "homepairs-test" : "./tests/fixtures/index.tsx",
     },
 }

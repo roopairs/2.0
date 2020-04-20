@@ -1,12 +1,11 @@
 /* eslint-disable react/static-property-placement */
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import React from 'react';
-import { FontTheme } from 'homepairs-base-styles';
 import { MainAppStackType, AccountTypes } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { NavigationRouteHandler } from 'homepairs-utilities';
-import { ChooseMainPage } from '../../Routes/Routes';
 import { MainAppStack } from 'homepairs-routes';
+import { ChooseMainPage } from '../../Routes/Routes';
 
 export type HomePairsMenuProps = {
 
@@ -80,7 +79,7 @@ const setStyles = (isDropDown: boolean) => {
             backgroundColor: colorScheme.secondary,
         },
         menuText: {
-            fontFamily: FontTheme.primary,
+            fontFamily: BaseStyles.FontTheme.primary,
             paddingVertical: 15,
             maxHeight: 50,
             fontSize: 16,
@@ -88,7 +87,7 @@ const setStyles = (isDropDown: boolean) => {
             paddingLeft: isDropDown ? 33 : 15,
         },
         menuSelectedText: {
-            fontFamily: FontTheme.primary,
+            fontFamily: BaseStyles.FontTheme.primary,
             paddingVertical: 15,
             maxHeight: 50,
             fontSize: 16,

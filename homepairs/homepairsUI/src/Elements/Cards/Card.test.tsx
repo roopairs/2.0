@@ -2,12 +2,12 @@
  * @jest-environment jsdom
  */
 
-import {Card} from 'homepairs-elements';
+import {Card} from './Card';
 import { shallow} from 'enzyme';
 import * as React from 'react';
 import { View, TouchableOpacity, Text, Button} from 'react-native';
 import { fireEvent, render } from 'react-native-testing-library';
-import StyleFixtures from '../../fixtures/StyleFixture';
+import StyleFixtures from 'homepairs-test';
 
 
 const TRUE= true;

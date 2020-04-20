@@ -3,12 +3,13 @@
  * @jest-environment jsdom
  */
 
-import {AppliancePanel, ThinButton} from 'homepairs-elements';
 import {Appliance, ApplianceType} from 'homepairs-types';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { View,  Animated, Image, TouchableOpacity} from 'react-native';
 import { fireEvent, render } from 'react-native-testing-library';
+import AppliancePanel from '../AppliancePanel';
+import ThinButton from '../../Buttons/ThinButton';
 
 jest.mock('homepairs-images');
 

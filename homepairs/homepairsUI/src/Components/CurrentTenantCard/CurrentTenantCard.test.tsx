@@ -1,11 +1,11 @@
 import React from 'react';
 import { TenantAccount, AccountTypes } from 'homepairs-types';
 import { fireEvent, render } from 'react-native-testing-library';
-import { prepareNavigationMock } from 'tests/fixtures/DummyComponents';
+import { prepareNavigationMock } from 'homepairs-test';
 import { ThinButton } from 'homepairs-elements';
 import { navigationPages } from 'homepairs-routes';
 import { TouchableOpacity, Platform } from 'react-native';
-import CurrentTenantCard from '../../../src/Components/CurrentTenantCard/CurrentTenantCard';
+import CurrentTenantCard from './CurrentTenantCard';
 
 const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock();
 
@@ -92,6 +92,7 @@ describe('Current Tenant Card Test', () => {
             const validAmount = 4;
             const rendered = render(
                 <CurrentTenantCard 
+                    propId="1"
                     tenants={tenants} 
                     maxTenants={validAmount} 
                     navigation={mockStackNavigation}/>);
@@ -113,6 +114,7 @@ describe('Current Tenant Card Test', () => {
             const validAmount = 3;
             const rendered = render(
                 <CurrentTenantCard 
+                    propId="1"
                     tenants={tenants} 
                     maxTenants={validAmount} 
                     navigation={mockStackNavigation}/>);
@@ -138,6 +140,7 @@ describe('Current Tenant Card Test', () => {
             const maxTenants = 2;
             expect(() => render(
                 <CurrentTenantCard 
+                    propId="1"
                     tenants={tenants} 
                     maxTenants={maxTenants} 
                     navigation={mockStackNavigation}/>)).toThrowError('Maximum Amount of Tenants Exceeded');

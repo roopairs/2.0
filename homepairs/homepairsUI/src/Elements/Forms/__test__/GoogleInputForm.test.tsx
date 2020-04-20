@@ -2,14 +2,14 @@
  * @jest-environment jsdom
  */
 
-import {GoogleInputForm} from 'homepairs-elements';
-import { shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 import React, {Fragment} from 'react';
-import {LocationItem} from 'homepairs-components';
 import { View, Text, TextInput, ScrollView} from 'react-native';
 import {fireEvent, render} from 'react-native-testing-library';
 import {HelperText} from 'react-native-paper';
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
+import GoogleInputForm from '../GoogleInputForm';
+import LocationItem from '../../LocationItem/LocationItem';
 
 jest.mock('homepairs-images');
 

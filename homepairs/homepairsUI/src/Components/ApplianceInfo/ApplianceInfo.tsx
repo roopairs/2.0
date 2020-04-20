@@ -5,7 +5,7 @@ import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
-import { ApplianceCategorizer } from 'homepairs-components';
+import ApplianceCategorizer from './ApplianceCategorizer';
 
 export type ApplianceInfoProps = {
     onAddApplianceModal?: () => any,

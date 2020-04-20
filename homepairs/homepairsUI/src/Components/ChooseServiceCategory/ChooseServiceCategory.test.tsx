@@ -1,9 +1,9 @@
 import React from 'react';
 import {} from 'react-native';
-import {ChooseServiceCategory} from 'homepairs-components';
 import { fireEvent, render } from 'react-native-testing-library';
-import { ApplianceType } from 'src/state/types';
-import ButtonWithBitmap from 'src/Elements/Buttons/ButtonWithBitmap';
+import { ApplianceType } from 'homepairs-types';
+import { ButtonWithBitmap } from 'homepairs-elements';
+import ChooseServiceCategory from './ChooseServiceCategory';
 
 
 jest.mock('homepairs-images');

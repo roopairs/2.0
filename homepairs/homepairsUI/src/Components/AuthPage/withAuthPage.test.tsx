@@ -4,13 +4,13 @@ import { View, Text, Button } from "react-native";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import {render, fireEvent} from "react-native-testing-library";
+import { testStore1 } from 'homepairs-test';
+import { ThinButton } from 'homepairs-elements';
 import {
   withAuthPage,
   AuthPassProps,
   AuthPageInjectedProps,
-} from "homepairs-components";
-import { testStore1 } from '../../fixtures/StoreFixture';
-import ThinButton from '../../../src/Elements/Buttons/ThinButton';
+} from "./WithAuthPage";
 
 /**
  * Here we will test the High Order Component HOC of withAuthPage. We will pass in some dum parameters
