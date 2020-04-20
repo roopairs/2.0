@@ -2,17 +2,17 @@
  * @jest-environment jsdom
  */
 
-import { Card } from './Card';
 import { shallow} from 'enzyme';
 import * as React from 'react';
 import { View, TouchableOpacity, Text, Button} from 'react-native';
 import { fireEvent, render } from 'react-native-testing-library';
-import {StyleFixtures} from 'homepairs-test';
+import {StyleFixture} from 'homepairs-test';
+import Card from './Card';
 
 
 const TRUE= true;
 const FALSE= false;
-const {emptyStyle} = StyleFixtures;
+const {emptyStyle} = StyleFixture;
 const {emptyContainer, emptyText} = emptyStyle;
 
 describe("Card", () => {

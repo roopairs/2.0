@@ -9,7 +9,7 @@ import {isPositiveWholeNumber, isEmptyOrSpaces, isNullOrUndefined } from 'homepa
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 import { navigationPages, NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-routes';
-import { postUpdatedAppliance } from 'src/endpoints/api-request';
+import { postUpdatedAppliance } from 'homepairs-endpoints';
 
 
 const {SingleProperty} = navigationPages;

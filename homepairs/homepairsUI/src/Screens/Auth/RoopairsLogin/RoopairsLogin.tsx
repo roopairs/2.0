@@ -10,7 +10,7 @@ import { roopairsLogo } from 'homepairs-images';
 import React from 'react';
 import { withNavigation } from 'react-navigation';
 import { withRouter } from 'react-router-dom';
-import { fetchAccount } from 'src/endpoints/api-request';
+import { fetchAccount } from 'homepairs-endpoints';
 import { withNavigationRouteHandler } from 'homepairs-routes';
 import RoopairsLoginBase , { RoopairsLoginDispatchProps } from './RoopairsLoginBase';
 

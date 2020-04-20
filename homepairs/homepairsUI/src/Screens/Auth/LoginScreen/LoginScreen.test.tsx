@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { fireEvent, render } from 'react-native-testing-library';
 import { prepareNavigationMock } from 'homepairs-test';
 import { TextInput, TouchableOpacity, Platform } from 'react-native';
-import { navigationPages } from '../../../src/Routes/RouteConstants';
+import { navigationPages } from 'homepairs-routes';
 import {BrowserRouter as Router} from 'react-router-dom';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
@@ -14,7 +14,7 @@ import LoginScreenBase from './LoginScreenBase';
 const mockStore = propertyManagerMock1;
 const {LoginScreen} = AuthenticationPages;
 const mockAxios = new MockAdapter(axios);
-const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock()
+const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock();
 const ComponentWithStore = Platform.OS === 'web' ? 
 <Provider store={mockStore}><Router><LoginScreen navigation={mockStackNavigation}/></Router></Provider>
 :

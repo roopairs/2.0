@@ -10,7 +10,7 @@ import { withNavigation } from 'react-navigation';
 import { withRouter } from "react-router-dom";
 import { Platform } from "react-native";
 import {NavigationRouteHandler, withNavigationRouteHandler } from 'homepairs-routes';
-import { generateAccountForPM, generateAccountForTenant } from 'src/endpoints/api-request';
+import { generateAccountForPM, generateAccountForTenant } from 'homepairs-endpoints';
 import SignUpScreenBase, { SignUpViewDispatchProps } from "./SignUpScreenBase";
 
 const signUpStrings = strings.signUpPage;

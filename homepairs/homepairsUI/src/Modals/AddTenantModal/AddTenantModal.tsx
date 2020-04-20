@@ -4,7 +4,7 @@ import {ThinButton, Card, InputForm, InputFormProps } from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid } from 'homepairs-utilities';
-import { updateTenant } from "src/endpoints/api-request";
+import { updateTenant } from "homepairs-endpoints";
 import { navigationPages, NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-routes';
 
 

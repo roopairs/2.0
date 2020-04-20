@@ -8,7 +8,7 @@ import HomePairColors from "res/colors";
 import { withNavigation } from "react-navigation";
 import { withRouter } from "react-router-dom";
 import { Platform } from "react-native";
-import { fetchAccount } from 'src/endpoints/api-request';
+import { fetchAccount } from 'homepairs-endpoints';
 import {NavigationRouteHandler, prepareNavigationHandlerComponent } from 'homepairs-routes';
 import LoginScreenBase, { LoginViewDispatchProps } from "./LoginScreenBase";
 

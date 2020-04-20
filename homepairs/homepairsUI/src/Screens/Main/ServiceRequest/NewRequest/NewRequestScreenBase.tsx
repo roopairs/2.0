@@ -9,7 +9,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from 'homepairs-components';
 import {HelperText} from 'react-native-paper';
 import axios from 'axios';
-import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT,  HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest } from 'src/endpoints/api-request';
+import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT,  HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest } from 'homepairs-endpoints';
 
 type NewRequestScreenProps = {
     properties: Property[],

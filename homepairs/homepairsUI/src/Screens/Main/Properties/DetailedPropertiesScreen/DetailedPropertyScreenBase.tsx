@@ -22,7 +22,7 @@ import {
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import { HOMEPAIRS_PROPERTY_ENDPOINT } from 'src/endpoints/api-request';
+import { HOMEPAIRS_PROPERTY_ENDPOINT } from 'homepairs-endpoints';
 import axios from 'axios';
 import { stringToCategory } from 'homepairs-utilities';
 import { NavigationRouteScreenProps, hasPageBeenReloaded } from 'homepairs-routes';

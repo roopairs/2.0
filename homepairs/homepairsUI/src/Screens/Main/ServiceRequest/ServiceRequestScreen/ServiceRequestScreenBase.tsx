@@ -22,7 +22,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import strings from 'homepairs-strings';
 import { SceneInjectedProps } from 'homepairs-components';
 import { NavigationRouteScreenProps } from 'homepairs-routes';
-import { fetchServiceRequests } from 'src/endpoints/api-request';
+import { fetchServiceRequests } from 'homepairs-endpoints';
 import { stringToCategory } from 'src/utility/ApplianceCategories';
 
 
