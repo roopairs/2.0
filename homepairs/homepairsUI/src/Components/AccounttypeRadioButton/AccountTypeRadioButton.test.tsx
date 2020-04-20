@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render} from 'react-native-testing-library';
 import { Text } from 'react-native';
 import { AccountTypes } from 'homepairs-types';
-import AccountTypeRadioButton from '../../../homepairs-components/AccounttypeRadioButton/AccountTypeRadioButton';
+import AccountTypeRadioButton  from './AccountTypeRadioButton';
 
 describe('Account Type Radio Button Test', () => {
 

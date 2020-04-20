@@ -154,7 +154,7 @@ export class AddTenantModalBase extends React.Component<Props, AddTenantState> {
 
     constructor(props: Readonly<Props>) {
         super(props);
-        this.styles = setInputStyles(null);
+        this.styles = setInputStyles();
         this.getFormFirstName = this.getFormFirstName.bind(this);
         this.getFormLastName = this.getFormLastName.bind(this);
         this.getFormEmail = this.getFormEmail.bind(this);

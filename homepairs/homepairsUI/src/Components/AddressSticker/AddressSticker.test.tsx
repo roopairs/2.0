@@ -1,7 +1,7 @@
 import React from 'react';
-import { AddressSticker } from 'homepairs-components';
 import { render } from 'react-native-testing-library';
 import { Text } from 'react-native';
+import AddressSticker from './AddressSticker';
 
 describe('Address Sticker Test', () => {
     it('Only one test to conduct. Check if values all render property', () => {

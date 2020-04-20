@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
-        "target": "es5",
+        "target": "es6",
         "jsx": "react-native",
         "allowJs": true,
         "lib": ["dom", "esnext"],
@@ -27,7 +27,7 @@
             "homepairs-modals": ["src/Modals/index"],
             "homepairs-base-styles": ["./res/Styles/base.ts"],
             "homepairs-utilities": ["./src/utility/index.tsx"],
-            "homepairs-components": ["src/Components/index.tsx"],
+            "homepairs-components": ["src/Components/index.ts"],
             "homepairs-routes" : ["./src/Routes/RouteConstants"],
             "homepairs-endpoints" : ["./src/Routes/RemoteEndpoints.tsx"],
 

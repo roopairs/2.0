@@ -1,7 +1,9 @@
 module.exports = function(api) {
     api.cache(true);
     return {
-        presets: ['babel-preset-expo'],
+        presets: [
+            'babel-preset-expo',
+        ],
         plugins: [
             [
                 'module-resolver',
@@ -30,7 +32,7 @@ module.exports = function(api) {
                         'homepairs-pages': './src/Screens/index.tsx',
                         'homepairs-modals': './src/Modals/index',
                         'homepairs-base-styles': './res/Styles/base.ts',
-                        'homepairs-components': './src/Components/index.tsx',
+                        'homepairs-components': './src/Components/index.ts',
                         'homepairs-utilities': './src/utility/index.tsx',
                         'homepairs-routes' : './src/Routes/RouteConstants',
                         'homepairs-endpoints' : './src/Routes/RemoteEndpoints.tsx',
