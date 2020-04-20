@@ -7,7 +7,7 @@ import { ActivityIndicator, StatusBar, AsyncStorage } from 'react-native';
 import { fetchProperties, setSelectedProperty, parseAccount} from 'homepairs-redux-actions';
 import { isNullOrUndefined } from 'homepairs-utilities';
 import { navigationPages } from 'homepairs-routes';
-import { AppNavigator } from './src/AppNavigators/AppNavigation';
+import { AppNavigator } from './src/app-navigators/AppNavigation';
 import store from './src/state/store';
 
 

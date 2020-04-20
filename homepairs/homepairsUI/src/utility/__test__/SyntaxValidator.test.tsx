@@ -5,7 +5,7 @@ import {
     isAlphaCharacterOnly,
     isEmptyOrSpaces,
     isPositiveWholeNumber,
-} from 'homepairs-utilities';
+} from '../SyntaxVerification';
 
 
 /** isPasswordValid Test * */

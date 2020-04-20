@@ -2,7 +2,7 @@ import { AccountActions } from 'homepairs-redux-actions';
 import { AccountTypes, AccountStateAction } from 'homepairs-types';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { testStore1 as storeContents } from '../../fixtures/StoreFixture';
+import { testStore1 as storeContents } from 'homepairs-test';
 
 
 const middleWares = [thunk];

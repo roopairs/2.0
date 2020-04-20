@@ -1,11 +1,11 @@
+import { MainAppStack}  from 'homepairs-routes';
 import { 
     ToggleMenuAction,
     SwitchDropDownNavBarAction,
     ShowGoBackOnButtonClick,
     UpdateSelectedPageAction,
-} from 'homepairs-types';
-import { MainAppStack}  from 'homepairs-routes';
-import * as HeaderActions from '../../../src/state/header/actions';
+} from '../../types';
+import * as HeaderActions from '../actions';
 
 
 const types = HeaderActions.HEADER_ACTION_TYPES;

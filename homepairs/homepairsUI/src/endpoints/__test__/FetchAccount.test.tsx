@@ -3,9 +3,9 @@ import { AccountTypes, AccountStateAction, FetchPropertiesAction, FetchPropertyA
 import { NavigationSwitchProp } from 'react-navigation';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { HOMEPAIRS_LOGIN_ENDPOINT, fetchAccount } from 'homepairs-endpoints';
-import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
-import { prepareNavigationSwitchMock } from '../../fixtures/DummyComponents';
+import { propertyManagerMock1, prepareNavigationSwitchMock } from 'homepairs-test';
+import { fetchAccount } from '../api-request';
+import { HOMEPAIRS_LOGIN_ENDPOINT } from '../constants';
 
 const TYPE = 'ACCOUNT/FETCH_PROFILE';
 const [mockSwitchNavigation, navigationSwitchSpyFunction] = prepareNavigationSwitchMock();

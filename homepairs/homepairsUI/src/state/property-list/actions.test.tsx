@@ -8,11 +8,9 @@ import {
     UpdatePropertyAction,
     SetSelectedPropertyAction,
 } from 'homepairs-types';
-import { PropertyListActions} from 'homepairs-redux-actions';
-import { setSelectedProperty, removeProperty } from 'src/state/property-list/actions';
-import { properties, initialState } from '../../../src/state/property-list/reducer';
+import { PROPERTY_LIST_ACTION_TYPES, setSelectedProperty, removeProperty } from './actions';
+import { properties, initialState } from './reducer';
 
-const { PROPERTY_LIST_ACTION_TYPES } = PropertyListActions;
 const PMProperties: Property[] = [
     {
         tenants: 5,

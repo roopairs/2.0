@@ -2,16 +2,16 @@ import {
     AccountTypes,
     AccountStateAction,
     AccountState,
-} from 'homepairs-types';
-import { AccountActions } from 'homepairs-redux-actions';
-import { accountProfile } from '../../../src/state/account/reducer';
+} from '../types';
+import { FETCH_PROFILE_ACTION_TYPES } from './actions';
+import { accountProfile } from './reducer';
 
-const { FETCH_PROFILE } = AccountActions.FETCH_PROFILE_ACTION_TYPES;
+const { FETCH_PROFILE } = FETCH_PROFILE_ACTION_TYPES;
 
 const EMPTY = {};
 
 const prevState: AccountState = {
-    accountType: AccountTypes.Landlord,
+    accountType: AccountTypes.PropertyManager,
     firstName: 'Louis The Third',
     streetAddress: '2222 LifeLine Ave.',
     city: undefined,
@@ -22,7 +22,7 @@ const prevState: AccountState = {
 };
 
 const newPMState: AccountState = {
-    accountType: AccountTypes.Landlord,
+    accountType: AccountTypes.PropertyManager,
     firstName: 'Jack',
     streetAddress: undefined,
     city: undefined,

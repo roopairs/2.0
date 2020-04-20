@@ -1,14 +1,12 @@
-import { AccountActions } from 'homepairs-redux-actions';
+import { AccountActions, PROPERTY_LIST_ACTION_TYPES } from 'homepairs-redux-actions';
 import { AccountTypes, AccountStateAction, Account, Property, FetchPropertiesAction} from 'homepairs-types';
 import { NavigationSwitchProp } from 'react-navigation';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import { navigationPages } from 'homepairs-routes';
 import { HOMEPAIRS_REGISTER_PM_ENDPOINT, generateAccountForPM } from 'homepairs-endpoints';
-import { SetAccountAuthenticationStateAction } from 'src/state/types';
-import { propertyManagerMock1 } from '../../fixtures/StoreFixture';
-import { PROPERTY_LIST_ACTION_TYPES } from '../../../src/state/property-list/actions';
-import { prepareNavigationSwitchMock } from '../../fixtures/DummyComponents';
+import { SetAccountAuthenticationStateAction } from 'homepairs-types';
+import { propertyManagerMock1, prepareNavigationSwitchMock  } from 'homepairs-test';
 
 const TYPE = 'ACCOUNT/FETCH_PROFILE';
 const URL = HOMEPAIRS_REGISTER_PM_ENDPOINT;

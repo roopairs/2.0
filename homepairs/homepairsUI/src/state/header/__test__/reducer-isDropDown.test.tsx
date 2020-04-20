@@ -1,20 +1,25 @@
 import {HeaderActions} from 'homepairs-redux-actions';
+import strings from 'homepairs-strings';
+import { MainAppStack } from 'homepairs-routes';
 import { 
     ToggleMenuAction,
     SwitchDropDownNavBarAction,
     ShowGoBackOnButtonClick,
     UpdateSelectedPageAction,
     HeaderState,
-} from 'homepairs-types';
-import strings from 'homepairs-strings';
-import { MainAppStack } from 'homepairs-routes';
-import { header, initialState } from '../../../src/state/header/reducer';
+} from '../../types';
+import { header, initialState } from '../reducer';
 
-
+/**
+ * This entire test suite may seem redundant. That is because under normal circumstances, it is. 
+ * However, the only way to get full test coverage using by mocking a React Native Module is by 
+ * mocking it in a separate module and conducting the test again with added changes. In this 
+ * case, the Dimensions module. 
+ */
 const types = HeaderActions.HEADER_ACTION_TYPES;
 const prevState : HeaderState = {
     showMenu : false,
-    isDropDown: false,
+    isDropDown: true,
     currentPage: MainAppStack[0],
     showBackButton: true,
     menu: [
@@ -24,6 +29,21 @@ const prevState : HeaderState = {
         strings.logOut,
     ],
 };
+
+// Here, we mock the Dimensions module to simulate our environment. In this case
+// one that would render a dropDown Menu
+jest.mock('react-native', () => {
+    const ReactNative = jest.requireActual('react-native');
+    return Object.defineProperty(ReactNative,'Dimensions', {
+        get: jest.fn(() => {
+            return {
+                get: jest.fn().mockReturnValue({width: 500, height:500}),
+                addEventListener: jest.fn(),
+                removeEventListener: jest.fn(),
+            };
+        }),
+    });
+});
 
 describe('Test suite for header reducer', () => {
     it('Test action with UNDEFINED type: Default State', () => {

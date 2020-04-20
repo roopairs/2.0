@@ -1,4 +1,4 @@
-import {isNullOrUndefined} from 'homepairs-utilities';
+import {isNullOrUndefined} from '../ParameterChecker';
 
 type optionalProps = {
     test1?: any
