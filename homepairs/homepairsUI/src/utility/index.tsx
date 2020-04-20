@@ -1,14 +1,4 @@
-import isEmailSyntaxValid from './SyntaxVerification/EmailSyntaxVerification';
-import isEmptyOrSpaces, {isPositiveWholeNumber}  from './SyntaxVerification/EmptyStringVerification';
-import isPasswordValid from './SyntaxVerification/PasswordVerification';
-import isPhoneNumberValid from './SyntaxVerification/PhoneNumberVerification';
-import isAlphaCharacterOnly from './SyntaxVerification/AlphaCharacterVerification';
-import { isNullOrUndefined } from './ParameterChecker';
-import {storeAccountData, getAccountType} from './OtherUtilities';
-import NavigationRouteHandler, {withNavigationRouteHandler, 
-    prepareNavigationHandlerComponent, prepareRoute, hasPageBeenReloaded,
-} from './NavigationRouterHandler';
-import { categoryToString, stringToCategory } from './ApplianceCategories';
+import NavigationRouteHandler from './NavigationRouterHandler';
 
 /**
  * ------------------------------------------
@@ -18,12 +8,12 @@ import { categoryToString, stringToCategory } from './ApplianceCategories';
  * specific based logic. Functions such long conditional checks, parsers, 
  * and validators should be included in this package. 
  */
-export {isEmailSyntaxValid, isPasswordValid, isEmptyOrSpaces, isPhoneNumberValid, isAlphaCharacterOnly, 
-    isNullOrUndefined, isPositiveWholeNumber, NavigationRouteHandler, withNavigationRouteHandler,
-    prepareNavigationHandlerComponent, categoryToString, stringToCategory, prepareRoute, hasPageBeenReloaded,
-    storeAccountData, getAccountType,
-};
-
+export * from './SyntaxVerification';
+export * from './ParameterChecker';
+export * from './OtherUtilities';
+export {default as NavigationRouteHandler} from './NavigationRouterHandler';
+export * from './NavigationRouterHandler';
+export * from './ApplianceCategories';
 
 export type NavigationRouteScreenProps = {
     /**

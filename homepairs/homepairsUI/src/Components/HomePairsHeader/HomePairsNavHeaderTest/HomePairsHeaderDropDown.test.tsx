@@ -16,7 +16,7 @@ import {
 } from 'homepairs-types';
 import { TouchableOpacity, Platform} from 'react-native';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { navigationPages } from '../../../Routes/RouteConstants';
+import { navigationPages } from 'homepairs-routes';
 import HomePairsHeader from '../HomePairsHeader';
 
 

@@ -28,11 +28,11 @@
             "homepairs-base-styles": ["./res/Styles/base.ts"],
             "homepairs-utilities": ["./src/utility/index.tsx"],
             "homepairs-components": ["./src/Components/index.tsx"],
-            "homepairs-routes" : ["./src/Routes/RouteConstants"],
+            "homepairs-routes" : ["./src/Routes/index.tsx"],
             "homepairs-endpoints" : ["./src/Routes/RemoteEndpoints.tsx"],
-            "homepairs-test" : ["./tests/fixtures/index.tsx"],
+            "homepairs-test" : ["./tests/fixtures/index"],
         }
     },
     "exclude": ["node_modules", "../tests", "build"],
-    "include": ["src", "res"]src/Components/HomePairsHeader/HomePairsNavHeader/HomePairsHeasrc/Components/SceneHeader/SceneHeader.test.tsx
+    "include": ["src", "res"]
 }
