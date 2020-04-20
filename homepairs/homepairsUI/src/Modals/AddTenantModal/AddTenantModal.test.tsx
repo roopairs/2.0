@@ -1,8 +1,6 @@
 import React from 'react';
-import { AddTenantModal, AddTenantModalBase } from '../../../src/Modals/AddTenantModal';
-import { propertyManagerMock1 } from 'tests/fixtures/StoreFixture';
 import { BrowserRouter as Router} from 'react-router-dom';
-import { prepareNavigationStackFirstRouteMock } from 'tests/fixtures/DummyComponents';
+import { prepareNavigationStackFirstRouteMock, propertyManagerMock1 } from 'homepairs-test';
 import { Provider } from 'react-redux';
 import { render, fireEvent } from 'react-native-testing-library';
 import { TextInput, Platform, TouchableOpacity } from 'react-native';
@@ -11,6 +9,7 @@ import { TenantInfo } from 'homepairs-types';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { HOMEPAIRS_TENANT_EDIT_ENDPOINT } from 'homepairs-endpoints';
+import AddTenantModal, { AddTenantModalBase } from './AddTenantModal';
 
 const mockStore = propertyManagerMock1;
 const mockAxios = new MockAdapter(axios);

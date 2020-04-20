@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, ThinButton } from 'homepairs-elements';
-import {ConnectAccountCard, AccountConnectedCard} from 'homepairs-components';
 import { fireEvent, render } from 'react-native-testing-library';
+import  AccountConnectedCard from './AccountConnectedCard';
+import ConnectAccountCard from './ConnectAccountCard';
 
 describe('Connect Account Card Test', () => {
     const connectAccountCallBackSpy = jest.fn();

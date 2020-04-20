@@ -6,7 +6,7 @@ import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid, 
     NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-utilities';
 import { updateTenant } from "homepairs-endpoints";
-import { navigationPages } from '../Routes/RouteConstants';
+import { navigationPages } from '../../Routes/RouteConstants';
 
 
 const {SingleProperty} = navigationPages;

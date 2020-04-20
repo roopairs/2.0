@@ -1,16 +1,16 @@
 import React from 'react';
 import { MainAppPages } from 'homepairs-pages';
-import { propertyManagerMock1 } from 'tests/fixtures/StoreFixture';
 import { Provider } from 'react-redux';
 import { fireEvent, render } from 'react-native-testing-library';
-import { prepareNavigationMock, mockRoute } from 'tests/fixtures/DummyComponents';
+import { prepareNavigationMock, mockRoute , propertyManagerMock1} from 'homepairs-test';
 import { TouchableOpacity, Platform } from 'react-native';
-import { navigationPages } from 'src/Routes/RouteConstants';
 import {BrowserRouter as Router} from 'react-router-dom';
-import ViewPropertyCard from 'homepairs-components/ViewPropertyCard/ViewPropertyCard';
-import SceneHeader from 'homepairs-components/SceneHeader/SceneHeader';
-import ThinButton from 'src/Elements/Buttons/ThinButton';
-import { SetSelectedPropertyAction, ShowGoBackOnButtonClick } from 'src/state/types';
+import {
+    ViewPropertyCard, 
+    SceneHeader } from 'homepairs-components';
+import { ThinButton }  from 'homepairs-element';
+import { SetSelectedPropertyAction, ShowGoBackOnButtonClick } from 'homepairs-types';
+import { navigationPages } from '../../../../Routes/RouteConstants';
 
 jest.mock('homepairs-images');
 jest.mock('react-widgets/dist/css/react-widgets.css');

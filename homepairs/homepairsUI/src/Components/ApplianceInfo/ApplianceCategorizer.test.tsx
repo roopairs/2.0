@@ -3,11 +3,11 @@
  */
 
 import {AppliancePanel} from 'homepairs-elements';
-import {ApplianceCategorizer} from 'homepairs-components';
 import {Appliance, ApplianceType} from 'homepairs-types';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { View, Text} from 'react-native';
+import ApplianceCategorizer from './ApplianceCategorizer';
 
 jest.mock('homepairs-images');
 

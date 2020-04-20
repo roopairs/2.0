@@ -1,13 +1,14 @@
 import React from 'react';
-import { EditTenantModal } from 'homepairs-components';
-import { EditTenantModalBase } from 'homepairs-modals';
-import { propertyManagerMock1 } from 'tests/fixtures/StoreFixture';
 import { BrowserRouter as Router} from 'react-router-dom';
-import { prepareNavigationStackFirstRouteMock, dummyTenantParamParsed } from 'tests/fixtures/DummyComponents';
+import { 
+    prepareNavigationStackFirstRouteMock, 
+    dummyTenantParamParsed, 
+    propertyManagerMock1 } from 'homepairs-test';
 import { Provider } from 'react-redux';
 import { render, fireEvent } from 'react-native-testing-library';
 import { TextInput, Platform, TouchableOpacity } from 'react-native';
-import ThinButton from 'src/Elements/Buttons/ThinButton';
+import { ThinButton } from 'homepairs-elements';
+import EditTenantModal, { EditTenantModalBase } from './EditTenantModal';
 
 const mockStore = propertyManagerMock1;
 const [mockStackNavigationFirstRoute, navigationStackSpyFunction] = prepareNavigationStackFirstRouteMock({tenant:true});

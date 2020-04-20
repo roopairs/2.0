@@ -1,23 +1,22 @@
 import React from 'react';
-import {MainAppPages} from 'homepairs-pages';
+import { MainAppPages } from 'homepairs-pages';
 import {
     GeneralHomeInfo,
     AddressSticker,
     CurrentTenantCard,
     ApplianceInfo as ApplianceInfoBase,
     ServiceRequestCount,
+    DetailedPropertyScreenBase,
 } from 'homepairs-components';
-import { propertyManagerMock1 } from 'tests/fixtures/StoreFixture';
 import { Provider } from 'react-redux';
 import { fireEvent, render} from 'react-native-testing-library';
-import { prepareNavigationMock, mockRoute } from 'tests/fixtures/DummyComponents';
+import { prepareNavigationMock, mockRoute, propertyManagerMock1 } from 'homepairs-test';
 import { TextInput, TouchableOpacity, Platform } from 'react-native';
-import { navigationPages, Endpoints } from 'src/Routes/RouteConstants';
+import { navigationPages, Endpoints } from '../../../../Routes/RouteConstants';
 import {BrowserRouter as Router} from 'react-router-dom';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
-import ThinButton from 'src/Elements/Buttons/ThinButton';
-import DetailedPropertyScreenBase from '../../../src/Screens/Main/Properties/DetailedPropertiesScreen/DetailedPropertyScreenBase';
+import { ThinButton } from 'homepairs-elements';
 import { SetSelectedPropertyAction, ShowGoBackOnButtonClick, TenantInfo, Appliance, ApplianceType } from 'homepairs-types';
 
 jest.mock('homepairs-images');

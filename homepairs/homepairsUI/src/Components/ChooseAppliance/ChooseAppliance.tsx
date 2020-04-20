@@ -6,7 +6,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import Colors from 'homepairs-colors';
 import {categoryToString} from 'homepairs-utilities';
 import {Divider} from 'react-native-elements';
-import {ApplianceCategorizer} from 'homepairs-components';
+import ApplianceCategorizer from '../ApplianceInfo/ApplianceCategorizer';
 
 
 export type ChooseApplianceProps = {

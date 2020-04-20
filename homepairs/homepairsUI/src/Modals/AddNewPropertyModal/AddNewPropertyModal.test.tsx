@@ -4,12 +4,12 @@ import { shallow} from "enzyme";
 import * as React from "react";
 import {InputForm, Card, GoogleInputForm, ThinButton } from 'homepairs-elements';
 import {fireEvent, render} from "react-native-testing-library";
-import { AddNewPropertyModalBase } from "homepairs-components";
 import {AddNewPropertyState, Property} from 'homepairs-types';
-import { mockStackNavigation, navigationStackSpyFunction} from 'tests/fixtures/DummyComponents';
+import { mockStackNavigation, navigationStackSpyFunction} from 'homepairs-test';
 import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
 import { TextInput, View, ScrollView } from 'react-native';
 import {HelperText} from 'react-native-paper';
+import AddNewPropertyModalBase from "./AddNewPropertyModalBase";
 
 type Props = ModalInjectedProps &
     NavigationStackScreenProps &

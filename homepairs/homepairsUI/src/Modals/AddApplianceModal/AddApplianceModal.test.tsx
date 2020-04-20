@@ -5,11 +5,11 @@ import * as React from "react";
 import {InputForm, Card, ApplianceCategoryPanel, ThinButton} from 'homepairs-elements';
 import {fireEvent, render} from "react-native-testing-library";
 import {Appliance, AddApplianceState} from 'homepairs-types';
-import { mockStackNavigation, navigationStackSpyFunction} from 'tests/fixtures/DummyComponents';
+import { mockStackNavigation, navigationStackSpyFunction} from 'homepairs-test';
 import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
 import { TextInput, View, ScrollView, Text } from 'react-native';
 import {HelperText} from 'react-native-paper';
-import {AddApplianceModalBase} from "../../../src/Modals/AddApplianceModal/AddApplianceModal";
+import {AddApplianceModalBase} from "./AddApplianceModal";
 
 jest.mock('homepairs-images');
 
