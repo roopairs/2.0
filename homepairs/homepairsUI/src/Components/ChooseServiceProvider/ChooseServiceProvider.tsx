@@ -12,7 +12,6 @@ import {
 import * as BaseStyles from 'homepairs-base-styles';
 import Colors from 'homepairs-colors';
 import { ServiceProviderButton, ThinButton, ThinButtonProps } from 'homepairs-elements';
-import { HomePairFonts } from 'res/fonts';
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
     },
     option: {
         fontSize : BaseStyles.FontTheme.reg,
-        fontFamily: HomePairFonts.nunito_regular,
+        fontFamily: BaseStyles.FontTheme.primary,
     },
     selectedLeftButton: {
         alignItems: 'flex-start',

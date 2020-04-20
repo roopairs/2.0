@@ -1,7 +1,7 @@
 import React from 'react';
 import { TenantAccount, AccountTypes } from 'src/state/types';
 import { fireEvent, render } from 'react-native-testing-library';
-import CurrentTenantCard from 'src/Screens/Components/CurrentTenantCard/CurrentTenantCard';
+import CurrentTenantCard from 'homepairs-components/CurrentTenantCard/CurrentTenantCard';
 import { prepareNavigationMock } from 'tests/fixtures/DummyComponents';
 import ThinButton from 'src/Elements/Buttons/ThinButton';
 import { navigationPages } from 'src/Routes/RouteConstants';

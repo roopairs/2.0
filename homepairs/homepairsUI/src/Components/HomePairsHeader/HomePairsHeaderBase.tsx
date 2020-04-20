@@ -10,15 +10,14 @@ import {
 } from 'react-native';
 import React from 'react';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HamburgerButton } from 'src/Elements';
+import { HamburgerButton } from 'homepairs-elements';
 import {
     HomePairsDimensions,
     HeaderState,
     MainAppStackType,
     AccountTypes,
 } from 'homepairs-types';
-import {NavigationRouteHandler} from 'homepairs-utilities';
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
+import {NavigationRouteHandler, isNullOrUndefined} from 'homepairs-utilities';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu';
 

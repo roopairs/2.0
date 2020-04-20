@@ -1,11 +1,10 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import { ApplianceType } from 'src/state/types';
+import { ApplianceType } from 'homepairs-types';
 import { ButtonWithBitmap } from 'homepairs-elements';
 import {bolt, fan, tint, blender} from 'homepairs-images';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairFonts } from 'res/fonts';
-import { categoryToString } from 'src/utility/ApplianceCategories';
+import { categoryToString } from 'homepairs-utilities';
 
 const styles = StyleSheet.create({
     container: {
@@ -48,7 +47,7 @@ const styles = StyleSheet.create({
     },
     option: {
         fontSize : BaseStyles.FontTheme.reg,
-        fontFamily: HomePairFonts.nunito_regular,
+        fontFamily: BaseStyles.FontTheme.primary,
     },
 });
 

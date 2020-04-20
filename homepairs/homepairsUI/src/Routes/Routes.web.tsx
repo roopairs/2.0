@@ -11,10 +11,11 @@ import {
   ROOPAIRS_LOGIN_MODAL, EDIT_TENANT_MODAL, ADD_TENANT_MODAL, ADD_APPLIANCE_MODAL, EDIT_APPLIANCE_MODAL,
   SERVICE_REQUEST, NEW_SERVICE_REQUEST, ACCOUNT_SETTINGS, SERVICE_REQUEST_INFO_MODAL, navigationPages,
 } from 'src/Routes/RouteConstants';
-import { HomePairsHeader, CreatingAccountModal, LoggingInModal, AddNewPropertyModal, 
-  EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, EditTenantModal, ServiceRequestModal } from 'homepairs-components';
-import { AccountTypes } from 'src/state/types';
-import { NavigationRouteHandler } from 'src/utility';
+import {HomePairsHeader} from 'homepairs-components';
+import { CreatingAccountModal, LoggingInModal, AddNewPropertyModal, 
+  EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, EditTenantModal, ServiceRequestModal } from 'homepairs-modals';
+import { AccountTypes } from 'homepairs-types';
+import { NavigationRouteHandler } from 'homepairs-utilities';
 
 
 // Pages and components that need to be retrieved in order to route properly 

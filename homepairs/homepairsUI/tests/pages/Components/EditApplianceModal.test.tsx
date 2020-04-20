@@ -4,7 +4,7 @@ import { shallow} from "enzyme";
 import * as React from "react";
 import {InputForm, Card, ApplianceCategoryPanel, ThinButton} from 'homepairs-elements';
 import {fireEvent, render} from "react-native-testing-library";
-import { EditApplianceModalBase } from "homepairs-components";
+import { EditApplianceModalBase } from "homepairs-modals";
 import {Appliance} from 'homepairs-types';
 import { mockStackNavigation, navigationStackSpyFunction} from 'tests/fixtures/DummyComponents';
 import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';

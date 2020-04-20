@@ -12,7 +12,7 @@ import { HeaderActions } from 'homepairs-redux-actions';
 import { connect } from 'react-redux';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
-import NavigationRouteHandler from 'src/utility/NavigationRouterHandler';
+import { NavigationRouteHandler } from 'homepairs-utilities';
 import SceneHeader from './SceneHeader';
 
 type SceneDispatchProps = {

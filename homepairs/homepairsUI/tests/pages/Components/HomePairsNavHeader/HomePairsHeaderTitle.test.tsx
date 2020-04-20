@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-native-testing-library';
-import {HomePairsHeaderTitle} from '../../../../src/Screens/Components/HomePairsHeader/HomePairsHeaderTitle';
+import {HomePairsHeaderTitle} from '../../../../homepairs-components/HomePairsHeader/HomePairsHeaderTitle';
 import { LightColorTheme } from 'homepairs-base-styles';
 
 const HOMEPAIRS= 'HomePairs';

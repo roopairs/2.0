@@ -1,6 +1,6 @@
 import React from 'react';
 import { EditTenantModal } from 'homepairs-components';
-import { EditTenantModalBase } from 'src/Screens/Components/Modals/EditTenantModal';
+import { EditTenantModalBase } from 'homepairs-modals';
 import { propertyManagerMock1 } from 'tests/fixtures/StoreFixture';
 import { BrowserRouter as Router} from 'react-router-dom';
 import { prepareNavigationStackFirstRouteMock, dummyTenantParamParsed } from 'tests/fixtures/DummyComponents';

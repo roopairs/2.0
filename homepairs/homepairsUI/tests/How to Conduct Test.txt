@@ -53,7 +53,7 @@ from HOC should allow their Base Components (if a class) to be exported to get a
 Here is an example of how to get an instance of the Edit Tenant Modal using its base Component: 
 import React from 'react';
 import { EditTenantModal } from 'homepairs-components';
-import { EditTenantModalBase } from 'src/Screens/Components/Modals/EditTenantModal';
+import { EditTenantModalBase } from 'homepairs-components/Modals/EditTenantModal';
 import { propertyManagerMock1 } from 'tests/fixtures/StoreFixture';
 import { BrowserRouter as Router} from 'react-router-dom';
 import { prepareNavigationStackFirstRouteMock } from 'tests/fixtures/DummyComponents';

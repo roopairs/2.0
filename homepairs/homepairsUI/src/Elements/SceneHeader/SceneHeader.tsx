@@ -2,7 +2,7 @@ import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT RE
 import { StyleSheet, Text, View } from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
 import { isNullOrUndefined } from 'homepairs-utilities';
-import ThinButton from '../../../Elements/Buttons/ThinButton';
+import ThinButton from '../Buttons/ThinButton';
 
 export type SceneHeaderProps = {
     /**

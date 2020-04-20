@@ -4,8 +4,8 @@ import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property } from 'homepairs-types';
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
-import ThinButton from 'src/Elements/Buttons/ThinButton';
+import { isNullOrUndefined } from 'homepairs-utilities';
+import {ThinButton} from 'homepairs-elements';
 
 export type GeneralHomeInfoProps = {
     /**

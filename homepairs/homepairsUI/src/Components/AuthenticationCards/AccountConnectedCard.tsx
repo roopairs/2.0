@@ -1,7 +1,6 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { Card } from 'homepairs-elements';
+import { Card, ThinButton } from 'homepairs-elements';
 import strings from 'homepairs-strings';
-import ThinButton from 'src/Elements/Buttons/ThinButton';
 import styles from './ConnectCardStyles';
 
 export type AccountConnectedCardProps = {

@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
-import { Card } from 'homepairs-elements';
-import ThinButton from 'src/Elements/Buttons/ThinButton';
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
+import { Card, ThinButton } from 'homepairs-elements';
+import { isNullOrUndefined } from 'homepairs-utilities';
 import { View, Text, StyleSheet } from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairFonts } from 'res/fonts';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import { navigationPages } from 'homepairs-routes';
 
 type CurrentTenantsCardProps =  {
     /**
@@ -104,7 +102,7 @@ const styles = StyleSheet.create({
     streetAddress: {
         color: colors.tertiary,
         fontSize: BaseStyles.FontTheme.reg,
-        fontFamily: HomePairFonts.nunito_bold,
+        fontFamily: BaseStyles.FontTheme.secondary,
     },
     cityStateText: {
         color: colors.tertiary,
@@ -138,7 +136,7 @@ const styles = StyleSheet.create({
     detail: {
         color: colors.tertiary,
         fontSize: BaseStyles.FontTheme.reg + 2,
-        fontFamily: HomePairFonts.nunito_bold,
+        fontFamily: BaseStyles.FontTheme.secondary,
     },
     addButton: {
         alignItems: 'center',

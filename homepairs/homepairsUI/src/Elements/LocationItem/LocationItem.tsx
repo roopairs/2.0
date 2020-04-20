@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Text, StyleSheet, TouchableOpacity} from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairFonts } from 'res/fonts.web';
 
 type LocationItemProps = {
     testID?: string,
@@ -21,7 +20,7 @@ const styles = StyleSheet.create({
     },
     itemText: {
         fontSize: BaseStyles.FontTheme.reg,
-        fontFamily: HomePairFonts.nunito_regular,
+        fontFamily: BaseStyles.FontTheme.primary,
     },
 });
 

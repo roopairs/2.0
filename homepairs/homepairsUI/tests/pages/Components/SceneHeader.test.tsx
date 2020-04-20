@@ -7,11 +7,11 @@ import { SceneHeader, withSceneHeader} from 'homepairs-components';
 import { NavigationStackProp } from 'react-navigation-stack';
 import { Provider } from 'react-redux';
 import { MainAppStackType } from 'homepairs-types';
-import { SceneHeaderProps } from '../../../src/Screens/Components/SceneHeader/SceneHeader';
+import { SceneHeaderProps } from '../../../homepairs-components/SceneHeader/SceneHeader';
 import ThinButton from '../../../src/Elements/Buttons/ThinButton';
 import { propertyManagerMock1 as store} from '../../fixtures/StoreFixture';
 import { navigationStackSpyFunction, mockStackNavigation, thinButtonFireEventTestId } from '../../fixtures/DummyComponents';
-import { SceneInjectedProps } from '../../../src/Screens/Components/SceneHeader/WithSceneHeader';
+import { SceneInjectedProps } from '../../../homepairs-components/SceneHeader/WithSceneHeader';
 
 
 const thinButtonTestId = thinButtonFireEventTestId.onPress;

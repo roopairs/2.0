@@ -7,8 +7,8 @@ import { prepareNavigationMock, mockRoute } from 'tests/fixtures/DummyComponents
 import { TouchableOpacity, Platform } from 'react-native';
 import { navigationPages } from 'src/Routes/RouteConstants';
 import {BrowserRouter as Router} from 'react-router-dom';
-import ViewPropertyCard from 'src/Screens/Components/ViewPropertyCard/ViewPropertyCard';
-import SceneHeader from 'src/Screens/Components/SceneHeader/SceneHeader';
+import ViewPropertyCard from 'homepairs-components/ViewPropertyCard/ViewPropertyCard';
+import SceneHeader from 'homepairs-components/SceneHeader/SceneHeader';
 import ThinButton from 'src/Elements/Buttons/ThinButton';
 import { SetSelectedPropertyAction, ShowGoBackOnButtonClick } from 'src/state/types';
 

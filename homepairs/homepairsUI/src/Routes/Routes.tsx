@@ -3,10 +3,9 @@ import { createAppContainer, SafeAreaView, withNavigation } from 'react-navigati
 import { createStackNavigator, NavigationStackConfig, NavigationStackOptions } from 'react-navigation-stack';
 import {
     MainAppPages, AuthenticationPages,
-} from 'homepairs-pages';
+} from 'src/Screens';
 import { Platform } from 'react-native';
 import { 
-    HomePairsHeader, 
     AddNewPropertyModal, 
     EditPropertyModal, 
     LoggingInModal, 
@@ -16,11 +15,12 @@ import {
     EditTenantModal, 
     AddTenantModal,
     ServiceRequestModal,
-} from 'homepairs-components';
+} from 'homepairs-modals';
+import { HomePairsHeader } from 'homepairs-components';
 import { LightColorTheme } from 'homepairs-base-styles';
-import { navigationKeys, navigationPages } from './RouteConstants';
 import { AccountTypes } from 'src/state/types';
-import { NavigationRouteHandler } from 'src/utility';
+import { NavigationRouteHandler } from 'homepairs-utilities';
+import { navigationKeys, navigationPages } from './RouteConstants';
 
 /** Set Up our configuration for the navigation routes */
 

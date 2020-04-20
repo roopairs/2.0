@@ -1,7 +1,7 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text, View } from 'react-native';
 import strings from 'homepairs-strings';
-import { HomePairsDimensions, Contact } from 'src/state/types';
+import { HomePairsDimensions, Contact } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairFonts } from 'homepairs-fonts';
 

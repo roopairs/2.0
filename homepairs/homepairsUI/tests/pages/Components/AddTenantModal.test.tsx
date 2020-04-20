@@ -1,13 +1,12 @@
 import React from 'react';
-import { AddTenantModal } from 'homepairs-components';
-import { AddTenantModalBase } from 'src/Screens/Components/Modals/AddTenantModal';
+import { AddTenantModal, AddTenantModalBase } from '../../../src/Modals/AddTenantModal';
 import { propertyManagerMock1 } from 'tests/fixtures/StoreFixture';
 import { BrowserRouter as Router} from 'react-router-dom';
 import { prepareNavigationStackFirstRouteMock } from 'tests/fixtures/DummyComponents';
 import { Provider } from 'react-redux';
 import { render, fireEvent } from 'react-native-testing-library';
 import { TextInput, Platform, TouchableOpacity } from 'react-native';
-import ThinButton from 'src/Elements/Buttons/ThinButton';
+import {ThinButton} from 'homepairs-elements';
 import { TenantInfo } from 'homepairs-types';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';

@@ -1,12 +1,12 @@
 /* eslint-disable react/static-property-placement */
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import React from 'react';
-import { FontTheme} from 'homepairs-base-styles';
+import { FontTheme } from 'homepairs-base-styles';
 import { MainAppStackType, AccountTypes } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { NavigationRouteHandler } from 'homepairs-utilities';
-import { ChooseMainPage } from 'src/Routes/Routes';
-import { MainAppStack } from '../../../Routes/RouteConstants';
+import { ChooseMainPage } from '../../Routes/Routes';
+import { MainAppStack } from 'homepairs-routes';
 
 export type HomePairsMenuProps = {
 

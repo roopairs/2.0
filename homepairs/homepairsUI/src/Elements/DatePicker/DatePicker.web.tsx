@@ -2,7 +2,7 @@ import React from 'react';
 import {DateTimePicker} from 'react-widgets';
 import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
-import 'react-widgets/dist/css/react-widgets.css';
+// import 'react-widgets/dist/css/react-widgets.css';
 
 
 Moment.locale('en');

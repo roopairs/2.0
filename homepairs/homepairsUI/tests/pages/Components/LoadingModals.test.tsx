@@ -1,5 +1,5 @@
 import React from 'react';
-import {LoadingModal, LoggingInModal, CreatingAccountModal} from 'homepairs-components';
+import {LoadingModal, LoggingInModal, CreatingAccountModal} from 'homepairs-modals';
 import { ActivityIndicator, StatusBar, Text } from 'react-native';
 import { render } from 'react-native-testing-library';
 import { Card } from 'homepairs-elements';
