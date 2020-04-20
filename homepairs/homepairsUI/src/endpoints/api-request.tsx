@@ -4,22 +4,20 @@
  * using should be put and referenced from this file.  
  */
 import axios from 'axios';
-import { NavigationRouteHandler, getAccountType, categoryToString } from 'homepairs-utilities';
+import { getAccountType, categoryToString } from 'homepairs-utilities';
+import { NavigationRouteHandler, ChooseMainPage, navigationPages} from 'homepairs-routes';
 import * as HomePairsStateActions from 'homepairs-redux-actions';
 import { AccountTypes, Account, Property, AddNewPropertyState, EditPropertyState, Appliance, AddApplianceState, NewServiceRequest } from 'homepairs-types';
-import { navigationPages } from './RouteConstants';
-import { ChooseMainPage } from './Routes';
-
-export const HOMEPAIRS_LOGIN_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/login/';
-export const HOMEPAIRS_REGISTER_TENANT_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/tenant/register/';
-export const HOMEPAIRS_REGISTER_PM_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/pm/register';
-
-export const HOMEPAIRS_PROPERTY_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/property/';
-export const HOMEPAIRS_APPLIANCE_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/appliances/';
-export const HOMEPAIRS_TENANT_EDIT_ENDPOINT = "https://homepairs-mytest.herokuapp.com/tenant/update/";
-export const HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT = "https://homepairs-mytest.herokuapp.com/serviceprovider/";
-
-export const HOMEPAIRS_SERVICE_REQUEST_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/servicerequest/';
+import {
+    HOMEPAIRS_APPLIANCE_ENDPOINT, 
+    HOMEPAIRS_LOGIN_ENDPOINT, 
+    HOMEPAIRS_PROPERTY_ENDPOINT, 
+    HOMEPAIRS_REGISTER_PM_ENDPOINT, 
+    HOMEPAIRS_REGISTER_TENANT_ENDPOINT,
+    HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT,
+    HOMEPAIRS_SERVICE_REQUEST_ENDPOINT,
+    HOMEPAIRS_TENANT_EDIT_ENDPOINT,
+} from './constants';
 
 
 const {AccountActions, PropertyListActions, SessionActions} = HomePairsStateActions;
@@ -31,7 +29,6 @@ const SUCCESS = 'success';
 const FAILURE = 'failure';
 const PM = 'pm';
 
-// console.log(navigationPages);
 
 const {SingleProperty, ServiceRequestScreen} = navigationPages;
 

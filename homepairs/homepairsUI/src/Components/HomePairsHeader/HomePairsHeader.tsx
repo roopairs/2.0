@@ -1,9 +1,7 @@
 import { AppState, MainAppStackType } from "homepairs-types";
 import { connect } from "react-redux";
 import { HeaderActions, SessionActions } from 'homepairs-redux-actions';
-import {withNavigationRouteHandler} from 'homepairs-utilities';
-import { withRouter } from 'react-router-dom';
-import { Platform } from "react-native";
+import {prepareNavigationHandlerComponent} from 'homepairs-routes';
 import HomePairsHeaderBase , { HomePairsHeaderStateProps, HomePairsHeaderDispatchProps } from "./HomePairsHeaderBase";
 
 function mapStateToProps(state: AppState): HomePairsHeaderStateProps{ 
@@ -37,7 +35,7 @@ const HomePairsHeader = connect(
   mapDispatchToProps,
 )(HomePairsHeaderBase);
 
-const HomePairsHeaderWithHandler = withNavigationRouteHandler(HomePairsHeader);
+console.log(prepareNavigationHandlerComponent);
 /**
  * ---------------------------------------------------
  * HomePairs Navigation Header
@@ -54,4 +52,4 @@ const HomePairsHeaderWithHandler = withNavigationRouteHandler(HomePairsHeader);
  *  HomePairsHeaderMenu
  *  HomePairsTitle
  */
-export default Platform.OS === 'web' ? withRouter(HomePairsHeaderWithHandler) : HomePairsHeaderWithHandler;
+export default prepareNavigationHandlerComponent(HomePairsHeader);

@@ -5,9 +5,8 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, AddNewPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isPositiveWholeNumber, isEmptyOrSpaces, NavigationRouteHandler} from 'homepairs-utilities';
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import {isPositiveWholeNumber, isEmptyOrSpaces, isNullOrUndefined } from 'homepairs-utilities';
+import { navigationPages, NavigationRouteHandler } from 'homepairs-routes';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 

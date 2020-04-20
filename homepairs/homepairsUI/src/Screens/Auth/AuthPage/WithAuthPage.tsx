@@ -13,7 +13,7 @@ import strings from 'homepairs-strings';
 import { HomePairFonts } from 'homepairs-fonts';
 import { HomePairsDimensions } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import {NavigationRouteHandler} from 'homepairs-utilities';
+import {NavigationRouteHandler} from 'homepairs-routes';
 
 
 export type AuthPassProps = {

@@ -8,9 +8,9 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import {
     ViewPropertyCard, 
     SceneHeader } from 'homepairs-components';
-import { ThinButton }  from 'homepairs-element';
+import { ThinButton }  from 'homepairs-elements';
 import { SetSelectedPropertyAction, ShowGoBackOnButtonClick } from 'homepairs-types';
-import { navigationPages } from '../../../../Routes/RouteConstants';
+import { navigationPages } from 'homepairs-routes';
 
 jest.mock('homepairs-images');
 jest.mock('react-widgets/dist/css/react-widgets.css');

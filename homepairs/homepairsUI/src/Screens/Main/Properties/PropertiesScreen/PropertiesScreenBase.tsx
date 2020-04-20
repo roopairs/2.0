@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropertyListState, HeaderState } from 'homepairs-types';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import { navigationPages } from 'homepairs-routes';
 import { ViewPropertyCard, SceneInjectedProps } from 'homepairs-components';
 import { View } from 'react-native';
 

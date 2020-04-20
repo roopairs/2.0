@@ -2,13 +2,14 @@ import React, {Component} from 'react'; //* *For every file that uses jsx, YOU M
 import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
-import { NavigationRouteScreenProps, stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'homepairs-utilities';
+import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'homepairs-utilities';
+import {NavigationRouteScreenProps} from 'homepairs-routes';
 import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel, DatePicker} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from 'homepairs-components';
 import {HelperText} from 'react-native-paper';
 import axios from 'axios';
-import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT,  HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest } from 'homepairs-endpoints';
+import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT,  HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest } from 'src/endpoints/api-request';
 
 type NewRequestScreenProps = {
     properties: Property[],

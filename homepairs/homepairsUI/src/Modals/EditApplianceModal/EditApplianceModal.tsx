@@ -5,12 +5,11 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance, ApplianceType } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isPositiveWholeNumber, isEmptyOrSpaces, NavigationRouteScreenProps, prepareNavigationHandlerComponent} from 'homepairs-utilities'; 
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
+import {isPositiveWholeNumber, isEmptyOrSpaces, isNullOrUndefined } from 'homepairs-utilities'; 
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
-import { navigationPages } from 'src/Routes/RouteConstants.web';
-import { postUpdatedAppliance } from 'homepairs-endpoints';
+import { navigationPages, NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-routes';
+import { postUpdatedAppliance } from 'src/endpoints/api-request';
 
 
 const {SingleProperty} = navigationPages;

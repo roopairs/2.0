@@ -1,7 +1,7 @@
 import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { AccountActions } from 'homepairs-redux-actions';
-import { prepareNavigationHandlerComponent } from 'homepairs-utilities';
+import { prepareNavigationHandlerComponent } from 'homepairs-routes';
 import { withSceneHeader } from 'homepairs-components';
 import AccountScreenBase, {
     AccountScreenStateProps,

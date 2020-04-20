@@ -8,7 +8,7 @@ import {ThinButton} from 'homepairs-elements';
 import { TenantInfo } from 'homepairs-types';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { HOMEPAIRS_TENANT_EDIT_ENDPOINT } from 'homepairs-endpoints';
+import { HOMEPAIRS_TENANT_EDIT_ENDPOINT } from 'src/endpoints/api-request';
 import AddTenantModal, { AddTenantModalBase } from './AddTenantModal';
 
 const mockStore = propertyManagerMock1;

@@ -35,7 +35,7 @@ module.exports = function(api) {
                         'homepairs-components': './src/Components/index.tsx',
                         'homepairs-utilities': './src/utility/index.tsx',
                         'homepairs-routes' : './src/Routes/index.tsx',
-                        'homepairs-endpoints' : './src/Routes/RemoteEndpoints.tsx',
+                        'homepairs-endpoints' : './src/endpoints/index.ts',
                         'homepairs-test' : './tests/fixtures/index',
                     },
                 },

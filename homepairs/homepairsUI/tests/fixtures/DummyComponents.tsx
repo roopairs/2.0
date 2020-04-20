@@ -4,7 +4,7 @@ import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
 import { MainAppStackType, ApplianceType, TenantInfo } from 'src/state/types';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import NavigationRouteHandler, { prepareRoute } from 'src/utility/NavigationRouterHandler';
+import NavigationRouteHandler, { prepareRoute } from 'src/Routes/RouteHandler/NavigationRouteHandler';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 
 

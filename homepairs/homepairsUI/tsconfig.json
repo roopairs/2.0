@@ -29,10 +29,10 @@
             "homepairs-utilities": ["./src/utility/index.tsx"],
             "homepairs-components": ["./src/Components/index.tsx"],
             "homepairs-routes" : ["./src/Routes/index.tsx"],
-            "homepairs-endpoints" : ["./src/Routes/RemoteEndpoints.tsx"],
+            "homepairs-endpoints" : ["./src/endpoints/index.ts"],
             "homepairs-test" : ["./tests/fixtures/index"],
         }
     },
     "exclude": ["node_modules", "../tests", "build"],
-    "include": ["src", "res"]
+    "include": ["src", "res", "App.tsx"]
 }

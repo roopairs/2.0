@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import { PropertyListActions } from 'homepairs-redux-actions';
 import { Property, AppState, AddNewPropertyState } from 'homepairs-types';
-import { prepareNavigationHandlerComponent, NavigationRouteHandler } from 'homepairs-utilities';
-import { postNewProperty } from 'homepairs-endpoints';
+import { prepareNavigationHandlerComponent, NavigationRouteHandler } from 'homepairs-routes';
+import { postNewProperty } from 'src/endpoints/api-request';
 import  AddNewPropertyModalBase, { AddNewPropertyDispatchProps} from './AddNewPropertyModalBase';
 
 const mapDispatchToProps : (dispatch: any) => AddNewPropertyDispatchProps = (dispatch: any) => ({

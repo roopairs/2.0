@@ -1,12 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { NavigationStackProp } from 'react-navigation-stack';
 import { RouteProps, withRouter} from 'react-router-dom';
-import { NavigationSwitchProp, withNavigation, NavigationRouter } from 'react-navigation';
+import { NavigationSwitchProp, withNavigation} from 'react-navigation';
 import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import { Platform } from 'react-native';
 import React from 'react';
-import {navigationPages, MainAppStack} from 'homepairs-routes';
-import { AccountTypes } from 'homepairs-types';
+import {navigationPages, MainAppStack} from '../RouteConstants';
 
 type Navigators = NavigationStackProp | RouteProps | NavigationSwitchProp
 enum NavigationObjects {
@@ -16,6 +15,14 @@ enum NavigationObjects {
 const {PropertiesScreen, TenantProperty, ServiceRequestScreen, AccountSettings} = navigationPages;
 const BASE_ROUTES: string[] = [PropertiesScreen, TenantProperty, ServiceRequestScreen, AccountSettings];
 const [PropertyStack, ServiceRequestStack, AccountSettingStack] = MainAppStack;
+
+export type NavigationRouteScreenProps = {
+    /**
+     * navigation object that is able to handle navigating for react-routes and react-navigation. 
+     * Is meant to be used for components that are wrapped with a withNavigationRouteHandler HOC
+     */
+    navigation: NavigationRouteHandler,
+}
 
 /**
  * ---------------------------------------------------

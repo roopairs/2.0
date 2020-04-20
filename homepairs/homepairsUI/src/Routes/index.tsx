@@ -1,2 +1,3 @@
 export * from './RouteConstants';
-export * from './Routes';
+export * from './RouteHandler/index';
+

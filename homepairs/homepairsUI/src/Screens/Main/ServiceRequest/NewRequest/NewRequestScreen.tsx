@@ -1,7 +1,7 @@
 import { AppState, MainAppStackType, PropertyManagerAccount } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { withSceneHeader} from 'homepairs-components';
-import { prepareNavigationHandlerComponent } from 'homepairs-utilities';
+import { prepareNavigationHandlerComponent } from 'homepairs-routes';
 import NewRequestScreenBase from './NewRequestScreenBase';
 
 const sceneParam: MainAppStackType = {

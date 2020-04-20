@@ -17,7 +17,8 @@ import {
     MainAppStackType,
     AccountTypes,
 } from 'homepairs-types';
-import {NavigationRouteHandler, isNullOrUndefined} from 'homepairs-utilities';
+import { NavigationRouteHandler } from 'homepairs-routes';
+import {isNullOrUndefined} from 'homepairs-utilities';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu';
 

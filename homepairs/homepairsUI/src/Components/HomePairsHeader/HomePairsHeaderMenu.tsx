@@ -3,9 +3,10 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-nati
 import React from 'react';
 import { MainAppStackType, AccountTypes } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { NavigationRouteHandler } from 'homepairs-utilities';
-import { MainAppStack } from 'homepairs-routes';
-import { ChooseMainPage } from '../../Routes/Routes';
+import { 
+    NavigationRouteHandler, 
+    MainAppStack, 
+    ChooseMainPage } from 'homepairs-routes';
 
 export type HomePairsMenuProps = {
 

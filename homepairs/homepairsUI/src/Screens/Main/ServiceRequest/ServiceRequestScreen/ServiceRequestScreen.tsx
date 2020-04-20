@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withSceneHeader } from 'homepairs-components';
 import strings from 'homepairs-strings';
 import { navigationPages } from 'src/Routes/RouteConstants';
-import { prepareNavigationHandlerComponent } from 'homepairs-utilities';
+import { prepareNavigationHandlerComponent } from 'homepairs-routes';
 import ServiceRequestScreenBase, {
     ServiceRequestScreenStateProps,
     ServiceRequestScreenProps,

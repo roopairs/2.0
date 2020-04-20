@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { Property, AppState, EditPropertyState } from 'homepairs-types';
-import { prepareNavigationHandlerComponent, NavigationRouteHandler } from 'homepairs-utilities';
-import { postUpdatedProperty } from 'homepairs-endpoints';
+import { prepareNavigationHandlerComponent, NavigationRouteHandler } from 'homepairs-routes';
+import { postUpdatedProperty } from 'src/endpoints/api-request';
 import EditPropertyModalBase, {EditPropertyDispatchProps} from './EditPropertyModalBase';
 
 const mapDispatchToProps : (dispatch: any) => EditPropertyDispatchProps = (dispatch: any) => ({

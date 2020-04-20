@@ -5,17 +5,16 @@ import { BrowserRouter as Router, Route, Redirect, Switch, useLocation, useHisto
 import {
   MainAppPages, AuthenticationPages,
 } from 'homepairs-pages';
-import {
-  LOGIN, SIGNUP, ROOPAIRS_LOGIN, PROPERTY_LIST, TENANT_PROPERTY,
-  PROPERTY, LOGIN_MODAL, CREATE_ACCOUNT_MODAL, ADD_PROPERTY_MODAL, EDIT_PROPERTY_MODAL, 
-  ROOPAIRS_LOGIN_MODAL, EDIT_TENANT_MODAL, ADD_TENANT_MODAL, ADD_APPLIANCE_MODAL, EDIT_APPLIANCE_MODAL,
-  SERVICE_REQUEST, NEW_SERVICE_REQUEST, ACCOUNT_SETTINGS, SERVICE_REQUEST_INFO_MODAL, navigationPages,
-} from 'src/Routes/RouteConstants';
 import {HomePairsHeader} from 'homepairs-components';
 import { CreatingAccountModal, LoggingInModal, AddNewPropertyModal, 
   EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, EditTenantModal, ServiceRequestModal } from 'homepairs-modals';
 import { AccountTypes } from 'homepairs-types';
-import { NavigationRouteHandler } from 'homepairs-utilities';
+import {
+  LOGIN, SIGNUP, ROOPAIRS_LOGIN, PROPERTY_LIST, TENANT_PROPERTY,
+  PROPERTY, LOGIN_MODAL, CREATE_ACCOUNT_MODAL, ADD_PROPERTY_MODAL, EDIT_PROPERTY_MODAL, 
+  ROOPAIRS_LOGIN_MODAL, EDIT_TENANT_MODAL, ADD_TENANT_MODAL, ADD_APPLIANCE_MODAL, EDIT_APPLIANCE_MODAL,
+  SERVICE_REQUEST, NEW_SERVICE_REQUEST, ACCOUNT_SETTINGS, SERVICE_REQUEST_INFO_MODAL,
+} from 'homepairs-routes';
 
 
 // Pages and components that need to be retrieved in order to route properly 
@@ -91,7 +90,7 @@ const EditApplianceReadyModal = withModal(EditApplianceModal);
 const AddTenantReadyModal = withModal(AddTenantModal);
 const EditTenantReadyModal = withModal(EditTenantModal);
 
-const ServiceRequestInfoReadyModal = withModal(ServiceRequestModal)
+const ServiceRequestInfoReadyModal = withModal(ServiceRequestModal);
 /* Modal Ready Components for Routers */
 
 
@@ -292,19 +291,3 @@ export default function AppNavigator(props:any){
     );
 };
 export {AppNavigator};
-
-
-/**
- * ----------------------------------------------------
- * ChooseMainPage
- * ----------------------------------------------------
- * This function navigates to a specific page based on the Account Type passed in.  
- * @param {AccountTypes} accountType - Type passed in
- * @param {NavigationRouteHandler} navigation -navigator passed from calling component */
-export function ChooseMainPage(accountType: AccountTypes, navigation: NavigationRouteHandler) {
-  if(accountType === AccountTypes.Tenant){
-    navigation.replace(navigationPages.TenantProperty);
-    return;
-  }
-  navigation.replace(navigationPages.PropertiesScreen);  
-}

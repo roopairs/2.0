@@ -5,10 +5,10 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions} from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
 import {FontTheme} from 'homepairs-base-styles';
 import { HomePairFonts } from 'homepairs-fonts';
-import { categoryToString, prepareNavigationHandlerComponent, NavigationRouteScreenProps} from 'homepairs-utilities';
+import { categoryToString, isNullOrUndefined} from 'homepairs-utilities';
+import {prepareNavigationHandlerComponent, NavigationRouteScreenProps} from 'homepairs-routes';
 import Moment from 'moment';
 
 type Props = NavigationRouteScreenProps;

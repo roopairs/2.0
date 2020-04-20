@@ -3,10 +3,9 @@ import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions, 
 import {ThinButton, Card, InputForm, InputFormProps } from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, TenantInfo} from 'homepairs-types';
-import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid, 
-    prepareNavigationHandlerComponent, NavigationRouteScreenProps } from 'homepairs-utilities';
-import {navigationPages} from 'homepairs-routes';
-import { updateTenant } from "homepairs-endpoints";
+import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid } from 'homepairs-utilities';
+import {navigationPages, prepareNavigationHandlerComponent, NavigationRouteScreenProps} from 'homepairs-routes';
+import { updateTenant } from "src/endpoints/api-request";
 
 const {SingleProperty} = navigationPages;
 
