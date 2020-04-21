@@ -32,7 +32,7 @@ module.exports = function(api) {
                         'homepairs-pages': './src/screens/index.tsx',
                         'homepairs-modals': './src/modals/index.tsx',
                         'homepairs-base-styles': './res/Styles/base.ts',
-                        'homepairs-components': './src/Components/index.tsx',
+                        'homepairs-components': './src/components/index.tsx',
                         'homepairs-utilities': './src/utility/index.tsx',
                         'homepairs-routes' : './src/routes/index.tsx',
                         'homepairs-endpoints' : './src/endpoints/index.ts',

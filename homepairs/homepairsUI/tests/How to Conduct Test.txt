@@ -60,7 +60,7 @@ import { prepareNavigationStackFirstRouteMock } from 'tests/fixtures/DummyCompon
 import { Provider } from 'react-redux';
 import { render, fireEvent } from 'react-native-testing-library';
 import { TextInput, Platform, TouchableOpacity } from 'react-native';
-import ThinButton from 'src/Elements/Buttons/ThinButton';
+import ThinButton from 'src/elements/Buttons/ThinButton';
 
 const mockStore = propertyManagerMock1;
 const [mockStackNavigationFirstRoute, navigationStackSpyFunction] = prepareNavigationStackFirstRouteMock({tenant:true});

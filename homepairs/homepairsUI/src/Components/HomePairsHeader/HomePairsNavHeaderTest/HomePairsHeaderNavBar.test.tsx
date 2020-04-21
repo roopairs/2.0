@@ -13,7 +13,7 @@ import {
     MainAppStackType,
 } from 'homepairs-types';
 import { TouchableOpacity, Platform} from 'react-native';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import { navigationPages } from 'src/routes/RouteConstants';
 import HomePairsHeader from '../HomePairsHeader';
 
 

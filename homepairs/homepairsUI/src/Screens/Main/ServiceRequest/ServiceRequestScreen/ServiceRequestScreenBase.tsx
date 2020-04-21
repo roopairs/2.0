@@ -6,7 +6,7 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import { navigationPages } from 'src/routes/RouteConstants';
 import { ServiceRequestButton, ServiceRequestAddressPanel } from 'homepairs-elements';
 import {
     HomePairsDimensions,

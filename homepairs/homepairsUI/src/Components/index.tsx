@@ -33,6 +33,5 @@ export { default as AccountConnectedCard } from './AuthenticationCards/AccountCo
 export { default as ConnectAccountCard } from './AuthenticationCards/ConnectAccountCard';
 export { default as HomePairsHeader } from './HomePairsHeader/HomePairsHeader';
 export { default as CurrentTenantCard } from './CurrentTenantCard/CurrentTenantCard';
-export { default as LocationItem } from '../Elements/LocationItem/LocationItem';
 export { default as ChooseAppliance } from './ChooseAppliance/ChooseAppliance';
 
