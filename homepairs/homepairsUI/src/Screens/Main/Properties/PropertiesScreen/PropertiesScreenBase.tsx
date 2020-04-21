@@ -31,7 +31,7 @@ export type PropertiesScreenProps = SceneInjectedProps &
  * Child Components: 
  *  -ViewPropertyCard
  */
-export default class PropertiesScreenBase extends React.Component<PropertiesScreenProps> {
+export class PropertiesScreenBase extends React.Component<PropertiesScreenProps> {
 
     apiKey = 'AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg';
 

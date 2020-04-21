@@ -3,25 +3,25 @@ import React from 'react';
 import { View } from 'react-native';
 import { BrowserRouter as Router, Route, Redirect, Switch, useLocation, useHistory} from 'react-router-dom';
 import {
-  MainAppPages, AuthenticationPages,
+  NewRequestScreen,
+  ServiceRequestScreen,
+  LoginScreen,
+  SignUpScreen,
+  RoopairsLogin,
+  AccountScreen,
+  DetailedPropertyScreen,
+  PropertiesScreen,
+  TenantPropertiesScreen,
 } from 'homepairs-pages';
 import {HomePairsHeader} from 'homepairs-components';
 import { CreatingAccountModal, LoggingInModal, AddNewPropertyModal, 
   EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, EditTenantModal, ServiceRequestModal } from 'homepairs-modals';
-import { AccountTypes } from 'homepairs-types';
 import {
   LOGIN, SIGNUP, ROOPAIRS_LOGIN, PROPERTY_LIST, TENANT_PROPERTY,
   PROPERTY, LOGIN_MODAL, CREATE_ACCOUNT_MODAL, ADD_PROPERTY_MODAL, EDIT_PROPERTY_MODAL, 
   ROOPAIRS_LOGIN_MODAL, EDIT_TENANT_MODAL, ADD_TENANT_MODAL, ADD_APPLIANCE_MODAL, EDIT_APPLIANCE_MODAL,
   SERVICE_REQUEST, NEW_SERVICE_REQUEST, ACCOUNT_SETTINGS, SERVICE_REQUEST_INFO_MODAL,
 } from 'homepairs-routes';
-
-
-// Pages and components that need to be retrieved in order to route properly 
-const { LoginScreen, SignUpScreen, RoopairsLogin } = AuthenticationPages; 
-const { PropertiesScreen, TenantPropertiesScreen, DetailedPropertyScreen } = MainAppPages.PropertyPages;
-const { ServiceRequestScreen, NewRequestScreen } = MainAppPages.ServiceRequestPages;
-const { AccountScreen } = MainAppPages.AccountPages;
 
 /**
  * ------------------------------------------------------------
@@ -122,11 +122,11 @@ function LoginModalSwitch() {
     return (
       <>
         <Switch path={SIGNUP} location={background || location}>
-          <Route exact path={SIGNUP} children={<SignUpScreen />} />
-          <Route path={CREATE_ACCOUNT_MODAL} children={<CreatingAccountModal />} />
+          <Route exact path={SIGNUP}><SignUpScreen/></Route>
+          <Route path={CREATE_ACCOUNT_MODAL}> <CreatingAccountModal/> </Route>
         </Switch>
         {/* Show the modal when a background page is set */}
-        {background && <Route path={CREATE_ACCOUNT_MODAL} children={<RegisterModal />} />}
+        {background && <Route path={CREATE_ACCOUNT_MODAL}><RegisterModal/> </Route>}
       </>
     );
   }
@@ -137,12 +137,12 @@ function LoginModalSwitch() {
     return (
       <>
         <Switch location={background || location}>
-          <Route exact path={ROOPAIRS_LOGIN} children={<RoopairsLogin/>} />
-          <Route path={ROOPAIRS_LOGIN_MODAL} children={<LoggingInModal />} />
+          <Route exact path={ROOPAIRS_LOGIN}><RoopairsLogin/></Route>
+          <Route path={ROOPAIRS_LOGIN_MODAL}><LoggingInModal/></Route>
         </Switch>
   
         {/* Show the modal when a background page is set */}
-        {background && <Route path={ROOPAIRS_LOGIN_MODAL} children={<LoginModal />} />}
+        {background && <Route path={ROOPAIRS_LOGIN_MODAL}><LoginModal/></Route>}
 
       </>   
     );
@@ -242,12 +242,12 @@ function PropertiesSwitch() {
             <>
                 <HomePairsHeader />
                 <Switch path={PROPERTY_LIST} location={background || location}>
-                    <Route exact path={PROPERTY_LIST} children={<PropertiesScreen/>} />
-                    <Route exact path={ADD_PROPERTY_MODAL} children={<AddNewPropertyModal />} />
+                    <Route exact path={PROPERTY_LIST}><PropertiesScreen/></Route>
+                    <Route exact path={ADD_PROPERTY_MODAL}><AddNewPropertyModal/></Route>
                 </Switch>
         
                 {/* Show the modal when a background page is set */}
-                {background && <Route path={ADD_PROPERTY_MODAL} children={<AddPropertyModal />} />}
+                {background && <Route path={ADD_PROPERTY_MODAL}><AddPropertyModal/></Route>}
             </>
         )}/>
     );

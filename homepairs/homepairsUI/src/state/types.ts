@@ -390,7 +390,7 @@ export type AppState = {
     serviceRequests: ServiceState;
     settings: SettingsState;
     authenticated: AuthenticationState;
-    preferredProviders: 
+    preferredProviders: PreferredServiceProviderState;
     // add future state slices here
 }
 /* *-------------------App State-------------------* */

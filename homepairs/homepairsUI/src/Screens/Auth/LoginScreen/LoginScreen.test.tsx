@@ -1,5 +1,4 @@
 import React from 'react';
-import {AuthenticationPages} from 'homepairs-pages';
 import { propertyManagerMock1 } from 'tests/fixtures/StoreFixture';
 import { Provider } from 'react-redux';
 import { fireEvent, render } from 'react-native-testing-library';
@@ -9,10 +8,10 @@ import { navigationPages } from 'homepairs-routes';
 import {BrowserRouter as Router} from 'react-router-dom';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
-import LoginScreenBase from './LoginScreenBase';
+import { LoginScreenBase } from './LoginScreenBase';
+import LoginScreen from './LoginScreen';
 
 const mockStore = propertyManagerMock1;
-const {LoginScreen} = AuthenticationPages;
 const mockAxios = new MockAdapter(axios);
 const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock();
 const ComponentWithStore = Platform.OS === 'web' ? 

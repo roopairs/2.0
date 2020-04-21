@@ -2,8 +2,16 @@ import React from 'react';
 import { createAppContainer, SafeAreaView, withNavigation } from 'react-navigation';
 import { createStackNavigator, NavigationStackConfig, NavigationStackOptions } from 'react-navigation-stack';
 import {
-    MainAppPages, AuthenticationPages,
-} from 'src/Screens';
+    NewRequestScreen,
+    ServiceRequestScreen,
+    LoginScreen,
+    SignUpScreen,
+    RoopairsLogin,
+    AccountScreen,
+    DetailedPropertyScreen,
+    PropertiesScreen,
+    TenantPropertiesScreen,
+} from 'homepairs-pages';
 import { Platform } from 'react-native';
 import { 
     AddNewPropertyModal, 
@@ -18,7 +26,6 @@ import {
 } from 'homepairs-modals';
 import { HomePairsHeader } from 'homepairs-components';
 import { LightColorTheme } from 'homepairs-base-styles';
-import { AccountTypes } from 'homepairs-types';
 import { navigationKeys, navigationPages } from 'homepairs-routes';
 
 /** Set Up our configuration for the navigation routes */
@@ -88,9 +95,9 @@ const accountStackConfig = {
 /** Define the Navigation Stacks now that our configuration is ready */
 const PropertyStack = createStackNavigator(
     {
-        [navigationKeys.PropertiesScreen]: MainAppPages.PropertyPages.PropertiesScreen,
-        [navigationKeys.TenantProperty]: MainAppPages.PropertyPages.TenantPropertiesScreen,
-        [navigationKeys.SingleProperty]: MainAppPages.PropertyPages.DetailedPropertyScreen,
+        [navigationKeys.PropertiesScreen]: PropertiesScreen,
+        [navigationKeys.TenantProperty]: TenantPropertiesScreen,
+        [navigationKeys.SingleProperty]: DetailedPropertyScreen,
 
         // [navigationKeys.EditPropertyModal]: EditPropertyModal,
         // [navigationKeys.AddApplianceModal]: AddApplianceModal, 
@@ -103,8 +110,8 @@ const PropertyStack = createStackNavigator(
 
 const ServiceRequestStack = createStackNavigator(
     {
-      [navigationKeys.ServiceRequestScreen]: MainAppPages.ServiceRequestPages.ServiceRequestScreen, 
-      [navigationKeys.NewRequest]: MainAppPages.ServiceRequestPages.NewRequestScreen,
+      [navigationKeys.ServiceRequestScreen]: ServiceRequestScreen, 
+      [navigationKeys.NewRequest]: NewRequestScreen,
 
       // [navigationKeys.ServiceRequestModal]: ServiceRequestModal,
 
@@ -113,7 +120,7 @@ const ServiceRequestStack = createStackNavigator(
   
 const AccountStack = createStackNavigator(
     {
-        [navigationKeys.AccountSettings]: MainAppPages.AccountPages.AccountScreen,
+        [navigationKeys.AccountSettings]: AccountScreen,
     },
   accountStackConfig);
 
@@ -144,11 +151,11 @@ const MainStack = createStackNavigator(
 
 const AuthStack = createStackNavigator(
     {
-        [navigationKeys.LoginScreen]: AuthenticationPages.LoginScreen,
+        [navigationKeys.LoginScreen]: LoginScreen,
         // [navigationKeys.LoggingInModal]: LoggingInModal,
-        [navigationKeys.RoopairsLogin]: AuthenticationPages.RoopairsLogin,
+        [navigationKeys.RoopairsLogin]: RoopairsLogin,
         // [navigationKeys.RoopairsLoggingInModal]: LoggingInModal,
-        [navigationKeys.SignUpScreen]: AuthenticationPages.SignUpScreen,
+        [navigationKeys.SignUpScreen]: SignUpScreen,
         // [navigationKeys.CreatingAccountModal]: CreatingAccountModal,
     },
     {
@@ -163,9 +170,9 @@ const container = createStackNavigator(
     {
         [navigationKeys.Main]: MainStack,
         [navigationKeys.Auth]: AuthStack,
-        [navigationKeys.LoginScreen]: AuthenticationPages.LoginScreen,
-        [navigationKeys.RoopairsLogin]: AuthenticationPages.RoopairsLogin,
-        [navigationKeys.SignUpScreen]: AuthenticationPages.SignUpScreen,
+        [navigationKeys.LoginScreen]: LoginScreen,
+        [navigationKeys.RoopairsLogin]: RoopairsLogin,
+        [navigationKeys.SignUpScreen]: SignUpScreen,
         [navigationKeys.CreatingAccountModal]: CreatingAccountModal,
         [navigationKeys.RoopairsLoggingInModal]: LoggingInModal,
         [navigationKeys.LoggingInModal]: LoggingInModal,

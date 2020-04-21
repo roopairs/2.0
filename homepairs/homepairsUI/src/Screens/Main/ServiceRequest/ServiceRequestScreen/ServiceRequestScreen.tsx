@@ -4,7 +4,8 @@ import { withSceneHeader } from 'homepairs-components';
 import strings from 'homepairs-strings';
 import { navigationPages } from 'src/routes/RouteConstants';
 import { prepareNavigationHandlerComponent } from 'homepairs-routes';
-import ServiceRequestScreenBase, {
+import {
+    ServiceRequestScreenBase,
     ServiceRequestScreenStateProps,
     ServiceRequestScreenProps,
 } from './ServiceRequestScreenBase';

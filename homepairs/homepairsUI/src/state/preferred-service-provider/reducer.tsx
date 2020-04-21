@@ -28,8 +28,8 @@ export function arrayToDictionary(serviceProviders: ServiceProvider[]) : Provide
 
 /**
  * Helper function that removes a service provider from a dictionary without mutating the original
- * @param serviceProviders -dictionary of serviceProviders
- * @param phoneNum -service provider key to be removed
+ * @param {ProviderDictionary} serviceProviders -dictionary of serviceProviders
+ * @param {string} phoneNum -service provider key to be removed
  */
 export function removeKey(serviceProviders: ProviderDictionary, phoneNum: string): ProviderDictionary {
     let updatedServiceProviders : ProviderDictionary = {};

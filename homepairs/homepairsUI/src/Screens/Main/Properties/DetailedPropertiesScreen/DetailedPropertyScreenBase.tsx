@@ -33,7 +33,8 @@ export type DetailedPropertyStateProps = {
     token: string,
 };
 
-type Props = NavigationRouteScreenProps & DetailedPropertyStateProps;
+export type DetailedPropertyProps = NavigationRouteScreenProps & DetailedPropertyStateProps;
+
 type State = {
     tenantInfo: TenantInfo[],
     applianceInfo: Appliance[],
@@ -114,7 +115,7 @@ function getPropIdAndProperty(props:any){
     return [propId, property];
 }
 
-export default class DetailedPropertyScreenBase extends React.Component<Props, State> {
+export class DetailedPropertyScreenBase extends React.Component<DetailedPropertyProps, State> {
 
     apiKey = 'AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg';
 
@@ -122,7 +123,7 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
 
     token;
 
-    constructor(props: Readonly<Props>){
+    constructor(props: Readonly<DetailedPropertyProps>){
         super(props);
         const [pathname, key] = props.navigation.getLocationPathnameAndKey();
         this.state = {

@@ -1,7 +1,8 @@
 import { AppState } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { prepareNavigationHandlerComponent } from 'homepairs-routes';
-import DetailedPropertyScreenBase, {
+import {
+    DetailedPropertyScreenBase,
     DetailedPropertyStateProps,
 } from './DetailedPropertyScreenBase';
 
@@ -18,7 +19,4 @@ function mapStateToProps(state: AppState): DetailedPropertyStateProps {
 const DetailedPropertyScreen = connect(
     mapStateToProps,
 )(DetailedPropertyScreenBase);
-
-
-const DetailedPropertyScreenWithNavigation = prepareNavigationHandlerComponent(DetailedPropertyScreen);
-export default DetailedPropertyScreenWithNavigation;
+export default prepareNavigationHandlerComponent(DetailedPropertyScreen);

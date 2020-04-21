@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
 const serviceRequestStrings = strings.serviceRequestPage;
 
 function filterTabbedObjects(unfilteredServiceRequests: ServiceRequest[], requestStatus: ServiceRequestStatus) {
-    console.log(`In filtered Tabbed`)
+    console.log(`In filtered Tabbed`);
     const filteredServiceRequests: ServiceRequest[] = unfilteredServiceRequests.filter(sr => sr.status === requestStatus);
     return filteredServiceRequests;
 }
@@ -240,7 +240,7 @@ function filterTabbedObjects(unfilteredServiceRequests: ServiceRequest[], reques
  * ---------------------------------------------------
  */
 
-export default class ServiceRequestScreenBase extends React.Component<ServiceRequestScreenProps, ServiceRequestState>{
+export class ServiceRequestScreenBase extends React.Component<ServiceRequestScreenProps, ServiceRequestState>{
     tabs = ["PENDING", "SCHEDULED", "IN_PROGRESS"];
 
     currentServiceRequests;

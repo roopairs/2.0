@@ -12,7 +12,7 @@ import {
     RemoveServiceProviderAction, 
     PreferredServiceProviderState,
 } from '../types';
-import {PREFERRED_SERVICE_PROVIDER_ACTION_TYPES} from './actions';
+import { PREFERRED_SERVICE_PROVIDER_ACTION_TYPES } from './actions';
 
 /** Required Definitions */
 const {REFRESH_SERVICE_PROVIDERS, REMOVE_SERVICE_PROVIDER} = PREFERRED_SERVICE_PROVIDER_ACTION_TYPES;

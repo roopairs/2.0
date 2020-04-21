@@ -2,7 +2,7 @@ import { AppState, MainAppStackType, PropertyManagerAccount } from 'homepairs-ty
 import { connect } from 'react-redux';
 import { withSceneHeader} from 'homepairs-components';
 import { prepareNavigationHandlerComponent } from 'homepairs-routes';
-import NewRequestScreenBase from './NewRequestScreenBase';
+import { NewServiceRequestBase } from './NewRequestScreenBase';
 
 const sceneParam: MainAppStackType = {
     title: 'New Service Request',
@@ -20,7 +20,7 @@ function mapStateToProps(state: AppState) : any {
 
 const NewServiceRequestScreen = connect(
     mapStateToProps,
-)(NewRequestScreenBase);
+)(NewServiceRequestBase);
 
 
 // Make sure the base also has Navigation Props, this is not passed down in withSceneHeader

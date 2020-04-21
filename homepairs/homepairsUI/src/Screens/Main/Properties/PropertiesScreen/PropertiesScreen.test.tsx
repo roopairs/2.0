@@ -1,5 +1,4 @@
 import React from 'react';
-import { MainAppPages } from 'homepairs-pages';
 import { Provider } from 'react-redux';
 import { fireEvent, render } from 'react-native-testing-library';
 import { prepareNavigationMock, mockRoute , propertyManagerMock1} from 'homepairs-test';
@@ -11,12 +10,12 @@ import {
 import { ThinButton }  from 'homepairs-elements';
 import { SetSelectedPropertyAction, ShowGoBackOnButtonClick } from 'homepairs-types';
 import { navigationPages } from 'homepairs-routes';
+import PropertiesScreen from './PropertiesScreen';
 
 jest.mock('homepairs-images');
 jest.mock('react-widgets/dist/css/react-widgets.css');
 
 
-const {PropertiesScreen} = MainAppPages.PropertyPages;
 const {AddNewPropertyModal, SingleProperty } = navigationPages;
 const mockStore = propertyManagerMock1;
 const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock();
