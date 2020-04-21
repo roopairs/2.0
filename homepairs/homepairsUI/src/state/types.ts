@@ -248,7 +248,7 @@ export type ServiceAction =
 
 /* *-------------------Service Types-------------------* */
 
-/* *-------------------Preffered Service Provider Types-------------------* */
+/* *-------------------Preferred Service Provider Types-------------------* */
 export type RefreshServiceProvidersAction = {
     type: string;
     preferredServiceProviders: ServiceProvider[];
@@ -263,7 +263,11 @@ export type PreferredServiceProviderAction =
     | RefreshServiceProvidersAction
     | RemoveServiceProviderAction;
 
-/* *-------------------Preffered Service Provider Types-------------------* */
+
+export type PreferredServiceProviderState = {
+    serviceProviders: { [phoneNum:string] : ServiceProvider}
+}
+/* *-------------------Preferred Service Provider Types-------------------* */
 
 
 
@@ -386,6 +390,7 @@ export type AppState = {
     serviceRequests: ServiceState;
     settings: SettingsState;
     authenticated: AuthenticationState;
+    preferredProviders: 
     // add future state slices here
 }
 /* *-------------------App State-------------------* */

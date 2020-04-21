@@ -7,6 +7,7 @@ const webPreset = require('jest-expo/web/jest-preset');
 
 module.exports = {
     ...tsjPreset,
+    automock: true,
     projects: [
         // Skipping Node because we want to test DOM presets only
         withEnzyme(iosPreset),
@@ -17,7 +18,7 @@ module.exports = {
         withEnzyme(webPreset),
     ],
     moduleNameMapper: {
-        "\\.(css|less|scss)$": "<rootDir>/tests/setup/styleMock.js",
+        "\\.(css|less|sass|scss)$": "<rootDir>/src/tests/setup/styleMock.js",
     },
     transform: {
         ...tsjPreset.transform,
@@ -27,7 +28,7 @@ module.exports = {
     transformIgnorePatterns: [
         'node_modules/(?!(jest-)?react-native|react-clone-referenced-element|' +
             '@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|' +
-            '@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base)',
+            '@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-widgets)',
     ],
     collectCoverage: false,
     collectCoverageFrom: [
@@ -39,6 +40,9 @@ module.exports = {
         '!**/babel.config.js',
         '!**/jest.setup.js',
         '!**/tests/**',
+        '!**/__tests__/**',
+        '!**/__mocks__/**',
+        '!**/*.{native,ios,android,web}.test.{js, jsx, ts, tsx}',
         '!**/App.{js,jsx,ts,tsx}',
     ],
     globals: {
@@ -49,4 +53,5 @@ module.exports = {
     // This is the only part which you can keep
     // from the above linked tutorial's config:
     cacheDirectory: '.jest/cache',
+
 };
