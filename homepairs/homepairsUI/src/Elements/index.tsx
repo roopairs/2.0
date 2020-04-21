@@ -30,8 +30,7 @@ import { ServiceProviderButtonProps as SPBP} from './Buttons/ServiceProviderButt
 import { CardProps as CP} from './Cards/Card';
 import { StickerProps as SP} from './Stickers/Sticker';
 
-export {default as DatePicker} from './DatePicker/DatePicker';
-export {default as ButtonWithBitmap} from 'src/Elements/Buttons/ButtonWithBitmap';
+export {default as ButtonWithBitmap} from './Buttons/ButtonWithBitmap';
 export {default as InputForm } from './Forms/InputForm';
 export {default as GoogleInputForm} from './Forms/GoogleInputForm';
 export {default as ThinButton} from './Buttons/ThinButton';
@@ -46,6 +45,7 @@ export {default as ApplianceCategoryPanel} from './Panels/ApplianceCategoryPanel
 export {default as ServiceTypePanel} from './Panels/ServiceTypePanel';
 export {default as ServiceRequestButton} from './Buttons/ServiceRequestButton';
 export {default as ServiceProviderButton} from './Buttons/ServiceProviderButton';
+export {default as DatePicker} from './DatePicker/DatePicker.ios';
 
 /** A hack that works when exporting types */
 export type InputFormProps = IFP;

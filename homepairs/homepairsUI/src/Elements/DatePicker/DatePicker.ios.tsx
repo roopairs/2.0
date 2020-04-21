@@ -1,6 +1,6 @@
 import React , {useState} from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import {View, StyleSheet} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DatePicker from 'react-native-datepicker';
 
 type Props = {
     serviceDate: Date, 
@@ -25,20 +25,25 @@ export default function DatePickeriOS(props : Props){
     maxDate.setDate(startDate.getDate() + 90);
     maxDate.setHours(0, 0, 0);
 
-    const onChange = (_, selectedDate: Date) => {
+    const onChange = (selectedDate: Date) => {
         setDate(selectedDate);
         getFormDate(selectedDate);
     };
     
     return (
         <View style={styles.container}>
-        <DateTimePicker 
+        <DatePicker 
+            style={{width: '100%'}}
             key='mobile datetime picker'
-            value={date}
-            minimumDate={startDate}
-            maximumDate={maxDate}
-            onChange={onChange}
-            mode='datetime'   
+            date={date}
+            minDate={startDate}
+            maxDate={maxDate}
+            onDateChange={onChange}
+            mode='datetime'
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            placeholder="Select date"
+            format="MM-DD-YYYY HH:MM"
         />
         </View>);
         
