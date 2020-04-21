@@ -1,5 +1,5 @@
 import {
-    PreferredServiceProviderAction ,
+    PreferredServiceProviderAction,
     RefreshServiceProvidersAction, 
     RemoveServiceProviderAction,
     ServiceProvider,

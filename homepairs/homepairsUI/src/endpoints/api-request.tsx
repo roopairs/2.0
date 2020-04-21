@@ -4,10 +4,20 @@
  * using should be put and referenced from this file.  
  */
 import axios from 'axios';
-import { getAccountType, categoryToString } from 'homepairs-utilities';
+import { getAccountType, categoryToString, isNullOrUndefined } from 'homepairs-utilities';
 import { NavigationRouteHandler, ChooseMainPage, navigationPages} from 'homepairs-routes';
 import * as HomePairsStateActions from 'homepairs-redux-actions';
-import { AccountTypes, Account, Property, AddNewPropertyState, EditPropertyState, Appliance, AddApplianceState, NewServiceRequest } from 'homepairs-types';
+import { 
+    AccountTypes, 
+    Account, 
+    Property, 
+    AddNewPropertyState, 
+    EditPropertyState, 
+    Appliance, 
+    AddApplianceState, 
+    NewServiceRequest, 
+    ServiceProvider,
+} from 'homepairs-types';
 import {
     HOMEPAIRS_APPLIANCE_ENDPOINT, 
     HOMEPAIRS_LOGIN_ENDPOINT, 
@@ -17,20 +27,144 @@ import {
     HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT,
     HOMEPAIRS_SERVICE_REQUEST_ENDPOINT,
     HOMEPAIRS_TENANT_EDIT_ENDPOINT,
+    HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT,
 } from './constants';
 
 
-const {AccountActions, PropertyListActions, SessionActions} = HomePairsStateActions;
+const {AccountActions, PropertyListActions, SessionActions, PreferredProviderActions} = HomePairsStateActions;
 const {parseAccount} = AccountActions;
 const {fetchProperties, fetchPropertyAndPropertyManager, addProperty, updateProperty} = PropertyListActions;
 const {setAccountAuthenticationState} = SessionActions;
+const {refreshServiceProviders, removeServiceProvider} = PreferredProviderActions;
 
+/* * JSON KEYS * */
 const SUCCESS = 'success';
 const FAILURE = 'failure';
+const PREFERRED_PROVIDERS = 'TODO: Change this key to that returned from the backend';
 const PM = 'pm';
+/* * JSON KEYS * */
 
 
 const {SingleProperty, ServiceRequestScreen} = navigationPages;
+
+/**
+ * ----------------------------------------------------
+ * putPreferredProvider
+ * ---------------------------------------------------- 
+ * Makes a put request to the homepairs backend adding a preferred provider from the account 
+ * associatted with the account Email. Returns the result of the request upon completion. 
+ * NOTE: This method will NOT update the redux store in anyway. To update the list of 
+ * preferred providers, one must call the fetchPreferredProvider after a this api has 
+ * been successful.
+ * 
+ * @param {string} accountEmail -The email of the associated account. This is used to by the backend to 
+ * determine which account needs the specified provider to be added.
+ * @param {ServiceProvider} serviceProvider -The object holding in the service provider to be added.
+ * @param {(error:string) => any} onError -An optional callback function that will handle an error 
+ * thrown if the api request fails.
+ */
+export const putPreferredProvider = async (
+    accountEmail: string, serviceProvider: ServiceProvider,  onError: (error:string) => any = console.log) => {
+    const {phoneNum} = serviceProvider;
+    const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${accountEmail}/${phoneNum}/`;
+    const result = await axios.put(endpoint).then(response => {return response;}).catch(
+        error => {
+            onError(error);
+        });
+    return result;
+};
+
+
+/**
+ * ----------------------------------------------------
+ * parsePreferredProviders
+ * ---------------------------------------------------- 
+ * A helper function that takes in a json array that is intended to have the information recieved 
+ * from the fetch request for preferred providers. 
+ * @param {any[]} preferredServiceProviderJSON -The array of json objects
+ */
+export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => ServiceProvider[] = 
+(preferredServiceProviderJSON: any[]) => {
+    return preferredServiceProviderJSON.map(serviceProvider => {
+        const {provId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire} = serviceProvider;
+        return {
+            provId, name, email, 
+            phoneNum, contractLic, skills, 
+            founded, payRate, timesHired, 
+            earliestHire: isNullOrUndefined(earliestHire) ? undefined : new Date(earliestHire), 
+        };
+    });
+}; 
+
+
+/** 
+* ----------------------------------------------------
+* fetchPreferredProviders
+* ---------------------------------------------------- 
+* Makes a get request to the homepairs backend retrieving all preferred provider from the account 
+* associatted with the account Email. This function calls the dispatch method and updates the store 
+* upon success.
+* 
+* @param {ServiceProvider} serviceProvider -The object holding in the service provider to be removed
+* @param {string} accountEmail -The email of the associated account. This is used to by the backend to 
+* determine which account needs the specified provider to be removed
+* @param {(error:string) => any} onError -An optional callback function that will handle an error 
+* thrown if the api request fails
+*/
+export const fetchPreferredProviders = (accountEmail: string) => {
+    const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${accountEmail}/`;
+    return async (dispatch: (func: any) => void) => {
+        await axios.get(endpoint)
+        .then(result => {
+            const {data} = result;
+            // TODO: parse serviceProviders to be that of a list of ServiceProviders
+            const {status, serviceProviders, error} = data;
+            if(status === SUCCESS){
+                const parsedProviders = parsePreferredProviders(serviceProviders);
+                dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
+            } else {
+                console.log(error);
+                return Promise.reject(error);
+            } 
+            return result;
+        })
+        .catch(error => {
+            console.log(error);
+            return Promise.reject(error);
+        });
+    };
+};
+
+/**
+ * ----------------------------------------------------
+ * deletePreferredProvider
+ * ---------------------------------------------------- 
+ * Makes a delete request to the homepairs backend removing a preferred provider from the account 
+ * associatted with the account Email. Returns the result upon completion. This function calls 
+ * a dispatch method and removes the service provider from the store upon success and handles the 
+ * error upon failure.
+ * 
+ * @param {string} accountEmail -The email of the associated account. This is used to by the backend to 
+ * determine which account needs the specified provider to be removed
+ * @param {ServiceProvider} serviceProvider -The object holding in the service provider to be removed
+ * @param {(error:string) => any} onError -An optional callback function that will handle an error 
+ * thrown if the api request fails
+ */
+export const deletePreferredProvider = (
+    accountEmail: string, serviceProvider: ServiceProvider, onError: (error:string) => any = console.log) => {
+    const {phoneNum} = serviceProvider;
+    const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${accountEmail}/${phoneNum}/`;
+    // Simply print the error if no error function was defined, otherwise use the defined function
+    return async (dispatch: (func: any) => void) => { 
+        await axios.delete(endpoint)
+        .then(() => {
+            dispatch(removeServiceProvider(serviceProvider));
+        }).catch(error => {
+            onError(error);
+        });
+    };
+};
+
 
 /**
  * ----------------------------------------------------
@@ -38,7 +172,8 @@ const {SingleProperty, ServiceRequestScreen} = navigationPages;
  * ---------------------------------------------------- 
  * Makes an POST request to the homepairs backend overwriting a tenants information.
  * Upon completion the result of the request is printed to the console.
- * @param {object} props - list of information used to define the tenant. Expected 
+ * 
+ * @param {object} props -List of information used to define the tenant. Expected 
  * information follows: propId, email, firstName, lastName, phoneNumber
  */
 export const updateTenant = async ({...props}) => {
@@ -57,7 +192,8 @@ export const updateTenant = async ({...props}) => {
  * ---------------------------------------------------- 
  * Makes a GET request to the homepairs backend and retrieves as list of service 
  * request objects for a specified property
- * @param {string} propId - identity of the the property service request will fetch
+ * 
+ * @param {string} propId -Identity of the the property service request will fetch
  */
 export const fetchServiceRequests = async (propId: string) => {
     const completedEndpoint = `${HOMEPAIRS_SERVICE_REQUEST_ENDPOINT}${propId}/`;
@@ -76,10 +212,12 @@ export const fetchServiceRequests = async (propId: string) => {
  * 
  * Dispatches to redux store. No need to make it async!!
  * 
- * @param {string} Email - credential passed to the endpoint
- * @param {string} Password - credential passed to the endpoint
- * @param {NavigationRouteHandler} navigation - navigator passed from the component
- * @param {modalSetOffCallBack} modalSetOffCallBack -optional callback */
+ * @param {string} Email -Credential passed to the endpoint
+ * @param {string} Password -Credential passed to the endpoint
+ * @param {NavigationRouteHandler} navigation -Navigator passed from the component
+ * @param {modalSetOffCallBack} modalSetOffCallBack -Optional callback that will close 
+ * the calling modal if it exists
+ * */
 export const fetchAccount = (
     Email: string, Password: string, navigation: NavigationRouteHandler, 
     modalSetOffCallBack: (error?:String) => void = (error: String) => {}) => 
@@ -131,10 +269,11 @@ export const fetchAccount = (
  * 
  * Dispatches to redux store. No need to make it async!!
  * 
- * @param {Account} accountDetails - Details passed from user input 
+ * @param {Account} accountDetails -Details passed from user input 
  * @param {String} password - Password input that the user want for their account
- * @param {NavigationPropType} navigation - navigation prop passed from component
- * @param {modalSetOffCallBack} modalSetOffCallBack - *optional callback
+ * @param {NavigationPropType} navigation -Navigation prop passed from component
+ * @param {modalSetOffCallBack} modalSetOffCallBack - *Optional callback that will close 
+ * the calling modal if it exists
  */
 export const generateAccountForTenant = (accountDetails: Account, password: String, 
     navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
@@ -187,8 +326,8 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
    * 
    * @param {Account} accountDetails - Details passed from user input 
    * @param {String} password - Password input that the user want for their account
-   * @param {NavigationPropType} navigation - navigation prop passed from component
-   * @param {modalSetOffCallBack} modalSetOffCallBack - *optional callback to 
+   * @param {NavigationPropType} navigation - Navigation prop passed from component
+   * @param {modalSetOffCallBack} modalSetOffCallBack - *Optional callback to 
    * close/navigate from the modal
    */
   export const generateAccountForPM = (accountDetails: Account, password: String, 
@@ -230,10 +369,10 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
  *  
  * Dispatches to redux store. No need to make it async!!
  * 
- * @param {Property} newProperty -property to add to the homepairs database
- * @param {AddNewPropertyState} info -information used to indicate the property manager of the property
- * @param {setIntialState} setInitialState -sets state of calling component to its original state. Should be used for forms
- * @param {onChangeModalVisibility} onChangeModalVisibility -changes the visibility of the modal of the calling component
+ * @param {Property} newProperty -Property to add to the homepairs database
+ * @param {AddNewPropertyState} info -Information used to indicate the property manager of the property
+ * @param {setIntialState} setInitialState -Sets state of calling component to its original state. Should be used for forms
+ * @param {onChangeModalVisibility} onChangeModalVisibility -Changes the visibility of the modal of the calling component
  */
 export const postNewProperty = (
     newProperty: Property,
@@ -287,10 +426,10 @@ export const postNewProperty = (
  * 
  * Dispatches to redux store. No need to make it async!!
  * 
- * @param {Property} editProperty -contents of the property to be updated
- * @param {EditPropertyState} info -information passed to the api to help determine which property in the
+ * @param {Property} editProperty -Contents of the property to be updated
+ * @param {EditPropertyState} info -Information passed to the api to help determine which property in the
  * servers to update
- * @param {onChangeModalVisibility} onChangeModalVisibility -changes the visibility of the modal
+ * @param {onChangeModalVisibility} onChangeModalVisibility -Changes the visibility of the modal
  * of the calling component
  */
 export const postUpdatedProperty = (
@@ -338,7 +477,7 @@ export const postUpdatedProperty = (
  * Callback is intended to change the state of a modal of the calling component
  * after the request has been sent. This should be optional.
  * @callback onChangeModalVisibility
- * @param {boolean} check -determines if the components modal should be visible */
+ * @param {boolean} check -Determines if the components modal should be visible */
 
 // make docs
 export const postNewAppliance = async (
