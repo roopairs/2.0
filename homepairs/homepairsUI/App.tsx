@@ -81,7 +81,6 @@ function mapStateToProps(state: AppState): any {
         authed: state.authenticated,
     };
 }
-
 const ConnectedApp = connect(mapStateToProps)(AppNavigator);
 
 const App = () => {

@@ -1,9 +1,8 @@
 import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
-import { withSceneHeader } from 'homepairs-components';
+import { withSceneHeader, withPreferredProviderFlatList } from 'homepairs-components';
 import strings from 'homepairs-strings';
-import { navigationPages } from 'src/routes/RouteConstants';
-import { prepareNavigationHandlerComponent } from 'homepairs-routes';
+import { prepareNavigationHandlerComponent, navigationPages  } from 'homepairs-routes';
 import {
     ServiceRequestScreenBase,
     ServiceRequestScreenStateProps,
@@ -53,4 +52,4 @@ const ServiceRequestScreen = connect(
  * that allows the user to add a new service request to their account. 
  */
 
-export default prepareNavigationHandlerComponent(withSceneHeader(ServiceRequestScreen, sceneParam));
+export default prepareNavigationHandlerComponent(withPreferredProviderFlatList(withSceneHeader(ServiceRequestScreen, sceneParam)));

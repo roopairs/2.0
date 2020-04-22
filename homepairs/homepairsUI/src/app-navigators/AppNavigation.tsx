@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { createAppContainer, SafeAreaView, withNavigation } from 'react-navigation';
 import { createStackNavigator, NavigationStackConfig, NavigationStackOptions } from 'react-navigation-stack';
@@ -12,7 +13,7 @@ import {
     PropertiesScreen,
     TenantPropertiesScreen,
 } from 'homepairs-pages';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import { 
     AddNewPropertyModal, 
     EditPropertyModal, 
@@ -27,6 +28,21 @@ import {
 import { HomePairsHeader } from 'homepairs-components';
 import { LightColorTheme } from 'homepairs-base-styles';
 import { navigationKeys, navigationPages } from 'homepairs-routes';
+
+// Add margin offset for main app components 
+function offSetForHeader(Offsetted: any, withPreferredProv: boolean = false){
+    return (props:any) => {
+        return <View style={{flex:1, marginTop: withPreferredProv ? 80: 65}}><Offsetted {...props}/></View>
+       ;
+    };      
+}
+const NewRequestPage = offSetForHeader(NewRequestScreen);
+const ServiceRequestPage = offSetForHeader(ServiceRequestScreen, true);
+
+const AccountPage = offSetForHeader(AccountScreen);
+const DetailedPropertyPage = offSetForHeader(DetailedPropertyScreen);
+const PropertiesPage = offSetForHeader(PropertiesScreen);
+const TenantPropertiesPage = offSetForHeader(TenantPropertiesScreen);
 
 /** Set Up our configuration for the navigation routes */
 
@@ -95,9 +111,9 @@ const accountStackConfig = {
 /** Define the Navigation Stacks now that our configuration is ready */
 const PropertyStack = createStackNavigator(
     {
-        [navigationKeys.PropertiesScreen]: PropertiesScreen,
-        [navigationKeys.TenantProperty]: TenantPropertiesScreen,
-        [navigationKeys.SingleProperty]: DetailedPropertyScreen,
+        [navigationKeys.PropertiesScreen]: PropertiesPage,
+        [navigationKeys.TenantProperty]: TenantPropertiesPage,
+        [navigationKeys.SingleProperty]: DetailedPropertyPage,
 
         // [navigationKeys.EditPropertyModal]: EditPropertyModal,
         // [navigationKeys.AddApplianceModal]: AddApplianceModal, 
@@ -110,8 +126,8 @@ const PropertyStack = createStackNavigator(
 
 const ServiceRequestStack = createStackNavigator(
     {
-      [navigationKeys.ServiceRequestScreen]: ServiceRequestScreen, 
-      [navigationKeys.NewRequest]: NewRequestScreen,
+      [navigationKeys.ServiceRequestScreen]: ServiceRequestPage, 
+      [navigationKeys.NewRequest]: NewRequestPage,
 
       // [navigationKeys.ServiceRequestModal]: ServiceRequestModal,
 
@@ -120,7 +136,7 @@ const ServiceRequestStack = createStackNavigator(
   
 const AccountStack = createStackNavigator(
     {
-        [navigationKeys.AccountSettings]: AccountScreen,
+        [navigationKeys.AccountSettings]: AccountPage,
     },
   accountStackConfig);
 

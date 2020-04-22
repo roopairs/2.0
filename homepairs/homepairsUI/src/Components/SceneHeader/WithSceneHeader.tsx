@@ -12,7 +12,7 @@ import { HeaderActions } from 'homepairs-redux-actions';
 import { connect } from 'react-redux';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
-import {NavigationRouteHandler} from 'homepairs-utilities';
+import {NavigationRouteHandler} from 'homepairs-routes';
 import SceneHeader from './SceneHeader';
 
 type SceneDispatchProps = {
@@ -109,7 +109,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
             const directionalLockEnabled = true;
             const automaticallyAdjustContentInsets = false;
             return (
-                <View style={{marginTop: Platform.OS === 'ios' ? 65: undefined}}>
+                <View style={{flex:1}}>
                     <SceneHeader
                         title={Page.title}
                         buttonTitle={Page.button}
