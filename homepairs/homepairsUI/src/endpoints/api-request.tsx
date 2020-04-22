@@ -86,12 +86,15 @@ export const putPreferredProvider = async (
 export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => ServiceProvider[] = 
 (preferredServiceProviderJSON: any[]) => {
     return preferredServiceProviderJSON.map(serviceProvider => {
-        const {provId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire} = serviceProvider;
+        const {provId, name, email, phoneNum, contractLic, skills, 
+            founded, payRate, timesHired, earliestHire, logo} = serviceProvider;
+        // TODO: Handle loading the logo image asset recieved from the backend response
         return {
             provId, name, email, 
             phoneNum, contractLic, skills, 
             founded, payRate, timesHired, 
             earliestHire: isNullOrUndefined(earliestHire) ? undefined : new Date(earliestHire), 
+            logo,
         };
     });
 }; 

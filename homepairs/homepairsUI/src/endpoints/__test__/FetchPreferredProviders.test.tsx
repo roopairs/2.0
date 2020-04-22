@@ -13,7 +13,8 @@ const testEmail: string = 'jacksonJaves@gmail.com';
 const URL = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${testEmail}/`;
 
 /* * Mock Return Data * */
-const fakeServiceProviders: ServiceProvider[] = [
+// TODO: Tests for log assets retrieved from the backend.
+const fakeServiceProviders= [
     {
         provId: 1,
         name: 'Bob the Builders',
@@ -53,7 +54,7 @@ const expectedParsedResults: ServiceProvider[] = [
         payRate: 35.25, // amount per hour 
         timesHired: 80, 
         earliestHire: undefined,
-
+        logo: undefined,
     },
     {
         provId: 2,
@@ -66,6 +67,7 @@ const expectedParsedResults: ServiceProvider[] = [
         payRate: 34.25, // amount per hour 
         timesHired: 1, 
         earliestHire: new Date(2015, 18, 1),
+        logo: undefined,
     },
 ];
 

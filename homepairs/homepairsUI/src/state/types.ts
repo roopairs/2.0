@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, ImageSourcePropType } from 'react-native';
 import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
 
@@ -192,6 +192,7 @@ export type ServiceProvider = {
     payRate: number, // amount per hour 
     timesHired: number, 
     earliestHire?: Date, // date of first job completed
+    logo?: ImageSourcePropType, // optional image 
 };
 
 export enum ServiceRequestCompletionStatus {
@@ -249,6 +250,8 @@ export type ServiceAction =
 /* *-------------------Service Types-------------------* */
 
 /* *-------------------Preferred Service Provider Types-------------------* */
+export type ProviderDictionary = {[phoneNum : string] : ServiceProvider}
+
 export type RefreshServiceProvidersAction = {
     type: string;
     preferredServiceProviders: ServiceProvider[];

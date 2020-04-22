@@ -7,13 +7,11 @@ import * as BaseStyles from 'homepairs-base-styles';
 export type PreferredProviderFlatListInjProps = any
 
 export function withPreferredProviderFlatList(WrappedComponent: any){
-    return class WithPreferredProviderFlatList extends React.Component<PreferredProviderFlatListInjProps, any> {
-        render(){
-            return( 
+    return function WithPreferredProviderFlatList(props: any){
+        return( 
             <View style={{backgroundColor: BaseStyles.LightColorTheme.primary, flex:1}}>
                 <PreferredProviderFlatList />
-                <WrappedComponent {...this.props}/>
+                <WrappedComponent {...props}/>
             </View>);
-        }
-    };
-}
+        };
+};

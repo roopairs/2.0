@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
         shadowRadius: 1,
         shadowOffset: { width: 0, height: 2 },
         elevation: 1,
-        marginTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
         backgroundColor: colorScheme.secondary,
         shadowColor: colorScheme.shadow,
         minHeight: 50,

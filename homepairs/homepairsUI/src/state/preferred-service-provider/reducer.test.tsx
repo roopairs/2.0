@@ -1,12 +1,13 @@
+import {blender} from 'homepairs-images';
 import { 
     arrayToDictionary, 
     removeKey, 
-    ProviderDictionary, 
     preferredProviders, 
     initialState,
 } from './reducer';
 import { 
     ServiceProvider, 
+    ProviderDictionary,
     PreferredServiceProviderAction, 
     RefreshServiceProvidersAction, 
     RemoveServiceProviderAction, 
@@ -15,6 +16,7 @@ import {
 import { PREFERRED_SERVICE_PROVIDER_ACTION_TYPES } from './actions';
 
 /** Required Definitions */
+jest.mock('homepairs-images');
 const {REFRESH_SERVICE_PROVIDERS, REMOVE_SERVICE_PROVIDER} = PREFERRED_SERVICE_PROVIDER_ACTION_TYPES;
 
 /* * Fake Data * */
@@ -34,6 +36,7 @@ const serviceProviderList : ServiceProvider[] = [
         payRate: 35.25,
         timesHired: 202, 
         earliestHire: new Date(2018, 10, 17),
+        logo: blender,
     },
     {
         provId: 9294,
@@ -46,6 +49,7 @@ const serviceProviderList : ServiceProvider[] = [
         payRate: 40.25,
         timesHired: 33, 
         earliestHire: new Date(2020, 1, 3),
+        logo: undefined,
     },
 ];
 

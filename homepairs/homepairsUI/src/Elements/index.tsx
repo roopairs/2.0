@@ -29,7 +29,7 @@ export * from './Buttons/ServiceRequestButton';
 export * from './Buttons/ServiceProviderButton';
 export * from './Cards/Card';
 export * from './Stickers/Sticker';
-export * from './ProviderTiles/ProviderTiles';
+export * from './Tiles/Tiles';
 
 export {default as DatePicker} from './DatePicker/DatePicker';
 export {default as ButtonWithBitmap} from './Buttons/ButtonWithBitmap';

@@ -31,8 +31,11 @@ import { navigationKeys, navigationPages } from 'homepairs-routes';
 
 // Add margin offset for main app components 
 function offSetForHeader(Offsetted: any, withPreferredProv: boolean = false){
+    let marginTop = withPreferredProv ? 75.5 : 65;
+    marginTop = Platform.OS === 'android' ? 0 : marginTop;
+    
     return (props:any) => {
-        return <View style={{flex:1, marginTop: withPreferredProv ? 80: 65}}><Offsetted {...props}/></View>
+        return <View style={{flex:1, marginTop}}><Offsetted {...props}/></View>
        ;
     };      
 }

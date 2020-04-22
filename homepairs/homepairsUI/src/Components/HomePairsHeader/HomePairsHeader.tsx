@@ -35,7 +35,6 @@ const HomePairsHeader = connect(
   mapDispatchToProps,
 )(HomePairsHeaderBase);
 
-console.log(prepareNavigationHandlerComponent);
 /**
  * ---------------------------------------------------
  * HomePairs Navigation Header

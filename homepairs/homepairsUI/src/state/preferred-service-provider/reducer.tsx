@@ -5,13 +5,13 @@ import {
     RemoveServiceProviderAction, 
     RefreshServiceProvidersAction,
     ServiceProvider,
+    ProviderDictionary,
 } from '../types';
 import { PREFERRED_SERVICE_PROVIDER_ACTION_TYPES} from './actions';
+import { testLogo } from 'homepairs-images';
 
 
 const {REFRESH_SERVICE_PROVIDERS, REMOVE_SERVICE_PROVIDER} = PREFERRED_SERVICE_PROVIDER_ACTION_TYPES;
-
-export type ProviderDictionary = {[phoneNum : string] : ServiceProvider}
 
 /**
  * Helper function that converts an array to ServiceProviders to something a preferredServiceProivderState
@@ -44,7 +44,34 @@ export function removeKey(serviceProviders: ProviderDictionary, phoneNum: string
 
 // TODO: Gather this information from Async Storage
 export const initialState : PreferredServiceProviderState = {
-    serviceProviders: {},
+    serviceProviders: {
+        '999-999-9999' : {
+            provId: 9255770000,
+            name: 'Bob the Builder',
+            email: 'billybob@yahoo.com',
+            phoneNum: '999-999-9999',
+            contractLic: '#12345678',
+            skills: 'Hot Equipment, Flood Prevention, Pest Control',
+            founded: 'string',
+            payRate: 35.25,
+            timesHired: 202, 
+            earliestHire: new Date(2018, 10, 17),
+            logo: testLogo,
+        },
+        '888-888-8888' : {
+            provId: 9294,
+            name: 'Electro Bud',
+            email: 'ebuds@ebuddy.org',
+            phoneNum: '888-888-8888',
+            contractLic: '#123456',
+            skills: 'Hot Equipment, Lighting, Power',
+            founded: 'string',
+            payRate: 40.25,
+            timesHired: 33, 
+            earliestHire: new Date(2020, 1, 3),
+            logo: undefined,
+        },
+    },
 };
 
 export const preferredProviders = (
