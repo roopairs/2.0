@@ -1,15 +1,14 @@
 import React from 'react';
-import { InputForm } from 'homepairs-elements';
+import { InputForm, InputFormProps } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import {
     AuthPageInjectedProps,
 } from 'homepairs-components';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
-import { isNullOrUndefined, isEmailSyntaxValid, isPasswordValid, NavigationRouteScreenProps } from 'homepairs-utilities';
+import { isNullOrUndefined, isEmailSyntaxValid, isPasswordValid } from 'homepairs-utilities';
 import { NavigationSwitchProp } from 'react-navigation';
-import { InputFormProps } from 'src/Elements/Forms/InputForm';
-import {navigationPages} from 'homepairs-routes';
+import {navigationPages, NavigationRouteScreenProps} from 'homepairs-routes';
 import { RouteProps } from 'react-router-dom';
 
 export type RoopairsLoginDispatchProps = {

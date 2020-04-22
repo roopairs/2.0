@@ -21,10 +21,11 @@ import {
     TenantInfo,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import { navigationPages } from 'src/routes/RouteConstants';
 import { HOMEPAIRS_PROPERTY_ENDPOINT } from 'homepairs-endpoints';
 import axios from 'axios';
-import {NavigationRouteScreenProps, stringToCategory, hasPageBeenReloaded} from 'homepairs-utilities';
+import { stringToCategory } from 'homepairs-utilities';
+import { NavigationRouteScreenProps, hasPageBeenReloaded } from 'homepairs-routes';
 
 export type DetailedPropertyStateProps = {
     property: Property;

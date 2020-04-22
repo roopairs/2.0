@@ -9,8 +9,7 @@ import { withNavigation } from "react-navigation";
 import { withRouter } from "react-router-dom";
 import { Platform } from "react-native";
 import { fetchAccount } from 'homepairs-endpoints';
-import {NavigationRouteHandler} from 'homepairs-utilities';
-import { withNavigationRouteHandler } from 'src/utility/NavigationRouterHandler';
+import {NavigationRouteHandler, prepareNavigationHandlerComponent } from 'homepairs-routes';
 import LoginScreenBase, { LoginViewDispatchProps } from "./LoginScreenBase";
 
 
@@ -33,10 +32,9 @@ const mapDispatchToProps : (dispatch: any) => LoginViewDispatchProps = (dispatch
 
 /* * Inject the HOCs for the base login screen * */
 const LoginScreen = connect(null, mapDispatchToProps)(LoginScreenBase);
-const NavigateReadyLoginScreen = withNavigationRouteHandler(LoginScreen);
-const NavigableLoginScreen = Platform.OS === 'web' ? withRouter(NavigateReadyLoginScreen) : withNavigation(NavigateReadyLoginScreen);
+const NavigateReadyLoginScreen = prepareNavigationHandlerComponent(LoginScreen);
 
 /* * Now that the Base is prepared, wrap the base to get a complete Homepairs AuthScreen * */
-const AuthPage = withAuthPage(NavigableLoginScreen, authPageParam);
+const AuthPage = withAuthPage(NavigateReadyLoginScreen, authPageParam);
 
 export default AuthPage;

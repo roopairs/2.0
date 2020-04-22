@@ -7,12 +7,12 @@ import {
     Image,
     TouchableOpacity,
 } from 'react-native';
-import { ThinButtonProps, ThinButton } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
 import { upArrow, downArrow} from 'homepairs-images';
+import ThinButton, { ThinButtonProps } from '../Buttons/ThinButton';
 
 export type PanelProps = {
     key?: string;

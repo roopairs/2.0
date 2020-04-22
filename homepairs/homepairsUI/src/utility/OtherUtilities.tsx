@@ -36,4 +36,4 @@ export function getAccountType(accountJSON : any): AccountTypes{
       return AccountTypes.PropertyManager;
     }
       return AccountTypes.Tenant; 
-  }
+}

@@ -9,8 +9,8 @@ import { AccountTypes, Account } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet, View } from 'react-native';
 import {isPasswordValid, isEmailSyntaxValid, 
-    isAlphaCharacterOnly, isEmptyOrSpaces, NavigationRouteHandler, NavigationRouteScreenProps } from 'homepairs-utilities';
-import { navigationPages } from 'src/Routes/RouteConstants';
+    isAlphaCharacterOnly, isEmptyOrSpaces } from 'homepairs-utilities';
+import { navigationPages, NavigationRouteHandler, NavigationRouteScreenProps } from 'homepairs-routes';
 import {Divider} from 'react-native-elements';
 
 export type SignUpViewDispatchProps = {

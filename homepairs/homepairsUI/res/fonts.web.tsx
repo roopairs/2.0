@@ -67,4 +67,4 @@ export const HomePairFonts = {
 	nunito_regular: 'nunito-regular',
 	nunito_semibold: 'nunito-semibold',
 	nunito_semibolditalic: 'nunito-semibolditalic'
-}
+};

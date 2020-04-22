@@ -1,5 +1,5 @@
-import { AuthenticationState, SessionAction, SetAccountAuthenticationStateAction } from 'src/state/types';
-import { SESSION_ACTION_TYPES } from 'src/state/session/actions';
+import { AuthenticationState, SessionAction, SetAccountAuthenticationStateAction } from '../types';
+import { SESSION_ACTION_TYPES } from './actions';
 
 export const initialState = {
     authed: false,

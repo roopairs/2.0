@@ -1,6 +1,6 @@
 import { AppState } from 'homepairs-types';
 import { connect } from 'react-redux';
-import { prepareNavigationHandlerComponent } from 'src/utility/NavigationRouterHandler';
+import { prepareNavigationHandlerComponent } from 'homepairs-routes';
 import DetailedPropertyScreenBase, {
     DetailedPropertyStateProps,
 } from './DetailedPropertyScreenBase';
