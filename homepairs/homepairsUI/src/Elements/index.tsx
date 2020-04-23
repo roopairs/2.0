@@ -21,7 +21,7 @@
  *        please define a Components folder for the topmost parent and define it there. 
  */
 
-import { InputFormProps as IFP, renderInputForm } from './Forms/InputForm';
+import { InputFormProps as IFP } from './Forms/InputForm';
 import { ThinButtonProps as TBP} from './Buttons/ThinButton';
 import { PanelProps as PP} from './Panels/AppliancePanel';
 import { CategoryPanelProps as CPP} from './Panels/ApplianceCategoryPanel';

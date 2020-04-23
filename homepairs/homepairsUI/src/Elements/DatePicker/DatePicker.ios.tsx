@@ -1,6 +1,6 @@
 import React , {useState} from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import {View, StyleSheet} from 'react-native';
-import DatePicker from 'react-native-datepicker';
+import {View, StyleSheet, Platform, Button} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 type Props = {
     serviceDate: Date, 
@@ -17,34 +17,49 @@ const styles = StyleSheet.create({
 
 export default function DatePickeriOS(props : Props){
     const [date, setDate] = useState(new Date());
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
     const {getFormDate} = props;
-    const startDate = new Date();
-    const maxDate = new Date();
 
-    startDate.setHours(0, 0, 0);
-    maxDate.setDate(startDate.getDate() + 90);
-    maxDate.setHours(0, 0, 0);
-
-    const onChange = (selectedDate: Date) => {
+    const onChange = (_, selectedDate: Date) => {
         setDate(selectedDate);
+        setShow(Platform.OS === 'ios');
         getFormDate(selectedDate);
+    };
+
+    const showMode = currentMode => {
+        setShow(true);
+        setMode(currentMode);
+    };
+
+    const showDatepicker = () => {
+        showMode('date');
+    };
+    
+    const showTimepicker = () => {
+        showMode('time');
     };
     
     return (
-        <View style={styles.container}>
-        <DatePicker 
-            style={{width: '100%'}}
-            key='mobile datetime picker'
-            date={date}
-            minDate={startDate}
-            maxDate={maxDate}
-            onDateChange={onChange}
-            mode='datetime'
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            placeholder="Select date"
-            format="MM-DD-YYYY HH:MM"
-        />
-        </View>);
+        <View>
+          <View>
+            <Button onPress={showDatepicker} title="Show date picker!" />
+          </View>
+          <View>
+            <Button onPress={showTimepicker} title="Show time picker!" />
+          </View>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              timeZoneOffsetInMinutes={0}
+              value={date}
+              mode={mode}
+              is24Hour
+              display="default"
+              onChange={onChange}
+            />
+          )}
+        </View>
+      );
         
 }
