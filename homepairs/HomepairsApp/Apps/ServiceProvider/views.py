@@ -64,6 +64,7 @@ def missingError(missingFields):
 
 ##############################################################
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 class ServiceProviderView(View):
     def post(self, request):
@@ -80,8 +81,8 @@ class ServiceProviderView(View):
             dateStr = inData.get('founded')
             try:
                 founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
-            except:
-                return JsonResponse(data=returnError(INVALID_DATE))
+            except Exception as e:
+                return JsonResponse(data=returnError(INVALID_DATE + e.message))
 
             proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
             if not proList.exists():
@@ -115,8 +116,8 @@ class ServiceProviderView(View):
             dateStr = inData.get('founded')
             try:
                 founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
-            except:
-                return JsonResponse(data=returnError(INVALID_DATE))
+            except Exception as e:
+                return JsonResponse(data=returnError(INVALID_DATE + e.messsage))
 
             # The ServiceProvider
             proList = ServiceProvider.objects.filter(phoneNum=oldPhoneNum)

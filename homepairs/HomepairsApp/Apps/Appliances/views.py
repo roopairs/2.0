@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from ..helperFuncs import getRooTokenAPI, postRooTokenAPI, putRooTokenAPI
+from ..helperFuncs import postRooTokenAPI
 from ..Properties.models import Property
 from .models import Appliance
 
@@ -20,6 +20,7 @@ FAIL = 'failure'
 ERROR = 'error'
 NON_FIELD_ERRORS = 'non_field_errors'
 PROPERTY_DOESNT_EXIST = 'Property does not exist.'
+APPLIANCE_DOESNT_EXIST = 'Appliance does not exist.'
 
 BASE_URL = 'https://capstone.api.roopairs.com/v0/'
 
@@ -47,6 +48,7 @@ def missingError(missingFields):
     return returnError(finalErrorString.strip())
 
 ##############################################################
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ApplianceView(View):
@@ -103,8 +105,8 @@ class ApplianceView(View):
         else:
             return JsonResponse(data=returnError(PROPERTY_DOESNT_EXIST))
 
-
     # Update a appliance
+
     def put(self, request):
         inData = json.loads(request.body)
         required = ['appId', 'newName', 'newCategory', 'newManufacturer', 'newModelNum', 'newSerialNum', 'newLocation']
@@ -139,8 +141,8 @@ class ApplianceView(View):
         else:
             return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
 
-
     # Read a appliance (unused)
+
     def get(self, request):
         inData = json.loads(request.body)
         required = ['appId']
@@ -160,8 +162,8 @@ class ApplianceView(View):
         else:
             return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
 
-
     # delete a appliance (unused)
+
     def delete(self, request):
         inData = json.loads(request.body)
         required = ['appId']

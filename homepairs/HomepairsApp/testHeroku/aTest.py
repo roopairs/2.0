@@ -12,7 +12,7 @@ globUrl = 'https://homepairs-mytest.herokuapp.com/'
 def test_basic_connection():
     firstName = 'Jason 2'
     lastName = 'Bourne 2'
-    email = 'adamberard9999@gmail.com'
+    email = 'adamberard99@gmail.com'
     password = 'pass4adam 2'
     data = {'firstName': firstName,
             'lastName': lastName,

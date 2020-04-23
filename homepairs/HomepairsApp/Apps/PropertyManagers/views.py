@@ -8,7 +8,6 @@ from django.views.decorators.csrf import csrf_exempt
 from ..helperFuncs import postRooAPI
 from ..Properties.models import Property
 from ..Properties.views import addNewProperties
-from ..ServiceProvider.models import PreferredProviders, ServiceProvider
 from ..Tenants.models import Tenant
 from ..Tenants.views import getTenant
 from .models import PropertyManager

@@ -10,10 +10,10 @@ globUrl = 'https://homepairs-mytest.herokuapp.com/'
 
 # Everything is correct
 def test_basic_connection():
-    firstName = 'Jason 2'
-    lastName = 'Bourne 2'
-    email = 'adamberard9999@gmail.com'
-    password = 'pass4adam 2'
+    firstName = 'Cesar'
+    lastName = 'Chacon'
+    email = 'cesar@gmail.com'
+    password = 'pass2'
     data = {'firstName': firstName,
             'lastName': lastName,
             'email': email,

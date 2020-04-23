@@ -1,5 +1,3 @@
-import json
-
 import requests
 
 
@@ -13,10 +11,10 @@ globUrl = 'https://homepairs-mytest.herokuapp.com/'
 
 # Everything is correct
 def test_basic_connection():
-     url = globUrl + 'serviceprovider/7'
- 
-     x = requests.get(url)
-     print(x.text)
+    url = globUrl + 'serviceprovider/7'
+
+    x = requests.get(url)
+    print(x.text)
 
 
 if __name__ == '__main__':

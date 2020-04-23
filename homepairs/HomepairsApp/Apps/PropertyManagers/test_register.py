@@ -3,7 +3,6 @@
 import random
 from unittest import mock
 
-from django.conf import settings
 from django.test import TestCase
 
 from ..helperFuncsForTesting import getInfoPost
