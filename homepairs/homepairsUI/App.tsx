@@ -4,11 +4,10 @@ import { Provider, connect } from 'react-redux';
 import { LoadFonts } from 'homepairs-fonts';
 import { AppState } from 'homepairs-types';
 import { ActivityIndicator, StatusBar, AsyncStorage } from 'react-native';
-import { fetchProperties, setSelectedProperty } from 'src/state/property-list/actions';
-import { parseAccount } from 'src/state/account/actions';
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
-import { navigationPages } from 'src/Routes/RouteConstants';
-import { AppNavigator } from 'src/Routes/Routes';
+import { fetchProperties, setSelectedProperty, parseAccount} from 'homepairs-redux-actions';
+import { isNullOrUndefined } from 'homepairs-utilities';
+import { navigationPages } from 'homepairs-routes';
+import { AppNavigator } from './src/app-navigators/AppNavigation';
 import store from './src/state/store';
 
 

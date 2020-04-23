@@ -1,5 +1,5 @@
 import React from 'react';
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
+import { isNullOrUndefined } from 'homepairs-utilities';
 import * as BaseStyles from 'homepairs-base-styles';
 import { 
     View,

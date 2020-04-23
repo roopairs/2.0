@@ -53,14 +53,14 @@ from HOC should allow their Base Components (if a class) to be exported to get a
 Here is an example of how to get an instance of the Edit Tenant Modal using its base Component: 
 import React from 'react';
 import { EditTenantModal } from 'homepairs-components';
-import { EditTenantModalBase } from 'src/Screens/Components/Modals/EditTenantModal';
+import { EditTenantModalBase } from 'homepairs-components/Modals/EditTenantModal';
 import { propertyManagerMock1 } from 'tests/fixtures/StoreFixture';
 import { BrowserRouter as Router} from 'react-router-dom';
 import { prepareNavigationStackFirstRouteMock } from 'tests/fixtures/DummyComponents';
 import { Provider } from 'react-redux';
 import { render, fireEvent } from 'react-native-testing-library';
 import { TextInput, Platform, TouchableOpacity } from 'react-native';
-import ThinButton from 'src/Elements/Buttons/ThinButton';
+import ThinButton from 'src/elements/Buttons/ThinButton';
 
 const mockStore = propertyManagerMock1;
 const [mockStackNavigationFirstRoute, navigationStackSpyFunction] = prepareNavigationStackFirstRouteMock({tenant:true});

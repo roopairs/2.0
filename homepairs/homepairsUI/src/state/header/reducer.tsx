@@ -1,5 +1,6 @@
 import { Dimensions } from 'react-native';
 import strings from 'homepairs-strings';
+import {MainAppStack} from 'homepairs-routes';
 import { 
     HeaderState, 
     ToggleMenuAction,
@@ -10,7 +11,6 @@ import {
     HomePairsDimensions,
 } from '../types';
 import { HEADER_ACTION_TYPES } from './actions';
-import {MainAppStack} from '../../Routes/RouteConstants';
 
 /**
  * This function is intended be called when the application first loads. It 

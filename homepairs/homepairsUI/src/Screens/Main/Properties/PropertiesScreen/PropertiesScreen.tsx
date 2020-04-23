@@ -4,8 +4,7 @@ import {
     withSceneHeader,
 } from 'homepairs-components';
 import { HeaderActions, PropertyListActions } from 'homepairs-redux-actions';
-import { navigationPages } from 'src/Routes/RouteConstants';
-import { prepareNavigationHandlerComponent } from 'src/utility/NavigationRouterHandler';
+import { navigationPages, prepareNavigationHandlerComponent } from 'homepairs-routes';
 import PropertiesScreenBase, {
     PropertiesScreenStateProps,
     PropertiesScreenDispatchProps,

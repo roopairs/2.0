@@ -1,7 +1,7 @@
 import { AppState } from "homepairs-types";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
-import { withNavigationRouteHandler } from 'homepairs-utilities';
+import { withNavigationRouteHandler } from 'homepairs-routes';
 import { Platform } from "react-native";
 import { withRouter } from 'react-router-dom';
 import TenantPropertyScreenBase, { TenantPropertyStateProps} from './TenantPropertyScreenBase';

@@ -6,7 +6,7 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import { navigationPages } from 'src/Routes/RouteConstants';
+import { navigationPages } from 'src/routes/RouteConstants';
 import { ServiceRequestButton, ServiceRequestAddressPanel } from 'homepairs-elements';
 import {
     HomePairsDimensions,
@@ -21,10 +21,9 @@ import {
 import * as BaseStyles from 'homepairs-base-styles';
 import strings from 'homepairs-strings';
 import { SceneInjectedProps } from 'homepairs-components';
-import { NavigationRouteScreenProps } from 'homepairs-utilities';
-import { fetchServiceRequests } from 'src/Routes/RemoteEndpoints';
+import { NavigationRouteScreenProps } from 'homepairs-routes';
+import { fetchServiceRequests } from 'homepairs-endpoints';
 import { stringToCategory } from 'src/utility/ApplianceCategories';
-
 
 
 export type ServiceRequestScreenStateProps = {

@@ -4,13 +4,12 @@ import strings from 'homepairs-strings';
 import {AuthPageInjectedProps} from 'homepairs-components';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet} from 'react-native';
-import { navigationPages } from 'src/Routes/RouteConstants';
-import {
-    isEmailSyntaxValid,
-    isPasswordValid,
-    NavigationRouteHandler,
+import { isEmailSyntaxValid, isPasswordValid } from 'homepairs-utilities';
+import { 
+    NavigationRouteHandler, 
     NavigationRouteScreenProps,
-} from 'homepairs-utilities';
+    navigationPages,
+} from 'homepairs-routes';
 
 export type LoginViewDispatchProps = {
     onFetchAccount: (
