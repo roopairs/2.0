@@ -12,7 +12,11 @@ import {
     PropertyListState,
     Contact,
     AuthenticationState,
+    ServiceProvider,
+    ProviderDictionary,
+    PreferredServiceProviderState,
 } from 'homepairs-types';
+import {bolt} from 'homepairs-images';
 
 const middleWares = [thunk];
 const mockStore = configureMockStore(middleWares);
@@ -188,6 +192,47 @@ export const authenticationState: AuthenticationState ={
 };
 /** Checking to see if user has been authenticated. May be deprecated soon. */
 
+
+/** Example Preferred Providers to test store */
+const serviceProviderList : ServiceProvider[] = [
+    {
+        provId: 9255770000,
+        name: 'Bob the Builder',
+        email: 'billybob@yahoo.com',
+        phoneNum: '999-999-9999',
+        contractLic: '#12345678',
+        skills: 'Hot Equipment, Flood Prevention, Pest Control',
+        founded: 'string',
+        payRate: 35.25,
+        timesHired: 202, 
+        earliestHire: new Date(2018, 10, 17),
+        logo: bolt,
+    },
+    {
+        provId: 9294,
+        name: 'Electro Bud',
+        email: 'ebuds@ebuddy.org',
+        phoneNum: '888-888-8888',
+        contractLic: '#123456',
+        skills: 'Hot Equipment, Lighting, Power',
+        founded: 'string',
+        payRate: 40.25,
+        timesHired: 33, 
+        earliestHire: new Date(2020, 1, 3),
+        logo: undefined,
+    },
+];
+
+const serviceProviderDict: ProviderDictionary = {
+    [serviceProviderList[0].phoneNum] : serviceProviderList[0],
+    [serviceProviderList[1].phoneNum] : serviceProviderList[1],
+};
+
+const prefferedProviderStore: PreferredServiceProviderState = {
+    serviceProviders: serviceProviderDict,
+};
+/** Example Preferred Providers to test store */
+
 export const testStore1: AppState = {
     properties: propertyListState,
     accountProfile: PropertyManagerAcount,
@@ -195,6 +240,7 @@ export const testStore1: AppState = {
     serviceRequests: serviceRequest1,
     settings: ConfigurationSettings1,
     authenticated: authenticationState,
+    preferredProviders: prefferedProviderStore,
 };
 
 export const propertyManagerMock1 = mockStore(testStore1);
@@ -207,6 +253,7 @@ export const HeaderMockStores = {
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
         authenticated: authenticationState,
+        preferredProviders: prefferedProviderStore,
     }),
     dropDownHiddenWithBack: mockStore({
         properties: propertyListState,
@@ -215,6 +262,7 @@ export const HeaderMockStores = {
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
         authenticated: authenticationState,
+        preferredProviders: prefferedProviderStore,
     }),
     navBarNoBack: mockStore({
         properties: propertyListState,
@@ -223,6 +271,7 @@ export const HeaderMockStores = {
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
         authenticated: undefined,
+        preferredProviders: prefferedProviderStore,
     }),
     navBarWithBack: mockStore({
         properties: propertyListState,
@@ -231,6 +280,7 @@ export const HeaderMockStores = {
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
         authenticated: authenticationState,
+        preferredProviders: prefferedProviderStore,
     }),
     dropDownRevealedWithBack: mockStore({
         properties: propertyListState,
@@ -239,6 +289,7 @@ export const HeaderMockStores = {
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
         authenticated: authenticationState,
+        preferredProviders: prefferedProviderStore,
     }),
     navBarOnChangeDropDownRevealMenu: mockStore({
         properties: propertyListState,
@@ -247,6 +298,7 @@ export const HeaderMockStores = {
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
         authenticated: authenticationState,
+        preferredProviders: prefferedProviderStore,
     }),
     dropDownRevealedNoBack: mockStore({
         properties: propertyListState,
@@ -255,5 +307,6 @@ export const HeaderMockStores = {
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
         authenticated: authenticationState,
+        preferredProviders: prefferedProviderStore,
     }),
 };

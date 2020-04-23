@@ -55,11 +55,11 @@ type RenderProviderTilesItem = NavigationRouteScreenProps & TypeGuardTile;
 function renderProviderTiles(props: RenderProviderTilesItem){
     const {type, tile, navigation} = props;
     function onClickProvider(){
-        // TODO: Navigate to correct pages 
+        // TODO: Navigate to Service Provider Modal with passed in telephone number 
     }
 
     function onClickAdd(){
-        // TODO: Navigate to correct pages 
+        // TODO: Navigate to add new Preferred Provider Modal
     }
 
     // Helper function that that renders a Text tile for logos without images and 
