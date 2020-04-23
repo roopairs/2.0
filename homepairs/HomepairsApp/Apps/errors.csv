@@ -15,3 +15,4 @@ error string, description
 SERVPRO_DOESNT_EXIST = 'Service provider does not exist.', when the service provider doesn't exist
 SERVPRO_ALREADY_EXIST = 'Service provider already exists.', when you are trying to create a service provider that already exists
 ROOPAIR_ACCOUNT_CREATION_FAILED = 'Failed to create a Roopairs account', when a roopairs pm account cannot be made
+EMAIL_ALREADY_USED = 'This email is already in use.'
