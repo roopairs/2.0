@@ -6,7 +6,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
 from ..Properties.models import Property
-from ..PropertyManager.models import PropertyManger
+from ..PropertyManagers.models import PropertyManager
 from .models import Tenant
 
 
