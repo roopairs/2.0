@@ -111,11 +111,6 @@ class RegisterView(View):
         required = ['firstName', 'lastName', 'email', 'password', 'streetAddress', 'city']
         missingFields = checkRequired(required, inData)
 
-        tempPms = PropertyManager.objects.filter(email=email)
-        tempTens = Tenant.objects.filter(email=email)
-        if(tempPms.count() > 0 or tempTens.count() > 0):
-            return JsonResponse(data=returnError(EMAIL_ALREADY_USED))
-
         if(len(missingFields) == 0):
             firstName = inData.get('firstName')
             lastName = inData.get('lastName')
@@ -123,6 +118,12 @@ class RegisterView(View):
             streetAddress = inData.get('streetAddress')
             city = inData.get('city')
             password = inData.get('password')
+
+            tempPms = PropertyManager.objects.filter(email=email)
+            tempTens = Tenant.objects.filter(email=email)
+            if(tempPms.count() > 0 or tempTens.count() > 0):
+                return JsonResponse(data=returnError(EMAIL_ALREADY_USED))
+
             propertyList = Property.objects.filter(streetAddress=streetAddress, city=city)
 
             if propertyList.exists():
@@ -160,7 +161,6 @@ class TenantUpdate(View):
 
         if(len(missingFields) > 0):
             return JsonResponse(data=missingError(missingFields))
-            
 
         email = inData.get('email')
         propId = inData.get('propId')
@@ -190,6 +190,6 @@ class TenantUpdate(View):
         try:
             tenant.save()
         except Exception as e:
-            return JsonResponse(data=rest_framework(e.message))
+            return JsonResponse(data=returnError(e.message))
 
         return JsonResponse(data={STATUS: SUCCESS})

@@ -4,7 +4,6 @@
 from django.test import TestCase
 
 from ..helperFuncsForTesting import getInfoPost, setUpHelper
-from .views import ERROR, FAIL, INCORRECT_CREDENTIALS, INCORRECT_FIELDS, STATUS, SUCCESS
 
 
 ################################################################################
@@ -29,5 +28,5 @@ class TenantMove(TestCase):
         data = {'email': email, 'propId': propId}
 
         responseData = getInfoPost(MOVE, data)
-        
+
         print(responseData)

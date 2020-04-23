@@ -173,12 +173,6 @@ class RegisterView(View):
         required = ['firstName', 'lastName', 'email', 'password']
         missingFields = checkRequired(required, inData)
 
-        tempPms = PropertyManager.objects.filter(email=email)
-        tempTens = Tenant.objects.filter(email=email)
-        if(tempPms.count() > 0 or tempTens.count() > 0):
-            return JsonResponse(data=returnError(EMAIL_ALREADY_USED))
-
-
         url = BASE_URL + 'auth/register/'
 
         if(len(missingFields) == 0):
@@ -187,6 +181,12 @@ class RegisterView(View):
             email = inData.get('email')
             password = inData.get('password')
             pmCompanyName = '%s %s Property Rental' % (firstName, lastName)
+
+            tempPms = PropertyManager.objects.filter(email=email)
+            tempTens = Tenant.objects.filter(email=email)
+            if(tempPms.count() > 0 or tempTens.count() > 0):
+                return JsonResponse(data=returnError(EMAIL_ALREADY_USED))
+
             data = {
                       'first_name': firstName,
                       'last_name': lastName,

@@ -139,11 +139,12 @@ def addNewProperties(email, token):
             try:
                 prop.save()
             except Exception as e:
-                return JsonResponse(data=required(e.message))
+                return JsonResponse(data=returnError(e.message))
 
 ################################################################################
 # Views / API Endpoints
 #
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class PropertyView(View):
