@@ -91,7 +91,10 @@ class ApplianceView(View):
                             location=location,
                             rooAppId=rooAppId,
                             place=prop)
-            app.save()
+            try:
+                app.save()
+            except Exception as e:
+                return JsonResponse(data=returnError(e.message))
             data = {
                     STATUS: SUCCESS,
                     'appId': app.rooAppId
@@ -128,7 +131,10 @@ class ApplianceView(View):
             app.serialNum = newSerialNum
             app.modelNum = newModelNum
             app.rooAppId = appId
-            app.save()
+            try:
+                app.save()
+            except Exception as e:
+                return JsonResponse(data=returnError(e.message))
             return JsonResponse(data={STATUS: SUCCESS})
         else:
             return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))

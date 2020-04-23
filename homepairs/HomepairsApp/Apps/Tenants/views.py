@@ -6,6 +6,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
 from ..Properties.models import Property
+from ..PropertyManager.models import PropertyManger
 from .models import Tenant
 
 
@@ -38,6 +39,7 @@ NOT_PROP_OWNER = 'You are not the property owner'
 TOKEN = 'token'
 RESIDENTIAL_CODE = 1
 INCORRECT_CREDENTIALS = ['Unable to log in with provided credentials.']
+EMAIL_ALREADY_USED = 'This email is already in use.'
 
 BASE_URL = 'https://capstone.api.roopairs.com/v0/'
 
@@ -109,6 +111,11 @@ class RegisterView(View):
         required = ['firstName', 'lastName', 'email', 'password', 'streetAddress', 'city']
         missingFields = checkRequired(required, inData)
 
+        tempPms = PropertyManager.objects.filter(email=email)
+        tempTens = Tenant.objects.filter(email=email)
+        if(tempPms.count() > 0 or tempTens.count() > 0):
+            return JsonResponse(data=returnError(EMAIL_ALREADY_USED))
+
         if(len(missingFields) == 0):
             firstName = inData.get('firstName')
             lastName = inData.get('lastName')
@@ -128,7 +135,10 @@ class RegisterView(View):
                                  password=password,
                                  place=tenantsProp,
                                  pm=tenantsPM)
-                    ten.save()
+                    try:
+                        ten.save()
+                    except Exception as e:
+                        return JsonResponse(data=returnError(e.message))
                     tempDict = getTenant(email, password)
                     tempDict['role'] = 'tenant'
                     return JsonResponse(data=tempDict)
@@ -177,6 +187,9 @@ class TenantUpdate(View):
         tenant.firstName = firstName
         tenant.lastName = lastName
         tenant.phoneNumber = phoneNumber
-        tenant.save()
+        try:
+            tenant.save()
+        except Exception as e:
+            return JsonResponse(data=rest_framework(e.message))
 
         return JsonResponse(data={STATUS: SUCCESS})

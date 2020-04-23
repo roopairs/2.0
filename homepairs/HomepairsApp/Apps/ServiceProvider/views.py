@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import ServiceProvider, PreferredProviders
+from .models import PreferredProviders, ServiceProvider
 
 
 ################################################################################
@@ -91,7 +91,10 @@ class ServiceProviderView(View):
                                       contractLic=contractLic,
                                       skills=skills,
                                       founded=founded)
-                pro.save()
+                try:
+                    pro.save()
+                except Exception as e:
+                    return JsonResponse(data=returnError(e.message))
                 return JsonResponse(data={STATUS: SUCCESS})
             else:
                 return JsonResponse(data=returnError(SERVPRO_ALREADY_EXIST))
@@ -128,7 +131,10 @@ class ServiceProviderView(View):
                 pro.contractLic = contractLic
                 pro.skills = skills
                 pro.founded = founded
-                pro.save()
+                try:
+                    pro.save()
+                except Exception as e:
+                    return JsonResponse(data=returnError(e.message))
                 return JsonResponse(data={STATUS: SUCCESS})
             else:
                 return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))

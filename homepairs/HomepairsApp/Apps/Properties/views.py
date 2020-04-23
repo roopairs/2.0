@@ -136,7 +136,10 @@ def addNewProperties(email, token):
                             maxTenants=1,
                             rooId=propId,
                             pm=tempPM)
-            prop.save()
+            try:
+                prop.save()
+            except Exception as e:
+                return JsonResponse(data=required(e.message))
 
 ################################################################################
 # Views / API Endpoints
@@ -203,7 +206,10 @@ class PropertyView(View):
                         maxTenants=maxTenants,
                         rooId=info.get('id'),
                         pm=pm)
-        prop.save()
+        try:
+            prop.save()
+        except Exception as e:
+            return JsonResponse(data=request(e.message))
         data = {
                    STATUS: SUCCESS,
                    'propId': info.get('id')
@@ -269,7 +275,10 @@ class PropertyView(View):
             theProperty.numBath = numBath
             theProperty.maxTenants = maxTenants
             theProperty.streetAddress = streetAddress
-            theProperty.save()
+            try:
+                theProperty.save()
+            except Exception as e:
+                return JsonResponse(data=returnError(e.message))
             return JsonResponse(data={STATUS: SUCCESS})
         else:
             return JsonResponse(data=returnError(NOT_PROP_OWNER))

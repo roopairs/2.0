@@ -8,8 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from ..helperFuncs import postRooAPI
 from ..Properties.models import Property
 from ..Properties.views import addNewProperties
-from ..Tenants.models import Tenant
 from ..ServiceProvider.models import PreferredProviders, ServiceProvider
+from ..Tenants.models import Tenant
 from ..Tenants.views import getTenant
 from .models import PropertyManager
 
@@ -39,6 +39,8 @@ TOKEN = 'token'
 RESIDENTIAL_CODE = 1
 INCORRECT_CREDENTIALS = ['Unable to log in with provided credentials.']
 TENANT_ALREADY_IN_PROP = 'The tenant is already in that property.'
+EMAIL_ALREADY_USED = 'This email is already in use.'
+
 
 BASE_URL = 'https://capstone.api.roopairs.com/v0/'
 
@@ -112,10 +114,14 @@ def pmLogin(email, password):
             firstName = info.get('first_name')
             lastName = info.get('last_name')
             email = info.get('email')
+
             tempPM = PropertyManager(firstName=firstName,
                                      lastName=lastName,
                                      email=email)
-            tempPM.save()
+            try:
+                tempPM.save()
+            except Exception as e:
+                return JsonResponse(data=returnError(e.message))
 
         tempDict = getPropertyManager(email)
 
@@ -167,6 +173,12 @@ class RegisterView(View):
         required = ['firstName', 'lastName', 'email', 'password']
         missingFields = checkRequired(required, inData)
 
+        tempPms = PropertyManager.objects.filter(email=email)
+        tempTens = Tenant.objects.filter(email=email)
+        if(tempPms.count() > 0 or tempTens.count() > 0):
+            return JsonResponse(data=returnError(EMAIL_ALREADY_USED))
+
+
         url = BASE_URL + 'auth/register/'
 
         if(len(missingFields) == 0):
@@ -194,25 +206,15 @@ class RegisterView(View):
                                            firstName=firstName,
                                            lastName=lastName,
                                            email=email)
-                tempPM.save()
+                try:
+                    tempPM.save()
+                except Exception as e:
+                    return JsonResponse(data=returnError(e.message))
                 tempDict = getPropertyManager(email)
                 if tempDict[STATUS] == FAIL:
                     return JsonResponse(data=returnError(HOMEPAIRS_ACCOUNT_CREATION_FAILED))
                 tempDict[TOKEN] = info.get(TOKEN)
                 tempDict['role'] = 'pm'
-                serProvs = ServiceProvider.objects.all()
-                if(serProvs.exists() and serProvs.count() == 2):
-                    temp = PreferredProviders(provider = serProvs[0], pm=tempPM)
-                    temp.save()
-                    temp = PreferredProviders(provider = serProvs[1], pm=tempPM)
-                    temp.save()
-                tempTenant = Tenant(firstName = 'Adam',
-                                    lastName = 'Berard',
-                                    email = 'adamberard99@gmail.com',
-                                    password = 'pass4adam',
-                                    phoneNumber = '1112223333',
-                                    pm = tempPM)
-                tempTenant.save()
                 return JsonResponse(data=tempDict)
             else:
                 info['role'] = 'pm'
@@ -266,7 +268,10 @@ class TenantControlView(View):
                 return JsonResponse(returnError(TENANT_ALREADY_IN_PROP))
 
             editTenant.place = moveToProp
-            editTenant.save()
+            try:
+                editTenant.save()
+            except Exception as e:
+                return JsonResponse(data=required(e.message))
             return JsonResponse({STATUS: SUCCESS})
         else:
             return JsonResponse(data=missingError(missingFields))

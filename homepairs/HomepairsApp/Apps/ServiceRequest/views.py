@@ -1,9 +1,9 @@
 import datetime
 import json
 
+import dateutil.parser
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
-import dateutil.parser
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
@@ -132,7 +132,10 @@ class ServiceRequestView(View):
                                  details=details,
                                  location=prop,
                                  appFixed=app)
-            req.save()
+            try:
+                req.save()
+            except Exception as e:
+                return JsonResponse(data=req(e.message))
             data = {
                     STATUS: SUCCESS,
                     'reqId': req.id
@@ -179,7 +182,10 @@ class ServiceRequestView(View):
                 req.details = details
                 req.location = prop
                 req.appFixed = app
-                req.save()
+                try:
+                    req.save()
+                except Exception as e:
+                    return JsonResponse(data=returnError(e.message))
                 return JsonResponse(data={STATUS: SUCCESS})
             else:
                 return JsonResponse(data=returnError(SERVREQ_DOESNT_EXIST))
