@@ -2,7 +2,7 @@ import React from 'react';
 import { PropertyListState, HeaderState } from 'homepairs-types';
 import { navigationPages } from 'homepairs-routes';
 import { ViewPropertyCard, SceneInjectedProps } from 'homepairs-components';
-import { View } from 'react-native';
+import { View, Platform} from 'react-native';
 
 export type PropertiesScreenStateProps = {
     propertyState: PropertyListState;
@@ -50,7 +50,8 @@ export class PropertiesScreenBase extends React.Component<PropertiesScreenProps>
     }
 
     fetchPropertyImage(address: string) {
-        return `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${this.apiKey}`;
+        const uri = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${this.apiKey}`;
+        return Platform.OS === 'web' ? uri : {uri};
     }
 
     render() {

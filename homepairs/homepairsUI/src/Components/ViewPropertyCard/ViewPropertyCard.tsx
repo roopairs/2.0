@@ -5,6 +5,7 @@ import {
     View,
     Platform,
     ImageBackground,
+    Image,
 } from 'react-native';
 import {
     ThinButton,
@@ -151,7 +152,7 @@ const viewPropertyButtonText = strings.propertiesPage.viewPropertyCardButton;
 export default function ViewPropertyCard(props: ViewPropertyCardProps) {
     const { viewButtonSelectedCallBack, property, propertyIndex, image} = props;
     const { address } = property;
-    
+    Image.prefetch(image);
     /**
      * This function is intended to invoke the callback to its parent function. It will return the index of the
      * the Property found in global store's PropertyState which an array of Properties, Property[]
@@ -171,6 +172,7 @@ export default function ViewPropertyCard(props: ViewPropertyCardProps) {
                     : styles.homePairsPropertiesImage
                 }
                 imageStyle={styles.imageStyle}
+                onError={(error) => {console.log(error);}}
                 resizeMode="cover">
                 <View style={styles.propertyAddressContainer}>
                     <Text style={styles.streetText}>{address}</Text>
