@@ -4,10 +4,11 @@
 
 import { shallow} from 'enzyme';
 import * as React from 'react';
-import { View, TouchableOpacity, Text} from 'react-native';
+import { View, TouchableOpacity} from 'react-native';
 import { fireEvent, render } from 'react-native-testing-library';
-import HamburgerButton from '../HamburgerButton';
+import HamburgerButton from './HamburgerButton';
 
+jest.mock('homepairs-images');
 
 describe("HamburgerButton", () => {
   const message = 'Hello World!';
@@ -28,8 +29,6 @@ describe("HamburgerButton", () => {
   it("Test for proper Components", () => {
     expect(wrapper.find(View)).toHaveLength(1);
     expect(wrapper.find(TouchableOpacity)).toHaveLength(1);
-    expect(wrapper.find(Text)).toHaveLength(1);
-
   });
 
 

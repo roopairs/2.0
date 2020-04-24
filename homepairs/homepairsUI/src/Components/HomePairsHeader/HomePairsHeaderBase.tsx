@@ -2,7 +2,6 @@
 import {
     View,
     StyleSheet,
-    StatusBar,
     Platform,
     TouchableOpacity,
     Text,
@@ -10,7 +9,6 @@ import {
 } from 'react-native';
 import React from 'react';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HamburgerButton } from 'homepairs-elements';
 import {
     HomePairsDimensions,
     HeaderState,
@@ -19,6 +17,7 @@ import {
 } from 'homepairs-types';
 import { NavigationRouteHandler } from 'homepairs-routes';
 import {isNullOrUndefined} from 'homepairs-utilities';
+import HamburgerButton from './HamburgerButton/HamburgerButton';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu';
 
@@ -189,7 +188,7 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
         const { header } = this.props;
         if (header.isDropDown) {
             return (
-                <View style={{ flex: 2 }}>
+                <View style={{ flex: 1 }}>
                     <HamburgerButton 
                         testID='homepairs-header-hamburger-button' 
                         onClick={this.toggleMenu} />
@@ -206,7 +205,7 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
                 <View
                     style={header.isDropDown ? { flexDirection: 'column' } : { flexDirection: 'row' }}>
                     <View
-                        style={{flexDirection: 'row',backgroundColor: colorScheme.secondary}}>
+                        style={{flexDirection: 'row', backgroundColor: colorScheme.secondary}}>
                         {this.showBackButton()}
                         <View
                             style={{marginLeft: BaseStyles.MarginPadding.largeConst}}>

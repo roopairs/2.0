@@ -69,7 +69,8 @@ const setStyles = (isDropDown: boolean) => {
     const newStyle = StyleSheet.create({
         container: {
             flexDirection: 'row',
-            width,
+            flex: 1,
+            maxWidth: width,
             maxHeight: 150,
             backgroundColor: colorScheme.secondary,
         },

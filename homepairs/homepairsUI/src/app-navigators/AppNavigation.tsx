@@ -49,9 +49,6 @@ const TenantPropertiesPage = offSetForHeader(TenantPropertiesScreen);
 
 /** Set Up our configuration for the navigation routes */
 
-// Give the homepairs header a navigation object so it can actually change pages as intended
-const HomePairsHeaderWithNav = withNavigation(HomePairsHeader);
-
 // Define the navigation configurations for all of the stacks 
 const defaultNavigationOptions: NavigationStackOptions = {
     cardOverlayEnabled: true,
@@ -78,9 +75,9 @@ const navigationHeader = () => ({
     header: () => {
         return Platform.OS === 'ios' ? (
             <SafeAreaView style={{ backgroundColor: LightColorTheme.primary, flex: 1 }}>
-                <HomePairsHeaderWithNav />
+                <HomePairsHeader />
             </SafeAreaView>
-        ) : <HomePairsHeaderWithNav />;
+        ) : <HomePairsHeader />;
     },
     headerStyle: {
         backgroundColor: LightColorTheme.primary,
@@ -117,12 +114,6 @@ const PropertyStack = createStackNavigator(
         [navigationKeys.PropertiesScreen]: PropertiesPage,
         [navigationKeys.TenantProperty]: TenantPropertiesPage,
         [navigationKeys.SingleProperty]: DetailedPropertyPage,
-
-        // [navigationKeys.EditPropertyModal]: EditPropertyModal,
-        // [navigationKeys.AddApplianceModal]: AddApplianceModal, 
-        // [navigationKeys.EditApplianceModal]: EditApplianceModal,
-        // [navigationKeys.EditTenantModal]: EditTenantModal,
-        // [navigationKeys.AddTenantModal]: AddTenantModal,
     },
     propertyStackConfig,
 );
@@ -131,9 +122,6 @@ const ServiceRequestStack = createStackNavigator(
     {
       [navigationKeys.ServiceRequestScreen]: ServiceRequestPage, 
       [navigationKeys.NewRequest]: NewRequestPage,
-
-      // [navigationKeys.ServiceRequestModal]: ServiceRequestModal,
-
     }, 
   serviceRequestStackConfig);
   
@@ -171,11 +159,8 @@ const MainStack = createStackNavigator(
 const AuthStack = createStackNavigator(
     {
         [navigationKeys.LoginScreen]: LoginScreen,
-        // [navigationKeys.LoggingInModal]: LoggingInModal,
         [navigationKeys.RoopairsLogin]: RoopairsLogin,
-        // [navigationKeys.RoopairsLoggingInModal]: LoggingInModal,
         [navigationKeys.SignUpScreen]: SignUpScreen,
-        // [navigationKeys.CreatingAccountModal]: CreatingAccountModal,
     },
     {
         initialRouteName: navigationKeys.LoginScreen,

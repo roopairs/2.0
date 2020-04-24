@@ -12,7 +12,7 @@ const splash = require('./assets/images/splash.png');
 const testLogo = require('./assets/images/testLogo.png');
 const tint = require('./assets/images/tint.png');
 const trash = require('./assets/images/trash.png');
-const upArrow = require('./assets/images/upArrow.png');
+const upArrow = require('./assets/images/upArrow.png')
 
 export { 
 	blender,
