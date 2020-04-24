@@ -51,7 +51,7 @@ export class PropertiesScreenBase extends React.Component<PropertiesScreenProps>
 
     fetchPropertyImage(address: string) {
         const uri = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${this.apiKey}`;
-        return Platform.OS === 'web' ? uri : {uri};
+        return Platform.OS === 'ios' ? {uri} : uri ;
     }
 
     render() {
