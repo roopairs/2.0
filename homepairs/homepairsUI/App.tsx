@@ -16,7 +16,7 @@ import store from './src/state/store';
 
 const checkSession = async () => {
     await LoadFonts();
-    /*
+    
     await AsyncStorage.getItem('profile').then(profile => {
         console.log(profile);
         const storedAccountProfile= JSON.parse(profile);
@@ -25,12 +25,12 @@ const checkSession = async () => {
         store.dispatch(parseAccount(storedAccountProfile));
         store.dispatch(fetchProperties(properties));
     }).catch();
-    await AsyncStorage.getItem('selectedProperty').then(selectedPropertyIndex => {
-        console.log(`Selected Property is: ${selectedPropertyIndex}`);
-        const storedSelectedPropertyIndex = Number(selectedPropertyIndex);
-        store.dispatch(setSelectedProperty(storedSelectedPropertyIndex));
+    await AsyncStorage.getItem('selectedProperty').then(selectedPropertyId => {
+        console.log(`Selected Property is: ${selectedPropertyId}`);
+        const storedSelectedPropertyId = selectedPropertyId;
+        store.dispatch(setSelectedProperty(storedSelectedPropertyId));
     });
-    */
+
 
     /*
     await AsyncStorage.getItem('session').then(async (sessionToken) => {
@@ -60,20 +60,6 @@ const checkSession = async () => {
     */
 
     /*
-    await AsyncStorage.getItem('profile').then(profile => {
-        console.log(profile);
-        const storedAccountProfile= JSON.parse(profile);
-        const {properties} = storedAccountProfile;
-        store.dispatch(parseAccount(storedAccountProfile));
-        store.dispatch(fetchProperties(properties));
-    }).catch();
-        await AsyncStorage.getItem('selectedProperty').then(selectedPropertyIndex => {
-            console.log(`Selected Property is: ${selectedPropertyIndex}`);
-            const storedSelectedPropertyIndex = Number(selectedPropertyIndex);
-            store.dispatch(setSelectedProperty(storedSelectedPropertyIndex));
-    });
-    */
-
     /**
      * TODO: Create async request that confirms if a session token from the Homepairs api is still valid. If it is 
      * then send the load the information from the local store back into the store to maintain the users information!

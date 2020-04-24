@@ -24,6 +24,7 @@
         "babel-plugin-module-resolver": "^4.0.0",
         "expo": "^37.0.0",
         "expo-font": "~8.1.0",
+        "expo-image-manipulator": "~8.1.0",
         "globalize": "^1.4.2",
         "moment": "^2.24.0",
         "react": "16.9.0",
@@ -53,8 +54,7 @@
         "redux": "^4.0.5",
         "redux-devtools-extension": "^2.13.8",
         "redux-thunk": "^2.3.0",
-        "typescript-require": "^0.2.10",
-        "expo-image-manipulator": "~8.1.0"
+        "typescript-require": "^0.2.10"
     },
     "devDependencies": {
         "@babel/preset-typescript": "^7.8.3",

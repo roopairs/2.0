@@ -77,7 +77,10 @@ export class PropertiesScreenBase extends React.Component<PropertiesScreenProps>
                 style={{flex:1, marginTop: 5, marginBottom: 5}}
                 contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignContent: 'center'}}
                 data={Object.entries(properties)}
-                renderItem={({item}) => this.renderViewPropertyCard(item)}/>
+                renderItem={({item}) => this.renderViewPropertyCard(item)}
+                keyExtractor={(item) => item[0].toString()}
+                />
+
         );
     }
 }

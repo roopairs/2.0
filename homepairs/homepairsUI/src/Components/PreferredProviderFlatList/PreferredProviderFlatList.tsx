@@ -125,6 +125,7 @@ export function PreferredProviderFlatListBase(props: PreferredProviderFlatListPr
                 contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignContent: 'center'}}
                 data={renderTiles}
                 renderItem={({item}) => renderProviderTiles(item)}
+                keyExtractor={(item, index) => index.toString()}
                 horizontal/>
         </View>);
 } 
