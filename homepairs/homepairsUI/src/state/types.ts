@@ -21,10 +21,16 @@ export type Property = {
     bathrooms: number,
 }
 
+/**
+ * A type alias that defines a property with a string attached. This is intended 
+ * to be its propId
+ */
+export type PropertyDict = {[propId:string]:Property}
+
 export type PropertyListState = 
 {
-    selectedPropertyIndex?: number, 
-    properties: Property[],
+    selectedPropertyId: string, 
+    properties: PropertyDict,
     appliances: Appliance[],
     propertyManager?: Contact,
 };
@@ -41,36 +47,36 @@ export type AddApplianceAction = {
 
 export type UpdateApplianceAction = {
     type: string;
-    index: number;
+    propId: string;
     userData: Appliance;
 };
 
 export type SetSelectedPropertyAction = {
     type: string;
-    index: number;
+    propId: string;
 };
 export type UpdatePropertyAction = {
     type: string;
-    index: number;
+    propId: string;
     userData: Property;
 };
 export type RemovePropertyAction = {
     type: string;
-    index: number;
+    propId: string;
 };
 export type FetchPropertyAction = {
     type: string;
-    property: Property[];
+    property: PropertyDict;
 };
 /* fetch the property along with the property manager that owns a given property (used for tenant login to fill PrimaryContactInfo) */
 export type FetchPropertyAndPropertyManagerAction = {
     type: string;
-    property: Property[];
+    property: PropertyDict;
     propertyManager: Contact;
 };
 export type FetchPropertiesAction = {
     type: string;
-    properties: Property[];
+    properties: PropertyDict;
 };
 
 /* Union type for the Property Lists. This will be used for the reducer. */
@@ -409,7 +415,7 @@ export type AddNewPropertyState = {
 
 export type EditPropertyState = {
     email: string;
-    index: number;
+    propId: string;
     oldProp: Property;
     roopairsToken: string;
 }

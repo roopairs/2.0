@@ -4,7 +4,7 @@ import {
     PropertyManagerAccount,
     AccountTypes,
     AppState,
-    Property,
+    PropertyDict,
     Header,
     MainAppStackType,
     ConfigurationSettings,
@@ -67,22 +67,24 @@ const PropertyManagerAcount: PropertyManagerAccount = {
 /** User Account data for testing! */
 
 /** Property data for testing! */
-export const PropertyList1: Property[] = [
-    {
-        propId: '1',
+export const testPropertyListKey1 = '1';
+export const testPropertyListKey2 = '2';
+export const PropertyList1: PropertyDict = {
+    [testPropertyListKey1] : {
+        propId: testPropertyListKey1,
         address: '560 Hathway Ap. 2, San Luis Obispo, California',
         tenants: 3,
         bedrooms: 3,
         bathrooms: 3,
     },
-    {
-        propId: '2',
+    [testPropertyListKey2] : {
+        propId: testPropertyListKey2,
         address: '481 Del Sur Way, San Luis Obispo, California',
         tenants: 5,
         bedrooms: 3,
         bathrooms: 2,
     },
-];
+};
 
 /** Property data for testing! */
 const PropertyManager1: Contact  =
@@ -94,7 +96,7 @@ const PropertyManager1: Contact  =
     };
 
 const propertyListState : PropertyListState = {
-    selectedPropertyIndex: 0,
+    selectedPropertyId: testPropertyListKey2,
     properties: PropertyList1,
     propertyManager: PropertyManager1,
     appliances: [],

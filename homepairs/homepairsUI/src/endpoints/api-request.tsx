@@ -460,7 +460,7 @@ export const postUpdatedProperty = (
                 if ( status === SUCCESS) {
                     navigation.resolveModalReplaceNavigation(SingleProperty, 
                         {propId: editProperty.propId});
-                    dispatch(updateProperty(info.index, editProperty));
+                    dispatch(updateProperty(editProperty));
                 } else {
                     const {error} = data;
                     displayError(error);

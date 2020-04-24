@@ -254,7 +254,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
     }
 
     clickSubmitButton() {
-        const {email, navigation, onEditProperty, index, oldProp, roopairsToken} = this.props;
+        const {email, navigation, onEditProperty, propId, oldProp, roopairsToken} = this.props;
         const {address, bedrooms, bathrooms, tenants} = this.state;
         this.resetForms();
         if (this.validateForms()) {
@@ -265,7 +265,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
                 bathrooms: Number(bathrooms), 
                 tenants: Number(tenants),
             };
-            const info : EditPropertyState = { email, index, oldProp, roopairsToken};
+            const info : EditPropertyState = { email, propId, oldProp, roopairsToken};
             onEditProperty(newProperty, info, this.displayError, navigation);
         } 
     }

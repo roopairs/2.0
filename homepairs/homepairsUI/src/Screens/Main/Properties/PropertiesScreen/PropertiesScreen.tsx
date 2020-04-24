@@ -36,8 +36,8 @@ const mapDispatchToProps: (
         dispatch(HeaderActions.showGoBackButton(showBackButton));
     },
     // Sets the selectedProperty to the position of the value in the property[]
-    onSelectProperty: (selectedPropertyIndex: number) => {
-        dispatch(PropertyListActions.setSelectedProperty(selectedPropertyIndex));
+    onSelectProperty: (selectedPropertyId: string) => {
+        dispatch(PropertyListActions.setSelectedProperty(selectedPropertyId));
     },
 });
 

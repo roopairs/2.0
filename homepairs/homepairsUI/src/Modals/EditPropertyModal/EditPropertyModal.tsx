@@ -12,11 +12,12 @@ const mapDispatchToProps : (dispatch: any) => EditPropertyDispatchProps = (dispa
 });
 
 function mapStateToProps(state: AppState) : EditPropertyState {
-    const propIndex = state.properties.selectedPropertyIndex;
+    const propId = state.properties.selectedPropertyId;
+    console.log(propId);
     return {
         email: state.accountProfile.email, 
-        index: propIndex, 
-        oldProp: state.properties.properties[propIndex],
+        propId, 
+        oldProp: state.properties.properties[propId],
         roopairsToken: state.accountProfile.roopairsToken,
     };
 }

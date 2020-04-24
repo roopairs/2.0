@@ -7,6 +7,7 @@ import {
     FetchPropertyAndPropertyManagerAction,
     SetSelectedPropertyAction,
     FetchPropertiesAction,
+    Property,
 } from '../types';
 import { PROPERTY_LIST_ACTION_TYPES } from './actions';
 
@@ -19,8 +20,8 @@ import { PROPERTY_LIST_ACTION_TYPES } from './actions';
 
 
 export const initialState: PropertyListState = {
-    selectedPropertyIndex: null,
-    properties: [],
+    selectedPropertyId: null,
+    properties: {},
     appliances: [],
     propertyManager: null,
 };
@@ -32,64 +33,57 @@ export const properties = (
 ) => {
     /* * NOTE: USE IMMUTABLE UPDATE FUNCTIONS FOR REDUCERS OR ELSE REDUX WILL NOT UPDATE!!! * */
     const newState = { ...state };
-    let property = null;
-    let updateIndex: number = null;
-    let updatedPropertyList = [];
+    let property: Property = null;
+    let updatePropId: string = null;
+    let updatedPropertyDict = {};
 
     switch (action.type) {
         case PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY:
             // pay attention to type-casting on action
             property = (action as AddPropertyAction).userData;
-            updatedPropertyList = [...state.properties, property];
+            updatedPropertyDict = {...state.properties};
+            updatedPropertyDict[property.propId] = property;
             return {
                 ...newState,
-                selectedPropertyIndex: null,
-                properties: updatedPropertyList,
+                selectedPropertyId: null,
+                properties: updatedPropertyDict,
             };
         case PROPERTY_LIST_ACTION_TYPES.REMOVE_PROPERTY:
-            updateIndex = (action as RemovePropertyAction).index;
-            updatedPropertyList = newState.properties.filter(
-                (_item, propIndex) => propIndex !== updateIndex,
-            );
+            updatePropId = (action as RemovePropertyAction).propId;
+            updatedPropertyDict = {...newState.properties};
+            delete updatedPropertyDict[updatePropId];
             return {
                 ...newState,
-                selectedPropertyIndex: null,
-                properties: updatedPropertyList,
+                selectedPropertyId: null,
+                properties: updatedPropertyDict,
             };
         case PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY:
             property = (action as UpdatePropertyAction).userData;
-            updateIndex = (action as UpdatePropertyAction).index;
-            state.properties.forEach((item, index) => {
-                if (index === updateIndex) {
-                    // This isn't the item we care about - keep it as-is
-                    updatedPropertyList.push(property);
-                }else{
-                    // Otherwise, this is the one we want - return an updated value
-                    updatedPropertyList.push(item);
-                }
-            });
+            updatePropId = (action as UpdatePropertyAction).propId;
+            updatedPropertyDict = {...newState.properties};
+            updatedPropertyDict[updatePropId] = property;
             return {
                 ...newState,
-                selectedPropertyIndex: updateIndex,
-                properties: updatedPropertyList,
+                selectedPropertyId: updatePropId,
+                properties: updatedPropertyDict,
             };
         case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_AND_PROPERTY_MANAGER:
             return {
                 ...newState,
-                selectedPropertyIndex: null,
+                selectedPropertyId: (action as FetchPropertyAndPropertyManagerAction).property.propId,
                 properties: (action as FetchPropertyAndPropertyManagerAction).property,
                 propertyManager: (action as FetchPropertyAndPropertyManagerAction).propertyManager,
             };
         case PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES:
             return {
                 ...newState,
-                selectedPropertyIndex: null,
+                selectedPropertyId: null,
                 properties: (action as FetchPropertiesAction).properties,
             };
         case PROPERTY_LIST_ACTION_TYPES.SET_SELECTED_PROPERTY:
             return {
                 ...newState,
-                selectedPropertyIndex: (action as SetSelectedPropertyAction).index,
+                selectedPropertyId: (action as SetSelectedPropertyAction).propId,
             };
         default:
             return state;

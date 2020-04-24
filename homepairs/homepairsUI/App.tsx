@@ -3,7 +3,7 @@ import { registerRootComponent, AppLoading} from 'expo';
 import { Provider, connect } from 'react-redux';
 import { LoadFonts } from 'homepairs-fonts';
 import { AppState } from 'homepairs-types';
-import { ActivityIndicator, StatusBar, AsyncStorage } from 'react-native';
+import { ActivityIndicator, StatusBar, AsyncStorage} from 'react-native';
 import { fetchProperties, setSelectedProperty, parseAccount} from 'homepairs-redux-actions';
 import { isNullOrUndefined } from 'homepairs-utilities';
 import { navigationPages } from 'homepairs-routes';
@@ -16,6 +16,7 @@ import store from './src/state/store';
 
 const checkSession = async () => {
     await LoadFonts();
+    /*
     await AsyncStorage.getItem('profile').then(profile => {
         console.log(profile);
         const storedAccountProfile= JSON.parse(profile);
@@ -29,6 +30,7 @@ const checkSession = async () => {
         const storedSelectedPropertyIndex = Number(selectedPropertyIndex);
         store.dispatch(setSelectedProperty(storedSelectedPropertyIndex));
     });
+    */
 
     /*
     await AsyncStorage.getItem('session').then(async (sessionToken) => {
@@ -57,6 +59,7 @@ const checkSession = async () => {
     });
     */
 
+    /*
     await AsyncStorage.getItem('profile').then(profile => {
         console.log(profile);
         const storedAccountProfile= JSON.parse(profile);
@@ -69,6 +72,7 @@ const checkSession = async () => {
             const storedSelectedPropertyIndex = Number(selectedPropertyIndex);
             store.dispatch(setSelectedProperty(storedSelectedPropertyIndex));
     });
+    */
 
     /**
      * TODO: Create async request that confirms if a session token from the Homepairs api is still valid. If it is 

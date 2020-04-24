@@ -2,6 +2,7 @@ import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { withSceneHeader, withPreferredProviderFlatList } from 'homepairs-components';
 import strings from 'homepairs-strings';
+import { convertObjectValuesToArray } from 'homepairs-utilities';
 import { prepareNavigationHandlerComponent, navigationPages  } from 'homepairs-routes';
 import {
     ServiceRequestScreenBase,
@@ -24,12 +25,11 @@ const sceneParam: MainAppStackType = {
 
 function mapStateToProps(state: AppState): ServiceRequestScreenStateProps {
     const {header, serviceRequests, properties} = state;
-    const propertyList = properties.properties;
     return {
         // TODO: Add pass favorite Service Providers into props
         serviceRequestsState: serviceRequests,
         header,
-        properties: propertyList,
+        properties: convertObjectValuesToArray(properties.properties),
     };
 }
 

@@ -6,9 +6,10 @@ import {InputForm, Card, GoogleInputForm, ThinButton} from 'homepairs-elements';
 import {fireEvent, render} from "react-native-testing-library";
 import {EditPropertyState, Property} from 'homepairs-types';
 import { NavigationStackProp } from 'react-navigation-stack';
-import { mockStackNavigation, navigationStackSpyFunction } from 'homepairs-test';
+import { prepareNavigationMock } from 'homepairs-test';
 import { TextInput, ScrollView, View } from 'react-native';
 import {HelperText} from 'react-native-paper';
+import {NavigationRouteHandler} from 'homepairs-routes';
 import EditPropertyModalBase from "./EditPropertyModalBase";
 
 
@@ -16,9 +17,10 @@ type Props = NavigationStackProp & EditPropertyDispatchProps & EditPropertyState
 
 
 export type EditPropertyDispatchProps = {
-    onEditProperty: (newProperty: Property, info: EditPropertyState, navigation: NavigationStackProp) => void
+    onEditProperty: (newProperty: Property, info: EditPropertyState, navigation: NavigationRouteHandler) => void
 }
 
+const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock();
 const props : Props = {
     navigation: mockStackNavigation,
     onEditProperty: undefined,
