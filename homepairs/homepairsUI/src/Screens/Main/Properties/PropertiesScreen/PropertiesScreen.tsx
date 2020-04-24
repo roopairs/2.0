@@ -44,7 +44,7 @@ const mapDispatchToProps: (
 
 // First give the base a navigation object. It will not be recieving a navigation object from its parent so this set up is necessary 
 const PropertiesScreen = connect(mapStateToProps, mapDispatchToProps)(PropertiesScreenBase);
-const PropertiesScreenWithHeader = withSceneHeader(PropertiesScreen, sceneParams);
+const PropertiesScreenWithHeader = withSceneHeader(PropertiesScreen, sceneParams, false);
 
 /**
  * ---------------------------------------------------
