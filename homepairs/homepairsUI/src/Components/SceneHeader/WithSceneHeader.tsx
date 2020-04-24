@@ -101,6 +101,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType, w
             const automaticallyAdjustContentInsets = false;
             return withScrollView ? (
                 <ScrollView
+                        testID='with-scene-header-container-view'
                         contentContainerStyle={styles.scrollViewContentContainer}
                         directionalLockEnabled={directionalLockEnabled}
                         automaticallyAdjustContentInsets={automaticallyAdjustContentInsets}>
@@ -112,6 +113,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType, w
                     </ScrollView>
             ) : (
                 <View
+                    testID='with-scene-header-container-view'
                     style={styles.viewStyle}>
                         <WrappedComponent
                             testID='with-scene-header-wrapped-component'
