@@ -30,7 +30,8 @@ PROPERTY_ALREADY_EXISTS = 'Property given already exists'
 NON_FIELD_ERRORS = 'non_field_errors'
 SERVPRO_DOESNT_EXIST = 'Service provider does not exist.'
 SERVPRO_ALREADY_EXIST = 'Service provider already exists.'
-PREF_PRO_DOESNT_EXIST = 'Preferred service provider already exists.'
+PREF_PRO_DOESNT_EXIST = 'Preferred service provider doesnt exists.'
+PREF_PRO_ALREADY_EXIST = 'Preferred service provider already exists.'
 APPLIANCE_DOESNT_EXIST = 'Appliance does not exist.'
 PROPERTY_DOESNT_EXIST = 'Property does not exist.'
 NOT_PROP_OWNER = 'You are not the property owner'
@@ -101,46 +102,10 @@ class PreferredProviderView(View):
         else:
             return JsonResponse(data=missingError(missingFields))
 
-    def put(self, request):
-        inData = json.loads(request.body)
-        required = ['oldPhoneNum', 'name', 'email', 'phoneNum', 'contractLic', 'skills', 'founded']
-        missingFields = checkRequired(required, inData)
-        if(len(missingFields) == 0):
-            oldPhoneNum = inData.get('oldPhoneNum')
-            name = inData.get('name')
-            email = inData.get('email')
-            phoneNum = inData.get('phoneNum')
-            contractLic = inData.get('contractLic')
-            skills = inData.get('skills')
-            dateStr = inData.get('founded')
-            try:
-                founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
-            except:
-                return JsonResponse(data=returnError(INVALID_DATE))
-
-            # The ServiceProvider
-            proList = ServiceProvider.objects.filter(phoneNum=oldPhoneNum)
-            if proList.exists():
-                newProList = ServiceProvider.objects.filter(phoneNum=phoneNum)
-                if newProList.exists():
-                    return JsonResponse(data=returnError(SERVPRO_ALREADY_EXIST))
-                pro = proList[0]
-                pro.name = name
-                pro.email = email
-                pro.phoneNum = phoneNum
-                pro.contractLic = contractLic
-                pro.skills = skills
-                pro.founded = founded
-                pro.save()
-                return JsonResponse(data={STATUS: SUCCESS})
-            else:
-                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
-        else:
-            return JsonResponse(data=missingError(missingFields))
-
     def get(self, request, inPmId):
         preferredProviders = PreferredProviders.objects.filter(pm__id=inPmId)
         niceList = []
+        #ALSO RETURN PROVID
         for prov in preferredProviders:
             niceList.append(prov.provider.toDict())
         return JsonResponse(data={'providers': niceList})
