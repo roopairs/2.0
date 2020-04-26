@@ -18,6 +18,7 @@ from Apps.Properties.views import PropertyView
 from Apps.PropertyManagers.views import LoginView
 from Apps.ServiceProvider.views import ServiceProviderView
 from Apps.ServiceRequest.views import ServiceRequestView
+from Apps.ServiceProvider.preferredViews import PreferredProviderView
 from django.contrib import admin
 from django.urls import include, path
 
@@ -30,6 +31,7 @@ urlpatterns = [
     path('tenant/', include('Apps.Tenants.urls')),
     path('appliances/', ApplianceView.as_view(), name='appliance_view'),
     path('serviceprovider/prefprov/', PreferredProviderView.as_view(), name='pref_provider_view'),
+    path('serviceprovider/prefprov/<str:inPmId>/', PreferredProviderView.as_view(), name='request_get'),
     path('serviceprovider/', ServiceProviderView.as_view(), name='service_provider_view'),
     path('serviceprovider/<int:inPmId>/', ServiceProviderView.as_view(), name='pprovider_view'),
     path('servicerequest/', ServiceRequestView.as_view(), name='service_request_view'),

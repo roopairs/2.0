@@ -163,4 +163,16 @@ class PreferredProviderView(View):
         return JsonResponse(data={'providers': niceList})
 
     def delete(self, request):
-        return JsonResponse(data={"SKEL": "ETOR"})
+        inData = json.loads(request.body)
+        required = ['prefId']
+        missingFields = checkRequired(required, inData)
+        if(len(missingFields) != 0):
+            return JsonResponse(data=missingError(missingFields))
+        prefId = inData.get('prefId')
+        prefList = PreferredProviders.objects.filter(id=prefId)
+        if prefList.exists():
+            pref = prefList[0]
+            pref.delete()
+            return JsonResponse(data={STATUS: SUCCESS})
+        else:
+            return JsonResponse(data=returnError(PREF_PRO_DOESNT_EXIST))
