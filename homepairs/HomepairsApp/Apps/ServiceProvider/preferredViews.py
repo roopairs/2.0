@@ -138,7 +138,7 @@ class PreferredProviderView(View):
             return JsonResponse(data=missingError(missingFields))
 
     def get(self, request, inPmId):
-        inData = json.loads(request.body)
+        '''inData = json.loads(request.body)
         required = ['prefId']
         missingFields = checkRequired(required, inData)
 
@@ -155,7 +155,12 @@ class PreferredProviderView(View):
             else:
                 return JsonResponse(data=returnError(PREF_PRO_DOESNT_EXIST))
         else:
-            return JsonResponse(data=missingError(missingFields))
+            return JsonResponse(data=missingError(missingFields))'''
+        preferredProviders = PreferredProviders.objects.filter(pm__id=inPmId)
+        niceList = []
+        for prov in preferredProviders:
+            niceList.append(prov.provider.toDict())
+        return JsonResponse(data={'providers': niceList})
 
     def delete(self, request):
         return JsonResponse(data={"SKEL": "ETOR"})
