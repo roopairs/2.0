@@ -7,7 +7,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import PreferredProviders, ServiceProvider
-
+from ..PropertyManagers.models import PropertyManager
 
 ################################################################################
 # CONSTANTS
@@ -30,6 +30,7 @@ PROPERTY_ALREADY_EXISTS = 'Property given already exists'
 NON_FIELD_ERRORS = 'non_field_errors'
 SERVPRO_DOESNT_EXIST = 'Service provider does not exist.'
 SERVPRO_ALREADY_EXIST = 'Service provider already exists.'
+PREF_PRO_DOESNT_EXIST = 'Preferred service provider already exists.'
 APPLIANCE_DOESNT_EXIST = 'Appliance does not exist.'
 PROPERTY_DOESNT_EXIST = 'Property does not exist.'
 NOT_PROP_OWNER = 'You are not the property owner'
@@ -77,7 +78,7 @@ class PreferredProviderView(View):
             pmId = inData.get('pmId')
 
             proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
-            pmList = ServiceProvider.objects.filter(id=pmId)
+            pmList = PropertyManager.objects.filter(id=pmId)
             if proList.exists() and pmList.exists():
                 prefList = PreferredProviders.objects.filter(provider=proList[0],
                                                              pm=pmList[0])
@@ -138,24 +139,6 @@ class PreferredProviderView(View):
             return JsonResponse(data=missingError(missingFields))
 
     def get(self, request, inPmId):
-        '''inData = json.loads(request.body)
-        required = ['prefId']
-        missingFields = checkRequired(required, inData)
-
-        if(len(missingFields) == 0):
-            prefId = inData.get('prefId')
-
-            prefList = PreferredProviders.objects.filter(id=prefId)
-            if prefList.exists():
-                data = {
-                        STATUS: SUCCESS,
-                        pref: prefList[0].toDict()
-                       }
-                return JsonResponse(data)
-            else:
-                return JsonResponse(data=returnError(PREF_PRO_DOESNT_EXIST))
-        else:
-            return JsonResponse(data=missingError(missingFields))'''
         preferredProviders = PreferredProviders.objects.filter(pm__id=inPmId)
         niceList = []
         for prov in preferredProviders:
