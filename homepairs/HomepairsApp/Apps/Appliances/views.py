@@ -55,7 +55,7 @@ class ApplianceView(View):
     # Create a new appliance
     def post(self, request):
         inData = json.loads(request.body)
-        required = ['name', 'manufacturer', 'category', 'modelNum', 'serialNum', 'location', 'propId', 'token']
+        required = ['name', 'category', 'location', 'propId', 'token']
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) != 0):
@@ -109,7 +109,7 @@ class ApplianceView(View):
 
     def put(self, request):
         inData = json.loads(request.body)
-        required = ['appId', 'newName', 'newCategory', 'newManufacturer', 'newModelNum', 'newSerialNum', 'newLocation']
+        required = ['appId', 'newName', 'newCategory']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) != 0):
             return JsonResponse(data=missingError(missingFields))
