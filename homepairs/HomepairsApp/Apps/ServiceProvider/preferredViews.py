@@ -68,13 +68,94 @@ def missingError(missingFields):
 @method_decorator(csrf_exempt, name='dispatch')
 class PreferredProviderView(View):
     def post(self, request):
-        return JsonResponse(data={"SKEL": "ETOR"})
+        inData = json.loads(request.body)
+        required = ['phoneNum', 'pmId']
+        missingFields = checkRequired(required, inData)
+
+        if(len(missingFields) == 0):
+            phoneNum = inData.get('phoneNum')
+            pmId = inData.get('pmId')
+
+            proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
+            pmList = ServiceProvider.objects.filter(id=pmId)
+            if proList.exists() and pmList.exists():
+                prefList = PreferredProviders.objects.filter(provider=proList[0],
+                                                             pm=pmList[0])
+                if not prefList.exists():
+                    pref = PreferredProviders(provider=proList[0],
+                                              pm=pmList[0])
+                    pref.save()
+                    data = {
+                            STATUS: SUCCESS,
+                            prefId: pref.id
+                           }
+                    return JsonResponse(data)
+                else:
+                    return JsonResponse(data=returnError(PREF_PRO_ALREADY_EXIST))
+            elif proList.exists():
+                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
+            else:
+                return JsonResponse(data=returnError(PROPERTY_MAN_DOESNT_EXIST))
+
+        else:
+            return JsonResponse(data=missingError(missingFields))
 
     def put(self, request):
-        return JsonResponse(data={"SKEL": "ETOR"})
+        inData = json.loads(request.body)
+        required = ['oldPhoneNum', 'name', 'email', 'phoneNum', 'contractLic', 'skills', 'founded']
+        missingFields = checkRequired(required, inData)
+        if(len(missingFields) == 0):
+            oldPhoneNum = inData.get('oldPhoneNum')
+            name = inData.get('name')
+            email = inData.get('email')
+            phoneNum = inData.get('phoneNum')
+            contractLic = inData.get('contractLic')
+            skills = inData.get('skills')
+            dateStr = inData.get('founded')
+            try:
+                founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
+            except:
+                return JsonResponse(data=returnError(INVALID_DATE))
+
+            # The ServiceProvider
+            proList = ServiceProvider.objects.filter(phoneNum=oldPhoneNum)
+            if proList.exists():
+                newProList = ServiceProvider.objects.filter(phoneNum=phoneNum)
+                if newProList.exists():
+                    return JsonResponse(data=returnError(SERVPRO_ALREADY_EXIST))
+                pro = proList[0]
+                pro.name = name
+                pro.email = email
+                pro.phoneNum = phoneNum
+                pro.contractLic = contractLic
+                pro.skills = skills
+                pro.founded = founded
+                pro.save()
+                return JsonResponse(data={STATUS: SUCCESS})
+            else:
+                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
+        else:
+            return JsonResponse(data=missingError(missingFields))
 
     def get(self, request, inPmId):
-        return JsonResponse(data={"SKEL": "ETOR"})
+        inData = json.loads(request.body)
+        required = ['prefId']
+        missingFields = checkRequired(required, inData)
+
+        if(len(missingFields) == 0):
+            prefId = inData.get('prefId')
+
+            prefList = PreferredProviders.objects.filter(id=prefId)
+            if prefList.exists():
+                data = {
+                        STATUS: SUCCESS,
+                        pref: prefList[0].toDict()
+                       }
+                return JsonResponse(data)
+            else:
+                return JsonResponse(data=returnError(PREF_PRO_DOESNT_EXIST))
+        else:
+            return JsonResponse(data=missingError(missingFields))
 
     def delete(self, request):
         return JsonResponse(data={"SKEL": "ETOR"})

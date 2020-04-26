@@ -1,6 +1,7 @@
 from django.urls import path
 
 from .views import ServiceProviderView
+from .prefferedViews import PreferredProviderView
 
 
 urlpatterns = [
