@@ -89,7 +89,7 @@ class PreferredProviderView(View):
                     pref.save()
                     data = {
                             STATUS: SUCCESS,
-                            prefId: pref.id
+                            'prefId': pref.id
                            }
                     return JsonResponse(data)
                 else:
