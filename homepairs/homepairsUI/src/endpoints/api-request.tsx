@@ -91,15 +91,11 @@ export const fetchPreferredProviders = (pmId: string) => {
     return async (dispatch: (func: any) => void) => {
         await axios.get(endpoint)
         .then(result => {
-            const {status, data} = result;
-            if(status === 200){
-                const {providers} = data;
-                AsyncStorage.setItem('preferredProviders', JSON.stringify(data));
-                const parsedProviders = parsePreferredProviders(providers);
-                dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
-            } else {
-                return Promise.reject(status);
-            } 
+            const {data} = result;
+            const {providers} = data;
+            AsyncStorage.setItem('preferredProviders', JSON.stringify(data));
+            const parsedProviders = parsePreferredProviders(providers);
+            dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
             return result;
         })
         .catch(error => {
@@ -166,10 +162,12 @@ export const deletePreferredProvider = (
         .then(response => {
             const {data} = response;
             const {status} = data;
+            console.log(response)
             if(status === SUCCESS){
                 dispatch(removeServiceProvider(serviceProvider));
             }else{
                 const {error} = data;
+                console.log(error)
                 onError(error);
             }
         }).catch(error => {

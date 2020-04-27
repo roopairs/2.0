@@ -33,6 +33,10 @@ describe('Test PostPreferredProvider function', () => {
     const mock = new MockAdapter(axios);
     const mockHandleError = jest.fn((error:string) => {return error;});
 
+    beforeEach(()=>{
+        mockHandleError.mockClear();
+    });
+    
     it('Case 1: Successful request with valid response', async () => {
         mock.onPut(endpoint).reply(200);
         mock.onPut(fetchedProvEndpoint).reply(200);
@@ -44,6 +48,12 @@ describe('Test PostPreferredProvider function', () => {
 
     it('Case2: Failed Request', async () =>{
         mock.onPut(endpoint).reply(500);
+        await postPreferredProvider(testPM, testPhoneNumber, mockHandleError);
+        expect(mockHandleError).toHaveBeenCalledTimes(1);
+    });
+
+    it('Case3: Succesful Request with failure as response', async () =>{
+        mock.onPut(endpoint).reply(200, {status: 'failure', error: 'Error 400'});
         await postPreferredProvider(testPM, testPhoneNumber, mockHandleError);
         expect(mockHandleError).toHaveBeenCalledTimes(1);
     });

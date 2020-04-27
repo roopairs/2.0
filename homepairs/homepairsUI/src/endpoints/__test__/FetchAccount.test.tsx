@@ -60,7 +60,7 @@ const expectedResults: {[id:string]: AccountStateAction} = {
       email: 'kylelion@gmail.com',
       roopairsToken: '',
       tenantId: 20,
-      propId: '99',
+      propId: 99,
     },
   },
   NO_TOKEN_DEFINED: { // Account of a response with no token
@@ -79,7 +79,7 @@ const expectedResults: {[id:string]: AccountStateAction} = {
 
 const expectedEmptyTenant: FetchPropertiesAction = {
   type: "PROPERTY_LIST/FETCH_PROPERTIES",
-  properties: [],
+  properties: {},
 };
 
 const expectedTenantProperty : FetchPropertyAction = {
@@ -90,13 +90,15 @@ const expectedTenantProperty : FetchPropertyAction = {
     firstName: "Eeron",
     lastName: "Grant",
   },
-  property: [{
-    propId: '99',
-    tenants: 5,
-    bathrooms: 2,
-    bedrooms: 3,
-    address: "200 N. Santa Rosa, San Luis Obispo, CA",
-  }],
+  property: {
+    '99': {
+      propId: '99',
+      tenants: 5,
+      bathrooms: 2,
+      bedrooms: 3,
+      address: "200 N. Santa Rosa, San Luis Obispo, CA",
+    },
+  },
 };
 
 const testJsonValues: {[id:string]: any} =
@@ -140,13 +142,15 @@ const testJsonValues: {[id:string]: any} =
       },
     },
     // TODO: Check with backed to see if they return an Array of Properties or Single Property for Tenant login
-    properties:[{
-      maxTenants: 5,
-      numBath: 2,
-      numBed: 3,
-      propId: '99',
-      streetAddress: "200 N. Santa Rosa, San Luis Obispo, CA",
-    }],
+    properties:[
+      {
+        maxTenants: 5,
+        numBath: 2,
+        numBed: 3,
+        propId: '99',
+        streetAddress: "200 N. Santa Rosa, San Luis Obispo, CA",
+      },
+    ],
     token: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
   },
   TENANT_WITHOUT_TOKEN: { // Tenant without a token

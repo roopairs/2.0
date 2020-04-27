@@ -103,6 +103,7 @@ describe('Test fetchPreferredProviders function', () => {
     it('Case 2: Successful request with failed response', async () => {
         const data = { 
             status: 'failure',
+            error: 'Error 300',
         };
         mock.onGet(URL).reply(200, data);
         const dispatchReadyFunc = fetchPreferredProviders(testPmId);

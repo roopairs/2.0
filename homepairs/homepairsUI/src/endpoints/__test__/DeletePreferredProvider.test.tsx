@@ -73,7 +73,7 @@ describe('Test deletePreferredProvider function', () => {
         });
 
         it('Test passing param onError', async () => {
-            mock.onDelete(endpoint).reply(400);
+            mock.onDelete(endpoint).reply(200, {status: 'failure', error: 'ERROR 300'});
 
             const dispatchReadyFunc = deletePreferredProvider(testServiceProvider, mockHandleError);
             await propertyManagerMock1.dispatch(dispatchReadyFunc);
