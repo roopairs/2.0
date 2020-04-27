@@ -1,5 +1,4 @@
 import React from 'react';
-import {Text} from 'react-native';
 import {render, fireEvent} from 'react-native-testing-library';
 import {propertyManagerMock1, prepareNavigationMock} from 'homepairs-test';
 import {navigationPages} from 'homepairs-routes';

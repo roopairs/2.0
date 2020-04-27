@@ -208,7 +208,7 @@ const serviceProviderList : ServiceProvider[] = [
         payRate: 35.25,
         timesHired: 202, 
         earliestHire: new Date(2018, 10, 17),
-        logo: bolt,
+        logo: 'Fake',
     },
     {
         provId: 9294,

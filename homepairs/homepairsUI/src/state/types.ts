@@ -199,7 +199,7 @@ export type ServiceProvider = {
     payRate: number, // amount per hour 
     timesHired: number, 
     earliestHire?: Date, // date of first job completed
-    logo?: ImageSourcePropType, // optional image 
+    logo?: string, // optional image uri
 };
 
 export enum ServiceRequestCompletionStatus {

@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import PreferredProviderFlatList from './PreferredProviderFlatList';
 import {View} from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
+import PreferredProviderFlatList from './PreferredProviderFlatList';
 
 export type PreferredProviderFlatListInjProps = any
 

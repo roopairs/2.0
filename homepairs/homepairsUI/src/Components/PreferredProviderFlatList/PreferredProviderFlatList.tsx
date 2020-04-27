@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, FlatList, TouchableOpacity, Platform} from 'react-native';
+import {View, StyleSheet, FlatList, TouchableOpacity, Platform, ImageURISource} from 'react-native';
 import {ImageTile, TextTile} from 'homepairs-elements';
 import { HomePairsDimensions, AppState, ProviderDictionary, ServiceProvider, PropertyManagerAccount } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -59,21 +59,25 @@ function renderProviderTiles(props: RenderProviderTilesItem){
     const {type, tile, pmId, navigation} = props;
 
     async function onClickProvider(){
-        // TODO: Navigate to Service Provider Modal with passed in telephone number 
+        const {phoneNum} = tile
+        navigation.navigate('TODO: Navigate to Service Provider Modal with passed in telephone number or prefId', {prefProvPhone: phoneNum});
     }
 
     async function onClickAdd(){
-        // TODO: Navigate to add new Preferred Provider Modal
+        navigation.navigate('TODO: Navigate to add new Preferred Provider Modal');
     }
 
     // Helper function that that renders a Text tile for logos without images and 
     // Image tiles for those with images. This function assumes that tile is defined.
     function renderProperTile(){
         const {logo, name} = tile;
+
+        // Render remote images. Need to format in {uri: string} to work on iOS
+        const image = Platform.OS === 'ios' ? {uri: logo} : logo;
         return isNullOrUndefined(logo) ? 
             <TextTile text={name} fontSize={16}/>
             :
-            <ImageTile image={logo}/>;     
+            <ImageTile image={image}/>;     
     }
 
     return type === 'add' ? 
@@ -118,7 +122,7 @@ function prepareRenderTiles(serviceProviders: ProviderDictionary, navigation: Na
  * @param {PreferredProviderFlatListProps} props -Base component that will be contained 
  */
 export function PreferredProviderFlatListBase(props: PreferredProviderFlatListProps){
-    const {serviceProviders, navigation, pmId, onDeletePreferredProvider} = props;
+    const {serviceProviders, navigation, pmId} = props;
     const renderTiles = prepareRenderTiles(serviceProviders, navigation);
     return (
         <View style={styles.container}>
@@ -128,7 +132,7 @@ export function PreferredProviderFlatListBase(props: PreferredProviderFlatListPr
                 style={{flex:1, marginTop: 5}}
                 contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignContent: 'center'}}
                 data={renderTiles}
-                renderItem={({item}) => renderProviderTiles({...item, pmId, onDeletePreferredProvider})}
+                renderItem={({item}) => renderProviderTiles({...item, pmId})}
                 keyExtractor={(item, index) => index.toString()}
                 horizontal/>
         </View>);

@@ -1,11 +1,9 @@
 import {
-    PreferredServiceProviderAction,
     RefreshServiceProvidersAction, 
     RemoveServiceProviderAction,
     ServiceProvider,
 } from 'homepairs-types';
 import { PreferredProviderActions } from 'homepairs-redux-actions';
-import {bolt} from 'homepairs-images';
 
 jest.mock('homepairs-images');
 const {refreshServiceProviders, removeServiceProvider, PREFERRED_SERVICE_PROVIDER_ACTION_TYPES} = PreferredProviderActions;
@@ -22,7 +20,7 @@ const serviceProvider : ServiceProvider = {
    payRate: 35.25,
    timesHired: 202, 
    earliestHire: new Date(2018, 10, 17),
-   logo: bolt,
+   logo: 'Fake',
 };
 
 const serviceProviderList : ServiceProvider[] = [
@@ -37,7 +35,7 @@ const serviceProviderList : ServiceProvider[] = [
         payRate: 35.25,
         timesHired: 202, 
         earliestHire: new Date(2018, 10, 17),
-        logo: bolt,
+        logo: 'Fake',
     },
     {
         provId: 9294,
@@ -50,7 +48,7 @@ const serviceProviderList : ServiceProvider[] = [
         payRate: 40.25,
         timesHired: 33, 
         earliestHire: new Date(2020, 1, 3),
-        logo: bolt,
+        logo: 'Fake',
     },
 
 ];

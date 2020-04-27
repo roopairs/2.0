@@ -1,7 +1,6 @@
 import React from 'react';
 import { 
     View,
-    ImageSourcePropType, 
     StyleSheet,
     Image,
     Text,
@@ -18,7 +17,7 @@ export type ImageTileProps = {
     /**
      * The bitmap image used for the image 
      */
-    image: ImageSourcePropType;
+    image: any;
 
 }
 
