@@ -11,11 +11,12 @@ const { REMOVE_SERVICE_PROVIDER } =  PREFERRED_SERVICE_PROVIDER_ACTION_TYPES;
 /* * Test Data * */
 const testEmail: string = 'jacksonJaves@gmail.com';
 const testPhoneNumber: string = '999-555-3333';
-const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${testEmail}/${testPhoneNumber}/`;
+const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
 
 /* * Expected Results * */
 const testServiceProvider: ServiceProvider = {
     provId: 2,
+    prefId: undefined,
     name: 'Lighters',
     email: testEmail,
     phoneNum: testPhoneNumber,
@@ -42,9 +43,10 @@ describe('Test deletePreferredProvider function', () => {
             type: REMOVE_SERVICE_PROVIDER,
             serviceProvider: testServiceProvider,
         };
-        mock.onDelete(endpoint).reply(204);
 
-        const dispatchReadyFunc = deletePreferredProvider(testEmail,testServiceProvider);
+        mock.onDelete(endpoint).reply(200, {status: 'success'});
+
+        const dispatchReadyFunc = deletePreferredProvider(testServiceProvider);
         await propertyManagerMock1.dispatch(dispatchReadyFunc);
         const actionResults = propertyManagerMock1.getActions();
 
@@ -62,7 +64,7 @@ describe('Test deletePreferredProvider function', () => {
         it('Test not passing param onError', async () =>{
             mock.onDelete(endpoint).reply(500);
 
-            const dispatchReadyFunc = deletePreferredProvider(testEmail, testServiceProvider);
+            const dispatchReadyFunc = deletePreferredProvider(testServiceProvider);
             await propertyManagerMock1.dispatch(dispatchReadyFunc);
             const actionResults = propertyManagerMock1.getActions();
 
@@ -73,7 +75,7 @@ describe('Test deletePreferredProvider function', () => {
         it('Test passing param onError', async () => {
             mock.onDelete(endpoint).reply(400);
 
-            const dispatchReadyFunc = deletePreferredProvider(testEmail, testServiceProvider, mockHandleError);
+            const dispatchReadyFunc = deletePreferredProvider(testServiceProvider, mockHandleError);
             await propertyManagerMock1.dispatch(dispatchReadyFunc);
             const actionResults = propertyManagerMock1.getActions();
 

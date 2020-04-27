@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, FlatList, TouchableOpacity, Platform} from 'react-native';
 import {ImageTile, TextTile} from 'homepairs-elements';
-import { HomePairsDimensions, AppState, ProviderDictionary, ServiceProvider } from 'homepairs-types';
+import { HomePairsDimensions, AppState, ProviderDictionary, ServiceProvider, PropertyManagerAccount } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { connect } from 'react-redux';
 import { NavigationRouteScreenProps, NavigationRouteHandler, prepareNavigationHandlerComponent } from 'homepairs-routes';
@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
 });
 
 export type PreferredProviderFlatListStateProps = {
-    serviceProviders: ProviderDictionary
+    pmId: number,
+    serviceProviders: ProviderDictionary,
 }
 
 export type PreferredProviderFlatListProps = 
@@ -40,6 +41,8 @@ export type PreferredProviderFlatListProps =
 type TypeGuardTile = {
     type: 'add' | 'provider'
     tile: ServiceProvider,
+    pmId: number,
+    phoneNum: string,
 };
 type RenderProviderTilesItem = NavigationRouteScreenProps & TypeGuardTile;
 /* * Helper types for the renderComponent used for the flatList * */
@@ -53,12 +56,13 @@ type RenderProviderTilesItem = NavigationRouteScreenProps & TypeGuardTile;
  * @param {RenderProviderTilesItem} props 
  */
 function renderProviderTiles(props: RenderProviderTilesItem){
-    const {type, tile, navigation} = props;
-    function onClickProvider(){
+    const {type, tile, pmId, navigation} = props;
+
+    async function onClickProvider(){
         // TODO: Navigate to Service Provider Modal with passed in telephone number 
     }
 
-    function onClickAdd(){
+    async function onClickAdd(){
         // TODO: Navigate to add new Preferred Provider Modal
     }
 
@@ -114,7 +118,7 @@ function prepareRenderTiles(serviceProviders: ProviderDictionary, navigation: Na
  * @param {PreferredProviderFlatListProps} props -Base component that will be contained 
  */
 export function PreferredProviderFlatListBase(props: PreferredProviderFlatListProps){
-    const {serviceProviders, navigation} = props;
+    const {serviceProviders, navigation, pmId, onDeletePreferredProvider} = props;
     const renderTiles = prepareRenderTiles(serviceProviders, navigation);
     return (
         <View style={styles.container}>
@@ -124,7 +128,7 @@ export function PreferredProviderFlatListBase(props: PreferredProviderFlatListPr
                 style={{flex:1, marginTop: 5}}
                 contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignContent: 'center'}}
                 data={renderTiles}
-                renderItem={({item}) => renderProviderTiles(item)}
+                renderItem={({item}) => renderProviderTiles({...item, pmId, onDeletePreferredProvider})}
                 keyExtractor={(item, index) => index.toString()}
                 horizontal/>
         </View>);
@@ -133,12 +137,15 @@ export function PreferredProviderFlatListBase(props: PreferredProviderFlatListPr
 
 /* * Converting the Base into a Smart Component  * */ 
 function mapStateToProps(state: AppState): PreferredProviderFlatListStateProps{  
-    const {preferredProviders} = state;
+    const {preferredProviders, accountProfile} = state;
+    const {pmId} = (accountProfile as PropertyManagerAccount);
     const {serviceProviders} = preferredProviders;
     return {
+        pmId,
         serviceProviders,
     };
 };
+
 
 const PreferredProviderFlatList = connect(mapStateToProps)(
     prepareNavigationHandlerComponent(PreferredProviderFlatListBase));

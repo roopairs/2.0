@@ -189,6 +189,7 @@ export type NewServiceRequest = {
 export type ServiceProvider = {
     // TODO: Define attributes for service Provider
     provId: number,
+    prefId?: string, //Optional param if preferred service provider
     name: string,
     email: string,
     phoneNum: string,

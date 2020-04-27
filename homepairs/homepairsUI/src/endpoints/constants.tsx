@@ -1,3 +1,5 @@
+const BaseURL = 'https://homepairs-mytest.herokuapp.com/';
+
 export const HOMEPAIRS_LOGIN_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/login/';
 export const HOMEPAIRS_REGISTER_TENANT_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/tenant/register/';
 export const HOMEPAIRS_REGISTER_PM_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/pm/register';
@@ -6,4 +8,4 @@ export const HOMEPAIRS_APPLIANCE_ENDPOINT = 'https://homepairs-mytest.herokuapp.
 export const HOMEPAIRS_TENANT_EDIT_ENDPOINT = "https://homepairs-mytest.herokuapp.com/tenant/update/";
 export const HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT = "https://homepairs-mytest.herokuapp.com/serviceprovider/";
 export const HOMEPAIRS_SERVICE_REQUEST_ENDPOINT = 'https://homepairs-mytest.herokuapp.com/servicerequest/';
-export const HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT = "TODO: Replace this string with backend endpoint";
+export const HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT = `${BaseURL}serviceprovider/prefprov/`;

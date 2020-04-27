@@ -7,6 +7,7 @@ import axios from 'axios';
 import { getAccountType, categoryToString, isNullOrUndefined } from 'homepairs-utilities';
 import { NavigationRouteHandler, ChooseMainPage, navigationPages} from 'homepairs-routes';
 import * as HomePairsStateActions from 'homepairs-redux-actions';
+import { AsyncStorage } from 'react-native';
 import { 
     AccountTypes, 
     Account, 
@@ -49,34 +50,6 @@ const {SingleProperty, ServiceRequestScreen} = navigationPages;
 
 /**
  * ----------------------------------------------------
- * putPreferredProvider
- * ---------------------------------------------------- 
- * Makes a put request to the homepairs backend adding a preferred provider from the account 
- * associatted with the account Email. Returns the result of the request upon completion. 
- * NOTE: This method will NOT update the redux store in anyway. To update the list of 
- * preferred providers, one must call the fetchPreferredProvider after a this api has 
- * been successful.
- * 
- * @param {string} accountEmail -The email of the associated account. This is used to by the backend to 
- * determine which account needs the specified provider to be added.
- * @param {ServiceProvider} serviceProvider -The object holding in the service provider to be added.
- * @param {(error:string) => any} onError -An optional callback function that will handle an error 
- * thrown if the api request fails.
- */
-export const putPreferredProvider = async (
-    accountEmail: string, serviceProvider: ServiceProvider,  onError: (error:string) => any = console.log) => {
-    const {phoneNum} = serviceProvider;
-    const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${accountEmail}/${phoneNum}/`;
-    const result = await axios.put(endpoint).then(response => {return response;}).catch(
-        error => {
-            onError(error);
-        });
-    return result;
-};
-
-
-/**
- * ----------------------------------------------------
  * parsePreferredProviders
  * ---------------------------------------------------- 
  * A helper function that takes in a json array that is intended to have the information recieved 
@@ -86,19 +59,18 @@ export const putPreferredProvider = async (
 export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => ServiceProvider[] = 
 (preferredServiceProviderJSON: any[]) => {
     return preferredServiceProviderJSON.map(serviceProvider => {
-        const {provId, name, email, phoneNum, contractLic, skills, 
+        const {provId, name, email, phoneNum, prefId,contractLic, skills, 
             founded, payRate, timesHired, earliestHire, logo} = serviceProvider;
         // TODO: Handle loading the logo image asset recieved from the backend response
         return {
-            provId, name, email, 
+            provId, name, email, prefId,
             phoneNum, contractLic, skills, 
             founded, payRate, timesHired, 
             earliestHire: isNullOrUndefined(earliestHire) ? undefined : new Date(earliestHire), 
             logo,
         };
     });
-}; 
-
+};
 
 /** 
 * ----------------------------------------------------
@@ -114,30 +86,61 @@ export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => S
 * @param {(error:string) => any} onError -An optional callback function that will handle an error 
 * thrown if the api request fails
 */
-export const fetchPreferredProviders = (accountEmail: string) => {
-    const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${accountEmail}/`;
+export const fetchPreferredProviders = (pmId: string) => {
+    const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${pmId}/`;
     return async (dispatch: (func: any) => void) => {
         await axios.get(endpoint)
         .then(result => {
-            const {data} = result;
-            // TODO: parse serviceProviders to be that of a list of ServiceProviders
-            const {status, serviceProviders, error} = data;
-            if(status === SUCCESS){
-                const parsedProviders = parsePreferredProviders(serviceProviders);
+            const {status, data} = result;
+            if(status === 200){
+                const {providers} = data;
+                AsyncStorage.setItem('preferredProviders', JSON.stringify(data));
+                const parsedProviders = parsePreferredProviders(providers);
                 dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
             } else {
-                console.log(error);
-                return Promise.reject(error);
+                return Promise.reject(status);
             } 
             return result;
         })
         .catch(error => {
-            console.log(error);
             return Promise.reject(error);
         });
     };
 };
 
+/**
+ * ----------------------------------------------------
+ * postPreferredProvider
+ * ---------------------------------------------------- 
+ * Makes a post request to the homepairs backend adding a preferred provider from the account 
+ * associatted with the account Email. Returns the result of the request upon completion. 
+ * 
+ * @param {string} accountEmail -The email of the associated account. This is used to by the backend to 
+ * determine which account needs the specified provider to be added.
+ * @param {ServiceProvider} serviceProvider -The object holding in the service provider to be added.
+ * @param {(error:string) => any} onError -An optional callback function that will handle an error 
+ * thrown if the api request fails.
+ */
+export const postPreferredProvider = async (
+    pmId: number, phoneNum: string,  onError: (error:string) => any = console.log) => {
+    const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
+    await axios.post(endpoint, {phoneNum, pmId: String(pmId)})
+    .then(response => {
+        const {data} = response;
+        const {status} = data;
+        if(status === SUCCESS){
+            fetchPreferredProviders(String(pmId));
+        }else{
+            const {error} = data;
+            onError(error);
+        }
+    }).catch(
+        error => {
+            onError(error);
+        });
+};
+
+ 
 /**
  * ----------------------------------------------------
  * deletePreferredProvider
@@ -154,14 +157,21 @@ export const fetchPreferredProviders = (accountEmail: string) => {
  * thrown if the api request fails
  */
 export const deletePreferredProvider = (
-    accountEmail: string, serviceProvider: ServiceProvider, onError: (error:string) => any = console.log) => {
-    const {phoneNum} = serviceProvider;
-    const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${accountEmail}/${phoneNum}/`;
+    serviceProvider: ServiceProvider, onError: (error:string) => any = console.log) => {
+    const {prefId} = serviceProvider;
+    const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
     // Simply print the error if no error function was defined, otherwise use the defined function
     return async (dispatch: (func: any) => void) => { 
-        await axios.delete(endpoint)
-        .then(() => {
-            dispatch(removeServiceProvider(serviceProvider));
+        await axios.delete(endpoint, {data: {prefId}})
+        .then(response => {
+            const {data} = response;
+            const {status} = data;
+            if(status === SUCCESS){
+                dispatch(removeServiceProvider(serviceProvider));
+            }else{
+                const {error} = data;
+                onError(error);
+            }
         }).catch(error => {
             onError(error);
         });
@@ -235,14 +245,17 @@ export const fetchAccount = (
             const {data} = response;
             const {status, role} = data;
             const accountType = getAccountType(data);
+            console.log(data)
             if(status === SUCCESS){
                 // Set the login state of the application to authenticated
                 dispatch(setAccountAuthenticationState(true));
                 dispatch(parseAccount(data));
                 
                 if(role === PM){ // role = property manager
-                    const {properties} = data;
+                    const {properties, pm} = data;
+                    const {pmId} = pm; 
                     dispatch(fetchProperties(properties));
+                    dispatch(fetchPreferredProviders(pmId));
                 } else { // Assume role = tenant
                     const {properties, tenant} = data;
                     const {pm} = tenant;
@@ -396,7 +409,7 @@ export const postNewProperty = (
                     token: info.roopairsToken,
                 },
             )
-            .then( response => {
+            .then(response => {
                 const {data} = response;
                 const {status, propId} = data;
                 if ( status === SUCCESS ) {
