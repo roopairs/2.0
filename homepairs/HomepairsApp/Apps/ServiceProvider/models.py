@@ -15,7 +15,7 @@ class ServiceProvider(models.Model):
     website = models.CharField(max_length=200, null=True)
     logo = models.CharField(max_length=200, null=True)
     address = models.CharField(max_length=100, null=True)
-    contractLic = models.CharField(min_length=1, max_length=20, null=True)
+    contractLic = models.CharField(max_length=20, null=True)
     bio = models.CharField(max_length=200, null=True)
     rate = models.CharField(max_length=50, null=True)
     skills = models.CharField(max_length=200, null=True)
