@@ -118,21 +118,29 @@ export const fetchPreferredProviders = (pmId: string) => {
  * thrown if the api request fails.
  */
 export const postPreferredProvider = async (
-    pmId: number, phoneNum: string,  onError: (error:string) => any = console.log) => {
-    const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
-    await axios.post(endpoint, {phoneNum, pmId: String(pmId)})
-    .then(response => {
-        const {data} = response;
-        const {status} = data;
-        if(status === SUCCESS){
-            fetchPreferredProviders(String(pmId));
-        }else{
-            const {error} = data;
-            onError(error);
-        }
-    }).catch(
-        error => {
-            onError(error);
+    pmId: number, 
+    phoneNum: string,  
+    setInitialState: () => void,
+    displayError: (msg: string) => void,
+    navigation: NavigationRouteHandler,
+    ) => {
+        const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
+        await axios.post(endpoint, {phoneNum, pmId: String(pmId)})
+        .then(response => {
+            const {data} = response;
+            const {status} = data;
+            if(status === SUCCESS) {
+                fetchPreferredProviders(String(pmId));
+                setInitialState();
+                navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
+            } else { 
+                const {error} = data;
+                console.log(error);
+                displayError(error);
+            }
+        }).catch(
+            error => {
+                console.log(error);
         });
 };
 
@@ -153,7 +161,9 @@ export const postPreferredProvider = async (
  * thrown if the api request fails
  */
 export const deletePreferredProvider = (
-    serviceProvider: ServiceProvider, onError: (error:string) => any = console.log) => {
+    serviceProvider: ServiceProvider, 
+    displayError: (error:string) => void,
+    navigation: NavigationRouteHandler) => {
     const {prefId} = serviceProvider;
     const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
     // Simply print the error if no error function was defined, otherwise use the defined function
@@ -162,16 +172,17 @@ export const deletePreferredProvider = (
         .then(response => {
             const {data} = response;
             const {status} = data;
-            console.log(response)
-            if(status === SUCCESS){
+            console.log(response);
+            if(status === SUCCESS) {
                 dispatch(removeServiceProvider(serviceProvider));
-            }else{
+                navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
+            } else {
                 const {error} = data;
-                console.log(error)
-                onError(error);
+                console.log(error);
+                displayError(error);
             }
         }).catch(error => {
-            onError(error);
+            console.log(error);
         });
     };
 };
