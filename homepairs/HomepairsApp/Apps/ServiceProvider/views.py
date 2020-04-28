@@ -75,7 +75,7 @@ class ServiceProviderView(View):
 
         if(len(missingFields) == 0):
             phoneNum = inData.get('phoneNum')
-            phoneNum = inData.get('token')
+            token = inData.get('token')
 
             proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
             if not proList.exists():
