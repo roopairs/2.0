@@ -69,29 +69,48 @@ def missingError(missingFields):
 class ServiceProviderView(View):
     def post(self, request):
         inData = json.loads(request.body)
-        required = ['name', 'email', 'phoneNum', 'contractLic', 'skills', 'founded']
+        required = ['phoneNum', 'token']
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) == 0):
-            name = inData.get('name')
-            email = inData.get('email')
             phoneNum = inData.get('phoneNum')
-            contractLic = inData.get('contractLic')
-            skills = inData.get('skills')
-            dateStr = inData.get('founded')
-            try:
-                founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
-            except Exception as e:
-                return JsonResponse(data=returnError(INVALID_DATE + e.message))
+            phoneNum = inData.get('token')
 
             proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
             if not proList.exists():
+                url = BASE_URL + 'service-providers/'
+                data = {
+                           'phone': phoneNum
+                       }
+                info = postRooTokenAPI(url, data, token)
+                if NON_FIELD_ERRORS in info:
+                    return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
+                elif(info.get('detail') == 'Invalid token.'):
+                    return JsonResponse(data=returnError(info.get('detail')))
+                name = info.get('name')
+                email = info.get('email')
+                phoneNum = info.get('phoneNum')
+                website = info.get('website')
+                logo = info.get('logo')
+                address = info.get('address')
+                contractLic = info.get('contractLic')
+                bio = info.get('bio')
+                rate = info.get('rate')
+                skills = info.get('skills')
+                certified = info.get('certified')
+                founded = info.get('founded')
                 pro = ServiceProvider(name=name,
                                       email=email,
                                       phoneNum=phoneNum,
                                       contractLic=contractLic,
                                       skills=skills,
-                                      founded=founded)
+                                      founded=founded,
+                                      website=website,
+                                      logo=logo,
+                                      address=address,
+                                      bio=bio,
+                                      rate=rate,
+                                      certified=certified,)
                 try:
                     pro.save()
                 except Exception as e:
