@@ -46,3 +46,4 @@ class ServiceProvider(models.Model):
 class PreferredProviders(models.Model):
     provider = models.ForeignKey(ServiceProvider, on_delete=models.CASCADE)
     pm = models.ForeignKey(PropertyManager, on_delete=models.CASCADE)
+    timesHired = models.IntegerField(default=0)
