@@ -83,9 +83,7 @@ export default function DatePickerAndroid(props : Props){
                 mode={mode}
                 is24Hour={false}
                 display={display}
-                minuteInterval={15}
-
-                
+                minuteInterval={15}                
             />)}
         </View>
         );
