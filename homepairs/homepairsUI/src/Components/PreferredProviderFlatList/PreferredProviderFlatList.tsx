@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, FlatList, TouchableOpacity, Platform, ImageURISource} from 'react-native';
+import {View, StyleSheet, FlatList, TouchableOpacity, Platform} from 'react-native';
 import {ImageTile, TextTile} from 'homepairs-elements';
 import { HomePairsDimensions, AppState, ProviderDictionary, ServiceProvider, PropertyManagerAccount } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';

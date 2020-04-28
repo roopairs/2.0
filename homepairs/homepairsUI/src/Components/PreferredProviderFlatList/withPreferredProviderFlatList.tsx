@@ -4,7 +4,7 @@ import {View} from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
 import PreferredProviderFlatList from './PreferredProviderFlatList';
 
-export type PreferredProviderFlatListInjProps = any
+export type PreferredProviderFlatListInjectedProps = any
 
 export function withPreferredProviderFlatList(WrappedComponent: any){
     return function WithPreferredProviderFlatList(props: any){
