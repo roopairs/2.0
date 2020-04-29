@@ -4,10 +4,10 @@ import {ImageTile, TextTile} from 'homepairs-elements';
 import { HomePairsDimensions, AppState, ProviderDictionary, ServiceProvider, PropertyManagerAccount } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { connect } from 'react-redux';
-import { NavigationRouteScreenProps, NavigationRouteHandler, prepareNavigationHandlerComponent, navigationPages } from 'homepairs-routes';
+import { NavigationRouteScreenProps, NavigationRouteHandler, prepareNavigationHandlerComponent, navigationPages} from 'homepairs-routes';
 import { isNullOrUndefined } from 'homepairs-utilities';
 
-const {AddServiceProviderModal} = navigationPages;
+const {AddServiceProviderModal, PreferredProviderModal} = navigationPages;
 
 const styles = StyleSheet.create({
     container: {
@@ -61,8 +61,7 @@ function renderProviderTiles(props: RenderProviderTilesItem){
     const {type, tile, pmId, navigation} = props;
 
     async function onClickProvider(){
-        const {phoneNum} = tile;
-        navigation.navigate('TODO: Navigate to Service Provider Modal with passed in telephone number or prefId', {serviceProvider: tile});
+        navigation.navigate(PreferredProviderModal, {serviceProvider: tile}, true);
     }
 
     async function onClickAdd(){

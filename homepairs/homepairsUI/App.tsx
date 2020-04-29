@@ -22,7 +22,6 @@ const checkSession = async () => {
     await LoadFonts();
     
     await AsyncStorage.getItem('profile').then(profile => {
-        console.log(profile);
         const storedAccountProfile= JSON.parse(profile);
         const {properties} = storedAccountProfile;
         store.dispatch(parseAccount(storedAccountProfile));
@@ -31,17 +30,15 @@ const checkSession = async () => {
 
     await AsyncStorage.getItem('preferredProviders').then(preferredProviders => {
         const json = JSON.parse(preferredProviders);
-        console.log(`Preferred Providers are: ${json}`);
         const {providers} = json;
         const parsedProviders = parsePreferredProviders(providers);
         store.dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
     }).catch(() => {});
     
     await AsyncStorage.getItem('selectedProperty').then(selectedPropertyId => {
-        console.log(`Selected Property is: ${selectedPropertyId}`);
         const storedSelectedPropertyId = selectedPropertyId;
         store.dispatch(setSelectedProperty(storedSelectedPropertyId));
-    });
+    }).catch(() => {});
 
 };
 

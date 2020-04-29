@@ -93,7 +93,7 @@ export const fetchPreferredProviders = (pmId: string) => {
         .then(result => {
             const {data} = result;
             const {providers} = data;
-            console.log(providers)
+            console.log(providers);
             AsyncStorage.setItem('preferredProviders', JSON.stringify(data));
             const parsedProviders = parsePreferredProviders(providers);
             dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
@@ -125,15 +125,13 @@ export const postPreferredProvider = async (
     .then(response => {
         const {data} = response;
         const {status} = data;
+        console.log(response)
         if(status !== SUCCESS){
             const {error} = data;
             onError(error);
-            throw Error('Failed to Post Response');
+            throw Error(error);
         }
         return response;
-    }).catch(
-        error => {
-            onError(error);
     });
 };
 

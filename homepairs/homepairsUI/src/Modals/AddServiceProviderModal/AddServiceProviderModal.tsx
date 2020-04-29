@@ -12,14 +12,13 @@ const mapDispatchToProps : (dispatch: any) => AddServiceProviderDispatchProps = 
         displayError: (msg: string) => void, 
         navigation: NavigationRouteHandler) => 
     {
-        postPreferredProvider(pmId, phoneNum, displayError).then(response => {
+        // The api request takes care of itself. It will return a response that we can use.
+        postPreferredProvider(pmId, phoneNum).then(() => {
+            dispatch(fetchPreferredProviders(String(pmId)));
             setInitialState();
             navigation.resolveModalReplaceNavigation(SERVICE_REQUEST);
-            dispatch(fetchPreferredProviders(String(pmId)));
-        }).catch(error => {
-
-            .0.
-            console.log(error);
+        }).catch((error: Error) => {
+            displayError(error.message);
             setInitialState();
         });
     },
