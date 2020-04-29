@@ -62,7 +62,7 @@ function renderProviderTiles(props: RenderProviderTilesItem){
 
     async function onClickProvider(){
         const {phoneNum} = tile;
-        navigation.navigate('TODO: Navigate to Service Provider Modal with passed in telephone number or prefId', {serviceProvider: phoneNum});
+        navigation.navigate('TODO: Navigate to Service Provider Modal with passed in telephone number or prefId', {serviceProvider: tile});
     }
 
     async function onClickAdd(){
