@@ -24,6 +24,7 @@ import {
     EditTenantModal, 
     AddTenantModal,
     ServiceRequestModal,
+    AddServiceProviderModal,
 } from 'homepairs-modals';
 import { HomePairsHeader } from 'homepairs-components';
 import { LightColorTheme } from 'homepairs-base-styles';
@@ -148,6 +149,7 @@ const MainStack = createStackNavigator(
         [navigationKeys.EditTenantModal]: EditTenantModal,
         [navigationKeys.AddTenantModal]: AddTenantModal,
         [navigationKeys.ServiceRequestModal]: ServiceRequestModal,
+        [navigationKeys.AddServiceProviderModal]: AddServiceProviderModal,
 
     },
     {

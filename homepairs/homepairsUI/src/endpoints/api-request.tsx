@@ -125,12 +125,12 @@ export const postPreferredProvider = async (
     .then(response => {
         const {data} = response;
         const {status} = data;
-        if(status === SUCCESS){
-            fetchPreferredProviders(String(pmId));
-        }else{
+        if(status !== SUCCESS){
             const {error} = data;
             onError(error);
+            throw Error('Failed to Post Response');
         }
+        return response;
     }).catch(
         error => {
             onError(error);
@@ -154,7 +154,9 @@ export const postPreferredProvider = async (
  * thrown if the api request fails
  */
 export const deletePreferredProvider = (
-    serviceProvider: ServiceProvider, onError: (error:string) => any = console.log) => {
+    serviceProvider: ServiceProvider, 
+    displayError: (error:string) => void,
+    navigation: NavigationRouteHandler) => {
     const {prefId} = serviceProvider;
     const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
     // Simply print the error if no error function was defined, otherwise use the defined function
@@ -163,16 +165,17 @@ export const deletePreferredProvider = (
         .then(response => {
             const {data} = response;
             const {status} = data;
-            console.log(response)
-            if(status === SUCCESS){
+            console.log(response);
+            if(status === SUCCESS) {
                 dispatch(removeServiceProvider(serviceProvider));
-            }else{
+                navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
+            } else {
                 const {error} = data;
-                console.log(error)
-                onError(error);
+                console.log(error);
+                displayError(error);
             }
         }).catch(error => {
-            onError(error);
+            console.log(error);
         });
     };
 };
