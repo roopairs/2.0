@@ -45,7 +45,6 @@ const PREFERRED_PROVIDERS = 'TODO: Change this key to that returned from the bac
 const PM = 'pm';
 /* * JSON KEYS * */
 
-
 const {SingleProperty, ServiceRequestScreen} = navigationPages;
 
 /**
@@ -125,10 +124,10 @@ export const postPreferredProvider = async (
     .then(response => {
         const {data} = response;
         const {status} = data;
-        console.log(response)
         if(status !== SUCCESS){
             const {error} = data;
             onError(error);
+            console.log(error.message)
             throw Error(error);
         }
         return response;
