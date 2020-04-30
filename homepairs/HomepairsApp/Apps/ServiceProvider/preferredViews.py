@@ -38,6 +38,7 @@ NOT_PROP_OWNER = 'You are not the property owner'
 TOKEN = 'token'
 RESIDENTIAL_CODE = 1
 INCORRECT_CREDENTIALS = ['Unable to log in with provided credentials.']
+PROPERTY_MAN_DOESNT_EXIST = 'The specified property manager does not exist'
 
 BASE_URL = 'https://capstone.api.roopairs.com/v0/'
 
@@ -94,10 +95,10 @@ class PreferredProviderView(View):
                     return JsonResponse(data)
                 else:
                     return JsonResponse(data=returnError(PREF_PRO_ALREADY_EXIST))
-            elif proList.exists():
-                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
             else:
-                return JsonResponse(data=returnError(PROPERTY_MAN_DOESNT_EXIST))
+                if proList.exists():
+                    return JsonResponse(data=returnError(PROPERTY_MAN_DOESNT_EXIST))
+                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
 
         else:
             return JsonResponse(data=missingError(missingFields))
