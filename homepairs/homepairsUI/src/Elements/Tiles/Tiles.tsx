@@ -19,6 +19,11 @@ export type ImageTileProps = {
      */
     image: any;
 
+    /**
+     * Optional enlarge to use render a larger tile (web)
+     */
+    enlarge?: boolean;
+
 }
 
 export type TextTileProps = {
@@ -52,9 +57,9 @@ export type TextTileProps = {
  * @param {ImageileProps} props 
  */
 export function ImageTile(props:ImageTileProps){
-    const {image} = props;
+    const {image, enlarge} = props;
     return (
-        <View style={styles.imageTileContainer}>
+        <View style={enlarge ? styles.imageTileContainerLarge : styles.imageTileContainer}>
             <Image source={image} style={styles.imageStyle}/>
         </View>
     );
@@ -62,6 +67,7 @@ export function ImageTile(props:ImageTileProps){
 
 ImageTile.defaultProps= {
     testID: 'image-tile',
+    enlarge: false,
 };
 
 

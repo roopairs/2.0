@@ -29,6 +29,16 @@ const styles = StyleSheet.create({
         borderColor: BaseStyles.LightColorTheme.veryLightGray,
         backgroundColor: BaseStyles.LightColorTheme.secondary,
     },
+    imageTileContainerLarge: {
+        flex:1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        aspectRatio: 1,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: BaseStyles.LightColorTheme.veryLightGray,
+        backgroundColor: BaseStyles.LightColorTheme.secondary,
+    },
     imageStyle: {
         aspectRatio: 1,
         flex: 1,

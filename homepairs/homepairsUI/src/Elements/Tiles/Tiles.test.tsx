@@ -8,9 +8,15 @@ jest.mock('homepairs-images');
 
 describe('A very simple test just making sure that ImageTiles is rendered properly', () => {
     const rendered = render(<ImageTile image={bolt} />);
-    const {getByType} = rendered;
+    const renderedLarge = render(<ImageTile image={bolt} enlarge/>);
 
     it('Check if all properties render', () => {
+        const {getByType} = rendered;
+        expect(getByType(Image)).toBeDefined();
+    });
+
+    it('Check if all properties render', () => {
+        const {getByType} = renderedLarge;
         expect(getByType(Image)).toBeDefined();
     });
 

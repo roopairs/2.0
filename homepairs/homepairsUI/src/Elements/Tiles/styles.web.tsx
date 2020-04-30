@@ -19,6 +19,16 @@ const styles = StyleSheet.create({
         borderColor: BaseStyles.LightColorTheme.veryLightGray,
         backgroundColor: BaseStyles.LightColorTheme.secondary,
     },
+    imageTileContainerLarge: {
+        aspectRatio: 1,
+        justifyContent: 'center',
+        height: 100,
+        width: 100,
+        borderRadius: 7.5,
+        borderWidth: 1,
+        borderColor: BaseStyles.LightColorTheme.veryLightGray,
+        backgroundColor: BaseStyles.LightColorTheme.secondary,
+    },
     imageStyle: {
         height: '100%',
         width: '100%',
