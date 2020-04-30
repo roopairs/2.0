@@ -22,11 +22,10 @@ import {
     Property,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { navigationPages } from 'src/routes/RouteConstants';
 import { HOMEPAIRS_PROPERTY_ENDPOINT } from 'homepairs-endpoints';
 import axios from 'axios';
 import { stringToCategory } from 'homepairs-utilities';
-import { NavigationRouteScreenProps, hasPageBeenReloaded} from 'homepairs-routes';
+import { NavigationRouteScreenProps, hasPageBeenReloaded, navigationPages } from 'homepairs-routes';
 
 export type DetailedPropertyStateProps = {
     properties: PropertyDict;
