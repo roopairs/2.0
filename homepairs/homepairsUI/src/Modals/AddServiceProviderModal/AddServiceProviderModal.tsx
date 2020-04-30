@@ -19,6 +19,9 @@ const mapDispatchToProps : (dispatch: any) => AddServiceProviderDispatchProps = 
             setInitialState();
             navigation.resolveModalReplaceNavigation(SERVICE_REQUEST);
         }).catch((error: Error) => {
+            // These are the two error messages we can present. The fact that there was an 
+            // invalid phone number sent to the backend or there was another issue. Feel 
+            // free to change this up. 
             if(error.message.includes('500')) 
                 displayError(PSP_NOT_FOUND);
             else
