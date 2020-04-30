@@ -11,6 +11,7 @@ import { isNullOrUndefined} from 'homepairs-utilities';
 import {prepareNavigationHandlerComponent, NavigationRouteScreenProps} from 'homepairs-routes';
 import {deletePreferredProvider} from 'homepairs-endpoints';
 import {HelperText} from 'react-native-paper';
+import {servprov} from 'homepairs-images';
 
 type Props = NavigationRouteScreenProps;
 
@@ -155,8 +156,8 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
         },
         companyImageWeb: {
             alignSelf: 'center',
-            width: BaseStyles.ContentWidth.max,
-            height: '100%',
+            width: 100,
+            height: 100,
         },
     });
 }
@@ -221,7 +222,7 @@ export class ServiceRequestModalBase extends React.Component<Props, PreferredPro
         return (
             <View>
                 <Image 
-                    source={this.serviceProvider.logo}
+                    source={servprov}
                     style={Platform.OS === 'web'
                     ? this.styles.companyImageWeb
                     : this.styles.companyImage} 
