@@ -3,7 +3,7 @@ import { createAppContainer, SafeAreaView, withNavigation } from 'react-navigati
 import { createStackNavigator, NavigationStackConfig, NavigationStackOptions } from 'react-navigation-stack';
 import {
     MainAppPages, AuthenticationPages,
-} from 'src/Screens';
+} from 'homepairs-pages';
 import { Platform } from 'react-native';
 import { 
     AddNewPropertyModal, 
