@@ -15,7 +15,7 @@ const testParamObject = {
     email: 'alex@roopairs.com',
     phoneNumber: '838-034-3333',
   },
-  propertyId : 1,
+  propId : '2',
   appliance : {
     applianceId: '123jh', 
     category: ApplianceType.HVAC, 
@@ -62,9 +62,6 @@ export const mockSwitchNavigation: NavigationSwitchProp = {
   isFirstRouteInParent: undefined, 
   dangerouslyGetParent: undefined,
   jumpTo: undefined,
-  toggleDrawer: undefined, 
-  openDrawer: undefined, 
-  closeDrawer: undefined,
 };
 
 export const mockStackNavigation: NavigationStackProp = {

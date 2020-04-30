@@ -62,14 +62,15 @@ export type HomePairsMenuProps = {
 };
 
 type Props = HomePairsMenuProps;
-const {width: screenWidth} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 const colorScheme = BaseStyles.LightColorTheme;
 
 const setStyles = (isDropDown: boolean) => {
     const newStyle = StyleSheet.create({
         container: {
             flexDirection: 'row',
-            width: screenWidth,
+            flex: 1,
+            maxWidth: width,
             maxHeight: 150,
             backgroundColor: colorScheme.secondary,
         },

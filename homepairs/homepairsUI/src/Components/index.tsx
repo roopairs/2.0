@@ -17,7 +17,9 @@ export * from "./AuthenticationCards/ConnectAccountCard";
 export * from "./HomePairsHeader/HomePairsHeaderBase";
 export * from './SceneHeader/WithSceneHeader';
 export * from './AuthPage/WithAuthPage';
+export * from './PreferredProviderFlatList/withPreferredProviderFlatList';
 
+export { default as PreferredProviderFlatList} from './PreferredProviderFlatList/PreferredProviderFlatList';
 export { default as AddressSticker } from './AddressSticker/AddressSticker';
 export { default as SceneHeader } from './SceneHeader/SceneHeader';
 export { default as GeneralHomeInfo } from './GeneralHomeInfo/GeneralHomeInfo';

@@ -9,13 +9,15 @@ import {HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT, fetchPreferredProviders} from '..
 const {REFRESH_SERVICE_PROVIDERS} =  PREFERRED_SERVICE_PROVIDER_ACTION_TYPES;
 
 /* * Test Data * */
-const testEmail: string = 'jacksonJaves@gmail.com';
-const URL = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${testEmail}/`;
+const testPmId: string = '393933';
+const URL = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${testPmId}/`;
 
 /* * Mock Return Data * */
-const fakeServiceProviders: ServiceProvider[] = [
+// TODO: Tests for log assets retrieved from the backend.
+const fakeServiceProviders = [
     {
         provId: 1,
+        prefId: '10',
         name: 'Bob the Builders',
         email: 'billybob@fake.com',
         phoneNum: '999-555-3333',
@@ -27,6 +29,7 @@ const fakeServiceProviders: ServiceProvider[] = [
     },
     {
         provId: 2,
+        prefId: '22',
         name: 'Lighters',
         email: 'billybob@fake.com',
         phoneNum: '999-555-3333',
@@ -44,6 +47,7 @@ const fakeServiceProviders: ServiceProvider[] = [
 const expectedParsedResults: ServiceProvider[] = [
     {
         provId: 1,
+        prefId: '10',
         name: 'Bob the Builders',
         email: 'billybob@fake.com',
         phoneNum: '999-555-3333',
@@ -53,10 +57,11 @@ const expectedParsedResults: ServiceProvider[] = [
         payRate: 35.25, // amount per hour 
         timesHired: 80, 
         earliestHire: undefined,
-
+        logo: undefined,
     },
     {
         provId: 2,
+        prefId: '22',
         name: 'Lighters',
         email: 'billybob@fake.com',
         phoneNum: '999-555-3333',
@@ -66,6 +71,7 @@ const expectedParsedResults: ServiceProvider[] = [
         payRate: 34.25, // amount per hour 
         timesHired: 1, 
         earliestHire: new Date(2015, 18, 1),
+        logo: undefined,
     },
 ];
 
@@ -83,10 +89,10 @@ describe('Test fetchPreferredProviders function', () => {
         };
         const data = { 
             status: 'success',
-            serviceProviders: fakeServiceProviders,
+            providers: fakeServiceProviders,
         };
         mock.onGet(URL).reply(200, data);
-        const dispatchReadyFunc = fetchPreferredProviders(testEmail);
+        const dispatchReadyFunc = fetchPreferredProviders(testPmId);
         await propertyManagerMock1.dispatch(dispatchReadyFunc);
         const actionResults = propertyManagerMock1.getActions();
         expect(actionResults).toHaveLength(1);
@@ -97,9 +103,10 @@ describe('Test fetchPreferredProviders function', () => {
     it('Case 2: Successful request with failed response', async () => {
         const data = { 
             status: 'failure',
+            error: 'Error 300',
         };
         mock.onGet(URL).reply(200, data);
-        const dispatchReadyFunc = fetchPreferredProviders(testEmail);
+        const dispatchReadyFunc = fetchPreferredProviders(testPmId);
         await propertyManagerMock1.dispatch(dispatchReadyFunc)
         .catch(() => {
             const actionResults = propertyManagerMock1.getActions();
@@ -110,7 +117,7 @@ describe('Test fetchPreferredProviders function', () => {
     it('Case 3: Failed Request', async () => {
         mock.onGet(URL).reply(400, null);
 
-        const dispatchReadyFunc = fetchPreferredProviders(testEmail);
+        const dispatchReadyFunc = fetchPreferredProviders(testPmId);
         await propertyManagerMock1.dispatch(dispatchReadyFunc)
         .catch(() => {
             const actionResults = propertyManagerMock1.getActions();

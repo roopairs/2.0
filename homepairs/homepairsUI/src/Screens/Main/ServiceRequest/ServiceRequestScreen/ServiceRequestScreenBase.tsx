@@ -6,7 +6,6 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import { navigationPages } from 'src/Routes/RouteConstants';
 import { ServiceRequestButton, ServiceRequestAddressPanel } from 'homepairs-elements';
 import {
     HomePairsDimensions,
@@ -21,7 +20,7 @@ import {
 import * as BaseStyles from 'homepairs-base-styles';
 import strings from 'homepairs-strings';
 import { SceneInjectedProps } from 'homepairs-components';
-import { NavigationRouteScreenProps } from 'homepairs-routes';
+import { NavigationRouteScreenProps, navigationPages  } from 'homepairs-routes';
 import { fetchServiceRequests } from 'homepairs-endpoints';
 import { stringToCategory } from 'src/utility/ApplianceCategories';
 
@@ -229,7 +228,7 @@ const styles = StyleSheet.create({
 const serviceRequestStrings = strings.serviceRequestPage;
 
 function filterTabbedObjects(unfilteredServiceRequests: ServiceRequest[], requestStatus: ServiceRequestStatus) {
-    console.log(`In filtered Tabbed`)
+    console.log(`In filtered Tabbed`);
     const filteredServiceRequests: ServiceRequest[] = unfilteredServiceRequests.filter(sr => sr.status === requestStatus);
     return filteredServiceRequests;
 }
@@ -240,7 +239,7 @@ function filterTabbedObjects(unfilteredServiceRequests: ServiceRequest[], reques
  * ---------------------------------------------------
  */
 
-export default class ServiceRequestScreenBase extends React.Component<ServiceRequestScreenProps, ServiceRequestState>{
+export class ServiceRequestScreenBase extends React.Component<ServiceRequestScreenProps, ServiceRequestState>{
     tabs = ["PENDING", "SCHEDULED", "IN_PROGRESS"];
 
     currentServiceRequests;

@@ -1,5 +1,4 @@
 import React from 'react';
-import { MainAppPages } from 'homepairs-pages';
 import {
     GeneralHomeInfo,
     AddressSticker,
@@ -17,12 +16,12 @@ import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import { ThinButton } from 'homepairs-elements';
 import { SetSelectedPropertyAction, ShowGoBackOnButtonClick, TenantInfo, Appliance, ApplianceType } from 'homepairs-types';
-import DetailedPropertyScreenBase from './DetailedPropertyScreenBase';
+import { DetailedPropertyScreenBase } from './DetailedPropertyScreenBase';
+import DetailedPropertyScreen from './DetailedPropertyScreen';
 
 jest.mock('homepairs-images');
 jest.mock('react-widgets/dist/css/react-widgets.css');
 
-const { DetailedPropertyScreen } = MainAppPages.PropertyPages;
 const {AddNewPropertyModal, SingleProperty } = navigationPages;
 const mockStore = propertyManagerMock1;
 

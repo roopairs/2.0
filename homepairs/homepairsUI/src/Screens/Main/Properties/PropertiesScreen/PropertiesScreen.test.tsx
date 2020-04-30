@@ -1,8 +1,7 @@
 import React from 'react';
-import { MainAppPages } from 'homepairs-pages';
 import { Provider } from 'react-redux';
 import { fireEvent, render } from 'react-native-testing-library';
-import { prepareNavigationMock, mockRoute , propertyManagerMock1} from 'homepairs-test';
+import { prepareNavigationMock, mockRoute , propertyManagerMock1, testPropertyListKey2} from 'homepairs-test';
 import { TouchableOpacity, Platform } from 'react-native';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {
@@ -11,12 +10,12 @@ import {
 import { ThinButton }  from 'homepairs-elements';
 import { SetSelectedPropertyAction, ShowGoBackOnButtonClick } from 'homepairs-types';
 import { navigationPages } from 'homepairs-routes';
+import PropertiesScreen from './PropertiesScreen';
 
 jest.mock('homepairs-images');
 jest.mock('react-widgets/dist/css/react-widgets.css');
 
 
-const {PropertiesScreen} = MainAppPages.PropertyPages;
 const {AddNewPropertyModal, SingleProperty } = navigationPages;
 const mockStore = propertyManagerMock1;
 const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock();
@@ -62,7 +61,7 @@ describe('Integration Test for the Properties Lists Screen Page', () => {
 
     it('Test if viewProperty Card invokes proper functions', () => {
         const expectedSelectedPropertyAction : SetSelectedPropertyAction = {
-            type: 'PROPERTY_LIST/SET_SELECTED_PROPERTY', index: 1,
+            type: 'PROPERTY_LIST/SET_SELECTED_PROPERTY', propId: testPropertyListKey2,
         };
         const expectedHeaderGoBackAction : ShowGoBackOnButtonClick = {
             type: 'HEADER/SHOW_GOBACK_BUTTON', showBackButton: true,

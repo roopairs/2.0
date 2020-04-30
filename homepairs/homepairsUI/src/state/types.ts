@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, ImageSourcePropType } from 'react-native';
 import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
 
@@ -21,10 +21,16 @@ export type Property = {
     bathrooms: number,
 }
 
+/**
+ * A type alias that defines a property with a string attached. This is intended 
+ * to be its propId
+ */
+export type PropertyDict = {[propId:string]:Property}
+
 export type PropertyListState = 
 {
-    selectedPropertyIndex?: number, 
-    properties: Property[],
+    selectedPropertyId: string, 
+    properties: PropertyDict,
     appliances: Appliance[],
     propertyManager?: Contact,
 };
@@ -41,36 +47,36 @@ export type AddApplianceAction = {
 
 export type UpdateApplianceAction = {
     type: string;
-    index: number;
+    propId: string;
     userData: Appliance;
 };
 
 export type SetSelectedPropertyAction = {
     type: string;
-    index: number;
+    propId: string;
 };
 export type UpdatePropertyAction = {
     type: string;
-    index: number;
+    propId: string;
     userData: Property;
 };
 export type RemovePropertyAction = {
     type: string;
-    index: number;
+    propId: string;
 };
 export type FetchPropertyAction = {
     type: string;
-    property: Property[];
+    property: PropertyDict;
 };
 /* fetch the property along with the property manager that owns a given property (used for tenant login to fill PrimaryContactInfo) */
 export type FetchPropertyAndPropertyManagerAction = {
     type: string;
-    property: Property[];
+    property: PropertyDict;
     propertyManager: Contact;
 };
 export type FetchPropertiesAction = {
     type: string;
-    properties: Property[];
+    properties: PropertyDict;
 };
 
 /* Union type for the Property Lists. This will be used for the reducer. */
@@ -183,6 +189,7 @@ export type NewServiceRequest = {
 export type ServiceProvider = {
     // TODO: Define attributes for service Provider
     provId: number,
+    prefId?: string, //Optional param if preferred service provider
     name: string,
     email: string,
     phoneNum: string,
@@ -192,6 +199,7 @@ export type ServiceProvider = {
     payRate: number, // amount per hour 
     timesHired: number, 
     earliestHire?: Date, // date of first job completed
+    logo?: string, // optional image uri
 };
 
 export enum ServiceRequestCompletionStatus {
@@ -248,7 +256,9 @@ export type ServiceAction =
 
 /* *-------------------Service Types-------------------* */
 
-/* *-------------------Preffered Service Provider Types-------------------* */
+/* *-------------------Preferred Service Provider Types-------------------* */
+export type ProviderDictionary = {[phoneNum : string] : ServiceProvider}
+
 export type RefreshServiceProvidersAction = {
     type: string;
     preferredServiceProviders: ServiceProvider[];
@@ -263,7 +273,11 @@ export type PreferredServiceProviderAction =
     | RefreshServiceProvidersAction
     | RemoveServiceProviderAction;
 
-/* *-------------------Preffered Service Provider Types-------------------* */
+
+export type PreferredServiceProviderState = {
+    serviceProviders: { [phoneNum:string] : ServiceProvider}
+}
+/* *-------------------Preferred Service Provider Types-------------------* */
 
 
 
@@ -386,6 +400,7 @@ export type AppState = {
     serviceRequests: ServiceState;
     settings: SettingsState;
     authenticated: AuthenticationState;
+    preferredProviders: PreferredServiceProviderState;
     // add future state slices here
 }
 /* *-------------------App State-------------------* */
@@ -401,7 +416,7 @@ export type AddNewPropertyState = {
 
 export type EditPropertyState = {
     email: string;
-    index: number;
+    propId: string;
     oldProp: Property;
     roopairsToken: string;
 }

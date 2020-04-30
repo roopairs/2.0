@@ -7,37 +7,46 @@ import {
     PropertyListState,
     UpdatePropertyAction,
     SetSelectedPropertyAction,
+    PropertyDict,
 } from 'homepairs-types';
 import { PROPERTY_LIST_ACTION_TYPES, setSelectedProperty, removeProperty } from './actions';
 import { properties, initialState } from './reducer';
 
-const PMProperties: Property[] = [
-    {
+const testKey = '12';
+const testKeyLastKey = '13';
+
+const PMProperties: PropertyDict= {
+    '11': {
+        propId: '11',
         tenants: 5,
         bathrooms: 2,
         bedrooms: 3,
         address: '200 N. Santa Rosa, San Luis Obispo, CA',
     },
-    {
+    [testKey]: {
+        propId: testKey,
         tenants: 5,
         bathrooms: 2,
         bedrooms: 3,
         address: '200 N. Santa Fey, Glenndale, CA',
     },
-    {
+    '13': {
+        propId: '13',
         tenants: 5,
         bathrooms: 2,
         bedrooms: 3,
         address: '200 New Fields Lane, Dublin, CA',
     },
-];
+};
 const testPropertyListStateWithoutIndex: PropertyListState = {
-    selectedPropertyIndex: undefined,
+    selectedPropertyId: undefined,
     properties: PMProperties,
+    appliances: undefined,
 };
 const testPropertyListStateWithIndex: PropertyListState = {
-    selectedPropertyIndex: 1,
+    selectedPropertyId: testKey,
     properties: PMProperties,
+    appliances: undefined,
 };
 
 describe('PropertyList Reducer Test', () => {
@@ -45,7 +54,7 @@ describe('PropertyList Reducer Test', () => {
     describe('Test action with Invalid Property type', () => {
         const testAction: FetchPropertiesAction = {
             type: 'INVALID_STATE',
-            properties: [],
+            properties: {},
         };
         it('Undefined State', () => {
             const updatedProperties = properties(undefined, testAction);
@@ -60,6 +69,7 @@ describe('PropertyList Reducer Test', () => {
 
     describe('Test action with ADD_PROPERTY type', () => {
         const testProperty: Property = {
+            propId: '14',
             tenants: 5,
             bathrooms: 2,
             bedrooms: 3,
@@ -69,11 +79,13 @@ describe('PropertyList Reducer Test', () => {
             type: PROPERTY_LIST_ACTION_TYPES.ADD_PROPERTY,
             userData: testProperty,
         };
+        const testPropertyObject = {[testProperty.propId] : testProperty};
+
         it('Default State', () => {
             const expectedResult: PropertyListState = {
                 appliances: [],
-                selectedPropertyIndex: null,
-                properties: [testProperty],
+                selectedPropertyId: null,
+                properties: testPropertyObject,
                 propertyManager: null,
             };
             const updatedProperties = properties(undefined, testAction);
@@ -81,10 +93,11 @@ describe('PropertyList Reducer Test', () => {
         });
 
         it('Passed State', () => {
-            const updatedList = [...PMProperties, testProperty];
+            const updatedList = {...PMProperties, ...testPropertyObject};
             const expectedResult: PropertyListState = {
-                selectedPropertyIndex: null,
-                properties: updatedList,
+                selectedPropertyId: null,
+                properties: {...updatedList},
+                appliances: undefined,
             };
             const updatedProperties = properties(
                 testPropertyListStateWithoutIndex,
@@ -97,16 +110,19 @@ describe('PropertyList Reducer Test', () => {
     describe('Test action with REMOVE_PROPERTY type', () => {
         const testAction: RemovePropertyAction = {
             type: PROPERTY_LIST_ACTION_TYPES.REMOVE_PROPERTY,
-            index: 1,
+            propId: testKey,
         };
         it('Test if removeProperty returns correct results', () => {
-            expect(removeProperty(1)).toStrictEqual(testAction);
+            expect(removeProperty(testKey)).toStrictEqual(testAction);
         });
+        
         it('Passed State', () => {
-            const updatedList = [PMProperties[0], PMProperties[2]];
+            let updatedList = {...PMProperties};
+            delete updatedList[testKey];
             const expectedResult: PropertyListState = {
-                selectedPropertyIndex: null,
+                selectedPropertyId: null,
                 properties: updatedList,
+                appliances: undefined,
             };
             const updatedProperties = properties(
                 testPropertyListStateWithIndex,
@@ -118,6 +134,7 @@ describe('PropertyList Reducer Test', () => {
 
     describe('Test action with UPDATE_PROPERTY type', () => {
         const testProperty: Property = {
+            propId: testKey,
             tenants: 4,
             bathrooms: 2,
             bedrooms: 3,
@@ -125,18 +142,16 @@ describe('PropertyList Reducer Test', () => {
         };
         const testAction: UpdatePropertyAction = {
             type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
-            index: 1,
+            propId: testKey,
             userData: testProperty,
         };
         it('Passed State', () => {
-            const updatedList = [
-                PMProperties[0],
-                testProperty,
-                PMProperties[2],
-            ];
+            let updatedList = {...PMProperties};
+            updatedList[testKey] = testProperty;
             const expectedResult: PropertyListState = {
-                selectedPropertyIndex: 1,
+                selectedPropertyId: testKey,
                 properties: updatedList,
+                appliances: undefined,
             };
             const updatedProperties = properties(
                 testPropertyListStateWithIndex,
@@ -156,7 +171,7 @@ describe('PropertyList Reducer Test', () => {
         it('Default State', () => {
             const expectedResult: PropertyListState = {
                 appliances: [],
-                selectedPropertyIndex: null,
+                selectedPropertyId: null,
                 properties: PMProperties,
                 propertyManager: null,
             };
@@ -168,15 +183,16 @@ describe('PropertyList Reducer Test', () => {
     describe('Test action with SET_SELECTED_PROPERTIES type', () => {
         const testAction: SetSelectedPropertyAction = {
             type: PROPERTY_LIST_ACTION_TYPES.SET_SELECTED_PROPERTY,
-            index: 2,
+            propId: testKeyLastKey,
         };
         const expectedResult: PropertyListState = {
-            selectedPropertyIndex: 2,
+            selectedPropertyId: testKeyLastKey,
             properties: PMProperties,
+            appliances: undefined,
         };
 
         it('Test the actual Action: SetSelectedPropertyAction', () => {
-            expect(setSelectedProperty(2)).toStrictEqual(testAction);
+            expect(setSelectedProperty(testKeyLastKey)).toStrictEqual(testAction);
         });
 
         // This means that there is a state passed into the reducer

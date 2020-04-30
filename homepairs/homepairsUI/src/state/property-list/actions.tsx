@@ -10,6 +10,7 @@ import {
     FetchPropertyAndPropertyManagerAction,
     AccountTypes,
     Contact,
+    PropertyDict,
 } from '../types';
 
 const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
@@ -40,9 +41,9 @@ export enum PROPERTY_LIST_ACTION_TYPES {
  * Store Property Data
  * ----------------------------------------------------
  * Stores the list of properties into the local storage as a string object.  
- * @param {Property[]} propertyList -should only have a length of 1 if it is for a tenant 
+ * @param {any} propertyDict -should only have a length of 1 if it is for a tenant 
  */
-const storePropertyData = async (propertyList: Property[]) => {
+const storePropertyData = async (propertyList: PropertyDict) => {
   try {
     await AsyncStorage.setItem('propertyList', JSON.stringify(propertyList));
   } catch (error) {
@@ -59,12 +60,12 @@ const storePropertyData = async (propertyList: Property[]) => {
  * being view
  * @param {number} index -position of the property in the array of the state
  */
-export const setSelectedProperty = (index: number): SetSelectedPropertyAction => {
+export const setSelectedProperty = (propId: string): SetSelectedPropertyAction => {
   // Set the store the selectedProperty in the local state for useage after the app falls asleep
-  AsyncStorage.setItem('selectedProperty', index.toString());
+  AsyncStorage.setItem('selectedProperty', propId);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.SET_SELECTED_PROPERTY,
-    index,
+    propId,
   };
 };
 
@@ -92,10 +93,10 @@ export const addProperty = (newProperty: Property): AddPropertyAction => {
  * @param {number} propertyIndex -location of the updated property in the redux-store
  * @param {Property} updatedProperty -the new contents of the selected property
  */
-export const updateProperty = (propertyIndex: number, updatedProperty: Property): UpdatePropertyAction => {
+export const updateProperty = (updatedProperty: Property): UpdatePropertyAction => {
   return {
     type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
-    index: propertyIndex,
+    propId: updatedProperty.propId,
     userData: updatedProperty,
   };
 };
@@ -109,10 +110,10 @@ export const updateProperty = (propertyIndex: number, updatedProperty: Property)
  * @param {number} propertyIndex -location of the property to remove from the store
  */
 export const removeProperty = (
-  propertyIndex: number,
+  propertyIndex: string,
 ): RemovePropertyAction => ({
   type: PROPERTY_LIST_ACTION_TYPES.REMOVE_PROPERTY,
-  index: propertyIndex,
+  propId: propertyIndex,
 });
 
 /**
@@ -133,7 +134,7 @@ export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], li
     accountType: AccountTypes.PropertyManager,
   };
 
-  const fetchedProperties: Property[] = [];
+  const fetchedProperties: PropertyDict = {};
   const fetchedProperty = {
     propId: linkedProperty[propertyKeys.PROPERTYID],
     address: linkedProperty[propertyKeys.ADDRESS],
@@ -142,7 +143,7 @@ export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], li
     bathrooms: linkedProperty[propertyKeys.BATHROOMS],
   };
 
-  fetchedProperties.push(fetchedProperty);
+  fetchedProperties[fetchedProperty.propId] = fetchedProperty;
   storePropertyData(fetchedProperties);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_AND_PROPERTY_MANAGER,
@@ -161,15 +162,16 @@ export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], li
  * @param linkedProperties -Array of objects that contain the data for properties
  */
 export const fetchProperties = (linkedProperties: Array<any>): FetchPropertiesAction => {
-  const fetchedProperties: Property[] = [];
+  const fetchedProperties: PropertyDict = {};
   linkedProperties?.forEach(linkedProperty => {
-    fetchedProperties.push({
+    const parsedProperty: Property = {
       propId: linkedProperty[propertyKeys.PROPERTYID],
       address: linkedProperty[propertyKeys.ADDRESS],
       tenants: linkedProperty[propertyKeys.TENANTS],
       bedrooms: linkedProperty[propertyKeys.BEDROOMS],
       bathrooms: linkedProperty[propertyKeys.BATHROOMS],
-    });
+    };
+    fetchedProperties[parsedProperty.propId] = parsedProperty;
   });
   storePropertyData(fetchedProperties);
   return {

@@ -1,8 +1,8 @@
 import React from 'react';
-import { PropertyListState, HeaderState } from 'homepairs-types';
+import { PropertyListState, HeaderState, Property, PropertyDict } from 'homepairs-types';
 import { navigationPages } from 'homepairs-routes';
 import { ViewPropertyCard, SceneInjectedProps } from 'homepairs-components';
-import { View } from 'react-native';
+import { View, Platform, FlatList} from 'react-native';
 
 export type PropertiesScreenStateProps = {
     propertyState: PropertyListState;
@@ -13,7 +13,7 @@ export type PropertiesScreenDispatchProps = {
     onRevealGoBack: (showGoBack: boolean) => any;
 
     // TODO: Change to propId when backend is ready. Also, store the selected property/index in async storage
-    onSelectProperty: (index: number) => any;
+    onSelectProperty: (propId: string) => any;
 };
 
 export type PropertiesScreenProps = SceneInjectedProps &
@@ -31,7 +31,7 @@ export type PropertiesScreenProps = SceneInjectedProps &
  * Child Components: 
  *  -ViewPropertyCard
  */
-export default class PropertiesScreenBase extends React.Component<PropertiesScreenProps> {
+export class PropertiesScreenBase extends React.Component<PropertiesScreenProps> {
 
     apiKey = 'AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg';
 
@@ -40,40 +40,47 @@ export default class PropertiesScreenBase extends React.Component<PropertiesScre
         this.navigateToDetailedProperty = this.navigateToDetailedProperty.bind(this);
     }
 
-    navigateToDetailedProperty(index: number) {
-        const {navigation, onSelectProperty, onRevealGoBack, propertyState} = this.props;
-        const {properties} = propertyState;
+    navigateToDetailedProperty(propId: string) {
+        const {navigation, onSelectProperty, onRevealGoBack} = this.props;
 
-        onSelectProperty(index);
+        onSelectProperty(propId);
         onRevealGoBack(true);
-        navigation.navigate(navigationPages.SingleProperty, {propId: properties[index].propId});
+        navigation.navigate(navigationPages.SingleProperty, {propId});
     }
 
     fetchPropertyImage(address: string) {
-        return `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${this.apiKey}`;
+        const uri = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${this.apiKey}`;
+        return Platform.OS === 'web' ? uri : {uri} ;
+    }
+
+    renderViewPropertyCard(pair: [string, Property]){
+        const [propId, property] = pair;
+        const propImage = this.fetchPropertyImage(property.address);
+        return (
+            <ViewPropertyCard
+                key={propId}
+                image={propImage}
+                viewButtonSelectedCallBack={this.navigateToDetailedProperty}
+                property={property}
+                propId={propId}
+            />
+        );
     }
 
     render() {
         const { propertyState} = this.props;
-        const {properties} = propertyState;
-        let nextIndex = 0;
-        const PropertyCards = properties.map(property => {
-            const propImage = this.fetchPropertyImage(property.address);
-            const curIndex = nextIndex;
-            nextIndex += 1;
-            return (
-                <ViewPropertyCard
-                    key={curIndex}
-                    image={propImage}
-                    viewButtonSelectedCallBack={this.navigateToDetailedProperty}
-                    property={property}
-                    propertyIndex={curIndex}
-                />
-            );
-        });
-
+        const { properties } = propertyState;
+        console.log(properties);
         return (
-            <View style={{marginBottom: 75}}>{PropertyCards}</View>
+            <FlatList
+                initialNumToRender={3}
+                style={{flex:1, marginTop: 5, marginBottom: 5}}
+                contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignContent: 'center'}}
+                data={Object.entries(properties)}
+                renderItem={({item}) => this.renderViewPropertyCard(item)}
+                keyExtractor={(item) => item[0].toString()}
+                />
+
         );
     }
 }

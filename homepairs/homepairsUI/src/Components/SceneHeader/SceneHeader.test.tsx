@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import * as React from 'react';
-import { View, Button} from 'react-native';
+import { View, Button, ScrollView} from 'react-native';
 import {fireEvent, render} from 'react-native-testing-library';
 import { NavigationStackProp } from 'react-navigation-stack';
 import { Provider } from 'react-redux';
@@ -108,6 +108,24 @@ describe('withSceneHeader Test', () => {
     beforeEach(() =>{
         modalVisibilitySpy.mockClear();
         navigationSpyFunction.mockClear();
+    });
+
+    it.each([true, false])('TODO: Test withScrollView is set to false', (param) => {
+        const testId = 'with-scene-header-container-view';
+        const pageParams : MainAppStackType = basePageParams;
+        const TestComponent = withSceneHeader(View, pageParams, param);
+        const TestComponetWithStore = (
+            <Provider store={mockStore}>
+                <TestComponent navigation={mockNavigation} theme={null} screenProps={null}/>
+            </Provider>);
+        const rendered = render(TestComponetWithStore);
+        const {getByTestId} = rendered;
+        
+        if(param){
+            expect(getByTestId(testId).instance instanceof ScrollView).toBeTruthy();
+        }else {
+            expect(getByTestId(testId).instance instanceof View).toBeTruthy();
+        }
     });
 
     it("Test when only the header is to be defined", () => {
@@ -292,5 +310,4 @@ describe('withSceneHeader Test', () => {
         expect(dispatchedActions[2]).toStrictEqual(expectedResults[2]);
 
     });
-
 });

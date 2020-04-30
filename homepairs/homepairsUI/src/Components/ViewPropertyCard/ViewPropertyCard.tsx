@@ -118,13 +118,13 @@ export type ViewPropertyCardProps = {
     /**
      * Callback that will navigate to the DetailedProperty Screen
      */
-    viewButtonSelectedCallBack?: (propertyIndex: number, navigation?: any, ...propertyInfo: any) => any;
+    viewButtonSelectedCallBack?: (propId: string, navigation?: any, ...propertyInfo: any) => any;
 
     /**
-     * The position of the property contents in the redux Store. This value will
-     * be assigned to the store's selectedProperty member when the detailed page is rendered
+     * The unique identifier of the property contents in the redux Store. This value will
+     * be assigned to the store's selectedPropertyId member when the detailed page is rendered
      */
-    propertyIndex: number;
+    propId: string;
 
     property: Property;
 
@@ -149,15 +149,14 @@ const viewPropertyButtonText = strings.propertiesPage.viewPropertyCardButton;
  * @param {ViewPropertyCardProps} props 
  */
 export default function ViewPropertyCard(props: ViewPropertyCardProps) {
-    const { viewButtonSelectedCallBack, property, propertyIndex, image} = props;
+    const { viewButtonSelectedCallBack, property, propId, image} = props;
     const { address } = property;
-    
     /**
      * This function is intended to invoke the callback to its parent function. It will return the index of the
      * the Property found in global store's PropertyState which an array of Properties, Property[]
      */
     function sendIndexToParent() {
-        viewButtonSelectedCallBack(propertyIndex);
+        viewButtonSelectedCallBack(propId);
     };
 
 
@@ -171,6 +170,7 @@ export default function ViewPropertyCard(props: ViewPropertyCardProps) {
                     : styles.homePairsPropertiesImage
                 }
                 imageStyle={styles.imageStyle}
+                onError={(error) => {console.log(error);}}
                 resizeMode="cover">
                 <View style={styles.propertyAddressContainer}>
                     <Text style={styles.streetText}>{address}</Text>
@@ -197,6 +197,6 @@ export default function ViewPropertyCard(props: ViewPropertyCardProps) {
 }
 
 ViewPropertyCard.defaultProps = {
-    viewButtonSelectedCallBack: (propertyIndex: number, navigation?: any) => {return {propertyIndex, navigation};},
+    viewButtonSelectedCallBack: (propId: string, navigation?: any) => {return {propId, navigation};},
     image: defaultProperty,
 };

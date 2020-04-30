@@ -14,17 +14,18 @@ describe('Test for ViewProperty Card', () => {
 
     it('Test is default Props are defined', () => {
         const {viewButtonSelectedCallBack, image} = ViewPropertyCard.defaultProps;
-        const expectedResult = { propertyIndex: 1, navigation: mockStackNavigation};
-        expect(viewButtonSelectedCallBack(1, mockStackNavigation)).toStrictEqual(expectedResult);
+        const expectedResult = { propId : '1', navigation: mockStackNavigation};
+        expect(viewButtonSelectedCallBack('1', mockStackNavigation)).toStrictEqual(expectedResult);
         expect(image).toBeDefined();
     });
 
     it('Test the basic functionality of this component', () => {
-        const [property] = PropertyList1;
+        const property = PropertyList1['1'];
+        const {propId} = property;
         const mockViewButtonSelectedCallBack = jest.fn();
         const rendered = render(
             <ViewPropertyCard 
-                propertyIndex={1} 
+                propId={propId} 
                 property={property} 
                 viewButtonSelectedCallBack={mockViewButtonSelectedCallBack} />);
         const {getByTestId, queryAllByType} = rendered;

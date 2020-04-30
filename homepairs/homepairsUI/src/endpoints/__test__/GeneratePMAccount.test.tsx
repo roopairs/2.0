@@ -33,14 +33,16 @@ const testJsonValue1 = {
         address: 'ABC Street',
       },
     token: '1d9f80e98e9b16b94bf76c2dc49fe15b8b30d1a2',
-    properties: [{
+    properties: [
+      {
         maxTenants: 10,
         numBath: 4,
         numBed: 10,
         pm: 'Jacky Lynne',
         propId: '1',
         streetAddress: 'ABG Street',
-    }],
+      },
+    ],
 };
 
 const expectedFetchResult1: AccountStateAction = {
@@ -58,13 +60,15 @@ const expectedFetchResult1: AccountStateAction = {
 
 const expectedProperties: FetchPropertiesAction ={
     type: FETCH_PROPERTIES,
-    properties: [{
-      propId: '1',
-      tenants: 10,
-      bathrooms: 4,
-      bedrooms: 10,
-      address: "ABG Street",
-    }],
+    properties: {
+      '1': {
+        propId: '1',
+        tenants: 10,
+        bathrooms: 4,
+        bedrooms: 10,
+        address: "ABG Street",
+      },
+    },
 };
 
 const expectedSessionResult : SetAccountAuthenticationStateAction = {

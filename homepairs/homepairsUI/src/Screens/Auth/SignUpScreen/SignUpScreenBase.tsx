@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
 });
 
 
-export default class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
+export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
     firstNameRef;
 
     lastNameRef;
