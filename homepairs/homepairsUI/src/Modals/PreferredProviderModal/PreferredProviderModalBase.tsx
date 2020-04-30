@@ -99,7 +99,7 @@ export class PreferredProvidertModalBase extends React.Component<PreferredProvid
 
     renderHeader() {
         const {logo} = this.serviceProvider;
-        const image = Platform.OS === 'ios' ? {uri: logo} : logo;
+        const image = Platform.OS === 'web' ? logo : {uri: logo} ;
         return (
             <View>
                 <View style={this.styles.tileContainer} >

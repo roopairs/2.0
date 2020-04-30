@@ -74,7 +74,7 @@ function renderProviderTiles(props: RenderProviderTilesItem){
         const {logo, name} = tile;
 
         // Render remote images. Need to format in {uri: string} to work on iOS
-        const image = Platform.OS === 'ios' ? {uri: logo} : logo;
+        const image = Platform.OS === 'web' ? logo : {uri: logo} ;
         return isNullOrUndefined(logo) ? 
             <TextTile text={name} fontSize={16}/>
             :
