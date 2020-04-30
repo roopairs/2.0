@@ -28,6 +28,7 @@ const checkSession = async () => {
         store.dispatch(fetchProperties(properties));
     }).catch(() => {});
 
+    /*
     await AsyncStorage.getItem('preferredProviders').then(preferredProviders => {
         const json = JSON.parse(preferredProviders);
         const {providers} = json;
@@ -39,7 +40,7 @@ const checkSession = async () => {
         const storedSelectedPropertyId = selectedPropertyId;
         store.dispatch(setSelectedProperty(storedSelectedPropertyId));
     }).catch(() => {});
-
+    */
 };
 
 function mapStateToProps(state: AppState): any {
