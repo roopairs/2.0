@@ -45,7 +45,6 @@ const PREFERRED_PROVIDERS = 'TODO: Change this key to that returned from the bac
 const PM = 'pm';
 /* * JSON KEYS * */
 
-
 const {SingleProperty, ServiceRequestScreen} = navigationPages;
 
 /**
@@ -60,12 +59,13 @@ export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => S
 (preferredServiceProviderJSON: any[]) => {
     return preferredServiceProviderJSON.map(serviceProvider => {
         const {provId, name, email, phoneNum, prefId,contractLic, skills, 
-            founded, payRate, timesHired, earliestHire, logo} = serviceProvider;
+            founded, rate, timesHired, earliestHire, logo} = serviceProvider;
+        console.log(preferredServiceProviderJSON);
         // TODO: Handle loading the logo image asset recieved from the backend response
         return {
             provId, name, email, prefId,
             phoneNum, contractLic, skills, 
-            founded, payRate, timesHired, 
+            founded, payRate: rate, timesHired, 
             earliestHire: isNullOrUndefined(earliestHire) ? undefined : new Date(earliestHire), 
             logo,
         };
@@ -93,7 +93,7 @@ export const fetchPreferredProviders = (pmId: string) => {
         .then(result => {
             const {data} = result;
             const {providers} = data;
-            console.log(providers)
+            console.log(providers);
             AsyncStorage.setItem('preferredProviders', JSON.stringify(data));
             const parsedProviders = parsePreferredProviders(providers);
             dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
@@ -125,15 +125,14 @@ export const postPreferredProvider = async (
     .then(response => {
         const {data} = response;
         const {status} = data;
-        if(status === SUCCESS){
-            fetchPreferredProviders(String(pmId));
-        }else{
+        if(status !== SUCCESS){
             const {error} = data;
             onError(error);
+            console.log(pmId);
+            console.log(error.message);
+            throw Error(error);
         }
-    }).catch(
-        error => {
-            onError(error);
+        return response;
     });
 };
 
@@ -154,8 +153,11 @@ export const postPreferredProvider = async (
  * thrown if the api request fails
  */
 export const deletePreferredProvider = (
-    serviceProvider: ServiceProvider, onError: (error:string) => any = console.log) => {
+    serviceProvider: ServiceProvider, 
+    displayError: (error:string) => void,
+    navigation: NavigationRouteHandler) => {
     const {prefId} = serviceProvider;
+    console.log(prefId)
     const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
     // Simply print the error if no error function was defined, otherwise use the defined function
     return async (dispatch: (func: any) => void) => { 
@@ -163,16 +165,17 @@ export const deletePreferredProvider = (
         .then(response => {
             const {data} = response;
             const {status} = data;
-            console.log(response)
-            if(status === SUCCESS){
+            console.log(response);
+            if(status === SUCCESS) {
                 dispatch(removeServiceProvider(serviceProvider));
-            }else{
+                navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
+            } else {
                 const {error} = data;
-                console.log(error)
-                onError(error);
+                console.log(error);
+                displayError(error);
             }
         }).catch(error => {
-            onError(error);
+            console.log(error);
         });
     };
 };

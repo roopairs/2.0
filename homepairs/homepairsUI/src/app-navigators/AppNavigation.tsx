@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { createAppContainer, SafeAreaView, withNavigation } from 'react-navigation';
+import { createAppContainer, SafeAreaView } from 'react-navigation';
 import { createStackNavigator, NavigationStackConfig, NavigationStackOptions } from 'react-navigation-stack';
 import {
     NewRequestScreen,
@@ -24,6 +24,8 @@ import {
     EditTenantModal, 
     AddTenantModal,
     ServiceRequestModal,
+    AddServiceProviderModal,
+    PreferredProviderModal,
 } from 'homepairs-modals';
 import { HomePairsHeader } from 'homepairs-components';
 import { LightColorTheme } from 'homepairs-base-styles';
@@ -148,7 +150,8 @@ const MainStack = createStackNavigator(
         [navigationKeys.EditTenantModal]: EditTenantModal,
         [navigationKeys.AddTenantModal]: AddTenantModal,
         [navigationKeys.ServiceRequestModal]: ServiceRequestModal,
-
+        [navigationKeys.AddServiceProviderModal]: AddServiceProviderModal,
+        [navigationKeys.PreferredProviderModal]: PreferredProviderModal,
     },
     {
         initialRouteName: navigationKeys.Properties,

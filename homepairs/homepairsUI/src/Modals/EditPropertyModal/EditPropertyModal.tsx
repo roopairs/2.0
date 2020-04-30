@@ -13,7 +13,6 @@ const mapDispatchToProps : (dispatch: any) => EditPropertyDispatchProps = (dispa
 
 function mapStateToProps(state: AppState) : EditPropertyState {
     const propId = state.properties.selectedPropertyId;
-    console.log(propId);
     return {
         email: state.accountProfile.email, 
         propId, 

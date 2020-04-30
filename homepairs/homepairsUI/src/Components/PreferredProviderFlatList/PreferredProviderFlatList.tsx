@@ -4,8 +4,10 @@ import {ImageTile, TextTile} from 'homepairs-elements';
 import { HomePairsDimensions, AppState, ProviderDictionary, ServiceProvider, PropertyManagerAccount } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { connect } from 'react-redux';
-import { NavigationRouteScreenProps, NavigationRouteHandler, prepareNavigationHandlerComponent } from 'homepairs-routes';
+import { NavigationRouteScreenProps, NavigationRouteHandler, prepareNavigationHandlerComponent, navigationPages} from 'homepairs-routes';
 import { isNullOrUndefined } from 'homepairs-utilities';
+
+const {AddServiceProviderModal, PreferredProviderModal} = navigationPages;
 
 const styles = StyleSheet.create({
     container: {
@@ -57,19 +59,18 @@ type RenderProviderTilesItem = NavigationRouteScreenProps & TypeGuardTile;
  */
 function renderProviderTiles(props: RenderProviderTilesItem){
     const {type, tile, pmId, navigation} = props;
-
+    console.log(tile)
     async function onClickProvider(){
-        const {phoneNum} = tile
-        navigation.navigate('TODO: Navigate to Service Provider Modal with passed in telephone number or prefId', {prefProvPhone: phoneNum});
+        navigation.navigate(PreferredProviderModal, {serviceProvider: tile.phoneNum}, true);
     }
 
     async function onClickAdd(){
-        navigation.navigate('TODO: Navigate to add new Preferred Provider Modal');
+        navigation.navigate(AddServiceProviderModal, {}, true);
     }
 
     // Helper function that that renders a Text tile for logos without images and 
     // Image tiles for those with images. This function assumes that tile is defined.
-    function renderProperTile(){
+    function renderProperTile() {
         const {logo, name} = tile;
 
         // Render remote images. Need to format in {uri: string} to work on iOS

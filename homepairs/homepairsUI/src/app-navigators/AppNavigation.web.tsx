@@ -15,12 +15,14 @@ import {
 } from 'homepairs-pages';
 import {HomePairsHeader} from 'homepairs-components';
 import { CreatingAccountModal, LoggingInModal, AddNewPropertyModal, 
-  EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, EditTenantModal, ServiceRequestModal } from 'homepairs-modals';
+  EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, 
+  EditTenantModal, ServiceRequestModal, AddServiceProviderModal, PreferredProviderModal } from 'homepairs-modals';
 import {
   LOGIN, SIGNUP, ROOPAIRS_LOGIN, PROPERTY_LIST, TENANT_PROPERTY,
   PROPERTY, LOGIN_MODAL, CREATE_ACCOUNT_MODAL, ADD_PROPERTY_MODAL, EDIT_PROPERTY_MODAL, 
   ROOPAIRS_LOGIN_MODAL, EDIT_TENANT_MODAL, ADD_TENANT_MODAL, ADD_APPLIANCE_MODAL, EDIT_APPLIANCE_MODAL,
   SERVICE_REQUEST, NEW_SERVICE_REQUEST, ACCOUNT_SETTINGS, SERVICE_REQUEST_INFO_MODAL,
+  ADD_SERVICE_PROVIDER_MODAL, PREFERRED_PROVIDER_MODAL,
 } from 'homepairs-routes';
 
 /**
@@ -89,7 +91,8 @@ const AddApplianceReadyModal = withModal(AddApplianceModal);
 const EditApplianceReadyModal = withModal(EditApplianceModal);
 const AddTenantReadyModal = withModal(AddTenantModal);
 const EditTenantReadyModal = withModal(EditTenantModal);
-
+const AddServiceProviderReadyModal = withModal(AddServiceProviderModal);
+const PreferredProviderReadyModal = withModal(PreferredProviderModal);
 const ServiceRequestInfoReadyModal = withModal(ServiceRequestModal);
 /* Modal Ready Components for Routers */
 
@@ -195,10 +198,13 @@ function ServiceRequestSwitch() {
                   <Route exact path={`${SERVICE_REQUEST}`}><ServiceRequestScreen/></Route>
                   <Route exact path={`${NEW_SERVICE_REQUEST}`}><NewRequestScreen /></Route>
                   <Route exact path={`${SERVICE_REQUEST_INFO_MODAL}/:serviceRequest`}> <ServiceRequestModal/></Route>
+                  <Route exact path={`${ADD_SERVICE_PROVIDER_MODAL}`}><AddServiceProviderReadyModal/></Route>
+                  <Route exact path={`${PREFERRED_PROVIDER_MODAL}/:serviceProvider`}><PreferredProviderReadyModal/></Route>
               </Switch>
 
               {background && <Route path={`${SERVICE_REQUEST_INFO_MODAL}/:serviceRequest`}><ServiceRequestInfoReadyModal/></Route>}
-
+              {background && <Route path={`${ADD_SERVICE_PROVIDER_MODAL}`}><AddServiceProviderReadyModal/></Route>}
+              {background && <Route path={`${PREFERRED_PROVIDER_MODAL}/:serviceProvider`}><PreferredProviderReadyModal/></Route>}
           </>
       )}/>
   );
