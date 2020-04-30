@@ -92,6 +92,7 @@ export const fetchPreferredProviders = (pmId: string) => {
         .then(result => {
             const {data} = result;
             const {providers} = data;
+            console.log(providers);
             AsyncStorage.setItem('preferredProviders', JSON.stringify(data));
             const parsedProviders = parsePreferredProviders(providers);
             dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
