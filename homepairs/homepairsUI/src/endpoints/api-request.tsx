@@ -127,7 +127,8 @@ export const postPreferredProvider = async (
         if(status !== SUCCESS){
             const {error} = data;
             onError(error);
-            console.log(error.message)
+            console.log(pmId);
+            console.log(error.message);
             throw Error(error);
         }
         return response;

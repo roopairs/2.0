@@ -9,6 +9,7 @@ import {isPhoneNumberValid, isNullOrUndefined} from 'homepairs-utilities';
 import {FontTheme} from 'homepairs-base-styles';
 import { navigationPages, NavigationRouteScreenProps, NavigationRouteHandler } from 'homepairs-routes';
 
+
 export type AddServiceProviderDispatchProps = {
     onAddServiceProvider: (
         pmId: number, 
@@ -220,6 +221,7 @@ export class AddServiceProviderModalBase extends React.Component<Props,CreateSta
         const {phoneNum} = this.state;
         const {onAddServiceProvider, navigation, pmId} = this.props;
         this.resetForm();
+        console.log(pmId);
         if (this.validatePhoneNumber()) {
             onAddServiceProvider(pmId, phoneNum, this.setInitialState, this.phoneNumRef.current.setError, navigation);
         }
