@@ -7,8 +7,9 @@ import {
     Image,
     Platform,
 } from 'react-native';
-import {ServiceRequest, ServiceProvider} from 'homepairs-types';
+import { HomePairsDimensions, ServiceRequest, ServiceProvider } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
+import Colors from 'homepairs-colors';
 import { HomePairFonts } from 'homepairs-fonts';
 import { clock } from 'homepairs-images';
 import Moment from 'moment';
@@ -26,8 +27,7 @@ const colors = BaseStyles.LightColorTheme;
 
 const styles = StyleSheet.create({
     container: {
-        borderRadius: BaseStyles.BorderRadius.medium, 
-        padding: BaseStyles.MarginPadding.medium,
+        borderRadius: BaseStyles.BorderRadius.medium,
         borderColor: colors.lightGray,
         borderWidth: 1,
         margin: 20,
@@ -35,30 +35,57 @@ const styles = StyleSheet.create({
     buttonStyle: {
     },
     titleText: {
+        alignContent: 'center',
         color: colors.tertiary,
-        fontSize: BaseStyles.FontTheme.reg + 2, 
+        fontSize: BaseStyles.FontTheme.reg + 1,
         fontFamily: HomePairFonts.nunito_bold,
-        marginLeft: 2,
-    }, 
+    },
     companyDetailsText: {
+        alignContent: 'center',
         color: colors.lightGray,
-        fontSize: BaseStyles.FontTheme.reg - 1, 
+        fontSize: BaseStyles.FontTheme.reg - 2,
         fontFamily: HomePairFonts.nunito_light,
-        padding: BaseStyles.MarginPadding.xsmallConst,
+    },
+    payRateText: {
+        alignContent: 'center',
+        color: Colors.LightModeColors.blueButtonText,
+        fontSize: BaseStyles.FontTheme.reg - 2,
+        fontFamily: HomePairFonts.nunito_bold,
     },
     dateContainer: {
         flexDirection: 'row',
         padding: BaseStyles.MarginPadding.xsmallConst,
     },
     dateText: {
-        color: colors.tertiary, 
-        fontSize: BaseStyles.FontTheme.reg, 
+        alignContent: 'center',
+        color: colors.tertiary,
+        fontSize: BaseStyles.FontTheme.reg,
         fontFamily: HomePairFonts.nunito_regular,
         marginLeft: BaseStyles.MarginPadding.medium,
     },
     buttonImage: {
         width: 24,
         height: 24,
+    },
+    leftColumnStyle: {
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignContent: 'center',
+        textAlign: "center",
+        backgroundColor: Colors.LightModeColors.transparent,
+        padding: BaseStyles.MarginPadding.largeConst,
+        width: HomePairsDimensions.MAX_BUTTON_WIDTH * 0.35,
+        borderRightWidth: 0.5,
+        borderColor: Colors.LightModeColors.greyCardDivider,
+    },
+    rightColumnStyle: {
+        flexGrow: 2,
+        justifyContent: 'flex-start',
+        backgroundColor: Colors.LightModeColors.transparent,
+        padding: BaseStyles.MarginPadding.largeConst,
+        width: HomePairsDimensions.MAX_BUTTON_WIDTH * 0.65,
+        borderLeftWidth: 0.5,
+        borderColor: Colors.LightModeColors.greyCardDivider,
     },
 });
 
@@ -73,7 +100,7 @@ function renderLogo(name: string, logo?: string) {
 }
 
 export default function ServiceProviderButton(props: ServiceProviderButtonProps) {
-    const {onClick, serviceProvider} = props;
+    const { onClick, serviceProvider } = props;
     Moment.locale('en');
     //const date = Moment(serviceProvider.startDate.toString()).format('LLL');
 
@@ -84,22 +111,32 @@ export default function ServiceProviderButton(props: ServiceProviderButtonProps)
                 style={styles.buttonStyle}
                 onPress={() => onClick(serviceProvider.provId, serviceProvider.name)}
             >
-                {renderLogo(serviceProvider.name, serviceProvider.logo)}
-                <Text style={styles.titleText}>
-                    {serviceProvider.name}
-                </Text>
-                <Text style={styles.companyDetailsText}>
-                    {serviceProvider.skills}
-                </Text>
-                <Text style={styles.companyDetailsText}>
-                    {serviceProvider.email}
-                </Text>
+                <View style={{ flexDirection: 'row' }}>
+                    <View style={styles.leftColumnStyle}>
+                        <View>{renderLogo(serviceProvider.name, serviceProvider.logo)}
+                        </View>
+                        <Text style={styles.payRateText}>
+                            ${serviceProvider.payRate} / hour
+                        </Text>
+                    </View>
+                    <View style={styles.rightColumnStyle}>
+                        <Text style={styles.titleText}>
+                            {serviceProvider.name}
+                        </Text>
+                        <Text style={styles.companyDetailsText}>
+                            <br />{serviceProvider.skills}
+                        </Text>
+                        <Text style={styles.companyDetailsText}>
+                            <br />{serviceProvider.email}
+                        </Text>
+                    </View>
+                </View>
             </TouchableOpacity>
         </View>
     );
 }
 
 ServiceProviderButton.defaultProps = {
-    onClick: () => {}, 
+    onClick: () => { },
     active: true,
 };

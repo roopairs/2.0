@@ -235,7 +235,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
                 const {providers} = result.data;
                 const providerInfo: ServiceProvider[] = [];
                 providers.forEach(provider => {
-                    const { provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo} = provider;
+                    const { provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo } = provider;
                     providerInfo.push({provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo});
                 });
                 this.setState({serviceProviders: providerInfo});

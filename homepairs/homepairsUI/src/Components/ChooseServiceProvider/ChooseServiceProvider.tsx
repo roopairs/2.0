@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
 
 export type ServiceProviderRadioState = {
     preferredProvidersSelected: boolean,
+    networkProvidersFound: boolean,
     providerName: string,
     networkSupported: boolean,
     clicked: boolean,
@@ -144,6 +145,7 @@ export type ServiceProviderRadioProps = {
 
 const initialState: ServiceProviderRadioState = {
     preferredProvidersSelected: true,
+    networkProvidersFound: false,
     providerName: '',
     networkSupported: false,
     clicked: false,
@@ -173,14 +175,21 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
 
     constructor(props: Readonly<ServiceProviderRadioProps>) {
         super(props);
+        console.log("set to false");
         this.state = initialState;
         this.onPressNetwork = this.onPressNetwork.bind(this);
+        this.onPressGetNetworkProviders = this.onPressGetNetworkProviders.bind(this);
         this.onPressPreferred = this.onPressPreferred.bind(this);
         this.selectProvider = this.selectProvider.bind(this);
     }
 
     onPressNetwork() {
-        this.setState({ preferredProvidersSelected: false });
+        this.setState({ preferredProvidersSelected: false});
+    }
+
+    onPressGetNetworkProviders() {
+        console.log("change to true");
+        this.setState({networkProvidersFound: true});
     }
 
     onPressPreferred() {
@@ -254,12 +263,13 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                 color: Colors.LightModeColors.blueButtonText,
                 fontSize: BaseStyles.FontTheme.reg,
                 alignSelf: 'center',
-            }
+            },
         };
 
         return (
+            // eslint-disable-next-line no-nested-ternary
             preferredProvidersSelected ? this.renderPreferredProviders()
-                : (
+                : ( networkProvidersFound ? this.renderNetworkProviders() :
                     <View>
                         <View style={styles.textContainer}>
                             <Text style={styles.networkText}>
@@ -273,17 +283,42 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                             buttonStyle={buttonProps.buttonStyle}
                             buttonTextStyle={buttonProps.buttonTextStyle}
                         />
-                    </View>
-                )
+                    </View>)
         );
     }
-
-
 
     // eslint-disable-next-line class-methods-use-this
     renderPreferredProviders() {
         const { serviceProviders } = this.props;
         const filteredServiceProviders = serviceProviders; // TO DO IMPLEMENT FILTER
+
+        /* * TEMPORARY HARD CODED PROVIDERS * */
+        /* const fakeServiceProviders: ServiceProvider[] = [
+            {
+                provId: 1,
+                name: 'Bob the Builders',
+                email: 'billybob@fake.com',
+                phoneNum: '999-555-3333',
+                contractLic: 'I do not know what this is', // contract license
+                skills: 'Do not need any',
+                founded: 'Thursday March 5, 2020', // date founded
+                payRate: 35.25, // amount per hour 
+                timesHired: 80,
+            },
+            {
+                provId: 2,
+                name: 'Lighters',
+                email: 'billybob@fake.com',
+                phoneNum: '999-555-3333',
+                contractLic: 'I do not know what this is', // contract license
+                skills: 'Do not need any',
+                founded: 'Thursday March 5, 2020', // date founded
+                payRate: 34.25, // amount per hour 
+                timesHired: 1,
+                earliestHire: new Date(2015, 18, 1).toDateString(),
+            },
+        ];
+        const filteredServiceProviders = fakeServiceProviders; */
 
         return (
             filteredServiceProviders.map(
