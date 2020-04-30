@@ -205,7 +205,6 @@ function ServiceRequestSwitch() {
               {background && <Route path={`${SERVICE_REQUEST_INFO_MODAL}/:serviceRequest`}><ServiceRequestInfoReadyModal/></Route>}
               {background && <Route path={`${ADD_SERVICE_PROVIDER_MODAL}`}><AddServiceProviderReadyModal/></Route>}
               {background && <Route path={`${PREFERRED_PROVIDER_MODAL}/:serviceProvider`}><PreferredProviderReadyModal/></Route>}
-
           </>
       )}/>
   );
