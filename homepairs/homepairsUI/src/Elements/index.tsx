@@ -21,39 +21,22 @@
  *        please define a Components folder for the topmost parent and define it there. 
  */
 
-import { InputFormProps as IFP, renderInputForm } from './Forms/InputForm';
-import { ThinButtonProps as TBP} from './Buttons/ThinButton';
-import { PanelProps as PP} from './Panels/AppliancePanel';
-import { CategoryPanelProps as CPP} from './Panels/ApplianceCategoryPanel';
-import { ServiceRequestButtonProps as SRBP} from './Buttons/ServiceRequestButton';
-import { ServiceProviderButtonProps as SPBP} from './Buttons/ServiceProviderButton';
-import { CardProps as CP} from './Cards/Card';
-import { StickerProps as SP} from './Stickers/Sticker';
+export * from './Forms/InputForm';
+export * from './Panels/AppliancePanel';
+export * from './Panels/ApplianceCategoryPanel';
+export * from './Cards/Card';
+export * from './Stickers/Sticker';
+export * from './Tiles/Tiles';
+export * from './Buttons/index';
 
 export {default as DatePicker} from './DatePicker/DatePicker';
-export {default as ButtonWithBitmap} from './Buttons/ButtonWithBitmap';
 export {default as InputForm } from './Forms/InputForm';
 export {default as GoogleInputForm} from './Forms/GoogleInputForm';
-export {default as ThinButton} from './Buttons/ThinButton';
-export {default as LoginButton} from './Buttons/LoginButton';
 export {default as Card } from './Cards/Card';
 export {default as Sticker} from './Stickers/Sticker';
-export {default as HamburgerButton} from './Buttons/HamburgerButton';
 export {default as AppliancePanel} from './Panels/AppliancePanel';
 export {default as ServiceRequestAddressPanel} from './Panels/ServiceRequestAddressPanel';
 export {default as AddressPanel} from './Panels/AddressPanel';
 export {default as ApplianceCategoryPanel} from './Panels/ApplianceCategoryPanel';
 export {default as ServiceTypePanel} from './Panels/ServiceTypePanel';
-export {default as ServiceRequestButton} from './Buttons/ServiceRequestButton';
-export {default as ServiceProviderButton} from './Buttons/ServiceProviderButton';
-export { default as LocationItem } from './LocationItem/LocationItem';
-
-/** A hack that works when exporting types */
-export type InputFormProps = IFP;
-export type ThinButtonProps = TBP;
-export type CardProps =  CP;
-export type StickerProps = SP;
-export type PanelProps = PP;
-export type CategoryPanelProps = CPP;
-export type ServiceRequestButtonProps = SRBP;
-export type ServiceProviderButtonProps = SPBP;
+export {default as LocationItem } from './LocationItem/LocationItem';

@@ -10,7 +10,7 @@ import { withRouter } from "react-router-dom";
 import { Platform } from "react-native";
 import { fetchAccount } from 'homepairs-endpoints';
 import {NavigationRouteHandler, prepareNavigationHandlerComponent } from 'homepairs-routes';
-import LoginScreenBase, { LoginViewDispatchProps } from "./LoginScreenBase";
+import { LoginScreenBase, LoginViewDispatchProps } from "./LoginScreenBase";
 
 
 const signInStrings = strings.signInPage;

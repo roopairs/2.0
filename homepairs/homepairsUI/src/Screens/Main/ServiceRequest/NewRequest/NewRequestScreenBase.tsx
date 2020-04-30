@@ -9,13 +9,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from 'homepairs-components';
 import {HelperText} from 'react-native-paper';
 import axios from 'axios';
-import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT,  HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest } from 'homepairs-endpoints';
-
-type NewRequestScreenProps = {
-    properties: Property[],
-    token: string,
-    pmId: number,
-};
+import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT, HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest } from 'homepairs-endpoints';
 
 type NewRequestState = {
     address: string,
@@ -75,10 +69,14 @@ const styles = StyleSheet.create({
     },
 });
 
-type Props = NavigationRouteScreenProps & NewRequestScreenProps;
+export type NewRequestScreenProps = NavigationRouteScreenProps & {
+    properties: Property[],
+    token: string,
+    pmId: number,
+};;
 
 
-export default class NewServiceRequestBase extends Component<Props, NewRequestState> {
+export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewRequestState> {
 
     addressRef;
 
@@ -143,7 +141,7 @@ export default class NewServiceRequestBase extends Component<Props, NewRequestSt
         },
     }
 
-    constructor(props: Readonly<Props>) {
+    constructor(props: Readonly<NewRequestScreenProps>) {
         super(props);
         
         this.getFormAddress = this.getFormAddress.bind(this);

@@ -1,11 +1,11 @@
 import {
-    PreferredServiceProviderAction,
     RefreshServiceProvidersAction, 
     RemoveServiceProviderAction,
     ServiceProvider,
 } from 'homepairs-types';
 import { PreferredProviderActions } from 'homepairs-redux-actions';
 
+jest.mock('homepairs-images');
 const {refreshServiceProviders, removeServiceProvider, PREFERRED_SERVICE_PROVIDER_ACTION_TYPES} = PreferredProviderActions;
 const { REFRESH_SERVICE_PROVIDERS, REMOVE_SERVICE_PROVIDER } = PREFERRED_SERVICE_PROVIDER_ACTION_TYPES;
 
@@ -18,8 +18,9 @@ const serviceProvider : ServiceProvider = {
    skills: 'Hot Equipment, Flood Prevention, Pest Control',
    founded: 'string',
    payRate: 35.25,
-   timesHired: '202', 
-   earliestJobDate: new Date(2018, 10, 17),
+   timesHired: 202, 
+   earliestHire: new Date(2018, 10, 17),
+   logo: 'Fake',
 };
 
 const serviceProviderList : ServiceProvider[] = [
@@ -32,8 +33,9 @@ const serviceProviderList : ServiceProvider[] = [
         skills: 'Hot Equipment, Flood Prevention, Pest Control',
         founded: 'string',
         payRate: 35.25,
-        timesHired: '202', 
-        earliestJobDate: new Date(2018, 10, 17),
+        timesHired: 202, 
+        earliestHire: new Date(2018, 10, 17),
+        logo: 'Fake',
     },
     {
         provId: 9294,
@@ -44,8 +46,9 @@ const serviceProviderList : ServiceProvider[] = [
         skills: 'Hot Equipment, Lighting, Power',
         founded: 'string',
         payRate: 40.25,
-        timesHired: '33', 
-        earliestJobDate: new Date(2020, 1, 3),
+        timesHired: 33, 
+        earliestHire: new Date(2020, 1, 3),
+        logo: 'Fake',
     },
 
 ];

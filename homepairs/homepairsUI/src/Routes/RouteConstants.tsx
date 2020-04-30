@@ -22,6 +22,8 @@ export const EDIT_APPLIANCE_MODAL = '/admin/property/edit-appliance';
 export const SERVICE_REQUEST = '/admin/service-requests';
 export const NEW_SERVICE_REQUEST = '/admin/service-requests/new-service-requests';
 export const SERVICE_REQUEST_INFO_MODAL = '/admin/service-requests/information';
+export const ADD_SERVICE_PROVIDER_MODAL = '/admin/service-requests/add-service-provider';
+export const PREFERRED_PROVIDER_MODAL = '/admin/service-requests/preferred-provider';
 
 export const ACCOUNT_SETTINGS = '/admin/account-settings';
 
@@ -56,8 +58,9 @@ export const navigationKeys: {[id:string]: string} = {
     EditPropertyModal: 'EditPropertyModal',
     AddApplianceModal: 'AddApplianceModal', 
     EditApplianceModal: 'EditApplianceModal',
-    ServiceRequestModal: 'ServiceRequestModal',
-
+    ServiceRequestModal: 'SericeRequestModal',
+    AddServiceProviderModal: 'AddServiceProviderModal',
+    PreferredProviderModal: 'PreferredProviderModal',
 
     RoopairsLogin: 'RoopairsLogin',
     RoopairsLoggingInModal: 'RoopairsLoggingInModal',
@@ -88,10 +91,11 @@ export const navigationPages = {
     AddNewPropertyModal: 'AddNewPropertyModal',
     EditPropertyModal: 'EditPropertyModal',
     AddTenantModal: 'AddTenantModal',
-    
     EditTenantModal: 'EditTenantModal',
     AddApplianceModal: 'AddApplianceModal', 
     EditApplianceModal: 'EditApplianceModal',
+    AddServiceProviderModal: 'AddServiceProviderModal',
+    PreferredProviderModal: 'PreferredProviderModal',
 
     // Service Request Pages
     ServiceRequestScreen: 'ServiceRequestScreen',

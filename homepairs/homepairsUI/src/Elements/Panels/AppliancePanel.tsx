@@ -14,7 +14,7 @@ import { HomePairsDimensions, Appliance } from 'homepairs-types';
 import { upArrow, downArrow} from 'homepairs-images';
 import ThinButton, { ThinButtonProps } from '../Buttons/ThinButton';
 
-export type PanelProps = {
+export type AppliancePanelProps = {
     key?: string;
     appliance: Appliance;
     hasButton: boolean;
@@ -22,16 +22,16 @@ export type PanelProps = {
     onClick?: (child?: any) => any;
 };
 
-export type PanelState = {
+export type AppliancePanelState = {
     expanded: boolean;
     animation: Animated.Value;
     minHeight: number;
     maxHeight: number;
 };
 
-type Props = PanelProps;
+type Props = AppliancePanelProps;
 
-const initialState: PanelState = {
+const initialState: AppliancePanelState = {
     expanded: false,
     animation: undefined,
     minHeight: 0,
@@ -134,7 +134,7 @@ function setStyles() {
     });
 }
 
-export default class AppliancePanel extends React.Component<Props, PanelState> {
+export default class AppliancePanel extends React.Component<Props, AppliancePanelState> {
     styles;
 
     icons;

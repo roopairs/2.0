@@ -15,19 +15,21 @@ const [mockNavigator, mockNavigationFunction] = prepareNavigationMock();
 
 const prevProperty: Property = {
     address: 'Cool Aid Road',
+    propId: '0',
     tenants: 4,
     bedrooms: 3,
     bathrooms: 3,
 };
 const updatedPropertyTest: Property = {
     address: 'Cool Aid Drive',
+    propId: '0',
     tenants: 3,
     bedrooms: 3,
     bathrooms: 3,
 };
 const updatedPropertyCredentials: EditPropertyState = {
     email: 'jackylynne@gmail.com',
-    index: 0,
+    propId: '0',
     oldProp: prevProperty,
     roopairsToken: '1B88484KDKSLIEK058UDDD',
 };
@@ -50,8 +52,9 @@ describe('postUpdatedProperty Action', () => {
             };
             const expectedResult: UpdatePropertyAction = {
                 type: PROPERTY_LIST_ACTION_TYPES.UPDATE_PROPERTY,
-                index: 0,
+                propId: '0',
                 userData: {
+                    propId: '0',
                     address: 'Cool Aid Drive',
                     tenants: 3,
                     bedrooms: 3,

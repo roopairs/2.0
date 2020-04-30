@@ -1,6 +1,9 @@
 import React , {useState} from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Platform, Text} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {IconButton} from 'react-native-paper';
+import {calendar} from 'homepairs-images';
+import * as BaseStyles from 'homepairs-base-styles';
 
 type Props = {
     serviceDate: Date, 
@@ -13,33 +16,59 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#B3C0C2',
     },
+    dateText: {
+        flex: 1,
+        fontFamily: BaseStyles.FontTheme.primary,
+        fontSize: BaseStyles.FontTheme.reg,
+        alignSelf: 'center',
+    },
+    dateContainer: {
+        borderRadius: BaseStyles.BorderRadius.medium,
+        borderWidth: 1, 
+        padding: BaseStyles.MarginPadding.medium,
+        borderColor: BaseStyles.LightColorTheme.lightGray,
+        flexDirection: 'row',
+    },
 });
 
 export default function DatePickeriOS(props : Props){
     const [date, setDate] = useState(new Date());
+    const [mode, setMode] = useState('datetime');
+    const [show, setShow] = useState(false);
     const {getFormDate} = props;
-    const startDate = new Date();
-    const maxDate = new Date();
-
-    startDate.setHours(0, 0, 0);
-    maxDate.setDate(startDate.getDate() + 90);
-    maxDate.setHours(0, 0, 0);
 
     const onChange = (_, selectedDate: Date) => {
         setDate(selectedDate);
+        setShow(Platform.OS === 'ios');
         getFormDate(selectedDate);
+    };
+
+    const showMode = currentMode => {
+        setShow(!show);
+        setMode(currentMode);
+    };
+
+    const showDatepicker = () => {
+        showMode('datetime');
     };
     
     return (
-        <View style={styles.container}>
-        <DateTimePicker 
-            key='mobile datetime picker'
-            value={date}
-            minimumDate={startDate}
-            maximumDate={maxDate}
-            onChange={onChange}
-            mode='datetime'   
-        />
-        </View>);
+        <View>
+          <View style={styles.dateContainer}>
+              <Text style={styles.dateText}>{date.toDateString()}, {date.toLocaleTimeString()}</Text>
+              <IconButton onPress={showDatepicker} icon={calendar} />
+          </View>
+          {show && (
+            <DateTimePicker
+              testID="ios datetime picker"
+              value={date}
+              mode={mode}
+              is24Hour={false}
+              onChange={onChange}
+              minuteInterval={15}
+            />
+          )}
+        </View>
+      );
         
 }

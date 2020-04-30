@@ -5,10 +5,11 @@ import * as React from "react";
 import {InputForm, Card, GoogleInputForm, ThinButton } from 'homepairs-elements';
 import {fireEvent, render} from "react-native-testing-library";
 import {AddNewPropertyState, Property} from 'homepairs-types';
-import { mockStackNavigation, navigationStackSpyFunction} from 'homepairs-test';
+import {prepareNavigationMock} from 'homepairs-test'
 import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
 import { TextInput, View, ScrollView } from 'react-native';
 import {HelperText} from 'react-native-paper';
+import {NavigationRouteHandler} from 'homepairs-routes';
 import AddNewPropertyModalBase from "./AddNewPropertyModalBase";
 
 type Props = ModalInjectedProps &
@@ -21,9 +22,10 @@ export type ModalInjectedProps = {
 };
 
 export type AddNewPropertyDispatchProps = {
-    onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, navigation: NavigationStackProp) => void
+    onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, navigation: NavigationRouteHandler) => void
 }
 
+const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock();
 const props : Props = {
     onCreateProperty: undefined,
     email: undefined, 

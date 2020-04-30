@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
  * (withAuth) and will show errors within its input forms. This is intended to be used with the 
  * withAuth High Order Component and the redux store for full functionality.
  */
-export default class LoginScreenBase extends React.Component<LoginProps,LoginState> {
+export class LoginScreenBase extends React.Component<LoginProps,LoginState> {
 
     loginRef;
 

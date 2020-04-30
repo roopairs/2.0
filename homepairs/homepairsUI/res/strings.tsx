@@ -163,6 +163,19 @@ const strings = {
             lastServiceDate: 'LAST SERVICE DATE',
         },
     },
+    addServiceProvider: {
+        title: "Add Preferred Provider",
+        add: "Add", 
+        phoneNumber: "PHONE NUMBER",
+    },
+    preferredProviderModal: {
+        title: 'Preferred Provider', 
+        overview: 'OVERVIEW', 
+        companyEmail: 'COMPANY EMAIL', 
+        phoneNum: 'COMPANY PHONE NUMBER', 
+        license: 'CONTRACTOR\'S LICENCE',
+        skills: 'SKILLS', 
+    },
 };
 
 export default strings;

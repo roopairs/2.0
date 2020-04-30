@@ -20,19 +20,19 @@ export type RoopairsLoginDispatchProps = {
     ) => void
 }
 
-export type LoginProps = 
+export type RoopairsLoginProps = 
     RoopairsLoginDispatchProps &
     AuthPageInjectedProps &
     NavigationRouteScreenProps;
 
 
-export type LoginState = {
+export type RoopairsLoginState = {
     username: string;
     password: string;
 };
 
 const signInStrings = strings.signInPage;
-const initialState: LoginState = {
+const initialState: RoopairsLoginState = {
     username: '',
     password: '',
 };
@@ -63,9 +63,9 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
     });
 }
 
-export default class RoopairsLoginBase extends React.Component<
-    LoginProps,
-    LoginState
+export class RoopairsLoginBase extends React.Component<
+    RoopairsLoginProps,
+    RoopairsLoginState
 > {
     inputFormStyle;
 
@@ -73,7 +73,7 @@ export default class RoopairsLoginBase extends React.Component<
 
     passwordRef;
 
-    constructor(props: Readonly<LoginProps>) {
+    constructor(props: Readonly<RoopairsLoginProps>) {
         super(props);
         this.inputFormStyle = setInputStyles(null);
         this.getFormUsername = this.getFormUsername.bind(this);

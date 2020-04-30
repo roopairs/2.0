@@ -1,4 +1,2 @@
-import AccountScreen from './AccountScreen/AccountScreen';
-
-const AccountPages = { AccountScreen };
-export default AccountPages;
+export * from './AccountScreen/AccountScreenBase';
+export { default as AccountScreen } from './AccountScreen/AccountScreen';

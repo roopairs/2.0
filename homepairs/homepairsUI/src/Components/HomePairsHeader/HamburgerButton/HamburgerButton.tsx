@@ -1,12 +1,12 @@
 import React from 'react';
-import { HomePairFonts } from 'homepairs-fonts';
 import {
     TouchableOpacity,
-    Text,
     View,
-    StyleSheet,
-    Platform,
+    Image,
+    Text,
 } from 'react-native';
+import {hamburger} from 'homepairs-images';
+import {styles} from './styles';
 
 export type HamburgerButtonProps = {
     /**
@@ -35,60 +35,6 @@ export type HamburgerButtonProps = {
     onPressOut?: () => any;
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignSelf: 'flex-end',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: '5%',
-        marginRight: '5%',
-    },
-    button: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignContent: 'center',
-        alignSelf: 'center',
-        backgroundColor: 'transparent',
-        borderRadius: 8,
-        maxHeight: 45,
-        width: 45,
-        borderWidth: 1.4,
-        borderColor: '#rgba(0,0,0, .08)',
-    },
-    buttonText: {
-        flex:1,
-        alignSelf: 'center',
-        fontFamily: HomePairFonts.nunito_extrabold,
-        color: '#B3C0C2',
-        fontSize:  Platform.OS === 'web' ? 45 : 30,
-    },
-    homePairsHamburgerImage: {
-        alignSelf: 'center',
-        width: 45,
-        height: 45,
-    },
-    hamburgerStyle: {
-        flex: 1,
-        marginRight: '3%',
-        height: null,
-        width: null,
-        resizeMode: 'contain',
-        maxWidth: 50,
-    },
-    homePairsHamburgerImageWeb: {
-        width: 45,
-        height: 45,
-    },
-    hamburgerStyleWeb: {
-        flex: 1,
-        marginRight: '3%',
-        width: null,
-        height: null,
-    },
-});
-
  /**
   * ------------------------------------------------------------
   * Hamburger Button
@@ -103,7 +49,7 @@ export default function HamburgerButton(props: HamburgerButtonProps) {
     // This function will call the parent callback function.
     const {onClick} = props;
 
-    const {container, button, buttonText} = styles;
+    const {container, button, imageStyle} = styles;
     function onPress() {
         onClick();
     }
@@ -113,9 +59,8 @@ export default function HamburgerButton(props: HamburgerButtonProps) {
             <TouchableOpacity
                 testID='click-hamburger-button'
                 style={button}
-                onPress={onPress}
-            >
-                <Text style={buttonText}>&#8801;</Text>
+                onPress={onPress}>
+                <Image style={imageStyle} source={hamburger}/>
             </TouchableOpacity>
         </View>
     );

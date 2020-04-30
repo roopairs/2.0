@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-import { PropertyListActions } from 'homepairs-redux-actions';
 import { Property, AppState, AddNewPropertyState } from 'homepairs-types';
 import { prepareNavigationHandlerComponent, NavigationRouteHandler } from 'homepairs-routes';
 import { postNewProperty } from 'homepairs-endpoints';

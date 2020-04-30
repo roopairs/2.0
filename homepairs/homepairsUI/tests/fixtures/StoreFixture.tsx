@@ -4,7 +4,7 @@ import {
     PropertyManagerAccount,
     AccountTypes,
     AppState,
-    Property,
+    PropertyDict,
     Header,
     MainAppStackType,
     ConfigurationSettings,
@@ -12,7 +12,11 @@ import {
     PropertyListState,
     Contact,
     AuthenticationState,
+    ServiceProvider,
+    ProviderDictionary,
+    PreferredServiceProviderState,
 } from 'homepairs-types';
+import {bolt} from 'homepairs-images';
 
 const middleWares = [thunk];
 const mockStore = configureMockStore(middleWares);
@@ -63,22 +67,24 @@ const PropertyManagerAcount: PropertyManagerAccount = {
 /** User Account data for testing! */
 
 /** Property data for testing! */
-export const PropertyList1: Property[] = [
-    {
-        propId: '1',
+export const testPropertyListKey1 = '1';
+export const testPropertyListKey2 = '2';
+export const PropertyList1: PropertyDict = {
+    [testPropertyListKey1] : {
+        propId: testPropertyListKey1,
         address: '560 Hathway Ap. 2, San Luis Obispo, California',
         tenants: 3,
         bedrooms: 3,
         bathrooms: 3,
     },
-    {
-        propId: '2',
+    [testPropertyListKey2] : {
+        propId: testPropertyListKey2,
         address: '481 Del Sur Way, San Luis Obispo, California',
         tenants: 5,
         bedrooms: 3,
         bathrooms: 2,
     },
-];
+};
 
 /** Property data for testing! */
 const PropertyManager1: Contact  =
@@ -90,7 +96,7 @@ const PropertyManager1: Contact  =
     };
 
 const propertyListState : PropertyListState = {
-    selectedPropertyIndex: 0,
+    selectedPropertyId: testPropertyListKey2,
     properties: PropertyList1,
     propertyManager: PropertyManager1,
     appliances: [],
@@ -188,6 +194,47 @@ export const authenticationState: AuthenticationState ={
 };
 /** Checking to see if user has been authenticated. May be deprecated soon. */
 
+
+/** Example Preferred Providers to test store */
+const serviceProviderList : ServiceProvider[] = [
+    {
+        provId: 9255770000,
+        name: 'Bob the Builder',
+        email: 'billybob@yahoo.com',
+        phoneNum: '999-999-9999',
+        contractLic: '#12345678',
+        skills: 'Hot Equipment, Flood Prevention, Pest Control',
+        founded: 'string',
+        payRate: 35.25,
+        timesHired: 202, 
+        earliestHire: new Date(2018, 10, 17),
+        logo: 'Fake',
+    },
+    {
+        provId: 9294,
+        name: 'Electro Bud',
+        email: 'ebuds@ebuddy.org',
+        phoneNum: '888-888-8888',
+        contractLic: '#123456',
+        skills: 'Hot Equipment, Lighting, Power',
+        founded: 'string',
+        payRate: 40.25,
+        timesHired: 33, 
+        earliestHire: new Date(2020, 1, 3),
+        logo: undefined,
+    },
+];
+
+const serviceProviderDict: ProviderDictionary = {
+    [serviceProviderList[0].phoneNum] : serviceProviderList[0],
+    [serviceProviderList[1].phoneNum] : serviceProviderList[1],
+};
+
+const prefferedProviderStore: PreferredServiceProviderState = {
+    serviceProviders: serviceProviderDict,
+};
+/** Example Preferred Providers to test store */
+
 export const testStore1: AppState = {
     properties: propertyListState,
     accountProfile: PropertyManagerAcount,
@@ -195,6 +242,7 @@ export const testStore1: AppState = {
     serviceRequests: serviceRequest1,
     settings: ConfigurationSettings1,
     authenticated: authenticationState,
+    preferredProviders: prefferedProviderStore,
 };
 
 export const propertyManagerMock1 = mockStore(testStore1);
@@ -207,6 +255,7 @@ export const HeaderMockStores = {
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
         authenticated: authenticationState,
+        preferredProviders: prefferedProviderStore,
     }),
     dropDownHiddenWithBack: mockStore({
         properties: propertyListState,
@@ -215,6 +264,7 @@ export const HeaderMockStores = {
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
         authenticated: authenticationState,
+        preferredProviders: prefferedProviderStore,
     }),
     navBarNoBack: mockStore({
         properties: propertyListState,
@@ -223,6 +273,7 @@ export const HeaderMockStores = {
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
         authenticated: undefined,
+        preferredProviders: prefferedProviderStore,
     }),
     navBarWithBack: mockStore({
         properties: propertyListState,
@@ -231,6 +282,7 @@ export const HeaderMockStores = {
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
         authenticated: authenticationState,
+        preferredProviders: prefferedProviderStore,
     }),
     dropDownRevealedWithBack: mockStore({
         properties: propertyListState,
@@ -239,6 +291,7 @@ export const HeaderMockStores = {
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
         authenticated: authenticationState,
+        preferredProviders: prefferedProviderStore,
     }),
     navBarOnChangeDropDownRevealMenu: mockStore({
         properties: propertyListState,
@@ -247,6 +300,7 @@ export const HeaderMockStores = {
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
         authenticated: authenticationState,
+        preferredProviders: prefferedProviderStore,
     }),
     dropDownRevealedNoBack: mockStore({
         properties: propertyListState,
@@ -255,5 +309,6 @@ export const HeaderMockStores = {
         serviceRequests: serviceRequest1,
         settings: ConfigurationSettings1,
         authenticated: authenticationState,
+        preferredProviders: prefferedProviderStore,
     }),
 };

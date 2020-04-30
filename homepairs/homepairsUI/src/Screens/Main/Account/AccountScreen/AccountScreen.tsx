@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { AccountActions } from 'homepairs-redux-actions';
 import { prepareNavigationHandlerComponent } from 'homepairs-routes';
 import { withSceneHeader } from 'homepairs-components';
-import AccountScreenBase, {
+import {
+    AccountScreenBase,
     AccountScreenStateProps,
     AccountScreenDispatchProps,
 } from './AccountScreenBase';

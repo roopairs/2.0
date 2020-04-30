@@ -3,7 +3,6 @@ import { MainAppStackType, HomePairsDimensions } from 'homepairs-types';
 import {
     Platform,
     View,
-    TouchableWithoutFeedback,
     ScrollView,
     SafeAreaView,
     StyleSheet,
@@ -12,7 +11,7 @@ import { HeaderActions } from 'homepairs-redux-actions';
 import { connect } from 'react-redux';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
-import {NavigationRouteHandler} from 'homepairs-utilities';
+import {NavigationRouteHandler} from 'homepairs-routes';
 import SceneHeader from './SceneHeader';
 
 type SceneDispatchProps = {
@@ -49,7 +48,13 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         flex: 1,
     },
-    scrollViewStyle: undefined,
+    viewStyle: {
+        maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+        backgroundColor: colorTheme.secondary,
+        alignSelf: 'center',
+        width: BaseStyles.ContentWidth.max,
+        flexGrow: 1,
+    },
     scrollViewContentContainer: {
         maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
         backgroundColor: colorTheme.secondary,
@@ -72,8 +77,9 @@ const styles = StyleSheet.create({
  * 
  * @param {any} WrappedComponent -Base component that will be contained 
  * @param {MainAppStackType} Page -Parameters that determine title, button, and button behavior 
+ * @param {boolean} withScrollView -Determines if the scene header requires a scrollview, by default it is true 
  */
-export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
+export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType, withScrollView: boolean = true) {
 
     const ReduxComponent = class ReduxComponentBase extends React.Component<Props,State> {
 
@@ -89,32 +95,13 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
             return Page.onNavButtonClick(this.props);
         }
 
-        // TODO: Either remove this entirely or get the navigation header (when on drop down) to 
-        // close whenever content is selected on mobile devices. 
-        renderTouchArea() {
-            const { onCloseNavHeaderMenu } = this.props;
-            return !(Platform.OS === 'web') ? (
-                <TouchableWithoutFeedback
-                    onPressIn={onCloseNavHeaderMenu}
-                    style={{ flex: 1 }}>
-                    {this.renderContents()}
-                </TouchableWithoutFeedback>
-            ) : (
-                <View style={{ flex: 1 }}>{this.renderContents()}</View>
-            );
-        }
-
-        renderContents() {
+        renderChosenView() {
             const {onSetNavHeaderGoBackButton,onCloseNavHeaderMenu,navigation} = this.props;
             const directionalLockEnabled = true;
             const automaticallyAdjustContentInsets = false;
-            return (
-                <View style={{marginTop: Platform.OS === 'ios' ? 65: undefined}}>
-                    <SceneHeader
-                        title={Page.title}
-                        buttonTitle={Page.button}
-                        onButtonPress={this.onPressButton}/>
-                    <ScrollView
+            return withScrollView ? (
+                <ScrollView
+                        testID='with-scene-header-container-view'
                         contentContainerStyle={styles.scrollViewContentContainer}
                         directionalLockEnabled={directionalLockEnabled}
                         automaticallyAdjustContentInsets={automaticallyAdjustContentInsets}>
@@ -124,6 +111,27 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType) {
                             onCloseNavHeaderMenu={onCloseNavHeaderMenu}
                             navigation={navigation}/>
                     </ScrollView>
+            ) : (
+                <View
+                    testID='with-scene-header-container-view'
+                    style={styles.viewStyle}>
+                        <WrappedComponent
+                            testID='with-scene-header-wrapped-component'
+                            onSetNavHeaderGoBackButton={onSetNavHeaderGoBackButton}
+                            onCloseNavHeaderMenu={onCloseNavHeaderMenu}
+                            navigation={navigation}/>
+                    </View>
+            );
+        }
+
+        renderContents() {
+            return (
+                <View style={{flex:1}}>
+                    <SceneHeader
+                        title={Page.title}
+                        buttonTitle={Page.button}
+                        onButtonPress={this.onPressButton}/>
+                    {this.renderChosenView()}
                 </View>
             );
         }
