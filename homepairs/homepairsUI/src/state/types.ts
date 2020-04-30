@@ -183,6 +183,7 @@ export type NewServiceRequest = {
 export type ServiceProvider = {
     // TODO: Define attributes for service Provider
     provId: number,
+    prefId?: string, // Optional param if preferred service provider
     name: string,
     email: string,
     phoneNum: string,
@@ -192,6 +193,7 @@ export type ServiceProvider = {
     payRate: number, // amount per hour 
     timesHired: number, 
     earliestHire?: Date, // date of first job completed
+    logo?: string, // optional image uri
 };
 
 export enum ServiceRequestCompletionStatus {
@@ -248,7 +250,9 @@ export type ServiceAction =
 
 /* *-------------------Service Types-------------------* */
 
-/* *-------------------Preffered Service Provider Types-------------------* */
+/* *-------------------Preferred Service Provider Types-------------------* */
+export type ProviderDictionary = {[phoneNum : string] : ServiceProvider}
+
 export type RefreshServiceProvidersAction = {
     type: string;
     preferredServiceProviders: ServiceProvider[];
@@ -263,7 +267,11 @@ export type PreferredServiceProviderAction =
     | RefreshServiceProvidersAction
     | RemoveServiceProviderAction;
 
-/* *-------------------Preffered Service Provider Types-------------------* */
+
+export type PreferredServiceProviderState = {
+    serviceProviders: { [phoneNum:string] : ServiceProvider}
+}
+/* *-------------------Preferred Service Provider Types-------------------* */
 
 
 

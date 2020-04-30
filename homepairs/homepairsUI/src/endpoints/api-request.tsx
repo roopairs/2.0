@@ -135,6 +135,44 @@ export const fetchPreferredProviders = (accountEmail: string) => {
     };
 };
 
+/** 
+* ----------------------------------------------------
+* fetchNetworkProviders
+* ---------------------------------------------------- 
+* Makes a get request to the homepairs backend retrieving all network providera from the account 
+* associatted with the account Email. This function calls the dispatch method and updates the store 
+* upon success.
+* 
+* @param {ServiceProvider} serviceProvider -The object holding in the service provider to be removed
+* @param {string} accountEmail -The email of the associated account. This is used to by the backend to 
+* determine which account needs the specified provider to be removed
+* @param {(error:string) => any} onError -An optional callback function that will handle an error 
+* thrown if the api request fails
+*/
+export const fetchNetworkProviders = (accountEmail: string) => {
+    const endpoint = `${HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT}${accountEmail}/`;
+    return async (dispatch: (func: any) => void) => {
+        await axios.get(endpoint)
+        .then(result => {
+            const {data} = result;
+            // TODO: parse serviceProviders to be that of a list of ServiceProviders
+            const {status, serviceProviders, error} = data;
+            if(status === SUCCESS){
+                const parsedProviders = parsePreferredProviders(serviceProviders);
+                dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
+            } else {
+                console.log(error);
+                return Promise.reject(error);
+            } 
+            return result;
+        })
+        .catch(error => {
+            console.log(error);
+            return Promise.reject(error);
+        });
+    };
+};
+
 /**
  * ----------------------------------------------------
  * deletePreferredProvider

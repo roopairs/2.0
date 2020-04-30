@@ -21,6 +21,8 @@
         "@react-native-community/masked-view": "0.1.6",
         "axios": "^0.19.2",
         "babel-plugin-module-resolver": "^4.0.0",
+        "chokidar": "^3.4.0",
+        "core-js": "^3.6.5",
         "expo": "^37.0.0",
         "expo-font": "~8.1.0",
         "globalize": "^1.4.2",
@@ -56,6 +58,7 @@
     },
     "devDependencies": {
         "@babel/preset-typescript": "^7.8.3",
+        "@expo/webpack-config": "^0.12.3",
         "@types/enzyme": "^3.10.4",
         "@types/enzyme-adapter-react-16": "^1.0.5",
         "@types/jest": "^24.0.25",

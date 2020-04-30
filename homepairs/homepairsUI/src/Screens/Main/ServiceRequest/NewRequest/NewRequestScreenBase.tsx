@@ -237,8 +237,8 @@ export default class NewServiceRequestBase extends Component<Props, NewRequestSt
                 const {providers} = result.data;
                 const providerInfo: ServiceProvider[] = [];
                 providers.forEach(provider => {
-                    const { provId, name, email, phoneNum, contractLic, skills, founded } = provider;
-                    providerInfo.push({provId, name, email, phoneNum, contractLic, skills, founded});
+                    const { provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo } = provider;
+                    providerInfo.push({provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo});
                 });
                 this.setState({serviceProviders: providerInfo});
             });  
