@@ -6,7 +6,6 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions} from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {isPhoneNumberValid, isNullOrUndefined} from 'homepairs-utilities';
-import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 import { navigationPages, NavigationRouteScreenProps, NavigationRouteHandler } from 'homepairs-routes';
 
@@ -15,7 +14,7 @@ export type AddServiceProviderDispatchProps = {
         pmId: number, 
         phoneNum: string,
         setInitialState: () => void, 
-        displayError: (msg: string) => void, 
+        displayError: (check: boolean) => void, 
         navigation: NavigationRouteHandler,
     ) => void
 }
@@ -30,16 +29,12 @@ type Props = NavigationRouteScreenProps & AddServiceProviderDispatchProps & Serv
 
 type CreateState = {
     phoneNum: string,
-    errorMsg: string, 
-    errorCheck: boolean,
 };
 
 const addServiceProviderStrings = strings.addServiceProvider;
 
 const initialState : CreateState = {
     phoneNum: '',
-    errorMsg: 'No service provider with this phone number was found in our system.',
-    errorCheck: false,
 };
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
@@ -54,7 +49,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
         input: {
             alignItems: 'center',
             alignSelf: 'center',
-            margin: BaseStyles.MarginPadding.xsmallConst,
+            margin: 0,
             minWidth: 40,
             width: BaseStyles.ContentWidth.max,
             height: 40,
@@ -124,6 +119,8 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
         errorStyle: {
             fontFamily: FontTheme.secondary, 
             fontSize: 16,
+            margin: 0, 
+            padding: 0,
         },
         menuStyle: {
             backgroundColor: colors.secondary,
@@ -174,7 +171,6 @@ export class AddServiceProviderModalBase extends React.Component<Props,CreateSta
             flex: 1,
             alignSelf: 'center',
             justifyContent: 'center',
-            marginTop: BaseStyles.MarginPadding.largeConst,
             marginBottom: BaseStyles.MarginPadding.xlarge,
             minHeight: 50,
         },
@@ -187,7 +183,6 @@ export class AddServiceProviderModalBase extends React.Component<Props,CreateSta
 
         this.setInitialState = this.setInitialState.bind(this);
         this.resetForm = this.resetForm.bind(this);
-        this.displayError = this.displayError.bind(this);
         this.getFormPhoneNum = this.getFormPhoneNum.bind(this);
         this.goBackToPreviousPage = this.goBackToPreviousPage.bind(this);
         this.phoneNumRef = React.createRef();
@@ -210,19 +205,23 @@ export class AddServiceProviderModalBase extends React.Component<Props,CreateSta
         this.phoneNumRef.current.setError(false);
     }
 
-    displayError(msg: string) {
-        this.setState({errorMsg: msg, errorCheck: true});
+    validatePhoneNumber() {
+        const {phoneNum} = this.state;
+        let check = true;
+        if (!isPhoneNumberValid(phoneNum)) {
+            this.phoneNumRef.current.setError(true);
+            check = false;
+        }
+        return check;
+
     }
 
     clickSubmitButton() {
         const {phoneNum} = this.state;
         const {onAddServiceProvider, navigation, pmId} = this.props;
         this.resetForm();
-        this.setState({errorCheck: false});
-        if (isPhoneNumberValid(phoneNum)) {
-            onAddServiceProvider(pmId, phoneNum, this.setInitialState, this.displayError, navigation);
-        } else {
-            this.setState({errorCheck: true});
+        if (this.validatePhoneNumber()) {
+            onAddServiceProvider(pmId, phoneNum, this.setInitialState, this.phoneNumRef.current.setError, navigation);
         }
     }
 
@@ -231,20 +230,14 @@ export class AddServiceProviderModalBase extends React.Component<Props,CreateSta
         return <InputForm
                     ref={this.phoneNumRef}
                     key={addServiceProviderStrings.phoneNumber}
-                    name={addServiceProviderStrings.title}
+                    name={addServiceProviderStrings.phoneNumber}
                     parentCallBack={this.getFormPhoneNum}
                     formTitleStyle={this.inputFormStyle.formTitle}
                     inputStyle={this.inputFormStyle.input}
+                    containerStyle={this.inputFormStyle.container}
                     value={phoneNum}
-                    errorMessage='No service provider with this phone number was found in our system'
+                    errorMessage='No service provider with this phone number was found in our system.'
                 />;
-    }
-
-    renderError () {
-        const {errorMsg, errorCheck} = this.state;
-        return <View style={{alignSelf:'center'}}>
-            <HelperText type='error' visible={errorCheck} style={this.inputFormStyle.errorStyle}>{errorMsg}</HelperText>
-        </View>;
     }
 
     render() {
@@ -268,7 +261,6 @@ export class AddServiceProviderModalBase extends React.Component<Props,CreateSta
                     wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     >
                     <>{this.renderInputForms()}</>
-                    {this.renderError()}
                     <ThinButton
                         name={this.submitButton.name}
                         onClick={this.submitButton.onClick}

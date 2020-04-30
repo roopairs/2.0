@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions, Text } from 'react-native';
+import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions, Text, Image } from 'react-native';
 import { ThinButtonProps, Card, ThinButton } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -80,7 +80,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             flex: 1,
         },
         cardTitle: {
-            color: colors.primary,
+            color: 'white',
             fontFamily: 'nunito-regular',
             fontSize: 20,
             alignSelf: 'center',
@@ -117,21 +117,46 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             fontFamily: HomePairFonts.nunito_regular, 
         },
         horizontalLine: {
-            borderWidth: 3, 
+            alignSelf: 'center',
+            margin: BaseStyles.MarginPadding.large,
+            width: 80,
+            borderBottomWidth: 3, 
             borderBottomColor: colors.primary,
         },
         payRateContainer: {
             flexDirection: 'row', 
+            justifyContent: 'center',
         },
         payRate: {
+            alignSelf: 'center',
             color: colors.primary, 
             fontSize: BaseStyles.FontTheme.reg, 
             fontFamily: BaseStyles.FontTheme.primary,
+            fontWeight: 'bold',
         }, 
         starting: {
             color: colors.lightGray,
             fontSize: BaseStyles.FontTheme.small, 
             fontFamily: BaseStyles.FontTheme.primary,
+        },
+        companyName: {
+            alignSelf: 'center', 
+            fontSize: BaseStyles.FontTheme.lg, 
+            fontFamily: BaseStyles.FontTheme.primary, 
+            fontWeight: 'bold',
+            color: BaseStyles.LightColorTheme.gray,
+        },
+        companyImage: {
+            flex: 1,
+            alignSelf: 'center',
+            width: BaseStyles.ContentWidth.max,
+            height: '100%',
+            overflow: 'hidden',
+        },
+        companyImageWeb: {
+            alignSelf: 'center',
+            width: BaseStyles.ContentWidth.max,
+            height: '100%',
         },
     });
 }
@@ -195,13 +220,20 @@ export class ServiceRequestModalBase extends React.Component<Props, PreferredPro
     renderHeader() {
         return (
             <View>
+                <Image 
+                    source={this.serviceProvider.logo}
+                    style={Platform.OS === 'web'
+                    ? this.styles.companyImageWeb
+                    : this.styles.companyImage} 
+                    resizeMode='cover'
+                />
                 <View>
-                    <Text>{this.serviceProvider.name}</Text>
+                    <Text style={this.styles.companyName}>{this.serviceProvider.name}</Text>
                 </View>
                 <View style={this.styles.horizontalLine}/>
                 <View style={this.styles.payRateContainer}>
                     <Text style={this.styles.payRate}>${this.serviceProvider.payRate}/hour</Text>
-                    <Text style={this.styles.starting}>starting cost</Text>
+                    <Text style={this.styles.starting}> starting cost</Text>
                 </View>
             </View>
         );
@@ -224,7 +256,7 @@ export class ServiceRequestModalBase extends React.Component<Props, PreferredPro
             <View>
                 <View style={this.styles.subContainer}>
                     <Text style={this.styles.formTitle}>{preferredProviderStrings.overview}</Text>
-                    <Text style={this.styles.detailText}>Hired {this.serviceProvider.timesHired} Founded: {this.serviceProvider.founded}</Text>
+                    <Text style={this.styles.detailText}>Hired {this.serviceProvider.timesHired} times{'\n'}Founded: {this.serviceProvider.founded.toString()}</Text>
                 </View>
                 <View style={this.styles.subContainer}>
                     <Text style={this.styles.formTitle}>{preferredProviderStrings.companyEmail}</Text>
@@ -236,7 +268,7 @@ export class ServiceRequestModalBase extends React.Component<Props, PreferredPro
                 </View>
                 <View style={this.styles.subContainer}>
                     <Text style={this.styles.formTitle}>{preferredProviderStrings.license}</Text>
-                    <Text style={this.styles.detailText}>{this.serviceProvider.contractLic}</Text>
+                    <Text style={this.styles.detailText}>#{this.serviceProvider.contractLic}</Text>
                 </View>
                 <View style={this.styles.subContainer}>
                     <Text style={this.styles.formTitle}>{preferredProviderStrings.skills}</Text>

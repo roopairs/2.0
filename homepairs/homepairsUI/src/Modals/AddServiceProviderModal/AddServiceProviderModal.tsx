@@ -4,13 +4,12 @@ import { prepareNavigationHandlerComponent, NavigationRouteHandler, SERVICE_REQU
 import { postPreferredProvider, fetchPreferredProviders } from 'homepairs-endpoints';
 import { AddServiceProviderModalBase, AddServiceProviderDispatchProps} from './AddServiceProviderModalBase';
 
-const PSP_NOT_FOUND = `No service provider with this phone number was found in our system.`;
 const mapDispatchToProps : (dispatch: any) => AddServiceProviderDispatchProps = (dispatch: any) => ({
     onAddServiceProvider: (
         pmId: number,
         phoneNum: string,
         setInitialState: () => void, 
-        displayError: (msg: string) => void, 
+        displayError: (check: boolean) => void, 
         navigation: NavigationRouteHandler) => 
     {
         // The api request takes care of itself. It will return a response that we can use. 
@@ -20,9 +19,10 @@ const mapDispatchToProps : (dispatch: any) => AddServiceProviderDispatchProps = 
             navigation.resolveModalReplaceNavigation(SERVICE_REQUEST);
         }).catch((error: Error) => {
             if(error.message.includes('500')) 
-                displayError(PSP_NOT_FOUND);
+                displayError(true);
             else
-                displayError(error.message);
+                console.log(error.message);
+                displayError(true);
         });
     },
 });
