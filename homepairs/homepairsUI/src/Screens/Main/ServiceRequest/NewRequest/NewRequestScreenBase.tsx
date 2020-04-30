@@ -9,7 +9,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from 'homepairs-components';
 import {HelperText} from 'react-native-paper';
 import axios from 'axios';
-import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT, HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest } from 'homepairs-endpoints';
+import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT, HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest, HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT } from 'homepairs-endpoints';
 
 type NewRequestState = {
     address: string,
@@ -231,7 +231,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
 
     fetchServiceProviders = async () => {
             const {pmId} = this.props;
-            await axios.get(`${HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT}${pmId}/`).then((result) =>{
+            await axios.get(`${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${pmId}/`).then((result) =>{
                 const {providers} = result.data;
                 const providerInfo: ServiceProvider[] = [];
                 providers.forEach(provider => {

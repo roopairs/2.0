@@ -121,12 +121,20 @@ const styles = StyleSheet.create({
         fontFamily: BaseStyles.FontTheme.primary,
         fontSize: BaseStyles.FontTheme.reg,
     },
+    networkErrorText: {
+        textAlign: 'center',
+        alignSelf: 'center',
+        fontFamily: BaseStyles.FontTheme.primary,
+        fontSize: BaseStyles.FontTheme.reg,
+        color: BaseStyles.LightColorTheme.red,
+    },
 });
 
 export type ServiceProviderRadioState = {
     preferredProvidersSelected: boolean,
     networkProvidersFound: boolean,
     providerName: string,
+    networkSupported: boolean,
     clicked: boolean,
 }
 
@@ -139,6 +147,7 @@ const initialState: ServiceProviderRadioState = {
     preferredProvidersSelected: true,
     networkProvidersFound: false,
     providerName: '',
+    networkSupported: false,
     clicked: false,
 };
 
@@ -187,6 +196,10 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
         this.setState({ preferredProvidersSelected: true });
     }
 
+    onPressNetworkContinue() {
+        this.setState({ networkSupported: true });
+    }
+
     selectProvider(provId: number, name: string) {
         const { parentCallBack } = this.props;
         parentCallBack(provId);
@@ -224,7 +237,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
     }
 
     renderServiceProviders() {
-        const { preferredProvidersSelected, networkProvidersFound } = this.state;
+        const { preferredProvidersSelected, networkSupported } = this.state;
 
         const buttonProps: ThinButtonProps = {
             name: 'Continue',
@@ -264,7 +277,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                             </Text>
                         </View>
                         <ThinButton
-                            onClick={() => this.onPressGetNetworkProviders()}
+                            onClick={() => (networkSupported ? this.selectProvider(-1, "Network") : this.renderNetworkError())}
                             name={buttonProps.name}
                             containerStyle={buttonProps.containerStyle}
                             buttonStyle={buttonProps.buttonStyle}
@@ -272,19 +285,6 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                         />
                     </View>)
         );
-    }
-
-
-
-    renderNetworkProviders() {
-        const { serviceProviders } = this.props;
-        const filteredServiceProviders = serviceProviders; // TO DO IMPLEMENT FILTER
-
-        return (
-            filteredServiceProviders.map(
-                serviceProvider => {
-                    return (<ServiceProviderButton onClick={this.selectProvider} key={serviceProvider.name} serviceProvider={serviceProvider} />);
-                }));
     }
 
     // eslint-disable-next-line class-methods-use-this
@@ -325,6 +325,17 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                 serviceProvider => {
                     return (<ServiceProviderButton onClick={this.selectProvider} key={serviceProvider.name} serviceProvider={serviceProvider} />);
                 }));
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    renderNetworkError() {
+        return (
+            <View style={styles.textContainer}>
+                <Text style={styles.networkErrorText}>
+                    {"\tNetwork Providers are not currently implemented. Please choose a preferred provider."}
+                </Text>
+            </View>
+        );
     }
 
     render() {
