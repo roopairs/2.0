@@ -108,7 +108,9 @@ class PreferredProviderView(View):
         niceList = []
         #ALSO RETURN PROVID
         for prov in preferredProviders:
-            niceList.append(prov.provider.toDict())
+            dict = prov.provider.toDict()
+            dict["prefId"] = prov.id
+            niceList.append(dict)
         return JsonResponse(data={'providers': niceList})
 
     def delete(self, request):
