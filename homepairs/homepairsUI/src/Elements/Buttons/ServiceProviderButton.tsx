@@ -101,9 +101,13 @@ function renderLogo(name: string, logo?: string) {
     // Render remote images. Need to format in {uri: string} to work on iOS
     const image = Platform.OS === 'web' ? logo : {uri: logo} ;
     return isNullOrUndefined(logo) ? 
-        <TextTile text={name} fontSize={16}/>
+        <View style={{flex: 1}}>
+            <TextTile text={name} fontSize={16}/>
+        </View>
         :
-        <ImageTile image={image}/>;     
+        <View style={{height: 55, aspectRatio: 1}}>
+            <ImageTile image={image}/>
+        </View>;     
 }
 
 export default function ServiceProviderButton(props: ServiceProviderButtonProps) {
@@ -132,10 +136,10 @@ export default function ServiceProviderButton(props: ServiceProviderButtonProps)
                             {serviceProvider.name}
                         </Text>
                         <Text style={styles.companyDetailsText}>
-                            <br />{serviceProvider.skills}
+                            {serviceProvider.skills}
                         </Text>
                         <Text style={styles.companyDetailsText}>
-                            <br />{serviceProvider.email}
+                            {serviceProvider.email}
                         </Text>
                     </View>
                 </View>

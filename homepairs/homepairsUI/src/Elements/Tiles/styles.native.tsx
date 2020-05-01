@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
         flex: 1,
         resizeMode: 'cover',
-        borderRadius: Platform.OS === 'ios' ? 5 : 0,
+        borderRadius: 5,
         backgroundColor: BaseStyles.LightColorTheme.secondary,
     },
     textTileContainer: {
