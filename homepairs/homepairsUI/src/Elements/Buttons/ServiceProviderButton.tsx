@@ -68,9 +68,10 @@ const styles = StyleSheet.create({
         height: 24,
     },
     leftColumnStyle: {
-        flexGrow: 1,
+        flex: 1,
         justifyContent: 'center',
         alignContent: 'center',
+        alignItems: 'center',
         textAlign: "center",
         backgroundColor: Colors.LightModeColors.transparent,
         padding: BaseStyles.MarginPadding.largeConst,
@@ -79,13 +80,19 @@ const styles = StyleSheet.create({
         borderColor: Colors.LightModeColors.greyCardDivider,
     },
     rightColumnStyle: {
-        flexGrow: 2,
+        flex: 2,
         justifyContent: 'flex-start',
         backgroundColor: Colors.LightModeColors.transparent,
         padding: BaseStyles.MarginPadding.largeConst,
         width: HomePairsDimensions.MAX_BUTTON_WIDTH * 0.65,
         borderLeftWidth: 0.5,
         borderColor: Colors.LightModeColors.greyCardDivider,
+    },
+    imageContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
     },
 });
 
@@ -113,7 +120,8 @@ export default function ServiceProviderButton(props: ServiceProviderButtonProps)
             >
                 <View style={{ flexDirection: 'row' }}>
                     <View style={styles.leftColumnStyle}>
-                        <View>{renderLogo(serviceProvider.name, serviceProvider.logo)}
+                        <View style={styles.imageContainer}>
+                            {renderLogo(serviceProvider.name, serviceProvider.logo)}
                         </View>
                         <Text style={styles.payRateText}>
                             ${serviceProvider.payRate} / hour

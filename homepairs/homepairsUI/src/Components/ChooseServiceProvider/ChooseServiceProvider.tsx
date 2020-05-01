@@ -133,8 +133,8 @@ const styles = StyleSheet.create({
 export type ServiceProviderRadioState = {
     preferredProvidersSelected: boolean,
     networkProvidersFound: boolean,
+    networkError: boolean,
     providerName: string,
-    networkSupported: boolean,
     clicked: boolean,
 }
 
@@ -146,8 +146,8 @@ export type ServiceProviderRadioProps = {
 const initialState: ServiceProviderRadioState = {
     preferredProvidersSelected: true,
     networkProvidersFound: false,
+    networkError: true,
     providerName: '',
-    networkSupported: false,
     clicked: false,
 };
 
@@ -184,20 +184,16 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
     }
 
     onPressNetwork() {
-        this.setState({ preferredProvidersSelected: false});
+        this.setState({ preferredProvidersSelected: false });
     }
 
     onPressGetNetworkProviders() {
         console.log("change to true");
-        this.setState({networkProvidersFound: true});
+        this.setState({ networkProvidersFound: true });
     }
 
     onPressPreferred() {
         this.setState({ preferredProvidersSelected: true });
-    }
-
-    onPressNetworkContinue() {
-        this.setState({ networkSupported: true });
     }
 
     selectProvider(provId: number, name: string) {
@@ -237,7 +233,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
     }
 
     renderServiceProviders() {
-        const { preferredProvidersSelected, networkSupported } = this.state;
+        const { preferredProvidersSelected, networkProvidersFound } = this.state;
 
         const buttonProps: ThinButtonProps = {
             name: 'Continue',
@@ -269,7 +265,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
         return (
             // eslint-disable-next-line no-nested-ternary
             preferredProvidersSelected ? this.renderPreferredProviders()
-                : ( networkProvidersFound ? this.renderNetworkProviders() :
+                : (networkProvidersFound ? this.renderNetworkProviders() :
                     <View>
                         <View style={styles.textContainer}>
                             <Text style={styles.networkText}>
@@ -277,7 +273,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                             </Text>
                         </View>
                         <ThinButton
-                            onClick={() => (networkSupported ? this.selectProvider(-1, "Network") : this.renderNetworkError())}
+                            onClick={() => this.onPressGetNetworkProviders()}
                             name={buttonProps.name}
                             containerStyle={buttonProps.containerStyle}
                             buttonStyle={buttonProps.buttonStyle}
@@ -287,55 +283,39 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
         );
     }
 
+
+
+    renderNetworkProviders() {
+        const { serviceProviders } = this.props;
+        const { networkProvidersFound, networkError } = this.state;
+        /* const filteredServiceProviders = serviceProviders; // TO DO IMPLEMENT FILTER
+
+        return (
+            filteredServiceProviders.map(
+                serviceProvider => {
+                    return (<ServiceProviderButton onClick={this.selectProvider} key={serviceProvider.name} serviceProvider={serviceProvider} />);
+                })); */
+        return (
+            ((networkError || !networkProvidersFound) ?
+                <View style={styles.textContainer}>
+                    <Text style={styles.networkErrorText}>
+                        {"\tNetwork Providers are not currently implemented. \nPlease choose a preferred provider."}
+                    </Text>
+                </View>
+                : this.selectProvider(serviceProviders[0].provId, "Network")
+            ));
+    }
+
     // eslint-disable-next-line class-methods-use-this
     renderPreferredProviders() {
         const { serviceProviders } = this.props;
         const filteredServiceProviders = serviceProviders; // TO DO IMPLEMENT FILTER
-
-        /* * TEMPORARY HARD CODED PROVIDERS * */
-        /* const fakeServiceProviders: ServiceProvider[] = [
-            {
-                provId: 1,
-                name: 'Bob the Builders',
-                email: 'billybob@fake.com',
-                phoneNum: '999-555-3333',
-                contractLic: 'I do not know what this is', // contract license
-                skills: 'Do not need any',
-                founded: 'Thursday March 5, 2020', // date founded
-                payRate: 35.25, // amount per hour 
-                timesHired: 80,
-            },
-            {
-                provId: 2,
-                name: 'Lighters',
-                email: 'billybob@fake.com',
-                phoneNum: '999-555-3333',
-                contractLic: 'I do not know what this is', // contract license
-                skills: 'Do not need any',
-                founded: 'Thursday March 5, 2020', // date founded
-                payRate: 34.25, // amount per hour 
-                timesHired: 1,
-                earliestHire: new Date(2015, 18, 1).toDateString(),
-            },
-        ];
-        const filteredServiceProviders = fakeServiceProviders; */
 
         return (
             filteredServiceProviders.map(
                 serviceProvider => {
                     return (<ServiceProviderButton onClick={this.selectProvider} key={serviceProvider.name} serviceProvider={serviceProvider} />);
                 }));
-    }
-
-    // eslint-disable-next-line class-methods-use-this
-    renderNetworkError() {
-        return (
-            <View style={styles.textContainer}>
-                <Text style={styles.networkErrorText}>
-                    {"\tNetwork Providers are not currently implemented. Please choose a preferred provider."}
-                </Text>
-            </View>
-        );
     }
 
     render() {

@@ -10,6 +10,7 @@ const textStyleBase = {
 
 const styles = StyleSheet.create({
     imageTileContainer: {
+        flex: 1,
         aspectRatio: 1,
         justifyContent: 'center',
         height: 70,
@@ -20,6 +21,7 @@ const styles = StyleSheet.create({
         backgroundColor: BaseStyles.LightColorTheme.secondary,
     },
     imageTileContainerLarge: {
+        flex: 1,
         aspectRatio: 1,
         justifyContent: 'center',
         height: 100,
@@ -38,6 +40,7 @@ const styles = StyleSheet.create({
         backgroundColor: BaseStyles.LightColorTheme.secondary,   
     },
     textTileContainer: {
+        flex: 1,
         aspectRatio: 1, // Use this to make the component dimensions relative to its height/width
         justifyContent: 'center',
         height: 70,
