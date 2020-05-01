@@ -105,7 +105,7 @@ function renderLogo(name: string, logo?: string) {
             <TextTile text={name} fontSize={16}/>
         </View>
         :
-        <View style={{height: 55, aspectRatio: 1}}>
+        <View style={Platform.OS === 'web' ? {flex:1, aspectRatio: 1} : {height: '100%', width: '100%'}}>
             <ImageTile image={image}/>
         </View>;     
 }
