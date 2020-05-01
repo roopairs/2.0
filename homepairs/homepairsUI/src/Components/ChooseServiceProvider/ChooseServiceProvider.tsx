@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         color: colors.lightGray,
     },
     option: {
-        fontSize : BaseStyles.FontTheme.reg,
+        fontSize: BaseStyles.FontTheme.reg,
         fontFamily: BaseStyles.FontTheme.primary,
     },
     selectedLeftButton: {
@@ -117,14 +117,23 @@ const styles = StyleSheet.create({
     },
     networkText: {
         textAlign: 'center',
-        alignSelf:'center', 
+        alignSelf: 'center',
         fontFamily: BaseStyles.FontTheme.primary,
         fontSize: BaseStyles.FontTheme.reg,
+    },
+    networkErrorText: {
+        textAlign: 'center',
+        alignSelf: 'center',
+        fontFamily: BaseStyles.FontTheme.primary,
+        fontSize: BaseStyles.FontTheme.reg,
+        color: BaseStyles.LightColorTheme.red,
     },
 });
 
 export type ServiceProviderRadioState = {
     preferredProvidersSelected: boolean,
+    networkProvidersFound: boolean,
+    networkError: boolean,
     providerName: string,
     clicked: boolean,
 }
@@ -136,6 +145,8 @@ export type ServiceProviderRadioProps = {
 
 const initialState: ServiceProviderRadioState = {
     preferredProvidersSelected: true,
+    networkProvidersFound: false,
+    networkError: true,
     providerName: '',
     clicked: false,
 };
@@ -164,14 +175,21 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
 
     constructor(props: Readonly<ServiceProviderRadioProps>) {
         super(props);
+        console.log("set to false");
         this.state = initialState;
         this.onPressNetwork = this.onPressNetwork.bind(this);
+        this.onPressGetNetworkProviders = this.onPressGetNetworkProviders.bind(this);
         this.onPressPreferred = this.onPressPreferred.bind(this);
         this.selectProvider = this.selectProvider.bind(this);
     }
 
     onPressNetwork() {
         this.setState({ preferredProvidersSelected: false });
+    }
+
+    onPressGetNetworkProviders() {
+        console.log("change to true");
+        this.setState({ networkProvidersFound: true });
     }
 
     onPressPreferred() {
@@ -215,36 +233,39 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
     }
 
     renderServiceProviders() {
-        const { preferredProvidersSelected } = this.state;
+        const { preferredProvidersSelected, networkProvidersFound } = this.state;
 
-        const buttonProps: ThinButtonProps = {name : 'Continue',
-        containerStyle: {
-            flex: 1,
-            alignSelf: 'center',
-            justifyContent: 'center',
-            marginTop: BaseStyles.MarginPadding.largeConst,
-            marginBottom: BaseStyles.MarginPadding.xlarge,
-            minHeight: 50,
-        }, 
-        buttonStyle: {
-            alignItems: 'center',
-            backgroundColor: Colors.LightModeColors.transparent,
-            padding: BaseStyles.MarginPadding.mediumConst,
-            maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
-            minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
-            borderRadius: BaseStyles.BorderRadius.large,
-            borderWidth: 1,
-            borderColor: Colors.LightModeColors.blueButton,
-        },
-        buttonTextStyle: {
-            color: Colors.LightModeColors.blueButtonText, 
-            fontSize: BaseStyles.FontTheme.reg,
-            alignSelf: 'center',
-        }};
+        const buttonProps: ThinButtonProps = {
+            name: 'Continue',
+            containerStyle: {
+                flex: 1,
+                alignSelf: 'center',
+                justifyContent: 'center',
+                marginTop: BaseStyles.MarginPadding.largeConst,
+                marginBottom: BaseStyles.MarginPadding.xlarge,
+                minHeight: 50,
+            },
+            buttonStyle: {
+                alignItems: 'center',
+                backgroundColor: Colors.LightModeColors.transparent,
+                padding: BaseStyles.MarginPadding.mediumConst,
+                maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
+                minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
+                borderRadius: BaseStyles.BorderRadius.large,
+                borderWidth: 1,
+                borderColor: Colors.LightModeColors.blueButton,
+            },
+            buttonTextStyle: {
+                color: Colors.LightModeColors.blueButtonText,
+                fontSize: BaseStyles.FontTheme.reg,
+                alignSelf: 'center',
+            },
+        };
 
         return (
+            // eslint-disable-next-line no-nested-ternary
             preferredProvidersSelected ? this.renderPreferredProviders()
-                : (
+                : (networkProvidersFound ? this.renderNetworkProviders() :
                     <View>
                         <View style={styles.textContainer}>
                             <Text style={styles.networkText}>
@@ -252,18 +273,38 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                             </Text>
                         </View>
                         <ThinButton
-                            onClick={() => this.selectProvider(-1, "Network")}
+                            onClick={() => this.onPressGetNetworkProviders()}
                             name={buttonProps.name}
                             containerStyle={buttonProps.containerStyle}
                             buttonStyle={buttonProps.buttonStyle}
                             buttonTextStyle={buttonProps.buttonTextStyle}
                         />
-                    </View>
-                )
+                    </View>)
         );
     }
 
 
+
+    renderNetworkProviders() {
+        const { serviceProviders } = this.props;
+        const { networkProvidersFound, networkError } = this.state;
+        /* const filteredServiceProviders = serviceProviders; // TO DO IMPLEMENT FILTER
+
+        return (
+            filteredServiceProviders.map(
+                serviceProvider => {
+                    return (<ServiceProviderButton onClick={this.selectProvider} key={serviceProvider.name} serviceProvider={serviceProvider} />);
+                })); */
+        return (
+            ((networkError || !networkProvidersFound) ?
+                <View style={styles.textContainer}>
+                    <Text style={styles.networkErrorText}>
+                        {"\tNetwork Providers are not currently implemented. \nPlease choose a preferred provider."}
+                    </Text>
+                </View>
+                : this.selectProvider(serviceProviders[0].provId, "Network")
+            ));
+    }
 
     // eslint-disable-next-line class-methods-use-this
     renderPreferredProviders() {
