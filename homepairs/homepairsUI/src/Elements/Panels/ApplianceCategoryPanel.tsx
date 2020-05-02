@@ -14,7 +14,7 @@ import { ApplianceType } from 'homepairs-types';
 import { upArrow, downArrow } from 'homepairs-images';
 
 
-export type PanelState = {
+export type ApplianceCategoryPanelState = {
     expanded: boolean;
     animation: Animated.Value;
     selectedCategoryIndex: number;
@@ -24,7 +24,7 @@ export type PanelState = {
 };
 
 
-const initialState: PanelState = {
+const initialState: ApplianceCategoryPanelState = {
     expanded: false,
     selectedCategoryIndex: 0,
     selectedCategoryString: 'Choose a Category',
@@ -93,7 +93,7 @@ function setStyles() {
     });
 }
 
-export default class ApplianceCategoryPanel extends React.Component<CategoryPanelProps, PanelState> {
+export default class ApplianceCategoryPanel extends React.Component<CategoryPanelProps, ApplianceCategoryPanelState> {
     styles;
 
     icons;

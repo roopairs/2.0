@@ -5,21 +5,20 @@ import {
   AuthPassProps,
   withAuthPage,
 } from "homepairs-components";
-import HomePairColors from "res/colors";
+import {LightColorTheme} from "homepairs-base-styles";
 import { withNavigation } from 'react-navigation';
 import { withRouter } from "react-router-dom";
 import { Platform } from "react-native";
-import {NavigationRouteHandler} from 'homepairs-utilities';
-import { withNavigationRouteHandler } from 'src/utility/NavigationRouterHandler';
+import {NavigationRouteHandler, withNavigationRouteHandler } from 'homepairs-routes';
 import { generateAccountForPM, generateAccountForTenant } from 'homepairs-endpoints';
-import SignUpScreenBase, { SignUpViewDispatchProps } from "./SignUpScreenBase";
+import { SignUpScreenBase, SignUpViewDispatchProps } from "./SignUpScreenBase";
 
 const signUpStrings = strings.signUpPage;
 const authPageParam: AuthPassProps = {
   button: signUpStrings.button,
   subtitle: signUpStrings.subtitle,
   loadingModalText: signUpStrings.modal,
-  buttonColor: HomePairColors.LightModeColors.blueButton,
+  buttonColor: LightColorTheme.primary,
   underButtonText: signUpStrings.currentUserText,
   highlightedText: signUpStrings.signUpHighlight,
 };

@@ -2,19 +2,14 @@ import React, {Component} from 'react'; //* *For every file that uses jsx, YOU M
 import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
-import { NavigationRouteScreenProps, stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'homepairs-utilities';
+import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'homepairs-utilities';
+import {NavigationRouteScreenProps} from 'homepairs-routes';
 import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel, DatePicker} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from 'homepairs-components';
 import {HelperText} from 'react-native-paper';
 import axios from 'axios';
-import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT,  HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest } from 'homepairs-endpoints';
-
-type NewRequestScreenProps = {
-    properties: Property[],
-    token: string,
-    pmId: number,
-};
+import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT, HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest, HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT } from 'homepairs-endpoints';
 
 type NewRequestState = {
     address: string,
@@ -74,10 +69,14 @@ const styles = StyleSheet.create({
     },
 });
 
-type Props = NavigationRouteScreenProps & NewRequestScreenProps;
+export type NewRequestScreenProps = NavigationRouteScreenProps & {
+    properties: Property[],
+    token: string,
+    pmId: number,
+};;
 
 
-export default class NewServiceRequestBase extends Component<Props, NewRequestState> {
+export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewRequestState> {
 
     addressRef;
 
@@ -142,7 +141,7 @@ export default class NewServiceRequestBase extends Component<Props, NewRequestSt
         },
     }
 
-    constructor(props: Readonly<Props>) {
+    constructor(props: Readonly<NewRequestScreenProps>) {
         super(props);
         
         this.getFormAddress = this.getFormAddress.bind(this);
@@ -232,12 +231,12 @@ export default class NewServiceRequestBase extends Component<Props, NewRequestSt
 
     fetchServiceProviders = async () => {
             const {pmId} = this.props;
-            await axios.get(`${HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT}${pmId}/`).then((result) =>{
+            await axios.get(`${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${pmId}/`).then((result) =>{
                 const {providers} = result.data;
                 const providerInfo: ServiceProvider[] = [];
                 providers.forEach(provider => {
-                    const { provId, name, email, phoneNum, contractLic, skills, founded } = provider;
-                    providerInfo.push({provId, name, email, phoneNum, contractLic, skills, founded});
+                    const { provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo } = provider;
+                    providerInfo.push({provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo});
                 });
                 this.setState({serviceProviders: providerInfo});
             });  

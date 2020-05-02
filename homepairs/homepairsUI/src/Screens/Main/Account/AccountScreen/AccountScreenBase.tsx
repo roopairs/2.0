@@ -19,7 +19,7 @@ export type AccountScreenDispatchProps = {
 type Props = AccountScreenStateProps &
     AccountScreenDispatchProps;
 
-export default class AccountScreenBase extends React.Component<Props> {
+export class AccountScreenBase extends React.Component<Props> {
     handleConnectResults = (arg0?: any) => {
         // TODO: Handle the results of connecting a Roopairs account with the Homepairs account
         alert('I need to handle these results now!');

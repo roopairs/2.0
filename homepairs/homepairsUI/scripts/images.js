@@ -7,6 +7,9 @@ const imageFileNames = () => {
             return file.endsWith('.png');
         })
         .map(file => {
+            return file.replace(/(@)(\d+)(x)/g, ''); // .replace('@3x.png', '')
+        })
+        .map(file => {
             return file.replace('.png', ''); // .replace('@3x.png', '')
         });
 
@@ -52,8 +55,7 @@ export { ${exportImages}
 }
 `;
 
-    fs.writeFileSync('res/__mocks__images.tsx', string, 'utf8');
-}
+};
 
 generate();
 generateMock();

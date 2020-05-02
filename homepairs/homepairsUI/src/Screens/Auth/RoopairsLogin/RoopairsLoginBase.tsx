@@ -1,15 +1,14 @@
 import React from 'react';
-import { InputForm } from 'homepairs-elements';
+import { InputForm, InputFormProps } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import {
     AuthPageInjectedProps,
 } from 'homepairs-components';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
-import { isNullOrUndefined, isEmailSyntaxValid, isPasswordValid, NavigationRouteScreenProps } from 'homepairs-utilities';
+import { isNullOrUndefined, isEmailSyntaxValid, isPasswordValid } from 'homepairs-utilities';
 import { NavigationSwitchProp } from 'react-navigation';
-import { InputFormProps } from 'src/Elements/Forms/InputForm';
-import {navigationPages} from 'homepairs-routes';
+import {navigationPages, NavigationRouteScreenProps} from 'homepairs-routes';
 import { RouteProps } from 'react-router-dom';
 
 export type RoopairsLoginDispatchProps = {
@@ -21,19 +20,19 @@ export type RoopairsLoginDispatchProps = {
     ) => void
 }
 
-export type LoginProps = 
+export type RoopairsLoginProps = 
     RoopairsLoginDispatchProps &
     AuthPageInjectedProps &
     NavigationRouteScreenProps;
 
 
-export type LoginState = {
+export type RoopairsLoginState = {
     username: string;
     password: string;
 };
 
 const signInStrings = strings.signInPage;
-const initialState: LoginState = {
+const initialState: RoopairsLoginState = {
     username: '',
     password: '',
 };
@@ -64,9 +63,9 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
     });
 }
 
-export default class RoopairsLoginBase extends React.Component<
-    LoginProps,
-    LoginState
+export class RoopairsLoginBase extends React.Component<
+    RoopairsLoginProps,
+    RoopairsLoginState
 > {
     inputFormStyle;
 
@@ -74,7 +73,7 @@ export default class RoopairsLoginBase extends React.Component<
 
     passwordRef;
 
-    constructor(props: Readonly<LoginProps>) {
+    constructor(props: Readonly<RoopairsLoginProps>) {
         super(props);
         this.inputFormStyle = setInputStyles(null);
         this.getFormUsername = this.getFormUsername.bind(this);

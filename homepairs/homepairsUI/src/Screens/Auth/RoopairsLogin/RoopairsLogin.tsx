@@ -11,8 +11,8 @@ import React from 'react';
 import { withNavigation } from 'react-navigation';
 import { withRouter } from 'react-router-dom';
 import { fetchAccount } from 'homepairs-endpoints';
-import { withNavigationRouteHandler } from 'src/utility/NavigationRouterHandler';
-import RoopairsLoginBase , { RoopairsLoginDispatchProps } from './RoopairsLoginBase';
+import { withNavigationRouteHandler } from 'homepairs-routes';
+import { RoopairsLoginBase, RoopairsLoginDispatchProps } from './RoopairsLoginBase';
 
 
 const roopairsSubtitle = (

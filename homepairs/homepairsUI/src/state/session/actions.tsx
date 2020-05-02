@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { SetAccountAuthenticationStateAction } from 'src/state/types';
+import { SetAccountAuthenticationStateAction } from '../types';
 
 
 /**

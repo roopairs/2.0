@@ -1,3 +1,4 @@
+import { getAccountType, storeAccountData } from 'homepairs-utilities';
 import { 
   FetchUserAccountProfileAction, 
   PropertyManagerAccount, 
@@ -7,7 +8,6 @@ import {
   AccountTypes,
   HomePairsResponseKeys, 
 } from '../types';
-import { getAccountType, storeAccountData } from 'src/utility';
 
 const responseKeys = HomePairsResponseKeys;
 const accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
