@@ -1,5 +1,6 @@
 {
     "main": "App",
+    "homepage": "https://cpsecapstone.github.io/2.0",
     "scripts": {
         "start": "expo start",
         "android": "expo start --android",
@@ -29,6 +30,7 @@
         "expo": "^37.0.0",
         "expo-font": "~8.1.0",
         "expo-image-manipulator": "~8.1.0",
+        "gh-pages": "^2.2.0",
         "globalize": "^1.4.2",
         "moment": "^2.24.0",
         "react": "16.9.0",
