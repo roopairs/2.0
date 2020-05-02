@@ -13,7 +13,9 @@
         "lint": "tsc --noEmit && eslint --ext .js,.jsx,.ts,.tsx ./src",
         "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx ./src",
         "prettier:write": "npx prettier --write **/*.{js,jsx,ts,tsx,json} && npx prettier --write *.{js,jsx,ts,tsx,json}",
-        "init:lint": "eslint --init"
+        "init:lint": "eslint --init",
+        "deploy": "gh-pages -d web-build",
+        "predeploy": "expo build:web"
     },
     "dependencies": {
         "@expo/vector-icons": "^10.0.0",
