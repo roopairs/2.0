@@ -1,5 +1,4 @@
-import ServiceRequestScreen from './ServiceRequestScreen/ServiceRequestScreen';
-import NewRequestScreen from './NewRequest/NewRequestScreen';
-
-const ServiceRequestPages = { ServiceRequestScreen, NewRequestScreen };
-export default ServiceRequestPages;
+export * from './NewRequest/NewRequestScreenBase';
+export * from './ServiceRequestScreen/ServiceRequestScreenBase';
+export {default as ServiceRequestScreen} from './ServiceRequestScreen/ServiceRequestScreen';
+export {default as NewRequestScreen} from './NewRequest/NewRequestScreen';

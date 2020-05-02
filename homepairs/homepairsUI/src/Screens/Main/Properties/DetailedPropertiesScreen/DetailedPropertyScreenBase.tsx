@@ -15,24 +15,25 @@ import {
     ServiceRequestCount,
 } from 'homepairs-components';
 import {
-    Property,
+    PropertyDict,
     HomePairsDimensions,
     Appliance, 
     TenantInfo,
+    Property,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { navigationPages } from 'src/Routes/RouteConstants';
 import { HOMEPAIRS_PROPERTY_ENDPOINT } from 'homepairs-endpoints';
 import axios from 'axios';
-import {NavigationRouteScreenProps, stringToCategory, hasPageBeenReloaded} from 'homepairs-utilities';
+import { stringToCategory } from 'homepairs-utilities';
+import { NavigationRouteScreenProps, hasPageBeenReloaded, navigationPages } from 'homepairs-routes';
 
 export type DetailedPropertyStateProps = {
-    property: Property;
-    properties: Property[];
+    properties: PropertyDict;
     token: string,
 };
 
-type Props = NavigationRouteScreenProps & DetailedPropertyStateProps;
+export type DetailedPropertyProps = NavigationRouteScreenProps & DetailedPropertyStateProps;
+
 type State = {
     tenantInfo: TenantInfo[],
     applianceInfo: Appliance[],
@@ -107,13 +108,13 @@ const styles = StyleSheet.create({
  * Helper function to recieve propId and property from passed in props 
  * @param props 
  */
-function getPropIdAndProperty(props:any){
-    const {property} = props;
-    const {propId} = property;
-    return [propId, property];
+function getPropIdAndProperty(props:any): [string, Property]{
+    const {properties, navigation} = props;
+    const propId = navigation.getParam('propId');
+    return [propId, properties[propId]];
 }
 
-export default class DetailedPropertyScreenBase extends React.Component<Props, State> {
+export class DetailedPropertyScreenBase extends React.Component<DetailedPropertyProps, State> {
 
     apiKey = 'AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg';
 
@@ -121,7 +122,7 @@ export default class DetailedPropertyScreenBase extends React.Component<Props, S
 
     token;
 
-    constructor(props: Readonly<Props>){
+    constructor(props: Readonly<DetailedPropertyProps>){
         super(props);
         const [pathname, key] = props.navigation.getLocationPathnameAndKey();
         this.state = {

@@ -1,6 +1,7 @@
-import DetailedPropertyScreen from './DetailedPropertiesScreen/DetailedPropertyScreen';
-import PropertiesScreen from './PropertiesScreen/PropertiesScreen';
-import TenantPropertiesScreen from './TenantPropertyScreen/TenantPropertyScreen';
+export * from './DetailedPropertiesScreen/DetailedPropertyScreenBase';
+export * from './PropertiesScreen/PropertiesScreenBase';
+export * from './TenantPropertyScreen/TenantPropertyScreenBase';
+export {default as DetailedPropertyScreen} from './DetailedPropertiesScreen/DetailedPropertyScreen';
+export {default as PropertiesScreen} from './PropertiesScreen/PropertiesScreen';
+export {default as TenantPropertiesScreen} from './TenantPropertyScreen/TenantPropertyScreen';
 
-const PropertyPages = { DetailedPropertyScreen, PropertiesScreen, TenantPropertiesScreen };
-export default PropertyPages;

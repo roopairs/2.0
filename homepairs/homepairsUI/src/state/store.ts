@@ -8,7 +8,7 @@ import { header } from './header/reducer';
 import { serviceRequests } from './service/reducer';
 import { settings } from './settings/reducer';
 import { authenticated } from './session/reducer';
-
+import { preferredProviders } from './preferred-service-provider/reducer';
 
 export default createStore(
     combineReducers<AppState, AnyAction>(
@@ -19,6 +19,7 @@ export default createStore(
             serviceRequests,
             settings,
             authenticated,
+            preferredProviders,
             /** REMEMBER TO GO INTO ./types AND UPDATE THE AppState TYPE */
         },
     ),

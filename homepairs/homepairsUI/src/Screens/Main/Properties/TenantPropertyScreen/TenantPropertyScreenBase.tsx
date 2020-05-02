@@ -88,7 +88,7 @@ const styles =  StyleSheet.create({
 });
     
 
-export default function TenantPropertyScreenBase(props:Props){
+export function TenantPropertyScreenBase(props:Props){
     const {propertyState} = props;
     const {properties, propertyManager} = propertyState;
 
