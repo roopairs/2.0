@@ -278,6 +278,7 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
                 inputStyle: input,
                 secureTextEntry: true,
                 errorMessage: 'Password is invalid! Must be at least 6 characters',
+                noTrim: true,
             },
             {
                 ref: this.cPasswordRef,
@@ -288,6 +289,7 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
                 inputStyle: input,
                 secureTextEntry: true,
                 errorMessage: 'Passwords do not match',
+                noTrim: true,
             },
         ];
         return inputFormProps.map(properties => {
@@ -301,6 +303,7 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
                     inputStyle={properties.inputStyle}
                     secureTextEntry={properties.secureTextEntry}
                     errorMessage={properties.errorMessage}
+                    noTrim={properties.noTrim}
                 />
             );
         });

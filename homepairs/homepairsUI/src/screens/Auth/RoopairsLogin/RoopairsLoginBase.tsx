@@ -157,6 +157,7 @@ export class RoopairsLoginBase extends React.Component<
                 inputStyle: this.inputFormStyle.input,
                 secureTextEntry: true,
                 errorMessage: 'Invalid password! Must be at least 6 characters',
+                noTrim: true,
             },
         ];
 
@@ -171,6 +172,7 @@ export class RoopairsLoginBase extends React.Component<
                     inputStyle={properties.inputStyle}
                     secureTextEntry={properties.secureTextEntry}
                     errorMessage={properties.errorMessage}
+                    noTrim={properties.noTrim}
                 />
             );
         });
