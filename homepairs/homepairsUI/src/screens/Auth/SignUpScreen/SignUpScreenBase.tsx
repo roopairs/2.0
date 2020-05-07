@@ -7,7 +7,7 @@ import {
 import strings from 'homepairs-strings';
 import { AccountTypes, Account } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { StyleSheet, View } from 'react-native';
+import { Dimensions, Platform, StyleSheet, View } from 'react-native';
 import {isPasswordValid, isEmailSyntaxValid, 
     isAlphaCharacterOnly, isEmptyOrSpaces } from 'homepairs-utilities';
 import { navigationPages, NavigationRouteHandler, NavigationRouteScreenProps } from 'homepairs-routes';
@@ -45,7 +45,7 @@ const baseState = {
     password: '',
     cPassword: '',
 };
-
+const {width} = Dimensions.get('window');
 const initalState : SignUpState = {
     accountType: AccountTypes.Tenant,
     ...baseState,
@@ -335,7 +335,7 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
                     alignItems: 'center',
                     marginTop: 25,
                     marginBottom: 20,
-                    width: 400,
+                    width: Platform.OS === 'web'? 400 : width*0.80,
                 }}/> 
             </View>
         ) : (
