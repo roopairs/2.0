@@ -114,8 +114,8 @@ export type Appliance = {
 /* *-------------------Account Types-------------------* */
 
 export enum AccountTypes {
-    Tenant,
-    PropertyManager
+    Tenant = 'tenant',
+    PropertyManager = 'pm'
 }
 
 export type Account = {
