@@ -4,7 +4,7 @@
  * using should be put and referenced from this file.  
  */
 import axios from 'axios';
-import { getAccountType, categoryToString, isNullOrUndefined } from 'homepairs-utilities';
+import { getAccountType, categoryToString, isNullOrUndefined, stringToCategory } from 'homepairs-utilities';
 import { NavigationRouteHandler, ChooseMainPage, navigationPages} from 'homepairs-routes';
 import * as HomePairsStateActions from 'homepairs-redux-actions';
 import { 
@@ -17,6 +17,7 @@ import {
     AddApplianceState, 
     NewServiceRequest, 
     ServiceProvider,
+    TenantInfo,
 } from 'homepairs-types';
 import {
     HOMEPAIRS_APPLIANCE_ENDPOINT, 
@@ -246,6 +247,54 @@ export const fetchServiceRequests = async (propId: string) => {
     const results = await axios.get(completedEndpoint);
     return results;
 };
+
+
+
+/**
+ * ----------------------------------------------------
+ * fetchServiceRequests
+ * ---------------------------------------------------- 
+ * Makes a fetch requests to the homepairs server retrieving the data for the tenants 
+ * and appliances related to a specific property. Upon failure, this function will
+ * throw an error.
+ * 
+ * @param propId -Identity of the property to fetch the information from
+ */
+export const fetchPropertyAppliancesAndTenants = async (propId: string) => {
+    const results = await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`).then((result) =>{
+        const {tenants, appliances} = result.data;
+        const tenantInfo: TenantInfo[] = [];
+        const applianceInfo: Appliance[] = [];
+
+        tenants.forEach(tenant => {
+            const {firstName, lastName, email, phoneNumber} = tenant;
+            tenantInfo.push({
+                firstName,
+                lastName,
+                email,
+                phoneNumber,
+            });
+        });
+
+        appliances.forEach(appliance => {
+            const {appId, category, name, manufacturer, modelNum, serialNum, location} = appliance;
+
+            applianceInfo.push({
+                applianceId: appId,
+                category: stringToCategory(category), 
+                appName: name, manufacturer, modelNum, serialNum, location,
+            });
+        });
+
+        return {
+            tenants: tenantInfo,
+            appliances: applianceInfo,
+        };
+
+    }).catch(error => console.log(error));
+    return results;
+};
+
 
 /**
  * ----------------------------------------------------

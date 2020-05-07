@@ -10,6 +10,9 @@ import {
     AccountTypes,
     Contact,
     PropertyDict,
+    TenantInfo,
+    Appliance,
+    StorePropertyApplianceAndTenantAction,
 } from '../types';
 
 const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
@@ -32,7 +35,8 @@ export enum PROPERTY_LIST_ACTION_TYPES {
   FETCH_PROPERTY_AND_PROPERTY_MANAGER = 'PROPERTY_LIST/FETCH_PROPERTY_AND_PROPERTY_MANAGER',
   FETCH_PROPERTIES = 'PROPERTY_LIST/FETCH_PROPERTIES',
   SET_SELECTED_PROPERTY = 'PROPERTY_LIST/SET_SELECTED_PROPERTY',
-  UPDATE_TENANT = 'PROPERTY_LIST/UPDATE_TENANT' 
+  UPDATE_TENANT = 'PROPERTY_LIST/UPDATE_TENANT',
+  STORE_APPLIANCES_AND_TENANTS = 'PROPERTY_LIST/STORE_APPLIANCES_AND_TENANTS' 
 }
 
 /**
@@ -158,6 +162,25 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertiesAc
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
     properties: fetchedProperties,
+  };
+};
+
+/**
+ * ----------------------------------------------------
+ * Store Property Appliance and Tenants
+ * ----------------------------------------------------
+ * Simple function for updating the reducer for when a single property has been selected. It will provide 
+ * the reducer the information of appliances and tenant information needed for a single property
+ * 
+ * @param {TenantInfo[]} tenants -Array of objects that contain the data for Tenants of a single property
+ * @param {Appliance[]} appliances -Array of objects that contain the data for Appliance of a single property
+ */
+export const storePropertyApplianceAndTenants = (tenants: TenantInfo[],
+   appliances: Appliance[]): StorePropertyApplianceAndTenantAction => {
+  return {
+    type: PROPERTY_LIST_ACTION_TYPES.STORE_APPLIANCES_AND_TENANTS,
+    tenants,
+    appliances,
   };
 };
 

@@ -157,6 +157,7 @@ export class LoginScreenBase extends React.Component<LoginProps,LoginState> {
                 formTitleStyle: styles.formTitle,
                 inputStyle: styles.input,
                 errorMessage: 'Invalid Username! Must be an email',
+                trim: true,
             },
             {
                 ref: this.passwordRef,
@@ -167,7 +168,6 @@ export class LoginScreenBase extends React.Component<LoginProps,LoginState> {
                 inputStyle: styles.input,
                 secureTextEntry: true,
                 errorMessage: 'Invalid password. Must be at least 6 characters',
-                noTrim: true,
             },
         ];
         return inputFormProps.map((properties, index) => {
@@ -183,7 +183,7 @@ export class LoginScreenBase extends React.Component<LoginProps,LoginState> {
                     inputStyle={properties.inputStyle}
                     secureTextEntry={properties.secureTextEntry}
                     errorMessage={properties.errorMessage}
-                    noTrim={properties.noTrim}
+                    trim={properties.trim}
                 />
             );
         });

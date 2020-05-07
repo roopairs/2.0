@@ -2,6 +2,25 @@ import { Dimensions } from 'react-native';
 import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
 
+
+/* *-------------------Appliances-------------------* */
+
+export enum ApplianceType {
+    Plumbing, LightingAndElectric, HVAC, GeneralAppliance, None
+};
+
+export type Appliance = {
+    applianceId: string,
+    category: ApplianceType,
+    appName: string,
+    manufacturer: string, 
+    modelNum: number, 
+    serialNum: number, 
+    location: string,
+};
+
+/* *-------------------Appliances-------------------* */
+
 /* *-------------------Property Types-------------------* */
 
 // TODO: Collaborate with Adam to make sure this is the correct info recieved 
@@ -32,6 +51,7 @@ export type PropertyListState =
     selectedPropertyId: string, 
     properties: PropertyDict,
     appliances: Appliance[],
+    tenants: TenantInfo[],
     propertyManager?: Contact,
 };
 
@@ -79,6 +99,12 @@ export type FetchPropertiesAction = {
     properties: PropertyDict;
 };
 
+export type StorePropertyApplianceAndTenantAction = {
+    type: string,
+    tenants: TenantInfo[],
+    appliances: Appliance[],
+}
+
 /* Union type for the Property Lists. This will be used for the reducer. */
 export type PropertyListAction =
     | AddPropertyAction
@@ -88,27 +114,9 @@ export type PropertyListAction =
     | RemovePropertyAction
     | SetSelectedPropertyAction
     | FetchPropertyAction
-    | FetchPropertiesAction;
+    | FetchPropertiesAction
+    | StorePropertyApplianceAndTenantAction;
 /* *-------------------Property Types-------------------* */
-
-/* *-------------------Appliances-------------------* */
-
-export enum ApplianceType {
-    Plumbing, LightingAndElectric, HVAC, GeneralAppliance, None
-};
-
-export type Appliance = {
-    applianceId: string,
-    category: ApplianceType,
-    appName: string,
-    manufacturer: string, 
-    modelNum: number, 
-    serialNum: number, 
-    location: string,
-};
-
-/* *-------------------Appliances-------------------* */
-
 
 
 /* *-------------------Account Types-------------------* */
