@@ -16,14 +16,14 @@ import * as BaseStyles from 'homepairs-base-styles';
 
 /* tenants cannot edit properties */
 const canEditProps = false;
-
+    
 export type TenantPropertyStateProps = {
-    propertyState: PropertyListState,
+  propertyState: PropertyListState,
 }
 
 export type TenantPropertyDispatchProps = {
-    onRevealGoBack: (showGoBack: boolean) => any;
-}
+    onRevealGoBack: (showGoBack:boolean) => any;
+  }
 
 type Props = NavigationStackScreenProps & TenantPropertyStateProps
 const colors = BaseStyles.LightColorTheme;
@@ -98,9 +98,6 @@ export function TenantPropertyScreenBase(props: Props) {
     console.log(properties);
     console.log("propertyManager");
     console.log(propertyManager);
-    
-    //const {propId, address, tenants, bedrooms, bathrooms} = properties;
-    //const property = {propId, address, tenants, bedrooms, bathrooms}; // THIS IS BAD CODING, ASSUMING AN ARRAY IS OF SIZE 1
 
     /* BEWARE: styles.addBottomMargin doesn't always work, had to add it manually 
         / overlapping styles aen't currently supported by react
@@ -164,4 +161,5 @@ export function TenantPropertyScreenBase(props: Props) {
                     </SafeAreaView>
                 </View>
             ));
+    
 }
