@@ -34,6 +34,8 @@ import {
  * 
  * NOTE: Remove all set all flex grow properties to null. This will cause the modal to grow the size of the background 
  * which is unwarranted behavior!!!
+ * 
+ * TODO: Make it so modal is only scrollable, not the background component 
  */
 function withModal(ModalComponent: any) {
     return function Modal(props:any) {
@@ -51,6 +53,7 @@ function withModal(ModalComponent: any) {
                 bottom: 0,
                 right: 0,
                 backgroundColor: "rgba(0, 0, 0, 0.15)",
+                overflow: 'scroll',
             }}>
               <View style={{flex:1}}>
                 <ModalComponent />

@@ -1,4 +1,3 @@
-import { AsyncStorage } from 'react-native';
 import { SetAccountAuthenticationStateAction } from '../types';
 
 
@@ -15,21 +14,7 @@ export enum SESSION_ACTION_TYPES {
     SET_AUTH_STATE = 'SESSION/SET_AUTH_STATE',
 };
 
-/**
- * ----------------------------------------------------
- * Store Session Data
- * ----------------------------------------------------
- * Stores the session info into the local storage as a string object.  
- * @param {string} sessionToken -value used to verify if the user's session is valid 
- */
-const storeSessionData = async (sessionToken: string) => {
-    try {
-      await AsyncStorage.setItem('sessionToken', sessionToken);
-    } catch (error) {
-      // Error saving data
-    }
-  };
-  
+
   /**
    * ----------------------------------------------------
    * setAccountAuthenticationState

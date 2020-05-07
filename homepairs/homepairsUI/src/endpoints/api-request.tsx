@@ -7,7 +7,6 @@ import axios from 'axios';
 import { getAccountType, categoryToString, isNullOrUndefined } from 'homepairs-utilities';
 import { NavigationRouteHandler, ChooseMainPage, navigationPages} from 'homepairs-routes';
 import * as HomePairsStateActions from 'homepairs-redux-actions';
-import { AsyncStorage } from 'react-native';
 import { 
     AccountTypes, 
     Account, 
@@ -94,7 +93,6 @@ export const fetchPreferredProviders = (pmId: string) => {
             const {data} = result;
             const {providers} = data;
             console.log(providers);
-            AsyncStorage.setItem('preferredProviders', JSON.stringify(data));
             const parsedProviders = parsePreferredProviders(providers);
             dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
             return result;
@@ -166,8 +164,6 @@ export const postPreferredProvider = async (
         if(status !== SUCCESS){
             const {error} = data;
             onError(error);
-            console.log(pmId);
-            console.log(error.message);
             throw Error(error);
         }
         return response;
@@ -195,7 +191,6 @@ export const deletePreferredProvider = (
     displayError: (error:string) => void,
     navigation: NavigationRouteHandler) => {
     const {prefId} = serviceProvider;
-    console.log(prefId)
     const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
     // Simply print the error if no error function was defined, otherwise use the defined function
     return async (dispatch: (func: any) => void) => { 
@@ -203,13 +198,11 @@ export const deletePreferredProvider = (
         .then(response => {
             const {data} = response;
             const {status} = data;
-            console.log(response);
             if(status === SUCCESS) {
                 dispatch(removeServiceProvider(serviceProvider));
                 navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
             } else {
                 const {error} = data;
-                console.log(error);
                 displayError(error);
             }
         }).catch(error => {
@@ -285,7 +278,6 @@ export const fetchAccount = (
             const {data} = response;
             const {status, role} = data;
             const accountType = getAccountType(data);
-            console.log(data)
             if(status === SUCCESS){
                 // Set the login state of the application to authenticated
                 dispatch(setAccountAuthenticationState(true));

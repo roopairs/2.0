@@ -4,16 +4,25 @@
 * instrumental in keeping the current state updated 
 * throughout our app as it changes. 
 * */
-
 import { 
     AccountState, 
     FetchUserAccountProfileAction, 
-    AccountStateAction, 
+    AccountStateAction,
+    AccountTypes, 
 } from '../types';
 import { FETCH_PROFILE_ACTION_TYPES } from './actions';
 
 
-export const initialState: AccountState = null;
+export const initialState: AccountState = {
+    accountType: AccountTypes.Tenant,
+    firstName: null,
+    lastName: null,
+    email: null,
+    address: null,
+    roopairsToken: null,
+    tenantId: null,
+    propId: null,
+};
 
 /**
  * ----------------------------------------------------
@@ -30,14 +39,11 @@ export const accountProfile = (
     state: AccountState = initialState,
     action: AccountStateAction,
 ) => {
-    let profileState: AccountState;
-    const prevState = {...state};
     switch (action.type){
         case FETCH_PROFILE_ACTION_TYPES.FETCH_PROFILE:
-            // pay attention to type-casting on action
-            profileState = (action as FetchUserAccountProfileAction).profile;
-            return profileState;
+            return (action as FetchUserAccountProfileAction).profile;
         default:
-            return prevState;
+            // Always return previous state. This is for the persister 
+            return state;
     }
 };

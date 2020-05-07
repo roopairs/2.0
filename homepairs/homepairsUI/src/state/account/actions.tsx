@@ -1,4 +1,4 @@
-import { getAccountType, storeAccountData } from 'homepairs-utilities';
+import { getAccountType} from 'homepairs-utilities';
 import { 
   FetchUserAccountProfileAction, 
   PropertyManagerAccount, 
@@ -15,6 +15,7 @@ const accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
 
 export const FETCH_PROFILE_ACTION_TYPES = {
     FETCH_PROFILE: 'ACCOUNT/FETCH_PROFILE',
+    REHYDRATE_PROFILE: 'ACCOUNT/REHYDRATE_PROFILE',
 };
 
 /**
@@ -54,7 +55,6 @@ export const parseAccount = (accountJSON : any): FetchUserAccountProfileAction =
         };
         fetchedProfile = tenantProfile;
     }
-    storeAccountData(accountJSON);
     return {
       type: FETCH_PROFILE_ACTION_TYPES.FETCH_PROFILE,
       profile: fetchedProfile,

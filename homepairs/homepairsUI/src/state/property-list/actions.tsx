@@ -1,4 +1,3 @@
-import { AsyncStorage } from 'react-native';
 import {
     AddPropertyAction,
     UpdatePropertyAction,
@@ -38,21 +37,6 @@ export enum PROPERTY_LIST_ACTION_TYPES {
 
 /**
  * ----------------------------------------------------
- * Store Property Data
- * ----------------------------------------------------
- * Stores the list of properties into the local storage as a string object.  
- * @param {any} propertyDict -should only have a length of 1 if it is for a tenant 
- */
-const storePropertyData = async (propertyList: PropertyDict) => {
-  try {
-    await AsyncStorage.setItem('propertyList', JSON.stringify(propertyList));
-  } catch (error) {
-    // Error saving data
-  }
-};
-
-/**
- * ----------------------------------------------------
  * setSelectedProperty
  * ----------------------------------------------------
  * Action whom indicates to the reducer what property is currently selected
@@ -62,7 +46,6 @@ const storePropertyData = async (propertyList: PropertyDict) => {
  */
 export const setSelectedProperty = (propId: string): SetSelectedPropertyAction => {
   // Set the store the selectedProperty in the local state for useage after the app falls asleep
-  AsyncStorage.setItem('selectedProperty', propId);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.SET_SELECTED_PROPERTY,
     propId,
@@ -144,7 +127,6 @@ export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], li
   };
 
   fetchedProperties[fetchedProperty.propId] = fetchedProperty;
-  storePropertyData(fetchedProperties);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_AND_PROPERTY_MANAGER,
     property: fetchedProperties,
@@ -173,7 +155,6 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertiesAc
     };
     fetchedProperties[parsedProperty.propId] = parsedProperty;
   });
-  storePropertyData(fetchedProperties);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
     properties: fetchedProperties,

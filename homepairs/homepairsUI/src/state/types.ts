@@ -1,4 +1,4 @@
-import { Dimensions, ImageSourcePropType } from 'react-native';
+import { Dimensions } from 'react-native';
 import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
 
