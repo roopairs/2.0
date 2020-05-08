@@ -5,9 +5,9 @@ import {
     AuthPageInjectedProps,
 } from 'homepairs-components';
 import strings from 'homepairs-strings';
-import { AccountTypes, Account } from 'homepairs-types';
+import { AccountTypes, Account, HomePairsDimensions } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { Dimensions, Platform, StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import {isPasswordValid, isEmailSyntaxValid, 
     isAlphaCharacterOnly, isEmptyOrSpaces } from 'homepairs-utilities';
 import { navigationPages, NavigationRouteHandler, NavigationRouteScreenProps } from 'homepairs-routes';
@@ -325,6 +325,11 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
 
     renderRoopairsLoginButton() {
         const { accountType } = this.state;
+
+        // Prepare the dimensions of the length of the divider. If the window is at max content size, simply set 
+        // it to 400
+        const maxDividerWidth = width * 0.80; 
+        const dividerWidth = HomePairsDimensions.MAX_CONTENT_SIZE < maxDividerWidth ? 400 : maxDividerWidth; 
         return accountType === AccountTypes.PropertyManager ? (
             <View style={{ marginTop: BaseStyles.MarginPadding.large }}>
                 <LoginButton
@@ -332,10 +337,12 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
                     onClick={this.toRoopairsLogin}
                 />
                 <Divider style={{
+                    alignSelf: 'center',
                     alignItems: 'center',
                     marginTop: 25,
                     marginBottom: 20,
-                    width: Platform.OS === 'web'? 400 : width*0.80,
+                    width: dividerWidth,
+                    maxWidth: 400,
                 }}/> 
             </View>
         ) : (
