@@ -15,7 +15,7 @@ import {
     MainAppStackType,
     AccountTypes,
 } from 'homepairs-types';
-import { NavigationRouteHandler } from 'homepairs-routes';
+import { NavigationRouteHandler, navigationPages } from 'homepairs-routes';
 import {isNullOrUndefined} from 'homepairs-utilities';
 import HamburgerButton from './HamburgerButton/HamburgerButton';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle';
@@ -23,6 +23,12 @@ import HomePairsMenu from './HomePairsHeaderMenu';
 
 const backSymbol = '<';
 const { DROP_MENU_WIDTH } = HomePairsDimensions;
+const HeaderNavigators: string[] = [
+    navigationPages.PropertiesScreen,
+    navigationPages.ServiceRequestScreen,
+    navigationPages.AccountSettings,
+    navigationPages.LoginScreen,
+];
 
 export type HomePairsHeaderStateProps = {
     header: HeaderState;
@@ -34,16 +40,18 @@ export type HomePairsHeaderDispatchProps = {
     onSwitchNavBar: (switchNavBar: boolean) => any;
     onUpdateSelected: (selected: MainAppStackType) => any;
     onLogOut: (authed:boolean) => any;
+    onClickBackButton: () => any;
 };
-export type HomePairsHeaderProps = HomePairsHeaderDispatchProps &
-    HomePairsHeaderStateProps &
-    NavigationRouteHandler & 
-    {
-        /**
-         * Used to indicate an instance of this component when testing
-         */
-        testID?: string,
-    };
+export type HomePairsHeaderProps = 
+& HomePairsHeaderDispatchProps 
+& HomePairsHeaderStateProps 
+& NavigationRouteHandler 
+& {
+    /**
+     * Used to indicate an instance of this component when testing
+     */
+    testID?: string,
+};
 
 
 const colorScheme = BaseStyles.LightColorTheme;
@@ -77,6 +85,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         zIndex: 1,
+    },
+
+    goBackButtonEnd: {
+        backgroundColor: colorScheme.secondary,
+        padding: BaseStyles.MarginPadding.mediumConst,
+        paddingTop: 20,
+        alignItems: 'center',
+        position: 'absolute',
+        zIndex: 1,
+        opacity: .2,
     },
 });
 
@@ -162,17 +180,20 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
      * if the index is 0, then we are at the beggining of the stack.
      * */
     goBack() {
-        const { navigation, onToggleMenu, onShowGoBackbutton } = this.props;
+        const { navigation, onToggleMenu, onClickBackButton } = this.props;
         navigation.goBack();
-        if (navigation.isNavigatorAtBaseRoute()) {
-            onShowGoBackbutton(false);
-        }
+        onClickBackButton();
         onToggleMenu(false);
     }
 
     showBackButton() {
         const { header } = this.props;
-        return (header.showBackButton && Platform.OS !== 'web') ? (
+        const showBackButton = ! (HeaderNavigators.includes(header.currentPage.navigate));
+        if (!header.isDropDown && Platform.OS === 'web'){
+            return <></>;
+        } 
+
+        return (showBackButton) ? (
             <TouchableOpacity 
                 testID='homepairs-header-go-back'
                 onPress={this.goBack} 
@@ -180,7 +201,11 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
                 <Text style={styles.goBackSymbol}>{backSymbol}</Text>
             </TouchableOpacity>
         ) : (
-            <></>
+            <View 
+                testID='homepairs-header-go-back-disabled'
+                style={styles.goBackButtonEnd}>
+                 <Text style={styles.goBackSymbol}>{backSymbol}</Text>
+                </View>
         );
     }
 

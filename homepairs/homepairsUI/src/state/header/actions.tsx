@@ -3,6 +3,7 @@ import {
     SwitchDropDownNavBarAction,
     ShowGoBackOnButtonClick,
     UpdateSelectedPageAction,
+    OnGoBackAction,
     MainAppStackType,
 } from '../types';
 
@@ -11,6 +12,7 @@ export enum HEADER_ACTION_TYPES {
     SWITCH_DROPDOWN_NAVBAR = 'HEADER/SWITHC_DROPDOWN_NAVBAR',
     SHOW_GOBACK_BUTTON = 'HEADER/SHOW_GOBACK_BUTTON',
     UPDATE_SELECTED_PAGE = 'HEADER/UPDATE_SELECTED_PAGE',
+    ON_GO_BACK = ' HEADER/ON_GO_BACK'
 }
 
 /**
@@ -69,4 +71,16 @@ export const updateSelectedPage = (selectedPage: MainAppStackType): UpdateSelect
       type : HEADER_ACTION_TYPES.UPDATE_SELECTED_PAGE,
       selected: selectedPage,
     };
+};
+
+/**
+ * ----------------------------------------------------
+ * onGoBack
+ * ----------------------------------------------------
+ * Updates the store to reflect that a page has been navigated backwards 
+ */
+export const onGoBack = (): OnGoBackAction =>{
+  return {
+    type : HEADER_ACTION_TYPES.ON_GO_BACK,
+  };
 };

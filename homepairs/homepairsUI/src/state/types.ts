@@ -1,4 +1,4 @@
-import { Dimensions, ImageSourcePropType } from 'react-native';
+import { Dimensions } from 'react-native';
 import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
 
@@ -323,6 +323,7 @@ export type Header = {
     showMenu: boolean;
     isDropDown: boolean;
     currentPage: MainAppStackType;
+    previousPagesStack: MainAppStackType[];
     showBackButton: boolean;
     menu: string[];
 };
@@ -349,11 +350,16 @@ export type UpdateSelectedPageAction = {
     selected: MainAppStackType;
 };
 
+export type onGoBackAction = {
+    type: string;
+};
+
 export type HeaderAction =
     | ToggleMenuAction
     | SwitchDropDownNavBarAction
     | ShowGoBackOnButtonClick
-    | UpdateSelectedPageAction;
+    | UpdateSelectedPageAction
+    | onGoBackAction;
 /* *-------------------Header Types-------------------* */
 
 /* *-------------------Setting Types-------------------* */
