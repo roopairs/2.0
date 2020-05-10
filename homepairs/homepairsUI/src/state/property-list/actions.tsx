@@ -145,6 +145,8 @@ export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], li
 
   fetchedProperties[fetchedProperty.propId] = fetchedProperty;
   storePropertyData(fetchedProperties);
+  console.log("fetching pm and property");
+  console.log(fetchedPropertyManager);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_AND_PROPERTY_MANAGER,
     property: fetchedProperties,
