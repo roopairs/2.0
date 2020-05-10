@@ -7,6 +7,7 @@ import {
     FetchPropertyAndPropertyManagerAction,
     SetSelectedPropertyAction,
     FetchPropertiesAction,
+    StorePropertyApplianceAndTenantAction,
     Property,
 } from '../types';
 import { PROPERTY_LIST_ACTION_TYPES } from './actions';
@@ -23,6 +24,7 @@ export const initialState: PropertyListState = {
     selectedPropertyId: null,
     properties: {},
     appliances: [],
+    tenants: [],
     propertyManager: null,
 };
 
@@ -84,6 +86,12 @@ export const properties = (
             return {
                 ...newState,
                 selectedPropertyId: (action as SetSelectedPropertyAction).propId,
+            };
+        case PROPERTY_LIST_ACTION_TYPES.STORE_APPLIANCES_AND_TENANTS:
+            return {
+                ...newState,
+                tenants: (action as StorePropertyApplianceAndTenantAction).tenants,
+                appliances: (action as StorePropertyApplianceAndTenantAction).appliances,
             };
         default:
             return state;

@@ -6,10 +6,11 @@ import { HomePairsDimensions, TenantInfo} from 'homepairs-types';
 import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid } from 'homepairs-utilities';
 import {navigationPages, prepareNavigationHandlerComponent, NavigationRouteScreenProps} from 'homepairs-routes';
 import { updateTenant } from "homepairs-endpoints";
+import { DetailedPropertyMutatorDispatchProps, DetailedPropertyMutatorModal } from '../CommonDispatchProps';
 
 const {SingleProperty} = navigationPages;
 
-type Props =  NavigationRouteScreenProps
+type Props =  NavigationRouteScreenProps & DetailedPropertyMutatorDispatchProps;
 
 type EditTenantState = TenantInfo
 
@@ -261,12 +262,15 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
 
     async clickSubmitButton() {
         this.resetForms();
+        const {setAppliancesAndTenants} = this.props;
         if (this.validateForms()) {
             const newTenantInfo : TenantInfo = this.generateNewTenantInfo();
             const postValues = {propId: this.propId, ...newTenantInfo};
             // TODO: set up fetch request for editing tenant.
             // alert('We need the backend to set up an endpoint to Edit the Tenant');
-            await updateTenant(postValues); 
+            await updateTenant(postValues).then(() => {
+                setAppliancesAndTenants(String(this.propId));
+            }); 
             this.goBackToPreviousPage();
         };
     }
@@ -388,4 +392,5 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
     }
 }
 
-export default prepareNavigationHandlerComponent(EditTenantModalBase);
+const EditTenantModal = DetailedPropertyMutatorModal(EditTenantModalBase);
+export default prepareNavigationHandlerComponent(EditTenantModal);

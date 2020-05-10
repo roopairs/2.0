@@ -10,12 +10,15 @@ import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 import { navigationPages, NavigationRouteScreenProps, prepareNavigationHandlerComponent} from 'homepairs-routes';
 import {postNewAppliance} from 'homepairs-endpoints';
+import { DetailedPropertyMutatorDispatchProps, DetailedPropertyMutatorModal } from '../CommonDispatchProps';
 
 
 
 const { SingleProperty } = navigationPages;
 
-type Props = NavigationRouteScreenProps 
+type AddApplianceModalDispatchProps = DetailedPropertyMutatorDispatchProps
+
+type Props = NavigationRouteScreenProps & AddApplianceModalDispatchProps;
 
 type CreateState = {
     category: ApplianceType, 
@@ -292,7 +295,7 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
 
     async clickSubmitButton() {
         const {category, appName, manufacturer, modelNum, serialNum, location} = this.state;
-        const { navigation} = this.props;
+        const {navigation, setAppliancesAndTenants} = this.props;
         this.resetForms();
         this.setState({errorCheck: false});
         if (this.validateForms()) {
@@ -304,7 +307,9 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
                 location,
             };
             const info : AddApplianceState = {property: this.property, token: this.token};
-            await postNewAppliance(newAppliance, info, this.setInitialState, this.displayError, navigation);
+            await postNewAppliance(newAppliance, info, this.setInitialState, this.displayError, navigation).then(() => {
+                setAppliancesAndTenants(this.property.propId);
+            });
         }
     }
 
@@ -424,4 +429,7 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
     }
 }
 
-export default prepareNavigationHandlerComponent(AddApplianceModalBase);
+
+
+const AddApplianceModal = DetailedPropertyMutatorModal(AddApplianceModalBase);
+export default prepareNavigationHandlerComponent(AddApplianceModal );

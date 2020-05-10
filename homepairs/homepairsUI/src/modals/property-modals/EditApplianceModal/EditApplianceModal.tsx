@@ -10,11 +10,12 @@ import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 import { navigationPages, NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-routes';
 import { postUpdatedAppliance } from 'homepairs-endpoints';
+import { DetailedPropertyMutatorDispatchProps, DetailedPropertyMutatorModal } from '../CommonDispatchProps';
 
 
 const {SingleProperty} = navigationPages;
 
-type Props = NavigationRouteScreenProps 
+type Props = NavigationRouteScreenProps & DetailedPropertyMutatorDispatchProps;
 
 type EditState = {
     applianceId: string, 
@@ -268,7 +269,7 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
 
     async clickSubmitButton() {
         const {applianceId, category, appName, manufacturer, modelNum, serialNum, location} = this.state;
-        const {navigation} = this.props;
+        const {navigation, setAppliancesAndTenants} = this.props;
         this.resetForms();
         this.setState({errorCheck: false});
         if (this.validateForms()) {
@@ -279,7 +280,9 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
                 serialNum: Number(serialNum), 
                 location,
             };
-            await postUpdatedAppliance(propId, newAppliance, this.displayError, navigation);
+            await postUpdatedAppliance(propId, newAppliance, this.displayError, navigation).then(() => {
+                setAppliancesAndTenants(String(propId));
+            });
         }
     }
 
@@ -399,4 +402,5 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
     }
 }
 
-export default prepareNavigationHandlerComponent(EditApplianceModalBase);
+const EditApplianceModal = DetailedPropertyMutatorModal(EditApplianceModalBase);
+export default prepareNavigationHandlerComponent(EditApplianceModal);
