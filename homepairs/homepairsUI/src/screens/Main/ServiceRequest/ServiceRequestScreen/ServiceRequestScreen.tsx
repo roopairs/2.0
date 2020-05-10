@@ -1,13 +1,15 @@
 import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
+import { updateSelectedPage } from 'homepairs-redux-actions'
 import { withSceneHeader, withPreferredProviderFlatList } from 'homepairs-components';
 import strings from 'homepairs-strings';
 import { convertObjectValuesToArray } from 'homepairs-utilities';
-import { prepareNavigationHandlerComponent, navigationPages  } from 'homepairs-routes';
+import { prepareNavigationHandlerComponent, navigationPages} from 'homepairs-routes';
 import {
     ServiceRequestScreenBase,
     ServiceRequestScreenStateProps,
     ServiceRequestScreenProps,
+    ServiceRequestsScreenDispatchProps,
 } from './ServiceRequestScreenBase';
 
 const serviceRequestStrings = strings.serviceRequestPage;
@@ -26,16 +28,19 @@ const sceneParam: MainAppStackType = {
 function mapStateToProps(state: AppState): ServiceRequestScreenStateProps {
     const {header, serviceRequests, properties} = state;
     return {
-        // TODO: Add pass favorite Service Providers into props
         serviceRequestsState: serviceRequests,
         header,
         properties: convertObjectValuesToArray(properties.properties),
     };
 }
 
-const mapDispatchToProps = dispatch => ({
-    // TODO: map proper methods into Service Requests page
-});
+function mapDispatchToProps(dispatch:any): ServiceRequestsScreenDispatchProps {
+    return {
+        onUpdateHeader: (selected: MainAppStackType) => {
+            dispatch(updateSelectedPage(selected));
+        },
+    };
+};
 
 const ServiceRequestScreen = connect(
     mapStateToProps,

@@ -16,11 +16,12 @@ import {
     ServiceRequestCompletionStatus,
     ServiceRequestStatusEnums,
     Property,
+    MainAppStackType,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import strings from 'homepairs-strings';
 import { SceneInjectedProps } from 'homepairs-components';
-import { NavigationRouteScreenProps, navigationPages  } from 'homepairs-routes';
+import { NavigationRouteScreenProps, navigationPages, MainAppStack } from 'homepairs-routes';
 import { fetchServiceRequests } from 'homepairs-endpoints';
 import { stringToCategory } from 'src/utility/ApplianceCategories';
 
@@ -32,8 +33,7 @@ export type ServiceRequestScreenStateProps = {
 };
 
 export type ServiceRequestsScreenDispatchProps = {
-    onRevealGoBack: (showGoBack: boolean) => any;
-    onSelectServiceRequest: (index: number) => any;
+    onUpdateHeader: (selected: MainAppStackType) => any;
 };
 
 type ServiceRequestRadioState = {
@@ -274,6 +274,13 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         props.parentCallBack(ServiceRequestCompletionStatus.Current);
         props.parentCallBack2(ServiceRequestStatusEnums.Pending);
 
+    }
+
+    componentDidMount(){
+        // When the component is mounted, update the header. This component can be navigated from a different stack so 
+        // we need to make sure the header remains updated in the case this happens
+        const {onUpdateHeader} = this.props;
+        onUpdateHeader(MainAppStack[1]);
     }
 
     componentWillUnmount(){

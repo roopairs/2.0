@@ -120,33 +120,25 @@ export const navigationPages = {
 
 export const MainAppStack: Array<MainAppStackType> = [
     {
-        title: 'Properties',
+        title: 'My Properties',
         navigate: navigationPages.PropertiesScreen,
-        key: 'Properties',
+        key: 'My Properties',
         button: 'Add Property',
     },
     {
         title: 'Service Request',
         navigate: navigationPages.ServiceRequestScreen,
-        key: 'ServiceRequest',
+        key: 'Service Request',
         button: 'Request Service',
     },
     {
         title: 'Account Settings',
         navigate: navigationPages.AccountSettings,
-        key: 'AccountSettings',
+        key: 'Account Settings',
     },
     {
         title: 'Log Out',
         navigate: navigationPages.LoginScreen,
-        key: 'LogOut',
+        key: 'Log Out',
     },
 ];
-
-
-/*
-export const LOGIN = '/login';
-export const SIGNUP = '/sign-up';
-export const ROOPAIRS_LOGIN = '/roopairs-login';
-export const PROPERTY_LIST = '/properties';
-*/

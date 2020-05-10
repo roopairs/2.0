@@ -69,11 +69,18 @@ const styles = StyleSheet.create({
     },
 });
 
-export type NewRequestScreenProps = NavigationRouteScreenProps & {
-    properties: Property[],
-    token: string,
-    pmId: number,
-};;
+export type NewRequestScreenDispatchProps = {
+    onUpdateHeader: () => any;
+}
+
+export type NewRequestScreenProps = 
+    & NavigationRouteScreenProps 
+    & NewRequestScreenDispatchProps 
+    & {
+        properties: Property[],
+        token: string,
+        pmId: number,
+    };
 
 
 export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewRequestState> {
@@ -169,6 +176,11 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     }
 
     componentDidMount() {
+        // When the component is mounted, update the header. This component can be navigated from a different stack so 
+        // we need to make sure the header remains updated in the case this happens
+        const {onUpdateHeader} = this.props;
+        onUpdateHeader();
+        
         this.fetchServiceProviders();
     }
 

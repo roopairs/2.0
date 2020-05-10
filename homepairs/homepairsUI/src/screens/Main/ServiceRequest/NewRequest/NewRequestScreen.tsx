@@ -1,9 +1,10 @@
 import { AppState, MainAppStackType, PropertyManagerAccount } from 'homepairs-types';
 import { connect } from 'react-redux';
+import { updateSelectedPage } from 'homepairs-redux-actions';
 import { withSceneHeader} from 'homepairs-components';
-import { prepareNavigationHandlerComponent } from 'homepairs-routes';
+import { prepareNavigationHandlerComponent, NEW_SERVICE_REQUEST } from 'homepairs-routes';
 import { convertObjectValuesToArray } from 'homepairs-utilities';
-import { NewServiceRequestBase } from './NewRequestScreenBase';
+import { NewServiceRequestBase, NewRequestScreenDispatchProps } from './NewRequestScreenBase';
 
 const sceneParam: MainAppStackType = {
     title: 'New Service Request',
@@ -20,8 +21,22 @@ function mapStateToProps(state: AppState) : any {
     };
 }
 
+function mapDispatchToProps(dispatch:any): NewRequestScreenDispatchProps {
+    const selected: MainAppStackType = {
+        key: 'New Service Request',
+        title: 'New Service Request',
+        navigate: NEW_SERVICE_REQUEST,
+    };
+    return {
+        onUpdateHeader: () => {
+            dispatch(updateSelectedPage(selected));
+        },
+    };
+};
+
 const NewServiceRequestScreen = connect(
     mapStateToProps,
+    mapDispatchToProps,
 )(NewServiceRequestBase);
 
 
