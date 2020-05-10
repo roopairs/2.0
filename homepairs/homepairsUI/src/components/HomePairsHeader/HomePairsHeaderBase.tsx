@@ -189,7 +189,11 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
     showBackButton() {
         const { header } = this.props;
         const showBackButton = ! (HeaderNavigators.includes(header.currentPage.navigate));
-        return (showBackButton ) ? (
+        if (!header.isDropDown && Platform.OS === 'web'){
+            return <></>;
+        } 
+
+        return (showBackButton) ? (
             <TouchableOpacity 
                 testID='homepairs-header-go-back'
                 onPress={this.goBack} 

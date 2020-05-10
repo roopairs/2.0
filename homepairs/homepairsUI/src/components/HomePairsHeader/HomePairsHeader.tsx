@@ -5,8 +5,6 @@ import {prepareNavigationHandlerComponent} from 'homepairs-routes';
 import HomePairsHeaderBase , { HomePairsHeaderStateProps, HomePairsHeaderDispatchProps } from "./HomePairsHeaderBase";
 
 function mapStateToProps(state: AppState): HomePairsHeaderStateProps{ 
-  console.log('Map State to Props')
-  console.log(state.header)
   return {
     header: state.header,
     accountType: state.accountProfile.accountType,
