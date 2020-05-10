@@ -1,7 +1,22 @@
+#node_modules/**/*
+.scannerwork/
+.env
+.expo/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+web-report/
+*.log
 # macOS
 .DS_Store
-.idea
-.DS_Store
+.jest/
+**/coverage
 node_modules/
 package-lock.json
-*.icloud
+.vscode
+yarn-error.log

@@ -18,6 +18,7 @@ import {
     AddApplianceState, 
     NewServiceRequest, 
     ServiceProvider,
+    Contact,
 } from 'homepairs-types';
 import {
     HOMEPAIRS_APPLIANCE_ENDPOINT, 
@@ -285,7 +286,7 @@ export const fetchAccount = (
             const {data} = response;
             const {status, role} = data;
             const accountType = getAccountType(data);
-            console.log(data)
+            console.log(data);
             if(status === SUCCESS){
                 // Set the login state of the application to authenticated
                 dispatch(setAccountAuthenticationState(true));
@@ -299,10 +300,17 @@ export const fetchAccount = (
                 } else { // Assume role = tenant
                     const {properties, tenant} = data;
                     const {pm} = tenant;
-                    const {pmInfo} = pm;
-                    dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
+                    const {email, firstName, lastName} = pm[0];
+                    const pmAccountType = AccountTypes.PropertyManager;
+                    console.log("api request pm");
+                    console.log(pm);
+                    const pmContact = {accountType:pmAccountType, firstName, lastName, email };
+                    console.log("pmContact");
+                    console.log(pmContact);
+                    dispatch(fetchPropertyAndPropertyManager(properties, pmContact));
                 }
                 // Navigate page based on the Account Type
+                console.log(accountType);
                 ChooseMainPage(accountType, navigation);
             }else{
                 modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");
@@ -358,6 +366,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
             dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
             ChooseMainPage(AccountTypes.Tenant, navigation);
           } else {
+            console.log("FAILED TO MAKE TENANT ACCOUNT");
             console.log(status);
             modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
           }
