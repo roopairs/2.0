@@ -18,6 +18,7 @@ import {
     NewServiceRequest, 
     ServiceProvider,
     TenantInfo,
+    Contact,
 } from 'homepairs-types';
 import {
     HOMEPAIRS_APPLIANCE_ENDPOINT, 
@@ -60,7 +61,6 @@ export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => S
     return preferredServiceProviderJSON.map(serviceProvider => {
         const {provId, name, email, phoneNum, prefId,contractLic, skills, 
             founded, rate, timesHired, earliestHire, logo} = serviceProvider;
-        console.log(preferredServiceProviderJSON);
         // TODO: Handle loading the logo image asset recieved from the backend response
         return {
             provId, name, email, prefId,
@@ -93,7 +93,6 @@ export const fetchPreferredProviders = (pmId: string) => {
         .then(result => {
             const {data} = result;
             const {providers} = data;
-            console.log(providers);
             const parsedProviders = parsePreferredProviders(providers);
             dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
             return result;
@@ -340,8 +339,10 @@ export const fetchAccount = (
                 } else { // Assume role = tenant
                     const {properties, tenant} = data;
                     const {pm} = tenant;
-                    const {pmInfo} = pm;
-                    dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
+                    const {email, firstName, lastName} = pm[0];
+                    const pmAccountType = AccountTypes.PropertyManager;
+                    const pmContact = {accountType:pmAccountType, firstName, lastName, email };
+                    dispatch(fetchPropertyAndPropertyManager(properties, pmContact));
                 }
                 // Navigate page based on the Account Type
                 ChooseMainPage(accountType, navigation);
@@ -399,6 +400,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
             dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
             ChooseMainPage(AccountTypes.Tenant, navigation);
           } else {
+            console.log("FAILED TO MAKE TENANT ACCOUNT");
             console.log(status);
             modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
           }

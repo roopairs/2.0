@@ -26,9 +26,10 @@ function determineInitialIsDropDown() {
 }
 
 export const initialState: HeaderState = {
-    showMenu : false,
+    showMenu: false,
     isDropDown: determineInitialIsDropDown(),
     currentPage: MainAppStack[0],
+    previousPagesStack: [],
     showBackButton: false,
     menu: [
         strings.propertiesPage.title,
@@ -55,8 +56,12 @@ export const header = (
             newState.isDropDown = (action as SwitchDropDownNavBarAction).isDropDown;
             return newState;
         case HEADER_ACTION_TYPES.UPDATE_SELECTED_PAGE:
+            newState.previousPagesStack.push(newState.currentPage);
             newState.currentPage = (action as UpdateSelectedPageAction).selected;
-            return newState ;
+            return newState;
+        case HEADER_ACTION_TYPES.ON_GO_BACK:
+            newState.currentPage = newState.previousPagesStack.pop();
+            return newState;
         default:
             return newState;
     }

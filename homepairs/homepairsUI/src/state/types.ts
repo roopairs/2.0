@@ -122,8 +122,8 @@ export type PropertyListAction =
 /* *-------------------Account Types-------------------* */
 
 export enum AccountTypes {
-    Tenant,
-    PropertyManager
+    Tenant = 'tenant',
+    PropertyManager = 'pm'
 }
 
 export type Account = {
@@ -331,6 +331,7 @@ export type Header = {
     showMenu: boolean;
     isDropDown: boolean;
     currentPage: MainAppStackType;
+    previousPagesStack: MainAppStackType[];
     showBackButton: boolean;
     menu: string[];
 };
@@ -357,11 +358,16 @@ export type UpdateSelectedPageAction = {
     selected: MainAppStackType;
 };
 
+export type OnGoBackAction = {
+    type: string;
+};
+
 export type HeaderAction =
     | ToggleMenuAction
     | SwitchDropDownNavBarAction
     | ShowGoBackOnButtonClick
-    | UpdateSelectedPageAction;
+    | UpdateSelectedPageAction
+    | OnGoBackAction;
 /* *-------------------Header Types-------------------* */
 
 /* *-------------------Setting Types-------------------* */

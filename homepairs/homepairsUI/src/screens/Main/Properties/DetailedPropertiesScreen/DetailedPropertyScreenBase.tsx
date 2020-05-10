@@ -31,13 +31,16 @@ export type DetailedPropertyStateProps = {
     applianceInfo: Appliance[],
 };
 
-export type DetailedPropertyDispatchProps = {
+export type DetailedPropertyScreenDispatchProps = {
+    onUpdateHeader: () => any
     setAppliancesAndTenants: (propId: string) => any,
 }
 
-export type DetailedPropertyProps = NavigationRouteScreenProps 
-& DetailedPropertyStateProps
-& DetailedPropertyDispatchProps;
+export type DetailedPropertyProps = 
+    & NavigationRouteScreenProps 
+    & DetailedPropertyStateProps
+    & DetailedPropertyScreenDispatchProps;
+
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -131,7 +134,8 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
     };
 
     componentDidMount(){
-        const {setAppliancesAndTenants} = this.props;
+        const {onUpdateHeader, setAppliancesAndTenants} = this.props;
+        onUpdateHeader();
         const [propId] = getPropIdAndProperty(this.props);
         setAppliancesAndTenants(propId);
     }

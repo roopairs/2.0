@@ -121,7 +121,7 @@ export const navigationPages = {
 
 export const MainAppStack: Array<MainAppStackType> = [
     {
-        title: 'Properties',
+        title: 'My Properties',
         navigate: PROPERTY_LIST,
         key: 'Properties',
         button: 'Add Property',

@@ -1,5 +1,6 @@
 {
     "main": "App",
+    "homepage": "https://cpsecapstone.github.io/2.0",
     "scripts": {
         "start": "expo start",
         "android": "expo start --android",
@@ -13,7 +14,9 @@
         "lint": "tsc --noEmit && eslint --ext .js,.jsx,.ts,.tsx ./src",
         "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx ./src",
         "prettier:write": "npx prettier --write **/*.{js,jsx,ts,tsx,json} && npx prettier --write *.{js,jsx,ts,tsx,json}",
-        "init:lint": "eslint --init"
+        "init:lint": "eslint --init",
+        "deploy": "gh-pages -d web-build",
+        "predeploy": "expo build:web"
     },
     "dependencies": {
         "@expo/vector-icons": "^10.0.0",
@@ -27,6 +30,7 @@
         "expo": "^37.0.0",
         "expo-font": "~8.1.0",
         "expo-image-manipulator": "~8.1.0",
+        "gh-pages": "^2.2.0",
         "globalize": "^1.4.2",
         "moment": "^2.24.0",
         "react": "16.9.0",

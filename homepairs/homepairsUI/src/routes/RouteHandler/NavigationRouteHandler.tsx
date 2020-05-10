@@ -107,8 +107,8 @@ export default class NavigationRouteHandler{
             const {pathname, key} = location;
             return [pathname, key];
         }
-        const{key, routename} = this.navigation.state;
-        return [routename, key];   
+        const{key, routeName} = this.navigation.state;
+        return [routeName, key];   
     }
 
     /**
@@ -269,7 +269,8 @@ export default class NavigationRouteHandler{
      */
     resolveModalReplaceNavigation(route:string, params?:any, asBackground?:boolean){
         if(NavigationRouteHandler.type === NavigationObjects.Router){
-            return this.replace(route, params, asBackground);
+            return this.navigation.history.goBack();
+            //this.replace(route, params, asBackground);
         } 
         return this.goBack();
     }
