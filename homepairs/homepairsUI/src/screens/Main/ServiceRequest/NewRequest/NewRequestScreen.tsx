@@ -28,8 +28,8 @@ function mapDispatchToProps(dispatch:any): NewRequestScreenDispatchProps {
         navigate: NEW_SERVICE_REQUEST,
     };
     return {
-        onUpdateHeader: () => {
-            dispatch(updateSelectedPage(selected));
+        onUpdateHeader: (navPage: MainAppStackType = selected) => {
+            dispatch(updateSelectedPage(navPage));
         },
     };
 };

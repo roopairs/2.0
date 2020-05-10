@@ -1,15 +1,15 @@
 import React, {Component} from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider } from 'homepairs-types';
+import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider, MainAppStackType } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'homepairs-utilities';
-import {NavigationRouteScreenProps} from 'homepairs-routes';
+import {NavigationRouteScreenProps, MainAppStack} from 'homepairs-routes';
 import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel, DatePicker} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from 'homepairs-components';
 import {HelperText} from 'react-native-paper';
 import axios from 'axios';
-import { HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT, HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest, HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT } from 'homepairs-endpoints';
+import { HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest, HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT } from 'homepairs-endpoints';
 
 type NewRequestState = {
     address: string,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 });
 
 export type NewRequestScreenDispatchProps = {
-    onUpdateHeader: () => any;
+    onUpdateHeader: (navPage: MainAppStackType) => any;
 }
 
 export type NewRequestScreenProps = 
@@ -180,7 +180,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
         // we need to make sure the header remains updated in the case this happens
         const {onUpdateHeader} = this.props;
         onUpdateHeader();
-        
+
         this.fetchServiceProviders();
     }
 
@@ -260,7 +260,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
 
     async clickSubmitButton() {
         const { serviceCategory, applianceId, providerId, serviceType, details, serviceDate, propId} = this.state;
-        const {navigation, token} = this.props;
+        const {navigation, token, onUpdateHeader} = this.props;
         this.setState({errorCheck: false});
         console.log(this.validateForms());
         if (this.validateForms()) {
@@ -275,6 +275,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
                 details,
             };
             await postNewServiceRequest(newServiceRequest, this.displayError, navigation).catch(error => console.log(error));
+            onUpdateHeader(MainAppStack[1]);
         }
     }
 
