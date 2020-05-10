@@ -1,6 +1,6 @@
 import { AppState, MainAppStackType } from "homepairs-types";
 import { connect } from "react-redux";
-import { HeaderActions, SessionActions } from 'homepairs-redux-actions';
+import { HeaderActions, SessionActions, onGoBack } from 'homepairs-redux-actions';
 import {prepareNavigationHandlerComponent} from 'homepairs-routes';
 import HomePairsHeaderBase , { HomePairsHeaderStateProps, HomePairsHeaderDispatchProps } from "./HomePairsHeaderBase";
 
@@ -27,6 +27,9 @@ const mapDispatchToProps: (dispatch:any) => HomePairsHeaderDispatchProps = dispa
   },
   onLogOut: (authed:boolean) => {
     dispatch(SessionActions.setAccountAuthenticationState(authed));
+  },
+  onClickBackButton: () => {
+    dispatch(onGoBack());
   },
 });
 

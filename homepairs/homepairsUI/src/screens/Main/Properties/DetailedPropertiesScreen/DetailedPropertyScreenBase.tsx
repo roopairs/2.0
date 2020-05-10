@@ -32,7 +32,14 @@ export type DetailedPropertyStateProps = {
     token: string,
 };
 
-export type DetailedPropertyProps = NavigationRouteScreenProps & DetailedPropertyStateProps;
+export type DetailedPropertyScreenDispatchProps = {
+    onUpdateHeader: () => any
+}
+
+export type DetailedPropertyProps = 
+    & NavigationRouteScreenProps 
+    & DetailedPropertyStateProps
+    & DetailedPropertyScreenDispatchProps;
 
 type State = {
     tenantInfo: TenantInfo[],
@@ -141,6 +148,8 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
     };
 
     async componentDidMount(){
+        const {onUpdateHeader} = this.props;
+        onUpdateHeader();
         await this.fetchTenantsAndAppliances();
     }
 

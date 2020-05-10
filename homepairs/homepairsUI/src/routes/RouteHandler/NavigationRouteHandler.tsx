@@ -107,8 +107,8 @@ export default class NavigationRouteHandler{
             const {pathname, key} = location;
             return [pathname, key];
         }
-        const{key, routename} = this.navigation.state;
-        return [routename, key];   
+        const{key, routeName} = this.navigation.state;
+        return [routeName, key];   
     }
 
     /**

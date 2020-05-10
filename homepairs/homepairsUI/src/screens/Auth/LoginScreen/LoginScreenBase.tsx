@@ -167,6 +167,7 @@ export class LoginScreenBase extends React.Component<LoginProps,LoginState> {
                 inputStyle: styles.input,
                 secureTextEntry: true,
                 errorMessage: 'Invalid password. Must be at least 6 characters',
+                noTrim: true,
             },
         ];
         return inputFormProps.map((properties, index) => {
@@ -182,6 +183,7 @@ export class LoginScreenBase extends React.Component<LoginProps,LoginState> {
                     inputStyle={properties.inputStyle}
                     secureTextEntry={properties.secureTextEntry}
                     errorMessage={properties.errorMessage}
+                    noTrim={properties.noTrim}
                 />
             );
         });
