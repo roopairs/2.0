@@ -147,6 +147,8 @@ export class RoopairsLoginBase extends React.Component<
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 errorMessage: 'Invalid username! Must be an email',
+                trim: true,
+
             },
             {   
                 ref: this.passwordRef,
@@ -157,7 +159,6 @@ export class RoopairsLoginBase extends React.Component<
                 inputStyle: this.inputFormStyle.input,
                 secureTextEntry: true,
                 errorMessage: 'Invalid password! Must be at least 6 characters',
-                noTrim: true,
             },
         ];
 
@@ -172,7 +173,7 @@ export class RoopairsLoginBase extends React.Component<
                     inputStyle={properties.inputStyle}
                     secureTextEntry={properties.secureTextEntry}
                     errorMessage={properties.errorMessage}
-                    noTrim={properties.noTrim}
+                    trim={properties.trim}
                 />
             );
         });

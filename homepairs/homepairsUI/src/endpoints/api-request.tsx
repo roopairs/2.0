@@ -4,10 +4,9 @@
  * using should be put and referenced from this file.  
  */
 import axios from 'axios';
-import { getAccountType, categoryToString, isNullOrUndefined } from 'homepairs-utilities';
+import { getAccountType, categoryToString, isNullOrUndefined, stringToCategory } from 'homepairs-utilities';
 import { NavigationRouteHandler, ChooseMainPage, navigationPages} from 'homepairs-routes';
 import * as HomePairsStateActions from 'homepairs-redux-actions';
-import { AsyncStorage } from 'react-native';
 import { 
     AccountTypes, 
     Account, 
@@ -18,6 +17,7 @@ import {
     AddApplianceState, 
     NewServiceRequest, 
     ServiceProvider,
+    TenantInfo,
     Contact,
 } from 'homepairs-types';
 import {
@@ -61,7 +61,6 @@ export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => S
     return preferredServiceProviderJSON.map(serviceProvider => {
         const {provId, name, email, phoneNum, prefId,contractLic, skills, 
             founded, rate, timesHired, earliestHire, logo} = serviceProvider;
-        console.log(preferredServiceProviderJSON);
         // TODO: Handle loading the logo image asset recieved from the backend response
         return {
             provId, name, email, prefId,
@@ -94,8 +93,6 @@ export const fetchPreferredProviders = (pmId: string) => {
         .then(result => {
             const {data} = result;
             const {providers} = data;
-            console.log(providers);
-            AsyncStorage.setItem('preferredProviders', JSON.stringify(data));
             const parsedProviders = parsePreferredProviders(providers);
             dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
             return result;
@@ -167,8 +164,6 @@ export const postPreferredProvider = async (
         if(status !== SUCCESS){
             const {error} = data;
             onError(error);
-            console.log(pmId);
-            console.log(error.message);
             throw Error(error);
         }
         return response;
@@ -196,7 +191,6 @@ export const deletePreferredProvider = (
     displayError: (error:string) => void,
     navigation: NavigationRouteHandler) => {
     const {prefId} = serviceProvider;
-    console.log(prefId)
     const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
     // Simply print the error if no error function was defined, otherwise use the defined function
     return async (dispatch: (func: any) => void) => { 
@@ -204,13 +198,11 @@ export const deletePreferredProvider = (
         .then(response => {
             const {data} = response;
             const {status} = data;
-            console.log(response);
             if(status === SUCCESS) {
                 dispatch(removeServiceProvider(serviceProvider));
                 navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
             } else {
                 const {error} = data;
-                console.log(error);
                 displayError(error);
             }
         }).catch(error => {
@@ -255,6 +247,54 @@ export const fetchServiceRequests = async (propId: string) => {
     return results;
 };
 
+
+
+/**
+ * ----------------------------------------------------
+ * fetchServiceRequests
+ * ---------------------------------------------------- 
+ * Makes a fetch requests to the homepairs server retrieving the data for the tenants 
+ * and appliances related to a specific property. Upon failure, this function will
+ * throw an error.
+ * 
+ * @param propId -Identity of the property to fetch the information from
+ */
+export const fetchPropertyAppliancesAndTenants = async (propId: string) => {
+    const results = await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`).then((result) =>{
+        const {tenants, appliances} = result.data;
+        const tenantInfo: TenantInfo[] = [];
+        const applianceInfo: Appliance[] = [];
+
+        tenants.forEach(tenant => {
+            const {firstName, lastName, email, phoneNumber} = tenant;
+            tenantInfo.push({
+                firstName,
+                lastName,
+                email,
+                phoneNumber,
+            });
+        });
+
+        appliances.forEach(appliance => {
+            const {appId, category, name, manufacturer, modelNum, serialNum, location} = appliance;
+
+            applianceInfo.push({
+                applianceId: appId,
+                category: stringToCategory(category), 
+                appName: name, manufacturer, modelNum, serialNum, location,
+            });
+        });
+
+        return {
+            tenants: tenantInfo,
+            appliances: applianceInfo,
+        };
+
+    }).catch(error => console.log(error));
+    return results;
+};
+
+
 /**
  * ----------------------------------------------------
  * fetchAccount
@@ -286,7 +326,6 @@ export const fetchAccount = (
             const {data} = response;
             const {status, role} = data;
             const accountType = getAccountType(data);
-            console.log(data);
             if(status === SUCCESS){
                 // Set the login state of the application to authenticated
                 dispatch(setAccountAuthenticationState(true));
@@ -302,15 +341,10 @@ export const fetchAccount = (
                     const {pm} = tenant;
                     const {email, firstName, lastName} = pm[0];
                     const pmAccountType = AccountTypes.PropertyManager;
-                    console.log("api request pm");
-                    console.log(pm);
                     const pmContact = {accountType:pmAccountType, firstName, lastName, email };
-                    console.log("pmContact");
-                    console.log(pmContact);
                     dispatch(fetchPropertyAndPropertyManager(properties, pmContact));
                 }
                 // Navigate page based on the Account Type
-                console.log(accountType);
                 ChooseMainPage(accountType, navigation);
             }else{
                 modalSetOffCallBack("Home Pairs was unable to log in. Please try again.");

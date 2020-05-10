@@ -269,7 +269,8 @@ export default class NavigationRouteHandler{
      */
     resolveModalReplaceNavigation(route:string, params?:any, asBackground?:boolean){
         if(NavigationRouteHandler.type === NavigationObjects.Router){
-            return this.replace(route, params, asBackground);
+            return this.navigation.history.goBack();
+            //this.replace(route, params, asBackground);
         } 
         return this.goBack();
     }

@@ -19,7 +19,7 @@ export type InputFormProps = {
     errorMessage?: string;
     numberOfLines?: number;
     multiline?: boolean;
-    noTrim?: boolean;
+    trim?: boolean;
     maxLength?: number;
 };
 type InputFormState = {
@@ -89,8 +89,8 @@ export default class InputForm extends React.Component<InputFormProps, InputForm
     }
 
     passInputValue(text: string): void {
-        const {parentCallBack, noTrim} = this.props;
-        parentCallBack( noTrim ? text : text.trim());
+        const {parentCallBack, trim} = this.props;
+        parentCallBack( trim ? text.trim() : text);
     }
 
     renderName() {
@@ -160,7 +160,7 @@ InputForm.defaultProps = {
     placeholder: null,
     numberOfLines: 1,
     multiline: false,
-    noTrim: false,
+    trim: false,
     maxLength: 200,
     errorMessage: 'Placeholder error message',
 };

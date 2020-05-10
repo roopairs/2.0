@@ -22,18 +22,18 @@ import {
     Property,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HOMEPAIRS_PROPERTY_ENDPOINT } from 'homepairs-endpoints';
-import axios from 'axios';
-import { stringToCategory } from 'homepairs-utilities';
-import { NavigationRouteScreenProps, hasPageBeenReloaded, navigationPages } from 'homepairs-routes';
+import { NavigationRouteScreenProps, navigationPages } from 'homepairs-routes';
 
 export type DetailedPropertyStateProps = {
     properties: PropertyDict;
     token: string,
+    tenantInfo: TenantInfo[],
+    applianceInfo: Appliance[],
 };
 
 export type DetailedPropertyScreenDispatchProps = {
     onUpdateHeader: () => any
+    setAppliancesAndTenants: (propId: string) => any,
 }
 
 export type DetailedPropertyProps = 
@@ -41,12 +41,6 @@ export type DetailedPropertyProps =
     & DetailedPropertyStateProps
     & DetailedPropertyScreenDispatchProps;
 
-type State = {
-    tenantInfo: TenantInfo[],
-    applianceInfo: Appliance[],
-    pathname: string,
-    key: string,
-};
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -121,7 +115,7 @@ function getPropIdAndProperty(props:any): [string, Property]{
     return [propId, properties[propId]];
 }
 
-export class DetailedPropertyScreenBase extends React.Component<DetailedPropertyProps, State> {
+export class DetailedPropertyScreenBase extends React.Component<DetailedPropertyProps> {
 
     apiKey = 'AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg';
 
@@ -131,76 +125,21 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
 
     constructor(props: Readonly<DetailedPropertyProps>){
         super(props);
-        const [pathname, key] = props.navigation.getLocationPathnameAndKey();
-        this.state = {
-            tenantInfo: [],
-            applianceInfo: [],
-            pathname,
-            key,
-        };
         this.navigation = props.navigation;
         this.token = props.token;
         this.openEditPropertyModal = this.openEditPropertyModal.bind(this);
         this.openEditApplianceModal = this.openEditApplianceModal.bind(this);
         this.openAddApplianceModal = this.openAddApplianceModal.bind(this);
         this.openEditApplianceModal = this.openEditApplianceModal.bind(this);
-        this.fetchTenantsAndAppliances = this.fetchTenantsAndAppliances.bind(this);
     };
 
-    async componentDidMount(){
-        const {onUpdateHeader} = this.props;
+    componentDidMount(){
+        const {onUpdateHeader, setAppliancesAndTenants} = this.props;
         onUpdateHeader();
-        await this.fetchTenantsAndAppliances();
-    }
-
-    componentDidUpdate() {
-        if(hasPageBeenReloaded(this.props, this.state)){
-            const {navigation} = this.props;
-            const [newPath, newKey] = navigation.getLocationPathnameAndKey();
-            this.fetchTenantsAndAppliances();
-            this.setState({pathname: newPath, key: newKey});
-        }
-    };
-    
-
-    // TODO: Cancel all async requests that are still occurring. Will focus on this next quarter!!!
-    componentWillUnmount(){}
-
-    fetchTenantsAndAppliances = async () => {
         const [propId] = getPropIdAndProperty(this.props);
-
-        await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`).then((result) =>{
-            const {tenants, appliances} = result.data;
-            const tenantInfo: TenantInfo[] = [];
-            const applianceInfo: Appliance[] = [];
-
-            tenants.forEach(tenant => {
-                const {firstName, lastName, email, phoneNumber} = tenant;
-                tenantInfo.push({
-                    firstName,
-                    lastName,
-                    email,
-                    phoneNumber,
-                });
-            });
-
-            appliances.forEach(appliance => {
-                const {appId, category, name, manufacturer, modelNum, serialNum, location} = appliance;
-
-                applianceInfo.push({
-                    applianceId: appId,
-                    category: stringToCategory(category), 
-                    appName: name, manufacturer, modelNum, serialNum, location,
-                });
-            });
-
-            this.setState({
-                tenantInfo,
-                applianceInfo,
-            });
-        });  
-    };
-       
+        setAppliancesAndTenants(propId);
+    }
+    
     openEditPropertyModal() {
         const [propId] = getPropIdAndProperty(this.props);
         this.navigation.navigate(navigationPages.EditPropertyModal, {propId}, true);
@@ -220,8 +159,7 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
     renderContents() {
         const [propId, property] = getPropIdAndProperty(this.props);
         const {address} = property;
-        const {applianceInfo, tenantInfo} = this.state;
-        const {navigation} = this.props;
+        const {navigation, applianceInfo, tenantInfo} = this.props;
 
         return (
             <ScrollView 
