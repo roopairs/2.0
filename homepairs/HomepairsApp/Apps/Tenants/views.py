@@ -108,7 +108,7 @@ class LoginView(View):
 class RegisterView(View):
     def post(self, request):
         inData = json.loads(request.body)
-        required = ['firstName', 'lastName', 'email', 'password', 'streetAddress', 'city']
+        required = ['firstName', 'lastName', 'email', 'password', 'streetAddress']
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) == 0):
@@ -116,7 +116,6 @@ class RegisterView(View):
             lastName = inData.get('lastName')
             email = inData.get('email')
             streetAddress = inData.get('streetAddress')
-            city = inData.get('city')
             password = inData.get('password')
 
             tempPms = PropertyManager.objects.filter(email=email)
@@ -124,7 +123,7 @@ class RegisterView(View):
             if(tempPms.count() > 0 or tempTens.count() > 0):
                 return JsonResponse(data=returnError(EMAIL_ALREADY_USED))
 
-            propertyList = Property.objects.filter(streetAddress=streetAddress, city=city)
+            propertyList = Property.objects.filter(streetAddress=streetAddress)
 
             if propertyList.exists():
                 if propertyList.count() < 2:
