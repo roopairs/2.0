@@ -355,7 +355,7 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
                     onClick={() => {this.clickSubmitButton();}} 
                     buttonStyle={this.styles.editTenantButtonStyle}
                     buttonTextStyle={this.styles.editTenantButtonTextStyle}
-                    containerStyle={{width: '90%'}}
+                    containerStyle={{marginLeft: 3, width: '90%'}}
                     />
                 </View>
                 <View style={{flex: 1}}>
@@ -364,7 +364,7 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
                     onClick={() => {this.clickRemoveButton();}} 
                     buttonStyle={this.styles.removeTenantButtonStyle}
                     buttonTextStyle={this.styles.removeTenantButtonTextStyle}
-                    containerStyle={{width: '90%', alignSelf:'flex-end'}}
+                    containerStyle={{ marginRight: 6, width: '90%', alignSelf:'flex-end'}}
                     />
                 </View>
             </View>
