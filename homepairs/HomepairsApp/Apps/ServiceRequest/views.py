@@ -203,11 +203,11 @@ class ServiceRequestView(View):
             schedNum = 0
             inProgNum = 0
             for i in newList:
-                if i.status == 'Pending':
+                if i['status'] == 'Pending':
                     pendNum += 1
-                elif i.status == 'In Progress':
+                elif i['status'] == 'In Progress':
                     inProgNum += 1
-                elif i.status == 'Scheduled':
+                elif i['status'] == 'Scheduled':
                     schedNum += 1
             data = {
                        STATUS: SUCCESS,
