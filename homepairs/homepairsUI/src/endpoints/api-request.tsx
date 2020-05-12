@@ -32,7 +32,6 @@ import {
     HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT,
 } from './constants';
 
-
 const {AccountActions, PropertyListActions, SessionActions, PreferredProviderActions} = HomePairsStateActions;
 const {parseAccount} = AccountActions;
 const {fetchProperties, fetchPropertyAndPropertyManager, addProperty, updateProperty} = PropertyListActions;
@@ -395,12 +394,11 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
             */
             const {properties, tenant} = response.data;
             const {pm} = tenant;
-            const {pmInfo} = pm;
+            const pmInfo = pm[0];
   
             dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
             ChooseMainPage(AccountTypes.Tenant, navigation);
           } else {
-            console.log("FAILED TO MAKE TENANT ACCOUNT");
             console.log(status);
             modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
           }
