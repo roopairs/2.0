@@ -262,7 +262,6 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
         const { serviceCategory, applianceId, providerId, serviceType, details, serviceDate, propId} = this.state;
         const {navigation, token, onUpdateHeader} = this.props;
         this.setState({errorCheck: false});
-        console.log(this.validateForms());
         if (this.validateForms()) {
             const newServiceRequest : NewServiceRequest = {
                 token,

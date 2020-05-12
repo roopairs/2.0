@@ -23,7 +23,7 @@ import strings from 'homepairs-strings';
 import { SceneInjectedProps } from 'homepairs-components';
 import { NavigationRouteScreenProps, navigationPages, MainAppStack } from 'homepairs-routes';
 import { fetchServiceRequests } from 'homepairs-endpoints';
-import { stringToCategory } from 'src/utility/ApplianceCategories';
+import { stringToCategory } from 'homepairs-utilities';
 
 
 export type ServiceRequestScreenStateProps = {
@@ -375,7 +375,6 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                     status : ServiceRequestStatusEnums[status],
                 };
 
-                console.log(serviceRequest);
                 serviceRequests.push(serviceRequest);
             });
             this.setState({serviceRequests});  
@@ -525,7 +524,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         const {properties} = this.props;
         const { currentRequestsSelected, requestSelected } = this.state;
         /*
-         TO DO: actually implement serviceRequestsState so we get a list of real requests
+         TODO: actually implement serviceRequestsState so we get a list of real requests
         */
 
         return (

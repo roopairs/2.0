@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import { StyleSheet, View, Text, Platform } from 'react-native';
 import { ApplianceType } from 'homepairs-types';
 import { ButtonWithBitmap } from 'homepairs-elements';
 import {bolt, fan, tint, blender} from 'homepairs-images';
@@ -8,6 +8,7 @@ import { categoryToString } from 'homepairs-utilities';
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         width: '75%',
         alignContent: 'center',
         alignSelf: 'center',
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
         color: '#AFB3B5',
     },
     buttonContainer: {
-        // flex: 1,
+        flex: 1,
         height: '100%',
         width: '50%',
         alignSelf: 'center',
@@ -28,19 +29,20 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     button: {
+        flex: 1,
         alignItems: 'center',
-        backgroundColor: 'transparent',
+        backgroundColor: 'white',
         flexDirection: 'column',
         padding: 10,
         height: '100%',
-        minHeight: 115, // TODO: Play around with the height to keep consistent accross all platforms 
-        width: BaseStyles.ContentWidth.thin,
+        minHeight: Platform.OS === 'web' ? 130 : undefined,
+        width: BaseStyles.ContentWidth.max,
         borderRadius: 8,
-        borderWidth: 1,
-        borderColor: BaseStyles.LightColorTheme.gray,
+        borderWidth: 2,
+        borderColor: '#BEC3C7',
 
-        shadowColor: 'black',
-        shadowRadius: 3,
+        marginHorizontal: 25,
+        shadowRadius: 2,
         shadowOffset: { width: 1, height: 1 },
         shadowOpacity: .2,
         elevation: 2,
@@ -120,7 +122,7 @@ export default class ChooseServiceCategory extends React.Component<Props, State>
         ) 
         : 
         (
-            <View style={{alignSelf: 'center', width: BaseStyles.ContentWidth.reg}}>
+            <View style={{alignSelf: 'center', width: BaseStyles.ContentWidth.reg, marginBottom: 10}}>
                 <View style={container}>
                     <View style={{flexDirection:'row', flex: 1, marginBottom: BaseStyles.MarginPadding.large}}>
                         <ButtonWithBitmap 

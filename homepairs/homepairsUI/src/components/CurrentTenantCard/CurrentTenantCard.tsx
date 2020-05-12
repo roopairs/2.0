@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { Card, ThinButton } from 'homepairs-elements';
 import { isNullOrUndefined } from 'homepairs-utilities';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
 import { navigationPages } from 'homepairs-routes';
 
@@ -251,13 +251,15 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
     }
 
     return (
-        <View style={{paddingBottom: BaseStyles.MarginPadding.largeConst}}>
-        <Card title='Current Tenants' containerStyle={styles.container} titleStyle={styles.cardTitle} titleContainerStyle={styles.titleContainerStyle} >
-            {renderError()}
-            <>{renderContent()}</>
-            <ThinButton name='Add Tenant' onClick={navigateToAddTenantModal} buttonTextStyle={styles.addButtonText} buttonStyle={styles.addButton} containerStyle={styles.addButtonContainer} />
-        </Card>
-        </View>
+            <View style={{paddingBottom: BaseStyles.MarginPadding.largeConst}}>
+            <Card title='Current Tenants' containerStyle={styles.container} titleStyle={styles.cardTitle} titleContainerStyle={styles.titleContainerStyle} >
+                {renderError()}
+                <>{renderContent()}</>
+                <View style={{marginBottom: Platform.OS === 'web' ? undefined : 30}}>
+                <ThinButton name='Add Tenant' onClick={navigateToAddTenantModal} buttonTextStyle={styles.addButtonText} buttonStyle={styles.addButton} containerStyle={styles.addButtonContainer} />
+                </View>
+            </Card>
+            </View>
     );
 } 
 

@@ -152,6 +152,7 @@ export default function ServiceRequestCount(props: ServiceRequestCountProps) {
     }
 
     return (
+        <View style={{flex: 1}}>
             <View style={styles.container}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>{serviceRequestStrings.title}</Text>
@@ -168,6 +169,7 @@ export default function ServiceRequestCount(props: ServiceRequestCountProps) {
                             <></>
                         )}
                 </View>
+            </View>
             </View>
     );
 }
