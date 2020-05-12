@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "aa8cb40709c8f9e3dd84",
-    "url": "/2.0/static/js/app.2a586650.chunk.js"
+    "revision": "34e8c3ba4afe513d1af7",
+    "url": "/2.0/static/js/app.e636678b.chunk.js"
   },
   {
     "revision": "394e48a3f414464a0568",
@@ -212,7 +212,7 @@ self.__precacheManifest = [
     "url": "/2.0/favicon.ico"
   },
   {
-    "revision": "86c5c9877c2fba6f3f3ff3432d67cceb",
+    "revision": "8424874d07944a78d3e13897062b609c",
     "url": "/2.0/index.html"
   },
   {
