@@ -118,12 +118,17 @@ class RegisterView(View):
             streetAddress = inData.get('address')
             password = inData.get('password')
 
+            temp = streetAddress.split(',')
+            streetAddress = temp[0].trim()
+            city = temp[1].trim()
+            state = temp[2].trim()
+
             tempPms = PropertyManager.objects.filter(email=email)
             tempTens = Tenant.objects.filter(email=email)
             if(tempPms.count() > 0 or tempTens.count() > 0):
                 return JsonResponse(data=returnError(EMAIL_ALREADY_USED))
 
-            propertyList = Property.objects.filter(streetAddress=streetAddress)
+            propertyList = Property.objects.filter(streetAddress=streetAddress, city=city)
 
             if propertyList.exists():
                 if propertyList.count() < 2:
