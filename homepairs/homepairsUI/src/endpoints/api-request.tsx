@@ -358,6 +358,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
             dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
             ChooseMainPage(AccountTypes.Tenant, navigation);
           } else {
+            console.log(response);
             console.log(status);
             modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
           }

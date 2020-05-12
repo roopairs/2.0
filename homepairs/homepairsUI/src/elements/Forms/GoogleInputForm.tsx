@@ -5,6 +5,7 @@ import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 import * as BaseStyles from 'homepairs-base-styles';
 import LocationItem from '../LocationItem/LocationItem';
+import {} from 'dotenv/config';
 
 export type GoogleInputFormProps = {
     key?: any;
@@ -112,6 +113,8 @@ export default class GoogleInputForm extends React.Component<GoogleInputFormProp
             locationsContainer,
         } = this.props;
         const {error} = this.state;
+
+        console.log(process.env.GOOGLE_API_KEY);
 
         return (
             <GoogleAutoComplete apiKey='AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg' 

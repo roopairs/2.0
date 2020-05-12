@@ -113,7 +113,7 @@ function renderLogo(name: string, logo?: string) {
 export default function ServiceProviderButton(props: ServiceProviderButtonProps) {
     const { onClick, serviceProvider } = props;
     Moment.locale('en');
-    //const date = Moment(serviceProvider.startDate.toString()).format('LLL');
+    // const date = Moment(serviceProvider.startDate.toString()).format('LLL');
 
     return (
         <View style={[styles.container]}>
