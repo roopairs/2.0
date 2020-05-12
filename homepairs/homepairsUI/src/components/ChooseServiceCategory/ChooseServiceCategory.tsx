@@ -23,10 +23,10 @@ const styles = StyleSheet.create({
         flex: 1,
         height: '100%',
         width: '50%',
-        alignSelf: 'center',
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 10,
+        marginHorizontal: Platform.OS === 'web' ? '15%' : '25%',
     },
     button: {
         flex: 1,
@@ -35,13 +35,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         padding: 10,
         height: '100%',
-        minHeight: Platform.OS === 'web' ? 130 : undefined,
+        minHeight: Platform.OS === 'web' ? 135 : 120,
+        minWidth: 115,
         width: BaseStyles.ContentWidth.max,
         borderRadius: 8,
         borderWidth: 2,
         borderColor: '#BEC3C7',
 
-        marginHorizontal: 25,
         shadowRadius: 2,
         shadowOffset: { width: 1, height: 1 },
         shadowOpacity: .2,
@@ -124,7 +124,7 @@ export default class ChooseServiceCategory extends React.Component<Props, State>
         (
             <View style={{alignSelf: 'center', width: BaseStyles.ContentWidth.reg, marginBottom: 10}}>
                 <View style={container}>
-                    <View style={{flexDirection:'row', flex: 1, marginBottom: BaseStyles.MarginPadding.large}}>
+                    <View style={{flexDirection:'row', flex: 1, marginBottom: BaseStyles.MarginPadding.large, alignSelf: 'center'}}>
                         <ButtonWithBitmap 
                             image={bolt} 
                             name='Lighting and Electrical' 
@@ -138,7 +138,7 @@ export default class ChooseServiceCategory extends React.Component<Props, State>
                             containerStyle={buttonContainer}
                             buttonStyle={button}/>
                     </View>
-                    <View style={{flexDirection:'row', flex: 1, marginTop: BaseStyles.MarginPadding.large}}>
+                    <View style={{flexDirection:'row', flex: 1, marginTop: BaseStyles.MarginPadding.large, alignSelf: 'center'}}>
                         <ButtonWithBitmap 
                             image={fan} 
                             name='Heating and Air Conditioning' 
