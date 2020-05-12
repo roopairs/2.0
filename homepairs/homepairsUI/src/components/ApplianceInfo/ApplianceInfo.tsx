@@ -69,7 +69,7 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
             backgroundColor: colors.transparent,
             padding: BaseStyles.MarginPadding.mediumConst,
             width: HomePairsDimensions.MIN_BUTTON_WIDTH,
-            marginBottom: Platform.OS === 'ios' ? 15 : undefined,
+            marginBottom: Platform.OS !== 'web' ? 15 : undefined,
             borderRadius: 8,
             borderWidth: 1,
             borderColor: colors.lightGray,
