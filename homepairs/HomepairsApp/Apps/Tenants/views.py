@@ -108,14 +108,14 @@ class LoginView(View):
 class RegisterView(View):
     def post(self, request):
         inData = json.loads(request.body)
-        required = ['firstName', 'lastName', 'email', 'password', 'streetAddress']
+        required = ['firstName', 'lastName', 'email', 'password', 'address']
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) == 0):
             firstName = inData.get('firstName')
             lastName = inData.get('lastName')
             email = inData.get('email')
-            streetAddress = inData.get('streetAddress')
+            streetAddress = inData.get('address')
             password = inData.get('password')
 
             tempPms = PropertyManager.objects.filter(email=email)
