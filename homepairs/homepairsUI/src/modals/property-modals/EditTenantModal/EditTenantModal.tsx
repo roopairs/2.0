@@ -133,7 +133,7 @@ function setInputStyles(){
             marginBottom: BaseStyles.MarginPadding.xlarge,
             marginRight: BaseStyles.MarginPadding.mediumConst,
             minHeight: 50,
-            width: '50%',
+            width: '90%',
         },
         removeButtonContainerStyle: {
             flex: 1,
@@ -143,7 +143,7 @@ function setInputStyles(){
             marginBottom: BaseStyles.MarginPadding.xlarge,
             marginLeft: BaseStyles.MarginPadding.mediumConst,
             minHeight: 50,
-            width: '50%',
+            width: '90%',
         },
         
     });
@@ -348,10 +348,10 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
 
     renderThinButtons() {
         return (
-            <View style={{flexDirection: 'row', justifyContent: 'center', alignSelf: 'center', marginBottom: Platform.OS === 'web' ? undefined : 40}}>
+            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'center', alignSelf: 'center', marginBottom: Platform.OS === 'web' ? 20: 40}}>
                 <View style={{flex: 1}}>
                 <ThinButton 
-                    name='Edit'
+                    name='Save'
                     onClick={() => {this.clickSubmitButton();}} 
                     buttonStyle={this.styles.editTenantButtonStyle}
                     buttonTextStyle={this.styles.editTenantButtonTextStyle}
