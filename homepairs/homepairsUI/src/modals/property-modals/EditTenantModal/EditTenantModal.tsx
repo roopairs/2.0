@@ -348,21 +348,23 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
 
     renderThinButtons() {
         return (
-            <View style={{flexDirection: 'row'}}>
-                <View style={{alignSelf: 'flex-start'}}>
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignSelf: 'center', marginBottom: Platform.OS === 'web' ? undefined : 40}}>
+                <View style={{flex: 1}}>
                 <ThinButton 
                     name='Edit'
                     onClick={() => {this.clickSubmitButton();}} 
                     buttonStyle={this.styles.editTenantButtonStyle}
                     buttonTextStyle={this.styles.editTenantButtonTextStyle}
+                    containerStyle={{width: '90%'}}
                     />
                 </View>
-                <View style={{alignSelf: 'flex-end'}}>
+                <View style={{flex: 1}}>
                 <ThinButton 
                     name='Remove'
                     onClick={() => {this.clickRemoveButton();}} 
                     buttonStyle={this.styles.removeTenantButtonStyle}
                     buttonTextStyle={this.styles.removeTenantButtonTextStyle}
+                    containerStyle={{width: '90%', alignSelf:'flex-end'}}
                     />
                 </View>
             </View>
