@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         marginVertical: BaseStyles.MarginPadding.mediumConst,
     },
     container: {
-        flex: 1,
+        // flex: 1,
         backgroundColor: colors.secondary,
         marginHorizontal: BaseStyles.MarginPadding.large,
         marginTop: BaseStyles.MarginPadding.largeConst,
@@ -259,6 +259,7 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
     }
 
     return (
+        <>
             <View style={{paddingBottom: BaseStyles.MarginPadding.largeConst}}>
             <Card title='Current Tenants' containerStyle={styles.container} titleStyle={styles.cardTitle} titleContainerStyle={styles.titleContainerStyle} >
                 {renderError()}
@@ -268,6 +269,7 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
                 </View>
             </Card>
             </View>
+            </>
     );
 } 
 

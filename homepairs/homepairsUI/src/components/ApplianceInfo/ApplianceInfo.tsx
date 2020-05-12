@@ -22,6 +22,7 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
     const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;
     return StyleSheet.create({
         container: {
+            flex: 1,
             backgroundColor: colors.secondary,
             marginHorizontal: BaseStyles.MarginPadding.large,
             marginTop: BaseStyles.MarginPadding.largeConst,
@@ -102,7 +103,7 @@ export default function ApplianceInfo(props: Props) {
     };
 
     return (
-        <View style={{flex:1, paddingBottom: BaseStyles.MarginPadding.largeConst}}>
+        <View style={{ paddingBottom: BaseStyles.MarginPadding.largeConst}}>
             <View style={styles.container}>
                 <View style= {styles.titleContainer}>
                     <Text style= {styles.titleText}>
