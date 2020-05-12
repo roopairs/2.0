@@ -119,9 +119,9 @@ class RegisterView(View):
             password = inData.get('password')
 
             temp = streetAddress.split(',')
-            streetAddress = temp[0].trim()
-            city = temp[1].trim()
-            state = temp[2].trim()
+            streetAddress = temp[0].strip()
+            city = temp[1].strip()
+            state = temp[2].strip()
 
             tempPms = PropertyManager.objects.filter(email=email)
             tempTens = Tenant.objects.filter(email=email)
