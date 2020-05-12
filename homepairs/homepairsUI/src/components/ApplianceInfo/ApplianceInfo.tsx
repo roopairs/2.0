@@ -102,7 +102,7 @@ export default function ApplianceInfo(props: Props) {
     };
 
     return (
-        <View style={{flex:1}}>
+        <View style={{flex:1, paddingBottom: BaseStyles.MarginPadding.largeConst}}>
             <View style={styles.container}>
                 <View style= {styles.titleContainer}>
                     <Text style= {styles.titleText}>

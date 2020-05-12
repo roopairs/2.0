@@ -58,7 +58,7 @@ const defaultNavigationOptions: NavigationStackOptions = {
         backgroundColor: 'rgba(0,0,0,.4)',
      },
     gestureEnabled: false,
-    animationEnabled: false,
+    animationEnabled:false,
 };
 
 const modalStackConfig: NavigationStackConfig = {
