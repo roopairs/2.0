@@ -110,17 +110,16 @@ class LoginView(View):
 class RegisterView(View):
     def post(self, request):
         inData = json.loads(request.body)
-        required = ['firstName', 'lastName', 'email', 'password', 'streetAddress', 'city']
+        required = ['firstName', 'lastName', 'email', 'password', 'address']
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) == 0):
             firstName = inData.get('firstName')
             lastName = inData.get('lastName')
             email = inData.get('email')
-            streetAddress = inData.get('streetAddress')
-            city = inData.get('city')
+            streetAddress = inData.get('address')
             password = inData.get('password')
-            propertyList = Property.objects.filter(streetAddress=streetAddress, city=city)
+            propertyList = Property.objects.filter(streetAddress=streetAddress)
 
             if propertyList.exists():
                 if propertyList.count() < 2:
