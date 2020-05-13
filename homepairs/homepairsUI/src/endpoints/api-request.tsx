@@ -41,8 +41,6 @@ const {refreshServiceProviders, removeServiceProvider} = PreferredProviderAction
 
 /* * JSON KEYS * */
 const SUCCESS = 'success';
-const FAILURE = 'failure';
-const PREFERRED_PROVIDERS = 'TODO: Change this key to that returned from the backend';
 const PM = 'pm';
 /* * JSON KEYS * */
 
@@ -61,7 +59,6 @@ export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => S
     return preferredServiceProviderJSON.map(serviceProvider => {
         const {provId, name, email, phoneNum, prefId,contractLic, skills, 
             founded, rate, timesHired, earliestHire, logo} = serviceProvider;
-        // TODO: Handle loading the logo image asset recieved from the backend response
         return {
             provId, name, email, prefId,
             phoneNum, contractLic, skills, 
@@ -123,7 +120,6 @@ export const fetchNetworkProviders = (accountEmail: string) => {
         await axios.get(endpoint)
         .then(result => {
             const {data} = result;
-            // TODO: parse serviceProviders to be that of a list of ServiceProviders
             const {status, serviceProviders, error} = data;
             if(status === SUCCESS){
                 const parsedProviders = parsePreferredProviders(serviceProviders);
@@ -317,7 +313,6 @@ export const fetchAccount = (
     modalSetOffCallBack: (error?:String) => void = (error: String) => {}) => 
     {
         return async (dispatch: (arg0: any) => void) => {
-        // TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
         await axios.post(HOMEPAIRS_LOGIN_ENDPOINT, {
             email: Email,
             password: Password,
@@ -331,7 +326,7 @@ export const fetchAccount = (
                 dispatch(setAccountAuthenticationState(true));
                 dispatch(parseAccount(data));
                 
-                if(role === PM){ // role = property manager
+                if(role === PM){
                     const {properties, pm} = data;
                     const {pmId} = pm; 
                     dispatch(fetchProperties(properties));
@@ -680,7 +675,6 @@ export const postNewServiceRequest = async (
             const {data} = response;
             const {status} = data;
             if (status === SUCCESS) {
-                // navigation go to confirmation screen
                 navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
             } else {
                 const {error} = data;

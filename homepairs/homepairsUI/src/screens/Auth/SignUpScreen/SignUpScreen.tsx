@@ -23,9 +23,7 @@ const authPageParam: AuthPassProps = {
   highlightedText: signUpStrings.signUpHighlight,
 };
 const mapDispatchToProps : (dispatch: any) => SignUpViewDispatchProps = (dispatch: any) => ({
-    // TODO: Finish sign up when backend is ready 
     generateHomePairsAccount: (details: Account, password: String, modalSetOff: () => any, navigation?: NavigationRouteHandler) => {
-        // TODO: Remember to Call dispatch when sign up is ready in backend
         if (details.accountType === AccountTypes.PropertyManager) {
             dispatch(generateAccountForPM(details, password, navigation, modalSetOff));
         } else {

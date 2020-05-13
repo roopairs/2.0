@@ -28,7 +28,6 @@ export default function setInputStyles(){
             alignSelf: 'center',
         },
         scrollStyle: {
-            // flex:1,
             width: '100%',
         },
         scrollContentContainerStyle: {
@@ -54,7 +53,6 @@ export default function setInputStyles(){
             justifyContent: 'center',
             alignItems: 'center',
             alignSelf: 'center',
-            // flex: 1,
         },
         cardTitle: {
             color: 'white',

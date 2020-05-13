@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
         marginVertical: BaseStyles.MarginPadding.mediumConst,
     },
     container: {
-        // flex: 1,
         backgroundColor: colors.secondary,
         marginHorizontal: BaseStyles.MarginPadding.large,
         marginTop: BaseStyles.MarginPadding.largeConst,
@@ -76,7 +75,6 @@ const styles = StyleSheet.create({
         borderBottomColor: colors.veryLightGray,
         borderBottomWidth: 1,
         padding: BaseStyles.MarginPadding.medium,
-        // paddingBottom: BaseStyles.MarginPadding.small,
         width: BaseStyles.ContentWidth.thin,
         alignSelf: 'center',
         shadowColor: colors.shadow,
@@ -174,12 +172,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     addButtonContainer: {
-        // flex: 1,
         alignSelf: 'center',
-        // justifyContent: 'center',
-        // paddingHorizontal: 10,
-        // minHeight: 50,
-        // marginTop: BaseStyles.MarginPadding.large,
     },
     emptyText: {
         color: colors.red,

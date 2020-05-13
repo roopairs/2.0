@@ -23,8 +23,6 @@ export type Appliance = {
 
 /* *-------------------Property Types-------------------* */
 
-// TODO: Collaborate with Adam to make sure this is the correct info recieved 
-// from the response 
 export type TenantInfo = {
     firstName: string,
     lastName: string,
@@ -195,7 +193,6 @@ export type NewServiceRequest = {
 }
 
 export type ServiceProvider = {
-    // TODO: Define attributes for service Provider
     provId: number,
     prefId?: string, // Optional param if preferred service provider
     name: string,
