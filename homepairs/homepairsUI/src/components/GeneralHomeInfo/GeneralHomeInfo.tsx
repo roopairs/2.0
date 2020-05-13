@@ -1,5 +1,5 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Platform } from 'react-native';
 import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.secondary,
         marginHorizontal: BaseStyles.MarginPadding.large,
         marginTop: BaseStyles.MarginPadding.largeConst,
-        marginBottom: BaseStyles.MarginPadding.large,
+        marginBottom: BaseStyles.MarginPadding.largeConst,
         borderRadius: BaseStyles.BorderRadius.large,
         borderBottomColor: colors.veryLightGray,
         borderBottomWidth: 1,
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: colors.transparent,
         padding: BaseStyles.MarginPadding.mediumConst,
+        marginBottom: Platform.OS !== 'web' ? 10 : undefined,
         width: HomePairsDimensions.MIN_BUTTON_WIDTH,
         borderRadius: 8,
         borderWidth: 1,
@@ -126,8 +127,6 @@ const styles = StyleSheet.create({
  */
 export default function GeneralHomeInfo(props: GeneralHomeInfoProps) {
     const { property, hasEdit, onClick } = props;
-    console.log(`In General Home Info`)
-    console.log(property);
     const {address, tenants, bedrooms, bathrooms} = property;
 
     function renderDetailBox(arg0: String, arg1: number) {

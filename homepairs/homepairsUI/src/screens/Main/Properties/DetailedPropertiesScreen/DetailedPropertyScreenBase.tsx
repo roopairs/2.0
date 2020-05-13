@@ -177,18 +177,22 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
                                 resizeMode='cover'/>
                         </View>
                     </View>
-                    <GeneralHomeInfo
-                        property={property}
-                        onClick={this.openEditPropertyModal}/>
+                    <>
+                        <GeneralHomeInfo
+                            property={property}
+                            onClick={this.openEditPropertyModal}/>
+                    </>
                     <ApplianceInfo 
                         appliances={applianceInfo} 
                         propId={propId}
                         onAddApplianceModal={this.openAddApplianceModal} 
                         onEditApplianceModal={this.openEditApplianceModal}/>
-                    <CurrentTenantCard
-                        navigation={this.navigation}
-                        propId={propId}
-                        tenants={tenantInfo}/>
+                    <>
+                        <CurrentTenantCard
+                            navigation={this.navigation}
+                            propId={propId}
+                            tenants={tenantInfo}/>
+                    </>
                     <ServiceRequestCount 
                         onClick={() => navigation.navigate(navigationPages.ServiceRequestScreen)}
                         property={property}

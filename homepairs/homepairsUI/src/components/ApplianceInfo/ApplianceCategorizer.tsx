@@ -100,16 +100,13 @@ export default function ApplianceCategorizer(props: Props) {
     }
 
     return (
+        appliances.length === 0 ? (<Text style={styles.emptyText}>
+            No appliances have been added
+        </Text>) :(
         <View style={styles.container}>
-            {appliances.length === 0 ? (
-                <Text style={styles.emptyText}>
-                    No appliances have been added
-                </Text>
-            ) : (
-                <>{categorize()}</>
-            )}
+            <>{categorize()}</>
         </View>
-    );
+    ));
 }
 
 ApplianceCategorizer.defaultProps = {

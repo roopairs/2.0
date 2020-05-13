@@ -88,7 +88,6 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             justifyContent: 'center',
             alignItems: 'center',
             alignSelf: 'center',
-            flex: 1,
         },
         cardTitle: {
             color: colors.tertiary,

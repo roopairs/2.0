@@ -100,7 +100,6 @@ function setInputStyles(){
             backgroundColor: BaseStyles.LightColorTheme.transparent,
             padding: BaseStyles.MarginPadding.mediumConst,
             maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
-            minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
             borderRadius: BaseStyles.BorderRadius.large,
             borderWidth: 1,
             borderColor: BaseStyles.LightColorTheme.primary,
@@ -115,7 +114,6 @@ function setInputStyles(){
             backgroundColor: BaseStyles.LightColorTheme.transparent,
             padding: BaseStyles.MarginPadding.mediumConst,
             maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
-            minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
             borderRadius: BaseStyles.BorderRadius.large,
             borderWidth: 1,
             borderColor: BaseStyles.LightColorTheme.red,
@@ -133,6 +131,7 @@ function setInputStyles(){
             marginBottom: BaseStyles.MarginPadding.xlarge,
             marginRight: BaseStyles.MarginPadding.mediumConst,
             minHeight: 50,
+            width: '90%',
         },
         removeButtonContainerStyle: {
             flex: 1,
@@ -142,6 +141,7 @@ function setInputStyles(){
             marginBottom: BaseStyles.MarginPadding.xlarge,
             marginLeft: BaseStyles.MarginPadding.mediumConst,
             minHeight: 50,
+            width: '90%',
         },
         
     });
@@ -266,8 +266,6 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
         if (this.validateForms()) {
             const newTenantInfo : TenantInfo = this.generateNewTenantInfo();
             const postValues = {propId: this.propId, ...newTenantInfo};
-            // TODO: set up fetch request for editing tenant.
-            // alert('We need the backend to set up an endpoint to Edit the Tenant');
             await updateTenant(postValues).then(() => {
                 setAppliancesAndTenants(String(this.propId));
             }); 
@@ -346,19 +344,25 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
 
     renderThinButtons() {
         return (
-            <View style={{flexDirection: 'row', alignItems:'center', alignSelf:'center'}}>
+            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'center', alignSelf: 'center', marginBottom: Platform.OS === 'web' ? 20: 40}}>
+                <View style={{flex: 1}}>
                 <ThinButton 
-                    name='Edit'
+                    name='Save'
                     onClick={() => {this.clickSubmitButton();}} 
                     buttonStyle={this.styles.editTenantButtonStyle}
                     buttonTextStyle={this.styles.editTenantButtonTextStyle}
-                    containerStyle={this.styles.editButtonContainerStyle}/>
+                    containerStyle={{marginLeft: 3, width: '90%'}}
+                    />
+                </View>
+                <View style={{flex: 1}}>
                 <ThinButton 
                     name='Remove'
                     onClick={() => {this.clickRemoveButton();}} 
                     buttonStyle={this.styles.removeTenantButtonStyle}
                     buttonTextStyle={this.styles.removeTenantButtonTextStyle}
-                    containerStyle={this.styles.removeButtonContainerStyle}/>
+                    containerStyle={{ marginRight: 6, width: '90%', alignSelf:'flex-end'}}
+                    />
+                </View>
             </View>
         );
     }
