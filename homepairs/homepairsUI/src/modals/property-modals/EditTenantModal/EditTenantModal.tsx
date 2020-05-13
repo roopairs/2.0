@@ -100,7 +100,6 @@ function setInputStyles(){
             backgroundColor: BaseStyles.LightColorTheme.transparent,
             padding: BaseStyles.MarginPadding.mediumConst,
             maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
-            //minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
             borderRadius: BaseStyles.BorderRadius.large,
             borderWidth: 1,
             borderColor: BaseStyles.LightColorTheme.primary,
@@ -115,7 +114,6 @@ function setInputStyles(){
             backgroundColor: BaseStyles.LightColorTheme.transparent,
             padding: BaseStyles.MarginPadding.mediumConst,
             maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
-            //minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
             borderRadius: BaseStyles.BorderRadius.large,
             borderWidth: 1,
             borderColor: BaseStyles.LightColorTheme.red,
@@ -268,8 +266,6 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
         if (this.validateForms()) {
             const newTenantInfo : TenantInfo = this.generateNewTenantInfo();
             const postValues = {propId: this.propId, ...newTenantInfo};
-            // TODO: set up fetch request for editing tenant.
-            // alert('We need the backend to set up an endpoint to Edit the Tenant');
             await updateTenant(postValues).then(() => {
                 setAppliancesAndTenants(String(this.propId));
             }); 
