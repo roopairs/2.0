@@ -351,7 +351,6 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
             const {data} = response;
             const {reqs} = data;
 
-            console.log(response)
             let serviceRequests : ServiceRequest[] = [];
 
             reqs.forEach(req => {
@@ -375,6 +374,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                     status : ServiceRequestStatusEnums[status],
                 };
 
+                console.log(serviceRequest);
                 serviceRequests.push(serviceRequest);
             });
             this.setState({serviceRequests});  
@@ -524,7 +524,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         const {properties} = this.props;
         const { currentRequestsSelected, requestSelected } = this.state;
         /*
-         TODO: actually implement serviceRequestsState so we get a list of real requests
+         TO DO: actually implement serviceRequestsState so we get a list of real requests
         */
 
         return (

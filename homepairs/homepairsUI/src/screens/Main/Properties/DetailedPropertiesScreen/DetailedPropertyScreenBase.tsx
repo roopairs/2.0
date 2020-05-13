@@ -195,7 +195,7 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
                     </>
                     <ServiceRequestCount 
                         onClick={() => navigation.navigate(navigationPages.ServiceRequestScreen)}
-                        property={property}
+                        propId={propId}
                     />
                 </View>
             </ScrollView>
