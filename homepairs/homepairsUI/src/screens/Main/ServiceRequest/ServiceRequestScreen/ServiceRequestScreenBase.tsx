@@ -523,9 +523,6 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
     renderServiceRequests() {
         const {properties} = this.props;
         const { currentRequestsSelected, requestSelected } = this.state;
-        /*
-         TO DO: actually implement serviceRequestsState so we get a list of real requests
-        */
 
         return (
             <>
