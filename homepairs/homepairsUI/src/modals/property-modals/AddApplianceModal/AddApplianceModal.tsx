@@ -5,11 +5,11 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance, AddApplianceState, ApplianceType } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isPositiveWholeNumber, isEmptyOrSpaces, isNullOrUndefined} from 'homepairs-utilities';
-import {HelperText} from 'react-native-paper';
-import {FontTheme} from 'homepairs-base-styles';
-import { navigationPages, NavigationRouteScreenProps, prepareNavigationHandlerComponent} from 'homepairs-routes';
-import {postNewAppliance} from 'homepairs-endpoints';
+import { isPositiveWholeNumber, isEmptyOrSpaces, isNullOrUndefined } from 'homepairs-utilities';
+import { HelperText } from 'react-native-paper';
+import { FontTheme } from 'homepairs-base-styles';
+import { navigationPages, NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-routes';
+import { postNewAppliance } from 'homepairs-endpoints';
 import { DetailedPropertyMutatorDispatchProps, DetailedPropertyMutatorModal } from '../CommonDispatchProps';
 
 
@@ -21,31 +21,33 @@ type AddApplianceModalDispatchProps = DetailedPropertyMutatorDispatchProps
 type Props = NavigationRouteScreenProps & AddApplianceModalDispatchProps;
 
 type CreateState = {
-    category: ApplianceType, 
-    appName: string, 
-    manufacturer: string, 
+    category: ApplianceType,
+    appName: string,
+    manufacturer: string,
     modelNum: string,
-    serialNum: string, 
+    serialNum: string,
     location: string,
-    errorMsg: string, 
+    errorMsg: string,
     errorCheck: boolean,
 };
 
 const addApplianceStrings = strings.applianceInfo.applianceModal;
 
-const initialState : CreateState = {
-    category: ApplianceType.None, 
-    appName: '', 
-    manufacturer: '', 
+const initialState: CreateState = {
+    category: ApplianceType.None,
+    appName: '',
+    manufacturer: '',
     modelNum: '',
-    serialNum: '', 
+    serialNum: '',
     location: '',
     errorMsg: '',
     errorCheck: false,
 };
 
-function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
-    const {width} = Dimensions.get('window');
+const DefaultMessage: string = "No appliance could be created for the property at this time. This may be a server issue.";
+
+function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
+    const { width } = Dimensions.get('window');
     const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
     return StyleSheet.create({
         formTitle: {
@@ -73,7 +75,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             alignSelf: 'center',
         },
         scrollStyle: {
-            flex:1,
+            flex: 1,
             marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
             width: '100%',
         },
@@ -124,7 +126,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             justifyContent: 'center',
         },
         errorStyle: {
-            fontFamily: FontTheme.secondary, 
+            fontFamily: FontTheme.secondary,
             fontSize: 16,
         },
         menuStyle: {
@@ -149,7 +151,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
 }
 
 
-export class AddApplianceModalBase extends React.Component<Props,CreateState> {
+export class AddApplianceModalBase extends React.Component<Props, CreateState> {
     inputFormStyle;
 
     categoryRef;
@@ -168,9 +170,9 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
 
     token;
 
-    submitButton : ThinButtonProps = {
-        name: addApplianceStrings.add, 
-        onClick: () => {this.clickSubmitButton();}, 
+    submitButton: ThinButtonProps = {
+        name: addApplianceStrings.add,
+        onClick: () => { this.clickSubmitButton(); },
         buttonStyle: {
             alignItems: 'center',
             backgroundColor: Colors.LightModeColors.transparent,
@@ -182,7 +184,7 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
             borderColor: Colors.LightModeColors.blueButton,
         },
         buttonTextStyle: {
-            color: Colors.LightModeColors.blueButtonText, 
+            color: Colors.LightModeColors.blueButtonText,
             fontSize: BaseStyles.FontTheme.reg,
             alignSelf: 'center',
         },
@@ -201,7 +203,7 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
         this.inputFormStyle = setInputStyles(null);
 
         this.goBackToPreviousPage = this.goBackToPreviousPage.bind(this);
-        this.getFormCategory= this.getFormCategory.bind(this);
+        this.getFormCategory = this.getFormCategory.bind(this);
         this.getFormName = this.getFormName.bind(this);
         this.getFormManufacturer = this.getFormManufacturer.bind(this);
         this.getFormModelNum = this.getFormModelNum.bind(this);
@@ -222,28 +224,28 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
         this.locationRef = React.createRef();
     }
 
-    getFormCategory(childData : ApplianceType) {
-        this.setState({category: childData});
+    getFormCategory(childData: ApplianceType) {
+        this.setState({ category: childData });
     }
 
-    getFormName(childData : string) {
-        this.setState({appName: childData});
+    getFormName(childData: string) {
+        this.setState({ appName: childData });
     }
 
-    getFormManufacturer(childData : string) {
-        this.setState({manufacturer: childData});
+    getFormManufacturer(childData: string) {
+        this.setState({ manufacturer: childData });
     }
 
-    getFormModelNum(childData : string) {
-        this.setState({modelNum: childData});
+    getFormModelNum(childData: string) {
+        this.setState({ modelNum: childData });
     }
 
-    getFormSerialNum(childData : string) {
-        this.setState({serialNum: childData});
+    getFormSerialNum(childData: string) {
+        this.setState({ serialNum: childData });
     }
 
     getFormLocation(childData: string) {
-        this.setState({location: childData});
+        this.setState({ location: childData });
     }
 
     setInitialState() {
@@ -251,13 +253,13 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
     }
 
     goBackToPreviousPage() {
-        const{navigation} = this.props;
-        const {propId} = this.property;
-        navigation.resolveModalReplaceNavigation(SingleProperty, {propId});
+        const { navigation } = this.props;
+        const { propId } = this.property;
+        navigation.resolveModalReplaceNavigation(SingleProperty, { propId });
     }
 
     validateForms() {
-        const {category, appName,  modelNum, serialNum, location} = this.state;
+        const { category, appName, modelNum, serialNum, location } = this.state;
         let check = true;
         if (category.toString() === 'None') {
             check = false;
@@ -265,15 +267,15 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
         if (isEmptyOrSpaces(appName)) {
             this.nameRef.current.setError(true);
             check = false;
-        } 
+        }
         if (!isPositiveWholeNumber(modelNum)) {
             this.modelNumRef.current.setError(true);
             check = false;
-        } 
+        }
         if (!isPositiveWholeNumber(serialNum)) {
             this.serialNumRef.current.setError(true);
             check = false;
-        } 
+        }
         if (isEmptyOrSpaces(location)) {
             this.locationRef.current.setError(true);
             check = false;
@@ -290,32 +292,50 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
     }
 
     displayError(msg: string) {
-        this.setState({errorMsg: msg, errorCheck: true});
+        this.setState({ errorMsg: msg, errorCheck: true });
     }
 
     async clickSubmitButton() {
-        const {category, appName, manufacturer, modelNum, serialNum, location} = this.state;
-        const {navigation, setAppliancesAndTenants} = this.props;
+        const { category, appName, manufacturer, modelNum, serialNum, location } = this.state;
+        const { navigation, setAppliancesAndTenants } = this.props;
         this.resetForms();
-        this.setState({errorCheck: false});
+        this.setState({ errorCheck: false });
         if (this.validateForms()) {
-            const newAppliance : Appliance = {
+            const newAppliance: Appliance = {
                 applianceId: undefined,
-                category, appName, manufacturer, 
-                modelNum: Number(modelNum), 
-                serialNum: Number(serialNum), 
+                category, appName, manufacturer,
+                modelNum: Number(modelNum),
+                serialNum: Number(serialNum),
                 location,
             };
-            const info : AddApplianceState = {property: this.property, token: this.token};
+            const info: AddApplianceState = { property: this.property, token: this.token };
+
+            //TO DO: adjust for properties and other strings to allow "\" characters
+            console.log("prop id");
+            console.log(info.property.propId);
+            console.log("property");
+            console.log(info.property);
+            
             await postNewAppliance(newAppliance, info, this.setInitialState, this.displayError, navigation).then(() => {
                 setAppliancesAndTenants(this.property.propId);
+            }).catch((error: Error) => {
+                if (error.message.includes('500')) {
+                    console.log('if');
+                    console.log(error.message);
+                    this.displayError(DefaultMessage);
+                }
+                else {
+                    console.log('else');
+                    console.log(error.message);
+                    this.displayError(error.message);
+                }
             });
         }
     }
 
     renderInputForms() {
-        const {appName, manufacturer, modelNum, serialNum, location} = this.state;
-        const inputForms: InputFormProps[]  = [
+        const { appName, manufacturer, modelNum, serialNum, location } = this.state;
+        const inputForms: InputFormProps[] = [
             {
                 ref: this.nameRef,
                 key: addApplianceStrings.name,
@@ -325,7 +345,7 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
                 inputStyle: this.inputFormStyle.input,
                 value: appName,
                 errorMessage: 'Display name cannot be empty',
-            }, 
+            },
             {
                 ref: this.manufacturerRef,
                 key: addApplianceStrings.manufacturer,
@@ -333,8 +353,8 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
                 parentCallBack: this.getFormManufacturer,
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
-                value: manufacturer, 
-            }, 
+                value: manufacturer,
+            },
             {
                 ref: this.modelNumRef,
                 key: addApplianceStrings.modelNum,
@@ -354,7 +374,7 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
                 inputStyle: this.inputFormStyle.input,
                 value: serialNum,
                 errorMessage: 'Serial number must be a number',
-            }, 
+            },
             {
                 ref: this.locationRef,
                 key: addApplianceStrings.location,
@@ -364,72 +384,72 @@ export class AddApplianceModalBase extends React.Component<Props,CreateState> {
                 inputStyle: this.inputFormStyle.input,
                 value: location,
                 errorMessage: 'Location cannot be empty',
-            }, 
+            },
         ];
 
         return inputForms.map(inputFormProp => {
-            const {ref, key, name, parentCallBack, formTitleStyle, inputStyle,errorMessage, secureTextEntry, errorStyle, value, placeholder} = inputFormProp;
+            const { ref, key, name, parentCallBack, formTitleStyle, inputStyle, errorMessage, secureTextEntry, errorStyle, value, placeholder } = inputFormProp;
             return <InputForm
-                        ref={ref}
-                        key={key}
-                        name={name}
-                        parentCallBack={parentCallBack}
-                        formTitleStyle={formTitleStyle}
-                        inputStyle={inputStyle}
-                        errorStyle={errorStyle}
-                        secureTextEntry={secureTextEntry}
-                        value={value}
-                        placeholder={placeholder}
-                        errorMessage={errorMessage}/>;
+                ref={ref}
+                key={key}
+                name={name}
+                parentCallBack={parentCallBack}
+                formTitleStyle={formTitleStyle}
+                inputStyle={inputStyle}
+                errorStyle={errorStyle}
+                secureTextEntry={secureTextEntry}
+                value={value}
+                placeholder={placeholder}
+                errorMessage={errorMessage} />;
         });
     }
 
-    renderError () {
-        const {errorMsg, errorCheck} = this.state;
-        return <View style={{alignSelf:'center'}}>
+    renderError() {
+        const { errorMsg, errorCheck } = this.state;
+        return <View style={{ alignSelf: 'center' }}>
             <HelperText type='error' visible={errorCheck} style={this.inputFormStyle.errorStyle}>{errorMsg}</HelperText>
         </View>;
     }
 
     render() {
-        const {category} = this.state;
+        const { category } = this.state;
         const showCloseButton = true;
-        return(
+        return (
             <View style={this.inputFormStyle.modalContainer}>
-            <ScrollView style={this.inputFormStyle.scrollStyle}
-            contentContainerStyle={this.inputFormStyle.scrollContentContainerStyle}
-            showsHorizontalScrollIndicator={false}>
-                <Card
-                    containerStyle={this.inputFormStyle.cardContainer}
-                    showCloseButton={showCloseButton}
-                    title={addApplianceStrings.addTitle} 
-                    closeButtonPressedCallBack={() => { 
-                        this.goBackToPreviousPage();
-                        this.setInitialState();
-                        this.resetForms();
-                    }} 
-                    titleStyle={this.inputFormStyle.cardTitle}
-                    titleContainerStyle={this.inputFormStyle.cardTitleContainer}
-                    wrapperStyle={this.inputFormStyle.cardWrapperStyle}
+                <ScrollView style={this.inputFormStyle.scrollStyle}
+                    contentContainerStyle={this.inputFormStyle.scrollContentContainerStyle}
+                    showsHorizontalScrollIndicator={false}>
+                    <Card
+                        containerStyle={this.inputFormStyle.cardContainer}
+                        showCloseButton={showCloseButton}
+                        title={addApplianceStrings.addTitle}
+                        closeButtonPressedCallBack={() => {
+                            this.goBackToPreviousPage();
+                            this.setInitialState();
+                            this.resetForms();
+                        }}
+                        titleStyle={this.inputFormStyle.cardTitle}
+                        titleContainerStyle={this.inputFormStyle.cardTitleContainer}
+                        wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     >
-                    <Text style={this.inputFormStyle.formTitle}>{addApplianceStrings.category}</Text>
-                    <ApplianceCategoryPanel initialCategory={category} parentCallBack={this.getFormCategory}/>
-                    <>{this.renderInputForms()}</>
-                    {this.renderError()}
-                    <ThinButton
-                    name={this.submitButton.name}
-                    onClick={this.submitButton.onClick}
-                    buttonStyle={this.submitButton.buttonStyle}
-                    buttonTextStyle={this.submitButton.buttonTextStyle}
-                    containerStyle={this.submitButton.containerStyle}
-                    />
-                </Card>
-            </ScrollView>
-        </View>);
+                        <Text style={this.inputFormStyle.formTitle}>{addApplianceStrings.category}</Text>
+                        <ApplianceCategoryPanel initialCategory={category} parentCallBack={this.getFormCategory} />
+                        <>{this.renderInputForms()}</>
+                        {this.renderError()}
+                        <ThinButton
+                            name={this.submitButton.name}
+                            onClick={this.submitButton.onClick}
+                            buttonStyle={this.submitButton.buttonStyle}
+                            buttonTextStyle={this.submitButton.buttonTextStyle}
+                            containerStyle={this.submitButton.containerStyle}
+                        />
+                    </Card>
+                </ScrollView>
+            </View>);
     }
 }
 
 
 
 const AddApplianceModal = DetailedPropertyMutatorModal(AddApplianceModalBase);
-export default prepareNavigationHandlerComponent(AddApplianceModal );
+export default prepareNavigationHandlerComponent(AddApplianceModal);
