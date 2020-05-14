@@ -4,12 +4,15 @@ import { prepareNavigationHandlerComponent, NavigationRouteHandler, SERVICE_REQU
 import { postPreferredProvider, fetchPreferredProviders } from 'homepairs-endpoints';
 import { AddServiceProviderModalBase, AddServiceProviderDispatchProps} from './AddServiceProviderModalBase';
 
+
+const DefaultMessage: string = "No service provider with this phone number was found in our system.";
+
 const mapDispatchToProps : (dispatch: any) => AddServiceProviderDispatchProps = (dispatch: any) => ({
     onAddServiceProvider: (
         pmId: number,
         phoneNum: string,
         setInitialState: () => void, 
-        displayError: (check: boolean) => void, 
+        displayError: (check: boolean, message?: string) => void, 
         navigation: NavigationRouteHandler) => 
     {
         // The api request takes care of itself. It will return a response that we can use. 
@@ -18,11 +21,16 @@ const mapDispatchToProps : (dispatch: any) => AddServiceProviderDispatchProps = 
             setInitialState();
             navigation.resolveModalReplaceNavigation(SERVICE_REQUEST);
         }).catch((error: Error) => {
-            if(error.message.includes('500')) 
-                displayError(true);
-            else
+            if(error.message.includes('500')){
+                console.log('if'); 
                 console.log(error.message);
-                displayError(true);
+                displayError(true, DefaultMessage);
+            }
+            else{
+                console.log('else'); 
+                console.log(error.message);
+                displayError(true, error.message);
+            }
         });
     },
 });
