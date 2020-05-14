@@ -1,4 +1,3 @@
-import { AsyncStorage } from 'react-native';
 import {
     AddPropertyAction,
     UpdatePropertyAction,
@@ -11,6 +10,9 @@ import {
     AccountTypes,
     Contact,
     PropertyDict,
+    TenantInfo,
+    Appliance,
+    StorePropertyApplianceAndTenantAction,
 } from '../types';
 
 const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
@@ -33,23 +35,9 @@ export enum PROPERTY_LIST_ACTION_TYPES {
   FETCH_PROPERTY_AND_PROPERTY_MANAGER = 'PROPERTY_LIST/FETCH_PROPERTY_AND_PROPERTY_MANAGER',
   FETCH_PROPERTIES = 'PROPERTY_LIST/FETCH_PROPERTIES',
   SET_SELECTED_PROPERTY = 'PROPERTY_LIST/SET_SELECTED_PROPERTY',
-  UPDATE_TENANT = 'PROPERTY_LIST/UPDATE_TENANT' 
+  UPDATE_TENANT = 'PROPERTY_LIST/UPDATE_TENANT',
+  STORE_APPLIANCES_AND_TENANTS = 'PROPERTY_LIST/STORE_APPLIANCES_AND_TENANTS' 
 }
-
-/**
- * ----------------------------------------------------
- * Store Property Data
- * ----------------------------------------------------
- * Stores the list of properties into the local storage as a string object.  
- * @param {any} propertyDict -should only have a length of 1 if it is for a tenant 
- */
-const storePropertyData = async (propertyList: PropertyDict) => {
-  try {
-    await AsyncStorage.setItem('propertyList', JSON.stringify(propertyList));
-  } catch (error) {
-    // Error saving data
-  }
-};
 
 /**
  * ----------------------------------------------------
@@ -62,7 +50,6 @@ const storePropertyData = async (propertyList: PropertyDict) => {
  */
 export const setSelectedProperty = (propId: string): SetSelectedPropertyAction => {
   // Set the store the selectedProperty in the local state for useage after the app falls asleep
-  AsyncStorage.setItem('selectedProperty', propId);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.SET_SELECTED_PROPERTY,
     propId,
@@ -125,7 +112,7 @@ export const removeProperty = (
  * Tenants 
  * @param {Contact} linkedPropertyManager -Property Manager recieved from the homepairs servers  
  */
-export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], linkedPropertyManager: Contact): FetchPropertyAndPropertyManagerAction => {
+export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], linkedPropertyManager: any): FetchPropertyAndPropertyManagerAction => {
   const linkedProperty = linkedProperties[0];
   const fetchedPropertyManager: Contact = {
     email: linkedPropertyManager[accountKeys.EMAIL],
@@ -144,7 +131,6 @@ export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], li
   };
 
   fetchedProperties[fetchedProperty.propId] = fetchedProperty;
-  storePropertyData(fetchedProperties);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTY_AND_PROPERTY_MANAGER,
     property: fetchedProperties,
@@ -173,10 +159,28 @@ export const fetchProperties = (linkedProperties: Array<any>): FetchPropertiesAc
     };
     fetchedProperties[parsedProperty.propId] = parsedProperty;
   });
-  storePropertyData(fetchedProperties);
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,
     properties: fetchedProperties,
+  };
+};
+
+/**
+ * ----------------------------------------------------
+ * Store Property Appliance and Tenants
+ * ----------------------------------------------------
+ * Simple function for updating the reducer for when a single property has been selected. It will provide 
+ * the reducer the information of appliances and tenant information needed for a single property
+ * 
+ * @param {TenantInfo[]} tenants -Array of objects that contain the data for Tenants of a single property
+ * @param {Appliance[]} appliances -Array of objects that contain the data for Appliance of a single property
+ */
+export const storePropertyApplianceAndTenants = (tenants: TenantInfo[],
+   appliances: Appliance[]): StorePropertyApplianceAndTenantAction => {
+  return {
+    type: PROPERTY_LIST_ACTION_TYPES.STORE_APPLIANCES_AND_TENANTS,
+    tenants,
+    appliances,
   };
 };
 

@@ -107,8 +107,8 @@ export default class NavigationRouteHandler{
             const {pathname, key} = location;
             return [pathname, key];
         }
-        const{key, routename} = this.navigation.state;
-        return [routename, key];   
+        const{key, routeName} = this.navigation.state;
+        return [routeName, key];   
     }
 
     /**
@@ -118,7 +118,6 @@ export default class NavigationRouteHandler{
      * @param {boolean} asBackground -Indicates if the state of the navigation object should be a modal only 
      * works for react-router
      */
-    // TODO: pass in state param to allow user to pass in state for router 
     navigate(route:string, params?:any, asBackground?:boolean){
         if(NavigationRouteHandler.type === NavigationObjects.Router){
             const {location, history} = this.navigation;
@@ -150,7 +149,7 @@ export default class NavigationRouteHandler{
             }
         } else if(!isNullOrUndefined(this.navigation.push)){
             this.navigation.push(route, {params});
-        } else { // TODO: Might want to throw error instead 
+        } else {
             this.navigation.navigate(route);
         }
     }
@@ -177,7 +176,7 @@ export default class NavigationRouteHandler{
             (this.navigation as NavigationStackProp).pop(amount);
         } else if(isNullOrUndefined(this.navigation.navigate)){
             (this.navigation.history as RouteProps).go(amount * -1);
-        } else { // TODO: Might want to throw error instead 
+        } else {
             console.log('Error: Will not call prop on an undefined function. Most likely you are attempting to pop a navigationSwitch object');
         }
     }
@@ -269,7 +268,8 @@ export default class NavigationRouteHandler{
      */
     resolveModalReplaceNavigation(route:string, params?:any, asBackground?:boolean){
         if(NavigationRouteHandler.type === NavigationObjects.Router){
-            return this.replace(route, params, asBackground);
+            return this.navigation.history.goBack();
+            //this.replace(route, params, asBackground);
         } 
         return this.goBack();
     }

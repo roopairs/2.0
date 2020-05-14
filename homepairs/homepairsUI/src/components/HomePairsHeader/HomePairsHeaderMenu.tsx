@@ -1,5 +1,5 @@
 /* eslint-disable react/static-property-placement */
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
 import React from 'react';
 import { MainAppStackType, AccountTypes } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -72,6 +72,7 @@ const setStyles = (isDropDown: boolean) => {
             flex: 1,
             maxWidth: width,
             maxHeight: 150,
+            width: Platform.OS === 'web' ? undefined : '100%',
             backgroundColor: colorScheme.secondary,
         },
         containerDropDown: {

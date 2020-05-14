@@ -1,11 +1,28 @@
-import { Dimensions, ImageSourcePropType } from 'react-native';
+import { Dimensions } from 'react-native';
 import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
 
+
+/* *-------------------Appliances-------------------* */
+
+export enum ApplianceType {
+    Plumbing, LightingAndElectric, HVAC, GeneralAppliance, None
+};
+
+export type Appliance = {
+    applianceId: string,
+    category: ApplianceType,
+    appName: string,
+    manufacturer: string, 
+    modelNum: number, 
+    serialNum: number, 
+    location: string,
+};
+
+/* *-------------------Appliances-------------------* */
+
 /* *-------------------Property Types-------------------* */
 
-// TODO: Collaborate with Adam to make sure this is the correct info recieved 
-// from the response 
 export type TenantInfo = {
     firstName: string,
     lastName: string,
@@ -32,6 +49,7 @@ export type PropertyListState =
     selectedPropertyId: string, 
     properties: PropertyDict,
     appliances: Appliance[],
+    tenants: TenantInfo[],
     propertyManager?: Contact,
 };
 
@@ -79,6 +97,12 @@ export type FetchPropertiesAction = {
     properties: PropertyDict;
 };
 
+export type StorePropertyApplianceAndTenantAction = {
+    type: string,
+    tenants: TenantInfo[],
+    appliances: Appliance[],
+}
+
 /* Union type for the Property Lists. This will be used for the reducer. */
 export type PropertyListAction =
     | AddPropertyAction
@@ -88,34 +112,16 @@ export type PropertyListAction =
     | RemovePropertyAction
     | SetSelectedPropertyAction
     | FetchPropertyAction
-    | FetchPropertiesAction;
+    | FetchPropertiesAction
+    | StorePropertyApplianceAndTenantAction;
 /* *-------------------Property Types-------------------* */
-
-/* *-------------------Appliances-------------------* */
-
-export enum ApplianceType {
-    Plumbing, LightingAndElectric, HVAC, GeneralAppliance, None
-};
-
-export type Appliance = {
-    applianceId: string,
-    category: ApplianceType,
-    appName: string,
-    manufacturer: string, 
-    modelNum: number, 
-    serialNum: number, 
-    location: string,
-};
-
-/* *-------------------Appliances-------------------* */
-
 
 
 /* *-------------------Account Types-------------------* */
 
 export enum AccountTypes {
-    Tenant,
-    PropertyManager
+    Tenant = 'tenant',
+    PropertyManager = 'pm'
 }
 
 export type Account = {
@@ -187,7 +193,6 @@ export type NewServiceRequest = {
 }
 
 export type ServiceProvider = {
-    // TODO: Define attributes for service Provider
     provId: number,
     prefId?: string, // Optional param if preferred service provider
     name: string,
@@ -323,6 +328,7 @@ export type Header = {
     showMenu: boolean;
     isDropDown: boolean;
     currentPage: MainAppStackType;
+    previousPagesStack: MainAppStackType[];
     showBackButton: boolean;
     menu: string[];
 };
@@ -349,11 +355,16 @@ export type UpdateSelectedPageAction = {
     selected: MainAppStackType;
 };
 
+export type OnGoBackAction = {
+    type: string;
+};
+
 export type HeaderAction =
     | ToggleMenuAction
     | SwitchDropDownNavBarAction
     | ShowGoBackOnButtonClick
-    | UpdateSelectedPageAction;
+    | UpdateSelectedPageAction
+    | OnGoBackAction;
 /* *-------------------Header Types-------------------* */
 
 /* *-------------------Setting Types-------------------* */

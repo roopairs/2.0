@@ -4,10 +4,9 @@
  * using should be put and referenced from this file.  
  */
 import axios from 'axios';
-import { getAccountType, categoryToString, isNullOrUndefined } from 'homepairs-utilities';
+import { getAccountType, categoryToString, isNullOrUndefined, stringToCategory } from 'homepairs-utilities';
 import { NavigationRouteHandler, ChooseMainPage, navigationPages} from 'homepairs-routes';
 import * as HomePairsStateActions from 'homepairs-redux-actions';
-import { AsyncStorage } from 'react-native';
 import { 
     AccountTypes, 
     Account, 
@@ -18,6 +17,8 @@ import {
     AddApplianceState, 
     NewServiceRequest, 
     ServiceProvider,
+    TenantInfo,
+    Contact,
 } from 'homepairs-types';
 import {
     HOMEPAIRS_APPLIANCE_ENDPOINT, 
@@ -33,7 +34,6 @@ import {
 } from './constants';
 import { addGoogleApiKey } from 'src/state/settings/actions';
 
-
 const {AccountActions, PropertyListActions, SessionActions, PreferredProviderActions} = HomePairsStateActions;
 const {parseAccount} = AccountActions;
 const {fetchProperties, fetchPropertyAndPropertyManager, addProperty, updateProperty} = PropertyListActions;
@@ -42,8 +42,6 @@ const {refreshServiceProviders, removeServiceProvider} = PreferredProviderAction
 
 /* * JSON KEYS * */
 const SUCCESS = 'success';
-const FAILURE = 'failure';
-const PREFERRED_PROVIDERS = 'TODO: Change this key to that returned from the backend';
 const PM = 'pm';
 /* * JSON KEYS * */
 
@@ -62,8 +60,6 @@ export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => S
     return preferredServiceProviderJSON.map(serviceProvider => {
         const {provId, name, email, phoneNum, prefId,contractLic, skills, 
             founded, rate, timesHired, earliestHire, logo} = serviceProvider;
-        console.log(preferredServiceProviderJSON);
-        // TODO: Handle loading the logo image asset recieved from the backend response
         return {
             provId, name, email, prefId,
             phoneNum, contractLic, skills, 
@@ -107,7 +103,6 @@ export const fetchPreferredProviders = (pmId: string) => {
         .then(result => {
             const {data} = result;
             const {providers} = data;
-            AsyncStorage.setItem('preferredProviders', JSON.stringify(data));
             const parsedProviders = parsePreferredProviders(providers);
             dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
             return result;
@@ -138,7 +133,6 @@ export const fetchNetworkProviders = (accountEmail: string) => {
         await axios.get(endpoint)
         .then(result => {
             const {data} = result;
-            // TODO: parse serviceProviders to be that of a list of ServiceProviders
             const {status, serviceProviders, error} = data;
             if(status === SUCCESS){
                 const parsedProviders = parsePreferredProviders(serviceProviders);
@@ -206,7 +200,6 @@ export const deletePreferredProvider = (
     displayError: (error:string) => void,
     navigation: NavigationRouteHandler) => {
     const {prefId} = serviceProvider;
-    console.log(prefId)
     const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
     // Simply print the error if no error function was defined, otherwise use the defined function
     return async (dispatch: (func: any) => void) => { 
@@ -214,13 +207,11 @@ export const deletePreferredProvider = (
         .then(response => {
             const {data} = response;
             const {status} = data;
-            console.log(response);
             if(status === SUCCESS) {
                 dispatch(removeServiceProvider(serviceProvider));
                 navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
             } else {
                 const {error} = data;
-                console.log(error);
                 displayError(error);
             }
         }).catch(error => {
@@ -265,6 +256,54 @@ export const fetchServiceRequests = async (propId: string) => {
     return results;
 };
 
+
+
+/**
+ * ----------------------------------------------------
+ * fetchServiceRequests
+ * ---------------------------------------------------- 
+ * Makes a fetch requests to the homepairs server retrieving the data for the tenants 
+ * and appliances related to a specific property. Upon failure, this function will
+ * throw an error.
+ * 
+ * @param propId -Identity of the property to fetch the information from
+ */
+export const fetchPropertyAppliancesAndTenants = async (propId: string) => {
+    const results = await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`).then((result) =>{
+        const {tenants, appliances} = result.data;
+        const tenantInfo: TenantInfo[] = [];
+        const applianceInfo: Appliance[] = [];
+
+        tenants.forEach(tenant => {
+            const {firstName, lastName, email, phoneNumber} = tenant;
+            tenantInfo.push({
+                firstName,
+                lastName,
+                email,
+                phoneNumber,
+            });
+        });
+
+        appliances.forEach(appliance => {
+            const {appId, category, name, manufacturer, modelNum, serialNum, location} = appliance;
+
+            applianceInfo.push({
+                applianceId: appId,
+                category: stringToCategory(category), 
+                appName: name, manufacturer, modelNum, serialNum, location,
+            });
+        });
+
+        return {
+            tenants: tenantInfo,
+            appliances: applianceInfo,
+        };
+
+    }).catch(error => console.log(error));
+    return results;
+};
+
+
 /**
  * ----------------------------------------------------
  * fetchAccount
@@ -287,7 +326,6 @@ export const fetchAccount = (
     modalSetOffCallBack: (error?:String) => void = (error: String) => {}) => 
     {
         return async (dispatch: (arg0: any) => void) => {
-        // TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
         await axios.post(HOMEPAIRS_LOGIN_ENDPOINT, {
             email: Email,
             password: Password,
@@ -296,13 +334,12 @@ export const fetchAccount = (
             const {data} = response;
             const {status, role} = data;
             const accountType = getAccountType(data);
-            console.log(data)
             if(status === SUCCESS){
                 // Set the login state of the application to authenticated
                 dispatch(setAccountAuthenticationState(true));
                 dispatch(parseAccount(data));
                 
-                if(role === PM){ // role = property manager
+                if(role === PM){
                     const {properties, pm} = data;
                     const {pmId} = pm; 
                     dispatch(fetchProperties(properties));
@@ -310,8 +347,10 @@ export const fetchAccount = (
                 } else { // Assume role = tenant
                     const {properties, tenant} = data;
                     const {pm} = tenant;
-                    const {pmInfo} = pm;
-                    dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
+                    const {email, firstName, lastName} = pm[0];
+                    const pmAccountType = AccountTypes.PropertyManager;
+                    const pmContact = {accountType:pmAccountType, firstName, lastName, email };
+                    dispatch(fetchPropertyAndPropertyManager(properties, pmContact));
                 }
                 // Navigate page based on the Account Type
                 ChooseMainPage(accountType, navigation);
@@ -364,7 +403,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
             */
             const {properties, tenant} = response.data;
             const {pm} = tenant;
-            const {pmInfo} = pm;
+            const pmInfo = pm[0];
   
             dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
             ChooseMainPage(AccountTypes.Tenant, navigation);
@@ -649,7 +688,6 @@ export const postNewServiceRequest = async (
             const {data} = response;
             const {status} = data;
             if (status === SUCCESS) {
-                // navigation go to confirmation screen
                 navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
             } else {
                 const {error} = data;

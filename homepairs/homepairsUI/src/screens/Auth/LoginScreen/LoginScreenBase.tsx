@@ -157,6 +157,7 @@ export class LoginScreenBase extends React.Component<LoginProps,LoginState> {
                 formTitleStyle: styles.formTitle,
                 inputStyle: styles.input,
                 errorMessage: 'Invalid Username! Must be an email',
+                trim: true,
             },
             {
                 ref: this.passwordRef,
@@ -182,6 +183,7 @@ export class LoginScreenBase extends React.Component<LoginProps,LoginState> {
                     inputStyle={properties.inputStyle}
                     secureTextEntry={properties.secureTextEntry}
                     errorMessage={properties.errorMessage}
+                    trim={properties.trim}
                 />
             );
         });

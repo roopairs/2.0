@@ -2,14 +2,12 @@ import React, {useState} from 'react';
 import { registerRootComponent, AppLoading} from 'expo';
 import { Provider, connect } from 'react-redux';
 import { LoadFonts } from 'homepairs-fonts';
-import { AppState, ServiceProvider } from 'homepairs-types';
-import { ActivityIndicator, StatusBar, AsyncStorage} from 'react-native';
-import { fetchProperties, setSelectedProperty, parseAccount, refreshServiceProviders} from 'homepairs-redux-actions';
-import { isNullOrUndefined } from 'homepairs-utilities';
-import { navigationPages } from 'homepairs-routes';
-import { parsePreferredProviders, fetchGoogleApiKey } from 'homepairs-endpoints';
+import { AppState } from 'homepairs-types';
+import { ActivityIndicator, StatusBar, AsyncStorage } from 'react-native';
+import { PersistGate } from 'redux-persist/integration/react';
+import { fetchGoogleApiKey } from 'homepairs-endpoints';
 import { AppNavigator } from './src/app-navigators/AppNavigation';
-import store from './src/state/store';
+import initializeStore from './src/state/store';
 
 
 /* TODO: We can optimize this. Instead of holding the entire response, 
@@ -20,15 +18,9 @@ import store from './src/state/store';
 
 const checkSession = async () => {
     await LoadFonts();
-    
-    await AsyncStorage.getItem('profile').then(profile => {
-        const storedAccountProfile= JSON.parse(profile);
-        const {properties} = storedAccountProfile;
-        store.dispatch(parseAccount(storedAccountProfile));
-        store.dispatch(fetchProperties(properties));
-    }).catch(() => {});
-    console.log('insiide of app.tsx');
-    store.dispatch(fetchGoogleApiKey());
+    await AsyncStorage.getItem('persist:root').then(response => {
+        console.log(JSON.parse(response));
+    });
 };
 
 function mapStateToProps(state: AppState): any {
@@ -41,15 +33,19 @@ const ConnectedApp = connect(mapStateToProps)(AppNavigator);
 const App = () => {
     const [dataLoaded, setDataLoaded] = useState(false);
 
+    const {store, persistor} = initializeStore();
+    store.dispatch(fetchGoogleApiKey());
     // Check to see if we have a valid session token. If we do, fetch the profile information again. 
     return !dataLoaded ?  
-    <AppLoading startAsync={checkSession} onFinish={() => setDataLoaded(true)} onError={(error) => console.log(error)}>
+    <AppLoading startAsync={checkSession} onFinish={() => {setDataLoaded(true);}} onError={(error) => console.log(error)}>
         <ActivityIndicator />
           <StatusBar barStyle="default" />
         </AppLoading>
     : (
         <Provider store={store}>
-            <ConnectedApp />
+            <PersistGate loading={null} persistor={persistor}>
+                <ConnectedApp />
+            </PersistGate>
         </Provider>
     );
 };

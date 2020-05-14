@@ -1,5 +1,5 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Platform } from 'react-native';
 import { ThinButtonProps, ThinButton } from 'homepairs-elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
@@ -22,6 +22,7 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
     const colors = colorTheme == null ? BaseStyles.LightColorTheme : colorTheme;
     return StyleSheet.create({
         container: {
+            flex: 1,
             backgroundColor: colors.secondary,
             marginHorizontal: BaseStyles.MarginPadding.large,
             marginTop: BaseStyles.MarginPadding.largeConst,
@@ -60,6 +61,7 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
             backgroundColor: colors.transparent,
             padding: BaseStyles.MarginPadding.mediumConst,
             width: HomePairsDimensions.MIN_BUTTON_WIDTH,
+            marginBottom: Platform.OS !== 'web' ? 15 : undefined,
             borderRadius: 8,
             borderWidth: 1,
             borderColor: colors.lightGray,
@@ -92,22 +94,24 @@ export default function ApplianceInfo(props: Props) {
     };
 
     return (
-        <View style={styles.container}>
-            <View style= {styles.titleContainer}>
-                <Text style= {styles.titleText}>
-                    {applianceInfoStrings.title}
-                </Text>
-            </View>
-            <View style= {styles.details}>
-                <ApplianceCategorizer 
-                    onClick={onEditApplianceModal} 
-                    appliances={appliances}/>
-                <ThinButton 
-                    testID='add-appliance-button'
-                    name={thinButtonProps.name} 
-                    buttonStyle={thinButtonProps.buttonStyle} 
-                    buttonTextStyle={thinButtonProps.buttonTextStyle} 
-                    onClick={thinButtonProps.onClick}/>
+        <View style={{ paddingBottom: BaseStyles.MarginPadding.largeConst}}>
+            <View style={styles.container}>
+                <View style= {styles.titleContainer}>
+                    <Text style= {styles.titleText}>
+                        {applianceInfoStrings.title}
+                    </Text>
+                </View>
+                <View style= {styles.details}>
+                    <ApplianceCategorizer 
+                        onClick={onEditApplianceModal} 
+                        appliances={appliances}/>
+                    <ThinButton 
+                        testID='add-appliance-button'
+                        name={thinButtonProps.name} 
+                        buttonStyle={thinButtonProps.buttonStyle} 
+                        buttonTextStyle={thinButtonProps.buttonTextStyle} 
+                        onClick={thinButtonProps.onClick}/>
+                </View>
             </View>
         </View>
     );

@@ -42,11 +42,13 @@ const testPropertyListStateWithoutIndex: PropertyListState = {
     selectedPropertyId: undefined,
     properties: PMProperties,
     appliances: undefined,
+    tenants: undefined,
 };
 const testPropertyListStateWithIndex: PropertyListState = {
     selectedPropertyId: testKey,
     properties: PMProperties,
     appliances: undefined,
+    tenants: undefined,
 };
 
 describe('PropertyList Reducer Test', () => {
@@ -87,6 +89,7 @@ describe('PropertyList Reducer Test', () => {
                 selectedPropertyId: null,
                 properties: testPropertyObject,
                 propertyManager: null,
+                tenants: [],
             };
             const updatedProperties = properties(undefined, testAction);
             expect(updatedProperties).toStrictEqual(expectedResult);
@@ -98,6 +101,7 @@ describe('PropertyList Reducer Test', () => {
                 selectedPropertyId: null,
                 properties: {...updatedList},
                 appliances: undefined,
+                tenants: undefined,
             };
             const updatedProperties = properties(
                 testPropertyListStateWithoutIndex,
@@ -123,6 +127,7 @@ describe('PropertyList Reducer Test', () => {
                 selectedPropertyId: null,
                 properties: updatedList,
                 appliances: undefined,
+                tenants: undefined,
             };
             const updatedProperties = properties(
                 testPropertyListStateWithIndex,
@@ -152,6 +157,7 @@ describe('PropertyList Reducer Test', () => {
                 selectedPropertyId: testKey,
                 properties: updatedList,
                 appliances: undefined,
+                tenants: undefined,
             };
             const updatedProperties = properties(
                 testPropertyListStateWithIndex,
@@ -171,6 +177,7 @@ describe('PropertyList Reducer Test', () => {
         it('Default State', () => {
             const expectedResult: PropertyListState = {
                 appliances: [],
+                tenants: [],
                 selectedPropertyId: null,
                 properties: PMProperties,
                 propertyManager: null,
@@ -189,6 +196,7 @@ describe('PropertyList Reducer Test', () => {
             selectedPropertyId: testKeyLastKey,
             properties: PMProperties,
             appliances: undefined,
+            tenants: undefined,
         };
 
         it('Test the actual Action: SetSelectedPropertyAction', () => {

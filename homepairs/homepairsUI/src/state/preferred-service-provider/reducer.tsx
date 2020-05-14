@@ -8,7 +8,6 @@ import {
     ProviderDictionary,
 } from '../types';
 import { PREFERRED_SERVICE_PROVIDER_ACTION_TYPES} from './actions';
-import { testLogo } from 'homepairs-images';
 
 
 const {REFRESH_SERVICE_PROVIDERS, REMOVE_SERVICE_PROVIDER} = PREFERRED_SERVICE_PROVIDER_ACTION_TYPES;
@@ -42,7 +41,6 @@ export function removeKey(serviceProviders: ProviderDictionary, phoneNum: string
     return updatedServiceProviders;
 }
 
-// TODO: Gather this information from Async Storage
 export const initialState : PreferredServiceProviderState = {
     serviceProviders: {},
 };

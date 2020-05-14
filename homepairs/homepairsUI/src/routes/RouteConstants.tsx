@@ -27,66 +27,12 @@ export const PREFERRED_PROVIDER_MODAL = '/admin/service-requests/preferred-provi
 
 export const ACCOUNT_SETTINGS = '/admin/account-settings';
 
-/**
- * All keys that can be mapped to any page in the react navigator should 
- * be stored here. This is so there changes to one key can be affect by all
- * files instead of use having to go and individually changing keys. 
- */
-export const navigationKeys: {[id:string]: string} = {
-    AccountPropertiesStack: 'AccountPropertiesStack',
-    AddNewPropertyModal: 'AddNewPropertyModal',
-    Loading: 'Loading',
-    Main: 'Main',
-    Auth: 'Auth',
-    AuthStack: 'AuthStack',
-    LoadingScreen: 'LoadingScreen',
-    PropertiesScreen: 'PropertiesScreen',
-    Login: 'Login',
-    SignUp: 'SignUp',
-    Connect: 'Connect',
-    Properties: 'Properties',
-    PropertyStack: 'PropertyStack',
-    ServiceRequest: 'ServiceRequest',
-    ServiceRequestScreen: 'ServiceRequestScreen',
-    AccountSettings: 'AccountSettings', 
-    Account: 'AccountStack',
-    NewRequest: 'NewRequest',
-    TenantProperty: 'TenantProperty',
-    AccountProperties: 'AccountProperties',
-    DetailedProperty: 'DetailedProperty',
-    SingleProperty: 'SingleProperty',
-    EditPropertyModal: 'EditPropertyModal',
-    AddApplianceModal: 'AddApplianceModal', 
-    EditApplianceModal: 'EditApplianceModal',
-    ServiceRequestModal: 'SericeRequestModal',
-    AddServiceProviderModal: 'AddServiceProviderModal',
-    PreferredProviderModal: 'PreferredProviderModal',
-
-    RoopairsLogin: 'RoopairsLogin',
-    RoopairsLoggingInModal: 'RoopairsLoggingInModal',
-
-    SignUpScreen: 'SignUpScreen',
-    CreatingAccountModal: 'CreatingAccountModal',
-
-    LoginScreen: 'LoginScreen',
-    LoggingInModal: 'LoggingInModal',
-
-    ModalStack: 'ModalStack',
-
-    AddTenantModal: 'AddTenantModal',
-    EditTenantModal: 'EditTenantModal',
-};
-
-/**
- * These are were all leaves will be stored for quick reference. This should be used when 
- * directly navigating to a page. These leaves should also be stored in the navigationKeys 
- * object as well. 
- */
 export const navigationPages = {
     // Property Pages
     PropertiesScreen: 'PropertiesScreen',
     TenantProperty: 'TenantProperty',
     SingleProperty: 'SingleProperty',
+
     // Property Stack Modals 
     AddNewPropertyModal: 'AddNewPropertyModal',
     EditPropertyModal: 'EditPropertyModal',
@@ -117,36 +63,54 @@ export const navigationPages = {
 
 };
 
+/**
+ * All keys that can be mapped to any page in the react navigator should 
+ * be stored here. This is so there changes to one key can be affect by all
+ * files instead of use having to go and individually changing keys. 
+ */
+export const navigationKeys: {[id:string]: string} = {
+    ...navigationPages,
+
+    AccountPropertiesStack: 'AccountPropertiesStack',
+    Loading: 'Loading',
+    Main: 'Main',
+    Auth: 'Auth',
+    AuthStack: 'AuthStack',
+    LoadingScreen: 'LoadingScreen',
+    Login: 'Login',
+    SignUp: 'SignUp',
+    Connect: 'Connect',
+    Properties: 'Properties',
+    PropertyStack: 'PropertyStack',
+    ServiceRequest: 'ServiceRequest',
+    Account: 'AccountStack',
+    AccountProperties: 'AccountProperties',
+    DetailedProperty: 'DetailedProperty',
+
+    ModalStack: 'ModalStack',
+};
 
 export const MainAppStack: Array<MainAppStackType> = [
     {
-        title: 'Properties',
+        title: 'My Properties',
         navigate: navigationPages.PropertiesScreen,
-        key: 'Properties',
+        key: 'My Properties',
         button: 'Add Property',
     },
     {
         title: 'Service Request',
         navigate: navigationPages.ServiceRequestScreen,
-        key: 'ServiceRequest',
+        key: 'Service Request',
         button: 'Request Service',
     },
     {
         title: 'Account Settings',
         navigate: navigationPages.AccountSettings,
-        key: 'AccountSettings',
+        key: 'Account Settings',
     },
     {
         title: 'Log Out',
         navigate: navigationPages.LoginScreen,
-        key: 'LogOut',
+        key: 'Log Out',
     },
 ];
-
-
-/*
-export const LOGIN = '/login';
-export const SIGNUP = '/sign-up';
-export const ROOPAIRS_LOGIN = '/roopairs-login';
-export const PROPERTY_LIST = '/properties';
-*/

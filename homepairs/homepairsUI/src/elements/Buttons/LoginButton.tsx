@@ -61,7 +61,6 @@ export default function LoginButton(props: LoginButtonProps) {
 
 const DefaultLoginButtonStyles = StyleSheet.create({
     container: {
-        flex: 2,
         alignSelf: 'center',
         justifyContent: 'center',
         paddingHorizontal: 10,

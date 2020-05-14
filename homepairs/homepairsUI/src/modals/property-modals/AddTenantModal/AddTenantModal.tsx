@@ -6,11 +6,12 @@ import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid } from 'homepairs-utilities';
 import { updateTenant } from "homepairs-endpoints";
 import { navigationPages, NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-routes';
+import { DetailedPropertyMutatorDispatchProps, DetailedPropertyMutatorModal } from '../CommonDispatchProps';
 
 
 const {SingleProperty} = navigationPages;
 
-type Props =  NavigationRouteScreenProps;
+type Props =  NavigationRouteScreenProps & DetailedPropertyMutatorDispatchProps ;
 
 type AddTenantState = TenantInfo
 
@@ -44,7 +45,7 @@ function setInputStyles(){
         },
         scrollStyle: {
             marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-            flex: 1,
+            alignSelf: 'center',
             width: '100%',
         },
         scrollContentContainerStyle: {
@@ -70,7 +71,6 @@ function setInputStyles(){
             justifyContent: 'center',
             alignItems: 'center',
             alignSelf: 'center',
-            flex:1,
         },
         cardTitle: {
             color: colors.tertiary,
@@ -235,11 +235,14 @@ export class AddTenantModalBase extends React.Component<Props, AddTenantState> {
     }
 
     async clickSubmitButton() {
+        const {setAppliancesAndTenants} = this.props;
         this.resetForms();
         if (this.validateForms()) {
             const newTenantInfo : TenantInfo = this.generateNewTenantInfo();
             const postValues = {propId: this.propId, ...newTenantInfo};
-            await updateTenant(postValues); 
+            await updateTenant(postValues).then(() => {
+                setAppliancesAndTenants(String(this.propId));
+            }); 
             this.goBackToPreviousPage();
         }; 
     }
@@ -334,4 +337,5 @@ export class AddTenantModalBase extends React.Component<Props, AddTenantState> {
     }
 }
 
-export default prepareNavigationHandlerComponent(AddTenantModalBase);
+const AddTenantModal = DetailedPropertyMutatorModal(AddTenantModalBase);
+export default prepareNavigationHandlerComponent(AddTenantModal);

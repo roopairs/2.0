@@ -1,11 +1,12 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import { 
-    View, 
-    Platform, 
-    SafeAreaView, 
-    ScrollView, 
-    Image, 
-    StyleSheet, 
+import {
+    View,
+    Platform,
+    SafeAreaView,
+    ScrollView,
+    Image,
+    StyleSheet,
+    FlatList,
 } from 'react-native';
 import { defaultProperty } from 'homepairs-images';
 import { GeneralHomeInfo, AddressSticker, PrimaryContactInfo, ServiceRequestCount } from 'homepairs-components';
@@ -28,14 +29,14 @@ export type TenantPropertyDispatchProps = {
 type Props = NavigationStackScreenProps & TenantPropertyStateProps
 const colors = BaseStyles.LightColorTheme;
 
-const styles =  StyleSheet.create({
-    container : {
+const styles = StyleSheet.create({
+    container: {
         alignItems: 'center',
         backgroundColor: colors.space,
         width: BaseStyles.ContentWidth.max,
-        flex:1,
+        flex: 1,
     },
-    pallet:{
+    pallet: {
         backgroundColor: colors.secondary,
         width: BaseStyles.ContentWidth.max,
         flex: 1,
@@ -43,23 +44,22 @@ const styles =  StyleSheet.create({
         alignSelf: 'center',
     },
     imageContainer: {
-        width: BaseStyles.ContentWidth.max, 
-        height: '100%',
+        width: BaseStyles.ContentWidth.max,
+        flex: 1,
         overflow: 'hidden',
-        borderRadius: BaseStyles.BorderRadius.large,  
+        borderRadius: BaseStyles.BorderRadius.large,
     },
     imageWrapper: {
-        width: BaseStyles.ContentWidth.thin, 
-        height: '50%',
-        maxHeight: 200,
+        width: BaseStyles.ContentWidth.thin,
+        height: 200,
         borderRadius: BaseStyles.BorderRadius.large,
         backgroundColor: 'white',
-        alignSelf:'center',
+        alignSelf: 'center',
         alignContent: 'center',
         shadowColor: colors.shadow,
         shadowRadius: 10,
-        shadowOffset: {width : 1, height: 1},
-        shadowOpacity: .25,
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.25,
         elevation: 9,
     },
     scrollViewContentContainer: {
@@ -73,68 +73,94 @@ const styles =  StyleSheet.create({
         flex: 1,
         marginBottom: BaseStyles.MarginPadding.largeConst,
     },
-    homepairsPropertiesImage: {
+    homePairsPropertiesImage: {
         flex: 1,
-        alignSelf:'center', 
+        alignSelf: 'center',
         width: BaseStyles.ContentWidth.max,
         height: '100%',
         overflow: 'hidden',
     },
-    homepairsPropertiesImageWeb: {
-        alignSelf:'center', 
+    homePairsPropertiesImageWeb: {
+        alignSelf: 'center',
         width: BaseStyles.ContentWidth.max,
         height: '100%',
-        overflow: 'hidden',
+    },
+    imageStyle: {
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10,
     },
 });
-    
-
-export function TenantPropertyScreenBase(props:Props){
-    const {propertyState} = props;
-    const {properties, propertyManager} = propertyState;
 
 
-    const property: Property = properties[0]; // THIS IS BAD CODING, ASSUMING AN ARRAY IS OF SIZE 1
-    const {address} = property;
+export function TenantPropertyScreenBase(props: Props) {
+    const { propertyState } = props;
+    const { properties, propertyManager } = propertyState;
+    console.log("properties");
+    console.log(properties);
+    console.log("propertyManager");
+    console.log(propertyManager);
 
     /* BEWARE: styles.addBottomMargin doesn't always work, had to add it manually 
         / overlapping styles aen't currently supported by react
         see ref: https://github.com/facebook/react/issues/2231 */
-    function renderContents(){
-        return(
-        <ScrollView style={{flexGrow: 1}}>
-            <View style={styles.addBottomMargin}>
-                <AddressSticker
-                address={address}/>
-                <View style={styles.imageWrapper}>
-                  <View style={styles.imageContainer}>
-                      <Image 
-                      source={defaultProperty}
-                      style={Platform.OS === 'web' ? styles.homepairsPropertiesImageWeb : styles.homepairsPropertiesImage}
-                      resizeMode='cover'/>
-                  </View>
+
+    function renderProperty(pair: [string, Property]) {
+        const [propId, property] = pair;
+        const { address } = property;
+        const apiKey = 'AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg';
+
+        return (
+            <ScrollView 
+                contentContainerStyle={{}}
+                style={{flexGrow: 1}}>
+                <View style={styles.addBottomMargin}>
+                    <AddressSticker address={address}/>
+                    <View style={styles.imageWrapper}>
+                        <View style={styles.imageContainer}>
+                            <Image 
+                                source={{uri: `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${apiKey}`}} 
+                                style={Platform.OS === 'web'
+                                ? styles.homePairsPropertiesImageWeb
+                                : styles.homePairsPropertiesImage} 
+                                resizeMode='cover'/>
+                        </View>
+                    </View>
+                    <GeneralHomeInfo property={property} hasEdit={canEditProps} />
+                    <PrimaryContactInfo propertyManager={propertyManager} />
+                    <ServiceRequestCount property={property} />
                 </View>
-                <GeneralHomeInfo property={property} hasEdit={canEditProps} />
-                <PrimaryContactInfo propertyManager={propertyManager}/>
-                <ServiceRequestCount property={property}/>
-            </View>
-        </ScrollView>
+            </ScrollView>
         );
     }
-    
-    return(
-        !(Platform.OS === 'ios') ? 
-        (
-            <View style={styles.container}>
-                <View style={styles.pallet}>
-                    {renderContents()}
+
+    function renderContents() {
+        return (
+            <FlatList
+                initialNumToRender={1}
+                style={{ flex: 1, marginTop: 5, marginBottom: 5 }}
+                contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignContent: 'center' }}
+                data={Object.entries(properties)}
+                renderItem={({ item }) => renderProperty(item)}
+                keyExtractor={(item) => item[0].toString()}
+            />
+
+        );
+    }
+
+    return (
+        !(Platform.OS === 'ios') ?
+            (
+                <View style={styles.container}>
+                    <View style={styles.pallet}>
+                        {renderContents()}
+                    </View>
                 </View>
-            </View>
-        ) : (
-            <View style={styles.container}>
-                <SafeAreaView style={styles.pallet}>
-                    {renderContents()}
-                </SafeAreaView>
-            </View>
-    ));
+            ) : (
+                <View style={styles.container}>
+                    <SafeAreaView style={styles.pallet}>
+                        {renderContents()}
+                    </SafeAreaView>
+                </View>
+            ));
+    
 }
