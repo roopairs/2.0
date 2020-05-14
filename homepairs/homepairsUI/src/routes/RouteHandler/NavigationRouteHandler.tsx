@@ -40,6 +40,9 @@ export function prepareRoute(route:string, params?:any){
     const passedParams = isNullOrUndefined(params) ? {} : params;
     const sortedItems = Object.entries(passedParams).sort((a, b) => b[0].localeCompare(a[0]));
     let fullRoute = `${route}`;
+
+    // TODO: adjust for properties and other strings to allow "\" characters
+
     sortedItems.forEach(item => {
         const [, value] = item;
         if(!isNullOrUndefined(value)){
@@ -193,6 +196,7 @@ export default class NavigationRouteHandler{
             value = JSON.parse(value);
         }catch(error){
             console.log('This is not a valid object');
+            console.log(error);
         }
         return value;
     }

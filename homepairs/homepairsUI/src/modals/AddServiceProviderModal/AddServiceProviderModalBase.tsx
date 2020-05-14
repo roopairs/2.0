@@ -1,12 +1,11 @@
 import React from "react";
-import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions} from 'react-native';
+import { ScrollView, View} from 'react-native';
 import { ThinButton, ThinButtonProps, Card, InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions} from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isPhoneNumberValid, isNullOrUndefined} from 'homepairs-utilities';
-import {FontTheme} from 'homepairs-base-styles';
+import {isPhoneNumberValid} from 'homepairs-utilities';
 import { navigationPages, NavigationRouteScreenProps, NavigationRouteHandler } from 'homepairs-routes';
 import setInputStyles from './styles';
 
@@ -15,7 +14,7 @@ export type AddServiceProviderDispatchProps = {
         pmId: number, 
         phoneNum: string,
         setInitialState: () => void, 
-        displayError: (check: boolean) => void, 
+        displayError: (check: boolean, message?: string) => void, 
         navigation: NavigationRouteHandler,
     ) => void
 }
@@ -28,14 +27,17 @@ const { ServiceRequestScreen } = navigationPages;
 
 type Props = NavigationRouteScreenProps & AddServiceProviderDispatchProps & ServiceProviderInfo;
 
+const primaryErrorMessage = 'No service provider with this phone number was found in our system.';
+
 type CreateState = {
     phoneNum: string,
+    errorMessage: string,
 };
 
 const addServiceProviderStrings = strings.addServiceProvider;
 
 const initialState : CreateState = {
-    phoneNum: '',
+    phoneNum: '', errorMessage: primaryErrorMessage,
 };
 
 
@@ -80,6 +82,7 @@ export class AddServiceProviderModalBase extends React.Component<Props,CreateSta
         this.resetForm = this.resetForm.bind(this);
         this.getFormPhoneNum = this.getFormPhoneNum.bind(this);
         this.goBackToPreviousPage = this.goBackToPreviousPage.bind(this);
+        this.setError = this.setError.bind(this);
         this.phoneNumRef = React.createRef();
     }
 
@@ -87,13 +90,18 @@ export class AddServiceProviderModalBase extends React.Component<Props,CreateSta
         this.setState({phoneNum: childData});
     }
 
-    goBackToPreviousPage() {
-        const{navigation} = this.props;
-        navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
+    setError(show: boolean, errorMessage: string = primaryErrorMessage){
+        this.setState({errorMessage});
+        this.phoneNumRef.current.setError(show);
     }
 
     setInitialState() {
         this.setState(initialState);
+    }
+
+    goBackToPreviousPage() {
+        const{navigation} = this.props;
+        navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
     }
 
     resetForm() {
@@ -103,7 +111,7 @@ export class AddServiceProviderModalBase extends React.Component<Props,CreateSta
     validatePhoneNumber() {
         const {phoneNum} = this.state;
         let check = true;
-        if (!isPhoneNumberValid(phoneNum)) {
+        if (!isPhoneNumberValid(phoneNum.trim())) {
             this.phoneNumRef.current.setError(true);
             check = false;
         }
@@ -116,13 +124,15 @@ export class AddServiceProviderModalBase extends React.Component<Props,CreateSta
         const {onAddServiceProvider, navigation, pmId} = this.props;
         this.resetForm();
         console.log(pmId);
-        if (this.validatePhoneNumber()) {
-            onAddServiceProvider(pmId, phoneNum, this.setInitialState, this.phoneNumRef.current.setError, navigation);
-        }
+        if (this.validatePhoneNumber()) 
+            onAddServiceProvider(pmId, phoneNum.trim(), this.setInitialState, this.setError, navigation);
+        else
+            this.setError(true,'Please enter a valid phone number.');    
+        
     }
 
     renderInputForms() {
-        const {phoneNum} = this.state;
+        const {phoneNum, errorMessage} = this.state;
         return <InputForm
                     ref={this.phoneNumRef}
                     key={addServiceProviderStrings.phoneNumber}
@@ -132,7 +142,7 @@ export class AddServiceProviderModalBase extends React.Component<Props,CreateSta
                     inputStyle={this.inputFormStyle.input}
                     containerStyle={this.inputFormStyle.container}
                     value={phoneNum}
-                    errorMessage='No service provider with this phone number was found in our system.'
+                    errorMessage={errorMessage}
                 />;
     }
 
