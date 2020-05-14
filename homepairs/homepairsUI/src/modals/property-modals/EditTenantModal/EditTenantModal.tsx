@@ -344,7 +344,7 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
 
     renderThinButtons() {
         return (
-            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'center', alignSelf: 'center', marginBottom: Platform.OS === 'web' ? 20: 40}}>
+            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'center', alignSelf: 'center', marginBottom: 40}}>
                 <View style={{flex: 1}}>
                 <ThinButton 
                     name='Save'

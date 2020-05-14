@@ -13,6 +13,7 @@ import { GeneralHomeInfo, AddressSticker, PrimaryContactInfo, ServiceRequestCoun
 import { PropertyListState, Property, HomePairsDimensions as HomepairsDimensions } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
+import { navigationPages } from 'homepairs-routes';
 
 /* tenants cannot edit properties */
 const canEditProps = false;
@@ -32,7 +33,7 @@ const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        backgroundColor: colors.space,
+        backgroundColor: colors.primary,
         width: BaseStyles.ContentWidth.max,
         flex: 1,
     },
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
 
 
 export function TenantPropertyScreenBase(props: Props) {
-    const { propertyState, apiKey } = props;
+    const { propertyState, navigation, apiKey } = props;
     const { properties, propertyManager } = propertyState;
 
     /* BEWARE: styles.addBottomMargin doesn't always work, had to add it manually 
@@ -122,7 +123,10 @@ export function TenantPropertyScreenBase(props: Props) {
                     </View>
                     <GeneralHomeInfo property={property} hasEdit={canEditProps} />
                     <PrimaryContactInfo propertyManager={propertyManager} />
-                    <ServiceRequestCount property={property} />
+                    <ServiceRequestCount 
+                        onClick={() => navigation.navigate(navigationPages.ServiceRequestScreen)}
+                        propId={propId}
+                    />
                 </View>
             </ScrollView>
         );
