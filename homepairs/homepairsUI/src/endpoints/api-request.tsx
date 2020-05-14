@@ -597,8 +597,6 @@ export const postNewAppliance = async (
             if (status === SUCCESS) {
                 const {property} = info;
                 const {propId} = property;
-                console.log("prop id");
-                console.log(propId);
                 setInitialState();
                 navigation.resolveModalReplaceNavigation(SingleProperty, {propId});
             } else {
