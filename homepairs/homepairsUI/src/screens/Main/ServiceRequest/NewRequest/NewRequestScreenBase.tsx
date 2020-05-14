@@ -365,10 +365,6 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
                     <> 
                         <Text style={styles.formTitle}>WHEN DO YOU WANT IT TO BE FIXED?</Text>
                         <DatePicker serviceDate={serviceDate} getFormDate={this.getFormDate}/> 
-                    </> : <></>
-                }
-                {dateState ? 
-                    <> 
                         {this.renderError()}
                         <ThinButton 
                             name={this.buttonProps.name}
@@ -377,7 +373,6 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
                             buttonStyle={this.buttonProps.buttonStyle}
                             buttonTextStyle={this.buttonProps.buttonTextStyle}
                         />
-                    
                     </> : <></>
                 }
             </ScrollView>
