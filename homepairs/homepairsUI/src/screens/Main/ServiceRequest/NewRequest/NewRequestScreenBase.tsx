@@ -378,7 +378,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
                             buttonTextStyle={this.buttonProps.buttonTextStyle}
                         />
                     
-                    </> : <> </>
+                    </> : <></>
                 }
             </ScrollView>
         );

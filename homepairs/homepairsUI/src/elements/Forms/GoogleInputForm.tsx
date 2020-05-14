@@ -6,7 +6,7 @@ import { Text, View, TextInput, ViewStyle, StyleSheet, ScrollView } from 'react-
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 import * as BaseStyles from 'homepairs-base-styles';
-import LocationItem from '../LocationItem/LocationItem';
+import LocationItem from 'homepairs-elements';
 
 export type GoogleInputFormProps = {
     key?: any;
@@ -165,6 +165,7 @@ class GoogleInputFormBase extends React.Component<GoogleInputFormProps, GoogleIn
 }
 
 function mapStateToProps(state: AppState): GoogleInputFormProps {
+    console.log(state.settings.apiKey);
     return {
         apiKey: state.settings.apiKey,
     };

@@ -14,7 +14,7 @@ import { HomePairFonts } from 'homepairs-fonts';
 import { clock } from 'homepairs-images';
 import Moment from 'moment';
 import {categoryToString, isNullOrUndefined} from 'homepairs-utilities';
-import { TextTile, ImageTile } from '../Tiles/Tiles';
+import { TextTile, ImageTile } from 'homepairs-elements';
 
 export type ServiceProviderButtonProps = {
     key?: string,

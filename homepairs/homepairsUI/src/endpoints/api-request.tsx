@@ -234,7 +234,8 @@ export const deletePreferredProvider = (
 export const updateTenant = async ({...props}) => {
     const {propId, email, firstName, lastName, phoneNumber} = props;
     await axios.post(HOMEPAIRS_TENANT_EDIT_ENDPOINT, 
-        {email, propId, firstName, lastName, phoneNumber}).then(() =>{
+        {email, propId, firstName, lastName, phoneNumber}).then((result) =>{
+        console.log(result);
     }).catch(error =>{
         console.log(error);
     });

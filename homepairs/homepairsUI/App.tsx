@@ -9,7 +9,6 @@ import { fetchGoogleApiKey } from 'homepairs-endpoints';
 import { AppNavigator } from './src/app-navigators/AppNavigation';
 import initializeStore from './src/state/store';
 
-
 /* TODO: We can optimize this. Instead of holding the entire response, 
     we can hold only the information we need and create actions that deal with this use case.
     Also, we should be fetching our properties and preferredProviders after we have confirmed a 
@@ -35,6 +34,7 @@ const App = () => {
 
     const {store, persistor} = initializeStore();
     store.dispatch(fetchGoogleApiKey());
+
     // Check to see if we have a valid session token. If we do, fetch the profile information again. 
     return !dataLoaded ?  
     <AppLoading startAsync={checkSession} onFinish={() => {setDataLoaded(true);}} onError={(error) => console.log(error)}>
