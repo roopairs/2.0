@@ -30,6 +30,7 @@ import { NavigationRouteScreenProps, hasPageBeenReloaded, navigationPages } from
 export type DetailedPropertyStateProps = {
     properties: PropertyDict;
     token: string,
+    apiKey: string,
 };
 
 export type DetailedPropertyProps = NavigationRouteScreenProps & DetailedPropertyStateProps;
@@ -115,8 +116,6 @@ function getPropIdAndProperty(props:any): [string, Property]{
 }
 
 export class DetailedPropertyScreenBase extends React.Component<DetailedPropertyProps, State> {
-
-    apiKey = 'AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg';
 
     navigation;
 
@@ -212,7 +211,7 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
         const [propId, property] = getPropIdAndProperty(this.props);
         const {address} = property;
         const {applianceInfo, tenantInfo} = this.state;
-        const {navigation} = this.props;
+        const {navigation, apiKey} = this.props;
 
         return (
             <ScrollView 
@@ -223,7 +222,7 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
                     <View style={styles.imageWrapper}>
                         <View style={styles.imageContainer}>
                             <Image 
-                                source={{uri: `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${this.apiKey}`}} 
+                                source={{uri: `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${apiKey}`}} 
                                 style={Platform.OS === 'web'
                                 ? styles.homePairsPropertiesImageWeb
                                 : styles.homePairsPropertiesImage} 

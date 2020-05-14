@@ -1,11 +1,12 @@
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
 import React from 'react';
+import { AppState } from 'homepairs-types';
+import { connect } from 'react-redux';
 import { Text, View, TextInput, ViewStyle, StyleSheet, ScrollView } from 'react-native';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 import * as BaseStyles from 'homepairs-base-styles';
 import LocationItem from '../LocationItem/LocationItem';
-import {} from 'dotenv/config';
 
 export type GoogleInputFormProps = {
     key?: any;
@@ -22,6 +23,7 @@ export type GoogleInputFormProps = {
     value?: string;
     errorMessage?: string;
     locationsContainer?: any
+    apiKey?: string,
 };
 type GoogleInputFormState = {
     value?: string;
@@ -80,7 +82,7 @@ const DefaultInputFormStyle = StyleSheet.create({
  *
  * 
  * */
-export default class GoogleInputForm extends React.Component<GoogleInputFormProps, GoogleInputFormState> {
+class GoogleInputFormBase extends React.Component<GoogleInputFormProps, GoogleInputFormState> {
 
     static defaultProps: GoogleInputFormProps;
 
@@ -111,13 +113,12 @@ export default class GoogleInputForm extends React.Component<GoogleInputFormProp
             errorMessage,
             parentCallBack,
             locationsContainer,
+            apiKey,
         } = this.props;
         const {error} = this.state;
 
-        console.log(process.env.GOOGLE_API_KEY);
-
         return (
-            <GoogleAutoComplete apiKey='AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg' 
+            <GoogleAutoComplete apiKey={apiKey}
                 components="country:us" >
                 {({ handleTextChange, locationResults, clearSearch }) => (
                     <React.Fragment key='google autocomplete'>
@@ -163,7 +164,17 @@ export default class GoogleInputForm extends React.Component<GoogleInputFormProp
     }
 }
 
-GoogleInputForm.defaultProps = {
+function mapStateToProps(state: AppState): GoogleInputFormProps {
+    console.log(state.settings.apiKey);
+    return {
+        apiKey: state.settings.apiKey,
+    };
+}
+
+const GoogleInputForm = connect(mapStateToProps)(GoogleInputFormBase);
+export default GoogleInputForm;
+
+GoogleInputFormBase.defaultProps = {
     ref: undefined,
     key: null,
     name: null,

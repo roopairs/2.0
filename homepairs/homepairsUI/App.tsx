@@ -7,8 +7,8 @@ import { ActivityIndicator, StatusBar, AsyncStorage} from 'react-native';
 import { fetchProperties, setSelectedProperty, parseAccount, refreshServiceProviders} from 'homepairs-redux-actions';
 import { isNullOrUndefined } from 'homepairs-utilities';
 import { navigationPages } from 'homepairs-routes';
+import { parsePreferredProviders, fetchGoogleApiKey } from 'homepairs-endpoints';
 import { AppNavigator } from './src/app-navigators/AppNavigation';
-import { parsePreferredProviders } from 'homepairs-endpoints'
 import store from './src/state/store';
 
 
@@ -27,20 +27,8 @@ const checkSession = async () => {
         store.dispatch(parseAccount(storedAccountProfile));
         store.dispatch(fetchProperties(properties));
     }).catch(() => {});
-
-    /*
-    await AsyncStorage.getItem('preferredProviders').then(preferredProviders => {
-        const json = JSON.parse(preferredProviders);
-        const {providers} = json;
-        const parsedProviders = parsePreferredProviders(providers);
-        store.dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
-    }).catch(() => {});
-    
-    await AsyncStorage.getItem('selectedProperty').then(selectedPropertyId => {
-        const storedSelectedPropertyId = selectedPropertyId;
-        store.dispatch(setSelectedProperty(storedSelectedPropertyId));
-    }).catch(() => {});
-    */
+    console.log('insiide of app.tsx');
+    store.dispatch(fetchGoogleApiKey());
 };
 
 function mapStateToProps(state: AppState): any {

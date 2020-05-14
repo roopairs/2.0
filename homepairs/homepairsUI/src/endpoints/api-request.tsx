@@ -29,7 +29,9 @@ import {
     HOMEPAIRS_SERVICE_REQUEST_ENDPOINT,
     HOMEPAIRS_TENANT_EDIT_ENDPOINT,
     HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT,
+    GOOGLE_API_KEY,
 } from './constants';
+import { addGoogleApiKey } from 'src/state/settings/actions';
 
 
 const {AccountActions, PropertyListActions, SessionActions, PreferredProviderActions} = HomePairsStateActions;
@@ -72,6 +74,18 @@ export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => S
     });
 };
 
+// Grab Google API Key from the database
+export const fetchGoogleApiKey = () => {
+    return async (dispatch: (func: any) => void) => {
+        await axios.get(GOOGLE_API_KEY)
+            .then(response => {
+                if (response) {
+                    dispatch(addGoogleApiKey(response.data.apikey));
+                }
+        });
+    };
+};
+
 /** 
 * ----------------------------------------------------
 * fetchPreferredProviders
@@ -93,7 +107,6 @@ export const fetchPreferredProviders = (pmId: string) => {
         .then(result => {
             const {data} = result;
             const {providers} = data;
-            console.log(providers);
             AsyncStorage.setItem('preferredProviders', JSON.stringify(data));
             const parsedProviders = parsePreferredProviders(providers);
             dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
@@ -166,8 +179,6 @@ export const postPreferredProvider = async (
         if(status !== SUCCESS){
             const {error} = data;
             onError(error);
-            console.log(pmId);
-            console.log(error.message);
             throw Error(error);
         }
         return response;

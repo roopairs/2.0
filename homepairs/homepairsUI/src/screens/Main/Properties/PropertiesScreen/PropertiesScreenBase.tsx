@@ -7,6 +7,7 @@ import { View, Platform, FlatList} from 'react-native';
 export type PropertiesScreenStateProps = {
     propertyState: PropertyListState;
     header: HeaderState;
+    apiKey: string;
 };
 
 export type PropertiesScreenDispatchProps = {
@@ -33,8 +34,6 @@ export type PropertiesScreenProps = SceneInjectedProps &
  */
 export class PropertiesScreenBase extends React.Component<PropertiesScreenProps> {
 
-    apiKey = 'AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg';
-
     constructor(props: Readonly<PropertiesScreenProps>) {
         super(props);
         this.navigateToDetailedProperty = this.navigateToDetailedProperty.bind(this);
@@ -49,7 +48,8 @@ export class PropertiesScreenBase extends React.Component<PropertiesScreenProps>
     }
 
     fetchPropertyImage(address: string) {
-        const uri = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${this.apiKey}`;
+        const {apiKey} = this.props;
+        const uri = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${apiKey}`;
         return Platform.OS === 'web' ? uri : {uri} ;
     }
 

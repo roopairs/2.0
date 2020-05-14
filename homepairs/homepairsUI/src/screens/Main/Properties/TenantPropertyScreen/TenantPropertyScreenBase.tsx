@@ -18,6 +18,7 @@ const canEditProps = false;
     
 export type TenantPropertyStateProps = {
   propertyState: PropertyListState,
+  apiKey: string,
 }
 
 export type TenantPropertyDispatchProps = {

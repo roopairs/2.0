@@ -9,3 +9,4 @@ export const HOMEPAIRS_TENANT_EDIT_ENDPOINT = `${BaseURL}tenant/update/`;
 export const HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT = `${BaseURL}serviceprovider/`;
 export const HOMEPAIRS_SERVICE_REQUEST_ENDPOINT = `${BaseURL}servicerequest/`;
 export const HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT = `${BaseURL}serviceprovider/prefprov/`;
+export const GOOGLE_API_KEY = `${BaseURL}apikey/`;

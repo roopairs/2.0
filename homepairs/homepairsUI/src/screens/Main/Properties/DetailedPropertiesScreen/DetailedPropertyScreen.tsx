@@ -11,6 +11,7 @@ function mapStateToProps(state: AppState): DetailedPropertyStateProps {
     return { 
         properties: properties.properties,
         token: state.accountProfile.roopairsToken,
+        apiKey: state.settings.apiKey,
     };
 }
 
