@@ -93,12 +93,8 @@ const styles = StyleSheet.create({
 
 
 export function TenantPropertyScreenBase(props: Props) {
-    const { propertyState } = props;
+    const { propertyState, apiKey } = props;
     const { properties, propertyManager } = propertyState;
-    console.log("properties");
-    console.log(properties);
-    console.log("propertyManager");
-    console.log(propertyManager);
 
     /* BEWARE: styles.addBottomMargin doesn't always work, had to add it manually 
         / overlapping styles aen't currently supported by react
@@ -107,7 +103,6 @@ export function TenantPropertyScreenBase(props: Props) {
     function renderProperty(pair: [string, Property]) {
         const [propId, property] = pair;
         const { address } = property;
-        const apiKey = 'AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg';
 
         return (
             <ScrollView 

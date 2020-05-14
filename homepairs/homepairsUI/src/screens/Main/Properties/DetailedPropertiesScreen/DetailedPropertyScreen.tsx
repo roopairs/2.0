@@ -14,12 +14,9 @@ function mapStateToProps(state: AppState): DetailedPropertyStateProps {
     return { 
         properties: properties.properties,
         token: state.accountProfile.roopairsToken,
-<<<<<<< HEAD
-        apiKey: state.settings.apiKey,
-=======
         tenantInfo: properties.tenants,
         applianceInfo: properties.appliances,
->>>>>>> 079f91256a2f53dbc51cd11a8e4f5ef9d4fa5957
+        apiKey: state.settings.apiKey,
     };
 }
 

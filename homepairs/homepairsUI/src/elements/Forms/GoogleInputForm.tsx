@@ -165,7 +165,6 @@ class GoogleInputFormBase extends React.Component<GoogleInputFormProps, GoogleIn
 }
 
 function mapStateToProps(state: AppState): GoogleInputFormProps {
-    console.log(state.settings.apiKey);
     return {
         apiKey: state.settings.apiKey,
     };
