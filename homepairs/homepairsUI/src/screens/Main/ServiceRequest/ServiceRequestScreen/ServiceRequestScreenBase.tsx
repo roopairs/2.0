@@ -228,7 +228,6 @@ const styles = StyleSheet.create({
 const serviceRequestStrings = strings.serviceRequestPage;
 
 function filterTabbedObjects(unfilteredServiceRequests: ServiceRequest[], requestStatus: ServiceRequestStatus) {
-    console.log(`In filtered Tabbed`);
     const filteredServiceRequests: ServiceRequest[] = unfilteredServiceRequests.filter(sr => sr.status === requestStatus);
     return filteredServiceRequests;
 }
@@ -374,7 +373,6 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                     status : ServiceRequestStatusEnums[status],
                 };
 
-                console.log(serviceRequest);
                 serviceRequests.push(serviceRequest);
             });
             this.setState({serviceRequests});  
