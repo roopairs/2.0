@@ -112,7 +112,7 @@ export const removeProperty = (
  * Tenants 
  * @param {Contact} linkedPropertyManager -Property Manager recieved from the homepairs servers  
  */
-export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], linkedPropertyManager: Contact): FetchPropertyAndPropertyManagerAction => {
+export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], linkedPropertyManager: any): FetchPropertyAndPropertyManagerAction => {
   const linkedProperty = linkedProperties[0];
   const fetchedPropertyManager: Contact = {
     email: linkedPropertyManager[accountKeys.EMAIL],
