@@ -13,7 +13,7 @@ import {
   PropertiesScreen,
   TenantPropertiesScreen,
 } from 'homepairs-pages';
-import {HomePairsHeader} from 'homepairs-components';
+import {HomePairsHeader as HPH} from 'homepairs-components';
 import { CreatingAccountModal, LoggingInModal, AddNewPropertyModal, 
   EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, 
   EditTenantModal, ServiceRequestModal, AddServiceProviderModal, PreferredProviderModal } from 'homepairs-modals';
@@ -25,6 +25,36 @@ import {
   ADD_SERVICE_PROVIDER_MODAL, PREFERRED_PROVIDER_MODAL,
 } from 'homepairs-routes';
 
+
+
+const HomePairsHeader = () => {return (<View style={{shadowColor: 'black',
+shadowRadius: 8,
+shadowOffset: { width: 2, height: 2 },
+shadowOpacity: .5}}><HPH /></View>);};
+
+
+
+/**
+ * ------------------------------------------------------------
+ * withScrollTop High-Order-Component
+ * ------------------------------------------------------------
+ * A high order component that forces a component to scroll to the window position (0,0) upon mounting
+ * This function is intended to be used for modals on long pages for website modals.
+ * @param ScrollComponent - The component that will scroll to the top position upon mounting
+ */
+export function withScrollTop(ScrollComponent: any){
+  return class ScrollToTopOnMount extends React.Component {
+    componentDidMount() {
+      window.scrollTo(0, 0);
+    }
+
+    render() {
+      return <ScrollComponent {...this.props}/>;
+    }
+  };
+}
+
+
 /**
  * ------------------------------------------------------------
  * withModal High-Order-Component
@@ -34,10 +64,10 @@ import {
  * 
  * NOTE: Remove all set all flex grow properties to null. This will cause the modal to grow the size of the background 
  * which is unwarranted behavior!!!
- * 
- * TODO: Make it so modal is only scrollable, not the background component 
  */
-function withModal(ModalComponent: any) {
+export function withModal(ModalComponent: any) {
+    const ScrollableComponent = withScrollTop(ModalComponent);
+    
     return function Modal(props:any) {
         const history = useHistory();
         const back = e => {
@@ -48,6 +78,7 @@ function withModal(ModalComponent: any) {
             <View 
             style={{
                 position: "absolute",
+                flex: 1,
                 top: 0,
                 left: 0,
                 bottom: 0,
@@ -55,8 +86,8 @@ function withModal(ModalComponent: any) {
                 backgroundColor: "rgba(0, 0, 0, 0.15)",
                 overflow: 'scroll',
             }}>
-              <View style={{flex:1}}>
-                <ModalComponent />
+              <View style={{flex:1, overflow: 'hidden'}}>
+                <ScrollableComponent {...props} />
                 </View>
             </View>
         );
@@ -72,7 +103,7 @@ function withModal(ModalComponent: any) {
  * login page. 
  * @param {{Component, ...any}} param -a list of props that must contain a component. This will be the protected component 
  */
-function PrivateRoute ({Component: Component, ...rest}) {
+function PrivateRoute ({Component, ...rest}) {
   const {authed} = rest;
   const location = useLocation();
   return (
@@ -98,7 +129,6 @@ const AddServiceProviderReadyModal = withModal(AddServiceProviderModal);
 const PreferredProviderReadyModal = withModal(PreferredProviderModal);
 const ServiceRequestInfoReadyModal = withModal(ServiceRequestModal);
 /* Modal Ready Components for Routers */
-
 
 /* Authentication Modal Switch Routers */
 
@@ -164,14 +194,16 @@ function TenantAccountPropertySwitch() {
   const location = useLocation();
   const background = location.state && location.state.background;
   return (
+    <>
+    <HomePairsHeader />
     <Route path='/tenant/home' render={(matches) => (
           <View style={{overflow: 'hidden'}}>                
-              <HomePairsHeader />
               <Switch path={`${TENANT_PROPERTY}`} location={background || location}>
                   <Route exact path={`${TENANT_PROPERTY}`}><TenantPropertiesScreen/></Route>
               </Switch>
           </View>
       )}/>
+      </>
   );
 }
 
@@ -179,14 +211,16 @@ function AccountSettingsSwitch() {
   const location = useLocation();
   const background = location.state && location.state.background;
   return (
+    <>
+    <HomePairsHeader />
     <Route path='/admin/account-settings' render={(matches) => (
           <>                
-              <HomePairsHeader />
               <Switch path='/admin/account-settings' location={background || location}>
                   <Route exact path={`${ACCOUNT_SETTINGS}`}><AccountScreen/></Route>
               </Switch>
           </>
       )}/>
+    </>
   );
 }
 
@@ -194,6 +228,8 @@ function ServiceRequestSwitch() {
   const location = useLocation();
   const background = location.state && location.state.background;
   return (
+    <>
+    <HomePairsHeader />
     <Route path={SERVICE_REQUEST} render={(matches) => (
           <>                
               <HomePairsHeader />
@@ -210,6 +246,7 @@ function ServiceRequestSwitch() {
               {background && <Route path={`${PREFERRED_PROVIDER_MODAL}/:serviceProvider`}><PreferredProviderReadyModal/></Route>}
           </>
       )}/>
+      </>
   );
 }
 
@@ -217,9 +254,10 @@ function SinglePropertySwitch() {
   const location = useLocation();
   const background = location.state && location.state.background;
   return (
+    <>
+    <HomePairsHeader />
     <Route path={`${PROPERTY}/:propId`} render={(matches) => (
           <>                
-              <HomePairsHeader />
               <Switch path={`${PROPERTY}/:propId`} location={background || location}>
                   <Route exact path={`${PROPERTY}/:propId`}><DetailedPropertyScreen/></Route>
                   <Route exact path={`${EDIT_PROPERTY_MODAL}/:propId`}><EditPropertyModal /></Route>
@@ -230,7 +268,6 @@ function SinglePropertySwitch() {
               </Switch>
       
               {/* Show the modal when a background page is set */}
-              {/* TODO: Set these to the center of the window!!*/}
               {background && <Route path={`${EDIT_PROPERTY_MODAL}/:propId`}> <EditPropertyReadyModal /> </Route>}
               {background && <Route path={`${ADD_TENANT_MODAL}/:propId`}><AddTenantReadyModal/></Route>}
               {background && <Route path={`${EDIT_TENANT_MODAL}/:tenant/:propId`}><EditTenantReadyModal/></Route>}
@@ -238,7 +275,9 @@ function SinglePropertySwitch() {
               {background && <Route path={`${EDIT_APPLIANCE_MODAL}/:propId/:appliance`}><EditApplianceReadyModal/></Route>}
 
           </>
+      
       )}/>
+    </>
   );
 }
 
@@ -247,9 +286,10 @@ function PropertiesSwitch() {
     const background = location.state && location.state.background;
   
     return (
+      <>
+      <HomePairsHeader />
       <Route path={PROPERTY_LIST} render={(matches) => (
             <>
-                <HomePairsHeader />
                 <Switch path={PROPERTY_LIST} location={background || location}>
                     <Route exact path={PROPERTY_LIST}><PropertiesScreen/></Route>
                     <Route exact path={ADD_PROPERTY_MODAL}><AddNewPropertyModal/></Route>
@@ -259,6 +299,7 @@ function PropertiesSwitch() {
                 {background && <Route path={ADD_PROPERTY_MODAL}><AddPropertyModal/></Route>}
             </>
         )}/>
+      </>
     );
 }
 
@@ -277,7 +318,7 @@ export default function AppNavigator(props:any){
     // TODO: Set PrivateRoute to auth status from session token
     // <Router basename={`${process.env.PUBLIC_URL}`}> is needed for web routing resolution for remote servers 
     return (
-        <Router basename={`${process.env.PUBLIC_URL}`}>         
+        <Router basename={`${process.env.PUBLIC_URL}`}>  
             <Switch>
                 <Route path='/authentication'>
                   <RoopairsLoginModalSwitch/>

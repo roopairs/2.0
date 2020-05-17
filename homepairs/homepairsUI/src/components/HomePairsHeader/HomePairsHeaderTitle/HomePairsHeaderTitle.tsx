@@ -1,10 +1,10 @@
 import {
     View,
     Text,
-    StyleSheet,
 } from 'react-native';
 import React from 'react';
-import * as BaseStyles from 'homepairs-base-styles';
+import styles from './styles';
+
 
 export type HomePairsHeaderTitleProps = {
 
@@ -19,32 +19,6 @@ export type HomePairsHeaderTitleProps = {
      */
     isDropDown: boolean;
 };
-
-const colorScheme = BaseStyles.LightColorTheme;
-const styles = StyleSheet.create({
-    homePairsTitleContainer: {
-        padding: 15,
-        paddingRight: 0,
-        height: 80,
-        width: '100%',
-        backgroundColor: colorScheme.secondary,
-    },
-    homePairsTitleContainerNavSet: {
-        flexDirection: 'row',
-        padding: 15,
-        paddingRight: 0,
-        height: 80,
-        minWidth: 175,
-        maxWidth: 185,
-        backgroundColor: colorScheme.secondary,
-    },
-    homePairsTitle: {
-        fontFamily: BaseStyles.FontTheme.primary,
-        fontSize: 32,
-        color: colorScheme.primary,
-    },
-});
-
 
 /**
  * ---------------------------------------------------

@@ -38,7 +38,7 @@ function setInputStyles(){
                 paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
         },
         modalContainer: {
-            flex: 1,
+            flex: Platform.OS === 'web' ? undefined : 1,
             maxWidth: HomePairsDimensions.MAX_PALLET,
             width: Platform.OS === 'web' ? width : BaseStyles.ContentWidth.max,
             justifyContent: 'center',
@@ -187,8 +187,7 @@ export class EditTenantModalBase extends React.Component<Props, EditTenantState>
         this.emailRef = React.createRef();
         this.phoneNumberRef = React.createRef();
     } 
-
-    
+  
     getFormFirstName(firstName : string) {
         this.setState({firstName});
     }

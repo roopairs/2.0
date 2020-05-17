@@ -5,7 +5,7 @@ import {
     navigationStackSpyFunction } from 'homepairs-test';
 import { render, fireEvent } from 'react-native-testing-library';
 import { TouchableOpacity, View} from 'react-native';
-import HomePairsMenu from '../HomePairsHeaderMenu';
+import HomePairsMenu from './HomePairsHeaderMenu';
 
 const testAppStack = MainAppStackTest;
 
