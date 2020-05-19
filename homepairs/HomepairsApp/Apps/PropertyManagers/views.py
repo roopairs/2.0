@@ -270,7 +270,7 @@ class TenantControlView(View):
             try:
                 editTenant.save()
             except Exception as e:
-                return JsonResponse(data=required(e.message))
+                return JsonResponse(data=required(e.message), status=400)
             return JsonResponse({STATUS: SUCCESS})
         else:
-            return JsonResponse(data=missingError(missingFields))
+            return JsonResponse(data=missingError(missingFields), status=400)
