@@ -116,8 +116,6 @@ class ServiceRequestView(View):
                         'point_of_contact_name': str(prop.pm),
                         'requested_arrival_time': str(serviceDate)
                    }
-            print("TOKEN?")
-            print(token)
             info = postRooTokenAPI(url, data, token)
             if NON_FIELD_ERRORS in info:
                 return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
@@ -149,11 +147,10 @@ class ServiceRequestView(View):
 
     def put(self, request):
         inData = json.loads(request.body)
-        required = ['reqId', 'job', 'provId', 'client', 'status', 'dayStarted', 'details', 'propId', 'appId']
+        required = ['reqId', 'provId', 'client', 'status', 'dayStarted', 'details', 'propId', 'appId']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) == 0):
             id = inData.get('reqId')
-            job = inData.get('job')
             provId = inData.get('provId')
             client = inData.get('client')
             status = inData.get('status')
@@ -174,7 +171,6 @@ class ServiceRequestView(View):
                 app = appList[0]
                 prov = provList[0]
 
-                req.job = job
                 req.serviceCompany = prov
                 req.client = client
                 req.status = status

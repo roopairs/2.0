@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'Apps.Appliances',
     'Apps.ServiceProvider',
     'Apps.ServiceRequest',
+    'Apps.Tools',
     'corsheaders',
 ]
 
@@ -150,6 +151,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
+
+# This should be for coverage I think
+TEST_RUNNER = 'HomepairsApp' + ".runners.CoverageLintingXMLTestRunner"
 
 # This should be for coverage I think
 TEST_RUNNER = 'HomepairsApp' + ".runners.CoverageLintingXMLTestRunner"

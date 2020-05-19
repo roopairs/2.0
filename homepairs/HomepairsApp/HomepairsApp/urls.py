@@ -19,6 +19,7 @@ from Apps.PropertyManagers.views import LoginView
 from Apps.ServiceProvider.views import ServiceProviderView
 from Apps.ServiceRequest.views import ServiceRequestView
 from Apps.ServiceProvider.preferredViews import PreferredProviderView
+from Apps.Tools.views import APIKeyView
 from django.contrib import admin
 from django.urls import include, path
 
@@ -37,4 +38,5 @@ urlpatterns = [
     path('servicerequest/', ServiceRequestView.as_view(), name='service_request_view'),
     path('servicerequest/<str:inPropId>/', ServiceRequestView.as_view(), name='request_get'),
     path('login/', LoginView.as_view(), name='login'),
+    path('apikey/', APIKeyView.as_view(), name='apikey'),
 ]

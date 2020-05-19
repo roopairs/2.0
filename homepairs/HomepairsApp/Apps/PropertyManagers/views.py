@@ -9,6 +9,7 @@ from ..helperFuncs import postRooAPI
 from ..Properties.models import Property
 from ..Properties.views import addNewProperties
 from ..Tenants.models import Tenant
+from ..Tools.models import Token
 from ..Tenants.views import getTenant
 from .models import PropertyManager
 
@@ -117,8 +118,11 @@ def pmLogin(email, password):
             tempPM = PropertyManager(firstName=firstName,
                                      lastName=lastName,
                                      email=email)
+            #toke = Token()
+            #toke.setPm(tempPM)
             try:
                 tempPM.save()
+                toke.save()
             except Exception as e:
                 return JsonResponse(data=returnError(e.message))
 
@@ -130,6 +134,8 @@ def pmLogin(email, password):
         addNewProperties(email, info.get(TOKEN))
 
         tempDict = getPropertyManager(email)
+        #toke.setRooPairsToken(info.get(TOKEN))
+        #tempDict[TOKEN] = toke.getToken()
         tempDict[TOKEN] = info.get(TOKEN)
         return tempDict
 
@@ -158,6 +164,8 @@ class LoginView(View):
             pmTest = pmLogin(email, password)
             if(pmTest.get(STATUS) == SUCCESS):
                 pmTest['role'] = 'pm'
+
+            
 
             return JsonResponse(pmTest, status=200)
         else:
