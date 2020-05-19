@@ -220,7 +220,7 @@ class ServiceRequestView(View):
         else:
             return JsonResponse(data=returnError(SERVREQ_DOESNT_EXIST))
     
-    def get_pm(self, request, inPmId):
+    def head(self, request, inPmId):
         pmId = inPmId
         reqList = ServiceRequest.objects.filter(location__pm=pmId)
         if reqList.exists():
