@@ -113,6 +113,55 @@ class ServiceRequestView(View):
             if isPm:
                 prov = provList[0]
 
+<<<<<<< HEAD
+            data = {
+                        'service_company': provId,
+                        'service_category': 1,
+                        'service_type': typeNum,
+                        'details': details,
+                        'point_of_contact_name': str(prop.pm),
+                        'requested_arrival_time': str(serviceDate)
+                   }
+            info = postRooTokenAPI(url, data, token)
+            if NON_FIELD_ERRORS in info:
+                return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
+            elif(info.get('detail') == 'Invalid token.'):
+                return JsonResponse(data=returnError(info.get('detail')))
+            req = ServiceRequest(serviceCategory=serviceCategory,
+                                 serviceCompany=prov,
+                                 serviceType=str(typeNum),
+                                 status='Pending',
+                                 client=str(prop.pm),
+                                 serviceDate=serviceDate,
+                                 details=details,
+                                 location=prop,
+                                 appFixed=app)
+||||||| edeecfadf
+            data = {
+                        'service_company': provId,
+                        'service_category': 1,
+                        'service_type': typeNum,
+                        'details': details,
+                        'point_of_contact_name': str(prop.pm),
+                        'requested_arrival_time': str(serviceDate)
+                   }
+            print("TOKEN?")
+            print(token)
+            info = postRooTokenAPI(url, data, token)
+            if NON_FIELD_ERRORS in info:
+                return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
+            elif(info.get('detail') == 'Invalid token.'):
+                return JsonResponse(data=returnError(info.get('detail')))
+            req = ServiceRequest(serviceCategory=serviceCategory,
+                                 serviceCompany=prov,
+                                 serviceType=str(typeNum),
+                                 status='Pending',
+                                 client=str(prop.pm),
+                                 serviceDate=serviceDate,
+                                 details=details,
+                                 location=prop,
+                                 appFixed=app)
+=======
                 data = {
                             'service_company': provId,
                             'service_category': 1,
@@ -146,6 +195,7 @@ class ServiceRequestView(View):
                                     details=details,
                                     location=prop,
                                     appFixed=app)
+>>>>>>> 184a22c47d36fcdfac8351699440174e3f6e9a11
             try:
                 req.save()
             except Exception as e:
@@ -163,10 +213,25 @@ class ServiceRequestView(View):
 
     def put(self, request):
         inData = json.loads(request.body)
+<<<<<<< HEAD
+        required = ['reqId', 'provId', 'client', 'status', 'dayStarted', 'details', 'propId', 'appId']
+||||||| edeecfadf
+        required = ['reqId', 'job', 'provId', 'client', 'status', 'dayStarted', 'details', 'propId', 'appId']
+=======
         required = ['reqId', 'status']
+>>>>>>> 184a22c47d36fcdfac8351699440174e3f6e9a11
         missingFields = checkRequired(required, inData)
         if(len(missingFields) == 0):
             id = inData.get('reqId')
+<<<<<<< HEAD
+            provId = inData.get('provId')
+            client = inData.get('client')
+||||||| edeecfadf
+            job = inData.get('job')
+            provId = inData.get('provId')
+            client = inData.get('client')
+=======
+>>>>>>> 184a22c47d36fcdfac8351699440174e3f6e9a11
             status = inData.get('status')
 
             # The ServiceRequest
@@ -174,6 +239,15 @@ class ServiceRequestView(View):
             if reqList.exists():
                 req = reqList[0]
 
+<<<<<<< HEAD
+                req.serviceCompany = prov
+                req.client = client
+||||||| edeecfadf
+                req.job = job
+                req.serviceCompany = prov
+                req.client = client
+=======
+>>>>>>> 184a22c47d36fcdfac8351699440174e3f6e9a11
                 req.status = status
                 try:
                     req.save()
