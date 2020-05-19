@@ -20,7 +20,7 @@ from Apps.ServiceProvider.views import ServiceProviderView
 from Apps.ServiceRequest.views import ServiceRequestView
 from Apps.ServiceProvider.preferredViews import PreferredProviderView
 from Apps.Tools.views import APIKeyView
-from Apps.ServiceProvider.GetServiceRequestPmView import GetServiceRequestPmView
+from Apps.ServiceRequest.views_get_pm import GetServiceRequestPmView
 from django.contrib import admin
 from django.urls import include, path
 
