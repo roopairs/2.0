@@ -184,7 +184,7 @@ class RegisterView(View):
             tempPms = PropertyManager.objects.filter(email=email)
             tempTens = Tenant.objects.filter(email=email)
             if(tempPms.count() > 0 or tempTens.count() > 0):
-                return JsonResponse(data=returnError(EMAIL_ALREADY_USED))
+                return JsonResponse(data=returnError(EMAIL_ALREADY_USED), status=400)
 
             data = {
                       'first_name': firstName,
@@ -199,7 +199,7 @@ class RegisterView(View):
             info = postRooAPI(url, data)
 
             if NON_FIELD_ERRORS in info:
-                return JsonResponse(returnError(ROOPAIR_ACCOUNT_CREATION_FAILED))
+                return JsonResponse(returnError(ROOPAIR_ACCOUNT_CREATION_FAILED), status=400)
             elif TOKEN in info:
                 tempPM = PropertyManager(
                                            firstName=firstName,
@@ -208,10 +208,10 @@ class RegisterView(View):
                 try:
                     tempPM.save()
                 except Exception as e:
-                    return JsonResponse(data=returnError(e.message))
+                    return JsonResponse(data=returnError(e.message), status=400)
                 tempDict = getPropertyManager(email)
                 if tempDict[STATUS] == FAIL:
-                    return JsonResponse(data=returnError(HOMEPAIRS_ACCOUNT_CREATION_FAILED))
+                    return JsonResponse(data=returnError(HOMEPAIRS_ACCOUNT_CREATION_FAILED), status=400)
                 tempDict[TOKEN] = info.get(TOKEN)
                 tempDict['role'] = 'pm'
                 return JsonResponse(data=tempDict)
@@ -246,9 +246,9 @@ class TenantControlView(View):
                     # We got the tenant
                     editTenant = tenantList[0]
                 else:
-                    return JsonResponse(returnError("Multiple tenant accounts detected"))
+                    return JsonResponse(returnError("Multiple tenant accounts detected"), status=400)
             else:
-                return JsonResponse(returnError("Tenant account does not exist"))
+                return JsonResponse(returnError("Tenant account does not exist"), status=400)
 
             # Now check if the property exists
             propList = Property.objects.filter(rooId=propId)
@@ -259,12 +259,12 @@ class TenantControlView(View):
                     # We got the property
                     moveToProp = propList[0]
                 else:
-                    return JsonResponse(returnError(PROPERTY_SQUISH))
+                    return JsonResponse(returnError(PROPERTY_SQUISH), status=400)
             else:
-                return JsonResponse(returnError(PROPERTY_DOESNT_EXIST))
+                return JsonResponse(returnError(PROPERTY_DOESNT_EXIST), status=400)
 
             if(editTenant.place == moveToProp):
-                return JsonResponse(returnError(TENANT_ALREADY_IN_PROP))
+                return JsonResponse(returnError(TENANT_ALREADY_IN_PROP), status=400)
 
             editTenant.place = moveToProp
             try:

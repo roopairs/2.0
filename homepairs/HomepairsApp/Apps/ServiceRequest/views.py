@@ -219,3 +219,31 @@ class ServiceRequestView(View):
             return JsonResponse(data=data)
         else:
             return JsonResponse(data=returnError(SERVREQ_DOESNT_EXIST))
+    
+    def get_pm(self, request, inPmId):
+        pmId = inPmId
+        reqList = ServiceRequest.objects.filter(location__pm=pmId)
+        if reqList.exists():
+            newList = []
+            for i in reqList:
+                newList.append(i.toDict())
+            pendNum = 0
+            schedNum = 0
+            inProgNum = 0
+            for i in newList:
+                if i['status'] == 'Pending':
+                    pendNum += 1
+                elif i['status'] == 'In Progress':
+                    inProgNum += 1
+                elif i['status'] == 'Scheduled':
+                    schedNum += 1
+            data = {
+                       STATUS: SUCCESS,
+                       'reqs': newList,
+                       'pending': pendNum,
+                       'scheduled': schedNum,
+                       'inProgress': inProgNum
+                   }
+            return JsonResponse(data=data)
+        else:
+            return JsonResponse(data=returnError(SERVREQ_DOESNT_EXIST))
