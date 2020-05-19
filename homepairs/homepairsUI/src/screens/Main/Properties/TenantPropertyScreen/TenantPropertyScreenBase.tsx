@@ -7,6 +7,7 @@ import {
     Image,
     StyleSheet,
     FlatList,
+    AsyncStorage,
 } from 'react-native';
 import { defaultProperty } from 'homepairs-images';
 import { GeneralHomeInfo, AddressSticker, PrimaryContactInfo, ServiceRequestCount } from 'homepairs-components';
@@ -26,6 +27,7 @@ export type TenantPropertyStateProps = {
 export type TenantPropertyDispatchProps = {
     onRevealGoBack: (showGoBack:boolean) => any;
   }
+
 
 type Props = NavigationStackScreenProps & TenantPropertyStateProps
 const colors = BaseStyles.LightColorTheme;
@@ -93,18 +95,19 @@ const styles = StyleSheet.create({
 });
 
 
-export function TenantPropertyScreenBase(props: Props) {
-    const { propertyState, navigation, apiKey } = props;
-    const { properties, propertyManager } = propertyState;
+export class TenantPropertyScreenBase extends React.Component<Props>{
+
 
     /* BEWARE: styles.addBottomMargin doesn't always work, had to add it manually 
         / overlapping styles aen't currently supported by react
         see ref: https://github.com/facebook/react/issues/2231 */
 
-    function renderProperty(pair: [string, Property]) {
+
+    renderProperty(pair: [string, Property]) {
         const [propId, property] = pair;
         const { address } = property;
-
+        const {propertyState, navigation, apiKey} = this.props;
+        const {propertyManager} = propertyState;
         return (
             <ScrollView 
                 contentContainerStyle={{}}
@@ -132,34 +135,39 @@ export function TenantPropertyScreenBase(props: Props) {
         );
     }
 
-    function renderContents() {
+    renderContents() {
+        const {propertyState} = this.props;
+        const {properties} = propertyState;
         return (
             <FlatList
                 initialNumToRender={1}
                 style={{ flex: 1, marginTop: 5, marginBottom: 5 }}
                 contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignContent: 'center' }}
                 data={Object.entries(properties)}
-                renderItem={({ item }) => renderProperty(item)}
+                renderItem={({ item }) => this.renderProperty(item)}
                 keyExtractor={(item) => item[0].toString()}
             />
 
         );
     }
 
-    return (
+    render() {
+        return (
         !(Platform.OS === 'ios') ?
             (
                 <View style={styles.container}>
                     <View style={styles.pallet}>
-                        {renderContents()}
+                        {this.renderContents()}
                     </View>
                 </View>
             ) : (
                 <View style={styles.container}>
                     <SafeAreaView style={styles.pallet}>
-                        {renderContents()}
+                        {this.renderContents()}
                     </SafeAreaView>
                 </View>
             ));
+    }
+    
     
 }

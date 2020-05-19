@@ -1,6 +1,7 @@
 import { 
     ToggleDarkModeActivationAction,
     ToggleNotificationActivationAction,
+    AddGoogleApiKeyAction,
 } from '../types';
 
 export const SETTINGS_ACTION_TYPES = {
@@ -23,7 +24,7 @@ export const toggleNotificationActivation = (isActive : boolean) : ToggleNotific
     });
 };
 
-export const addGoogleApiKey = (apiKey: string) => {
+export const addGoogleApiKey = (apiKey: string) : AddGoogleApiKeyAction => {
     return ({
         type: SETTINGS_ACTION_TYPES.ADD_GOOGLE_API_KEY, 
         apiKey,

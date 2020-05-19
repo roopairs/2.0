@@ -2,11 +2,11 @@ import { GoogleAutoComplete } from 'react-native-google-autocomplete';
 import React from 'react';
 import { AppState } from 'homepairs-types';
 import { connect } from 'react-redux';
-import { Text, View, TextInput, ViewStyle, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, TextInput, ViewStyle, StyleSheet, ScrollView, AsyncStorage } from 'react-native';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 import * as BaseStyles from 'homepairs-base-styles';
-import LocationItem from 'homepairs-elements';
+import {LocationItem} from 'homepairs-elements';
 
 export type GoogleInputFormProps = {
     key?: any;
@@ -23,13 +23,13 @@ export type GoogleInputFormProps = {
     value?: string;
     errorMessage?: string;
     locationsContainer?: any
-    apiKey?: string,
 };
 type GoogleInputFormState = {
     value?: string;
     error?: boolean;
+    apiKey?: string;
 };
-const initialState: GoogleInputFormState = { value: '', error: false};
+const initialState: GoogleInputFormState = { value: '', error: false, apiKey: ''};
 
 const DefaultInputFormStyle = StyleSheet.create({
     container: {
@@ -82,7 +82,7 @@ const DefaultInputFormStyle = StyleSheet.create({
  *
  * 
  * */
-class GoogleInputFormBase extends React.Component<GoogleInputFormProps, GoogleInputFormState> {
+export default class GoogleInputForm extends React.Component<GoogleInputFormProps, GoogleInputFormState> {
 
     static defaultProps: GoogleInputFormProps;
 
@@ -92,8 +92,23 @@ class GoogleInputFormBase extends React.Component<GoogleInputFormProps, GoogleIn
         this.setError = this.setError.bind(this);
     }
 
+    componentDidMount()  {
+        this.fetchApiKey();
+    }
+
     setError(input: boolean) {
         this.setState({error: input});
+    }
+
+    fetchApiKey() {
+        const apiKey = async () => {
+            await AsyncStorage.getItem('googleAPIKey').then((response) => {
+                this.setState({apiKey: response});
+            }).catch((err) => {
+                console.log(err);
+            });
+        };
+        apiKey();
     }
 
     renderName() {
@@ -113,9 +128,8 @@ class GoogleInputFormBase extends React.Component<GoogleInputFormProps, GoogleIn
             errorMessage,
             parentCallBack,
             locationsContainer,
-            apiKey,
         } = this.props;
-        const {error} = this.state;
+        const {error, apiKey} = this.state;
 
         return (
             <GoogleAutoComplete apiKey={apiKey}
@@ -164,17 +178,7 @@ class GoogleInputFormBase extends React.Component<GoogleInputFormProps, GoogleIn
     }
 }
 
-function mapStateToProps(state: AppState): GoogleInputFormProps {
-    console.log(state.settings.apiKey);
-    return {
-        apiKey: state.settings.apiKey,
-    };
-}
-
-const GoogleInputForm = connect(mapStateToProps)(GoogleInputFormBase);
-export default GoogleInputForm;
-
-GoogleInputFormBase.defaultProps = {
+GoogleInputForm.defaultProps = {
     ref: undefined,
     key: null,
     name: null,

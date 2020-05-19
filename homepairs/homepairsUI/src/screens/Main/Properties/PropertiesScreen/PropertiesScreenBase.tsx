@@ -2,12 +2,12 @@ import React from 'react';
 import { PropertyListState, HeaderState, Property, PropertyDict } from 'homepairs-types';
 import { navigationPages } from 'homepairs-routes';
 import { ViewPropertyCard, SceneInjectedProps } from 'homepairs-components';
-import { View, Platform, FlatList} from 'react-native';
+import { View, Platform, FlatList, AsyncStorage} from 'react-native';
 
 export type PropertiesScreenStateProps = {
     propertyState: PropertyListState;
     header: HeaderState;
-    apiKey: string;
+    apiKey: string,
 };
 
 export type PropertiesScreenDispatchProps = {
@@ -16,6 +16,7 @@ export type PropertiesScreenDispatchProps = {
     // TODO: Change to propId when backend is ready. Also, store the selected property/index in async storage
     onSelectProperty: (propId: string) => any;
 };
+
 
 export type PropertiesScreenProps = SceneInjectedProps &
     PropertiesScreenStateProps &
@@ -70,7 +71,6 @@ export class PropertiesScreenBase extends React.Component<PropertiesScreenProps>
     render() {
         const { propertyState} = this.props;
         const { properties } = propertyState;
-        console.log(properties);
         return (
             <FlatList
                 initialNumToRender={3}

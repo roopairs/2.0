@@ -130,7 +130,7 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
         this.openEditApplianceModal = this.openEditApplianceModal.bind(this);
     };
 
-    componentDidMount(){
+    componentDidMount() {
         const {onUpdateHeader, setAppliancesAndTenants} = this.props;
         onUpdateHeader();
         const [propId] = getPropIdAndProperty(this.props);
@@ -151,7 +151,6 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
         const [propId] = getPropIdAndProperty(this.props);
         this.navigation.navigate(navigationPages.EditApplianceModal, {appliance, propId}, true);
     }
-
 
     renderContents() {
         const [propId, property] = getPropIdAndProperty(this.props);

@@ -4,6 +4,7 @@
  * using should be put and referenced from this file.  
  */
 import axios from 'axios';
+import {AsyncStorage} from 'react-native';
 import { getAccountType, categoryToString, isNullOrUndefined, stringToCategory } from 'homepairs-utilities';
 import { NavigationRouteHandler, ChooseMainPage, navigationPages} from 'homepairs-routes';
 import * as HomePairsStateActions from 'homepairs-redux-actions';
@@ -20,6 +21,7 @@ import {
     TenantInfo,
     Contact,
 } from 'homepairs-types';
+import { addGoogleApiKey } from 'src/state/settings/actions';
 import {
     HOMEPAIRS_APPLIANCE_ENDPOINT, 
     HOMEPAIRS_LOGIN_ENDPOINT, 
@@ -32,7 +34,6 @@ import {
     HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT,
     GOOGLE_API_KEY,
 } from './constants';
-import { addGoogleApiKey } from 'src/state/settings/actions';
 
 const {AccountActions, PropertyListActions, SessionActions, PreferredProviderActions} = HomePairsStateActions;
 const {parseAccount} = AccountActions;
@@ -74,10 +75,11 @@ export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => S
 export const fetchGoogleApiKey = () => {
     return async (dispatch: (func: any) => void) => {
         await axios.get(GOOGLE_API_KEY)
-            .then(response => {
-                if (response) {
-                    dispatch(addGoogleApiKey(response.data.apikey));
-                }
+            .then(async (response) => {
+                await AsyncStorage.setItem('googleAPIKey', response.data.apikey);
+                dispatch(addGoogleApiKey(response.data.apikey));
+        }).catch(err => {
+            console.log(err);
         });
     };
 };

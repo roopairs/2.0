@@ -73,6 +73,7 @@ function setStyles() {
             paddingVertical: BaseStyles.MarginPadding.mediumConst,
         },
         titleText: {
+            minHeight: 20,
             fontSize: BaseStyles.FontTheme.reg,
             fontFamily: HomePairFonts.nunito_regular,
         },
