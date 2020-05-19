@@ -36,5 +36,6 @@ urlpatterns = [
     path('serviceprovider/<int:inPmId>/', ServiceProviderView.as_view(), name='pprovider_view'),
     path('servicerequest/', ServiceRequestView.as_view(), name='service_request_view'),
     path('servicerequest/<str:inPropId>/', ServiceRequestView.as_view(), name='request_get'),
+    path('servicerequest/<str:inPmId>/', ServiceRequestView.as_view(), name='request_get_pm'),
     path('login/', LoginView.as_view(), name='login'),
 ]
