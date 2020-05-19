@@ -217,9 +217,9 @@ class RegisterView(View):
                 return JsonResponse(data=tempDict)
             else:
                 info['role'] = 'pm'
-                return JsonResponse(data=info)
+                return JsonResponse(data=info, status=400)
         else:
-            return JsonResponse(data=missingError(missingFields))
+            return JsonResponse(data=missingError(missingFields), status=400)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
