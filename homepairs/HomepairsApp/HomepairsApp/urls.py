@@ -20,6 +20,7 @@ from Apps.ServiceProvider.views import ServiceProviderView
 from Apps.ServiceRequest.views import ServiceRequestView
 from Apps.ServiceProvider.preferredViews import PreferredProviderView
 from Apps.Tools.views import APIKeyView
+from Apps.ServiceProvider.GetServiceRequestPmView import GetServiceRequestPmView
 from django.contrib import admin
 from django.urls import include, path
 
@@ -37,7 +38,7 @@ urlpatterns = [
     path('serviceprovider/<int:inPmId>/', ServiceProviderView.as_view(), name='pprovider_view'),
     path('servicerequest/', ServiceRequestView.as_view(), name='service_request_view'),
     path('servicerequest/<str:inPropId>/', ServiceRequestView.as_view(), name='request_get'),
-    path('servicerequest/pm/<str:inPmId>/', ServiceRequestView.as_view(), name='request_get_pm'),
+    path('servicerequest/pm/<str:inPmId>/', GetServiceRequestPmView.as_view(), name='request_get_pm'),
     path('login/', LoginView.as_view(), name='login'),
     path('apikey/', APIKeyView.as_view(), name='apikey'),
 ]

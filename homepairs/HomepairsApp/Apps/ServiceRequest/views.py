@@ -99,6 +99,8 @@ class ServiceRequestView(View):
         appList = Appliance.objects.filter(rooAppId=appId)
         if isPm:
             provList = ServiceProvider.objects.filter(id=provId)
+        else:
+            provList = ServiceProvider.objects.all()
         if propList.exists():
             prop = propList[0]
             if (appList.exists()):
@@ -110,42 +112,32 @@ class ServiceRequestView(View):
             for i in range(0, len(types)):
                 if types[i] == serviceType:
                     typeNum = i + 1
-            if isPm:
-                prov = provList[0]
+            prov = provList[0]
 
-                data = {
-                            'service_company': provId,
-                            'service_category': 1,
-                            'service_type': typeNum,
-                            'details': details,
-                            'point_of_contact_name': str(prop.pm),
-                            'requested_arrival_time': str(serviceDate)
-                    }
-                print("TOKEN?")
-                print(token)
-                info = postRooTokenAPI(url, data, token)
-                if NON_FIELD_ERRORS in info:
-                    return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
-                elif(info.get('detail') == 'Invalid token.'):
-                    return JsonResponse(data=returnError(info.get('detail')))
-                req = ServiceRequest(serviceCategory=serviceCategory,
-                                    serviceCompany=prov,
-                                    serviceType=str(typeNum),
-                                    status='Pending',
-                                    client=str(prop.pm),
-                                    serviceDate=serviceDate,
-                                    details=details,
-                                    location=prop,
-                                    appFixed=app)
-            else:
-                req = ServiceRequest(serviceCategory=serviceCategory,
-                                    serviceType=str(typeNum),
-                                    status='Pending',
-                                    client=str(prop.pm),
-                                    serviceDate=serviceDate,
-                                    details=details,
-                                    location=prop,
-                                    appFixed=app)
+            data = {
+                        'service_company': provId,
+                        'service_category': 1,
+                        'service_type': typeNum,
+                        'details': details,
+                        'point_of_contact_name': str(prop.pm),
+                        'requested_arrival_time': str(serviceDate)
+                }
+            print("TOKEN?")
+            print(token)
+            info = postRooTokenAPI(url, data, token)
+            if NON_FIELD_ERRORS in info:
+                return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
+            elif(info.get('detail') == 'Invalid token.'):
+                return JsonResponse(data=returnError(info.get('detail')))
+            req = ServiceRequest(serviceCategory=serviceCategory,
+                                serviceCompany=prov,
+                                serviceType=str(typeNum),
+                                status='Pending',
+                                client=str(prop.pm),
+                                serviceDate=serviceDate,
+                                details=details,
+                                location=prop,
+                                appFixed=app)
             try:
                 req.save()
             except Exception as e:
