@@ -74,7 +74,11 @@ def missingError(missingFields):
 class ServiceRequestView(View):
     def post(self, request):
         inData = json.loads(request.body)
-        required = ['provId', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'token', 'propId', 'appId']
+        isPm = inData.get('provId')
+        if isPm:
+            required = ['provId', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'token', 'propId', 'appId', 'isPm']
+        else:
+            required = ['serviceCategory', 'serviceType', 'serviceDate', 'details', 'token', 'propId', 'appId', 'isPm']
         missingFields = checkRequired(required, inData)
 
         url = BASE_URL + 'service-locations/' + '/propId/jobs/'
@@ -93,45 +97,55 @@ class ServiceRequestView(View):
         serviceDate = dateutil.parser.parse(serviceDateStr)
         propList = Property.objects.filter(rooId=propId)
         appList = Appliance.objects.filter(rooAppId=appId)
-        provList = ServiceProvider.objects.filter(id=provId)
+        if isPm:
+            provList = ServiceProvider.objects.filter(id=provId)
         if propList.exists():
             prop = propList[0]
             if (appList.exists()):
                 app = appList[0]
             else:
                 app = None
-            prov = provList[0]
-
             types = ['Repair', 'Installation', 'Maintenance']
             typeNum = -1
             for i in range(0, len(types)):
                 if types[i] == serviceType:
                     typeNum = i + 1
+            if isPm:
+                prov = provList[0]
 
-            data = {
-                        'service_company': provId,
-                        'service_category': 1,
-                        'service_type': typeNum,
-                        'details': details,
-                        'point_of_contact_name': str(prop.pm),
-                        'requested_arrival_time': str(serviceDate)
-                   }
-            print("TOKEN?")
-            print(token)
-            info = postRooTokenAPI(url, data, token)
-            if NON_FIELD_ERRORS in info:
-                return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
-            elif(info.get('detail') == 'Invalid token.'):
-                return JsonResponse(data=returnError(info.get('detail')))
-            req = ServiceRequest(serviceCategory=serviceCategory,
-                                 serviceCompany=prov,
-                                 serviceType=str(typeNum),
-                                 status='Pending',
-                                 client=str(prop.pm),
-                                 serviceDate=serviceDate,
-                                 details=details,
-                                 location=prop,
-                                 appFixed=app)
+                data = {
+                            'service_company': provId,
+                            'service_category': 1,
+                            'service_type': typeNum,
+                            'details': details,
+                            'point_of_contact_name': str(prop.pm),
+                            'requested_arrival_time': str(serviceDate)
+                    }
+                print("TOKEN?")
+                print(token)
+                info = postRooTokenAPI(url, data, token)
+                if NON_FIELD_ERRORS in info:
+                    return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
+                elif(info.get('detail') == 'Invalid token.'):
+                    return JsonResponse(data=returnError(info.get('detail')))
+                req = ServiceRequest(serviceCategory=serviceCategory,
+                                    serviceCompany=prov,
+                                    serviceType=str(typeNum),
+                                    status='Pending',
+                                    client=str(prop.pm),
+                                    serviceDate=serviceDate,
+                                    details=details,
+                                    location=prop,
+                                    appFixed=app)
+            else:
+                req = ServiceRequest(serviceCategory=serviceCategory,
+                                    serviceType=str(typeNum),
+                                    status='Pending',
+                                    client=str(prop.pm),
+                                    serviceDate=serviceDate,
+                                    details=details,
+                                    location=prop,
+                                    appFixed=app)
             try:
                 req.save()
             except Exception as e:
@@ -149,39 +163,18 @@ class ServiceRequestView(View):
 
     def put(self, request):
         inData = json.loads(request.body)
-        required = ['reqId', 'job', 'provId', 'client', 'status', 'dayStarted', 'details', 'propId', 'appId']
+        required = ['reqId', 'status']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) == 0):
             id = inData.get('reqId')
-            job = inData.get('job')
-            provId = inData.get('provId')
-            client = inData.get('client')
             status = inData.get('status')
-            dayStartedStr = inData.get('dayStarted')
-            details = inData.get('details')
-            propId = inData.get('propId')
-            appId = inData.get('appId')
-            dayStarted = datetime.datetime.strptime(dayStartedStr, "%Y-%m-%d").date()
-            propList = Property.objects.filter(id=propId)
-            appList = Appliance.objects.filter(id=appId)
-            provList = ServiceProvider.objects.filter(id=provId)
 
             # The ServiceRequest
             reqList = ServiceRequest.objects.filter(id=id)
             if reqList.exists():
                 req = reqList[0]
-                prop = propList[0]
-                app = appList[0]
-                prov = provList[0]
 
-                req.job = job
-                req.serviceCompany = prov
-                req.client = client
                 req.status = status
-                req.dayStarted = dayStarted
-                req.details = details
-                req.location = prop
-                req.appFixed = app
                 try:
                     req.save()
                 except Exception as e:
@@ -220,7 +213,7 @@ class ServiceRequestView(View):
         else:
             return JsonResponse(data=returnError(SERVREQ_DOESNT_EXIST))
     
-    def head(self, request, inPmId):
+    def get_pm(self, request, inPmId):
         pmId = inPmId
         reqList = ServiceRequest.objects.filter(location__pm=pmId)
         if reqList.exists():
