@@ -1,12 +1,10 @@
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
 import React from 'react';
-import { AppState } from 'homepairs-types';
-import { connect } from 'react-redux';
 import { Text, View, TextInput, ViewStyle, StyleSheet, ScrollView, AsyncStorage } from 'react-native';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 import * as BaseStyles from 'homepairs-base-styles';
-import {LocationItem} from 'homepairs-elements';
+import LocationItem from '../LocationItem/LocationItem';
 
 export type GoogleInputFormProps = {
     key?: any;
