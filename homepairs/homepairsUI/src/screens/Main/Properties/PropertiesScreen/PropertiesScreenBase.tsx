@@ -2,11 +2,12 @@ import React from 'react';
 import { PropertyListState, HeaderState, Property, PropertyDict } from 'homepairs-types';
 import { navigationPages } from 'homepairs-routes';
 import { ViewPropertyCard, SceneInjectedProps } from 'homepairs-components';
-import { View, Platform, FlatList} from 'react-native';
+import { View, Platform, FlatList, AsyncStorage} from 'react-native';
 
 export type PropertiesScreenStateProps = {
     propertyState: PropertyListState;
     header: HeaderState;
+    apiKey: string,
 };
 
 export type PropertiesScreenDispatchProps = {
@@ -15,6 +16,7 @@ export type PropertiesScreenDispatchProps = {
     // TODO: Change to propId when backend is ready. Also, store the selected property/index in async storage
     onSelectProperty: (propId: string) => any;
 };
+
 
 export type PropertiesScreenProps = SceneInjectedProps &
     PropertiesScreenStateProps &
@@ -33,8 +35,6 @@ export type PropertiesScreenProps = SceneInjectedProps &
  */
 export class PropertiesScreenBase extends React.Component<PropertiesScreenProps> {
 
-    apiKey = 'AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg';
-
     constructor(props: Readonly<PropertiesScreenProps>) {
         super(props);
         this.navigateToDetailedProperty = this.navigateToDetailedProperty.bind(this);
@@ -49,7 +49,8 @@ export class PropertiesScreenBase extends React.Component<PropertiesScreenProps>
     }
 
     fetchPropertyImage(address: string) {
-        const uri = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${this.apiKey}`;
+        const {apiKey} = this.props;
+        const uri = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${apiKey}`;
         return Platform.OS === 'web' ? uri : {uri} ;
     }
 
@@ -70,7 +71,6 @@ export class PropertiesScreenBase extends React.Component<PropertiesScreenProps>
     render() {
         const { propertyState} = this.props;
         const { properties } = propertyState;
-        console.log(properties);
         return (
             <FlatList
                 initialNumToRender={3}

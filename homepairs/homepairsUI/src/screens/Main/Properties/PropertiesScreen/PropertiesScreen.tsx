@@ -26,6 +26,7 @@ function mapStateToProps(state: AppState): PropertiesScreenStateProps {
     return {
         propertyState: state.properties,
         header: state.header,
+        apiKey: state.settings.apiKey,
     };
 }
 const mapDispatchToProps: (

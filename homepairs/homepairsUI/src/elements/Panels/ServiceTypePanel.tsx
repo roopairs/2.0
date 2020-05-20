@@ -6,6 +6,7 @@ import {
     StyleSheet,
     TouchableHighlight,
     Image,
+    Platform,
 } from 'react-native';
 import { HomePairFonts } from 'homepairs-fonts';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -44,6 +45,7 @@ type PanelProps = {
 const colors = BaseStyles.LightColorTheme;
 
 function setStyles() {
+    const bodyPadding = Platform.OS === 'web' ? 25 : 140; 
     return StyleSheet.create({
         container: {
             backgroundColor: colors.secondary,
@@ -64,7 +66,7 @@ function setStyles() {
             borderBottomColor: colors.veryLightGray,
             borderBottomWidth: 1,
             justifyContent: 'space-between',
-            paddingBottom: 15,
+            minHeight: 50,
         },
         infoRowContainer: {
             alignContent: 'center',
@@ -74,6 +76,7 @@ function setStyles() {
             paddingVertical: BaseStyles.MarginPadding.mediumConst,
         },
         titleText: {
+            minHeight: 20,
             fontSize: BaseStyles.FontTheme.reg,
             fontFamily: HomePairFonts.nunito_regular,
         },
@@ -89,7 +92,7 @@ function setStyles() {
         },
         body: {
             alignItems: 'center',
-            paddingBottom: 35,
+            paddingBottom: bodyPadding,
             width: '100%',
         },
         option: {

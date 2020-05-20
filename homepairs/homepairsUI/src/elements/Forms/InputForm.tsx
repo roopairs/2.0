@@ -74,7 +74,7 @@ const DefaultInputFormStyle = StyleSheet.create({
  * */
 export default class InputForm extends React.Component<InputFormProps, InputFormState> {
 
-    textInput
+    textInput;
 
     static defaultProps: InputFormProps;
 

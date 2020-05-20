@@ -371,6 +371,7 @@ export type HeaderAction =
 export type ConfigurationSettings = {
     areNotificationsActive: boolean;
     isDarkModeActive: boolean;
+    apiKey: string | null;
 };
 
 export type SettingsState = ConfigurationSettings;
@@ -385,8 +386,13 @@ export type ToggleDarkModeActivationAction = {
     isDarkModeActive: boolean;
 };
 
+export type AddGoogleApiKeyAction = {
+    type: string;
+    apiKey: string;
+};
+
 export type SettingsActions = ToggleDarkModeActivationAction &
-    ToggleNotificationActivationAction;
+    ToggleNotificationActivationAction & AddGoogleApiKeyAction;
 /* *-------------------Setting Types-------------------* */
 
 /* *-------------------SessionTypes-------------------* */
