@@ -69,7 +69,10 @@ const styles = StyleSheet.create({
 export default function SceneHeader(props: SceneHeaderProps) {
     const {buttonTitle, onButtonPress, title } = props;
 
-    
+    /**
+     * Renders the button next to the Page Title if the user has 
+     * defined a name for the button.
+     */
     function renderButton() {
         return !isNullOrUndefined(buttonTitle) ?
             <ThinButton 

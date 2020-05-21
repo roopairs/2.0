@@ -6,7 +6,7 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import { ServiceRequestButton, ServiceRequestAddressPanel } from 'homepairs-elements';
+import { ServiceRequestButton, ServiceRequestAddressPanel, SearchForm} from 'homepairs-elements';
 import {
     HomePairsDimensions,
     ServiceRequest,
@@ -520,11 +520,20 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
 
     renderServiceRequests() {
         const {properties} = this.props;
-        const { currentRequestsSelected, requestSelected } = this.state;
+        const { currentRequestsSelected, requestSelected, serviceRequests } = this.state;
 
         return (
             <>
                 <ServiceRequestAddressPanel properties={properties} parentCallBack={async (propId: string)  => {await this.callFetchServiceRequests(propId);}}/>
+                <View style ={{maxWidth: 458, width: '95%', alignSelf: 'center', marginTop: 10} /** TODO: Update these styles so it renders properly on all devices*/}>
+                    <SearchForm<ServiceRequest>  
+                        objects={serviceRequests} 
+                        parentCallBack={() => {} /**TODO: Insert Your Service Requests Set State Function Here!!! */} 
+                        placeholder="Search requests..." 
+                        trim/>
+                    {/** TODO: Add Panel Here. */}
+                </View>
+
                 <>
                     {this.renderCompletionStatusRadioButton(currentRequestsSelected)}
                 </>
@@ -555,12 +564,15 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         const filteredServiceRequests: ServiceRequest[] = filterTabbedObjects(serviceRequests, requestSelected);
 
         return (
-            filteredServiceRequests.map(
+            <>
+            {filteredServiceRequests.map(
                 serviceRequest => {
                     const {appliance} = serviceRequest;
                     const {applianceId} = appliance;
                     return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
-                }));
+                })}
+            </>
+            );
     }
 
     render() {

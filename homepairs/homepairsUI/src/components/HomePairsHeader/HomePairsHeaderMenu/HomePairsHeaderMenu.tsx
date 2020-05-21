@@ -1,12 +1,14 @@
 /* eslint-disable react/static-property-placement */
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
+import { View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import { MainAppStackType, AccountTypes } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { 
     NavigationRouteHandler, 
     MainAppStack, 
-    ChooseMainPage } from 'homepairs-routes';
+    ChooseMainPage, 
+} from 'homepairs-routes';
+import setStyles from './styles';
 
 export type HomePairsMenuProps = {
 
@@ -62,44 +64,6 @@ export type HomePairsMenuProps = {
 };
 
 type Props = HomePairsMenuProps;
-const {width} = Dimensions.get('window');
-const colorScheme = BaseStyles.LightColorTheme;
-
-const setStyles = (isDropDown: boolean) => {
-    const newStyle = StyleSheet.create({
-        container: {
-            flexDirection: 'row',
-            flex: 1,
-            maxWidth: width,
-            maxHeight: 150,
-            width: Platform.OS === 'web' ? undefined : '100%',
-            backgroundColor: colorScheme.secondary,
-        },
-        containerDropDown: {
-            flexDirection: 'column',
-            width: '100%',
-            minWidth: 300,
-            backgroundColor: colorScheme.secondary,
-        },
-        menuText: {
-            fontFamily: BaseStyles.FontTheme.primary,
-            paddingVertical: 15,
-            maxHeight: 50,
-            fontSize: 16,
-            color: colorScheme.tertiary,
-            paddingLeft: isDropDown ? 33 : 15,
-        },
-        menuSelectedText: {
-            fontFamily: BaseStyles.FontTheme.primary,
-            paddingVertical: 15,
-            maxHeight: 50,
-            fontSize: 16,
-            color: colorScheme.lightGray,
-            paddingLeft: isDropDown ? 33 : 15,
-        },
-    });
-    return newStyle;
-};
 
 let styles = null;
 
@@ -211,7 +175,7 @@ export default class HomePairsMenu extends React.Component<Props> {
                 <View 
                     // eslint-disable-next-line react/no-array-index-key
                     key={i}
-                    style={{ marginHorizontal: 3, justifyContent: 'center' }}>
+                    style={styles.selectable}>
                     <TouchableOpacity 
                         testID='homepairs-header-menu-buttons' 
                         onPress={() => this.navigatePages(page)}>

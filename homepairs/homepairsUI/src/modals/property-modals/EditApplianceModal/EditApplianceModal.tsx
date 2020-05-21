@@ -222,7 +222,7 @@ export class EditApplianceModalBase extends React.Component<Props, EditState> {
     goBackToPreviousPage() {
         const { navigation } = this.props;
         const propId = navigation.getParam('propId');
-        navigation.replace(SingleProperty, { propId });
+        navigation.resolveModalReplaceNavigation(SingleProperty, { propId });
     }
 
     setInitialState() {
