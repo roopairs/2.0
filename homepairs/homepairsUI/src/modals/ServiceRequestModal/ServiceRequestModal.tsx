@@ -203,6 +203,7 @@ export class ServiceRequestModalBase extends React.Component<Props> {
     renderBody() {
         const {isPm, navigation} = this.props;
         const date = Moment(this.serviceRequest.startDate.toString()).format('LLL');
+        console.log(this.serviceRequest.appliance);
         return (
             <View>
                 <View style={this.styles.subContainer}>
@@ -236,7 +237,7 @@ export class ServiceRequestModalBase extends React.Component<Props> {
                 </View>
                 <View style={this.styles.subContainer}>
                     <Text style={this.styles.formTitle}>{serviceRequestStrings.appliance}</Text>
-                    {this.serviceRequest.appliance ? <AppliancePanel hasButton={false} appliance={this.serviceRequest.appliance} /> : <></>}
+                    {this.serviceRequest.appliance.appName ? <AppliancePanel hasButton={false} appliance={this.serviceRequest.appliance} /> : <Text style={this.styles.detailText}>Not Appliance Selected</Text>}
                 </View>
                 {isPm === AccountTypes.PropertyManager && this.serviceRequest.status === ServiceRequestStatusEnums.Pending ?
                     <View style={this.styles.buttonsContainer}>

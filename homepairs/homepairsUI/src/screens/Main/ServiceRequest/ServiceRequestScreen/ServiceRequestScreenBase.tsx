@@ -24,7 +24,6 @@ import { SceneInjectedProps } from 'homepairs-components';
 import { NavigationRouteScreenProps, navigationPages, MainAppStack } from 'homepairs-routes';
 import { fetchServiceRequests } from 'homepairs-endpoints';
 import { stringToCategory } from 'homepairs-utilities';
-import { initialState } from 'src/state/preferred-service-provider/reducer';
 
 
 export type ServiceRequestScreenStateProps = {
@@ -246,6 +245,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         this.renderServiceRequests = this.renderServiceRequests.bind(this);
         this.renderFilteredServiceRequests = this.renderFilteredServiceRequests.bind(this);
         this.render = this.render.bind(this);
+        this.callFetchServiceRequests = this.callFetchServiceRequests.bind(this);
 
         props.parentCallBack(ServiceRequestCompletionStatus.Current);
         props.parentCallBack2(ServiceRequestStatusEnums.Pending);
@@ -344,7 +344,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                 const { appFixed, location, serviceDate, status, client, serviceCompany, serviceCategory, details, id } = req;
                 const appliance = {
                     applianceId: appFixed.appId,
-                    category: stringToCategory(appFixed.category),
+                    category: appFixed.category && stringToCategory(appFixed.category),
                     appName: appFixed.name,
                     manufacturer: appFixed.manufacturer,
                     modelNum: appFixed.modelNum,

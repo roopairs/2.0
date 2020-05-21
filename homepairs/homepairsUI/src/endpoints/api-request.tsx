@@ -707,6 +707,8 @@ export const postNewServiceRequest = async (
         });
 };
 
+
+// For accepting or denying a service request from the PM perspective
 export const changeServiceRequestStatus = async (
     status: string,
     reqId: number,
@@ -715,6 +717,7 @@ export const changeServiceRequestStatus = async (
         await axios.put(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, { reqId, status })
         .then((response) => {
             navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
+            setTimeout(() => navigation.reload(), 1000);
         })
         .catch(err => console.log(err));
 
