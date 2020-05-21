@@ -232,7 +232,6 @@ function ServiceRequestSwitch() {
     <HomePairsHeader />
     <Route path={SERVICE_REQUEST} render={(matches) => (
           <>                
-              <HomePairsHeader />
               <Switch path={SERVICE_REQUEST} location={background || location}>
                   <Route exact path={`${SERVICE_REQUEST}`}><ServiceRequestScreen/></Route>
                   <Route exact path={`${NEW_SERVICE_REQUEST}`}><NewRequestScreen /></Route>

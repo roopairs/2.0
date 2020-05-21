@@ -22,6 +22,7 @@ export type InputFormProps = {
     trim?: boolean;
     maxLength?: number;
 };
+
 type InputFormState = {
     value?: string;
     error?: boolean;
