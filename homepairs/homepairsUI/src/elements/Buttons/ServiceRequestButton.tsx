@@ -6,7 +6,7 @@ import {
     StyleSheet,
     Image,
 } from 'react-native';
-import {ServiceRequest} from 'homepairs-types';
+import {ServiceRequest, AccountTypes} from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairFonts } from 'homepairs-fonts';
 import { clock } from 'homepairs-images';

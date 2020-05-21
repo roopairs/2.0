@@ -84,6 +84,7 @@ export const fetchGoogleApiKey = () => {
     };
 };
 
+
 /** 
 * ----------------------------------------------------
 * fetchPreferredProviders
@@ -257,8 +258,6 @@ export const fetchServiceRequests = async (propId: string) => {
     const results = await axios.get(completedEndpoint);
     return results;
 };
-
-
 
 /**
  * ----------------------------------------------------
@@ -673,6 +672,7 @@ export const postNewServiceRequest = async (
     newServiceRequest: NewServiceRequest, 
     displayError: (msg: string) => void, 
     navigation: NavigationRouteHandler,
+    isPm: boolean,
 ) => {
         await axios
         .post(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, 
@@ -685,6 +685,7 @@ export const postNewServiceRequest = async (
             serviceCategory: newServiceRequest.serviceCategory, 
             serviceDate: newServiceRequest.serviceDate, 
             details: newServiceRequest.details,
+            isPm,
         })
         .then(response => {
             const {data} = response;
@@ -698,4 +699,17 @@ export const postNewServiceRequest = async (
         }).catch(error => {
             console.log(error);
         });
+};
+
+export const changeServiceRequestStatus = async (
+    status: string,
+    reqId: number,
+    navigation: NavigationRouteHandler,
+    ) => {
+        await axios.put(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, { reqId, status })
+        .then((response) => {
+            navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
+        })
+        .catch(err => console.log(err));
+
 };

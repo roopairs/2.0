@@ -14,10 +14,12 @@ const sceneParam: MainAppStackType = {
 
 function mapStateToProps(state: AppState) : any {
     const properties = convertObjectValuesToArray(state.properties.properties);
+    console.log(state.accountProfile.roopairsToken);
     return {
         properties,
         token: state.accountProfile.roopairsToken,
         pmId: (state.accountProfile as (PropertyManagerAccount)).pmId,
+        isPm: state.accountProfile.accountType,
     };
 }
 

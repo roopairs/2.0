@@ -353,7 +353,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
             let serviceRequests : ServiceRequest[] = [];
 
             reqs.forEach(req => {
-                const {appFixed, location, serviceDate, status, client, serviceCompany, serviceCategory, details } = req;
+                const {appFixed, location, serviceDate, status, client, serviceCompany, serviceCategory, details, id } = req;
                 const appliance = {
                     applianceId: appFixed.appId,
                     category: stringToCategory(appFixed.category),
@@ -365,6 +365,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                 };
 
                 const serviceRequest: ServiceRequest = {
+                    reqId: id,
                     address: location,
                     startDate: serviceDate,
                     companyName: serviceCompany,

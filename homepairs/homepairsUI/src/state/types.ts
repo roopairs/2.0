@@ -170,6 +170,7 @@ export type Contact = {
 /* *-------------------Service Types-------------------* */
 
 export type ServiceRequest = {
+    reqId: number,
     address: string, 
     technician?: string, 
     startDate: string, 
