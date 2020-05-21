@@ -33,7 +33,7 @@ type ServiceRequestCountState = {
     inProgress: number;
 };
 
-const intialState: ServiceRequestCountState = {
+const initialState: ServiceRequestCountState = {
     pending: 0,
     scheduled: 0,
     inProgress: 0,
@@ -163,7 +163,7 @@ export default class ServiceRequestCount extends React.Component<ServiceRequestC
 
     constructor(props: Readonly<ServiceRequestCountProps>){
         super(props);
-        this.state = intialState;
+        this.state = initialState;
     }
 
     async componentDidMount(){

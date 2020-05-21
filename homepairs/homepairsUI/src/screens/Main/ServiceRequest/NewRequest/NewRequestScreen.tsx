@@ -18,6 +18,7 @@ function mapStateToProps(state: AppState) : any {
         properties,
         token: state.accountProfile.roopairsToken,
         pmId: (state.accountProfile as (PropertyManagerAccount)).pmId,
+        isPm: state.accountProfile.accountType,
     };
 }
 

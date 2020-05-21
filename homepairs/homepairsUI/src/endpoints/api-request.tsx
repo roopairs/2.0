@@ -84,6 +84,7 @@ export const fetchGoogleApiKey = () => {
     };
 };
 
+
 /** 
 * ----------------------------------------------------
 * fetchPreferredProviders
@@ -257,8 +258,6 @@ export const fetchServiceRequests = async (propId: string) => {
     const results = await axios.get(completedEndpoint);
     return results;
 };
-
-
 
 /**
  * ----------------------------------------------------
@@ -439,8 +438,12 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
    * @param {modalSetOffCallBack} modalSetOffCallBack - *Optional callback to 
    * close/navigate from the modal
    */
-  export const generateAccountForPM = (accountDetails: Account, password: String, 
-    navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
+  export const generateAccountForPM = (
+      accountDetails: Account, 
+      password: String, 
+      navigation: NavigationRouteHandler, 
+      modalSetOffCallBack?: (error?:String) => void, 
+      displayError?: (msg: string) => any) => {
       return async (dispatch: (arg0: any) => void) => {
         await axios.post(HOMEPAIRS_REGISTER_PM_ENDPOINT, {
             firstName: accountDetails.firstName, 
@@ -456,12 +459,14 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
               dispatch(parseAccount(data));
               dispatch(fetchProperties(properties));
               ChooseMainPage(AccountTypes.PropertyManager, navigation);
-            }else{
+            } else {
+              displayError(response.data);
               modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
             }
           })
           .catch((error) => {
             console.log(error);
+            displayError(error);
             modalSetOffCallBack("Connection to the server could not be established.");
           });
       };
@@ -673,6 +678,7 @@ export const postNewServiceRequest = async (
     newServiceRequest: NewServiceRequest, 
     displayError: (msg: string) => void, 
     navigation: NavigationRouteHandler,
+    isPm: boolean,
 ) => {
         await axios
         .post(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, 
@@ -685,6 +691,7 @@ export const postNewServiceRequest = async (
             serviceCategory: newServiceRequest.serviceCategory, 
             serviceDate: newServiceRequest.serviceDate, 
             details: newServiceRequest.details,
+            isPm,
         })
         .then(response => {
             const {data} = response;
@@ -698,4 +705,20 @@ export const postNewServiceRequest = async (
         }).catch(error => {
             console.log(error);
         });
+};
+
+
+// For accepting or denying a service request from the PM perspective
+export const changeServiceRequestStatus = async (
+    status: string,
+    reqId: number,
+    navigation: NavigationRouteHandler,
+    ) => {
+        await axios.put(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, { reqId, status })
+        .then((response) => {
+            navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
+            setTimeout(() => navigation.reload(), 1000);
+        })
+        .catch(err => console.log(err));
+
 };

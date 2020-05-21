@@ -170,6 +170,7 @@ export type Contact = {
 /* *-------------------Service Types-------------------* */
 
 export type ServiceRequest = {
+    reqId: number,
     address: string, 
     technician?: string, 
     startDate: string, 
@@ -209,7 +210,7 @@ export type ServiceProvider = {
 
 export enum ServiceRequestCompletionStatus {
     Current = 'Current',
-    Completed = 'Completed',
+    Archived = 'Archived',
 }
 
 export enum ServiceRequestStatusEnums {
