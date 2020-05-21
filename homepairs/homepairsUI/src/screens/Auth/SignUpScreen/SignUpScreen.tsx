@@ -23,9 +23,14 @@ const authPageParam: AuthPassProps = {
   highlightedText: signUpStrings.signUpHighlight,
 };
 const mapDispatchToProps : (dispatch: any) => SignUpViewDispatchProps = (dispatch: any) => ({
-    generateHomePairsAccount: (details: Account, password: String, modalSetOff: () => any, navigation?: NavigationRouteHandler) => {
+    generateHomePairsAccount: (
+      details: Account, 
+      password: String, 
+      modalSetOff: () => any,
+      navigation?: NavigationRouteHandler,
+      displayError?: (msg: string) => any) => {
         if (details.accountType === AccountTypes.PropertyManager) {
-            dispatch(generateAccountForPM(details, password, navigation, modalSetOff));
+            dispatch(generateAccountForPM(details, password, navigation, modalSetOff, displayError));
         } else {
             dispatch(generateAccountForTenant(details, password, navigation, modalSetOff));
         }

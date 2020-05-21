@@ -273,33 +273,35 @@ export class EditApplianceModalBase extends React.Component<Props, EditState> {
         this.setState({ errorMsg: msg, errorCheck: true });
     }
 
-    async clickSubmitButton() {
-        const { applianceId, category, appName, manufacturer, modelNum, serialNum, location } = this.state;
+    async updateAppliance() {
         const { navigation, setAppliancesAndTenants } = this.props;
+        const propId = navigation.getParam('propId');
+        const { applianceId, category, appName, manufacturer, modelNum, serialNum, location } = this.state;
+        const newAppliance: Appliance = {
+            applianceId, category, appName, manufacturer,
+            modelNum: Number(modelNum),
+            serialNum: Number(serialNum),
+            location,
+        };
+        await postUpdatedAppliance(propId, newAppliance, this.displayError, navigation).then(() => {
+            setAppliancesAndTenants(String(propId));
+        }).catch((error: Error) => {
+            if (error.message.includes('500')) {
+                console.log(error.message);
+                this.displayError(DefaultMessage);
+            }
+            else {
+                console.log(error.message);
+                this.displayError(error.message);
+            }
+        });
+    }
+
+    clickSubmitButton() {
         this.resetForms();
         this.setState({ errorCheck: false });
         if (this.validateForms()) {
-            const propId = navigation.getParam('propId');
-            const newAppliance: Appliance = {
-                applianceId, category, appName, manufacturer,
-                modelNum: Number(modelNum),
-                serialNum: Number(serialNum),
-                location,
-            };
-            await postUpdatedAppliance(propId, newAppliance, this.displayError, navigation).then(() => {
-                setAppliancesAndTenants(String(propId));
-            }).catch((error: Error) => {
-                if (error.message.includes('500')) {
-                    console.log('if');
-                    console.log(error.message);
-                    this.displayError(DefaultMessage);
-                }
-                else {
-                    console.log('else');
-                    console.log(error.message);
-                    this.displayError(error.message);
-                }
-            });
+            this.updateAppliance();
         }
     }
 
