@@ -258,6 +258,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
         const {navigation, token, onUpdateHeader, isPm} = this.props;
         this.setState({errorCheck: false});
         if (this.validateForms()) {
+            
             const pm = isPm === AccountTypes.PropertyManager;
             const newServiceRequest : NewServiceRequest = {
                 token,
