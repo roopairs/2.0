@@ -109,14 +109,14 @@ const styles = StyleSheet.create({
     currentButtonStyle: {
         justifyContent: 'center',
         backgroundColor: colors.transparent,
-        width: BaseStyles.ContentWidth.almostHalf,
+        width: BaseStyles.ContentWidth.half,
         borderColor: colors.darkGray,
         height: 40,
     },
     archivedButtonStyle: {
         justifyContent: 'center',
         backgroundColor: colors.transparent,
-        width: BaseStyles.ContentWidth.almostHalf,
+        width: BaseStyles.ContentWidth.half,
         borderColor: colors.darkGray,
         height: 40,
     },

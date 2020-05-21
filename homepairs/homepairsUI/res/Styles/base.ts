@@ -77,7 +77,6 @@ export const MarginPadding = {
 
 export const ContentWidth = {
     almostThird: '27.3333333%',
-    almostHalf: '50%',
     third: '33.3333333%',
     half: '50%',
     thin: '90%',
