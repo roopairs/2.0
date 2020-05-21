@@ -30,6 +30,7 @@ const rootReducer = combineReducers<AppState, AnyAction>(
 const persistConfig = {
   key: 'root',
   storage : AsyncStorage,
+  blacklist: ["settings"],
 };
  
 const persistedReducer = persistReducer(persistConfig, rootReducer);

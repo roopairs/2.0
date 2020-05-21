@@ -25,10 +25,11 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { NavigationRouteScreenProps, navigationPages } from 'homepairs-routes';
 
 export type DetailedPropertyStateProps = {
-    properties: PropertyDict;
-    token: string,
+    properties: PropertyDict,
     tenantInfo: TenantInfo[],
     applianceInfo: Appliance[],
+    token: string,
+    apiKey: string,
 };
 
 export type DetailedPropertyScreenDispatchProps = {
@@ -36,11 +37,9 @@ export type DetailedPropertyScreenDispatchProps = {
     setAppliancesAndTenants: (propId: string) => any,
 }
 
-export type DetailedPropertyProps = 
-    & NavigationRouteScreenProps 
+export type DetailedPropertyProps = NavigationRouteScreenProps 
     & DetailedPropertyStateProps
     & DetailedPropertyScreenDispatchProps;
-
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -117,8 +116,6 @@ function getPropIdAndProperty(props:any): [string, Property]{
 
 export class DetailedPropertyScreenBase extends React.Component<DetailedPropertyProps> {
 
-    apiKey = 'AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg';
-
     navigation;
 
     token;
@@ -133,7 +130,7 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
         this.openEditApplianceModal = this.openEditApplianceModal.bind(this);
     };
 
-    componentDidMount(){
+    componentDidMount() {
         const {onUpdateHeader, setAppliancesAndTenants} = this.props;
         onUpdateHeader();
         const [propId] = getPropIdAndProperty(this.props);
@@ -155,11 +152,10 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
         this.navigation.navigate(navigationPages.EditApplianceModal, {appliance, propId}, true);
     }
 
-
     renderContents() {
         const [propId, property] = getPropIdAndProperty(this.props);
         const {address} = property;
-        const {navigation, applianceInfo, tenantInfo} = this.props;
+        const {navigation, applianceInfo, tenantInfo, apiKey} = this.props;
 
         return (
             <ScrollView 
@@ -170,7 +166,7 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
                     <View style={styles.imageWrapper}>
                         <View style={styles.imageContainer}>
                             <Image 
-                                source={{uri: `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${this.apiKey}`}} 
+                                source={{uri: `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address}&pitch=-0.76&key=${apiKey}`}} 
                                 style={Platform.OS === 'web'
                                 ? styles.homePairsPropertiesImageWeb
                                 : styles.homePairsPropertiesImage} 

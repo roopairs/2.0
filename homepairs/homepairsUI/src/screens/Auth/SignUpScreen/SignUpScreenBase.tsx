@@ -335,7 +335,7 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
         return accountType === AccountTypes.PropertyManager ? (
             <View style={{ marginTop: BaseStyles.MarginPadding.large }}>
                 <LoginButton
-                    name="Login with your Roopairs Account"
+                    name="Sign in with your Roopairs Account"
                     onClick={this.toRoopairsLogin}
                 />
                 <Divider style={{

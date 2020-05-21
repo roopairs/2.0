@@ -14,7 +14,7 @@ import { HomePairFonts } from 'homepairs-fonts';
 import { clock } from 'homepairs-images';
 import Moment from 'moment';
 import {categoryToString, isNullOrUndefined} from 'homepairs-utilities';
-import { TextTile, ImageTile } from '../Tiles/Tiles';
+import { TextTile, ImageTile } from 'homepairs-elements';
 
 export type ServiceProviderButtonProps = {
     key?: string,
@@ -113,7 +113,7 @@ function renderLogo(name: string, logo?: string) {
 export default function ServiceProviderButton(props: ServiceProviderButtonProps) {
     const { onClick, serviceProvider } = props;
     Moment.locale('en');
-    //const date = Moment(serviceProvider.startDate.toString()).format('LLL');
+    // const date = Moment(serviceProvider.startDate.toString()).format('LLL');
 
     return (
         <View style={[styles.container]}>

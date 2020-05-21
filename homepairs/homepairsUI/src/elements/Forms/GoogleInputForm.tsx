@@ -1,6 +1,6 @@
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
 import React from 'react';
-import { Text, View, TextInput, ViewStyle, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, TextInput, ViewStyle, StyleSheet, ScrollView, AsyncStorage } from 'react-native';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -25,8 +25,9 @@ export type GoogleInputFormProps = {
 type GoogleInputFormState = {
     value?: string;
     error?: boolean;
+    apiKey?: string;
 };
-const initialState: GoogleInputFormState = { value: '', error: false};
+const initialState: GoogleInputFormState = { value: '', error: false, apiKey: ''};
 
 const DefaultInputFormStyle = StyleSheet.create({
     container: {
@@ -89,8 +90,23 @@ export default class GoogleInputForm extends React.Component<GoogleInputFormProp
         this.setError = this.setError.bind(this);
     }
 
+    componentDidMount()  {
+        this.fetchApiKey();
+    }
+
     setError(input: boolean) {
         this.setState({error: input});
+    }
+
+    fetchApiKey() {
+        const apiKey = async () => {
+            await AsyncStorage.getItem('googleAPIKey').then((response) => {
+                this.setState({apiKey: response});
+            }).catch((err) => {
+                console.log(err);
+            });
+        };
+        apiKey();
     }
 
     renderName() {
@@ -111,10 +127,10 @@ export default class GoogleInputForm extends React.Component<GoogleInputFormProp
             parentCallBack,
             locationsContainer,
         } = this.props;
-        const {error} = this.state;
+        const {error, apiKey} = this.state;
 
         return (
-            <GoogleAutoComplete apiKey='AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg' 
+            <GoogleAutoComplete apiKey={apiKey}
                 components="country:us" >
                 {({ handleTextChange, locationResults, clearSearch }) => (
                     <React.Fragment key='google autocomplete'>

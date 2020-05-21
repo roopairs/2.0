@@ -4,6 +4,7 @@
  * using should be put and referenced from this file.  
  */
 import axios from 'axios';
+import {AsyncStorage} from 'react-native';
 import { getAccountType, categoryToString, isNullOrUndefined, stringToCategory } from 'homepairs-utilities';
 import { NavigationRouteHandler, ChooseMainPage, navigationPages} from 'homepairs-routes';
 import * as HomePairsStateActions from 'homepairs-redux-actions';
@@ -20,6 +21,7 @@ import {
     TenantInfo,
     Contact,
 } from 'homepairs-types';
+import { addGoogleApiKey } from 'src/state/settings/actions';
 import {
     HOMEPAIRS_APPLIANCE_ENDPOINT, 
     HOMEPAIRS_LOGIN_ENDPOINT, 
@@ -30,6 +32,7 @@ import {
     HOMEPAIRS_SERVICE_REQUEST_ENDPOINT,
     HOMEPAIRS_TENANT_EDIT_ENDPOINT,
     HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT,
+    GOOGLE_API_KEY,
 } from './constants';
 
 const {AccountActions, PropertyListActions, SessionActions, PreferredProviderActions} = HomePairsStateActions;
@@ -66,6 +69,19 @@ export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => S
             logo,
         };
     });
+};
+
+// Grab Google API Key from the database
+export const fetchGoogleApiKey = () => {
+    return async (dispatch: (func: any) => void) => {
+        await axios.get(GOOGLE_API_KEY)
+            .then(async (response) => {
+                await AsyncStorage.setItem('googleAPIKey', response.data.apikey);
+                dispatch(addGoogleApiKey(response.data.apikey));
+        }).catch(err => {
+            console.log(err);
+        });
+    };
 };
 
 /** 
@@ -220,7 +236,8 @@ export const deletePreferredProvider = (
 export const updateTenant = async ({...props}) => {
     const {propId, email, firstName, lastName, phoneNumber} = props;
     await axios.post(HOMEPAIRS_TENANT_EDIT_ENDPOINT, 
-        {email, propId, firstName, lastName, phoneNumber}).then(() =>{
+        {email, propId, firstName, lastName, phoneNumber}).then((result) =>{
+        console.log(result);
     }).catch(error =>{
         console.log(error);
     });
@@ -393,6 +410,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
             dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
             ChooseMainPage(AccountTypes.Tenant, navigation);
           } else {
+            console.log(response);
             console.log(status);
             modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
           }

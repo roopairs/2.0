@@ -13,6 +13,7 @@ import { postUpdatedAppliance } from 'homepairs-endpoints';
 import { DetailedPropertyMutatorDispatchProps, DetailedPropertyMutatorModal } from '../CommonDispatchProps';
 
 
+
 const { SingleProperty } = navigationPages;
 
 type Props = NavigationRouteScreenProps & DetailedPropertyMutatorDispatchProps;
