@@ -16,9 +16,11 @@ const test4 = 'helpMeNow';
 const test5 = '88888222';
 const test6 = 'dkfjd833';
 const test7 = 'dslkdd888;4dfkjdf';
-const test8 = 'HelloIShouldBeTooLongOfAMessageForThisPassword';
+const test8 = 'HelloIShouldBeTooLongOfAMessageForThisPassworddddddelloIShouldBeTooLongOfAMessageForThisPasswordddddd';
 const test9 = 'I have spaced out';
 const test10 = '<script> alert("You fool, I will inject!") </script>';
+const test11 = '%dIIeed-dkkee';
+const test12 = 'kekIII-e33@dfakdf';
 
 test('isPasswordValid Test', () => {
     expect(isPasswordValid(test1)).toBeFalsy();
@@ -31,6 +33,8 @@ test('isPasswordValid Test', () => {
     expect(isPasswordValid(test8)).toBeFalsy();
     expect(isPasswordValid(test9)).toBeFalsy();
     expect(isPasswordValid(test10)).toBeFalsy();
+    expect(isPasswordValid(test11)).toBeTruthy();
+    expect(isPasswordValid(test12)).toBeTruthy();
 });
 
 

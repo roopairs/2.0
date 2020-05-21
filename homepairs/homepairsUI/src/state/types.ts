@@ -210,7 +210,7 @@ export type ServiceProvider = {
 
 export enum ServiceRequestCompletionStatus {
     Current = 'Current',
-    Completed = 'Completed',
+    Archived = 'Archived',
 }
 
 export enum ServiceRequestStatusEnums {

@@ -1,14 +1,12 @@
 /* eslint-disable react/static-property-placement */
 import {
     View,
-    StyleSheet,
     Platform,
     TouchableOpacity,
     Text,
     Dimensions,
 } from 'react-native';
 import React from 'react';
-import * as BaseStyles from 'homepairs-base-styles';
 import {
     HomePairsDimensions,
     HeaderState,
@@ -18,8 +16,10 @@ import {
 import { NavigationRouteHandler, navigationPages } from 'homepairs-routes';
 import {isNullOrUndefined} from 'homepairs-utilities';
 import HamburgerButton from './HamburgerButton/HamburgerButton';
-import { HomePairsHeaderTitle } from './HomePairsHeaderTitle';
-import HomePairsMenu from './HomePairsHeaderMenu';
+import { HomePairsHeaderTitle } from './HomePairsHeaderTitle/HomePairsHeaderTitle';
+import HomePairsMenu from './HomePairsHeaderMenu/HomePairsHeaderMenu';
+import styles from './styles';
+
 
 const backSymbol = '<';
 const { DROP_MENU_WIDTH } = HomePairsDimensions;
@@ -52,51 +52,6 @@ export type HomePairsHeaderProps =
      */
     testID?: string,
 };
-
-
-const colorScheme = BaseStyles.LightColorTheme;
-
-const styles = StyleSheet.create({
-    container: {
-        shadowOpacity: 0.1,
-        shadowRadius: 1,
-        shadowOffset: { width: 0, height: 2 },
-        elevation: 1,
-        backgroundColor: colorScheme.secondary,
-        shadowColor: colorScheme.shadow,
-        minHeight: 50,
-    },
-    homePairsTitle: {
-        fontFamily: BaseStyles.FontTheme.primary,
-        fontSize: BaseStyles.FontTheme.title,
-        color: colorScheme.primary,
-        flex: 1,
-    },
-    goBackSymbol: {
-        fontFamily: BaseStyles.FontTheme.primary,
-        fontSize: BaseStyles.FontTheme.lg,
-        color: colorScheme.primary,
-        flex: 1,
-    },
-    goBackButton: {
-        backgroundColor: colorScheme.secondary,
-        padding: BaseStyles.MarginPadding.mediumConst,
-        paddingTop: 20,
-        alignItems: 'center',
-        position: 'absolute',
-        zIndex: 1,
-    },
-
-    goBackButtonEnd: {
-        backgroundColor: colorScheme.secondary,
-        padding: BaseStyles.MarginPadding.mediumConst,
-        paddingTop: 20,
-        alignItems: 'center',
-        position: 'absolute',
-        zIndex: 1,
-        opacity: .2,
-    },
-});
 
 /**
  * ---------------------------------------------------
@@ -213,7 +168,7 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
         const { header } = this.props;
         if (header.isDropDown) {
             return (
-                <View style={{ flex: 1 }}>
+                <View style={styles.hamburgerContainer}>
                     <HamburgerButton 
                         testID='homepairs-header-hamburger-button' 
                         onClick={this.toggleMenu} />
@@ -228,12 +183,12 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
         return (
             <View style={styles.container}>
                 <View
-                    style={header.isDropDown ? { flexDirection: 'column' } : { flexDirection: 'row' }}>
+                    style={header.isDropDown ? styles.dropDownFlexDirection : styles.navBarFlexDirection}>
                     <View
-                        style={{flexDirection: 'row', backgroundColor: colorScheme.secondary}}>
+                        style={styles.titleBackContainer}>
                         {this.showBackButton()}
                         <View
-                            style={{marginLeft: BaseStyles.MarginPadding.largeConst}}>
+                            style={styles.titleContainer}>
                             <HomePairsHeaderTitle
                                 testID='homepairs-header-title'
                                 isDropDown={header.isDropDown}/>

@@ -12,8 +12,8 @@ const strings = {
     serviceRequestPage: {
         title: 'Service Requests',
         button: 'New Request',
-        tabA: 'Current Requests',
-        tabB: 'Archived Requests',
+        tabA: 'View Current Requests',
+        tabB: 'View Archived Requests',
         tabA1: 'Pending',
         tabA2: 'Scheduled',
         tabA3: 'In Progress',

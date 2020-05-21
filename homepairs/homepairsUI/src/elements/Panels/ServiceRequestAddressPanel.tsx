@@ -50,7 +50,7 @@ function setStyles() {
             padding: BaseStyles.MarginPadding.large,
             paddingTop: 10,
             paddingBottom: 30,
-            width: BaseStyles.ContentWidth.thin,
+            width: '100%',
             alignSelf: 'center',
             borderColor: '#B3C0C2',
             borderWidth: 1,

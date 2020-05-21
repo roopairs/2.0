@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-native-testing-library';
 import { LightColorTheme } from 'homepairs-base-styles';
-import {HomePairsHeaderTitle} from '../HomePairsHeaderTitle';
+import {HomePairsHeaderTitle} from './HomePairsHeaderTitle';
 
 const HOMEPAIRS= 'HomePairs';
 const STYLE_TEST_ID = 'homepairs-header-title-style';
