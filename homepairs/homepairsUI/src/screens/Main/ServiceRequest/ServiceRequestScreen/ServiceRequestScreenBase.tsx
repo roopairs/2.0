@@ -246,6 +246,8 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         this.renderFilteredServiceRequests = this.renderFilteredServiceRequests.bind(this);
         this.render = this.render.bind(this);
         this.callFetchServiceRequests = this.callFetchServiceRequests.bind(this);
+        this.populateServiceRequests = this.populateServiceRequests.bind(this);
+        this.countServiceRequestStatus = this.countServiceRequestStatus.bind(this);
 
         props.parentCallBack(ServiceRequestCompletionStatus.Current);
         props.parentCallBack2(ServiceRequestStatusEnums.Pending);
@@ -327,72 +329,85 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
             const { data } = response;
             const { reqs } = data;
 
-            // set initial state- this guarantees that the state gets updated for the requests even if a given property has no requests
-            this.setState({ serviceRequests: [] });
-            this.setState({ pending: 0, scheduled: 0, inProgress: 0, completed: 0, canceled: 0, declined: 0 });
+            this.populateServiceRequests(reqs);
+            this.countServiceRequestStatus();
 
-            let pending: number = 0;
-            let scheduled: number = 0;
-            let inProgress: number = 0;
-            let completed: number = 0;
-            let canceled: number = 0;
-            let declined: number = 0;
-
-            const serviceRequests: ServiceRequest[] = [];
-
-            reqs.forEach(req => {
-                const { appFixed, location, serviceDate, status, client, serviceCompany, serviceCategory, details, id } = req;
-                const appliance = {
-                    applianceId: appFixed.appId,
-                    category: appFixed.category && stringToCategory(appFixed.category),
-                    appName: appFixed.name,
-                    manufacturer: appFixed.manufacturer,
-                    modelNum: appFixed.modelNum,
-                    serialNum: appFixed.serialNum,
-                    location: appFixed.location,
-                };
-                const serviceRequest: ServiceRequest = {
-                    reqId: id,
-                    address: location,
-                    startDate: serviceDate,
-                    companyName: serviceCompany,
-                    details,
-                    appliance,
-                    status: ServiceRequestStatusEnums[status],
-                };
-
-                serviceRequests.push(serviceRequest);
-
-                switch (ServiceRequestStatusEnums[status]) {
-                    case ServiceRequestStatusEnums.Scheduled:
-                        scheduled += 1;
-                        break;
-                    case ServiceRequestStatusEnums.InProgress:
-                        inProgress += 1;
-                        break;
-                    case ServiceRequestStatusEnums.Pending:
-                        pending += 1;
-                        break;
-                    case ServiceRequestStatusEnums.Completed:
-                        completed += 1;
-                        break;
-                    case ServiceRequestStatusEnums.Canceled:
-                        canceled += 1;
-                        break;
-                    case ServiceRequestStatusEnums.Declined:
-                        declined += 1;
-                        break;
-                    default:
-                        break;
-                }
-
-                this.setState({ pending, scheduled, inProgress, completed, canceled, declined });
-            });
-
-            this.setState({ serviceRequests });
         }).catch(error => {
             console.log(error);
         });
+    }
+
+    populateServiceRequests(reqs) {
+        const serviceRequests: ServiceRequest[] = [];
+        // explicitly set initial state- guarantees that the state gets updated even if given property has no requests
+        this.setState({ serviceRequests: [] });
+
+        reqs.forEach(req => {
+            const { appFixed, location, serviceDate, status, serviceCompany, details, id } = req;
+            const appliance = {
+                applianceId: appFixed.appId,
+                category: appFixed.category && stringToCategory(appFixed.category),
+                appName: appFixed.name,
+                manufacturer: appFixed.manufacturer,
+                modelNum: appFixed.modelNum,
+                serialNum: appFixed.serialNum,
+                location: appFixed.location,
+            };
+            const serviceRequest: ServiceRequest = {
+                reqId: id,
+                address: location,
+                startDate: serviceDate,
+                companyName: serviceCompany,
+                details,
+                appliance,
+                status: ServiceRequestStatusEnums[status],
+            };
+            serviceRequests.push(serviceRequest);
+        });
+
+        this.setState({ serviceRequests });
+    }
+
+    countServiceRequestStatus() {
+        const { serviceRequests } = this.state;
+
+        let pending: number = 0;
+        let scheduled: number = 0;
+        let inProgress: number = 0;
+        let completed: number = 0;
+        let canceled: number = 0;
+        let declined: number = 0;
+
+        // explicitly set initial state- guarantees that the state gets updated even if given property has no requests
+        this.setState({ pending: 0, scheduled: 0, inProgress: 0, completed: 0, canceled: 0, declined: 0 });
+        
+        serviceRequests.forEach(sr => {
+            const { status } = sr;
+            switch (ServiceRequestStatusEnums[status]) {
+                case ServiceRequestStatusEnums.Scheduled:
+                    scheduled += 1;
+                    break;
+                case ServiceRequestStatusEnums.InProgress:
+                    inProgress += 1;
+                    break;
+                case ServiceRequestStatusEnums.Pending:
+                    pending += 1;
+                    break;
+                case ServiceRequestStatusEnums.Completed:
+                    completed += 1;
+                    break;
+                case ServiceRequestStatusEnums.Canceled:
+                    canceled += 1;
+                    break;
+                case ServiceRequestStatusEnums.Declined:
+                    declined += 1;
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        this.setState({ pending, scheduled, inProgress, completed, canceled, declined });
     }
 
 
