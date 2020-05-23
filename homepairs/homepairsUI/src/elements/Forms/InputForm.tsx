@@ -22,6 +22,7 @@ export type InputFormProps = {
     trim?: boolean;
     maxLength?: number;
 };
+
 type InputFormState = {
     value?: string;
     error?: boolean;
@@ -74,7 +75,7 @@ const DefaultInputFormStyle = StyleSheet.create({
  * */
 export default class InputForm extends React.Component<InputFormProps, InputFormState> {
 
-    textInput
+    textInput;
 
     static defaultProps: InputFormProps;
 

@@ -6,6 +6,7 @@ import {
     StyleSheet,
     TouchableHighlight,
     Image,
+    ScrollView,
 } from 'react-native';
 import { HomePairFonts } from 'homepairs-fonts';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -49,7 +50,7 @@ function setStyles() {
             padding: BaseStyles.MarginPadding.large,
             paddingTop: 10,
             paddingBottom: 30,
-            width: BaseStyles.ContentWidth.thin,
+            width: '100%',
             alignSelf: 'center',
             borderColor: '#B3C0C2',
             borderWidth: 1,
@@ -62,6 +63,7 @@ function setStyles() {
             borderBottomWidth: 1,
             justifyContent: 'space-between',
             paddingBottom: 15,
+            minHeight: 50, 
         },
         infoRowContainer: {
             alignContent: 'center',
@@ -71,6 +73,7 @@ function setStyles() {
             paddingVertical: BaseStyles.MarginPadding.mediumConst,
         },
         titleText: {
+            minHeight: 20,
             fontSize: BaseStyles.FontTheme.reg,
             fontFamily: HomePairFonts.nunito_regular,
         },
@@ -85,8 +88,7 @@ function setStyles() {
             height: 20,
         },
         body: {
-            alignItems: 'center',
-            paddingBottom: 35,
+            paddingBottom: 135,
             width: '100%',
         },
     });
@@ -142,7 +144,7 @@ export default class ServiceRequestAddressPanel extends React.Component<PanelPro
     renderBody() {
         const {properties} = this.props;
         return (
-            <View style={this.styles.body} onLayout={this.setMaxHeight}>
+            <ScrollView style={this.styles.body} onLayout={this.setMaxHeight}>
                 <>{properties.map((property) => 
                     <TouchableHighlight 
                         testID='click-plumbing'
@@ -151,7 +153,7 @@ export default class ServiceRequestAddressPanel extends React.Component<PanelPro
                         style={this.styles.infoRowContainer}>
                         <Text style={this.styles.detail}>{property.address}</Text>
                     </TouchableHighlight>)}</>
-            </View>
+            </ScrollView>
         );
     }
 

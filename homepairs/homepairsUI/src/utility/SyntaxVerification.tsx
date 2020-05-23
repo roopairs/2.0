@@ -30,13 +30,11 @@ export function isPhoneNumberValid(phone:string){
  * -------------------------------------------------
  * @param {string} input 
  * Test to see if the string fulfils password constraints. 
- * Passwords for homepairs only be alphanumerica and they are 
- * between 6 and 25 characters long. This is subject to change in 
- * the future
- * 
+ * Passwords for homepairs only be alphanumeric with some special characters and they are 
+ * between 6 and 50 characters long. This is subject to change in the future
  */
 export function isPasswordValid(input:string) : boolean {
-    const reg = new RegExp("^([A-Za-z0-9]{6,25})$");
+    const reg = new RegExp("^([a-zA-Z0-9!@#$%^&*\-]{8,32})$");
     return reg.test(input);
 }
 

@@ -41,7 +41,6 @@ export function removeKey(serviceProviders: ProviderDictionary, phoneNum: string
     return updatedServiceProviders;
 }
 
-// TODO: Gather this information from Async Storage
 export const initialState : PreferredServiceProviderState = {
     serviceProviders: {},
 };

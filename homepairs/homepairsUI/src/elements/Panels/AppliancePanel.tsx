@@ -6,6 +6,7 @@ import {
     StyleSheet,
     Image,
     TouchableOpacity,
+    Platform,
 } from 'react-native';
 import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
@@ -18,7 +19,7 @@ export type AppliancePanelProps = {
     key?: string;
     appliance: Appliance;
     hasButton: boolean;
-    buttonName: string;
+    buttonName?: string;
     onClick?: (child?: any) => any;
 };
 
@@ -42,14 +43,15 @@ const applianceInfoStrings = strings.applianceInfo.details;
 const colors = BaseStyles.LightColorTheme;
 
 function setStyles() {
+    const bodyPadding = Platform.OS === 'web' ? 25 : 300; 
     return StyleSheet.create({
         container: {
             backgroundColor: colors.secondary,
             marginHorizontal: BaseStyles.MarginPadding.large,
             borderRadius: BaseStyles.BorderRadius.large,
-            padding: BaseStyles.MarginPadding.large,
-            paddingTop: 10,
-            paddingBottom: 30,
+            padding: BaseStyles.MarginPadding.mediumConst,
+            paddingBottom: BaseStyles.MarginPadding.xlarge,
+            minHeight: 30,
             width: BaseStyles.ContentWidth.thin,
             alignSelf: 'center',
             borderColor: colors.lightGray,
@@ -59,11 +61,11 @@ function setStyles() {
         },
         titleContainer: {
             flexDirection: 'row',
-            backgroundColor: colors.secondary,
             borderBottomColor: colors.veryLightGray,
             borderBottomWidth: 1,
             justifyContent: 'space-between',
-            paddingBottom: 15,
+            minHeight: 50,
+            paddingTop: 5,
         },
         infoRowContainer: {
             flexDirection: 'row',
@@ -75,14 +77,13 @@ function setStyles() {
             paddingVertical: BaseStyles.MarginPadding.mediumConst,
         },
         titleText: {
-            color: colors.red,
+            minHeight: 20,
             fontSize: BaseStyles.FontTheme.reg,
             fontFamily: HomePairFonts.nunito_regular,
         },
         textContainer: {
             width: BaseStyles.ContentWidth.reg,
             borderBottomColor: colors.veryLightGray,
-            paddingBottom: BaseStyles.MarginPadding.mediumConst,
             borderBottomWidth: 1,
         },
         editButton: {
@@ -105,7 +106,8 @@ function setStyles() {
         },
         body: {
             alignItems: 'center',
-            paddingBottom: 35,
+            paddingTop: BaseStyles.MarginPadding.mediumConst,
+            paddingBottom: bodyPadding,
         },
         detailName: {
             fontSize: BaseStyles.FontTheme.xsmal,
@@ -121,15 +123,6 @@ function setStyles() {
             flex: 1,
             alignSelf: 'center',
             alignItems: 'center',
-        },
-        buttonRow: {
-            flexDirection: 'row',
-        },
-        trashImage: {
-            marginTop: 12, 
-            marginLeft: 15,
-            height: 25,
-            width: 27,
         },
     });
 }
@@ -201,6 +194,7 @@ export default class AppliancePanel extends React.Component<Props, AppliancePane
     renderBody() {
         const { appliance } = this.props;
         const { manufacturer, modelNum, serialNum, location } = appliance;
+        console.log(appliance);
         return (
             <View style={this.styles.body} onLayout={this.setMaxHeight}>
                 <View style={this.styles.infoRowContainer}>

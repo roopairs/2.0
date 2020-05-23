@@ -40,6 +40,9 @@ export function prepareRoute(route:string, params?:any){
     const passedParams = isNullOrUndefined(params) ? {} : params;
     const sortedItems = Object.entries(passedParams).sort((a, b) => b[0].localeCompare(a[0]));
     let fullRoute = `${route}`;
+
+    // TODO: adjust for properties and other strings to allow "\" characters
+
     sortedItems.forEach(item => {
         const [, value] = item;
         if(!isNullOrUndefined(value)){
@@ -118,7 +121,6 @@ export default class NavigationRouteHandler{
      * @param {boolean} asBackground -Indicates if the state of the navigation object should be a modal only 
      * works for react-router
      */
-    // TODO: pass in state param to allow user to pass in state for router 
     navigate(route:string, params?:any, asBackground?:boolean){
         if(NavigationRouteHandler.type === NavigationObjects.Router){
             const {location, history} = this.navigation;
@@ -150,7 +152,7 @@ export default class NavigationRouteHandler{
             }
         } else if(!isNullOrUndefined(this.navigation.push)){
             this.navigation.push(route, {params});
-        } else { // TODO: Might want to throw error instead 
+        } else {
             this.navigation.navigate(route);
         }
     }
@@ -177,7 +179,7 @@ export default class NavigationRouteHandler{
             (this.navigation as NavigationStackProp).pop(amount);
         } else if(isNullOrUndefined(this.navigation.navigate)){
             (this.navigation.history as RouteProps).go(amount * -1);
-        } else { // TODO: Might want to throw error instead 
+        } else {
             console.log('Error: Will not call prop on an undefined function. Most likely you are attempting to pop a navigationSwitch object');
         }
     }
@@ -194,6 +196,7 @@ export default class NavigationRouteHandler{
             value = JSON.parse(value);
         }catch(error){
             console.log('This is not a valid object');
+            console.log(error);
         }
         return value;
     }

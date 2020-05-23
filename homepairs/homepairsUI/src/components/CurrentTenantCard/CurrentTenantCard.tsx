@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
 import { Card, ThinButton } from 'homepairs-elements';
 import { isNullOrUndefined } from 'homepairs-utilities';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
 import { navigationPages } from 'homepairs-routes';
 
@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
         borderRadius: BaseStyles.BorderRadius.large,
         borderBottomColor: colors.veryLightGray,
         borderBottomWidth: 1,
-        padding: BaseStyles.MarginPadding.large,
-        paddingBottom: BaseStyles.MarginPadding.small,
+        padding: BaseStyles.MarginPadding.mediumConst,
+        paddingBottom: BaseStyles.MarginPadding.mediumConst,
         width: BaseStyles.ContentWidth.thin,
         alignSelf: 'center',
         shadowColor: colors.shadow,
@@ -173,12 +173,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     addButtonContainer: {
-        flex: 1,
         alignSelf: 'center',
-        justifyContent: 'center',
-        paddingHorizontal: 10,
-        minHeight: 50,
-        marginTop: BaseStyles.MarginPadding.large,
+    },
+    emptyText: {
+        color: colors.red,
+        alignSelf: 'center',
+        fontSize: BaseStyles.FontTheme.reg,
+        margin: BaseStyles.MarginPadding.largeConst,
     },
     
 });
@@ -244,20 +245,25 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
             // Should never reach here!!
             throw Error('Maximum Amount of Tenants Exceeded');
         }    
-        return numTenants === 0 ? <></> : 
+        return numTenants === 0 ? (
+            <Text style={styles.emptyText}>No tenants have been added</Text>) : 
         tenants.map((tenant) => {
             return renderTenantInfo(tenant);
         });
     }
 
     return (
-        <View style={{paddingBottom: BaseStyles.MarginPadding.largeConst}}>
-        <Card title='Current Tenants' containerStyle={styles.container} titleStyle={styles.cardTitle} titleContainerStyle={styles.titleContainerStyle} >
-            {renderError()}
-            <>{renderContent()}</>
-            <ThinButton name='Add Tenant' onClick={navigateToAddTenantModal} buttonTextStyle={styles.addButtonText} buttonStyle={styles.addButton} containerStyle={styles.addButtonContainer} />
-        </Card>
-        </View>
+        <>
+            <View style={{paddingBottom: BaseStyles.MarginPadding.largeConst}}>
+            <Card title='Current Tenants' containerStyle={styles.container} titleStyle={styles.cardTitle} titleContainerStyle={styles.titleContainerStyle} >
+                {renderError()}
+                <>{renderContent()}</>
+                <View style={{marginBottom: Platform.OS === 'web' ? undefined: 10}}>
+                <ThinButton name='Add Tenant' onClick={navigateToAddTenantModal} buttonTextStyle={styles.addButtonText} buttonStyle={styles.addButton} />
+                </View>
+            </Card>
+            </View>
+            </>
     );
 } 
 

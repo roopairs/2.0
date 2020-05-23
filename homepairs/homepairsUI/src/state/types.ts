@@ -23,8 +23,6 @@ export type Appliance = {
 
 /* *-------------------Property Types-------------------* */
 
-// TODO: Collaborate with Adam to make sure this is the correct info recieved 
-// from the response 
 export type TenantInfo = {
     firstName: string,
     lastName: string,
@@ -172,6 +170,7 @@ export type Contact = {
 /* *-------------------Service Types-------------------* */
 
 export type ServiceRequest = {
+    reqId: number,
     address: string, 
     technician?: string, 
     startDate: string, 
@@ -195,7 +194,6 @@ export type NewServiceRequest = {
 }
 
 export type ServiceProvider = {
-    // TODO: Define attributes for service Provider
     provId: number,
     prefId?: string, // Optional param if preferred service provider
     name: string,
@@ -212,7 +210,7 @@ export type ServiceProvider = {
 
 export enum ServiceRequestCompletionStatus {
     Current = 'Current',
-    Completed = 'Completed',
+    Archived = 'Archived',
 }
 
 export enum ServiceRequestStatusEnums {
@@ -374,6 +372,7 @@ export type HeaderAction =
 export type ConfigurationSettings = {
     areNotificationsActive: boolean;
     isDarkModeActive: boolean;
+    apiKey: string | null;
 };
 
 export type SettingsState = ConfigurationSettings;
@@ -388,8 +387,13 @@ export type ToggleDarkModeActivationAction = {
     isDarkModeActive: boolean;
 };
 
+export type AddGoogleApiKeyAction = {
+    type: string;
+    apiKey: string;
+};
+
 export type SettingsActions = ToggleDarkModeActivationAction &
-    ToggleNotificationActivationAction;
+    ToggleNotificationActivationAction & AddGoogleApiKeyAction;
 /* *-------------------Setting Types-------------------* */
 
 /* *-------------------SessionTypes-------------------* */

@@ -7,23 +7,27 @@ import {
     Image,
     StyleSheet,
     FlatList,
+    AsyncStorage,
 } from 'react-native';
 import { defaultProperty } from 'homepairs-images';
 import { GeneralHomeInfo, AddressSticker, PrimaryContactInfo, ServiceRequestCount } from 'homepairs-components';
 import { PropertyListState, Property, HomePairsDimensions as HomepairsDimensions } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
+import { navigationPages } from 'homepairs-routes';
 
 /* tenants cannot edit properties */
 const canEditProps = false;
     
 export type TenantPropertyStateProps = {
   propertyState: PropertyListState,
+  apiKey: string,
 }
 
 export type TenantPropertyDispatchProps = {
     onRevealGoBack: (showGoBack:boolean) => any;
   }
+
 
 type Props = NavigationStackScreenProps & TenantPropertyStateProps
 const colors = BaseStyles.LightColorTheme;
@@ -31,7 +35,7 @@ const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        backgroundColor: colors.space,
+        backgroundColor: colors.primary,
         width: BaseStyles.ContentWidth.max,
         flex: 1,
     },
@@ -91,23 +95,19 @@ const styles = StyleSheet.create({
 });
 
 
-export function TenantPropertyScreenBase(props: Props) {
-    const { propertyState } = props;
-    const { properties, propertyManager } = propertyState;
-    console.log("properties");
-    console.log(properties);
-    console.log("propertyManager");
-    console.log(propertyManager);
+export class TenantPropertyScreenBase extends React.Component<Props>{
+
 
     /* BEWARE: styles.addBottomMargin doesn't always work, had to add it manually 
         / overlapping styles aen't currently supported by react
         see ref: https://github.com/facebook/react/issues/2231 */
 
-    function renderProperty(pair: [string, Property]) {
+
+    renderProperty(pair: [string, Property]) {
         const [propId, property] = pair;
         const { address } = property;
-        const apiKey = 'AIzaSyAtsrGDC2Hye4LUh8jFjw71jita84wVckg';
-
+        const {propertyState, navigation, apiKey} = this.props;
+        const {propertyManager} = propertyState;
         return (
             <ScrollView 
                 contentContainerStyle={{}}
@@ -126,40 +126,48 @@ export function TenantPropertyScreenBase(props: Props) {
                     </View>
                     <GeneralHomeInfo property={property} hasEdit={canEditProps} />
                     <PrimaryContactInfo propertyManager={propertyManager} />
-                    <ServiceRequestCount property={property} />
+                    <ServiceRequestCount 
+                        onClick={() => navigation.navigate(navigationPages.ServiceRequestScreen)}
+                        propId={propId}
+                    />
                 </View>
             </ScrollView>
         );
     }
 
-    function renderContents() {
+    renderContents() {
+        const {propertyState} = this.props;
+        const {properties} = propertyState;
         return (
             <FlatList
                 initialNumToRender={1}
                 style={{ flex: 1, marginTop: 5, marginBottom: 5 }}
                 contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignContent: 'center' }}
                 data={Object.entries(properties)}
-                renderItem={({ item }) => renderProperty(item)}
+                renderItem={({ item }) => this.renderProperty(item)}
                 keyExtractor={(item) => item[0].toString()}
             />
 
         );
     }
 
-    return (
+    render() {
+        return (
         !(Platform.OS === 'ios') ?
             (
                 <View style={styles.container}>
                     <View style={styles.pallet}>
-                        {renderContents()}
+                        {this.renderContents()}
                     </View>
                 </View>
             ) : (
                 <View style={styles.container}>
                     <SafeAreaView style={styles.pallet}>
-                        {renderContents()}
+                        {this.renderContents()}
                     </SafeAreaView>
                 </View>
             ));
+    }
+    
     
 }

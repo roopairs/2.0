@@ -8,6 +8,7 @@ import Colors from 'homepairs-colors';
 import {HelperText} from 'react-native-paper';
 import { isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces } from 'homepairs-utilities';
 import {navigationPages, NavigationRouteScreenProps, NavigationRouteHandler} from 'homepairs-routes';
+import { createIconSetFromFontello } from "react-native-vector-icons";
 
 const {SingleProperty} = navigationPages;
 
@@ -88,7 +89,6 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             justifyContent: 'center',
             alignItems: 'center',
             alignSelf: 'center',
-            flex: 1,
         },
         cardTitle: {
             color: colors.tertiary,
@@ -182,9 +182,13 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
             errorCheck: false,
         };
         this.addressRef = React.createRef();
+        console.log(this.addressRef);
         this.bedRef = React.createRef();
+        console.log(this.bedRef);
         this.bathRef = React.createRef();
+        console.log(this.bathRef);
         this.tenantRef = React.createRef();
+        console.log(this.tenantRef);
     } 
 
     getFormAddress(childData : string) {
@@ -328,6 +332,7 @@ export default class EditNewPropertyModalBase extends React.Component<Props, Edi
 
     renderAddressForm() {
         const {address} = this.state;
+        console.log(this.addressRef);
         return (
             <GoogleInputForm 
                 ref={this.addressRef}

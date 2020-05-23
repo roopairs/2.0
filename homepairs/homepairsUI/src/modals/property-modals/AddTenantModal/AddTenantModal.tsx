@@ -45,7 +45,7 @@ function setInputStyles(){
         },
         scrollStyle: {
             marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-            flex: 1,
+            alignSelf: 'center',
             width: '100%',
         },
         scrollContentContainerStyle: {
@@ -71,7 +71,6 @@ function setInputStyles(){
             justifyContent: 'center',
             alignItems: 'center',
             alignSelf: 'center',
-            flex:1,
         },
         cardTitle: {
             color: colors.tertiary,

@@ -1,6 +1,6 @@
 import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
-import { updateSelectedPage } from 'homepairs-redux-actions'
+import { updateSelectedPage } from 'homepairs-redux-actions';
 import { withSceneHeader, withPreferredProviderFlatList } from 'homepairs-components';
 import strings from 'homepairs-strings';
 import { convertObjectValuesToArray } from 'homepairs-utilities';

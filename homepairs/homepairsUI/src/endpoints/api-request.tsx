@@ -4,6 +4,7 @@
  * using should be put and referenced from this file.  
  */
 import axios from 'axios';
+import {AsyncStorage} from 'react-native';
 import { getAccountType, categoryToString, isNullOrUndefined, stringToCategory } from 'homepairs-utilities';
 import { NavigationRouteHandler, ChooseMainPage, navigationPages} from 'homepairs-routes';
 import * as HomePairsStateActions from 'homepairs-redux-actions';
@@ -20,6 +21,7 @@ import {
     TenantInfo,
     Contact,
 } from 'homepairs-types';
+import { addGoogleApiKey } from 'src/state/settings/actions';
 import {
     HOMEPAIRS_APPLIANCE_ENDPOINT, 
     HOMEPAIRS_LOGIN_ENDPOINT, 
@@ -30,6 +32,7 @@ import {
     HOMEPAIRS_SERVICE_REQUEST_ENDPOINT,
     HOMEPAIRS_TENANT_EDIT_ENDPOINT,
     HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT,
+    GOOGLE_API_KEY,
 } from './constants';
 
 const {AccountActions, PropertyListActions, SessionActions, PreferredProviderActions} = HomePairsStateActions;
@@ -40,8 +43,6 @@ const {refreshServiceProviders, removeServiceProvider} = PreferredProviderAction
 
 /* * JSON KEYS * */
 const SUCCESS = 'success';
-const FAILURE = 'failure';
-const PREFERRED_PROVIDERS = 'TODO: Change this key to that returned from the backend';
 const PM = 'pm';
 /* * JSON KEYS * */
 
@@ -60,7 +61,6 @@ export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => S
     return preferredServiceProviderJSON.map(serviceProvider => {
         const {provId, name, email, phoneNum, prefId,contractLic, skills, 
             founded, rate, timesHired, earliestHire, logo} = serviceProvider;
-        // TODO: Handle loading the logo image asset recieved from the backend response
         return {
             provId, name, email, prefId,
             phoneNum, contractLic, skills, 
@@ -70,6 +70,20 @@ export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => S
         };
     });
 };
+
+// Grab Google API Key from the database
+export const fetchGoogleApiKey = () => {
+    return async (dispatch: (func: any) => void) => {
+        await axios.get(GOOGLE_API_KEY)
+            .then(async (response) => {
+                await AsyncStorage.setItem('googleAPIKey', response.data.apikey);
+                dispatch(addGoogleApiKey(response.data.apikey));
+        }).catch(err => {
+            console.log(err);
+        });
+    };
+};
+
 
 /** 
 * ----------------------------------------------------
@@ -122,7 +136,6 @@ export const fetchNetworkProviders = (accountEmail: string) => {
         await axios.get(endpoint)
         .then(result => {
             const {data} = result;
-            // TODO: parse serviceProviders to be that of a list of ServiceProviders
             const {status, serviceProviders, error} = data;
             if(status === SUCCESS){
                 const parsedProviders = parsePreferredProviders(serviceProviders);
@@ -246,8 +259,6 @@ export const fetchServiceRequests = async (propId: string) => {
     return results;
 };
 
-
-
 /**
  * ----------------------------------------------------
  * fetchServiceRequests
@@ -316,7 +327,6 @@ export const fetchAccount = (
     modalSetOffCallBack: (error?:String) => void = (error: String) => {}) => 
     {
         return async (dispatch: (arg0: any) => void) => {
-        // TODO: GET POST URL FROM ENVIRONMENT VARIABLE ON HEROKU SERVER ENV VARIABLE
         await axios.post(HOMEPAIRS_LOGIN_ENDPOINT, {
             email: Email,
             password: Password,
@@ -330,7 +340,7 @@ export const fetchAccount = (
                 dispatch(setAccountAuthenticationState(true));
                 dispatch(parseAccount(data));
                 
-                if(role === PM){ // role = property manager
+                if(role === PM){
                     const {properties, pm} = data;
                     const {pmId} = pm; 
                     dispatch(fetchProperties(properties));
@@ -399,6 +409,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
             dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
             ChooseMainPage(AccountTypes.Tenant, navigation);
           } else {
+            console.log(response);
             console.log(status);
             modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
           }
@@ -427,8 +438,12 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
    * @param {modalSetOffCallBack} modalSetOffCallBack - *Optional callback to 
    * close/navigate from the modal
    */
-  export const generateAccountForPM = (accountDetails: Account, password: String, 
-    navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
+  export const generateAccountForPM = (
+      accountDetails: Account, 
+      password: String, 
+      navigation: NavigationRouteHandler, 
+      modalSetOffCallBack?: (error?:String) => void, 
+      displayError?: (msg: string) => any) => {
       return async (dispatch: (arg0: any) => void) => {
         await axios.post(HOMEPAIRS_REGISTER_PM_ENDPOINT, {
             firstName: accountDetails.firstName, 
@@ -444,12 +459,14 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
               dispatch(parseAccount(data));
               dispatch(fetchProperties(properties));
               ChooseMainPage(AccountTypes.PropertyManager, navigation);
-            }else{
+            } else {
+              displayError(response.data);
               modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
             }
           })
           .catch((error) => {
             console.log(error);
+            displayError(error);
             modalSetOffCallBack("Connection to the server could not be established.");
           });
       };
@@ -661,6 +678,7 @@ export const postNewServiceRequest = async (
     newServiceRequest: NewServiceRequest, 
     displayError: (msg: string) => void, 
     navigation: NavigationRouteHandler,
+    isPm: boolean,
 ) => {
         await axios
         .post(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, 
@@ -673,12 +691,12 @@ export const postNewServiceRequest = async (
             serviceCategory: newServiceRequest.serviceCategory, 
             serviceDate: newServiceRequest.serviceDate, 
             details: newServiceRequest.details,
+            isPm,
         })
         .then(response => {
             const {data} = response;
             const {status} = data;
             if (status === SUCCESS) {
-                // navigation go to confirmation screen
                 navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
             } else {
                 const {error} = data;
@@ -687,4 +705,20 @@ export const postNewServiceRequest = async (
         }).catch(error => {
             console.log(error);
         });
+};
+
+
+// For accepting or denying a service request from the PM perspective
+export const changeServiceRequestStatus = async (
+    status: string,
+    reqId: number,
+    navigation: NavigationRouteHandler,
+    ) => {
+        await axios.put(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, { reqId, status })
+        .then((response) => {
+            navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
+            setTimeout(() => navigation.reload(), 1000);
+        })
+        .catch(err => console.log(err));
+
 };

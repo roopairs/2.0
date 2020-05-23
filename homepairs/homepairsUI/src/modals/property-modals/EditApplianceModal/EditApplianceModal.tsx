@@ -5,35 +5,37 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance, ApplianceType } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isPositiveWholeNumber, isEmptyOrSpaces, isNullOrUndefined } from 'homepairs-utilities'; 
-import {HelperText} from 'react-native-paper';
-import {FontTheme} from 'homepairs-base-styles';
+import { isPositiveWholeNumber, isEmptyOrSpaces, isNullOrUndefined } from 'homepairs-utilities';
+import { HelperText } from 'react-native-paper';
+import { FontTheme } from 'homepairs-base-styles';
 import { navigationPages, NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-routes';
 import { postUpdatedAppliance } from 'homepairs-endpoints';
 import { DetailedPropertyMutatorDispatchProps, DetailedPropertyMutatorModal } from '../CommonDispatchProps';
 
 
-const {SingleProperty} = navigationPages;
+
+const { SingleProperty } = navigationPages;
 
 type Props = NavigationRouteScreenProps & DetailedPropertyMutatorDispatchProps;
 
 type EditState = {
-    applianceId: string, 
-    category: ApplianceType, 
-    appName: string, 
-    manufacturer: string, 
+    applianceId: string,
+    category: ApplianceType,
+    appName: string,
+    manufacturer: string,
     modelNum: string,
-    serialNum: string, 
+    serialNum: string,
     location: string,
-    errorMsg: string, 
+    errorMsg: string,
     errorCheck: boolean,
 };
 
 const editApplianceStrings = strings.applianceInfo.applianceModal;
 
+const DefaultMessage: string = "The specified appliance for this property could not be found in our system. This may be a server issue.";
 
-function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
-    const {width} = Dimensions.get('window');
+function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
+    const { width } = Dimensions.get('window');
     const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
     return StyleSheet.create({
         formTitle: {
@@ -55,13 +57,13 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
         },
         modalContainer: {
-            flex:1,
+            flex: 1,
             maxWidth: HomePairsDimensions.MAX_PALLET,
             width: Platform.OS === 'web' ? width : BaseStyles.ContentWidth.max,
             alignSelf: 'center',
         },
         scrollStyle: {
-            flex:1,
+            flex: 1,
             marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
             width: '100%',
         },
@@ -112,14 +114,14 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             justifyContent: 'center',
         },
         errorStyle: {
-            fontFamily: FontTheme.secondary, 
+            fontFamily: FontTheme.secondary,
             fontSize: 16,
         },
     });
 }
 
 
-export class EditApplianceModalBase extends React.Component<Props,EditState> {
+export class EditApplianceModalBase extends React.Component<Props, EditState> {
     inputFormStyle;
 
     categoryRef;
@@ -136,9 +138,9 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
 
     oldAppliance: Appliance;
 
-    submitButton : ThinButtonProps = {
-        name: editApplianceStrings.editSave, 
-        onClick: () => {this.clickSubmitButton();}, 
+    submitButton: ThinButtonProps = {
+        name: editApplianceStrings.editSave,
+        onClick: () => { this.clickSubmitButton(); },
         buttonStyle: {
             alignItems: 'center',
             backgroundColor: Colors.LightModeColors.transparent,
@@ -150,7 +152,7 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
             borderColor: Colors.LightModeColors.blueButton,
         },
         buttonTextStyle: {
-            color: Colors.LightModeColors.blueButtonText, 
+            color: Colors.LightModeColors.blueButtonText,
             fontSize: BaseStyles.FontTheme.reg,
             alignSelf: 'center',
         },
@@ -167,7 +169,7 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
     constructor(props: Readonly<Props>) {
         super(props);
         this.inputFormStyle = setInputStyles(null);
-        this.getFormCategory= this.getFormCategory.bind(this);
+        this.getFormCategory = this.getFormCategory.bind(this);
         this.getFormName = this.getFormName.bind(this);
         this.getFormManufacturer = this.getFormManufacturer.bind(this);
         this.getFormModelNum = this.getFormModelNum.bind(this);
@@ -178,12 +180,12 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
         this.resetForms = this.resetForms.bind(this);
         this.displayError = this.displayError.bind(this);
         this.oldAppliance = props.navigation.getParam('appliance');
-        const {applianceId, category, manufacturer, appName, modelNum, serialNum, location} = this.oldAppliance;
+        const { applianceId, category, manufacturer, appName, modelNum, serialNum, location } = this.oldAppliance;
         this.state = {
-            applianceId, category, manufacturer, appName, 
-            modelNum: modelNum.toString(), 
-            serialNum: serialNum.toString(), 
-            location, errorMsg: '', errorCheck: false,
+            applianceId, category, manufacturer, appName,
+            modelNum: modelNum.toString(),
+            serialNum: serialNum.toString(),
+            location, errorMsg: DefaultMessage, errorCheck: false,
         };
         this.categoryRef = React.createRef();
         this.appNameRef = React.createRef();
@@ -193,62 +195,66 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
         this.locationRef = React.createRef();
     }
 
-    getFormCategory(childData : ApplianceType) {
-        this.setState({category: childData});
+    getFormCategory(childData: ApplianceType) {
+        this.setState({ category: childData });
     }
 
-    getFormName(childData : string) {
-        this.setState({appName: childData});
+    getFormName(childData: string) {
+        this.setState({ appName: childData });
     }
 
-    getFormManufacturer(childData : string) {
-        this.setState({manufacturer: childData});
+    getFormManufacturer(childData: string) {
+        this.setState({ manufacturer: childData });
     }
 
-    getFormModelNum(childData : string) {
-        this.setState({modelNum: childData});
+    getFormModelNum(childData: string) {
+        this.setState({ modelNum: childData });
     }
 
-    getFormSerialNum(childData : string) {
-        this.setState({serialNum: childData});
+    getFormSerialNum(childData: string) {
+        this.setState({ serialNum: childData });
     }
 
     getFormLocation(childData: string) {
-        this.setState({location: childData});
+        this.setState({ location: childData });
     }
 
     goBackToPreviousPage() {
-        const{navigation} = this.props;
+        const { navigation } = this.props;
         const propId = navigation.getParam('propId');
-        navigation.replace(SingleProperty, {propId});
+        navigation.resolveModalReplaceNavigation(SingleProperty, { propId });
     }
 
     setInitialState() {
-        const {category, manufacturer, appName, modelNum, serialNum, location} = this.oldAppliance;
-        this.setState ({
-            category, manufacturer, appName, 
-            modelNum: modelNum.toString(), 
-            serialNum: serialNum.toString(), 
-            location, errorMsg: '', errorCheck: false,
+        const { category, manufacturer, appName, modelNum, serialNum, location } = this.oldAppliance;
+        this.setState({
+            category, manufacturer, appName,
+            modelNum: modelNum.toString(),
+            serialNum: serialNum.toString(),
+            location, errorMsg: DefaultMessage, errorCheck: false,
         });
     }
 
     validateForms() {
-        const {appName,modelNum, serialNum, location} = this.state;
+        const { appName, modelNum, serialNum, location } = this.state;
         let check = true;
         if (isEmptyOrSpaces(appName)) {
+            this.setState({errorMsg: "Invalid appliance name."});
             this.appNameRef.current.setError(true);
             check = false;
-        } 
+        } // Should model numbers be allowed to be alphanumeric?
         if (!isPositiveWholeNumber(modelNum)) {
+            this.setState({errorMsg: "Invalid model number."});
             this.modelNumRef.current.setError(true);
             check = false;
-        } 
+        } // Should serial numbers be allowed to be alphanumeric?
         if (!isPositiveWholeNumber(serialNum)) {
+            this.setState({errorMsg: "Invalid serial number."});
             this.serialNumRef.current.setError(true);
             check = false;
-        }
+        } 
         if (isEmptyOrSpaces(location)) {
+            this.setState({errorMsg: "Invalid location."});
             this.locationRef.current.setError(true);
             check = false;
         }
@@ -264,31 +270,44 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
     }
 
     displayError(msg: string) {
-        this.setState({errorMsg: msg, errorCheck: true});
+        this.setState({ errorMsg: msg, errorCheck: true });
     }
 
-    async clickSubmitButton() {
-        const {applianceId, category, appName, manufacturer, modelNum, serialNum, location} = this.state;
-        const {navigation, setAppliancesAndTenants} = this.props;
+    async updateAppliance() {
+        const { navigation, setAppliancesAndTenants } = this.props;
+        const propId = navigation.getParam('propId');
+        const { applianceId, category, appName, manufacturer, modelNum, serialNum, location } = this.state;
+        const newAppliance: Appliance = {
+            applianceId, category, appName, manufacturer,
+            modelNum: Number(modelNum),
+            serialNum: Number(serialNum),
+            location,
+        };
+        await postUpdatedAppliance(propId, newAppliance, this.displayError, navigation).then(() => {
+            setAppliancesAndTenants(String(propId));
+        }).catch((error: Error) => {
+            if (error.message.includes('500')) {
+                console.log(error.message);
+                this.displayError(DefaultMessage);
+            }
+            else {
+                console.log(error.message);
+                this.displayError(error.message);
+            }
+        });
+    }
+
+    clickSubmitButton() {
         this.resetForms();
-        this.setState({errorCheck: false});
+        this.setState({ errorCheck: false });
         if (this.validateForms()) {
-            const propId = navigation.getParam('propId');
-            const newAppliance : Appliance = {
-                applianceId, category, appName, manufacturer, 
-                modelNum: Number(modelNum), 
-                serialNum: Number(serialNum), 
-                location,
-            };
-            await postUpdatedAppliance(propId, newAppliance, this.displayError, navigation).then(() => {
-                setAppliancesAndTenants(String(propId));
-            });
+            this.updateAppliance();
         }
     }
 
     renderInputForms() {
-        const {appName, manufacturer, modelNum, serialNum, location} = this.state;
-        const inputForms: InputFormProps[]  = [
+        const { appName, manufacturer, modelNum, serialNum, location } = this.state;
+        const inputForms: InputFormProps[] = [
             {
                 ref: this.appNameRef,
                 key: editApplianceStrings.name,
@@ -298,7 +317,7 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
                 inputStyle: this.inputFormStyle.input,
                 value: appName,
                 errorMessage: 'Name cannot be empty',
-            }, 
+            },
             {
                 ref: this.manufacturerRef,
                 key: editApplianceStrings.manufacturer,
@@ -307,7 +326,7 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
                 formTitleStyle: this.inputFormStyle.formTitle,
                 inputStyle: this.inputFormStyle.input,
                 value: manufacturer,
-            }, 
+            },
             {
                 ref: this.modelNumRef,
                 key: editApplianceStrings.modelNum,
@@ -327,7 +346,7 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
                 inputStyle: this.inputFormStyle.input,
                 value: serialNum,
                 errorMessage: 'Serial number must be a number',
-            }, 
+            },
             {
                 ref: this.locationRef,
                 key: editApplianceStrings.location,
@@ -337,68 +356,68 @@ export class EditApplianceModalBase extends React.Component<Props,EditState> {
                 inputStyle: this.inputFormStyle.input,
                 value: location,
                 errorMessage: 'Locations cannot be empty',
-            }, 
+            },
         ];
 
         return inputForms.map(inputFormProp => {
-            const {ref, key, name, parentCallBack, formTitleStyle, inputStyle,errorMessage, secureTextEntry, errorStyle, value, placeholder} = inputFormProp;
+            const { ref, key, name, parentCallBack, formTitleStyle, inputStyle, errorMessage, secureTextEntry, errorStyle, value, placeholder } = inputFormProp;
             return <InputForm
-                        ref={ref}
-                        key={key}
-                        name={name}
-                        parentCallBack={parentCallBack}
-                        formTitleStyle={formTitleStyle}
-                        inputStyle={inputStyle}
-                        errorStyle={errorStyle}
-                        secureTextEntry={secureTextEntry}
-                        value={value}
-                        placeholder={placeholder}
-                        errorMessage={errorMessage}/>;
+                ref={ref}
+                key={key}
+                name={name}
+                parentCallBack={parentCallBack}
+                formTitleStyle={formTitleStyle}
+                inputStyle={inputStyle}
+                errorStyle={errorStyle}
+                secureTextEntry={secureTextEntry}
+                value={value}
+                placeholder={placeholder}
+                errorMessage={errorMessage} />;
         });
     }
 
-    renderError () {
-        const {errorMsg, errorCheck} = this.state;
-        return <View style={{alignSelf:'center'}}>
+    renderError() {
+        const { errorMsg, errorCheck } = this.state;
+        return <View style={{ alignSelf: 'center' }}>
             <HelperText type='error' visible={errorCheck} style={this.inputFormStyle.errorStyle}>{errorMsg}</HelperText>
         </View>;
     }
 
     render() {
-        const {category} = this.state;
+        const { category } = this.state;
         const showCloseButton = true;
-        return(
+        return (
             <View style={this.inputFormStyle.modalContainer}>
-            <ScrollView style={this.inputFormStyle.scrollStyle}
-            contentContainerStyle={this.inputFormStyle.scrollContentContainerStyle}
-            showsHorizontalScrollIndicator={false}>
-                <Card
-                    containerStyle={this.inputFormStyle.cardContainer}
-                    showCloseButton={showCloseButton}
-                    title={editApplianceStrings.editTitle} 
-                    closeButtonPressedCallBack={() => { 
-                        this.goBackToPreviousPage();
-                        this.setInitialState();
-                        this.resetForms();
-                    }} 
-                    titleStyle={this.inputFormStyle.cardTitle}
-                    titleContainerStyle={this.inputFormStyle.cardTitleContainer}
-                    wrapperStyle={this.inputFormStyle.cardWrapperStyle}
+                <ScrollView style={this.inputFormStyle.scrollStyle}
+                    contentContainerStyle={this.inputFormStyle.scrollContentContainerStyle}
+                    showsHorizontalScrollIndicator={false}>
+                    <Card
+                        containerStyle={this.inputFormStyle.cardContainer}
+                        showCloseButton={showCloseButton}
+                        title={editApplianceStrings.editTitle}
+                        closeButtonPressedCallBack={() => {
+                            this.goBackToPreviousPage();
+                            this.setInitialState();
+                            this.resetForms();
+                        }}
+                        titleStyle={this.inputFormStyle.cardTitle}
+                        titleContainerStyle={this.inputFormStyle.cardTitleContainer}
+                        wrapperStyle={this.inputFormStyle.cardWrapperStyle}
                     >
-                    <Text style={this.inputFormStyle.formTitle}>{editApplianceStrings.category}</Text>
-                    <ApplianceCategoryPanel initialCategory={category} parentCallBack={this.getFormCategory}/>
-                    <>{this.renderInputForms()}</>
-                    {this.renderError()}
-                    <ThinButton
-                    name={this.submitButton.name}
-                    onClick={async () => {await this.submitButton.onClick();}}
-                    buttonStyle={this.submitButton.buttonStyle}
-                    buttonTextStyle={this.submitButton.buttonTextStyle}
-                    containerStyle={this.submitButton.containerStyle}
-                    />
-                </Card>
-            </ScrollView>
-        </View>);
+                        <Text style={this.inputFormStyle.formTitle}>{editApplianceStrings.category}</Text>
+                        <ApplianceCategoryPanel initialCategory={category} parentCallBack={this.getFormCategory} />
+                        <>{this.renderInputForms()}</>
+                        {this.renderError()}
+                        <ThinButton
+                            name={this.submitButton.name}
+                            onClick={async () => { await this.submitButton.onClick(); }}
+                            buttonStyle={this.submitButton.buttonStyle}
+                            buttonTextStyle={this.submitButton.buttonTextStyle}
+                            containerStyle={this.submitButton.containerStyle}
+                        />
+                    </Card>
+                </ScrollView>
+            </View>);
     }
 }
 

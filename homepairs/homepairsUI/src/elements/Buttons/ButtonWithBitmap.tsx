@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderColor: BaseStyles.LightColorTheme.gray,
-
         shadowColor: 'black',
         shadowRadius: 3,
         shadowOffset: { width: 1, height: 1 },

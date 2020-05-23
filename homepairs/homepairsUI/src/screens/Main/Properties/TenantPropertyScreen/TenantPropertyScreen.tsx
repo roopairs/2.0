@@ -4,7 +4,10 @@ import { prepareNavigationHandlerComponent } from 'homepairs-routes';
 import { TenantPropertyScreenBase, TenantPropertyStateProps} from './TenantPropertyScreenBase';
 
 function mapStateToProps(state: AppState) : TenantPropertyStateProps {
-    return { propertyState: state.properties };
+    return { 
+      propertyState: state.properties, 
+      apiKey: state.settings.apiKey,
+    };
 };
 
 const TenantPropertyScreen = connect(
