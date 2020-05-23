@@ -1,9 +1,9 @@
 import React, {Component} from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider, MainAppStackType } from 'homepairs-types';
+import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider, MainAppStackType, AccountTypes } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'homepairs-utilities';
-import {NavigationRouteScreenProps, MainAppStack} from 'homepairs-routes';
+import {NavigationRouteScreenProps} from 'homepairs-routes';
 import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel, DatePicker} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from 'homepairs-components';
@@ -79,18 +79,21 @@ const styles = StyleSheet.create({
     },
 });
 
+export type NewRequestScreenStateProps = {
+    accountType: AccountTypes,
+    properties: Property[],
+    token: string,
+    pmId: number,
+}
+
 export type NewRequestScreenDispatchProps = {
-    onUpdateHeader: (navPage: MainAppStackType) => any;
+    onUpdateHeader: () => any;
 }
 
 export type NewRequestScreenProps = 
     & NavigationRouteScreenProps 
     & NewRequestScreenDispatchProps 
-    & {
-        properties: Property[],
-        token: string,
-        pmId: number,
-    };
+    & NewRequestScreenStateProps
 
 
 export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewRequestState> {
@@ -167,7 +170,13 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
         this.fetchAppliances = this.fetchAppliances.bind(this);
         this.displayError = this.displayError.bind(this);
         this.fetchServiceProviders = this.fetchServiceProviders.bind(this);
-        this.state = initialState;
+
+        // Fix the address if only one address is included in the property. 
+        this.state = (props.properties.length === 1) ? 
+            {...initialState, address: props.properties[0].address, addressState: true, propId: props.properties[0].propId} 
+            : 
+            initialState;
+
         this.addressRef = React.createRef();
         this.serviceCategoryRef = React.createRef();
         this.applianceIdRef = React.createRef();
@@ -178,11 +187,18 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     }
 
     componentDidMount() {
+        const {properties, accountType} = this.props;
+
+        if(accountType === AccountTypes.Tenant){
+            const [tenantProperty] = properties;
+            const {address, propId} = tenantProperty; 
+            this.setState({address, addressState: true, propId});
+        }
+
         // When the component is mounted, update the header. This component can be navigated from a different stack so 
         // we need to make sure the header remains updated in the case this happens
         const {onUpdateHeader} = this.props;
         onUpdateHeader();
-
         this.fetchServiceProviders();
     }
 
@@ -268,7 +284,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
                 details,
             };
             await postNewServiceRequest(newServiceRequest, this.displayError, navigation).catch(error => console.log(error));
-            onUpdateHeader(MainAppStack[1]);
+            // onUpdateHeader(MainAppStack[1]);
         }
     }
 
@@ -304,7 +320,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     }
 
     render() {
-        const {properties} = this.props;
+        const {properties, accountType} = this.props;
         const {
             addressState, 
             serviceCategoryState, 
@@ -321,7 +337,9 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
         return (
             <ScrollView style={styles.scrollContainer}>
                 <Text style={styles.formTitle}>ADDRESS</Text>
-                <AddressPanel properties={properties} parentCallBack={this.getFormAddress}/> 
+                {properties.length === 1 || accountType === AccountTypes.Tenant ? <></>:
+                    <AddressPanel properties={properties} parentCallBack={this.getFormAddress}/> 
+                }
                 {addressState ? 
                     <>
                         <Text style={styles.formTitle}>SERVICE CATEGORY</Text>

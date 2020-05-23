@@ -4,9 +4,7 @@ import { updateSelectedPage } from 'homepairs-redux-actions';
 import { withSceneHeader} from 'homepairs-components';
 import { prepareNavigationHandlerComponent, NEW_SERVICE_REQUEST } from 'homepairs-routes';
 import { convertObjectValuesToArray } from 'homepairs-utilities';
-import { NewServiceRequestBase, NewRequestScreenDispatchProps } from './NewRequestScreenBase';
-import { NOMAP_INDEX } from '../../../../routes/RouteConstants.web';
-import withHeaderUpdate from '../../withHeaderUpdate';
+import { NewServiceRequestBase, NewRequestScreenDispatchProps, NewRequestScreenStateProps } from './NewRequestScreenBase';
 
 const sceneParam: MainAppStackType = {
     title: 'New Service Request',
@@ -14,9 +12,10 @@ const sceneParam: MainAppStackType = {
     key: 'NewRequest',
 };
 
-function mapStateToProps(state: AppState) : any {
+function mapStateToProps(state: AppState) : NewRequestScreenStateProps {
     const properties = convertObjectValuesToArray(state.properties.properties);
     return {
+        accountType: state.accountProfile.accountType,
         properties,
         token: state.accountProfile.roopairsToken,
         pmId: (state.accountProfile as (PropertyManagerAccount)).pmId,
@@ -29,8 +28,8 @@ function mapDispatchToProps(dispatch:any): NewRequestScreenDispatchProps {
         navigate: NEW_SERVICE_REQUEST,
     };
     return {
-        onUpdateHeader: (navPage: MainAppStackType = selected) => {
-            dispatch(updateSelectedPage(navPage));
+        onUpdateHeader: () => {
+            dispatch(updateSelectedPage(selected));
         },
     };
 };
