@@ -119,27 +119,50 @@ export const navigationPages = {
 };
 
 
+/* * Indices used to reference the MainAppStack * */
+export const NOMAP_INDEX = -1;
+export const HOME_INDEX = 0;
+export const SERVICE_INDEX = 1;
+export const SETTING_INDEX = 2;
+export const LOGOUT_INDEX = 3;
+
 export const MainAppStack: Array<MainAppStackType> = [
     {
         title: 'My Properties',
         navigate: PROPERTY_LIST,
-        key: 'Properties',
         button: 'Add Property',
     },
     {
         title: 'Service Request',
         navigate: navigationPages.ServiceRequestScreen,
-        key: 'ServiceRequest',
         button: 'Request Service',
     },
     {
         title: 'Account Settings',
         navigate: navigationPages.AccountSettings,
-        key: 'AccountSettings',
     },
     {
         title: 'Log Out',
         navigate: LOGIN,
-        key: 'LogOut',
+    },
+];
+
+export const MainAppStackTenant: Array<MainAppStackType> = [
+    {
+        title: 'My Home',
+        navigate: TENANT_PROPERTY,
+    },
+    {
+        title: 'Service Request',
+        navigate: navigationPages.ServiceRequestScreen,
+        button: 'Request Service',
+    },
+    {
+        title: 'Account Settings',
+        navigate: navigationPages.AccountSettings,
+    },
+    {
+        title: 'Log Out',
+        navigate: navigationPages.LoginScreen,
     },
 ];

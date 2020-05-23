@@ -1,7 +1,8 @@
 import { AppState } from "homepairs-types";
 import { connect } from "react-redux";
-import { prepareNavigationHandlerComponent } from 'homepairs-routes';
+import { prepareNavigationHandlerComponent, MainAppStackTenant as MainAppStack, HOME_INDEX } from 'homepairs-routes';
 import { TenantPropertyScreenBase, TenantPropertyStateProps} from './TenantPropertyScreenBase';
+import withHeaderUpdate from '../../withHeaderUpdate';
 
 function mapStateToProps(state: AppState) : TenantPropertyStateProps {
     return { 
@@ -10,9 +11,10 @@ function mapStateToProps(state: AppState) : TenantPropertyStateProps {
     };
 };
 
+
 const TenantPropertyScreen = connect(
   mapStateToProps,
 )(TenantPropertyScreenBase);
 
-export default prepareNavigationHandlerComponent(TenantPropertyScreen);
+export default withHeaderUpdate(prepareNavigationHandlerComponent(TenantPropertyScreen), HOME_INDEX);
 

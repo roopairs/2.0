@@ -300,11 +300,6 @@ export type MainAppStackType = {
     navigate: string;
 
     /**
-     * Unique value intended to distinguish each instance of this object
-     */
-    key: string;
-
-    /**
      * Name of the button in the header. If none is defined, a button will not 
      * be rendered.
      */

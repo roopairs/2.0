@@ -5,7 +5,8 @@ import { MainAppStackType, AccountTypes } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { 
     NavigationRouteHandler, 
-    MainAppStack, 
+    MainAppStack as MainAppStackManager, 
+    MainAppStackTenant,
     ChooseMainPage, 
 } from 'homepairs-routes';
 import setStyles from './styles';
@@ -82,6 +83,8 @@ export default class HomePairsMenu extends React.Component<Props> {
 
     colorScheme: any;
 
+    MainAppStack: MainAppStackType[];
+
     static defaultProps = {
         testID: 'homepairs-header-menu',
         parentCallBack: (page?: any) => {return page;},
@@ -100,6 +103,7 @@ export default class HomePairsMenu extends React.Component<Props> {
         this.buttonFormat = this.buttonFormat.bind(this);
         this.displayCorrectMenu = this.displayCorrectMenu.bind(this);
 
+        this.MainAppStack = props.accountType === AccountTypes.PropertyManager ? MainAppStackManager : MainAppStackTenant;
         this.colorScheme = BaseStyles.LightColorTheme;
         styles = setStyles(props.isDropDown);
     }
@@ -111,9 +115,9 @@ export default class HomePairsMenu extends React.Component<Props> {
      */
     setSelected(value: MainAppStackType) {
         const {parentCallBack} = this.props;
-        const [first] = MainAppStack; 
+        const [first] = this.MainAppStack; 
         let page = value;
-        if (value.key === MainAppStack[MainAppStack.length - 1].key)
+        if (value.key === this.MainAppStack[this.MainAppStack.length - 1].key)
             page = first;
         parentCallBack(page);
     }
@@ -170,7 +174,7 @@ export default class HomePairsMenu extends React.Component<Props> {
       * @param {MainAppStackType} currentPage 
       */
     buttonFormat(currentPage: MainAppStackType) {
-        return MainAppStack.map((page, i) => {
+        return this.MainAppStack.map((page, i) => {
             return (
                 <View 
                     // eslint-disable-next-line react/no-array-index-key
@@ -180,7 +184,7 @@ export default class HomePairsMenu extends React.Component<Props> {
                         testID='homepairs-header-menu-buttons' 
                         onPress={() => this.navigatePages(page)}>
                         <Text 
-                            style={ page === currentPage? styles.menuSelectedText : styles.menuText}>
+                            style={ page.navigate === currentPage.navigate? styles.menuSelectedText : styles.menuText}>
                             {page.title}
                         </Text>
                     </TouchableOpacity>

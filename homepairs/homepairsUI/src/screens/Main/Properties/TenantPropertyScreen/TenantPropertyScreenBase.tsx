@@ -7,9 +7,7 @@ import {
     Image,
     StyleSheet,
     FlatList,
-    AsyncStorage,
 } from 'react-native';
-import { defaultProperty } from 'homepairs-images';
 import { GeneralHomeInfo, AddressSticker, PrimaryContactInfo, ServiceRequestCount } from 'homepairs-components';
 import { PropertyListState, Property, HomePairsDimensions as HomepairsDimensions } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
@@ -18,18 +16,20 @@ import { navigationPages } from 'homepairs-routes';
 
 /* tenants cannot edit properties */
 const canEditProps = false;
-    
+
+
+
 export type TenantPropertyStateProps = {
   propertyState: PropertyListState,
   apiKey: string,
 }
 
 export type TenantPropertyDispatchProps = {
-    onRevealGoBack: (showGoBack:boolean) => any;
-  }
+    onRevealGoBack?: (showGoBack:boolean) => any;
+}
 
 
-type Props = NavigationStackScreenProps & TenantPropertyStateProps
+type Props = NavigationStackScreenProps & TenantPropertyStateProps & TenantPropertyDispatchProps;
 const colors = BaseStyles.LightColorTheme;
 
 const styles = StyleSheet.create({
@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
 
 
 export class TenantPropertyScreenBase extends React.Component<Props>{
-
 
     /* BEWARE: styles.addBottomMargin doesn't always work, had to add it manually 
         / overlapping styles aen't currently supported by react

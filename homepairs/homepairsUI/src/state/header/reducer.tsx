@@ -28,7 +28,7 @@ function determineInitialIsDropDown() {
 export const initialState: HeaderState = {
     showMenu: false,
     isDropDown: determineInitialIsDropDown(),
-    currentPage: MainAppStack[0],
+    currentPage: {title: undefined, navigate: undefined, key: undefined},
     previousPagesStack: [],
     showBackButton: false,
     menu: [

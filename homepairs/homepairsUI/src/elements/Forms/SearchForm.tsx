@@ -34,7 +34,7 @@ type State = {
     text: string;
 }
 
-const initialState: State = { text: ""};
+const initialState: State = { text: "" };
 
 
 /**

@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import {
     withSceneHeader,
 } from 'homepairs-components';
-import { HeaderActions, PropertyListActions } from 'homepairs-redux-actions';
-import { navigationPages, prepareNavigationHandlerComponent } from 'homepairs-routes';
+import { HeaderActions, PropertyListActions} from 'homepairs-redux-actions';
+import { navigationPages, prepareNavigationHandlerComponent, HOME_INDEX} from 'homepairs-routes';
 import { 
     PropertiesScreenBase,
     PropertiesScreenStateProps,
     PropertiesScreenDispatchProps,
 } from './PropertiesScreenBase';
+import withHeaderUpdate from '../../withHeaderUpdate';
 
 const sceneParams: MainAppStackType = {
     title: 'Properties',
@@ -56,4 +57,4 @@ const PropertiesScreenWithHeader = withSceneHeader(PropertiesScreen, sceneParams
  * has been injected with a Modal; this gives this component the capability to reveal a smaller page 
  * that allows the user to add a new property to their account. 
  */
-export default prepareNavigationHandlerComponent(PropertiesScreenWithHeader);
+export default withHeaderUpdate(prepareNavigationHandlerComponent(PropertiesScreenWithHeader));

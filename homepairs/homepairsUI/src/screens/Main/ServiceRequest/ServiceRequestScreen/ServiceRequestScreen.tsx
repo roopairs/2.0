@@ -11,6 +11,8 @@ import {
     ServiceRequestScreenProps,
     ServiceRequestsScreenDispatchProps,
 } from './ServiceRequestScreenBase';
+import withHeaderUpdate from '../../withHeaderUpdate';
+import { SERVICE_INDEX } from '../../../../routes/RouteConstants.web';
 
 const serviceRequestStrings = strings.serviceRequestPage;
 const sceneParam: MainAppStackType = {
@@ -57,4 +59,4 @@ const ServiceRequestScreen = connect(
  * that allows the user to add a new service request to their account. 
  */
 
-export default prepareNavigationHandlerComponent(withPreferredProviderFlatList(withSceneHeader(ServiceRequestScreen, sceneParam)));
+export default withHeaderUpdate(prepareNavigationHandlerComponent(withPreferredProviderFlatList(withSceneHeader(ServiceRequestScreen, sceneParam))), SERVICE_INDEX);

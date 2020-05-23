@@ -5,6 +5,8 @@ import { withSceneHeader} from 'homepairs-components';
 import { prepareNavigationHandlerComponent, NEW_SERVICE_REQUEST } from 'homepairs-routes';
 import { convertObjectValuesToArray } from 'homepairs-utilities';
 import { NewServiceRequestBase, NewRequestScreenDispatchProps } from './NewRequestScreenBase';
+import { NOMAP_INDEX } from '../../../../routes/RouteConstants.web';
+import withHeaderUpdate from '../../withHeaderUpdate';
 
 const sceneParam: MainAppStackType = {
     title: 'New Service Request',
@@ -23,7 +25,6 @@ function mapStateToProps(state: AppState) : any {
 
 function mapDispatchToProps(dispatch:any): NewRequestScreenDispatchProps {
     const selected: MainAppStackType = {
-        key: 'New Service Request',
         title: 'New Service Request',
         navigate: NEW_SERVICE_REQUEST,
     };

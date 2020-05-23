@@ -55,6 +55,7 @@ export const parseAccount = (accountJSON : any): FetchUserAccountProfileAction =
         };
         fetchedProfile = tenantProfile;
     }
+    console.log(fetchedProfile)
     return {
       type: FETCH_PROFILE_ACTION_TYPES.FETCH_PROFILE,
       profile: fetchedProfile,

@@ -90,27 +90,54 @@ export const navigationKeys: {[id:string]: string} = {
     ModalStack: 'ModalStack',
 };
 
+
+
+/* * Indices used to reference the MainAppStack * */
+export const NOMAP_INDEX = -1;
+export const HOME_INDEX = 0;
+export const SERVICE_INDEX = 1;
+export const SETTING_INDEX = 2;
+export const LOGOUT_INDEX = 3;
+
+
+
 export const MainAppStack: Array<MainAppStackType> = [
     {
         title: 'My Properties',
         navigate: navigationPages.PropertiesScreen,
-        key: 'My Properties',
         button: 'Add Property',
     },
     {
         title: 'Service Request',
         navigate: navigationPages.ServiceRequestScreen,
-        key: 'Service Request',
         button: 'Request Service',
     },
     {
         title: 'Account Settings',
         navigate: navigationPages.AccountSettings,
-        key: 'Account Settings',
     },
     {
         title: 'Log Out',
         navigate: navigationPages.LoginScreen,
-        key: 'Log Out',
+    },
+];
+
+export const MainAppStackTenant: Array<MainAppStackType> = [
+    {
+        title: 'My Home',
+        navigate: TENANT_PROPERTY,
+    },
+    {
+        title: 'Service Request',
+        navigate: navigationPages.ServiceRequestScreen,
+        button: 'Request Service',
+    },
+    {
+        title: 'Account Settings',
+        navigate: navigationPages.AccountSettings,
+    },
+    {
+        title: 'Log Out',
+        navigate: navigationPages.LoginScreen,
     },
 ];

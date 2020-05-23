@@ -143,7 +143,7 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
 
     showBackButton() {
         const { header } = this.props;
-        const showBackButton = ! (HeaderNavigators.includes(header.currentPage.navigate));
+        const showBackButton = ! (header.currentPage != null && HeaderNavigators.includes(header.currentPage.navigate));
         if (!header.isDropDown && Platform.OS === 'web'){
             return <></>;
         } 

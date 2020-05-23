@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { BrowserRouter as Router, Route, Redirect, Switch, useLocation, useHistory} from 'react-router-dom';
 import {
   NewRequestScreen,
@@ -27,10 +27,7 @@ import {
 
 
 
-const HomePairsHeader = () => {return (<View style={{shadowColor: 'black',
-shadowRadius: 8,
-shadowOffset: { width: 2, height: 2 },
-shadowOpacity: .5}}><HPH /></View>);};
+const HomePairsHeader = () => {return (<HPH />);};
 
 
 
@@ -188,7 +185,7 @@ function LoginModalSwitch() {
 
 
 /* Main Application Switch Routers */
-// TODO: Uses the matche to resolve urls. This will allow users to navigate with proper params in order
+// TODO: Uses the match to resolve urls. This will allow users to navigate with proper params in order
 
 function TenantAccountPropertySwitch() {
   const location = useLocation();
@@ -196,6 +193,7 @@ function TenantAccountPropertySwitch() {
   return (
     <>
     <HomePairsHeader />
+    <ScrollView>
     <Route path='/tenant/home' render={(matches) => (
           <View style={{overflow: 'hidden'}}>                
               <Switch path={`${TENANT_PROPERTY}`} location={background || location}>
@@ -203,6 +201,7 @@ function TenantAccountPropertySwitch() {
               </Switch>
           </View>
       )}/>
+      </ScrollView>
       </>
   );
 }
