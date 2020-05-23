@@ -334,10 +334,11 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
             serviceProviders, 
             serviceDate,
         } = this.state;
+        // TODO: Write Address Screen If only one property exists
         return (
             <ScrollView style={styles.scrollContainer}>
                 <Text style={styles.formTitle}>ADDRESS</Text>
-                {properties.length === 1 || accountType === AccountTypes.Tenant ? <></>:
+                {properties.length === 1 || accountType === AccountTypes.Tenant ? <></> :
                     <AddressPanel properties={properties} parentCallBack={this.getFormAddress}/> 
                 }
                 {addressState ? 
