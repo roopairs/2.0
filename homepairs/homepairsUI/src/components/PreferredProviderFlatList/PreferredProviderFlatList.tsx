@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, FlatList, TouchableOpacity, Platform} from 'react-native';
 import {ImageTile, TextTile} from 'homepairs-elements';
-import { HomePairsDimensions, AppState, ProviderDictionary, ServiceProvider, PropertyManagerAccount } from 'homepairs-types';
+import { AppState, ProviderDictionary, ServiceProvider, PropertyManagerAccount } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { connect } from 'react-redux';
 import { NavigationRouteScreenProps, NavigationRouteHandler, prepareNavigationHandlerComponent, navigationPages} from 'homepairs-routes';
@@ -12,7 +12,7 @@ const {AddServiceProviderModal, PreferredProviderModal} = navigationPages;
 const styles = StyleSheet.create({
     container: {
         flex:2.5,
-        maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+        maxWidth: '100%',
         width: BaseStyles.ContentWidth.max,
         paddingVertical: Platform.OS === 'web' ? 0 : 12.5,
         backgroundColor: "#374245",
