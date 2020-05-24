@@ -1,15 +1,14 @@
 import { AppState, MainAppStackType, PropertyManagerAccount } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { updateSelectedPage } from 'homepairs-redux-actions';
-import { withSceneHeader} from 'homepairs-components';
 import { prepareNavigationHandlerComponent, NEW_SERVICE_REQUEST } from 'homepairs-routes';
 import { convertObjectValuesToArray } from 'homepairs-utilities';
 import { NewServiceRequestBase, NewRequestScreenDispatchProps, NewRequestScreenStateProps } from './NewRequestScreenBase';
+import {withSceneHeader} from '../../SceneHeader/WithSceneHeader';
 
 const sceneParam: MainAppStackType = {
     title: 'New Service Request',
     navigate: 'NewRequest',
-    key: 'NewRequest',
 };
 
 function mapStateToProps(state: AppState) : NewRequestScreenStateProps {

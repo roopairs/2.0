@@ -117,7 +117,7 @@ export default class HomePairsMenu extends React.Component<Props> {
         const {parentCallBack} = this.props;
         const [first] = this.MainAppStack; 
         let page = value;
-        if (value.key === this.MainAppStack[this.MainAppStack.length - 1].key)
+        if (value.title === this.MainAppStack[this.MainAppStack.length - 1].title)
             page = first;
         parentCallBack(page);
     }
@@ -184,7 +184,7 @@ export default class HomePairsMenu extends React.Component<Props> {
                         testID='homepairs-header-menu-buttons' 
                         onPress={() => this.navigatePages(page)}>
                         <Text 
-                            style={ page.navigate === currentPage.navigate? styles.menuSelectedText : styles.menuText}>
+                            style={ page.title === currentPage.title ? styles.menuSelectedText : styles.menuText}>
                             {page.title}
                         </Text>
                     </TouchableOpacity>

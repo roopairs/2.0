@@ -1,15 +1,13 @@
 import React from 'react';
 import { InputForm, InputFormProps } from 'homepairs-elements';
 import strings from 'homepairs-strings';
-import {
-    AuthPageInjectedProps,
-} from 'homepairs-components';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
 import { isNullOrUndefined, isEmailSyntaxValid, isPasswordValid } from 'homepairs-utilities';
 import { NavigationSwitchProp } from 'react-navigation';
 import {navigationPages, NavigationRouteScreenProps} from 'homepairs-routes';
 import { RouteProps } from 'react-router-dom';
+import {AuthPageInjectedProps} from '../AuthPage/WithAuthPage';
 
 export type RoopairsLoginDispatchProps = {
     onFetchAccount: (

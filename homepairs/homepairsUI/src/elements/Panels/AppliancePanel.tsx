@@ -19,7 +19,7 @@ export type AppliancePanelProps = {
     key?: string;
     appliance: Appliance;
     hasButton: boolean;
-    buttonName: string;
+    buttonName?: string;
     onClick?: (child?: any) => any;
 };
 
@@ -194,6 +194,7 @@ export default class AppliancePanel extends React.Component<Props, AppliancePane
     renderBody() {
         const { appliance } = this.props;
         const { manufacturer, modelNum, serialNum, location } = appliance;
+        console.log(appliance);
         return (
             <View style={this.styles.body} onLayout={this.setMaxHeight}>
                 <View style={this.styles.infoRowContainer}>

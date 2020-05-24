@@ -1,21 +1,19 @@
 import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
-import {
-    withSceneHeader,
-} from 'homepairs-components';
 import { HeaderActions, PropertyListActions} from 'homepairs-redux-actions';
-import { navigationPages, prepareNavigationHandlerComponent, HOME_INDEX} from 'homepairs-routes';
+import { navigationPages, prepareNavigationHandlerComponent} from 'homepairs-routes';
 import { 
     PropertiesScreenBase,
     PropertiesScreenStateProps,
     PropertiesScreenDispatchProps,
 } from './PropertiesScreenBase';
 import withHeaderUpdate from '../../withHeaderUpdate';
+import {withSceneHeader} from '../../SceneHeader/WithSceneHeader';
+
 
 const sceneParams: MainAppStackType = {
     title: 'Properties',
     navigate: 'AccountProperties',
-    key: 'Properties',
     button: 'Add Property',
     onNavButtonClick: (props:any)=> {
         props.navigation.navigate(navigationPages.AddNewPropertyModal, null, true);

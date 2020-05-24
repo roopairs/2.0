@@ -1,18 +1,16 @@
 import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
-import { AccountActions, onGoBack } from 'homepairs-redux-actions';
 import { prepareNavigationHandlerComponent } from 'homepairs-routes';
-import { withSceneHeader } from 'homepairs-components';
 import {
     AccountScreenBase,
     AccountScreenStateProps,
     AccountScreenDispatchProps,
 } from './AccountScreenBase';
+import {withSceneHeader} from '../../SceneHeader/WithSceneHeader';
 
 const sceneParam: MainAppStackType = {
     title: 'Account Settings',
     navigate: 'Account',
-    key: 'AccountSettings',
 };
 
 function mapStateToProps(state: AppState): AccountScreenStateProps {

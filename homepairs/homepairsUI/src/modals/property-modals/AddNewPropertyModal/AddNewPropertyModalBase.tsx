@@ -6,10 +6,9 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, AddNewPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {isPositiveWholeNumber, isEmptyOrSpaces, isNullOrUndefined } from 'homepairs-utilities';
-import { navigationPages, NavigationRouteHandler } from 'homepairs-routes';
+import { navigationPages, NavigationRouteHandler, PROPERTY_LIST } from 'homepairs-routes';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
-
 
 export type AddNewPropertyDispatchProps = {
     onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, 
@@ -238,6 +237,11 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
         this.setState({errorMsg: msg, errorCheck: true});
     }
 
+    goBackToPreviousPage(){
+        const {navigation} = this.props;
+        navigation.resolveModalReplaceNavigation(PROPERTY_LIST);
+    }
+
     clickSubmitButton() {
         const {address, tenants, bathrooms, bedrooms} = this.state;
         const {email, navigation, onCreateProperty, roopairsToken} = this.props;
@@ -254,6 +258,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
             const info : AddNewPropertyState = {email, roopairsToken};
             onCreateProperty(newProperty, info, this.setInitialState, 
                 this.displayError, navigation);
+            this.goBackToPreviousPage();
         }
     }
 
@@ -341,7 +346,6 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
     }
 
     render() {
-        const {navigation} = this.props;
         const showCloseButton = true;
         return(
             <View style={this.inputFormStyle.modalContainer}>
@@ -353,7 +357,7 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
                     showCloseButton={showCloseButton}
                     title={addPropertyStrings.title} 
                     closeButtonPressedCallBack={() => { 
-                        navigation.navigate(navigationPages.PropertiesScreen);
+                        this.goBackToPreviousPage();
                         this.setInitialState();
                         this.resetForms();
                     }} 

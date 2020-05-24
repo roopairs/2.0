@@ -72,7 +72,6 @@ const navigationConfiguration = {
 };
 
 
-// TODO: Render navigation header for andriod devices!!!
 const navigationHeader = () => ({
     header: () => {
         return Platform.OS === 'ios' ? (

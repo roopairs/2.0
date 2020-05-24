@@ -1,14 +1,13 @@
 import { AppState, MainAppStackType } from 'homepairs-types';
 import { updateSelectedPage, storePropertyApplianceAndTenants} from 'homepairs-redux-actions';
 import { connect } from 'react-redux';
-import { prepareNavigationHandlerComponent, PROPERTY, NOMAP_INDEX } from 'homepairs-routes';
+import { prepareNavigationHandlerComponent, PROPERTY} from 'homepairs-routes';
 import { fetchPropertyAppliancesAndTenants } from 'homepairs-endpoints';
 import {
     DetailedPropertyScreenBase,
     DetailedPropertyStateProps,
     DetailedPropertyScreenDispatchProps,
 } from './DetailedPropertyScreenBase';
-import withHeaderUpdate from '../../withHeaderUpdate';
 
 function mapStateToProps(state: AppState): DetailedPropertyStateProps {
     const {properties} = state;
@@ -26,7 +25,6 @@ const mapDispatchToProps: (dispatch:any) => DetailedPropertyScreenDispatchProps 
       const selected: MainAppStackType = {
           title: 'Detailed Property',
           navigate: PROPERTY,
-          key: 'My Properties',
       };
       dispatch(updateSelectedPage(selected));
     },
@@ -43,4 +41,4 @@ const DetailedPropertyScreen = connect(
     mapStateToProps,
     mapDispatchToProps,
 )(DetailedPropertyScreenBase);
-export default withHeaderUpdate(prepareNavigationHandlerComponent(DetailedPropertyScreen), NOMAP_INDEX);
+export default prepareNavigationHandlerComponent(DetailedPropertyScreen);

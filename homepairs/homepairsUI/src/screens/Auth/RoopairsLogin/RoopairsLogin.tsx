@@ -1,8 +1,4 @@
 import { connect } from 'react-redux';
-import {
-    withAuthPage,
-    AuthPassProps,
-} from 'homepairs-components';
 import strings from 'homepairs-strings';
 import HomePairColors from 'homepairs-colors';
 import { Image, Text, View, Platform } from 'react-native';
@@ -13,7 +9,10 @@ import { withRouter } from 'react-router-dom';
 import { fetchAccount } from 'homepairs-endpoints';
 import { withNavigationRouteHandler } from 'homepairs-routes';
 import { RoopairsLoginBase, RoopairsLoginDispatchProps } from './RoopairsLoginBase';
-
+import {
+    AuthPassProps,
+    withAuthPage,
+} from '../AuthPage/WithAuthPage';
 
 const roopairsSubtitle = (
     <View style={{ flexDirection: 'row' }}>

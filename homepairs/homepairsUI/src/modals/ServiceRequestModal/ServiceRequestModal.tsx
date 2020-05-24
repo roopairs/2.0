@@ -1,17 +1,24 @@
 import React from "react";
 import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions, Text } from 'react-native';
-import { ThinButtonProps, Card, AppliancePanel } from 'homepairs-elements';
+import { ThinButtonProps, Card, AppliancePanel, ThinButton } from 'homepairs-elements';
 import strings from 'homepairs-strings';
+import { connect } from 'react-redux';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairsDimensions} from 'homepairs-types';
+import { HomePairsDimensions, AccountTypes, AppState, ServiceRequestStatusEnums} from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {FontTheme} from 'homepairs-base-styles';
 import { HomePairFonts } from 'homepairs-fonts';
 import { categoryToString, isNullOrUndefined} from 'homepairs-utilities';
+import {changeServiceRequestStatus} from 'homepairs-endpoints';
 import {prepareNavigationHandlerComponent, NavigationRouteScreenProps} from 'homepairs-routes';
 import Moment from 'moment';
 
-type Props = NavigationRouteScreenProps;
+
+type ServiceRequestModalProps = {
+    isPm: AccountTypes,
+}
+
+type Props = NavigationRouteScreenProps & ServiceRequestModalProps;
 
 const serviceRequestStrings = strings.serviceRequestModal;
 
@@ -105,6 +112,10 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             fontSize: BaseStyles.FontTheme.reg + 2, 
             fontFamily: HomePairFonts.nunito_regular, 
         },
+        buttonsContainer: {
+            width: '100%',
+            flexDirection: 'row',
+        },
     });
 }
 
@@ -128,21 +139,47 @@ export class ServiceRequestModalBase extends React.Component<Props> {
 
     serviceRequest;
 
-    submitButton : ThinButtonProps = {
-        name: '', 
-        onClick: () => {}, 
+    acceptButton : ThinButtonProps = {
+        name: 'Accept',
         buttonStyle: {
+            alignSelf: 'center',
             alignItems: 'center',
             backgroundColor: Colors.LightModeColors.transparent,
             padding: BaseStyles.MarginPadding.mediumConst,
-            maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
-            minWidth: HomePairsDimensions.MIN_BUTTON_WIDTH,
+            paddingHorizontal: '35%',
             borderRadius: BaseStyles.BorderRadius.large,
             borderWidth: 1,
-            borderColor: Colors.LightModeColors.blueButton,
+            borderColor: Colors.LightModeColors.roopairs,
         },
         buttonTextStyle: {
-            color: Colors.LightModeColors.blueButtonText, 
+            color: Colors.LightModeColors.roopairs, 
+            fontSize: BaseStyles.FontTheme.reg,
+            alignSelf: 'center',
+        },
+        containerStyle: {
+            flex: 1,
+            alignSelf: 'center',
+            justifyContent: 'center',
+            marginTop: BaseStyles.MarginPadding.largeConst,
+            marginBottom: BaseStyles.MarginPadding.xlarge,
+            minHeight: 50,
+        },
+    };
+
+    denyButton : ThinButtonProps = {
+        name: 'Deny',
+        buttonStyle: {
+            alignSelf: 'center',
+            alignItems: 'center',
+            backgroundColor: Colors.LightModeColors.transparent,
+            padding: BaseStyles.MarginPadding.mediumConst,
+            paddingHorizontal: '35%',
+            borderRadius: BaseStyles.BorderRadius.large,
+            borderWidth: 1,
+            borderColor: BaseStyles.LightColorTheme.red,
+        },
+        buttonTextStyle: {
+            color: BaseStyles.LightColorTheme.red, 
             fontSize: BaseStyles.FontTheme.reg,
             alignSelf: 'center',
         },
@@ -164,7 +201,9 @@ export class ServiceRequestModalBase extends React.Component<Props> {
     }
 
     renderBody() {
+        const {isPm, navigation} = this.props;
         const date = Moment(this.serviceRequest.startDate.toString()).format('LLL');
+        console.log(this.serviceRequest.appliance);
         return (
             <View>
                 <View style={this.styles.subContainer}>
@@ -198,8 +237,30 @@ export class ServiceRequestModalBase extends React.Component<Props> {
                 </View>
                 <View style={this.styles.subContainer}>
                     <Text style={this.styles.formTitle}>{serviceRequestStrings.appliance}</Text>
-                    <AppliancePanel hasButton={false} appliance={this.serviceRequest.appliance} />
+                    {this.serviceRequest.appliance.appName ? <AppliancePanel hasButton={false} appliance={this.serviceRequest.appliance} /> : <Text style={this.styles.detailText}>Not Appliance Selected</Text>}
                 </View>
+                {isPm === AccountTypes.PropertyManager && this.serviceRequest.status === ServiceRequestStatusEnums.Pending ?
+                    <View style={this.styles.buttonsContainer}>
+                        <ThinButton
+                            name={this.acceptButton.name}
+                            onClick={() => {
+                                changeServiceRequestStatus('Scheduled', this.serviceRequest.reqId, navigation);
+                            }}
+                            buttonStyle={this.acceptButton.buttonStyle}
+                            buttonTextStyle={this.acceptButton.buttonTextStyle}
+                            containerStyle={this.acceptButton.containerStyle}
+                        />
+                        <ThinButton
+                            name={this.denyButton.name}
+                            onClick={() => {
+                                changeServiceRequestStatus('Declined', this.serviceRequest.reqId, navigation);
+                            }}
+                            buttonStyle={this.denyButton.buttonStyle}
+                            buttonTextStyle={this.denyButton.buttonTextStyle}
+                            containerStyle={this.denyButton.containerStyle}
+                        />
+                    </View> : <></>
+                }
             </View>            
         );
     }
@@ -229,4 +290,12 @@ export class ServiceRequestModalBase extends React.Component<Props> {
     }
 }
 
-export default prepareNavigationHandlerComponent(ServiceRequestModalBase);
+function mapStateToProps(state: AppState) : ServiceRequestModalProps {
+    return {
+        isPm: state.accountProfile.accountType,
+    };
+}
+
+const ServiceRequestModal = connect(mapStateToProps, null)(ServiceRequestModalBase);
+
+export default prepareNavigationHandlerComponent(ServiceRequestModal);

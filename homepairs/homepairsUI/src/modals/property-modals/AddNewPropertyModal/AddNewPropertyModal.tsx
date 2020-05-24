@@ -1,14 +1,14 @@
 import { connect } from "react-redux";
 import { Property, AppState, AddNewPropertyState } from 'homepairs-types';
-import { prepareNavigationHandlerComponent, NavigationRouteHandler } from 'homepairs-routes';
+import { prepareNavigationHandlerComponent } from 'homepairs-routes';
 import { postNewProperty } from 'homepairs-endpoints';
 import  AddNewPropertyModalBase, { AddNewPropertyDispatchProps} from './AddNewPropertyModalBase';
 
 const mapDispatchToProps : (dispatch: any) => AddNewPropertyDispatchProps = (dispatch: any) => ({
     onCreateProperty: (newProperty: Property, info: AddNewPropertyState, setInitialState: () => void, 
-         displayError: (msg: string) => void, navigation: NavigationRouteHandler) => 
+         displayError: (msg: string) => void) => 
     {
-        dispatch(postNewProperty(newProperty, info, setInitialState, displayError, navigation));
+        dispatch(postNewProperty(newProperty, info, setInitialState, displayError));
     },
 });
 

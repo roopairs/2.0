@@ -1,17 +1,13 @@
 import { connect } from "react-redux";
-import {
-  withAuthPage,
-  AuthPassProps,
-} from "homepairs-components";
 import strings from "homepairs-strings";
 import HomePairColors from "res/colors";
-import { withNavigation } from "react-navigation";
-import { withRouter } from "react-router-dom";
-import { Platform } from "react-native";
 import { fetchAccount } from 'homepairs-endpoints';
 import {NavigationRouteHandler, prepareNavigationHandlerComponent } from 'homepairs-routes';
 import { LoginScreenBase, LoginViewDispatchProps } from "./LoginScreenBase";
-
+import {
+  AuthPassProps,
+  withAuthPage,
+} from '../AuthPage/WithAuthPage';
 
 const signInStrings = strings.signInPage;
 const authPageParam: AuthPassProps = {

@@ -23,11 +23,18 @@ import styles from './styles';
 
 const backSymbol = '<';
 const { DROP_MENU_WIDTH } = HomePairsDimensions;
+
+/**
+ * These are a list of all pages the define a root of a stack navigation
+ * Users in mobile should not be able to navigate backwards from these 
+ * pages. However, web should permit these pages.
+ */
 const HeaderNavigators: string[] = [
     navigationPages.PropertiesScreen,
     navigationPages.ServiceRequestScreen,
     navigationPages.AccountSettings,
     navigationPages.LoginScreen,
+    navigationPages.TenantProperty,
 ];
 
 export type HomePairsHeaderStateProps = {
@@ -143,12 +150,16 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
 
     showBackButton() {
         const { header } = this.props;
-        const showBackButton = ! (header.currentPage != null && HeaderNavigators.includes(header.currentPage.navigate));
+        const showBackButton = !(header.currentPage != null && HeaderNavigators.includes(header.currentPage.navigate));
+        
+        // If header is not dropdown and is on a web platform, do not show the back button.
         if (!header.isDropDown && Platform.OS === 'web'){
             return <></>;
         } 
 
-        return (showBackButton) ? (
+        // If on mobile, show the back button when the showBackButton is set. Otherwise, we are at a drop down menu on web
+        // which implies a mobile view on web. Always render the back button in this case.
+        return (showBackButton || Platform.OS === 'web') ? (
             <TouchableOpacity 
                 testID='homepairs-header-go-back'
                 onPress={this.goBack} 

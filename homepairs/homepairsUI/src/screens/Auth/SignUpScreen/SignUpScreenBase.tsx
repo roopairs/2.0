@@ -1,9 +1,5 @@
 import React from 'react';
 import { InputForm, LoginButton, GoogleInputForm} from 'homepairs-elements';
-import {
-    AccountTypeRadioButton,
-    AuthPageInjectedProps,
-} from 'homepairs-components';
 import strings from 'homepairs-strings';
 import { AccountTypes, Account, HomePairsDimensions } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -12,6 +8,10 @@ import {isPasswordValid, isEmailSyntaxValid,
     isAlphaCharacterOnly, isEmptyOrSpaces } from 'homepairs-utilities';
 import { navigationPages, NavigationRouteHandler, NavigationRouteScreenProps } from 'homepairs-routes';
 import {Divider} from 'react-native-elements';
+import {HelperText} from 'react-native-paper';
+import {AuthPageInjectedProps} from '../AuthPage/WithAuthPage';
+import AccountTypeRadioButton  from './AccounttypeRadioButton/AccountTypeRadioButton';
+
 
 export type SignUpViewDispatchProps = {
     generateHomePairsAccount: (
@@ -19,6 +19,7 @@ export type SignUpViewDispatchProps = {
         password: String,
         modalSetOff: () => any,
         navigation: NavigationRouteHandler,
+        displayError: (msg: string) => any
     ) => any;
 };
 
@@ -35,6 +36,8 @@ type SignUpState = {
     address: string;
     password: string;
     cPassword: string;
+    errorCheck: boolean;
+    errorMsg: string;
 };
 
 const baseState = {
@@ -44,8 +47,11 @@ const baseState = {
     address: '',
     password: '',
     cPassword: '',
+    errorCheck: false, 
+    errorMsg: '',
 };
 const {width} = Dimensions.get('window');
+
 const initalState : SignUpState = {
     accountType: AccountTypes.Tenant,
     ...baseState,
@@ -92,6 +98,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: BaseStyles.BorderRadius.small,
         paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
+    },
+    errorStyle: {
+        fontFamily: BaseStyles.FontTheme.secondary, 
+        fontSize: 16,
     },
 });
 
@@ -184,7 +194,7 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
         if (this.validateForms()) {
             navigation.navigate(navigationPages.CreatingAccountModal, null, true);
             const details: Account = { ...this.state, roopairsToken: '' };
-            generateHomePairsAccount(details, password, this.setModalOff, navigation);     
+            generateHomePairsAccount(details, password, this.setModalOff, navigation, this.displayError);     
         }
     };
 
@@ -192,6 +202,10 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
         const { navigation } = this.props;
         navigation.navigate(navigationPages.RoopairsLogin);
     };
+
+    displayError(msg: string) {
+        this.setState({errorMsg: msg});
+    }
 
     validateForms() {
         const {firstName, lastName, password, cPassword, email, address, accountType} = this.state;
@@ -237,6 +251,18 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
 
     resetState() {
         this.setState(baseState);
+    }
+
+    renderError () {
+        const {errorMsg, errorCheck} = this.state;
+        return <View style={{alignSelf:'center'}}>
+            <HelperText 
+                type='error' 
+                visible={errorCheck} 
+                style={styles.errorStyle}>
+                    {errorMsg}
+            </HelperText>
+        </View>;
     }
 
     renderInputForms() {
@@ -363,6 +389,7 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
                 {this.renderRoopairsLoginButton()}
                 {this.renderAddressForm()}
                 {this.renderInputForms()}
+                {this.renderError()}
             </>
         );
     }

@@ -1,15 +1,16 @@
 import React from 'react';
 import { PropertyListState, HeaderState, Property, PropertyDict } from 'homepairs-types';
 import { navigationPages } from 'homepairs-routes';
-import { ViewPropertyCard, SceneInjectedProps } from 'homepairs-components';
-import { View, Platform, FlatList, AsyncStorage} from 'react-native';
+import { SceneInjectedProps } from 'homepairs-components';
+import { Platform, FlatList} from 'react-native';
+import ViewPropertyCard from './ViewPropertyCard/ViewPropertyCard';
+
 
 export type PropertiesScreenStateProps = {
     propertyState: PropertyListState;
     header: HeaderState;
     apiKey: string,
 };
-
 export type PropertiesScreenDispatchProps = {
     onRevealGoBack: (showGoBack: boolean) => any;
 

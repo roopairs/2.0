@@ -1,7 +1,7 @@
 import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
-import { updateSelectedPage } from 'homepairs-redux-actions'
-import { withSceneHeader, withPreferredProviderFlatList } from 'homepairs-components';
+import { updateSelectedPage } from 'homepairs-redux-actions';
+import { withPreferredProviderFlatList } from 'homepairs-components';
 import strings from 'homepairs-strings';
 import { convertObjectValuesToArray } from 'homepairs-utilities';
 import { prepareNavigationHandlerComponent, navigationPages} from 'homepairs-routes';
@@ -13,6 +13,7 @@ import {
 } from './ServiceRequestScreenBase';
 import withHeaderUpdate from '../../withHeaderUpdate';
 import { SERVICE_INDEX } from '../../../../routes/RouteConstants.web';
+import {withSceneHeader} from '../../SceneHeader/WithSceneHeader';
 
 const serviceRequestStrings = strings.serviceRequestPage;
 const sceneParam: MainAppStackType = {

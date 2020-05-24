@@ -1,7 +1,6 @@
 import React from 'react';
 import { InputForm } from 'homepairs-elements';
 import strings from 'homepairs-strings';
-import {AuthPageInjectedProps} from 'homepairs-components';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet} from 'react-native';
 import { isEmailSyntaxValid, isPasswordValid } from 'homepairs-utilities';
@@ -10,6 +9,7 @@ import {
     NavigationRouteScreenProps,
     navigationPages,
 } from 'homepairs-routes';
+import {AuthPageInjectedProps} from '../AuthPage/WithAuthPage';
 
 export type LoginViewDispatchProps = {
     onFetchAccount: (

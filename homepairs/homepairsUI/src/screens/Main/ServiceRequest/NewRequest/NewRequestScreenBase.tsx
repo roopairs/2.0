@@ -1,5 +1,5 @@
 import React, {Component} from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider, MainAppStackType, AccountTypes } from 'homepairs-types';
+import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider, AccountTypes } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'homepairs-utilities';
@@ -240,7 +240,6 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
             await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`).then((result) =>{
                 const {appliances} = result.data;
                 const applianceInfo: Appliance[] = [];
-
                 appliances.forEach(appliance => {
                     const {appId, category, name, manufacturer, modelNum, serialNum, location} = appliance;
 
@@ -260,6 +259,8 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
             await axios.get(`${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${pmId}/`).then((result) =>{
                 const {providers} = result.data;
                 const providerInfo: ServiceProvider[] = [];
+                console.log(result);
+
                 providers.forEach(provider => {
                     const { provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo } = provider;
                     providerInfo.push({provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo});
@@ -274,9 +275,11 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
 
     async clickSubmitButton() {
         const { serviceCategory, applianceId, providerId, serviceType, details, serviceDate, propId} = this.state;
-        const {navigation, token, onUpdateHeader} = this.props;
+        const {navigation, token, accountType} = this.props;
         this.setState({errorCheck: false});
         if (this.validateForms()) {
+            
+            const pm = accountType === AccountTypes.PropertyManager;
             const newServiceRequest : NewServiceRequest = {
                 token,
                 propId, 
@@ -287,8 +290,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
                 serviceDate: serviceDate.toISOString(), 
                 details,
             };
-            await postNewServiceRequest(newServiceRequest, this.displayError, navigation).catch(error => console.log(error));
-            // onUpdateHeader(MainAppStack[1]);
+            await postNewServiceRequest(newServiceRequest, this.displayError, navigation, pm).catch(error => console.log(error));
         }
     }
 
