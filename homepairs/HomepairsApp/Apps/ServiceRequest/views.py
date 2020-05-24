@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from ..Appliances.models import Appliance
 from ..helperFuncs import postRooTokenAPI
 from ..Properties.models import Property
+from ..Tenants.models import Tenant
 from ..ServiceProvider.models import ServiceProvider
 from .models import ServiceRequest
 
