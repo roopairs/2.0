@@ -74,7 +74,7 @@ def missingError(missingFields):
 class ServiceRequestView(View):
     def post(self, request):
         inData = json.loads(request.body)
-        isPm = inData.get('provId')
+        isPm = inData.get('isPm')
         if isPm:
             required = ['provId', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'token', 'propId', 'appId', 'isPm']
         else:
@@ -99,8 +99,12 @@ class ServiceRequestView(View):
         appList = Appliance.objects.filter(rooAppId=appId)
         if isPm:
             provList = ServiceProvider.objects.filter(id=provId)
+            status = 'Pending'
         else:
             provList = ServiceProvider.objects.all()
+            status = 'WaitingApproval'
+            #ServiceRequest.objects.filter(location__rooId=propId)
+
         if propList.exists():
             prop = propList[0]
             if (appList.exists()):
@@ -132,7 +136,7 @@ class ServiceRequestView(View):
             req = ServiceRequest(serviceCategory=serviceCategory,
                                 serviceCompany=prov,
                                 serviceType=str(typeNum),
-                                status='Pending',
+                                status=status,
                                 client=str(prop.pm),
                                 serviceDate=serviceDate,
                                 details=details,
