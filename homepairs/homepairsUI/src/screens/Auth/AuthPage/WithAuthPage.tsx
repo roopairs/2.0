@@ -8,7 +8,7 @@ import {
     StatusBar,
     Dimensions,
 } from 'react-native';
-import {Card, ThinButton} from 'homepairs-elements';
+import {Card, ThinButton} from 'src/elements';
 import strings from 'homepairs-strings';
 import { HomePairFonts } from 'homepairs-fonts';
 import { HomePairsDimensions } from 'homepairs-types';

@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, Text, Platform } from 'react-native';
 import { ApplianceType } from 'homepairs-types';
-import { ButtonWithBitmap } from 'homepairs-elements';
+import { ButtonWithBitmap } from 'src/elements';
 import {bolt, fan, tint, blender} from 'homepairs-images';
 import * as BaseStyles from 'homepairs-base-styles';
-import { categoryToString } from 'homepairs-utilities';
+import { categoryToString } from 'src/utility';
 
 const styles = StyleSheet.create({
     container: {

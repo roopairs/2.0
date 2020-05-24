@@ -5,7 +5,7 @@ import {
     CurrentTenantCard,
     ApplianceInfo as ApplianceInfoBase,
     ServiceRequestCount,
-} from 'homepairs-components';
+} from 'src/components';
 import { Provider } from 'react-redux';
 import { fireEvent, render} from 'react-native-testing-library';
 import { prepareNavigationMock, mockRoute, propertyManagerMock1 } from 'homepairs-test';
@@ -14,7 +14,7 @@ import { navigationPages, Endpoints } from 'homepairs-routes';
 import {BrowserRouter as Router} from 'react-router-dom';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
-import { ThinButton } from 'homepairs-elements';
+import { ThinButton } from 'src/elements';
 import { SetSelectedPropertyAction, ShowGoBackOnButtonClick, TenantInfo, Appliance, ApplianceType } from 'homepairs-types';
 import { DetailedPropertyScreenBase } from './DetailedPropertyScreenBase';
 import DetailedPropertyScreen from './DetailedPropertyScreen';

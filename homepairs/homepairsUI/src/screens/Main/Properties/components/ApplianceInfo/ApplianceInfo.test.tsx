@@ -3,7 +3,7 @@
  * @jest-environment jsdom
  */
 
-import { ThinButton } from 'homepairs-elements';
+import { ThinButton } from 'src/elements';
 import {Appliance, ApplianceType} from 'homepairs-types';
 import { shallow } from 'enzyme';
 import * as React from 'react';

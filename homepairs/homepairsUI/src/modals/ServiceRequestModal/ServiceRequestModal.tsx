@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions, Text } from 'react-native';
-import { ThinButtonProps, Card, AppliancePanel, ThinButton } from 'homepairs-elements';
+import { ThinButtonProps, Card, AppliancePanel, ThinButton } from 'src/elements';
 import strings from 'homepairs-strings';
 import { connect } from 'react-redux';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -8,7 +8,7 @@ import { HomePairsDimensions, AccountTypes, AppState, ServiceRequestStatusEnums}
 import Colors from 'homepairs-colors';
 import {FontTheme} from 'homepairs-base-styles';
 import { HomePairFonts } from 'homepairs-fonts';
-import { categoryToString, isNullOrUndefined} from 'homepairs-utilities';
+import { categoryToString, isNullOrUndefined} from 'src/utility';
 import {changeServiceRequestStatus} from 'homepairs-endpoints';
 import {prepareNavigationHandlerComponent, NavigationRouteScreenProps} from 'homepairs-routes';
 import Moment from 'moment';

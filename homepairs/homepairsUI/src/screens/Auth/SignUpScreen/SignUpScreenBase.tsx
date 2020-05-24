@@ -1,11 +1,11 @@
 import React from 'react';
-import { InputForm, LoginButton, GoogleInputForm} from 'homepairs-elements';
+import { InputForm, LoginButton, GoogleInputForm} from 'src/elements';
 import strings from 'homepairs-strings';
 import { AccountTypes, Account, HomePairsDimensions } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import {isPasswordValid, isEmailSyntaxValid, 
-    isAlphaCharacterOnly, isEmptyOrSpaces } from 'homepairs-utilities';
+    isAlphaCharacterOnly, isEmptyOrSpaces } from 'src/utility';
 import { navigationPages, NavigationRouteHandler, NavigationRouteScreenProps } from 'homepairs-routes';
 import {Divider} from 'react-native-elements';
 import {HelperText} from 'react-native-paper';

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { HomePairsDimensions, TenantInfo } from 'homepairs-types';
-import { Card, ThinButton } from 'homepairs-elements';
+import { TenantInfo } from 'homepairs-types';
+import { Card, ThinButton } from 'src/elements';
 import { isNullOrUndefined } from 'homepairs-utilities';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
-import { navigationPages } from 'homepairs-routes';
+import { navigationPages, NavigationRouteHandler } from 'homepairs-routes';
+import styles from './styles';
 
-export type CurrentTenantsCardProps =  {
+export type CurrentTenantCardProps =  {
     /**
      * Used to identify this component during testing
      */
@@ -38,160 +39,12 @@ export type CurrentTenantsCardProps =  {
      */
     hasEdit?: boolean,
 
-    navigation?: any, 
+    /**
+     * The navigation object that takes care of navigating between the application. This takes 
+     * care of both web and native navigation.
+     */
+    navigation?: NavigationRouteHandler, 
 }
-
-const colors = BaseStyles.LightColorTheme;
-const styles = StyleSheet.create({
-    CircleShapeView: {
-        height: 63,
-        width: 63,
-        borderRadius: 63/2,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: BaseStyles.LightColorTheme.transparent,
-        borderColor: BaseStyles.LightColorTheme.gray,
-        borderWidth:1.4,
-    },
-    initialsContainer: {
-        flex: 1.5,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    tenantContact: {
-        flex: 4,
-        paddingVertical: BaseStyles.MarginPadding.mediumConst,
-        paddingHorizontal: BaseStyles.MarginPadding.largeConst,
-        alignItems: 'flex-start',
-    },
-    buttonContainer: {
-        flex: 1.5,
-        alignItems: 'center',
-        paddingVertical: BaseStyles.MarginPadding.largeConst,
-        paddingHorizontal: BaseStyles.MarginPadding.smallConst,
-    },
-    tenantInfoContainer: {
-        flex:1,
-        flexDirection: 'row',
-        marginVertical: BaseStyles.MarginPadding.mediumConst,
-    },
-    container: {
-        backgroundColor: colors.secondary,
-        marginHorizontal: BaseStyles.MarginPadding.large,
-        marginTop: BaseStyles.MarginPadding.largeConst,
-        borderRadius: BaseStyles.BorderRadius.large,
-        borderBottomColor: colors.veryLightGray,
-        borderBottomWidth: 1,
-        padding: BaseStyles.MarginPadding.mediumConst,
-        paddingBottom: BaseStyles.MarginPadding.mediumConst,
-        width: BaseStyles.ContentWidth.thin,
-        alignSelf: 'center',
-        shadowColor: colors.shadow,
-        shadowRadius: 10,
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.25,
-        elevation: 9,
-    },
-    livingSpaceContainer: {
-        flexDirection: 'row',
-        alignContent: 'center',
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'center',
-        width: BaseStyles.ContentWidth.wide,
-        paddingVertical: BaseStyles.MarginPadding.mediumConst,
-    },
-    addressContainer: {
-        borderBottomColor: colors.veryLightGray,
-        borderBottomWidth: 1,
-        paddingBottom: BaseStyles.MarginPadding.mediumConst,
-        marginBottom: BaseStyles.MarginPadding.mediumConst,
-    },
-    streetAddress: {
-        color: colors.tertiary,
-        fontSize: BaseStyles.FontTheme.reg,
-        fontFamily: BaseStyles.FontTheme.secondary,
-    },
-    cityStateText: {
-        color: colors.tertiary,
-        fontSize: BaseStyles.FontTheme.xsmal,
-    },
-    cardTitle: {
-        fontSize: BaseStyles.FontTheme.reg + 2,
-        maxWidth: 450,
-        fontFamily: BaseStyles.FontTheme.secondary,
-    },
-    cardDescription: {
-        fontFamily: BaseStyles.FontTheme.primary,
-        fontSize: BaseStyles.FontTheme.small,
-    },
-    textContainer: {
-        width: BaseStyles.ContentWidth.reg,
-        borderBottomColor: colors.veryLightGray,
-        paddingBottom: BaseStyles.MarginPadding.mediumConst,
-        borderBottomWidth: 1,
-    },
-    detailContainer: {
-        flex: 1,
-        alignSelf: 'center',
-        alignItems: 'center',
-    },
-    detailName: {
-        fontSize: BaseStyles.FontTheme.xsmal,
-        marginBottom: BaseStyles.MarginPadding.mediumConst,
-        color: colors.tertiary,
-    },
-    detail: {
-        color: colors.tertiary,
-        fontSize: BaseStyles.FontTheme.reg + 2,
-        fontFamily: BaseStyles.FontTheme.secondary,
-    },
-    addButton: {
-        alignItems: 'center',
-        backgroundColor: colors.transparent,
-        padding: BaseStyles.MarginPadding.mediumConst,
-        width: HomePairsDimensions.MIN_BUTTON_WIDTH,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: colors.lightGray,
-    },
-    editButton: {
-        alignItems: 'center',
-        backgroundColor: colors.transparent,
-        paddingVertical: BaseStyles.MarginPadding.xsmallConst,
-        width: BaseStyles.ContentWidth.thin,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: colors.lightGray,
-    },
-    addButtonText: {
-        color: colors.lightGray,
-        fontSize: 20,
-    },
-    editButtonText: {
-        color: colors.lightGray,
-        fontSize: 19,
-    },
-    titleContainerStyle: {
-        width: BaseStyles.ContentWidth.wide,
-        borderBottomColor: BaseStyles.LightColorTheme.veryLightGray,
-        paddingVertical: 5,
-        borderBottomWidth: 1,
-        alignSelf: 'center',
-        justifyContent: 'center',
-    },
-    addButtonContainer: {
-        alignSelf: 'center',
-    },
-    emptyText: {
-        color: colors.red,
-        alignSelf: 'center',
-        fontSize: BaseStyles.FontTheme.reg,
-        margin: BaseStyles.MarginPadding.largeConst,
-    },
-    
-});
-
 
 /**
  * ---------------------------------------------------
@@ -203,15 +56,19 @@ const styles = StyleSheet.create({
  * add and edit tenants. The component is intended to recieve NavigationInjectedProps. 
  * To use this components to the fullest of its features, pass in a navigation object or 
  * call withNavigation on this component.  
- * @param {Props} props 
+ * @param {CurrentTenantCardProps} props 
  */
-function CurrentTenantsCard(props: CurrentTenantsCardProps){
+function CurrentTenantCard(props: CurrentTenantCardProps){
     const {navigation, tenants, maxTenants, propId, hasEdit} = props;
     const [error, setError] = useState(null);
     const numTenants = isNullOrUndefined(tenants) ? 0 : tenants.length;
 
+    /**
+     * This method compares the amount of tenants compared to the maximum amount of tenants permitted per property. 
+     * If the total amount of housing capacity has been reached, an error is returned and dipslayed. Otherwise, 
+     * the Add Property Modal Overlay is navigated to with the propId being assigned to the website parameter.
+     */
     function navigateToAddTenantModal(){
-        // TODO: Show error/alert if user invokes this function with maxTenants already reached.
         if(maxTenants <= numTenants){
             setError('This property has reached its maximum amount of tenants. Please remove a tenant if you wish to add another.');
             return;
@@ -230,6 +87,10 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
         );
     }
 
+    /**
+     * Individual rendering for each tenant provided for a specific property.
+     * @param {TenantInfo} tenant - The individual Tenant found in the TenantInfo array 
+     */
     function renderTenantInfo(tenant : TenantInfo){
         const tenantInitals: string = tenant.firstName[0].concat(tenant.lastName[0]).toUpperCase(); 
         return (
@@ -257,6 +118,10 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
         </View>);
     }
 
+    /**
+     * If there is an issue with tenant capacity, then a error is thrown. Although, this should  never
+     * be realistically reached. Otherwise the function will return a list of rendered tenant information.
+     */
     function renderContent(){
         if(numTenants > maxTenants){
             // Should never reach here!!
@@ -264,7 +129,7 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
         }    
         return numTenants === 0 ? (
             <Text style={styles.emptyText}>No tenants have been added</Text>) : 
-        tenants.map((tenant) => {
+        tenants.map((tenant: TenantInfo) => {
             return renderTenantInfo(tenant);
         });
     }
@@ -272,34 +137,37 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
     return (
         <>
             <View style={{paddingBottom: BaseStyles.MarginPadding.largeConst}}>
-            <Card title='Current Tenants' containerStyle={styles.container} titleStyle={styles.cardTitle} titleContainerStyle={styles.titleContainerStyle} >
-                {renderError()}
-                <>{renderContent()}</>
-                <View style={{marginBottom: Platform.OS === 'web' ? undefined: 10}}>
-                {hasEdit ?
-                    <ThinButton 
-                        name='Add Tenant' 
-                        onClick={navigateToAddTenantModal} 
-                        buttonTextStyle={styles.addButtonText} 
-                        buttonStyle={styles.addButton} />
-                    :
-                    <></>
-                }
-                </View>
-            </Card>
+            <Card title='Current Tenants' 
+                containerStyle={styles.container} 
+                titleStyle={styles.cardTitle} 
+                titleContainerStyle={styles.titleContainerStyle} >
+                    {renderError()}
+                    <>{renderContent()}</>
+                    <View style={{marginBottom: Platform.OS === 'web' ? undefined: 10}}>
+                    {hasEdit ?
+                        <ThinButton 
+                            name='Add Tenant' 
+                            onClick={navigateToAddTenantModal} 
+                            buttonTextStyle={styles.addButtonText} 
+                            buttonStyle={styles.addButton} />
+                        :
+                        <></>
+                    }
+                    </View>
+                </Card>
             </View>
         </>
     );
 } 
 
-CurrentTenantsCard.defaultProps = {
+CurrentTenantCard.defaultProps = {
     testID: 'current-tenant-card',
     maxTenants: 100,
     tenants: [],
     hasEdit: true,
 };
 
-export default CurrentTenantsCard;
+export default CurrentTenantCard;
 
 
 

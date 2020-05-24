@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {
     ThinButton,
-} from 'homepairs-elements';
+} from 'src/elements';
 import { defaultProperty } from 'homepairs-images';
 import strings from 'homepairs-strings';
 import { HomePairsDimensions, Property } from 'homepairs-types';

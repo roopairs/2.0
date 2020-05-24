@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, View, Text, Platform} from 'react-native';
-import { ThinButtonProps, Card, ThinButton, ImageTile} from 'homepairs-elements';
+import { ThinButtonProps, Card, ThinButton, ImageTile} from 'src/elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, ServiceProvider, ProviderDictionary  } from 'homepairs-types';

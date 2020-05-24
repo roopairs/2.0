@@ -12,7 +12,7 @@ import {
     DetailedPropertyScreen,
     PropertiesScreen,
     TenantPropertiesScreen,
-} from 'homepairs-pages';
+} from 'src/screens';
 import { Platform, View } from 'react-native';
 import { 
     AddNewPropertyModal, 
@@ -27,7 +27,7 @@ import {
     AddServiceProviderModal,
     PreferredProviderModal,
 } from 'homepairs-modals';
-import { HomePairsHeader } from 'homepairs-components';
+import { HomePairsHeader } from 'src/components';
 import { LightColorTheme } from 'homepairs-base-styles';
 import { navigationKeys, navigationPages } from 'homepairs-routes';
 

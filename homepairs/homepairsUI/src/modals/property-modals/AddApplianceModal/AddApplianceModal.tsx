@@ -1,11 +1,11 @@
 import React from "react";
 import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions, Text } from 'react-native';
-import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm, ApplianceCategoryPanel } from 'homepairs-elements';
+import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm, ApplianceCategoryPanel } from 'src/elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance, AddApplianceState, ApplianceType } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import { isPositiveWholeNumber, isEmptyOrSpaces, isNullOrUndefined } from 'homepairs-utilities';
+import { isPositiveWholeNumber, isEmptyOrSpaces, isNullOrUndefined } from 'src/utility';
 import { HelperText } from 'react-native-paper';
 import { FontTheme } from 'homepairs-base-styles';
 import { navigationPages, NavigationRouteScreenProps, prepareNavigationHandlerComponent } from 'homepairs-routes';

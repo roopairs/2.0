@@ -5,7 +5,7 @@ import {
     ScrollView,
     TouchableOpacity,
 } from 'react-native';
-import { ServiceRequestButton, ServiceRequestAddressPanel, SearchForm } from 'homepairs-elements';
+import { ServiceRequestButton, ServiceRequestAddressPanel, SearchForm } from 'src/elements';
 import {
     ServiceRequest,
     ServiceState,
@@ -21,7 +21,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import strings from 'homepairs-strings';
 import { NavigationRouteScreenProps, navigationPages, MainAppStack } from 'homepairs-routes';
 import { fetchServiceRequests } from 'homepairs-endpoints';
-import { stringToCategory } from 'homepairs-utilities';
+import { stringToCategory } from 'src/utility';
 import styles from './styles';
 import {SceneInjectedProps} from '../../components/index';
 

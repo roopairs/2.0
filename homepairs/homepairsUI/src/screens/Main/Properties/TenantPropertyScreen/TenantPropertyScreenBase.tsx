@@ -7,12 +7,13 @@ import {
     Image,
     StyleSheet,
 } from 'react-native';
-import { GeneralHomeInfo, AddressSticker, PrimaryContactInfo, ServiceRequestCount } from 'homepairs-components';
+import { GeneralHomeInfo, AddressSticker} from 'src/components';
 import { Property, HomePairsDimensions as HomepairsDimensions, Contact } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 import { navigationPages } from 'homepairs-routes';
-import {CurrentTenantCard, WithSinglePropertyDispatchProps, WithSinglePropertyStateProps, ApplianceInfo} from '../components';
+import { CurrentTenantCard, WithSinglePropertyDispatchProps, WithSinglePropertyStateProps, ApplianceInfo, ServiceRequestCount } from '../components';
+import { PrimaryContactInfo } from './PrimaryContactInfo';
 
 /* tenants cannot edit properties */
 const canEditProps = false;

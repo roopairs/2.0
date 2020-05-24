@@ -6,7 +6,7 @@ import {fireEvent, render} from 'react-native-testing-library';
 import { NavigationStackProp } from 'react-navigation-stack';
 import { Provider } from 'react-redux';
 import { MainAppStackType } from 'homepairs-types';
-import { ThinButton } from 'homepairs-elements';
+import { ThinButton } from 'src/elements';
 import { 
     propertyManagerMock1 as store,
     navigationStackSpyFunction, 

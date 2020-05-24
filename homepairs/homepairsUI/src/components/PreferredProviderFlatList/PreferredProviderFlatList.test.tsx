@@ -5,7 +5,7 @@ import {navigationPages} from 'homepairs-routes';
 import { Platform } from 'react-native';
 import { Provider } from 'react-redux';
 import {BrowserRouter as Router} from 'react-router-dom';
-import {TextTile, ImageTile} from 'homepairs-elements';
+import {TextTile, ImageTile} from 'src/elements';
 import PreferredProviderFlatList, {PreferredProviderFlatListBase} from './PreferredProviderFlatList';
 
 

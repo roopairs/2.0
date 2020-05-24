@@ -13,7 +13,7 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
 import { upArrow, downArrow} from 'homepairs-images';
-import ThinButton, { ThinButtonProps } from '../Buttons/ThinButton';
+import { ThinButton, ThinButtonProps } from '../Buttons';
 
 export type AppliancePanelProps = {
     key?: string;
@@ -23,14 +23,12 @@ export type AppliancePanelProps = {
     onClick?: (child?: any) => any;
 };
 
-export type AppliancePanelState = {
+type AppliancePanelState = {
     expanded: boolean;
     animation: Animated.Value;
     minHeight: number;
     maxHeight: number;
 };
-
-type Props = AppliancePanelProps;
 
 const initialState: AppliancePanelState = {
     expanded: false,
@@ -127,7 +125,7 @@ function setStyles() {
     });
 }
 
-export default class AppliancePanel extends React.Component<Props, AppliancePanelState> {
+export default class AppliancePanel extends React.Component<AppliancePanelProps, AppliancePanelState> {
     styles;
 
     icons;
@@ -147,7 +145,7 @@ export default class AppliancePanel extends React.Component<Props, AppliancePane
         },
     };
 
-    constructor(props: Readonly<Props>) {
+    constructor(props: Readonly<AppliancePanelProps>) {
         super(props);
         this.styles = setStyles();
         this.state = {...initialState, animation: new Animated.Value(0)};
@@ -194,7 +192,6 @@ export default class AppliancePanel extends React.Component<Props, AppliancePane
     renderBody() {
         const { appliance } = this.props;
         const { manufacturer, modelNum, serialNum, location } = appliance;
-        console.log(appliance);
         return (
             <View style={this.styles.body} onLayout={this.setMaxHeight}>
                 <View style={this.styles.infoRowContainer}>

@@ -1,6 +1,6 @@
 import React from 'react';
-import {filterList} from 'homepairs-utilities';
-import InputForm, {InputFormProps} from './InputForm';
+import {filterList} from 'src/utility';
+import { InputForm, InputFormProps} from './InputForm';
 
 
 export type SearchFormProps<T> = InputFormProps & {

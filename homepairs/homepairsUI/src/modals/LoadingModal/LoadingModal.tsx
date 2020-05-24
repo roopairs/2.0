@@ -4,7 +4,7 @@ import {
   StatusBar,
   StyleSheet,
 } from "react-native";
-import {Card} from 'homepairs-elements';
+import {Card} from 'src/elements';
 
 export type LoadingModalProps = {
   children?: ReactElement[] | ReactElement;

@@ -80,7 +80,7 @@ const DefaultInputFormStyle = StyleSheet.create({
  *
  * 
  * */
-export default class GoogleInputForm extends React.Component<GoogleInputFormProps, GoogleInputFormState> {
+export class GoogleInputForm extends React.Component<GoogleInputFormProps, GoogleInputFormState> {
 
     static defaultProps: GoogleInputFormProps;
 

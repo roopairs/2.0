@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render } from 'react-native-testing-library';
 import { Property } from 'homepairs-types';
 import strings from 'homepairs-strings';
-import {ThinButton} from 'homepairs-elements';
+import {ThinButton} from 'src/elements';
 import GeneralHomeInfo from './GeneralHomeInfo';
 
 const testProperty: Property = {

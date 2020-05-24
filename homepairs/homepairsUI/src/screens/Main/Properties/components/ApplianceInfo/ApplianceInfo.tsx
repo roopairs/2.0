@@ -1,11 +1,11 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text, View, Platform } from 'react-native';
-import { ThinButtonProps, ThinButton } from 'homepairs-elements';
+import { ThinButtonProps, ThinButton } from 'src/elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
-import { ApplianceCategorizer } from 'homepairs-components';
+import { ApplianceCategorizer } from 'src/components';
 
 export type ApplianceInfoProps = {
     onAddApplianceModal?: () => any,

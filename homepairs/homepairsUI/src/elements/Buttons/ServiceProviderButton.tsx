@@ -13,8 +13,8 @@ import Colors from 'homepairs-colors';
 import { HomePairFonts } from 'homepairs-fonts';
 import { clock } from 'homepairs-images';
 import Moment from 'moment';
-import {categoryToString, isNullOrUndefined} from 'homepairs-utilities';
-import { TextTile, ImageTile } from 'homepairs-elements';
+import {categoryToString, isNullOrUndefined} from 'src/utility';
+import { TextTile, ImageTile } from 'src/elements';
 
 export type ServiceProviderButtonProps = {
     key?: string,

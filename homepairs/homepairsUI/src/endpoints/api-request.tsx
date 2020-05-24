@@ -5,7 +5,7 @@
  */
 import axios from 'axios';
 import {AsyncStorage} from 'react-native';
-import { getAccountType, categoryToString, isNullOrUndefined, stringToCategory } from 'homepairs-utilities';
+import { getAccountType, categoryToString, isNullOrUndefined, stringToCategory } from 'src/utility';
 import { NavigationRouteHandler, ChooseMainPage, navigationPages} from 'homepairs-routes';
 import * as HomePairsStateActions from 'homepairs-redux-actions';
 import { 

@@ -1,11 +1,11 @@
 import React from "react";
 import { ScrollView, View} from 'react-native';
-import { ThinButton, ThinButtonProps, Card, InputForm } from 'homepairs-elements';
+import { ThinButton, ThinButtonProps, Card, InputForm } from 'src/elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions} from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isPhoneNumberValid} from 'homepairs-utilities';
+import {isPhoneNumberValid} from 'src/utility';
 import { navigationPages, NavigationRouteScreenProps, NavigationRouteHandler } from 'homepairs-routes';
 import setInputStyles from './styles';
 

@@ -1,6 +1,6 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text } from 'react-native';
-import { Sticker } from 'homepairs-elements';
+import { Sticker } from 'src/elements';
 import { FontTheme, ContentWidth, MarginPadding } from 'homepairs-base-styles';
 import * as BaseStyles from 'homepairs-base-styles';
 

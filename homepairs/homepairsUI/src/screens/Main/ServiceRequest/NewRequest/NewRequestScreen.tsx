@@ -2,7 +2,7 @@ import { AppState, MainAppStackType, PropertyManagerAccount } from 'homepairs-ty
 import { connect } from 'react-redux';
 import { updateSelectedPage } from 'homepairs-redux-actions';
 import { prepareNavigationHandlerComponent, NEW_SERVICE_REQUEST } from 'homepairs-routes';
-import { convertObjectValuesToArray } from 'homepairs-utilities';
+import { convertObjectValuesToArray } from 'src/utility';
 import { NewServiceRequestBase, NewRequestScreenDispatchProps, NewRequestScreenStateProps } from './NewRequestScreenBase';
 import {withSceneHeader} from '../../components/index';
 

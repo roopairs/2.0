@@ -1,4 +1,4 @@
-import { getAccountType} from 'homepairs-utilities';
+import { getAccountType} from 'src/utility';
 import { 
   FetchUserAccountProfileAction, 
   PropertyManagerAccount, 

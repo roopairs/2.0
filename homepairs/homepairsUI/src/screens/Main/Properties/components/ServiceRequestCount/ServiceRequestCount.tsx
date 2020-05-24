@@ -5,8 +5,8 @@ import strings from 'homepairs-strings';
 import { fetchServiceRequests } from 'homepairs-endpoints';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, ServiceRequestStatusEnums } from 'homepairs-types';
-import { isNullOrUndefined } from 'homepairs-utilities';
-import { ThinButton } from 'homepairs-elements';
+import { isNullOrUndefined } from 'src/utility';
+import { ThinButton } from 'src/elements';
 
 export type ServiceRequestCountProps = {
     /**

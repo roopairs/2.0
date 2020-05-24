@@ -11,7 +11,7 @@ import {
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import Colors from 'homepairs-colors';
-import { ServiceProviderButton, ThinButton, ThinButtonProps } from 'homepairs-elements';
+import { ServiceProviderButton, ThinButton, ThinButtonProps } from 'src/elements';
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({

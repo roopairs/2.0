@@ -1,9 +1,9 @@
 import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { updateSelectedPage } from 'homepairs-redux-actions';
-import { withPreferredProviderFlatList } from 'homepairs-components';
+import { withPreferredProviderFlatList } from 'src/components';
 import strings from 'homepairs-strings';
-import { convertObjectValuesToArray } from 'homepairs-utilities';
+import { convertObjectValuesToArray } from 'src/utility';
 import { prepareNavigationHandlerComponent, navigationPages} from 'homepairs-routes';
 import {
     ServiceRequestScreenBase,

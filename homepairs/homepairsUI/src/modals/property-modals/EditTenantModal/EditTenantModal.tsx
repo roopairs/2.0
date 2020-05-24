@@ -1,9 +1,9 @@
 import React from "react";
 import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions, View } from "react-native";
-import {ThinButton, Card, InputForm, InputFormProps } from 'homepairs-elements';
+import {ThinButton, Card, InputForm, InputFormProps } from 'src/elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, TenantInfo} from 'homepairs-types';
-import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid } from 'homepairs-utilities';
+import { isEmailSyntaxValid, isAlphaCharacterOnly, isPhoneNumberValid } from 'src/utility';
 import {navigationPages, prepareNavigationHandlerComponent, NavigationRouteScreenProps} from 'homepairs-routes';
 import { updateTenant } from "homepairs-endpoints";
 import { DetailedPropertyMutatorDispatchProps, DetailedPropertyMutatorModal } from '../CommonDispatchProps';

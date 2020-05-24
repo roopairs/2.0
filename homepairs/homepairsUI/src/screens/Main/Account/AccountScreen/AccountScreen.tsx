@@ -6,7 +6,7 @@ import {
     AccountScreenStateProps,
     AccountScreenDispatchProps,
 } from './AccountScreenBase';
-import {withSceneHeader} from '../../components/index';
+import {withSceneHeader} from '../../components'; // TODO: Restructor code to prevent going back 2 levels
 
 const sceneParam: MainAppStackType = {
     title: 'Account Settings',

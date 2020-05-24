@@ -6,8 +6,8 @@ import { TouchableOpacity, Platform } from 'react-native';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {
     ViewPropertyCard, 
-    SceneHeader } from 'homepairs-components';
-import { ThinButton }  from 'homepairs-elements';
+    SceneHeader } from 'src/components';
+import { ThinButton }  from 'src/elements';
 import { SetSelectedPropertyAction, ShowGoBackOnButtonClick } from 'homepairs-types';
 import { navigationPages } from 'homepairs-routes';
 import PropertiesScreen from './PropertiesScreen';

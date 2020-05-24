@@ -4,7 +4,7 @@ import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
 import { MainAppStackType, ApplianceType, TenantInfo } from 'homepairs-types';
 import { navigationPages, NavigationRouteHandler, prepareRoute } from 'homepairs-routes';
-import { isNullOrUndefined } from 'homepairs-utilities';
+import { isNullOrUndefined } from 'src/utility';
 
 
 // Object that will hold the parameter state for when getParam is called on a mock navigator (mobile)

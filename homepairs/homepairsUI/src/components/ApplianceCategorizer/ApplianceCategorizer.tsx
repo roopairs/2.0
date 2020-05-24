@@ -1,6 +1,6 @@
 import React from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { StyleSheet, Text, View } from 'react-native';
-import { AppliancePanel } from 'homepairs-elements';
+import { AppliancePanel } from 'src/elements';
 import { HomePairFonts } from 'homepairs-fonts';
 import * as BaseStyles from 'homepairs-base-styles';
 import { Appliance } from 'homepairs-types';

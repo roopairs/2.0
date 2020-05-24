@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, ThinButton } from 'homepairs-elements';
+import { Card, ThinButton } from 'src/elements';
 import { fireEvent, render } from 'react-native-testing-library';
 import  AccountConnectedCard from './AccountConnectedCard';
 import ConnectAccountCard from './ConnectAccountCard';

@@ -10,8 +10,7 @@ import {
 import {
     GeneralHomeInfo,
     AddressSticker,
-    ServiceRequestCount,
-} from 'homepairs-components';
+} from 'src/components';
 import {
     HomePairsDimensions,
     Appliance, 
@@ -19,7 +18,7 @@ import {
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { NavigationRouteScreenProps, navigationPages } from 'homepairs-routes';
-import {CurrentTenantCard, WithSinglePropertyDispatchProps, WithSinglePropertyStateProps, ApplianceInfo} from '../components';
+import {CurrentTenantCard, WithSinglePropertyDispatchProps, WithSinglePropertyStateProps, ApplianceInfo, ServiceRequestCount} from '../components';
 
 
 export type DetailedPropertyProps = NavigationRouteScreenProps 

@@ -7,7 +7,7 @@ import {
 import { Provider } from 'react-redux';
 import { render, fireEvent } from 'react-native-testing-library';
 import { TextInput, Platform, TouchableOpacity } from 'react-native';
-import { ThinButton } from 'homepairs-elements';
+import { ThinButton } from 'src/elements';
 import EditTenantModal, { EditTenantModalBase } from './EditTenantModal';
 
 const mockStore = propertyManagerMock1;

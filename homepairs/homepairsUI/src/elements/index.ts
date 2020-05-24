@@ -21,18 +21,15 @@
  *        please define a Components folder for the topmost parent and define it there. 
  */
 
-export * from './Forms/InputForm';
+export * from './Forms';
 export * from './Panels/AppliancePanel';
 export * from './Panels/ApplianceCategoryPanel';
 export * from './Cards/Card';
 export * from './Stickers/Sticker';
 export * from './Tiles/Tiles';
 export * from './Buttons/index';
-export * from './Forms/SearchForm';
 
 export {default as DatePicker} from './DatePicker/DatePicker';
-export {default as InputForm } from './Forms/InputForm';
-export {default as GoogleInputForm} from './Forms/GoogleInputForm';
 export {default as Card } from './Cards/Card';
 export {default as Sticker} from './Stickers/Sticker';
 export {default as AppliancePanel} from './Panels/AppliancePanel';

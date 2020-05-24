@@ -7,8 +7,7 @@ import {
     PropertiesScreenStateProps,
     PropertiesScreenDispatchProps,
 } from './PropertiesScreenBase';
-import withHeaderUpdate from '../../components/withHeaderUpdate';
-import {withSceneHeader} from '../../components/index';
+import {withSceneHeader, withHeaderUpdate} from '../../components';
 
 
 const sceneParams: MainAppStackType = {

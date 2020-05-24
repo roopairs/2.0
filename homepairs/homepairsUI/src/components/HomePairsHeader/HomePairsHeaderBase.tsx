@@ -14,7 +14,7 @@ import {
     AccountTypes,
 } from 'homepairs-types';
 import { NavigationRouteHandler, navigationPages } from 'homepairs-routes';
-import {isNullOrUndefined} from 'homepairs-utilities';
+import {isNullOrUndefined} from 'src/utility';
 import HamburgerButton from './HamburgerButton/HamburgerButton';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle/HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu/HomePairsHeaderMenu';

@@ -2,7 +2,7 @@
 
 import { shallow} from "enzyme";
 import * as React from "react";
-import {InputForm, Card, GoogleInputForm, ThinButton} from 'homepairs-elements';
+import {InputForm, Card, GoogleInputForm, ThinButton} from 'src/elements';
 import {fireEvent, render} from "react-native-testing-library";
 import {EditPropertyState, Property} from 'homepairs-types';
 import { NavigationStackProp } from 'react-navigation-stack';

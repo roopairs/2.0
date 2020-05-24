@@ -1,11 +1,11 @@
 import React from "react";
 import { ScrollView, StyleSheet, StatusBar, Platform, View, Dimensions } from 'react-native';
-import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm, GoogleInputForm } from 'homepairs-elements';
+import { ThinButton, ThinButtonProps, Card, InputFormProps, InputForm, GoogleInputForm } from 'src/elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, AddNewPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import {isPositiveWholeNumber, isEmptyOrSpaces, isNullOrUndefined } from 'homepairs-utilities';
+import {isPositiveWholeNumber, isEmptyOrSpaces, isNullOrUndefined } from 'src/utility';
 import { navigationPages, NavigationRouteHandler, PROPERTY_LIST } from 'homepairs-routes';
 import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';

@@ -1,12 +1,12 @@
 import React from "react";
 import { ScrollView, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions, View } from "react-native";
-import {ThinButton, ThinButtonProps, Card, InputForm, GoogleInputForm, InputFormProps } from 'homepairs-elements';
+import {ThinButton, ThinButtonProps, Card, InputForm, GoogleInputForm, InputFormProps } from 'src/elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Property, EditPropertyState } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {HelperText} from 'react-native-paper';
-import { isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces } from 'homepairs-utilities';
+import { isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces } from 'src/utility';
 import {navigationPages, NavigationRouteScreenProps, NavigationRouteHandler} from 'homepairs-routes';
 import { createIconSetFromFontello } from "react-native-vector-icons";
 

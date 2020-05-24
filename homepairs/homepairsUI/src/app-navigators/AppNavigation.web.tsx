@@ -12,8 +12,8 @@ import {
   DetailedPropertyScreen,
   PropertiesScreen,
   TenantPropertiesScreen,
-} from 'homepairs-pages';
-import {HomePairsHeader as HPH} from 'homepairs-components';
+} from 'src/screens';
+import {HomePairsHeader} from 'src/components';
 import { CreatingAccountModal, LoggingInModal, AddNewPropertyModal, 
   EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, 
   EditTenantModal, ServiceRequestModal, AddServiceProviderModal, PreferredProviderModal } from 'homepairs-modals';
@@ -27,8 +27,18 @@ import {
 
 
 
-const HomePairsHeader = () => {return (<HPH />);};
-
+export function withNavHeader(NavigableComponent: any){
+  return class PageWithNavHeader extends React.Component{
+    render() {
+      return (<>
+        <HomePairsHeader/>
+        <ScrollView>
+          <NavigableComponent {...this.props} />
+          </ScrollView> 
+        </>)
+      }
+  }
+}
 
 
 /**

@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, StyleSheet, FlatList, TouchableOpacity, Platform} from 'react-native';
-import {ImageTile, TextTile} from 'homepairs-elements';
+import {ImageTile, TextTile} from 'src/elements';
 import { AppState, ProviderDictionary, ServiceProvider, PropertyManagerAccount } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { connect } from 'react-redux';
 import { NavigationRouteScreenProps, NavigationRouteHandler, prepareNavigationHandlerComponent, navigationPages} from 'homepairs-routes';
-import { isNullOrUndefined } from 'homepairs-utilities';
+import { isNullOrUndefined } from 'src/utility';
 
 const {AddServiceProviderModal, PreferredProviderModal} = navigationPages;
 

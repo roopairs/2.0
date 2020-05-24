@@ -1,9 +1,9 @@
 import React from 'react';
-import { InputForm, InputFormProps } from 'homepairs-elements';
+import { InputForm, InputFormProps } from 'src/elements';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { StyleSheet } from 'react-native';
-import { isNullOrUndefined, isEmailSyntaxValid, isPasswordValid } from 'homepairs-utilities';
+import { isNullOrUndefined, isEmailSyntaxValid, isPasswordValid } from 'src/utility';
 import { NavigationSwitchProp } from 'react-navigation';
 import {navigationPages, NavigationRouteScreenProps} from 'homepairs-routes';
 import { RouteProps } from 'react-router-dom';

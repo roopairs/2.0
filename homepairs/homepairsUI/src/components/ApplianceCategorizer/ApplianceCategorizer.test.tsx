@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import {AppliancePanel} from 'homepairs-elements';
+import {AppliancePanel} from 'src/elements';
 import {Appliance, ApplianceType} from 'homepairs-types';
 import { shallow } from 'enzyme';
 import * as React from 'react';

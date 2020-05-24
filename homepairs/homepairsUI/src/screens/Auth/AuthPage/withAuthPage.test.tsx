@@ -5,7 +5,7 @@ import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import {render, fireEvent} from "react-native-testing-library";
 import { testStore1 } from 'homepairs-test';
-import { ThinButton } from 'homepairs-elements';
+import { ThinButton } from 'src/elements';
 import {
   withAuthPage,
   AuthPassProps,

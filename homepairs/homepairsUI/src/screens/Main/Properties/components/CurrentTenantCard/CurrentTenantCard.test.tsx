@@ -2,7 +2,7 @@ import React from 'react';
 import { TenantAccount, AccountTypes } from 'homepairs-types';
 import { fireEvent, render } from 'react-native-testing-library';
 import { prepareNavigationMock } from 'homepairs-test';
-import { ThinButton } from 'homepairs-elements';
+import { ThinButton } from 'src/elements';
 import { navigationPages } from 'homepairs-routes';
 import { TouchableOpacity, Platform } from 'react-native';
 import CurrentTenantCard from './CurrentTenantCard';

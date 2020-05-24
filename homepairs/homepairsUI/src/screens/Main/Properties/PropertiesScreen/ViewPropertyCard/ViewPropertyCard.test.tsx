@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThinButton } from 'homepairs-elements';
+import { ThinButton } from 'src/elements';
 import { mockStackNavigation, PropertyList1  } from 'homepairs-test';
 import { fireEvent, render } from 'react-native-testing-library';
 import { ImageBackground } from 'react-native';

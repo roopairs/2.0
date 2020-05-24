@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {ThinButton, ThinButtonProps} from 'homepairs-elements';
+import {ThinButton, ThinButtonProps} from 'src/elements';
 import {Appliance, ApplianceType} from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import Colors from 'homepairs-colors';
-import {categoryToString} from 'homepairs-utilities';
+import {categoryToString} from 'src/utility';
 import {Divider} from 'react-native-elements';
 import ApplianceCategorizer from '../ApplianceCategorizer/ApplianceCategorizer';
 

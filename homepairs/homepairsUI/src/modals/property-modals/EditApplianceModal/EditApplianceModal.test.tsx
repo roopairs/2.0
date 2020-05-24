@@ -2,7 +2,7 @@
 
 import { shallow} from "enzyme";
 import * as React from "react";
-import {InputForm, Card, ApplianceCategoryPanel, ThinButton} from 'homepairs-elements';
+import {InputForm, Card, ApplianceCategoryPanel, ThinButton} from 'src/elements';
 import {fireEvent, render} from "react-native-testing-library";
 import {Appliance} from 'homepairs-types';
 import { mockStackNavigation, navigationStackSpyFunction} from 'homepairs-test';

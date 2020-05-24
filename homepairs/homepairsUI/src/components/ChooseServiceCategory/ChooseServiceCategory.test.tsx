@@ -2,7 +2,7 @@ import React from 'react';
 import {} from 'react-native';
 import { fireEvent, render } from 'react-native-testing-library';
 import { ApplianceType } from 'homepairs-types';
-import { ButtonWithBitmap } from 'homepairs-elements';
+import { ButtonWithBitmap } from 'src/elements';
 import ChooseServiceCategory from './ChooseServiceCategory';
 
 

@@ -1,10 +1,10 @@
 import React from 'react';
+import strings from 'homepairs-strings';
+import { AccountState } from 'homepairs-types';
 import {
     AccountConnectedCard,
     ConnectAccountCard,
-} from 'homepairs-components';
-import strings from 'homepairs-strings';
-import { AccountState } from 'homepairs-types';
+} from './AuthenticationCards';
 
 const homepairAccountStrings = strings.connectAccountPage;
 
