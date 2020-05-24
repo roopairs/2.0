@@ -107,7 +107,8 @@ class ServiceRequestView(View):
             status = 'WaitingApproval'
             tenId = inData.get('tenId')
             tenant = Tenant.objects.filter(id=tenId)[0]
-            if (not Property.objects.filter(rooId=tenant.place).exists()):
+            # tenPlace = Property.objects.filter(id=tenant.place)[0]
+            if propId != tenant.place.rooId:
                 return JsonResponse(data=returnError(NOT_YOUR_PROPERTY))
 
         if propList.exists():
