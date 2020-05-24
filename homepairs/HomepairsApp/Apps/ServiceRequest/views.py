@@ -37,6 +37,7 @@ SERVREQ_DOESNT_EXIST = 'Service request does not exist.'
 SERVPRO_ALREADY_EXIST = 'Service provider already exists.'
 APPLIANCE_DOESNT_EXIST = 'Appliance does not exist.'
 PROPERTY_DOESNT_EXIST = 'Property does not exist.'
+NOT_YOUR_PROPERTY = 'The property given is not the tenant\'s property'
 NOT_PROP_OWNER = 'You are not the property owner'
 TOKEN = 'token'
 RESIDENTIAL_CODE = 1
@@ -78,7 +79,7 @@ class ServiceRequestView(View):
         if isPm:
             required = ['provId', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'token', 'propId', 'appId', 'isPm']
         else:
-            required = ['serviceCategory', 'serviceType', 'serviceDate', 'details', 'token', 'propId', 'appId', 'isPm']
+            required = ['tenId', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'token', 'propId', 'appId', 'isPm']
         missingFields = checkRequired(required, inData)
 
         url = BASE_URL + 'service-locations/' + '/propId/jobs/'
@@ -103,7 +104,10 @@ class ServiceRequestView(View):
         else:
             provList = ServiceProvider.objects.all()
             status = 'WaitingApproval'
-            #ServiceRequest.objects.filter(location__rooId=propId)
+            tenId = inData.get('tenId')
+            tenant = Tenants.objects.filter(id=propId)[0]
+            if Property.filter(id=tenant.place).length == 0:
+                return JsonResponse(data=returnError(NOT_YOUR_PROPERTY))
 
         if propList.exists():
             prop = propList[0]
