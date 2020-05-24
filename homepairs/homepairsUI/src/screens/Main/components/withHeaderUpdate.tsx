@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { AppState, MainAppStackType, AccountTypes } from 'homepairs-types';
 
 
-type WithHeaderUpdateProps = {
+export type WithHeaderUpdateInjectedProps = {
     /**
      * Method that will update the header when the component is mounted.
      */

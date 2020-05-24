@@ -6,21 +6,19 @@ import {
     ScrollView,
     Image,
     StyleSheet,
-    FlatList,
 } from 'react-native';
 import { GeneralHomeInfo, AddressSticker, PrimaryContactInfo, ServiceRequestCount } from 'homepairs-components';
-import { PropertyListState, Property, HomePairsDimensions as HomepairsDimensions } from 'homepairs-types';
+import { Property, HomePairsDimensions as HomepairsDimensions, Contact } from 'homepairs-types';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 import { navigationPages } from 'homepairs-routes';
+import {CurrentTenantCard, WithSinglePropertyDispatchProps, WithSinglePropertyStateProps, ApplianceInfo} from '../components';
 
 /* tenants cannot edit properties */
 const canEditProps = false;
 
-
-
 export type TenantPropertyStateProps = {
-  propertyState: PropertyListState,
+  propertyManager: Contact,
   apiKey: string,
 }
 
@@ -29,7 +27,11 @@ export type TenantPropertyDispatchProps = {
 }
 
 
-type Props = NavigationStackScreenProps & TenantPropertyStateProps & TenantPropertyDispatchProps;
+type Props = NavigationStackScreenProps 
+& WithSinglePropertyDispatchProps
+& WithSinglePropertyStateProps
+& TenantPropertyStateProps;
+
 const colors = BaseStyles.LightColorTheme;
 
 const styles = StyleSheet.create({
@@ -104,9 +106,8 @@ export class TenantPropertyScreenBase extends React.Component<Props>{
 
     renderProperty(pair: [string, Property]) {
         const [propId, property] = pair;
-        const { address } = property;
-        const {propertyState, navigation, apiKey} = this.props;
-        const {propertyManager} = propertyState;
+        const { address, tenants } = property;
+        const {propertyManager, navigation, apiKey, tenantInfo, applianceInfo} = this.props;
         return (
             <ScrollView 
                 contentContainerStyle={{}}
@@ -125,6 +126,15 @@ export class TenantPropertyScreenBase extends React.Component<Props>{
                     </View>
                     <GeneralHomeInfo property={property} hasEdit={canEditProps} />
                     <PrimaryContactInfo propertyManager={propertyManager} />
+                    <ApplianceInfo 
+                        appliances={applianceInfo} 
+                        propId={propId}
+                        hasEdit={false}/>
+                    <CurrentTenantCard 
+                        propId={propId}
+                        tenants={tenantInfo}
+                        navigation={navigation}
+                        hasEdit={false}/>
                     <ServiceRequestCount 
                         onClick={() => navigation.navigate(navigationPages.ServiceRequestScreen)}
                         propId={propId}
@@ -134,35 +144,22 @@ export class TenantPropertyScreenBase extends React.Component<Props>{
         );
     }
 
-    renderContents() {
-        const {propertyState} = this.props;
-        const {properties} = propertyState;
-        return (
-            <FlatList
-                initialNumToRender={1}
-                style={{ flex: 1, marginTop: 5, marginBottom: 5 }}
-                contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignContent: 'center' }}
-                data={Object.entries(properties)}
-                renderItem={({ item }) => this.renderProperty(item)}
-                keyExtractor={(item) => item[0].toString()}
-            />
-
-        );
-    }
-
     render() {
+        const {properties} = this.props;
+        const property = Object.entries(properties)[0];
+
         return (
         !(Platform.OS === 'ios') ?
             (
                 <View style={styles.container}>
                     <View style={styles.pallet}>
-                        {this.renderContents()}
+                        {this.renderProperty(property)}
                     </View>
                 </View>
             ) : (
                 <View style={styles.container}>
                     <SafeAreaView style={styles.pallet}>
-                        {this.renderContents()}
+                        {this.renderProperty(property)}
                     </SafeAreaView>
                 </View>
             ));

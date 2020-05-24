@@ -4,7 +4,7 @@ import { updateSelectedPage } from 'homepairs-redux-actions';
 import { prepareNavigationHandlerComponent, NEW_SERVICE_REQUEST } from 'homepairs-routes';
 import { convertObjectValuesToArray } from 'homepairs-utilities';
 import { NewServiceRequestBase, NewRequestScreenDispatchProps, NewRequestScreenStateProps } from './NewRequestScreenBase';
-import {withSceneHeader} from '../../SceneHeader/WithSceneHeader';
+import {withSceneHeader} from '../../components/index';
 
 const sceneParam: MainAppStackType = {
     title: 'New Service Request',

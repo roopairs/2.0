@@ -5,13 +5,14 @@ import { HomePairFonts } from 'homepairs-fonts';
 import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
-import ApplianceCategorizer from './ApplianceCategorizer';
+import { ApplianceCategorizer } from 'homepairs-components';
 
 export type ApplianceInfoProps = {
     onAddApplianceModal?: () => any,
     onEditApplianceModal?: (appliance: Appliance) => any,
     appliances?: Appliance[],
     propId: string,
+    hasEdit? : boolean,
 }
 
 type Props = ApplianceInfoProps;
@@ -82,6 +83,7 @@ export default function ApplianceInfo(props: Props) {
         appliances,
         onAddApplianceModal,
         onEditApplianceModal,
+        hasEdit,
     } = props;
 
     const styles = setStyles();
@@ -104,16 +106,27 @@ export default function ApplianceInfo(props: Props) {
                 <View style= {styles.details}>
                     <ApplianceCategorizer 
                         onClick={onEditApplianceModal} 
-                        appliances={appliances}/>
+                        appliances={appliances}
+                        hasButton={hasEdit}/>
+                    {hasEdit ?     
                     <ThinButton 
                         testID='add-appliance-button'
                         name={thinButtonProps.name} 
                         buttonStyle={thinButtonProps.buttonStyle} 
                         buttonTextStyle={thinButtonProps.buttonTextStyle} 
                         onClick={thinButtonProps.onClick}/>
+                        :
+                        <></>
+                    }
                 </View>
             </View>
         </View>
     );
 
 }
+
+ApplianceInfo.defaultProps = {
+    hasEdit: true,
+    onAddApplianceModal: () => {},
+    onEditApplianceModal: () => {},
+};

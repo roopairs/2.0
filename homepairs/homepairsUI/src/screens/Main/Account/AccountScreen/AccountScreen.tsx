@@ -6,7 +6,7 @@ import {
     AccountScreenStateProps,
     AccountScreenDispatchProps,
 } from './AccountScreenBase';
-import {withSceneHeader} from '../../SceneHeader/WithSceneHeader';
+import {withSceneHeader} from '../../components/index';
 
 const sceneParam: MainAppStackType = {
     title: 'Account Settings',

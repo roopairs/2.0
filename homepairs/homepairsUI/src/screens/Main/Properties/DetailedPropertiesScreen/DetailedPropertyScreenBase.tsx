@@ -10,36 +10,21 @@ import {
 import {
     GeneralHomeInfo,
     AddressSticker,
-    CurrentTenantCard,
-    ApplianceInfo,
     ServiceRequestCount,
 } from 'homepairs-components';
 import {
-    PropertyDict,
     HomePairsDimensions,
     Appliance, 
-    TenantInfo,
     Property,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { NavigationRouteScreenProps, navigationPages } from 'homepairs-routes';
+import {CurrentTenantCard, WithSinglePropertyDispatchProps, WithSinglePropertyStateProps, ApplianceInfo} from '../components';
 
-export type DetailedPropertyStateProps = {
-    properties: PropertyDict,
-    tenantInfo: TenantInfo[],
-    applianceInfo: Appliance[],
-    token: string,
-    apiKey: string,
-};
-
-export type DetailedPropertyScreenDispatchProps = {
-    onUpdateHeader: () => any
-    setAppliancesAndTenants: (propId: string) => any,
-}
 
 export type DetailedPropertyProps = NavigationRouteScreenProps 
-    & DetailedPropertyStateProps
-    & DetailedPropertyScreenDispatchProps;
+    & WithSinglePropertyDispatchProps
+    & WithSinglePropertyStateProps;
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({

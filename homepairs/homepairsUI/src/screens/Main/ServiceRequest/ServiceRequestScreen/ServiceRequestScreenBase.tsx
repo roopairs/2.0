@@ -23,7 +23,7 @@ import { NavigationRouteScreenProps, navigationPages, MainAppStack } from 'homep
 import { fetchServiceRequests } from 'homepairs-endpoints';
 import { stringToCategory } from 'homepairs-utilities';
 import styles from './styles';
-import {SceneInjectedProps} from '../../SceneHeader/WithSceneHeader';
+import {SceneInjectedProps} from '../../components/index';
 
 export type ServiceRequestScreenStateProps = {
     serviceRequestsState: ServiceState;

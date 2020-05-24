@@ -11,9 +11,9 @@ import {
     ServiceRequestScreenProps,
     ServiceRequestsScreenDispatchProps,
 } from './ServiceRequestScreenBase';
-import withHeaderUpdate from '../../withHeaderUpdate';
+import withHeaderUpdate from '../../components/withHeaderUpdate';
 import { SERVICE_INDEX } from '../../../../routes/RouteConstants.web';
-import {withSceneHeader} from '../../SceneHeader/WithSceneHeader';
+import {withSceneHeader} from '../../components/index';
 
 const serviceRequestStrings = strings.serviceRequestPage;
 const sceneParam: MainAppStackType = {

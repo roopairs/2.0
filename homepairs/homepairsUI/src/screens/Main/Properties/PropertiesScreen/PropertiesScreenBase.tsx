@@ -1,8 +1,8 @@
 import React from 'react';
-import { PropertyListState, HeaderState, Property, PropertyDict } from 'homepairs-types';
+import { PropertyListState, HeaderState, Property} from 'homepairs-types';
 import { navigationPages } from 'homepairs-routes';
-import { SceneInjectedProps } from 'homepairs-components';
 import { Platform, FlatList} from 'react-native';
+import { SceneInjectedProps } from '../../components/index';
 import ViewPropertyCard from './ViewPropertyCard/ViewPropertyCard';
 
 

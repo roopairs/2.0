@@ -6,7 +6,7 @@ import { View, Text, StyleSheet, Platform } from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
 import { navigationPages } from 'homepairs-routes';
 
-type CurrentTenantsCardProps =  {
+export type CurrentTenantsCardProps =  {
     /**
      * Used to identify this component during testing
      */
@@ -30,6 +30,14 @@ type CurrentTenantsCardProps =  {
      * The tenant information passed into this component. Used to present the information.
      */
     tenants?: TenantInfo[],
+
+
+    /**
+     * Renders add and edit buttons if selected. This is intended to be set to false if a tenant 
+     * or guest view of this screen is rendered.
+     */
+    hasEdit?: boolean,
+
     navigation?: any, 
 }
 
@@ -198,7 +206,7 @@ const styles = StyleSheet.create({
  * @param {Props} props 
  */
 function CurrentTenantsCard(props: CurrentTenantsCardProps){
-    const {navigation, tenants, maxTenants, propId} = props;
+    const {navigation, tenants, maxTenants, propId, hasEdit} = props;
     const [error, setError] = useState(null);
     const numTenants = isNullOrUndefined(tenants) ? 0 : tenants.length;
 
@@ -236,7 +244,16 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
                 <Text style={{fontFamily: BaseStyles.FontTheme.tertiary, fontSize: BaseStyles.FontTheme.small, color: BaseStyles.LightColorTheme.lightGray}}>{tenant.email}</Text>
                 <Text style={{fontFamily: BaseStyles.FontTheme.tertiary, fontSize: BaseStyles.FontTheme.small, color: BaseStyles.LightColorTheme.lightGray}}>{tenant.phoneNumber}</Text>
             </View>
-            <ThinButton testID='edit-tenant-button' name='Edit' onClick={() => {navigateToEditTenantModal(tenant);}} buttonStyle={styles.editButton} buttonTextStyle={styles.editButtonText} containerStyle={styles.buttonContainer}/>
+            { hasEdit ? 
+                <ThinButton 
+                testID='edit-tenant-button' 
+                name='Edit' onClick={() => {navigateToEditTenantModal(tenant);}} 
+                buttonStyle={styles.editButton} 
+                buttonTextStyle={styles.editButtonText} 
+                containerStyle={styles.buttonContainer}/>
+                :
+                <></>
+            }
         </View>);
     }
 
@@ -259,11 +276,19 @@ function CurrentTenantsCard(props: CurrentTenantsCardProps){
                 {renderError()}
                 <>{renderContent()}</>
                 <View style={{marginBottom: Platform.OS === 'web' ? undefined: 10}}>
-                <ThinButton name='Add Tenant' onClick={navigateToAddTenantModal} buttonTextStyle={styles.addButtonText} buttonStyle={styles.addButton} />
+                {hasEdit ?
+                    <ThinButton 
+                        name='Add Tenant' 
+                        onClick={navigateToAddTenantModal} 
+                        buttonTextStyle={styles.addButtonText} 
+                        buttonStyle={styles.addButton} />
+                    :
+                    <></>
+                }
                 </View>
             </Card>
             </View>
-            </>
+        </>
     );
 } 
 
@@ -271,6 +296,7 @@ CurrentTenantsCard.defaultProps = {
     testID: 'current-tenant-card',
     maxTenants: 100,
     tenants: [],
+    hasEdit: true,
 };
 
 export default CurrentTenantsCard;

@@ -1,20 +1,21 @@
 import { AppState } from "homepairs-types";
 import { connect } from "react-redux";
-import { prepareNavigationHandlerComponent, MainAppStackTenant as MainAppStack, HOME_INDEX } from 'homepairs-routes';
+import { prepareNavigationHandlerComponent, HOME_INDEX } from 'homepairs-routes';
 import { TenantPropertyScreenBase, TenantPropertyStateProps} from './TenantPropertyScreenBase';
-import withHeaderUpdate from '../../withHeaderUpdate';
+import { withHeaderUpdate } from '../../components';
+import { withSinglePropertyConnect } from "../components";
+
 
 function mapStateToProps(state: AppState) : TenantPropertyStateProps {
     return { 
-      propertyState: state.properties, 
+      propertyManager: state.properties.propertyManager, 
       apiKey: state.settings.apiKey,
     };
 };
-
 
 const TenantPropertyScreen = connect(
   mapStateToProps,
 )(TenantPropertyScreenBase);
 
-export default withHeaderUpdate(prepareNavigationHandlerComponent(TenantPropertyScreen), HOME_INDEX);
+export default withHeaderUpdate(prepareNavigationHandlerComponent(withSinglePropertyConnect(TenantPropertyScreen)), HOME_INDEX);
 
