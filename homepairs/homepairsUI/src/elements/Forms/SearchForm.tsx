@@ -29,7 +29,7 @@ type State = {
      * The input text state is saved into this component since it will be needed for new 
      * new objects are passed into. This can occur during a refresh, or an async fetch 
      * request. The text allows access to the inputform text for filtering as soon as 
-     * an update has occurred.
+     * an update has occured.
      */
     text: string;
 }

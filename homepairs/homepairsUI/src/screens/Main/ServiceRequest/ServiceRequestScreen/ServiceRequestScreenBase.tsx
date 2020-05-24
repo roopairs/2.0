@@ -17,6 +17,7 @@ import {
     ServiceRequestStatusEnums,
     Property,
     MainAppStackType,
+    AccountTypes,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import strings from 'homepairs-strings';
@@ -30,6 +31,7 @@ export type ServiceRequestScreenStateProps = {
     serviceRequestsState: ServiceState;
     header: HeaderState;
     properties: Property[];
+    accountType: AccountTypes;
 };
 
 export type ServiceRequestsScreenDispatchProps = {
@@ -275,10 +277,20 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
 
     }
 
-    componentDidMount(){
+    async componentDidMount(){
+        
+        const {onUpdateHeader, accountType, properties } = this.props;
+
+        // Fetch the service requests if the account Type is a Tenant or if the Account only has one property 
+        if(accountType === AccountTypes.Tenant || properties.length === 1){
+            console.log(properties[0].propId)
+            // await this.callFetchServiceRequests(properties[0].propId);
+            console.log(properties[0].propId)
+
+        }
+
         // When the component is mounted, update the header. This component can be navigated from a different stack so 
         // we need to make sure the header remains updated in the case this happens
-        const {onUpdateHeader} = this.props;
         onUpdateHeader(MainAppStack[1]);
     }
 
@@ -519,12 +531,21 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
     }
 
     renderServiceRequests() {
-        const {properties} = this.props;
+        const {properties, accountType} = this.props;
         const { currentRequestsSelected, requestSelected, serviceRequests } = this.state;
 
         return (
             <>
-                <ServiceRequestAddressPanel properties={properties} parentCallBack={async (propId: string)  => {await this.callFetchServiceRequests(propId);}}/>
+                
+                { // Render the Dropdown menu if the account is a Property Manager
+                  // Otherwise, the state will be set with the tenant property 
+                accountType === AccountTypes.Tenant ? 
+                    <></>
+                    :
+                    <ServiceRequestAddressPanel 
+                        properties={properties} 
+                        parentCallBack={async (propId: string)  => {await this.callFetchServiceRequests(propId);}}/>
+                    }
                 <View style ={{maxWidth: 458, width: '95%', alignSelf: 'center', marginTop: 10} /** TODO: Update these styles so it renders properly on all devices*/}>
                     <SearchForm<ServiceRequest>  
                         objects={serviceRequests} 

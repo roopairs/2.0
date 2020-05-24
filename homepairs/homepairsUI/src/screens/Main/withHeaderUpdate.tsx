@@ -6,6 +6,9 @@ import { AppState, MainAppStackType, AccountTypes } from 'homepairs-types';
 
 
 type WithHeaderUpdateProps = {
+    /**
+     * Method that will update the header when the component is mounted.
+     */
     onUpdateHeader: () => void;
 } & any;
 

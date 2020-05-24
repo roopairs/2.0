@@ -18,7 +18,6 @@ const serviceRequestStrings = strings.serviceRequestPage;
 const sceneParam: MainAppStackType = {
     title: serviceRequestStrings.title,
     navigate: 'ServiceRequest',
-    key: 'ServiceRequest',
     button: serviceRequestStrings.button,
     onNavButtonClick: (props: ServiceRequestScreenProps) => {
         props.navigation.navigate(navigationPages.NewRequest);
@@ -28,8 +27,9 @@ const sceneParam: MainAppStackType = {
 };
 
 function mapStateToProps(state: AppState): ServiceRequestScreenStateProps {
-    const {header, serviceRequests, properties} = state;
+    const {header, serviceRequests, properties, accountProfile} = state;
     return {
+        accountType: accountProfile.accountType,
         serviceRequestsState: serviceRequests,
         header,
         properties: convertObjectValuesToArray(properties.properties),

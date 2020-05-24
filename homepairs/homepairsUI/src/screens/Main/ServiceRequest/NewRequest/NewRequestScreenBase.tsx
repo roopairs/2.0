@@ -77,6 +77,10 @@ const styles = StyleSheet.create({
         fontFamily: BaseStyles.FontTheme.secondary, 
         fontSize: 16,
     },
+    option: {
+        fontSize : BaseStyles.FontTheme.reg,
+        fontFamily: BaseStyles.FontTheme.primary,
+    },
 });
 
 export type NewRequestScreenStateProps = {
@@ -338,7 +342,11 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
         return (
             <ScrollView style={styles.scrollContainer}>
                 <Text style={styles.formTitle}>ADDRESS</Text>
-                {properties.length === 1 || accountType === AccountTypes.Tenant ? <></> :
+                {properties.length === 1 || accountType === AccountTypes.Tenant ? 
+                    <View style={{alignSelf: 'center', width: BaseStyles.ContentWidth.reg}}>
+                        <Text style={styles.option}>{properties[0].address}</Text> 
+                    </View>
+                    :
                     <AddressPanel properties={properties} parentCallBack={this.getFormAddress}/> 
                 }
                 {addressState ? 
