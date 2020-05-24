@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import { BrowserRouter as Router, Route, Redirect, Switch, useLocation, useHistory} from 'react-router-dom';
 import {
   NewRequestScreen,
@@ -26,16 +26,34 @@ import {
 } from 'homepairs-routes';
 
 
+const style = StyleSheet.create({
+  routeContainer: {
+    position: 'absolute', 
+    top: 0, 
+    left: 0, 
+    right: 0, 
+    bottom: 0
+  },
+})
 
+/**
+ * ------------------------------------------------------------
+ * withNavHeader High-Order-Component
+ * ------------------------------------------------------------
+ * A high order component that attaches the HomePairsHeader component to a React 
+ * Component and assigns it into a scroll view. This allows the component to stand 
+ * underneath the fixed header.
+ * @param NavigableComponent 
+ */
 export function withNavHeader(NavigableComponent: any){
   return class PageWithNavHeader extends React.Component{
     render() {
-      return (<>
-        <HomePairsHeader/>
-        <ScrollView>
-          <NavigableComponent {...this.props} />
-          </ScrollView> 
-        </>)
+      return (
+      <View style={{flex:1}}>
+          <HomePairsHeader >
+            <NavigableComponent {...this.props} />
+          </HomePairsHeader>
+        </View>)
       }
   }
 }
@@ -137,59 +155,69 @@ const PreferredProviderReadyModal = withModal(PreferredProviderModal);
 const ServiceRequestInfoReadyModal = withModal(ServiceRequestModal);
 /* Modal Ready Components for Routers */
 
+
+/* Header Ready Pages */
+const NavPropertyList = withNavHeader(PropertiesScreen);
+const NavDetailedProperty = withNavHeader(DetailedPropertyScreen);
+const NavTenantProperty = withNavHeader(TenantPropertiesScreen);
+const NavAccountPage = withNavHeader(AccountScreen);
+const NavServiceRequest = withNavHeader(ServiceRequestScreen);
+const NavNewRequestPage = withNavHeader(NewRequestScreen);
+/* Header Ready Pages */
+
 /* Authentication Modal Switch Routers */
 
 function LoginModalSwitch() {
-    const location = useLocation();
-    
-    // Remember to set the location's state when navigating to a modal. Please look into 
-    // 2.0/homepairs/homepairsUI/src/utility/NavigationRouterHandler.tsx for more information.
-    const background = location.state && location.state.background;
-    return (
-      <>
-      
-            <Switch path={LOGIN} location={background || location}>
-                <Route exact path={LOGIN}><LoginScreen/></Route>
-                <Route path={LOGIN_MODAL}><LoggingInModal/></Route>
-            </Switch>
-            {/* Show the modal when a background page is set */}
-            {background && <Route path={LOGIN_MODAL}><LoginModal/></Route> }
-       
-        </>
-    );
-  }
-
-  function SignUpModalSwitch() {
-    const location = useLocation();
-    const background = location.state && location.state.background;
-    return (
-      <>
-        <Switch path={SIGNUP} location={background || location}>
-          <Route exact path={SIGNUP}><SignUpScreen/></Route>
-          <Route path={CREATE_ACCOUNT_MODAL}> <CreatingAccountModal/> </Route>
-        </Switch>
-        {/* Show the modal when a background page is set */}
-        {background && <Route path={CREATE_ACCOUNT_MODAL}><RegisterModal/> </Route>}
-      </>
-    );
-  }
-
-  function RoopairsLoginModalSwitch() {
-    const location = useLocation();
-    const background = location.state && location.state.background;
-    return (
-      <>
-        <Switch location={background || location}>
-          <Route exact path={ROOPAIRS_LOGIN}><RoopairsLogin/></Route>
-          <Route path={ROOPAIRS_LOGIN_MODAL}><LoggingInModal/></Route>
-        </Switch>
+  const location = useLocation();
   
-        {/* Show the modal when a background page is set */}
-        {background && <Route path={ROOPAIRS_LOGIN_MODAL}><LoginModal/></Route>}
+  // Remember to set the location's state when navigating to a modal. Please look into 
+  // 2.0/homepairs/homepairsUI/src/utility/NavigationRouterHandler.tsx for more information.
+  const background = location.state && location.state.background;
+  return (
+    <>
+    
+          <Switch path={LOGIN} location={background || location}>
+              <Route exact path={LOGIN}><LoginScreen/></Route>
+              <Route path={LOGIN_MODAL}><LoggingInModal/></Route>
+          </Switch>
+          {/* Show the modal when a background page is set */}
+          {background && <Route path={LOGIN_MODAL}><LoginModal/></Route> }
+      
+      </>
+  );
+}
 
-      </>   
-    );
-  }
+function SignUpModalSwitch() {
+  const location = useLocation();
+  const background = location.state && location.state.background;
+  return (
+    <>
+      <Switch path={SIGNUP} location={background || location}>
+        <Route exact path={SIGNUP}><SignUpScreen/></Route>
+        <Route path={CREATE_ACCOUNT_MODAL}> <CreatingAccountModal/> </Route>
+      </Switch>
+      {/* Show the modal when a background page is set */}
+      {background && <Route path={CREATE_ACCOUNT_MODAL}><RegisterModal/> </Route>}
+    </>
+  );
+}
+
+function RoopairsLoginModalSwitch() {
+  const location = useLocation();
+  const background = location.state && location.state.background;
+  return (
+    <>
+      <Switch location={background || location}>
+        <Route exact path={ROOPAIRS_LOGIN}><RoopairsLogin/></Route>
+        <Route path={ROOPAIRS_LOGIN_MODAL}><LoggingInModal/></Route>
+      </Switch>
+
+      {/* Show the modal when a background page is set */}
+      {background && <Route path={ROOPAIRS_LOGIN_MODAL}><LoginModal/></Route>}
+
+    </>   
+  );
+}
 
 /* Authentication Modal Switch Routers */
 
@@ -201,18 +229,15 @@ function TenantAccountPropertySwitch() {
   const location = useLocation();
   const background = location.state && location.state.background;
   return (
-    <>
-    <HomePairsHeader />
-    <ScrollView>
+    <View style={style.routeContainer}>
     <Route path='/tenant/home' render={(matches) => (
           <View style={{overflow: 'hidden'}}>                
               <Switch path={`${TENANT_PROPERTY}`} location={background || location}>
-                  <Route exact path={`${TENANT_PROPERTY}`}><TenantPropertiesScreen/></Route>
+                  <Route exact path={`${TENANT_PROPERTY}`}><NavTenantProperty/></Route>
               </Switch>
           </View>
       )}/>
-      </ScrollView>
-      </>
+      </View>
   );
 }
 
@@ -220,16 +245,15 @@ function AccountSettingsSwitch() {
   const location = useLocation();
   const background = location.state && location.state.background;
   return (
-    <>
-    <HomePairsHeader />
-    <Route path='/admin/account-settings' render={(matches) => (
-          <>                
-              <Switch path='/admin/account-settings' location={background || location}>
-                  <Route exact path={`${ACCOUNT_SETTINGS}`}><AccountScreen/></Route>
-              </Switch>
-          </>
-      )}/>
-    </>
+    <View style={style.routeContainer}>
+      <Route path='/admin/account-settings' render={(matches) => (
+            <>                
+                <Switch path='/admin/account-settings' location={background || location}>
+                    <Route exact path={`${ACCOUNT_SETTINGS}`}><NavAccountPage/></Route>
+                </Switch>
+            </>
+        )}/>
+    </View>
   );
 }
 
@@ -237,13 +261,12 @@ function ServiceRequestSwitch() {
   const location = useLocation();
   const background = location.state && location.state.background;
   return (
-    <>
-    <HomePairsHeader />
+    <View style={style.routeContainer}>
     <Route path={SERVICE_REQUEST} render={(matches) => (
           <>                
               <Switch path={SERVICE_REQUEST} location={background || location}>
-                  <Route exact path={`${SERVICE_REQUEST}`}><ServiceRequestScreen/></Route>
-                  <Route exact path={`${NEW_SERVICE_REQUEST}`}><NewRequestScreen /></Route>
+                  <Route exact path={`${SERVICE_REQUEST}`}><NavServiceRequest/></Route>
+                  <Route exact path={`${NEW_SERVICE_REQUEST}`}><NavNewRequestPage /></Route>
                   <Route exact path={`${SERVICE_REQUEST_INFO_MODAL}/:serviceRequest`}> <ServiceRequestModal/></Route>
                   <Route exact path={`${ADD_SERVICE_PROVIDER_MODAL}`}><AddServiceProviderReadyModal/></Route>
                   <Route exact path={`${PREFERRED_PROVIDER_MODAL}/:serviceProvider`}><PreferredProviderReadyModal/></Route>
@@ -254,7 +277,7 @@ function ServiceRequestSwitch() {
               {background && <Route path={`${PREFERRED_PROVIDER_MODAL}/:serviceProvider`}><PreferredProviderReadyModal/></Route>}
           </>
       )}/>
-      </>
+      </View>
   );
 }
 
@@ -262,12 +285,11 @@ function SinglePropertySwitch() {
   const location = useLocation();
   const background = location.state && location.state.background;
   return (
-    <>
-    <HomePairsHeader />
+    <View style={style.routeContainer}>
     <Route path={`${PROPERTY}/:propId`} render={(matches) => (
           <>                
               <Switch path={`${PROPERTY}/:propId`} location={background || location}>
-                  <Route exact path={`${PROPERTY}/:propId`}><DetailedPropertyScreen/></Route>
+                  <Route exact path={`${PROPERTY}/:propId`}><NavDetailedProperty/></Route>
                   <Route exact path={`${EDIT_PROPERTY_MODAL}/:propId`}><EditPropertyModal /></Route>
                   <Route path={`${ADD_TENANT_MODAL}/:propId`}><AddTenantModal/></Route>
                   <Route path={`${EDIT_TENANT_MODAL}/:propId`}><EditTenantModal/></Route>
@@ -285,7 +307,7 @@ function SinglePropertySwitch() {
           </>
       
       )}/>
-    </>
+    </View>
   );
 }
 
@@ -294,12 +316,11 @@ function PropertiesSwitch() {
     const background = location.state && location.state.background;
   
     return (
-      <>
-      <HomePairsHeader />
+      <View style={style.routeContainer}>
       <Route path={PROPERTY_LIST} render={(matches) => (
             <>
                 <Switch path={PROPERTY_LIST} location={background || location}>
-                    <Route exact path={PROPERTY_LIST}><PropertiesScreen/></Route>
+                    <Route exact path={PROPERTY_LIST}><NavPropertyList/></Route>
                     <Route exact path={ADD_PROPERTY_MODAL}><AddNewPropertyModal/></Route>
                 </Switch>
         
@@ -307,7 +328,7 @@ function PropertiesSwitch() {
                 {background && <Route path={ADD_PROPERTY_MODAL}><AddPropertyModal/></Route>}
             </>
         )}/>
-      </>
+      </View>
     );
 }
 
@@ -325,7 +346,7 @@ function PropertiesSwitch() {
 export default function AppNavigator(props:any){  
     // TODO: Set PrivateRoute to auth status from session token
     // <Router basename={`${process.env.PUBLIC_URL}`}> is needed for web routing resolution for remote servers 
-    return (
+    return (<>
         <Router basename={`${process.env.PUBLIC_URL}`}>  
             <Switch>
                 <Route path='/authentication'>
@@ -345,7 +366,7 @@ export default function AppNavigator(props:any){
                 <Route path='/*'>404 Does not Exist</Route>
             </Switch>
         </Router> 
-
+      </>
     );
 };
 export {AppNavigator};

@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     Text,
     Dimensions,
+    ScrollView,
 } from 'react-native';
 import React from 'react';
 import {
@@ -58,6 +59,8 @@ export type HomePairsHeaderProps =
      * Used to indicate an instance of this component when testing
      */
     testID?: string,
+
+    children?: any,
 };
 
 /**
@@ -190,8 +193,9 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
     }
 
     render() {
-        const { header, navigation, accountType, onLogOut } = this.props;
+        const { header, navigation, accountType, onLogOut, children } = this.props;
         return (
+            <>
             <View style={styles.container}>
                 <View
                     style={header.isDropDown ? styles.dropDownFlexDirection : styles.navBarFlexDirection}>
@@ -218,6 +222,14 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
                         accountType={accountType}/>
                 </View>
             </View>
+            {isNullOrUndefined(children) ? 
+                <></>
+                :
+                <ScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}}>
+                    {children}
+                </ScrollView>
+            }
+            </>
         );
     }
 }

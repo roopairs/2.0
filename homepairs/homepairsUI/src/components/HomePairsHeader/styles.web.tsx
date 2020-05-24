@@ -4,7 +4,11 @@ import * as BaseStyles from 'homepairs-base-styles';
 const colorScheme = BaseStyles.LightColorTheme;
 
 export default StyleSheet.create({
-    container: undefined,
+    container: {
+        shadowRadius: 3, 
+        shadowOffset: {width: 2, height: 2} , 
+        shadowOpacity: .2,
+    },
     titleContainer:{
         marginLeft: BaseStyles.MarginPadding.largeConst,
     },
