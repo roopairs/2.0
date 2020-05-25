@@ -186,8 +186,9 @@ export default class HomePairsMenu extends React.Component<Props> {
                         <Text 
                             style={ 
                                 /* Highlight the selected item if currently on the page. */
-                                page.navigate === currentPage.navigate ? styles.menuSelectedText : styles.menuText
-                                }>
+                                page.navigate === currentPage.navigate 
+                                ? styles.menuSelectedText 
+                                : styles.menuText }>
                             {page.title}
                         </Text>
                     </TouchableOpacity>
