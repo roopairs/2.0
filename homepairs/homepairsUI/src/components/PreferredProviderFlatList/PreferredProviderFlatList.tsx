@@ -11,7 +11,6 @@ const {AddServiceProviderModal, PreferredProviderModal} = navigationPages;
 
 const styles = StyleSheet.create({
     container: {
-        // flex:2.5,
         maxWidth: '100%',
         width: BaseStyles.ContentWidth.max,
         paddingVertical: Platform.OS === 'web' ? 0 : 12.5,
@@ -60,7 +59,6 @@ type RenderProviderTilesItem = NavigationRouteScreenProps & TypeGuardTile;
  */
 function renderProviderTiles(props: RenderProviderTilesItem){
     const {type, tile, pmId, navigation} = props;
-    console.log(tile)
     async function onClickProvider(){
         navigation.navigate(PreferredProviderModal, {serviceProvider: tile.phoneNum}, true);
     }

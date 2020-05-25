@@ -223,8 +223,6 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
                 ? <PreferredProviderFlatList /> 
                 : <></>
             }
-            { console.log(header.currentPage.navigate) }
-            { console.log(HeaderNavigators[1]) }
             </View>
             {
                 isNullOrUndefined(children) 

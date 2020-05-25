@@ -9,7 +9,7 @@ export default StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 1,
         shadowOffset: { width: 0, height: 2 },
-        elevation: 1,
+        marginBottom: 10,
         backgroundColor: colorScheme.secondary,
         shadowColor: colorScheme.shadow,
         minHeight: 50,
