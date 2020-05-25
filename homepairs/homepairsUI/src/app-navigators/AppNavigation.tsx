@@ -12,7 +12,8 @@ import {
     DetailedPropertyScreen,
     PropertiesScreen,
     TenantPropertiesScreen,
-} from 'src/screens';
+} from 'homepairs-pages';
+
 import { Platform, View } from 'react-native';
 import { 
     AddNewPropertyModal, 
@@ -27,16 +28,17 @@ import {
     AddServiceProviderModal,
     PreferredProviderModal,
 } from 'homepairs-modals';
-import { HomePairsHeader } from 'src/components';
+import { HomePairsHeader } from 'homepairs-components';
 import { LightColorTheme } from 'homepairs-base-styles';
 import { navigationKeys, navigationPages } from 'homepairs-routes';
 import { AppState, AccountTypes } from 'homepairs-types';
 import { connect } from 'react-redux';
 
-// Add margin offset for main app components 
+// Add margin offset for Page components 
 function offSetForHeader(Offsetted: any){
     const OffSettedComponent = (props:any) => {
-        let marginTop = props.withPreferredProv ? 145 : 65;
+        const {withPreferredProv} = props;
+        let marginTop = withPreferredProv ? 145 : 65;
         marginTop = Platform.OS === 'android' ? 0 : marginTop;
         return <View style={{flex:1, marginTop}}><Offsetted {...props}/></View>;
     };
@@ -45,7 +47,6 @@ function offSetForHeader(Offsetted: any){
         const {accountProfile, header} = state;
         const {accountType} = accountProfile;
         const {currentPage} = header;
-        console.log(accountType === AccountTypes.PropertyManager && currentPage.navigate === navigationPages.ServiceRequestScreen);
         return{
             withPreferredProv:
                 (accountType === AccountTypes.PropertyManager 
@@ -89,8 +90,11 @@ const navigationConfiguration = {
 const navigationHeader = () => ({
     header: () => {
         return Platform.OS === 'ios' ? (
-            <SafeAreaView style={{ backgroundColor: LightColorTheme.primary, flex: 1 }}>
-                <HomePairsHeader />
+            <SafeAreaView style={{ backgroundColor: LightColorTheme.primary}}>
+                <View style={{height: 1}}>
+                    {/* For some reason, need to define a style with a height to get shadow working in iOS */}
+                    <HomePairsHeader />
+                </View>
             </SafeAreaView>
         ) : <HomePairsHeader />;
     },

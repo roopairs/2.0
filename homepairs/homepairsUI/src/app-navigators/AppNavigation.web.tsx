@@ -231,11 +231,11 @@ function TenantAccountPropertySwitch() {
   return (
     <View style={style.routeContainer}>
     <Route path='/tenant/home' render={(matches) => (
-          <View style={{overflow: 'hidden'}}>                
-              <Switch path={`${TENANT_PROPERTY}`} location={background || location}>
-                  <Route exact path={`${TENANT_PROPERTY}`}><NavTenantProperty/></Route>
-              </Switch>
-          </View>
+        <>
+            <Switch path={`${TENANT_PROPERTY}`} location={background || location}>
+                <Route exact path={`${TENANT_PROPERTY}`}><NavTenantProperty/></Route>
+            </Switch>
+        </>
       )}/>
       </View>
   );
