@@ -17,7 +17,7 @@ function mapStateToProps(state: AppState) : EditPropertyState {
         email: state.accountProfile.email, 
         propId, 
         oldProp: state.properties.properties[propId],
-        roopairsToken: state.accountProfile.roopairsToken,
+        roopairsToken: state.accountProfile.token,
     };
 }
 

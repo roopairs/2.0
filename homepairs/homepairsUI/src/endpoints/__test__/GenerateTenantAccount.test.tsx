@@ -21,7 +21,7 @@ const testTenantAccount1: Account = {
     lastName: 'Lynne',
     email: 'jackyLynne@gmail.com',
     address: 'ABC Street',
-    roopairsToken: '',
+    token: '',
 };
 
 const testJsonValue1 = {
@@ -60,7 +60,7 @@ const expectedFetchResult1: AccountStateAction = {
         lastName: 'Lynne',
         email: 'jackyLynne@gmail.com',
         address: 'ABC Street',
-        roopairsToken: '',
+        token: '',
         propId: '100',
         tenantId: 15,
     },

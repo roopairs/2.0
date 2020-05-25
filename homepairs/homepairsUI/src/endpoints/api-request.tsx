@@ -354,6 +354,7 @@ export const fetchAccount = (
                     const pmContact = {accountType:pmAccountType, firstName, lastName, email };
                     dispatch(fetchPropertyAndPropertyManager(properties, pmContact));
                     dispatch(fetchPreferredProviders(pmId));
+
                 }
                 // Navigate page based on the Account Type
                 ChooseMainPage(accountType, navigation);

@@ -2,8 +2,8 @@ import React from 'react';
 import { PropertyListState, HeaderState, Property} from 'homepairs-types';
 import { navigationPages } from 'homepairs-routes';
 import { Platform, FlatList} from 'react-native';
-import { SceneInjectedProps } from '../../components/index';
-import ViewPropertyCard from './ViewPropertyCard/ViewPropertyCard';
+import { SceneInjectedProps } from '../../components';
+import { ViewPropertyCard } from './ViewPropertyCard';
 
 
 export type PropertiesScreenStateProps = {

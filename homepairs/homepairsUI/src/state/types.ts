@@ -133,7 +133,7 @@ export type Account = {
 };
 
 export type PropertyManagerAccount = Account & {
-    roopairsToken: string;
+    token: string;
 };
 
 export type TenantAccount = Account & {
@@ -192,7 +192,7 @@ export type NewServiceRequest = {
     serviceCategory: string, 
     serviceDate: string, 
     details: string,
-    tenId?: number,
+    phoneNumber?: string,
 }
 
 export type ServiceProvider = {

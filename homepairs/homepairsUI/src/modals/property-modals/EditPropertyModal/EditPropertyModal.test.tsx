@@ -34,7 +34,7 @@ const props : Props = {
         bathrooms: Number(0), 
         tenants: Number(0),
     }, 
-    roopairsToken: undefined,
+    token: undefined,
 };
 
 describe("Edit Property Modal", () => {

@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { BrowserRouter as Router, Route, Redirect, Switch, useLocation, useHistory} from 'react-router-dom';
 import {
   NewRequestScreen,
@@ -13,7 +13,7 @@ import {
   PropertiesScreen,
   TenantPropertiesScreen,
 } from 'src/screens';
-import {HomePairsHeader} from 'src/components';
+import { HomePairsHeader } from 'homepairs-components';
 import { CreatingAccountModal, LoggingInModal, AddNewPropertyModal, 
   EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, 
   EditTenantModal, ServiceRequestModal, AddServiceProviderModal, PreferredProviderModal } from 'homepairs-modals';
@@ -273,7 +273,7 @@ function ServiceRequestSwitch() {
               </Switch>
 
               {background && <Route path={`${SERVICE_REQUEST_INFO_MODAL}/:serviceRequest`}><ServiceRequestInfoReadyModal/></Route>}
-              {background && <Route path={`${ADD_SERVICE_PROVIDER_MODAL}`}><AddServiceProviderReadyModal/></Route>}
+              {background && <Route path={`${ADD_SERVICE_PROVIDER_MODAL}/:token/:property`}><AddServiceProviderReadyModal/></Route>}
               {background && <Route path={`${PREFERRED_PROVIDER_MODAL}/:serviceProvider`}><PreferredProviderReadyModal/></Route>}
           </>
       )}/>

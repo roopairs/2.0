@@ -1,9 +1,8 @@
 import { AppState, MainAppStackType, PropertyManagerAccount, TenantAccount } from 'homepairs-types';
 import { connect } from 'react-redux';
-import { updateSelectedPage } from 'homepairs-redux-actions';
 import { prepareNavigationHandlerComponent, NEW_SERVICE_REQUEST } from 'homepairs-routes';
 import { convertObjectValuesToArray } from 'homepairs-utilities';
-import { NewServiceRequestBase, NewRequestScreenDispatchProps, NewRequestScreenStateProps } from './NewRequestScreenBase';
+import { NewServiceRequestBase, NewRequestScreenStateProps } from './NewRequestScreenBase';
 import {withSceneHeader, withHeaderUpdate} from '../../components';
 
 const sceneParam: MainAppStackType = {
@@ -16,9 +15,9 @@ function mapStateToProps(state: AppState) : NewRequestScreenStateProps {
     return {
         accountType: state.accountProfile.accountType,
         properties,
-        token: state.accountProfile.roopairsToken,
+        token: state.accountProfile.token,
         pmId: (state.accountProfile as (PropertyManagerAccount)).pmId,
-        tenId: (state.accountProfile as (TenantAccount)).tenantId,
+        phoneNumber: (state.accountProfile as (TenantAccount)).phoneNumber,
     };
 }
 

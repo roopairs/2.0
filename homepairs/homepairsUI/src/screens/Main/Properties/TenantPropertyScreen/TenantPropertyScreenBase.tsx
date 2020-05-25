@@ -38,7 +38,7 @@ const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        backgroundColor: colors.primary,
+        backgroundColor: colors.secondary,
         width: BaseStyles.ContentWidth.max,
         flex: 1,
     },

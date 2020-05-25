@@ -29,7 +29,7 @@ const [mockStackNavigation, navigationStackSpyFunction] = prepareNavigationMock(
 const props : Props = {
     onCreateProperty: undefined,
     email: undefined, 
-    roopairsToken: undefined,
+    token: undefined,
     navigation: mockStackNavigation,
 };
 

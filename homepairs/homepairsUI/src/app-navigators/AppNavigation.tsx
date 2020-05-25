@@ -30,19 +30,33 @@ import {
 import { HomePairsHeader } from 'src/components';
 import { LightColorTheme } from 'homepairs-base-styles';
 import { navigationKeys, navigationPages } from 'homepairs-routes';
+import { AppState, AccountTypes } from 'homepairs-types';
+import { connect } from 'react-redux';
 
 // Add margin offset for main app components 
-function offSetForHeader(Offsetted: any, withPreferredProv: boolean = false){
-    let marginTop = withPreferredProv ? 145 : 65;
-    marginTop = Platform.OS === 'android' ? 0 : marginTop;
-    
-    return (props:any) => {
-        return <View style={{flex:1, marginTop}}><Offsetted {...props}/></View>
-       ;
-    };      
-}
+function offSetForHeader(Offsetted: any){
+    const OffSettedComponent = (props:any) => {
+        let marginTop = props.withPreferredProv ? 145 : 65;
+        marginTop = Platform.OS === 'android' ? 0 : marginTop;
+        return <View style={{flex:1, marginTop}}><Offsetted {...props}/></View>;
+    };
+
+    function mapStateToProps(state: AppState){
+        const {accountProfile, header} = state;
+        const {accountType} = accountProfile;
+        const {currentPage} = header;
+        console.log(accountType === AccountTypes.PropertyManager && currentPage.navigate === navigationPages.ServiceRequestScreen);
+        return{
+            withPreferredProv:
+                (accountType === AccountTypes.PropertyManager 
+                    && currentPage.navigate === navigationPages.ServiceRequestScreen),
+        };
+    };
+    return connect(mapStateToProps)(OffSettedComponent);      
+};
+
 const NewRequestPage = offSetForHeader(NewRequestScreen);
-const ServiceRequestPage = offSetForHeader(ServiceRequestScreen, true);
+const ServiceRequestPage = offSetForHeader(ServiceRequestScreen);
 
 const AccountPage = offSetForHeader(AccountScreen);
 const DetailedPropertyPage = offSetForHeader(DetailedPropertyScreen);

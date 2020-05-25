@@ -1,8 +1,9 @@
-import { AppState, MainAppStackType, PropertyDict, TenantInfo, Appliance } from 'homepairs-types';
+import { AppState, MainAppStackType, PropertyDict, TenantInfo, Appliance, PropertyManagerAccount } from 'homepairs-types';
 import { updateSelectedPage, storePropertyApplianceAndTenants} from 'homepairs-redux-actions';
 import { connect } from 'react-redux';
 import { PROPERTY} from 'homepairs-routes';
 import { fetchPropertyAppliancesAndTenants } from 'homepairs-endpoints';
+import React from 'react';
 
 export type WithSinglePropertyStateProps = {
     properties: PropertyDict,
@@ -23,10 +24,11 @@ export type WithSinglePropertyInjectedProps =
 
 
 export function mapStateToProps(state: AppState): WithSinglePropertyStateProps {
-    const {properties} = state;
+    const {properties, accountProfile} = state;
+
     return { 
         properties: properties.properties,
-        token: state.accountProfile.roopairsToken,
+        token: (accountProfile as PropertyManagerAccount).token,
         tenantInfo: properties.tenants,
         applianceInfo: properties.appliances,
         apiKey: state.settings.apiKey,
@@ -51,8 +53,12 @@ export const mapDispatchToProps: (dispatch:any) => WithSinglePropertyDispatchPro
 });
 
 export default function withSinglePropertyConnect(WrappedComponent: any){
-    return connect(
+    const InnerComponent = connect(
         mapStateToProps,
         mapDispatchToProps,
     )(WrappedComponent);
+
+    return (props: any) => {
+        return <InnerComponent {...props} />;
+    };
 }

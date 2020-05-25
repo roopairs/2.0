@@ -21,7 +21,7 @@ const testPMAccount1: Account = {
     lastName: 'Lynne',
     email: 'jackyLynne@gmail.com',
     address: 'ABC Street',
-    roopairsToken: '',
+    token: '',
 };
 
 const testJsonValue1 = {
@@ -54,7 +54,7 @@ const expectedFetchResult1: AccountStateAction = {
         email: 'jackyLynne@gmail.com',
         address: 'ABC Street',
         pmId: undefined,
-        roopairsToken: '1d9f80e98e9b16b94bf76c2dc49fe15b8b30d1a2',
+        token: '1d9f80e98e9b16b94bf76c2dc49fe15b8b30d1a2',
     },
 };
 

@@ -29,6 +29,46 @@ export const ACCOUNT_SETTINGS = '/admin/account-settings';
 
 
 /**
+ * These are were all leaves will be stored for quick reference. This should be used when 
+ * directly navigating to a page. These leaves should also be stored in the navigationKeys 
+ * object as well. 
+ */
+export const navigationPages = {
+    // Property Pages
+    PropertiesScreen: PROPERTY_LIST,
+    TenantProperty: TENANT_PROPERTY,
+    SingleProperty: PROPERTY,
+    // Property Stack Modals 
+    AddNewPropertyModal: ADD_PROPERTY_MODAL,
+    EditPropertyModal: EDIT_PROPERTY_MODAL,
+    AddTenantModal: ADD_TENANT_MODAL,
+    EditTenantModal: EDIT_TENANT_MODAL,
+    AddApplianceModal: ADD_APPLIANCE_MODAL, 
+    EditApplianceModal: EDIT_APPLIANCE_MODAL,
+    AddServiceProviderModal: ADD_SERVICE_PROVIDER_MODAL,
+    PreferredProviderModal: PREFERRED_PROVIDER_MODAL,
+
+    // Service Request Pages
+    ServiceRequestScreen: SERVICE_REQUEST,
+    NewRequest: NEW_SERVICE_REQUEST,
+    ServiceRequestModal: SERVICE_REQUEST_INFO_MODAL,
+
+    // Account Settings Pages 
+    AccountSettings: ACCOUNT_SETTINGS, 
+
+    // Authentication Pages
+    LoginScreen: LOGIN,
+    RoopairsLogin: ROOPAIRS_LOGIN,
+    SignUpScreen: SIGNUP,
+
+    // Authentication Modals
+    RoopairsLoggingInModal: ROOPAIRS_LOGIN_MODAL,
+    CreatingAccountModal: CREATE_ACCOUNT_MODAL,
+    LoggingInModal: LOGIN_MODAL, 
+
+};
+
+/**
  * All keys that can be mapped to any page in the react navigator should 
  * be stored here. This is so there changes to one key can be affect by all
  * files instead of use having to go and individually changing keys. 
@@ -77,47 +117,6 @@ export const navigationKeys: {[id:string]: string} = {
     AddTenantModal: 'AddTenantModal',
     EditTenantModal: 'EditTenantModal',
 };
-
-/**
- * These are were all leaves will be stored for quick reference. This should be used when 
- * directly navigating to a page. These leaves should also be stored in the navigationKeys 
- * object as well. 
- */
-export const navigationPages = {
-    // Property Pages
-    PropertiesScreen: PROPERTY_LIST,
-    TenantProperty: TENANT_PROPERTY,
-    SingleProperty: PROPERTY,
-    // Property Stack Modals 
-    AddNewPropertyModal: ADD_PROPERTY_MODAL,
-    EditPropertyModal: EDIT_PROPERTY_MODAL,
-    AddTenantModal: ADD_TENANT_MODAL,
-    EditTenantModal: EDIT_TENANT_MODAL,
-    AddApplianceModal: ADD_APPLIANCE_MODAL, 
-    EditApplianceModal: EDIT_APPLIANCE_MODAL,
-    AddServiceProviderModal: ADD_SERVICE_PROVIDER_MODAL,
-    PreferredProviderModal: PREFERRED_PROVIDER_MODAL,
-
-    // Service Request Pages
-    ServiceRequestScreen: SERVICE_REQUEST,
-    NewRequest: NEW_SERVICE_REQUEST,
-    ServiceRequestModal: SERVICE_REQUEST_INFO_MODAL,
-
-    // Account Settings Pages 
-    AccountSettings: ACCOUNT_SETTINGS, 
-
-    // Authentication Pages
-    LoginScreen: LOGIN,
-    RoopairsLogin: ROOPAIRS_LOGIN,
-    SignUpScreen: SIGNUP,
-
-    // Authentication Modals
-    RoopairsLoggingInModal: ROOPAIRS_LOGIN_MODAL,
-    CreatingAccountModal: CREATE_ACCOUNT_MODAL,
-    LoggingInModal: LOGIN_MODAL, 
-
-};
-
 
 /* * Indices used to reference the MainAppStack * */
 export const NOMAP_INDEX = -1;

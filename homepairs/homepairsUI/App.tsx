@@ -18,7 +18,7 @@ import initializeStore from './src/state/store';
 const checkSession = async () => {
     await LoadFonts();
     await AsyncStorage.getItem('persist:root').then(response => {
-        console.log(JSON.parse(response));
+        
     });
 };
 

@@ -63,11 +63,11 @@ function parseTenantAccount(tenantObject : any): TenantAccount{
  * @param {any} accountJSON -Json Object from backend response
  * */
 export const parseAccount = (accountJSON : any): FetchUserAccountProfileAction => {
+    console.log(accountJSON);
     const isTenant: boolean = getAccountType(accountJSON) === AccountTypes.Tenant;
     const profile = isTenant 
         ? parseTenantAccount(accountJSON) 
         : parsePropertyManagerAccount(accountJSON);
-    
     return {
         type: FETCH_PROFILE_ACTION_TYPES.FETCH_PROFILE,
         profile,

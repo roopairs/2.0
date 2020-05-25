@@ -19,7 +19,7 @@ const fakeTenants: TenantAccount[] = [
         email: 'alex@roopairs.com',
         streetAddress: '1111 Some Street',
         city: 'San Luis Obispo',
-        roopairsToken: '000000',
+        token: '000000',
     },
     {
         propId: 1,
@@ -30,7 +30,7 @@ const fakeTenants: TenantAccount[] = [
         email: 'david@roopairs.com',
         streetAddress: '1111 Some Street',
         city: 'San Luis Obispo',
-        roopairsToken: '000000',
+        token: '000000',
     },
     {
         propId: 1,
@@ -41,7 +41,7 @@ const fakeTenants: TenantAccount[] = [
         email: 'ray@roopairs.com',
         streetAddress: '1111 Some Street',
         city: 'San Luis Obispo',
-        roopairsToken: '000000',
+        token: '000000',
     },
 ];
 

@@ -88,7 +88,7 @@ export type NewRequestScreenStateProps = {
     properties: Property[],
     token: string,
     pmId: number,
-    tenId: number,
+    phoneNumber: string,
 }
 
 export type NewRequestScreenProps = 
@@ -265,7 +265,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
 
     async clickSubmitButton() {
         const { serviceCategory, applianceId, providerId, serviceType, details, serviceDate, propId} = this.state;
-        const {navigation, token, accountType, tenId} = this.props;
+        const {navigation, token, accountType, phoneNumber} = this.props;
         this.setState({errorCheck: false});
         if (this.validateForms()) {
             const pm = accountType === AccountTypes.PropertyManager;
@@ -278,7 +278,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
                 serviceCategory: categoryToString(serviceCategory), 
                 serviceDate: serviceDate.toISOString(), 
                 details,
-                tenId,
+                phoneNumber,
             };
             await postNewServiceRequest(newServiceRequest, this.displayError, navigation, pm).catch(error => console.log(error));
         }

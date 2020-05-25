@@ -29,7 +29,7 @@ const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        backgroundColor: colors.primary,
+        backgroundColor: colors.secondary,
         width: BaseStyles.ContentWidth.max,
         flex: 1,
     },
@@ -106,6 +106,7 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
 
     constructor(props: Readonly<DetailedPropertyProps>){
         super(props);
+        console.log(props);
         this.navigation = props.navigation;
         this.token = props.token;
         this.openEditPropertyModal = this.openEditPropertyModal.bind(this);

@@ -21,7 +21,7 @@ const newPropertyTest: Property = {
 };
 const newPropertyCredentials: AddNewPropertyState = {
     email: 'jackylynne@gmail.com',
-    roopairsToken: '1B88484KDKSLIEK058UDDD',
+    token: '1B88484KDKSLIEK058UDDD',
 };
 
 // To test nested actions with an async REST request, we need to call an await on the

@@ -310,22 +310,15 @@ export class AddApplianceModalBase extends React.Component<Props, CreateState> {
             };
             const info: AddApplianceState = { property: this.property, token: this.token };
 
-            //TO DO: adjust for properties and other strings to allow "\" characters
-            console.log("prop id");
-            console.log(info.property.propId);
-            console.log("property");
-            console.log(info.property);
-            
+     
             await postNewAppliance(newAppliance, info, this.setInitialState, this.displayError, navigation).then(() => {
                 setAppliancesAndTenants(this.property.propId);
             }).catch((error: Error) => {
                 if (error.message.includes('500')) {
-                    console.log('if');
                     console.log(error.message);
                     this.displayError(DefaultMessage);
                 }
                 else {
-                    console.log('else');
                     console.log(error.message);
                     this.displayError(error.message);
                 }
