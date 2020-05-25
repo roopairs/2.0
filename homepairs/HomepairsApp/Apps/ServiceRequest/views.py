@@ -80,7 +80,7 @@ class ServiceRequestView(View):
         if isPm:
             required = ['provId', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'token', 'propId', 'appId', 'isPm']
         else:
-            required = ['tenId', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'token', 'propId', 'appId', 'isPm']
+            required = ['phoneNumber', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'token', 'propId', 'appId', 'isPm']
         missingFields = checkRequired(required, inData)
 
         url = BASE_URL + 'service-locations/' + '/propId/jobs/'
@@ -105,8 +105,8 @@ class ServiceRequestView(View):
         else:
             provList = ServiceProvider.objects.all()
             status = 'WaitingApproval'
-            tenId = inData.get('tenId')
-            tenant = Tenant.objects.filter(id=tenId)[0]
+            phoneNumber = inData.get('phoneNumber')
+            tenant = Tenant.objects.filter(phoneNumber=phoneNumber)[0]
             # tenPlace = Property.objects.filter(id=tenant.place)[0]
             if propId != tenant.place.rooId:
                 return JsonResponse(data=returnError(NOT_YOUR_PROPERTY))
