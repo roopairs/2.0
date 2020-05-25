@@ -20,7 +20,7 @@ export const EDIT_APPLIANCE_MODAL = 'EditApplianceModal';
 
 
 export const SERVICE_REQUEST = 'ServiceRequestScreen';
-export const NEW_SERVICE_REQUEST = 'NewReques';
+export const NEW_SERVICE_REQUEST = 'NewRequest';
 export const SERVICE_REQUEST_INFO_MODAL = 'ServiceRequestModal';
 export const ADD_SERVICE_PROVIDER_MODAL = 'AddServiceProviderModal';
 export const PREFERRED_PROVIDER_MODAL = 'PreferredProviderModal';

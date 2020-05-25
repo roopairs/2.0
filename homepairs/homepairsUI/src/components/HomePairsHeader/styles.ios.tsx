@@ -5,6 +5,7 @@ const colorScheme = BaseStyles.LightColorTheme;
 
 export default StyleSheet.create({
     container: {
+        flex: 1,
         shadowOpacity: 0.1,
         shadowRadius: 1,
         shadowOffset: { width: 0, height: 2 },

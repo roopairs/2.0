@@ -11,7 +11,7 @@ const {AddServiceProviderModal, PreferredProviderModal} = navigationPages;
 
 const styles = StyleSheet.create({
     container: {
-        flex:2.5,
+        // flex:2.5,
         maxWidth: '100%',
         width: BaseStyles.ContentWidth.max,
         paddingVertical: Platform.OS === 'web' ? 0 : 12.5,
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         marginHorizontal: 11, 
+        marginBottom: Platform.OS === 'web' ? 5 : undefined,
     },
 });
 

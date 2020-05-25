@@ -192,7 +192,6 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
         const { header, navigation, accountType, onLogOut, children } = this.props;
         return (
             <>
-            <View>
             <View style={styles.container}>
                 <View
                     style={header.isDropDown ? styles.dropDownFlexDirection : styles.navBarFlexDirection}>
@@ -217,7 +216,6 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
                         showMenu={header.showMenu}
                         setAuthenticatedState={(authed:boolean) => onLogOut(authed)}
                         accountType={accountType}/>
-                </View>
             </View>
             { 
                 accountType === AccountTypes.PropertyManager
