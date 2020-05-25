@@ -15,11 +15,12 @@ import {
     AccountTypes,
 } from 'homepairs-types';
 import { NavigationRouteHandler, navigationPages } from 'homepairs-routes';
-import {isNullOrUndefined} from 'src/utility';
+import {isNullOrUndefined} from 'homepairs-utilities';
 import HamburgerButton from './HamburgerButton/HamburgerButton';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle/HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu/HomePairsHeaderMenu';
 import styles from './styles';
+import { PreferredProviderFlatList } from '../PreferredProviderFlatList';
 
 
 const backSymbol = '<';
@@ -91,12 +92,7 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
         this.renderHamburger = this.renderHamburger.bind(this);
     }
 
-    componentDidMount() {
-        const {navigation, onUpdateSelected} = this.props;
-        const startingOption = navigation.getCurrentRouteStack();
-        if(!isNullOrUndefined(startingOption))
-            onUpdateSelected(startingOption);
-
+    componentDidMount() {        
         // Here we will add our window listener
         const { width } = Dimensions.get('window');
         const { onSwitchNavBar } = this.props;
@@ -196,6 +192,7 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
         const { header, navigation, accountType, onLogOut, children } = this.props;
         return (
             <>
+            <View>
             <View style={styles.container}>
                 <View
                     style={header.isDropDown ? styles.dropDownFlexDirection : styles.navBarFlexDirection}>
@@ -222,12 +219,21 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
                         accountType={accountType}/>
                 </View>
             </View>
-            {isNullOrUndefined(children) ? 
-                <></>
-                :
-                <ScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}}>
+            { 
+                accountType === AccountTypes.PropertyManager
+                && header.currentPage.navigate === HeaderNavigators[1] 
+                ? <PreferredProviderFlatList /> 
+                : <></>
+            }
+            { console.log(header.currentPage.navigate) }
+            { console.log(HeaderNavigators[1]) }
+            </View>
+            {
+                isNullOrUndefined(children) 
+                ? <></>
+                : <ScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}}>
                     {children}
-                </ScrollView>
+                  </ScrollView>
             }
             </>
         );

@@ -2,11 +2,11 @@ import React, {Component} from 'react'; //* *For every file that uses jsx, YOU M
 import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider, AccountTypes } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
-import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'src/utility';
+import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'homepairs-utilities';
 import {NavigationRouteScreenProps} from 'homepairs-routes';
-import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel, DatePicker} from 'src/elements';
+import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel, DatePicker} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
-import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from 'src/components';
+import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from 'homepairs-components';
 import {HelperText} from 'react-native-paper';
 import axios from 'axios';
 import { HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest, HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT } from 'homepairs-endpoints';
@@ -88,15 +88,11 @@ export type NewRequestScreenStateProps = {
     properties: Property[],
     token: string,
     pmId: number,
-}
-
-export type NewRequestScreenDispatchProps = {
-    onUpdateHeader: () => any;
+    tenId: number,
 }
 
 export type NewRequestScreenProps = 
     & NavigationRouteScreenProps 
-    & NewRequestScreenDispatchProps 
     & NewRequestScreenStateProps
 
 
@@ -199,10 +195,6 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
             this.setState({address, addressState: true, propId});
         }
 
-        // When the component is mounted, update the header. This component can be navigated from a different stack so 
-        // we need to make sure the header remains updated in the case this happens
-        const {onUpdateHeader} = this.props;
-        onUpdateHeader();
         this.fetchServiceProviders();
     }
 
@@ -255,18 +247,16 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     };
 
     fetchServiceProviders = async () => {
-            const {pmId} = this.props;
-            await axios.get(`${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${pmId}/`).then((result) =>{
-                const {providers} = result.data;
-                const providerInfo: ServiceProvider[] = [];
-                console.log(result);
-
-                providers.forEach(provider => {
-                    const { provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo } = provider;
-                    providerInfo.push({provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo});
-                });
-                this.setState({serviceProviders: providerInfo});
-            });  
+        const {pmId} = this.props;
+        await axios.get(`${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${pmId}/`).then((result) =>{
+            const {providers} = result.data;
+            const providerInfo: ServiceProvider[] = [];
+            providers.forEach(provider => {
+                const { provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo } = provider;
+                providerInfo.push({provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo});
+            });
+            this.setState({serviceProviders: providerInfo});
+        });  
     };
 
     displayError(msg: string) {
@@ -275,10 +265,9 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
 
     async clickSubmitButton() {
         const { serviceCategory, applianceId, providerId, serviceType, details, serviceDate, propId} = this.state;
-        const {navigation, token, accountType} = this.props;
+        const {navigation, token, accountType, tenId} = this.props;
         this.setState({errorCheck: false});
         if (this.validateForms()) {
-            
             const pm = accountType === AccountTypes.PropertyManager;
             const newServiceRequest : NewServiceRequest = {
                 token,
@@ -289,6 +278,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
                 serviceCategory: categoryToString(serviceCategory), 
                 serviceDate: serviceDate.toISOString(), 
                 details,
+                tenId,
             };
             await postNewServiceRequest(newServiceRequest, this.displayError, navigation, pm).catch(error => console.log(error));
         }

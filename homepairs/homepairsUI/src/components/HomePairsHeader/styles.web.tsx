@@ -5,8 +5,10 @@ const colorScheme = BaseStyles.LightColorTheme;
 
 export default StyleSheet.create({
     container: {
-        shadowRadius: 3, 
-        shadowOffset: {width: 2, height: 2} , 
+        backgroundColor: 'transparent',
+        // marginBottom: 10,
+        shadowRadius: 10, 
+        shadowOffset: {width: 1, height: 1} , 
         shadowOpacity: .2,
     },
     titleContainer:{

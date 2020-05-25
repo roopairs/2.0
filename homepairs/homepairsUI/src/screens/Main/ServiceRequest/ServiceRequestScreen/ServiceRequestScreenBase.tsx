@@ -5,7 +5,7 @@ import {
     ScrollView,
     TouchableOpacity,
 } from 'react-native';
-import { ServiceRequestButton, ServiceRequestAddressPanel, SearchForm } from 'src/elements';
+import { ServiceRequestButton, ServiceRequestAddressPanel, SearchForm } from 'homepairs-elements';
 import {
     ServiceRequest,
     ServiceState,
@@ -16,16 +16,18 @@ import {
     Property,
     MainAppStackType,
     AccountTypes,
+    Contact,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import strings from 'homepairs-strings';
 import { NavigationRouteScreenProps, navigationPages, MainAppStack } from 'homepairs-routes';
 import { fetchServiceRequests } from 'homepairs-endpoints';
-import { stringToCategory } from 'src/utility';
+import { stringToCategory } from 'homepairs-utilities';
 import styles from './styles';
-import {SceneInjectedProps} from '../../components/index';
+import {SceneInjectedProps} from '../../components';
 
 export type ServiceRequestScreenStateProps = {
+    pmInfo?: Contact;
     serviceRequestsState: ServiceState;
     header: HeaderState;
     properties: Property[];
@@ -125,7 +127,6 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
     }
 
     async componentDidMount(){
-        
         const {onUpdateHeader, accountType, properties } = this.props;
 
         // Fetch the service requests if the account Type is a Tenant or if the Account only has one property 
@@ -263,10 +264,8 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                     default:
                         break;
                 }
-
                 this.setState({ pending, scheduled, inProgress, completed, canceled, declined });
             });
-
             this.setState({ serviceRequests });
         }).catch(error => {
             console.log(error);

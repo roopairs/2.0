@@ -1,16 +1,10 @@
-import { getAccountType} from 'src/utility';
+import { getAccountType} from 'homepairs-utilities';
 import { 
   FetchUserAccountProfileAction, 
   PropertyManagerAccount, 
-  Account, 
   TenantAccount, 
-  AccountState, 
   AccountTypes,
-  HomePairsResponseKeys, 
 } from '../types';
-
-const responseKeys = HomePairsResponseKeys;
-const accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
 
 
 export const FETCH_PROFILE_ACTION_TYPES = {
@@ -19,45 +13,63 @@ export const FETCH_PROFILE_ACTION_TYPES = {
 };
 
 /**
+ * Helper function that handles getting the proper data from the backend into 
+ * the correct profile information. This method assumes that the object passed 
+ * is for that of a Property Manager.
+ * @param pmObject -Object to be parsed
+ */
+function parsePropertyManagerAccount(pmObject : any): PropertyManagerAccount{
+    const {pm, token} = pmObject;
+    return {...pm, token, accountType: AccountTypes.PropertyManager };
+}
+
+/**
+ * Helper function that handles getting the proper data from the backend into 
+ * the correct tenant profile information. This method assumes that the object 
+ * passed for a tenant account. 
+ * @param tenantObject -tenant object to be parsed
+ */
+function parseTenantAccount(tenantObject : any): TenantAccount{
+    const {tenant, properties} = tenantObject;
+
+    // Gather the information for the tenant account 
+    const {email, firstName, lastName, phoneNumber, pm} = tenant;
+    const {pmId} = pm[0]; 
+
+    // Get the address and propId from single property returned from the 
+    // repsonse.
+    const {streetAddress, propId} = properties[0];
+    return {
+        accountType: AccountTypes.Tenant,
+        email,
+        firstName,
+        lastName, 
+        phoneNumber,
+        pmId,
+        address: streetAddress,
+        propId,
+    };
+}
+
+/**
  * ----------------------------------------------------
  * parseAccount
  * ----------------------------------------------------
- * This function parses a json object returned from the homepairs 
- * backend into an AccountState object. This object is either 
- * a Tenant Account or a Landlord Account. The object is stored 
- * as a reducer action with the FETCH_PROFILE type.
+ * This function parses a json object returned from the homepairs backend into 
+ * an AccountState object. This object is either a Tenant Account or a 
+ * Property Manager Account. The object is stored as a reducer action with the 
+ * FETCH_PROFILE type.
  * 
  * @param {any} accountJSON -Json Object from backend response
  * */
 export const parseAccount = (accountJSON : any): FetchUserAccountProfileAction => {
-  const accountType: AccountTypes = getAccountType(accountJSON);
-  const profile = (accountType === AccountTypes.PropertyManager) ? accountJSON[accountKeys.PM] : accountJSON[accountKeys.TENANT]; 
-  let fetchedProfile : AccountState;
-  const baseProfile : Account = {
-        accountType,
-        firstName: profile[accountKeys.FIRSTNAME],
-        lastName: profile[accountKeys.LASTNAME],
-        email: profile[accountKeys.EMAIL],
-        address: profile[accountKeys.ADDRESS], 
-        roopairsToken: accountJSON[responseKeys.ROOPAIRS_TOKEN],
-    };
-    if(accountType === AccountTypes.PropertyManager){
-        const landLordProfile : PropertyManagerAccount = { ...baseProfile,
-            pmId: profile[accountKeys.PM_ID],
-        };
-        // Make sure to change from Tenant Account to Landlord
-        landLordProfile[accountKeys.TYPE] = AccountTypes.PropertyManager;
-        fetchedProfile = landLordProfile;
-    }else{
-        const tenantProfile : TenantAccount = { ...baseProfile,
-            tenantId: profile[accountKeys.TENANTID],
-            propId: profile[accountKeys.PROPID],
-        };
-        fetchedProfile = tenantProfile;
-    }
-    console.log(fetchedProfile)
+    const isTenant: boolean = getAccountType(accountJSON) === AccountTypes.Tenant;
+    const profile = isTenant 
+        ? parseTenantAccount(accountJSON) 
+        : parsePropertyManagerAccount(accountJSON);
+    
     return {
-      type: FETCH_PROFILE_ACTION_TYPES.FETCH_PROFILE,
-      profile: fetchedProfile,
+        type: FETCH_PROFILE_ACTION_TYPES.FETCH_PROFILE,
+        profile,
     };
 };

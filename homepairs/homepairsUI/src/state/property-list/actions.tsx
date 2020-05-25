@@ -4,7 +4,6 @@ import {
     RemovePropertyAction,
     FetchPropertiesAction,
     Property,
-    HomePairsResponseKeys,
     SetSelectedPropertyAction,
     FetchPropertyAndPropertyManagerAction,
     AccountTypes,
@@ -15,8 +14,6 @@ import {
     StorePropertyApplianceAndTenantAction,
 } from '../types';
 
-const propertyKeys = HomePairsResponseKeys.PROPERTY_KEYS;
-const accountKeys = HomePairsResponseKeys.ACCOUNT_KEYS;
 
 /**
  * ----------------------------------------------------
@@ -112,22 +109,26 @@ export const removeProperty = (
  * Tenants 
  * @param {Contact} linkedPropertyManager -Property Manager recieved from the homepairs servers  
  */
-export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], linkedPropertyManager: any): FetchPropertyAndPropertyManagerAction => {
+export const fetchPropertyAndPropertyManager = (linkedProperties: any[], linkedPropertyManager: any): FetchPropertyAndPropertyManagerAction => {
   const linkedProperty = linkedProperties[0];
+  const {email, firstName, lastName, pmId} = linkedPropertyManager;
   const fetchedPropertyManager: Contact = {
-    email: linkedPropertyManager[accountKeys.EMAIL],
-    firstName: linkedPropertyManager[accountKeys.FIRSTNAME],
-    lastName: linkedPropertyManager[accountKeys.LASTNAME],
+    email,
+    firstName,
+    lastName,
     accountType: AccountTypes.PropertyManager,
+    pmId,
   };
 
   const fetchedProperties: PropertyDict = {};
+  
+  const {propId, streetAddress, maxTenants, numBed, numBath} = linkedProperty;
   const fetchedProperty = {
-    propId: linkedProperty[propertyKeys.PROPERTYID],
-    address: linkedProperty[propertyKeys.ADDRESS],
-    tenants: linkedProperty[propertyKeys.TENANTS],
-    bedrooms: linkedProperty[propertyKeys.BEDROOMS],
-    bathrooms: linkedProperty[propertyKeys.BATHROOMS],
+    propId,
+    address: streetAddress,
+    tenants: maxTenants,
+    bedrooms: numBed,
+    bathrooms: numBath,
   };
 
   fetchedProperties[fetchedProperty.propId] = fetchedProperty;
@@ -150,14 +151,15 @@ export const fetchPropertyAndPropertyManager = (linkedProperties: Property[], li
 export const fetchProperties = (linkedProperties: Array<any>): FetchPropertiesAction => {
   const fetchedProperties: PropertyDict = {};
   linkedProperties?.forEach(linkedProperty => {
+    const {propId, streetAddress, maxTenants, numBed, numBath} = linkedProperty;
     const parsedProperty: Property = {
-      propId: linkedProperty[propertyKeys.PROPERTYID],
-      address: linkedProperty[propertyKeys.ADDRESS],
-      tenants: linkedProperty[propertyKeys.TENANTS],
-      bedrooms: linkedProperty[propertyKeys.BEDROOMS],
-      bathrooms: linkedProperty[propertyKeys.BATHROOMS],
+      propId,
+      address: streetAddress,
+      tenants: maxTenants,
+      bedrooms: numBed,
+      bathrooms: numBath,
     };
-    fetchedProperties[parsedProperty.propId] = parsedProperty;
+    fetchedProperties[propId] = parsedProperty;
   });
   return {
     type: PROPERTY_LIST_ACTION_TYPES.FETCH_PROPERTIES,

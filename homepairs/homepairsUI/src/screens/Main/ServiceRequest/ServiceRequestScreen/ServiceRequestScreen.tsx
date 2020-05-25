@@ -1,24 +1,21 @@
 import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { updateSelectedPage } from 'homepairs-redux-actions';
-import { withPreferredProviderFlatList } from 'src/components';
 import strings from 'homepairs-strings';
-import { convertObjectValuesToArray } from 'src/utility';
-import { prepareNavigationHandlerComponent, navigationPages} from 'homepairs-routes';
+import { convertObjectValuesToArray } from 'homepairs-utilities';
+import { prepareNavigationHandlerComponent, navigationPages, SERVICE_REQUEST} from 'homepairs-routes';
 import {
     ServiceRequestScreenBase,
     ServiceRequestScreenStateProps,
     ServiceRequestScreenProps,
     ServiceRequestsScreenDispatchProps,
 } from './ServiceRequestScreenBase';
-import withHeaderUpdate from '../../components/withHeaderUpdate';
-import { SERVICE_INDEX } from '../../../../routes/RouteConstants.web';
-import {withSceneHeader} from '../../components/index';
+import {withSceneHeader, withHeaderUpdate} from '../../components';
 
 const serviceRequestStrings = strings.serviceRequestPage;
 const sceneParam: MainAppStackType = {
     title: serviceRequestStrings.title,
-    navigate: 'ServiceRequest',
+    navigate: SERVICE_REQUEST,
     button: serviceRequestStrings.button,
     onNavButtonClick: (props: ServiceRequestScreenProps) => {
         props.navigation.navigate(navigationPages.NewRequest);
@@ -30,6 +27,7 @@ const sceneParam: MainAppStackType = {
 function mapStateToProps(state: AppState): ServiceRequestScreenStateProps {
     const {header, serviceRequests, properties, accountProfile} = state;
     return {
+        pmInfo: properties.propertyManager,
         accountType: accountProfile.accountType,
         serviceRequestsState: serviceRequests,
         header,
@@ -60,4 +58,4 @@ const ServiceRequestScreen = connect(
  * that allows the user to add a new service request to their account. 
  */
 
-export default withHeaderUpdate(prepareNavigationHandlerComponent(withPreferredProviderFlatList(withSceneHeader(ServiceRequestScreen, sceneParam))), SERVICE_INDEX);
+export default withHeaderUpdate(prepareNavigationHandlerComponent(withSceneHeader(ServiceRequestScreen, sceneParam)), sceneParam);

@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, Text, Platform } from 'react-native';
 import { ApplianceType } from 'homepairs-types';
-import { ButtonWithBitmap } from 'src/elements';
+import { ButtonWithBitmap } from 'homepairs-elements';
 import {bolt, fan, tint, blender} from 'homepairs-images';
 import * as BaseStyles from 'homepairs-base-styles';
-import { categoryToString } from 'src/utility';
+import { categoryToString } from 'homepairs-utilities';
 
 const styles = StyleSheet.create({
     container: {
@@ -82,7 +82,8 @@ type State = {
  * Choose Service Category Component 
  * ------------------------------------------------------------
  * A visual component that shows the user four buttons that help in navigating to different 
- * pages for requesting a new requests. Depending on the 
+ * pages for requesting a new requests. If an option is selected, text will instead 
+ * be rendered.  
  * @param props 
  */
 export default class ChooseServiceCategory extends React.Component<Props, State>{

@@ -129,17 +129,17 @@ export type Account = {
     firstName: string;
     lastName: string;
     email: string;
-    address: string;
-    roopairsToken: string;
-};
-
-export type PropertyManagerAccount = Account & {
     pmId: number;
 };
 
+export type PropertyManagerAccount = Account & {
+    roopairsToken: string;
+};
+
 export type TenantAccount = Account & {
+    address: string;
+    phoneNumber: string;
     propId: number;
-    tenantId: number;
 };
 
 export type AccountState = PropertyManagerAccount | TenantAccount;
@@ -164,6 +164,7 @@ export type Contact = {
     firstName: string;
     lastName: string;
     email: string;
+    pmId?: string;
 }
 /* *-------------------Account Types-------------------* */
 
@@ -186,11 +187,12 @@ export type NewServiceRequest = {
     token: string, 
     propId: string, 
     appId: string, 
-    providerId: number, 
+    providerId?: number, 
     serviceType: string,
     serviceCategory: string, 
     serviceDate: string, 
     details: string,
+    tenId?: number,
 }
 
 export type ServiceProvider = {

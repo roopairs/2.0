@@ -26,7 +26,7 @@ export type WithHeaderUpdateInjectedProps = {
  * @param {boolean} withRef - Defines if the Connected Component should be accessed using react 
  * references. 
  */
-export default function withHeaderUpdate(WrappedComponent: any, pageIndex: number = HOME_INDEX, withRef?: boolean){
+export default function withHeaderUpdate(WrappedComponent: any, page: number | MainAppStackType = HOME_INDEX, withRef?: boolean){
 
     // Define the updateHeader function so the Smart Component can be returned 
     function mapStateToProps(state: AppState) {
@@ -37,22 +37,29 @@ export default function withHeaderUpdate(WrappedComponent: any, pageIndex: numbe
     }
 
     const mapDispatchToProps = dispatch => ({
-        onUpdateHeader: (page: MainAppStackType) => {
-            dispatch(updateSelectedPage(page));
+        onUpdateHeader: (selectedPage: MainAppStackType) => {
+            dispatch(updateSelectedPage(selectedPage));
         },
     });
 
-    class UpdateHeaderComponent extends React.Component<WithHeaderUpdateProps>{
+    class UpdateHeaderComponent extends React.Component<WithHeaderUpdateInjectedProps>{
         MainAppStack: MainAppStackType[];
 
-        constructor(props: Readonly<WithHeaderUpdateProps>){
+        constructor(props: Readonly<WithHeaderUpdateInjectedProps>){
             super(props);
             this.MainAppStack = props.accountType === AccountTypes.PropertyManager ? MainAppStack : MainAppStackTenant;
         };
 
         componentDidMount(){
             const {onUpdateHeader} = this.props;
-            onUpdateHeader(this.MainAppStack[pageIndex]);
+            let selectedPage: MainAppStackType = {title: '', navigate: ''};
+
+            if(typeof page === 'object'){
+                selectedPage = page;
+            } else if (page !== -1){
+                selectedPage = this.MainAppStack[page];
+            }
+            onUpdateHeader(selectedPage);
         };
         
         render(){

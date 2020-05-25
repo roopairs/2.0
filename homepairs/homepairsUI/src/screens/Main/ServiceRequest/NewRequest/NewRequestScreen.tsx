@@ -1,14 +1,14 @@
-import { AppState, MainAppStackType, PropertyManagerAccount } from 'homepairs-types';
+import { AppState, MainAppStackType, PropertyManagerAccount, TenantAccount } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { updateSelectedPage } from 'homepairs-redux-actions';
 import { prepareNavigationHandlerComponent, NEW_SERVICE_REQUEST } from 'homepairs-routes';
-import { convertObjectValuesToArray } from 'src/utility';
+import { convertObjectValuesToArray } from 'homepairs-utilities';
 import { NewServiceRequestBase, NewRequestScreenDispatchProps, NewRequestScreenStateProps } from './NewRequestScreenBase';
-import {withSceneHeader} from '../../components/index';
+import {withSceneHeader, withHeaderUpdate} from '../../components';
 
 const sceneParam: MainAppStackType = {
     title: 'New Service Request',
-    navigate: 'NewRequest',
+    navigate: NEW_SERVICE_REQUEST,
 };
 
 function mapStateToProps(state: AppState) : NewRequestScreenStateProps {
@@ -18,24 +18,12 @@ function mapStateToProps(state: AppState) : NewRequestScreenStateProps {
         properties,
         token: state.accountProfile.roopairsToken,
         pmId: (state.accountProfile as (PropertyManagerAccount)).pmId,
+        tenId: (state.accountProfile as (TenantAccount)).tenantId,
     };
 }
 
-function mapDispatchToProps(dispatch:any): NewRequestScreenDispatchProps {
-    const selected: MainAppStackType = {
-        title: 'New Service Request',
-        navigate: NEW_SERVICE_REQUEST,
-    };
-    return {
-        onUpdateHeader: () => {
-            dispatch(updateSelectedPage(selected));
-        },
-    };
-};
-
 const NewServiceRequestScreen = connect(
     mapStateToProps,
-    mapDispatchToProps,
 )(NewServiceRequestBase);
 
 
@@ -44,4 +32,4 @@ const NewServiceRequestScreenWithNavigation = prepareNavigationHandlerComponent(
 
 // Now render the component with the SceneHeader. This way, if the child needs to the use the 
 // navigator, it is not reliant on the parent. 
-export default prepareNavigationHandlerComponent(withSceneHeader(NewServiceRequestScreenWithNavigation, sceneParam));
+export default prepareNavigationHandlerComponent(withHeaderUpdate(withSceneHeader(NewServiceRequestScreenWithNavigation, sceneParam), sceneParam));

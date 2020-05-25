@@ -336,6 +336,7 @@ export const fetchAccount = (
             const {status, role} = data;
             const accountType = getAccountType(data);
             if(status === SUCCESS){
+                console.log(data)
                 // Set the login state of the application to authenticated
                 dispatch(setAccountAuthenticationState(true));
                 dispatch(parseAccount(data));
@@ -348,10 +349,11 @@ export const fetchAccount = (
                 } else { // Assume role = tenant
                     const {properties, tenant} = data;
                     const {pm} = tenant;
-                    const {email, firstName, lastName} = pm[0];
+                    const {email, firstName, lastName, pmId} = pm[0];
                     const pmAccountType = AccountTypes.PropertyManager;
                     const pmContact = {accountType:pmAccountType, firstName, lastName, email };
                     dispatch(fetchPropertyAndPropertyManager(properties, pmContact));
+                    dispatch(fetchPreferredProviders(pmId));
                 }
                 // Navigate page based on the Account Type
                 ChooseMainPage(accountType, navigation);
@@ -683,6 +685,7 @@ export const postNewServiceRequest = async (
         {
             token: newServiceRequest.token, 
             propId: newServiceRequest.propId, 
+            tenId : newServiceRequest.tenId,
             appId: newServiceRequest.appId, 
             provId: newServiceRequest.providerId, 
             serviceType: newServiceRequest.serviceType,

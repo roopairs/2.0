@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: '100%',
         backgroundColor: colorTheme.primary,
-        flex: 1,
+        flexGrow: 1,
     },
     pallet: {
         backgroundColor: colorTheme.secondary,
@@ -101,6 +101,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType, w
             const automaticallyAdjustContentInsets = false;
             return withScrollView ? (
                 <ScrollView
+                        style={{flex: 1}}
                         testID='with-scene-header-container-view'
                         contentContainerStyle={styles.scrollViewContentContainer}
                         directionalLockEnabled={directionalLockEnabled}

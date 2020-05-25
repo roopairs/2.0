@@ -101,7 +101,7 @@ export const LOGOUT_INDEX = 3;
 
 
 
-export const MainAppStack: Array<MainAppStackType> = [
+export const MainAppStack: MainAppStackType[] = [
     {
         title: 'My Properties',
         navigate: navigationPages.PropertiesScreen,
@@ -122,7 +122,7 @@ export const MainAppStack: Array<MainAppStackType> = [
     },
 ];
 
-export const MainAppStackTenant: Array<MainAppStackType> = [
+export const MainAppStackTenant: MainAppStackType[] = [
     {
         title: 'My Home',
         navigate: TENANT_PROPERTY,

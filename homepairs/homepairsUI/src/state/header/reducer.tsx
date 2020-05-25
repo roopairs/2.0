@@ -28,7 +28,7 @@ function determineInitialIsDropDown() {
 export const initialState: HeaderState = {
     showMenu: false,
     isDropDown: determineInitialIsDropDown(),
-    currentPage: {title: undefined, navigate: undefined, key: undefined},
+    currentPage: {title: undefined, navigate: undefined},
     previousPagesStack: [],
     showBackButton: false,
     menu: [
@@ -58,6 +58,8 @@ export const header = (
         case HEADER_ACTION_TYPES.UPDATE_SELECTED_PAGE:
             newState.previousPagesStack.push(newState.currentPage);
             newState.currentPage = (action as UpdateSelectedPageAction).selected;
+            console.log(newState.currentPage);
+            console.log(newState.previousPagesStack);
             return newState;
         case HEADER_ACTION_TYPES.ON_GO_BACK:
             newState.currentPage = newState.previousPagesStack.pop();

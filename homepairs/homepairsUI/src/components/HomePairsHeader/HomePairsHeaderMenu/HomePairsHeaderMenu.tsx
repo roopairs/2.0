@@ -184,7 +184,10 @@ export default class HomePairsMenu extends React.Component<Props> {
                         testID='homepairs-header-menu-buttons' 
                         onPress={() => this.navigatePages(page)}>
                         <Text 
-                            style={ page.title === currentPage.title ? styles.menuSelectedText : styles.menuText}>
+                            style={ 
+                                /* Highlight the selected item if currently on the page. */
+                                page.navigate === currentPage.navigate ? styles.menuSelectedText : styles.menuText
+                                }>
                             {page.title}
                         </Text>
                     </TouchableOpacity>
