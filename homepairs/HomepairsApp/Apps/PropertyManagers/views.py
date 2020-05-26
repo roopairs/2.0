@@ -96,8 +96,7 @@ def getPropertyManager(email):
 # Login Helpers
 #
 
-
-def pmLogin(email, password):
+def roopairsPMLogin(email, password):
     url = BASE_URL + 'auth/login/'
 
     data = {
@@ -105,39 +104,51 @@ def pmLogin(email, password):
                'password': password
            }
     info = postRooAPI(url, data)
+    
+    return info
+
+def createPropertyManager(info, email):
+    # If the pm already exists, then don't do anything
+    if(not PropertyManager.objects.filter(email=email).exists()):
+        # Then they don't exist in our database
+        firstName = info.get('first_name')
+        lastName = info.get('last_name')
+        email = info.get('email')
+
+        tempPM = PropertyManager(firstName=firstName,
+                                 lastName=lastName,
+                                 email=email)
+        try:
+            tempPM.save()
+            toke.save()
+        except Exception as e:
+            return e.message
+            return JsonResponse(data=returnError(e.message))
+    return "success"
+
+def pmLogin(email, password):
+    info = roopairsPMLogin(email, password)
 
     if NON_FIELD_ERRORS in info:
         return returnError(info.get(NON_FIELD_ERRORS))
     elif TOKEN in info:
-        if(not PropertyManager.objects.filter(email=email).exists()):
-            # Then they don't exist in our database
-            firstName = info.get('first_name')
-            lastName = info.get('last_name')
-            email = info.get('email')
+        createStatus = createPropertyManager(info, email)
+        if(createStatus == 'success'):
+            tempDict = getPropertyManager(email)
 
-            tempPM = PropertyManager(firstName=firstName,
-                                     lastName=lastName,
-                                     email=email)
-            #toke = Token()
-            #toke.setPm(tempPM)
-            try:
-                tempPM.save()
-                toke.save()
-            except Exception as e:
-                return JsonResponse(data=returnError(e.message))
+            if tempDict[STATUS] == FAIL:
+                return returnError('%s: %s' % (HOMEPAIRS_ACCOUNT_CREATION_FAILED, tempDict[ERROR]))
 
-        tempDict = getPropertyManager(email)
+            addNewProperties(email, info.get(TOKEN))
 
-        if tempDict[STATUS] == FAIL:
-            return returnError('%s: %s' % (HOMEPAIRS_ACCOUNT_CREATION_FAILED, tempDict[ERROR]))
+            tempDict = getPropertyManager(email)
+            #toke.setRooPairsToken(info.get(TOKEN))
+            #tempDict[TOKEN] = toke.getToken()
+            tempDict[TOKEN] = info.get(TOKEN)
+            return tempDict
+        else:
+            return JsonResponse(data=returnError(createStatus))
 
-        addNewProperties(email, info.get(TOKEN))
-
-        tempDict = getPropertyManager(email)
-        #toke.setRooPairsToken(info.get(TOKEN))
-        #tempDict[TOKEN] = toke.getToken()
-        tempDict[TOKEN] = info.get(TOKEN)
-        return tempDict
 
 ################################################################################
 # Views / API Endpoints
