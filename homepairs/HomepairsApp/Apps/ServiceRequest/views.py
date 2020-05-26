@@ -78,9 +78,9 @@ class ServiceRequestView(View):
         inData = json.loads(request.body)
         isPm = inData.get('isPm')
         if isPm:
-            required = ['provId', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'token', 'propId', 'appId', 'isPm']
+            required = ['provId', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'pocName', 'poc', 'token', 'propId', 'appId', 'isPm']
         else:
-            required = ['phoneNumber', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'token', 'propId', 'appId', 'isPm']
+            required = ['phoneNumber', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'pocName', 'poc', 'propId', 'appId', 'isPm']
         missingFields = checkRequired(required, inData)
 
         url = BASE_URL + 'service-locations/' + '/propId/jobs/'
@@ -99,46 +99,49 @@ class ServiceRequestView(View):
         serviceDate = dateutil.parser.parse(serviceDateStr)
         propList = Property.objects.filter(rooId=propId)
         appList = Appliance.objects.filter(rooAppId=appId)
-        if isPm:
-            provList = ServiceProvider.objects.filter(id=provId)
-            status = 'Pending'
-        else:
-            provList = ServiceProvider.objects.all()
-            status = 'WaitingApproval'
-            phoneNumber = inData.get('phoneNumber')
-            tenant = Tenant.objects.filter(phoneNumber=phoneNumber)[0]
-            # tenPlace = Property.objects.filter(id=tenant.place)[0]
-            if propId != tenant.place.rooId:
-                return JsonResponse(data=returnError(NOT_YOUR_PROPERTY))
-
         if propList.exists():
+            if isPm:
+                provList = ServiceProvider.objects.filter(id=provId)
+                status = 'Pending'
+                types = ['Repair', 'Installation', 'Maintenance']
+                typeNum = -1
+                for i in range(0, len(types)):
+                    if types[i] == serviceType:
+                        typeNum = i + 1
+                
+
+                data = {
+                            'service_company': provId,
+                            'service_category': 1,
+                            'service_type': typeNum,
+                            'details': details,
+                            'point_of_contact_name': str(prop.pm),
+                            'requested_arrival_time': str(serviceDate)
+                    }
+                print("TOKEN?")
+                print(token)
+                info = postRooTokenAPI(url, data, token)
+                if NON_FIELD_ERRORS in info:
+                    return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
+                elif(info.get('detail') == 'Invalid token.'):
+                    return JsonResponse(data=returnError(info.get('detail')))
+            else:
+                provList = ServiceProvider.objects.all()
+                status = 'WaitingApproval'
+                phoneNumber = inData.get('phoneNumber')
+                tenant = Tenant.objects.filter(phoneNumber=phoneNumber)[0]
+                # tenPlace = Property.objects.filter(id=tenant.place)[0]
+                if propId != tenant.place.rooId:
+                    return JsonResponse(data=returnError(NOT_YOUR_PROPERTY))
+
+        
             prop = propList[0]
             if (appList.exists()):
                 app = appList[0]
             else:
                 app = None
-            types = ['Repair', 'Installation', 'Maintenance']
-            typeNum = -1
-            for i in range(0, len(types)):
-                if types[i] == serviceType:
-                    typeNum = i + 1
             prov = provList[0]
 
-            data = {
-                        'service_company': provId,
-                        'service_category': 1,
-                        'service_type': typeNum,
-                        'details': details,
-                        'point_of_contact_name': str(prop.pm),
-                        'requested_arrival_time': str(serviceDate)
-                }
-            print("TOKEN?")
-            print(token)
-            info = postRooTokenAPI(url, data, token)
-            if NON_FIELD_ERRORS in info:
-                return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
-            elif(info.get('detail') == 'Invalid token.'):
-                return JsonResponse(data=returnError(info.get('detail')))
             req = ServiceRequest(serviceCategory=serviceCategory,
                                 serviceCompany=prov,
                                 serviceType=str(typeNum),
@@ -151,7 +154,7 @@ class ServiceRequestView(View):
             try:
                 req.save()
             except Exception as e:
-                return JsonResponse(data=req(e.message))
+                return JsonResponse(data=returnError(e.message))
             data = {
                     STATUS: SUCCESS,
                     'reqId': req.id
@@ -165,16 +168,42 @@ class ServiceRequestView(View):
 
     def put(self, request):
         inData = json.loads(request.body)
-        required = ['reqId', 'status']
+        required = ['reqId', 'status', 'token']
         missingFields = checkRequired(required, inData)
         if(len(missingFields) == 0):
             id = inData.get('reqId')
             status = inData.get('status')
+            token = inData.get('token')
 
             # The ServiceRequest
             reqList = ServiceRequest.objects.filter(id=id)
             if reqList.exists():
                 req = reqList[0]
+
+                if req.status == 'WaitingApproval' and status == 'pending':
+                    url = BASE_URL + 'service-locations/' + '/propId/jobs/'
+                    types = ['Repair', 'Installation', 'Maintenance']
+                    typeNum = -1
+                    for i in range(0, len(types)):
+                        if types[i] == req.serviceType:
+                            typeNum = i + 1
+                    
+
+                    data = {
+                                'service_company': req.location.id,
+                                'service_category': 1,
+                                'service_type': typeNum,
+                                'details': req.details,
+                                'point_of_contact_name': str(req.pocName),
+                                'requested_arrival_time': str(req.serviceDate)
+                        }
+                    print("TOKEN?")
+                    print(token)
+                    info = postRooTokenAPI(url, data, token)
+                    if NON_FIELD_ERRORS in info:
+                        return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
+                    elif(info.get('detail') == 'Invalid token.'):
+                        return JsonResponse(data=returnError(info.get('detail')))
 
                 req.status = status
                 try:

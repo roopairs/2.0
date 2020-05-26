@@ -14,6 +14,8 @@ class ServiceRequest(models.Model):
     client = CharField(max_length=100)
     status = CharField(max_length=20)
     serviceDate = DateTimeField()
+    pocName = CharField(max_length=20, null=True)
+    poc = CharField(max_length=20, null=True)
     appFixed = models.ForeignKey(Appliance, on_delete=models.CASCADE, null=True, blank=True)
     location = models.ForeignKey(Property, on_delete=models.CASCADE)
 

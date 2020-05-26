@@ -36,6 +36,8 @@ PROPERTY_ALREADY_EXISTS = 'Property given already exists'
 NON_FIELD_ERRORS = 'non_field_errors'
 PROPERTY_DOESNT_EXIST = 'Property does not exist.'
 NOT_PROP_OWNER = 'You are not the property owner'
+TENANT_ALREADY_EXISTS = 'The given email already exists for a tenant'
+BAD_ADDRESS_FORMAT = 'Bad address format, "address, city, state"'
 TOKEN = 'token'
 RESIDENTIAL_CODE = 1
 INCORRECT_CREDENTIALS = ['Unable to log in with provided credentials.']
@@ -118,7 +120,10 @@ class RegisterView(View):
             streetAddress = inData.get('address')
             password = inData.get('password')
 
+            print("######################", streetAddress, "###########################")
             temp = streetAddress.split(',')
+            if len(temp) <= 2:
+                return JsonResponse(data=returnError(BAD_ADDRESS_FORMAT))
             streetAddress = temp[0].strip()
             city = temp[1].strip()
             state = temp[2].strip()
@@ -129,6 +134,10 @@ class RegisterView(View):
                 return JsonResponse(data=returnError(EMAIL_ALREADY_USED))
 
             propertyList = Property.objects.filter(streetAddress=streetAddress, city=city)
+
+            tenantList = Tenant.objects.filter(email=email)
+            if tenantList.exists():
+                return JsonResponse(data=returnError(TENANT_ALREADY_EXISTS))
 
             if propertyList.exists():
                 if propertyList.count() < 2:
