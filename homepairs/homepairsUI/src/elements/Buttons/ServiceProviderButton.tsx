@@ -4,17 +4,15 @@ import {
     Text,
     View,
     StyleSheet,
-    Image,
     Platform,
 } from 'react-native';
-import { HomePairsDimensions, ServiceRequest, ServiceProvider } from 'homepairs-types';
+import { HomePairsDimensions, ServiceProvider } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import Colors from 'homepairs-colors';
 import { HomePairFonts } from 'homepairs-fonts';
-import { clock } from 'homepairs-images';
 import Moment from 'moment';
-import {categoryToString, isNullOrUndefined} from 'src/utility';
-import { TextTile, ImageTile } from 'src/elements';
+import {isNullOrUndefined} from 'src/utility';
+import { TextTile, ImageTile } from '../Tiles/Tiles';
 
 export type ServiceProviderButtonProps = {
     key?: string,

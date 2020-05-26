@@ -22,19 +22,13 @@
  */
 
 export * from './Forms';
-export * from './Panels/AppliancePanel';
-export * from './Panels/ApplianceCategoryPanel';
+export * from './Panels';
 export * from './Cards/Card';
 export * from './Stickers/Sticker';
 export * from './Tiles/Tiles';
-export * from './Buttons/index';
+export * from './Buttons';
 
 export {default as DatePicker} from './DatePicker/DatePicker';
 export {default as Card } from './Cards/Card';
 export {default as Sticker} from './Stickers/Sticker';
-export {default as AppliancePanel} from './Panels/AppliancePanel';
-export {default as ServiceRequestAddressPanel} from './Panels/ServiceRequestAddressPanel';
-export {default as AddressPanel} from './Panels/AddressPanel';
-export {default as ApplianceCategoryPanel} from './Panels/ApplianceCategoryPanel';
-export {default as ServiceTypePanel} from './Panels/ServiceTypePanel';
 export {default as LocationItem } from './LocationItem/LocationItem';

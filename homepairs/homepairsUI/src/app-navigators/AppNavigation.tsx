@@ -2,19 +2,23 @@
 import React from 'react';
 import { createAppContainer, SafeAreaView } from 'react-navigation';
 import { createStackNavigator, NavigationStackConfig, NavigationStackOptions } from 'react-navigation-stack';
+import { Platform, View } from 'react-native';
+import { LightColorTheme } from 'homepairs-base-styles';
+import { navigationKeys, navigationPages } from 'src/routes';
+import { AppState, AccountTypes } from 'homepairs-types';
+import { connect } from 'react-redux';
 import {
-    NewRequestScreen,
-    ServiceRequestScreen,
+    NewRequest,
+    ServiceRequest,
     LoginScreen,
     SignUpScreen,
     RoopairsLogin,
-    AccountScreen,
-    DetailedPropertyScreen,
-    PropertiesScreen,
-    TenantPropertiesScreen,
-} from 'homepairs-pages';
-
-import { Platform, View } from 'react-native';
+    Account,
+    DetailedProperty,
+    Properties,
+    TenantProperty,
+} from './screens';
+import { HomePairsHeader } from './nav-header';
 import { 
     AddNewPropertyModal, 
     EditPropertyModal, 
@@ -22,17 +26,12 @@ import {
     CreatingAccountModal, 
     AddApplianceModal, 
     EditApplianceModal, 
-    EditTenantModal, 
+    EditTenantModal,
     AddTenantModal,
     ServiceRequestModal,
     AddServiceProviderModal,
     PreferredProviderModal,
-} from 'homepairs-modals';
-import { HomePairsHeader } from 'homepairs-components';
-import { LightColorTheme } from 'homepairs-base-styles';
-import { navigationKeys, navigationPages } from 'homepairs-routes';
-import { AppState, AccountTypes } from 'homepairs-types';
-import { connect } from 'react-redux';
+} from './modals';
 
 // Add margin offset for Page components 
 function offSetForHeader(Offsetted: any){
@@ -56,13 +55,13 @@ function offSetForHeader(Offsetted: any){
     return connect(mapStateToProps)(OffSettedComponent);      
 };
 
-const NewRequestPage = offSetForHeader(NewRequestScreen);
-const ServiceRequestPage = offSetForHeader(ServiceRequestScreen);
+const NewRequestPage = offSetForHeader(NewRequest);
+const ServiceRequestPage = offSetForHeader(ServiceRequest);
 
-const AccountPage = offSetForHeader(AccountScreen);
-const DetailedPropertyPage = offSetForHeader(DetailedPropertyScreen);
-const PropertiesPage = offSetForHeader(PropertiesScreen);
-const TenantPropertiesPage = offSetForHeader(TenantPropertiesScreen);
+const AccountPage = offSetForHeader(Account);
+const DetailedPropertyPage = offSetForHeader(DetailedProperty);
+const PropertiesPage = offSetForHeader(Properties);
+const TenantPropertiesPage = offSetForHeader(TenantProperty);
 
 /** Set Up our configuration for the navigation routes */
 

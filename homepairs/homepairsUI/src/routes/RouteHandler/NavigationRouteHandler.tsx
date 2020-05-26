@@ -2,7 +2,7 @@
 import { NavigationStackProp } from 'react-navigation-stack';
 import { RouteProps, withRouter} from 'react-router-dom';
 import { NavigationSwitchProp, withNavigation} from 'react-navigation';
-import { isNullOrUndefined } from 'homepairs-utilities';
+import { isNullOrUndefined } from 'src/utility';
 import { Platform } from 'react-native';
 import React from 'react';
 import {navigationPages, MainAppStack} from '../RouteConstants';

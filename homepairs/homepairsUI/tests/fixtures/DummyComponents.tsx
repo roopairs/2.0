@@ -3,7 +3,7 @@ import {View, Platform} from 'react-native';
 import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
 import { MainAppStackType, ApplianceType, TenantInfo } from 'homepairs-types';
-import { navigationPages, NavigationRouteHandler, prepareRoute } from 'homepairs-routes';
+import { navigationPages, NavigationRouteHandler, prepareRoute } from 'src/routes';
 import { isNullOrUndefined } from 'src/utility';
 
 

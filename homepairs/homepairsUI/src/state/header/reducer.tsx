@@ -1,6 +1,6 @@
 import { Dimensions } from 'react-native';
 import strings from 'homepairs-strings';
-import {MainAppStack} from 'homepairs-routes';
+import {MainAppStack} from 'src/routes';
 import { 
     HeaderState, 
     ToggleMenuAction,

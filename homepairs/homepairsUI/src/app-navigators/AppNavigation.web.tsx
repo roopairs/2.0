@@ -3,28 +3,27 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { BrowserRouter as Router, Route, Redirect, Switch, useLocation, useHistory} from 'react-router-dom';
 import {
-  NewRequestScreen,
-  ServiceRequestScreen,
-  LoginScreen,
-  SignUpScreen,
-  RoopairsLogin,
-  AccountScreen,
-  DetailedPropertyScreen,
-  PropertiesScreen,
-  TenantPropertiesScreen,
-} from 'src/screens';
-import { HomePairsHeader } from 'homepairs-components';
-import { CreatingAccountModal, LoggingInModal, AddNewPropertyModal, 
-  EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, 
-  EditTenantModal, ServiceRequestModal, AddServiceProviderModal, PreferredProviderModal } from 'homepairs-modals';
-import {
   LOGIN, SIGNUP, ROOPAIRS_LOGIN, PROPERTY_LIST, TENANT_PROPERTY,
   PROPERTY, LOGIN_MODAL, CREATE_ACCOUNT_MODAL, ADD_PROPERTY_MODAL, EDIT_PROPERTY_MODAL, 
   ROOPAIRS_LOGIN_MODAL, EDIT_TENANT_MODAL, ADD_TENANT_MODAL, ADD_APPLIANCE_MODAL, EDIT_APPLIANCE_MODAL,
   SERVICE_REQUEST, NEW_SERVICE_REQUEST, ACCOUNT_SETTINGS, SERVICE_REQUEST_INFO_MODAL,
   ADD_SERVICE_PROVIDER_MODAL, PREFERRED_PROVIDER_MODAL,
-} from 'homepairs-routes';
-
+} from 'src/routes';
+import {
+  NewRequest,
+  ServiceRequest,
+  LoginScreen,
+  SignUpScreen,
+  RoopairsLogin,
+  Account,
+  DetailedProperty,
+  Properties,
+  TenantProperty,
+} from './screens';
+import { HomePairsHeader } from './nav-header';
+import { CreatingAccountModal, LoggingInModal, AddNewPropertyModal, 
+  EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, 
+  EditTenantModal, ServiceRequestModal, AddServiceProviderModal, PreferredProviderModal } from './modals';
 
 const style = StyleSheet.create({
   routeContainer: {
@@ -32,9 +31,9 @@ const style = StyleSheet.create({
     top: 0, 
     left: 0, 
     right: 0, 
-    bottom: 0
+    bottom: 0,
   },
-})
+});
 
 /**
  * ------------------------------------------------------------
@@ -46,16 +45,14 @@ const style = StyleSheet.create({
  * @param NavigableComponent 
  */
 export function withNavHeader(NavigableComponent: any){
-  return class PageWithNavHeader extends React.Component{
-    render() {
+  return function PageWithNavHeader(props:any){
       return (
       <View style={{flex:1}}>
           <HomePairsHeader >
-            <NavigableComponent {...this.props} />
+            <NavigableComponent {...props} />
           </HomePairsHeader>
-        </View>)
-      }
-  }
+        </View>);
+  };
 }
 
 
@@ -157,12 +154,12 @@ const ServiceRequestInfoReadyModal = withModal(ServiceRequestModal);
 
 
 /* Header Ready Pages */
-const NavPropertyList = withNavHeader(PropertiesScreen);
-const NavDetailedProperty = withNavHeader(DetailedPropertyScreen);
-const NavTenantProperty = withNavHeader(TenantPropertiesScreen);
-const NavAccountPage = withNavHeader(AccountScreen);
-const NavServiceRequest = withNavHeader(ServiceRequestScreen);
-const NavNewRequestPage = withNavHeader(NewRequestScreen);
+const NavPropertyList = withNavHeader(Properties);
+const NavDetailedProperty = withNavHeader(DetailedProperty);
+const NavTenantProperty = withNavHeader(TenantProperty);
+const NavAccountPage = withNavHeader(Account);
+const NavServiceRequest = withNavHeader(ServiceRequest);
+const NavNewRequestPage = withNavHeader(NewRequest);
 /* Header Ready Pages */
 
 /* Authentication Modal Switch Routers */
@@ -273,7 +270,7 @@ function ServiceRequestSwitch() {
               </Switch>
 
               {background && <Route path={`${SERVICE_REQUEST_INFO_MODAL}/:serviceRequest`}><ServiceRequestInfoReadyModal/></Route>}
-              {background && <Route path={`${ADD_SERVICE_PROVIDER_MODAL}/:token/:property`}><AddServiceProviderReadyModal/></Route>}
+              {background && <Route path={`${ADD_SERVICE_PROVIDER_MODAL}`}><AddServiceProviderReadyModal/></Route>}
               {background && <Route path={`${PREFERRED_PROVIDER_MODAL}/:serviceProvider`}><PreferredProviderReadyModal/></Route>}
           </>
       )}/>
