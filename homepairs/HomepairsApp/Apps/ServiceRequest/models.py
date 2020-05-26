@@ -26,6 +26,7 @@ class ServiceRequest(models.Model):
         else:
             appFixedStr = self.appFixed.toDictNoRecurs()
         return {
+                "id": self.id,
                 "details": self.details,
                 "serviceCategory": self.serviceCategory,
                 "serviceCompany": str(self.serviceCompany),
