@@ -58,8 +58,6 @@ export const header = (
         case HEADER_ACTION_TYPES.UPDATE_SELECTED_PAGE:
             newState.previousPagesStack.push(newState.currentPage);
             newState.currentPage = (action as UpdateSelectedPageAction).selected;
-            console.log(newState.currentPage);
-            console.log(newState.previousPagesStack);
             return newState;
         case HEADER_ACTION_TYPES.ON_GO_BACK:
             newState.currentPage = newState.previousPagesStack.pop();

@@ -104,7 +104,6 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
 
     constructor(props: Readonly<DetailedPropertyProps>){
         super(props);
-        console.log(props);
         this.navigation = props.navigation;
         this.token = props.token;
         this.openEditPropertyModal = this.openEditPropertyModal.bind(this);

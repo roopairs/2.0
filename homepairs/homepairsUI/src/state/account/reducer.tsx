@@ -19,9 +19,9 @@ export const initialState: AccountState = {
     lastName: null,
     email: null,
     address: null,
-    roopairsToken: null,
-    tenantId: null,
+    token: null,
     propId: null,
+    pmId: null,
 };
 
 /**

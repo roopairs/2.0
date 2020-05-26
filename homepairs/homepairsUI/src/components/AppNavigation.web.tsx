@@ -10,16 +10,18 @@ import {
   ADD_SERVICE_PROVIDER_MODAL, PREFERRED_PROVIDER_MODAL,
 } from 'src/routes';
 import {
-  NewRequest,
-  ServiceRequest,
   LoginScreen,
   SignUpScreen,
   RoopairsLogin,
+} from './auth-pages';
+import {
+  NewRequest,
+  ServiceRequest,
   Account,
   DetailedProperty,
   Properties,
   TenantProperty,
-} from './screens';
+} from './main-pages';
 import { HomePairsHeader } from './nav-header';
 import { CreatingAccountModal, LoggingInModal, AddNewPropertyModal, 
   EditPropertyModal, AddApplianceModal, EditApplianceModal, AddTenantModal, 

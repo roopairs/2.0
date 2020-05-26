@@ -9,9 +9,4 @@ function mapStateToProps(state: AppState) : TenantPropertyStateProps {
     };
 };
 
-export default connect(
-  mapStateToProps,
-)(TenantPropertyScreenBase);
-
-// export default withHeaderUpdate(prepareNavigationHandlerComponent(withSinglePropertyConnect(TenantPropertyScreen)), HOME_INDEX);
-
+export default connect(mapStateToProps)(TenantPropertyScreenBase);

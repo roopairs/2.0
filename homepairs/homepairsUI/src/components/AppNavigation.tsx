@@ -8,16 +8,18 @@ import { navigationKeys, navigationPages } from 'src/routes';
 import { AppState, AccountTypes } from 'homepairs-types';
 import { connect } from 'react-redux';
 import {
-    NewRequest,
-    ServiceRequest,
     LoginScreen,
     SignUpScreen,
     RoopairsLogin,
+} from './auth-pages';
+import {
+    NewRequest,
+    ServiceRequest,
     Account,
     DetailedProperty,
     Properties,
     TenantProperty,
-} from './screens';
+} from './main-pages';
 import { HomePairsHeader } from './nav-header';
 import { 
     AddNewPropertyModal, 
