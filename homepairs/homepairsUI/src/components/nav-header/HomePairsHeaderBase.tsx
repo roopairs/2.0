@@ -51,6 +51,7 @@ export type HomePairsHeaderDispatchProps = {
     onLogOut: (authed:boolean) => any;
     onClickBackButton: () => any;
 };
+
 export type HomePairsHeaderProps = 
 & HomePairsHeaderDispatchProps 
 & HomePairsHeaderStateProps 
@@ -115,7 +116,6 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
     /**
      * Callback function to be passed into the Dimensions eventlistenter. It will 
      * invoke a state change to this component based on the width of the window. 
-     * TODO: Search for a cleaner way of doing this specifically for web platforms. 
      */
     handleChange() {
         const { width } = Dimensions.get('window');

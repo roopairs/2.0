@@ -133,10 +133,6 @@ export const MainAppStackTenant: MainAppStackType[] = [
         button: 'Request Service',
     },
     {
-        title: 'Account Settings',
-        navigate: navigationPages.AccountSettings,
-    },
-    {
         title: 'Log Out',
         navigate: navigationPages.LoginScreen,
     },
