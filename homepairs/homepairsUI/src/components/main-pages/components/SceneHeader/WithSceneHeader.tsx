@@ -1,5 +1,5 @@
 import React from 'react';
-import { MainAppStackType, HomePairsDimensions } from 'homepairs-types';
+import { MainAppStackType, HomePairsDimensions, AppState } from 'homepairs-types';
 import {
     Platform,
     View,
@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
 import {NavigationRouteHandler} from 'src/routes';
+import { PreferredProviderFlatList } from './PreferredProviderFlatList';
 import SceneHeader from './SceneHeader';
 
 type SceneDispatchProps = {
@@ -140,12 +141,14 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType, w
         render() {
             return !(Platform.OS === 'ios') ? (
                 <View style={styles.container}>
+                    <PreferredProviderFlatList />
                     <View style={styles.pallet}>
                         {this.renderContents()}
                     </View>
                 </View>
             ) : (
                 <View style={styles.container}>
+                    <PreferredProviderFlatList />
                     <SafeAreaView style={styles.pallet}>
                         {this.renderContents()}
                     </SafeAreaView>

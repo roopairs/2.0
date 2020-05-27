@@ -65,7 +65,15 @@ const styles = StyleSheet.create({
     },
 });
 
-
+/**
+ * ---------------------------------------------------
+ * SceneHeader
+ * ---------------------------------------------------
+ * The stylized title and button that is rendered for most pages 
+ * of the main HomePairs UI. 
+ * 
+ * @param {SceneHeaderProps} props 
+ */
 export default function SceneHeader(props: SceneHeaderProps) {
     const {buttonTitle, onButtonPress, title } = props;
 

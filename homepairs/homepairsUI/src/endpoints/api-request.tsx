@@ -90,14 +90,11 @@ export const fetchGoogleApiKey = () => {
 * fetchPreferredProviders
 * ---------------------------------------------------- 
 * Makes a get request to the homepairs backend retrieving all preferred provider from the account 
-* associatted with the account Email. This function calls the dispatch method and updates the store 
+* associatted with the account. This function calls the dispatch method and updates the store 
 * upon success.
 * 
-* @param {ServiceProvider} serviceProvider -The object holding in the service provider to be removed
-* @param {string} accountEmail -The email of the associated account. This is used to by the backend to 
+* @param {string} pmID - The id of the associated account. This is used to by the backend to 
 * determine which account needs the specified provider to be removed
-* @param {(error:string) => any} onError -An optional callback function that will handle an error 
-* thrown if the api request fails
 */
 export const fetchPreferredProviders = (pmId: string) => {
     const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${pmId}/`;
@@ -107,6 +104,7 @@ export const fetchPreferredProviders = (pmId: string) => {
             const {data} = result;
             const {providers} = data;
             const parsedProviders = parsePreferredProviders(providers);
+            console.log(parsedProviders);
             dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
             return result;
         })
@@ -120,15 +118,12 @@ export const fetchPreferredProviders = (pmId: string) => {
 * ----------------------------------------------------
 * fetchNetworkProviders
 * ---------------------------------------------------- 
-* Makes a get request to the homepairs backend retrieving all network providera from the account 
-* associatted with the account Email. This function calls the dispatch method and updates the store 
+* Makes a get request to the homepairs backend retrieving all network providers from the account 
+* associatted with the account email. This function calls the dispatch method and updates the store 
 * upon success.
 * 
-* @param {ServiceProvider} serviceProvider -The object holding in the service provider to be removed
 * @param {string} accountEmail -The email of the associated account. This is used to by the backend to 
 * determine which account needs the specified provider to be removed
-* @param {(error:string) => any} onError -An optional callback function that will handle an error 
-* thrown if the api request fails
 */
 export const fetchNetworkProviders = (accountEmail: string) => {
     const endpoint = `${HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT}${accountEmail}/`;
@@ -160,9 +155,10 @@ export const fetchNetworkProviders = (accountEmail: string) => {
  * Makes a post request to the homepairs backend adding a preferred provider from the account 
  * associatted with the account Email. Returns the result of the request upon completion. 
  * 
- * @param {string} accountEmail -The email of the associated account. This is used to by the backend to 
+ * @param {string} pmId  -The id of the associated account. This is used to by the backend to 
  * determine which account needs the specified provider to be added.
- * @param {ServiceProvider} serviceProvider -The object holding in the service provider to be added.
+ * @param {ServiceProvider} phoneNum - The string used to resolve the provider. Each service provider 
+ * will have a unique phone number
  * @param {(error:string) => any} onError -An optional callback function that will handle an error 
  * thrown if the api request fails.
  */
@@ -412,13 +408,10 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
             dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
             ChooseMainPage(AccountTypes.Tenant, navigation);
           } else {
-            console.log(response);
-            console.log(status);
             modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
           }
         })
         .catch(error => {
-          console.log(error);
           modalSetOffCallBack("Connection to the server could not be established.");
         });
     };
@@ -675,6 +668,15 @@ export const postUpdatedAppliance = async (
             .catch(error => console.log(error));
 };
 
+/**
+* ----------------------------------------------------
+ * postNewServiceRequest
+ * ----------------------------------------------------
+ * @param newServiceRequest 
+ * @param displayError 
+ * @param navigation 
+ * @param isPm 
+ */
 export const postNewServiceRequest = async (
     newServiceRequest: NewServiceRequest, 
     displayError: (msg: string) => void, 
@@ -702,6 +704,7 @@ export const postNewServiceRequest = async (
                 navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
             } else {
                 const {error} = data;
+                console.log(error)
                 displayError(error);
             }
         }).catch(error => {

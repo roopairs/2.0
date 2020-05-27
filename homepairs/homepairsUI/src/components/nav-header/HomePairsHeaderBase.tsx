@@ -217,12 +217,6 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
                         setAuthenticatedState={(authed:boolean) => onLogOut(authed)}
                         accountType={accountType}/>
             </View>
-            { 
-                accountType === AccountTypes.PropertyManager
-                && header.currentPage.navigate === HeaderNavigators[1] 
-                ? <PreferredProviderFlatList /> 
-                : <></>
-            }
             </View>
             {
                 isNullOrUndefined(children) 

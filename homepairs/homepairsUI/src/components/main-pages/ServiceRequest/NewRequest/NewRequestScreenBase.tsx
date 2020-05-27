@@ -268,7 +268,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
         const {navigation, token, accountType, phoneNumber} = this.props;
         this.setState({errorCheck: false});
         if (this.validateForms()) {
-            const pm = accountType === AccountTypes.PropertyManager;
+            const isPm = accountType === AccountTypes.PropertyManager;
             const newServiceRequest : NewServiceRequest = {
                 token,
                 propId, 
@@ -280,7 +280,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
                 details,
                 phoneNumber,
             };
-            await postNewServiceRequest(newServiceRequest, this.displayError, navigation, pm).catch(error => console.log(error));
+            await postNewServiceRequest(newServiceRequest, this.displayError, navigation, isPm).catch(error => console.log(error));
         }
     }
 
