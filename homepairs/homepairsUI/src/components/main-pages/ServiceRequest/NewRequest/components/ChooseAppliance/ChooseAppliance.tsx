@@ -29,7 +29,9 @@ const styles = StyleSheet.create({
     selectedText: {
         color: Colors.LightModeColors.greyButtonText, 
         fontSize: BaseStyles.FontTheme.reg,
-        alignSelf: 'center',
+        alignSelf: 'flex-start',
+        padding: 5,
+        paddingLeft: 10,
     },
     resultContainerStyle: {
         flex: 1,
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
         marginTop: BaseStyles.MarginPadding.small,
         marginBottom: BaseStyles.MarginPadding.small,
         minHeight: 50,
-        width: 400,
+        width: BaseStyles.ContentWidth.thin,
         borderRadius: BaseStyles.BorderRadius.large,
         borderWidth: 2,
         borderColor: Colors.LightModeColors.greyButton,
@@ -51,12 +53,11 @@ export default class ChooseAppliance extends Component<ChooseApplianceProps,Choo
         containerStyle: {
             flex: 1,
             alignSelf: 'center',
-            justifyContent: 'center',
             marginTop: BaseStyles.MarginPadding.largeConst,
             marginBottom: BaseStyles.MarginPadding.large,
             minHeight: 50,
-            maxWidth: 300,
-            width: BaseStyles.ContentWidth.thin,
+            maxWidth: 400,
+            width: BaseStyles.ContentWidth.max,
         }, 
         buttonStyle: {
             alignItems: 'center',
@@ -65,11 +66,13 @@ export default class ChooseAppliance extends Component<ChooseApplianceProps,Choo
             borderRadius: BaseStyles.BorderRadius.large,
             borderWidth: 2,
             borderColor: Colors.LightModeColors.greyButton,
+            height: 50,
         },
         buttonTextStyle: {
             color: Colors.LightModeColors.greyButtonText, 
             fontSize: BaseStyles.FontTheme.reg,
-            alignSelf: 'center',
+            alignSelf: 'flex-start',
+            padding: 5,
         },
     }
 

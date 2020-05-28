@@ -49,11 +49,14 @@ const DefaultInputFormStyle = StyleSheet.create({
         margin: 1,
         minWidth: 40,
         width: '100%',
-        height: 40,
+        height: 50,
         borderColor: '#AFB3B5',
         borderWidth: 1,
         borderRadius: 4,
         paddingHorizontal: 10,
+    },
+    hide: {
+        display: 'none',
     },
     errorStyle: {
         fontFamily: FontTheme.secondary, 
@@ -164,7 +167,8 @@ export class GoogleInputForm extends React.Component<GoogleInputFormProps, Googl
                                 testID= 'autocomplete-helper-text'
                                 type= 'error'
                                 visible={error}
-                                style={errorStyle}
+                                style={error ? errorStyle : DefaultInputFormStyle.hide}
+                                padding='none'
                             >
                             {errorMessage}
                             </HelperText>

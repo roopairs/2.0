@@ -19,7 +19,7 @@ export const initialState: AccountState = {
     lastName: null,
     email: null,
     address: null,
-    token: null,
+    roopairsToken: null,
     propId: null,
     pmId: null,
 };

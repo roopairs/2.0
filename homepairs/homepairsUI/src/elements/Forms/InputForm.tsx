@@ -55,6 +55,9 @@ const DefaultInputFormStyle = StyleSheet.create({
         borderRadius: 4,
         paddingHorizontal: 10,
     },
+    hide: {
+        display: 'none',
+    },
     errorStyle: {
         fontFamily: FontTheme.secondary, 
         fontSize: 14,
@@ -135,7 +138,8 @@ export class InputForm extends React.Component<InputFormProps, InputFormState> {
                     testID= 'helper-text'
                     type= 'error'
                     visible={error}
-                    style={errorStyle}
+                    style={error ? errorStyle : DefaultInputFormStyle.hide}
+                    padding='none'
                 >
                 {errorMessage}
                 </HelperText>

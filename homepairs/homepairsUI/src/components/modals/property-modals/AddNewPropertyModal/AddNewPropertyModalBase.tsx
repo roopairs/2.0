@@ -258,7 +258,6 @@ export default class AddNewPropertyModalBase extends React.Component<Props,Creat
             const info : AddNewPropertyState = {email, roopairsToken};
             onCreateProperty(newProperty, info, this.setInitialState, 
                 this.displayError, navigation);
-            this.goBackToPreviousPage();
         }
     }
 

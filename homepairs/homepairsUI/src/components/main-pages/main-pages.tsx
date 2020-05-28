@@ -6,7 +6,7 @@ import { AccountPage} from './Account';
 import { withSceneHeader, withHeaderUpdate } from './components';
 
 const propertySceneParams: MainAppStackType = {
-    title: 'Properties',
+    title: 'My Properties',
     navigate: 'AccountProperties',
     button: 'Add Property',
     onNavButtonClick: (props:any)=> {
@@ -61,9 +61,9 @@ export const TenantProperty = withHeaderUpdate(prepareNavigationHandlerComponent
  * can be injected with a Modal; this gives this component the capability to reveal a smaller page 
  * that allows the user to add a new service request to their account. 
  */
-export const ServiceRequest = withHeaderUpdate(prepareNavigationHandlerComponent(withSceneHeader(ServiceRequestPage, sceneParam)), sceneParam);
+export const ServiceRequest = withHeaderUpdate(prepareNavigationHandlerComponent(withSceneHeader(ServiceRequestPage, sceneParam, false)), sceneParam);
 
 export const NewRequest = prepareNavigationHandlerComponent(withHeaderUpdate(
-    withSceneHeader(prepareNavigationHandlerComponent(NewRequestPage), newRequestSceneParam), newRequestSceneParam));
+    withSceneHeader(prepareNavigationHandlerComponent(NewRequestPage), newRequestSceneParam), newRequestSceneParam, false));
 
-export const Account = prepareNavigationHandlerComponent(withSceneHeader(AccountPage, accountSceneParam));
+export const Account = prepareNavigationHandlerComponent(withSceneHeader(AccountPage, accountSceneParam, false));

@@ -5,8 +5,8 @@
  */
 import axios from 'axios';
 import {AsyncStorage} from 'react-native';
-import { getAccountType, categoryToString, isNullOrUndefined, stringToCategory } from 'src/utility';
-import { NavigationRouteHandler, ChooseMainPage, navigationPages} from 'src/routes';
+import { categoryToString, isNullOrUndefined, stringToCategory } from 'src/utility';
+import { NavigationRouteHandler, ChooseMainPage, navigationPages, getAccountType} from 'src/routes';
 import * as HomePairsStateActions from 'homepairs-redux-actions';
 import { 
     AccountTypes, 
@@ -60,13 +60,13 @@ export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => S
 (preferredServiceProviderJSON: any[]) => {
     return preferredServiceProviderJSON.map(serviceProvider => {
         const {provId, name, email, phoneNum, prefId,contractLic, skills, 
-            founded, rate, timesHired, earliestHire, logo} = serviceProvider;
+            founded, rate, timesHired, earliestHire, logo, address} = serviceProvider;
         return {
             provId, name, email, prefId,
             phoneNum, contractLic, skills, 
             founded, payRate: rate, timesHired, 
             earliestHire: isNullOrUndefined(earliestHire) ? undefined : new Date(earliestHire), 
-            logo,
+            logo, address,
         };
     });
 };
@@ -461,7 +461,6 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
             }
           })
           .catch((error) => {
-            console.log(error);
             displayError(error);
             modalSetOffCallBack("Connection to the server could not be established.");
           });
@@ -489,6 +488,7 @@ export const postNewProperty = (
     info: AddNewPropertyState,
     setInitialState: () => void,
     displayError: (msg: string) => void,
+    navigation: NavigationRouteHandler,
 ) => {
     return async (dispatch: (arg0: any) => void) => {
         await axios
@@ -515,6 +515,7 @@ export const postNewProperty = (
                     };
                     dispatch(addProperty(newProp));
                     setInitialState();
+                    navigation.resolveModalReplaceNavigation(navigationPages.PropertiesScreen);
                 } else {
                     const {error} = data;
                     displayError(error);
@@ -683,6 +684,7 @@ export const postNewServiceRequest = async (
     navigation: NavigationRouteHandler,
     isPm: boolean,
 ) => {
+        console.log(newServiceRequest);
         await axios
         .post(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, 
         {
@@ -695,6 +697,8 @@ export const postNewServiceRequest = async (
             serviceCategory: newServiceRequest.serviceCategory, 
             serviceDate: newServiceRequest.serviceDate, 
             details: newServiceRequest.details,
+            poc: newServiceRequest.poc, 
+            pocName: newServiceRequest.pocName,
             isPm,
         })
         .then(response => {

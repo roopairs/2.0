@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         backgroundColor: colorTheme.secondary,
         alignSelf: 'center',
         width: BaseStyles.ContentWidth.max,
-        flexGrow: 1,
+        flex: 1,
     },
     scrollViewContentContainer: {
         maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
  * @param {MainAppStackType} Page -Parameters that determine title, button, and button behavior 
  * @param {boolean} withScrollView -Determines if the scene header requires a scrollview, by default it is true 
  */
-export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType, withScrollView: boolean = true) {
+export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType, withScrollView: boolean = false) {
 
     const ReduxComponent = class ReduxComponentBase extends React.Component<Props,State> {
 
@@ -100,7 +100,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType, w
             const {onSetNavHeaderGoBackButton,onCloseNavHeaderMenu,navigation} = this.props;
             const directionalLockEnabled = true;
             const automaticallyAdjustContentInsets = false;
-            return withScrollView ? (
+            return withScrollView || Platform.OS !== 'web' ? (
                 <ScrollView
                         style={{flex: 1}}
                         testID='with-scene-header-container-view'
@@ -114,6 +114,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType, w
                             navigation={navigation}/>
                     </ScrollView>
             ) : (
+                <View style={{flex: 1}}>
                 <View
                     testID='with-scene-header-container-view'
                     style={styles.viewStyle}>
@@ -123,6 +124,7 @@ export function withSceneHeader(WrappedComponent: any, Page: MainAppStackType, w
                             onCloseNavHeaderMenu={onCloseNavHeaderMenu}
                             navigation={navigation}/>
                     </View>
+                </View>
             );
         }
 

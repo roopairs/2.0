@@ -7,8 +7,7 @@ import { HomePairsDimensions, Property, EditPropertyState } from 'homepairs-type
 import Colors from 'homepairs-colors';
 import {HelperText} from 'react-native-paper';
 import { isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces } from 'src/utility';
-import {navigationPages, NavigationRouteScreenProps, NavigationRouteHandler} from 'src/routes';
-import { createIconSetFromFontello } from "react-native-vector-icons";
+import {navigationPages, NavigationRouteScreenProps, NavigationRouteHandler} from 'homepairs-routes';
 
 const {SingleProperty} = navigationPages;
 

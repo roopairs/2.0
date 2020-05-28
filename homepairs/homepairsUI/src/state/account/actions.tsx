@@ -1,4 +1,4 @@
-import { getAccountType} from 'src/utility';
+import { getAccountType} from 'src/routes';
 import { 
   FetchUserAccountProfileAction, 
   PropertyManagerAccount, 
@@ -20,7 +20,7 @@ export const FETCH_PROFILE_ACTION_TYPES = {
  */
 function parsePropertyManagerAccount(pmObject : any): PropertyManagerAccount{
     const {pm, token} = pmObject;
-    return {...pm, token, accountType: AccountTypes.PropertyManager };
+    return {...pm, roopairsToken: token, accountType: AccountTypes.PropertyManager };
 }
 
 /**
@@ -63,7 +63,6 @@ function parseTenantAccount(tenantObject : any): TenantAccount{
  * @param {any} accountJSON -Json Object from backend response
  * */
 export const parseAccount = (accountJSON : any): FetchUserAccountProfileAction => {
-    console.log(accountJSON);
     const isTenant: boolean = getAccountType(accountJSON) === AccountTypes.Tenant;
     const profile = isTenant 
         ? parseTenantAccount(accountJSON) 

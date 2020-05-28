@@ -108,7 +108,7 @@ export const MainAppStack: MainAppStackType[] = [
         button: 'Add Property',
     },
     {
-        title: 'Service Request',
+        title: 'Service Requests',
         navigate: navigationPages.ServiceRequestScreen,
         button: 'Request Service',
     },
@@ -117,7 +117,7 @@ export const MainAppStack: MainAppStackType[] = [
         navigate: navigationPages.AccountSettings,
     },
     {
-        title: 'Log Out',
+        title: 'Sign Out',
         navigate: navigationPages.LoginScreen,
     },
 ];
@@ -128,12 +128,12 @@ export const MainAppStackTenant: MainAppStackType[] = [
         navigate: TENANT_PROPERTY,
     },
     {
-        title: 'Service Request',
+        title: 'Service Requests',
         navigate: navigationPages.ServiceRequestScreen,
         button: 'Request Service',
     },
     {
-        title: 'Log Out',
+        title: 'Sign Out',
         navigate: navigationPages.LoginScreen,
     },
 ];

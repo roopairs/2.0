@@ -29,25 +29,29 @@ const styles = StyleSheet.create({
         borderColor: colors.lightGray,
         borderWidth: 1,
         margin: 20,
+        minHeight: 200,
     },
     buttonStyle: {
     },
     titleText: {
         alignContent: 'center',
-        color: colors.tertiary,
+        color: colors.gray,
         fontSize: BaseStyles.FontTheme.reg + 1,
         fontFamily: HomePairFonts.nunito_bold,
+        paddingTop: 10, 
     },
     companyDetailsText: {
         alignContent: 'center',
         color: colors.lightGray,
-        fontSize: BaseStyles.FontTheme.reg - 2,
+        fontSize: BaseStyles.FontTheme.reg,
         fontFamily: HomePairFonts.nunito_light,
+        paddingTop: 20,
+        textAlignVertical: 'center',
     },
     payRateText: {
         alignContent: 'center',
         color: Colors.LightModeColors.blueButtonText,
-        fontSize: BaseStyles.FontTheme.reg - 2,
+        fontSize: BaseStyles.FontTheme.reg - 1,
         fontFamily: HomePairFonts.nunito_bold,
     },
     dateContainer: {
@@ -67,12 +71,10 @@ const styles = StyleSheet.create({
     },
     leftColumnStyle: {
         flex: 1,
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center',
         textAlign: "center",
         backgroundColor: Colors.LightModeColors.transparent,
         padding: BaseStyles.MarginPadding.largeConst,
+        paddingBottom: 40,
         width: HomePairsDimensions.MAX_BUTTON_WIDTH * 0.35,
         borderRightWidth: 0.5,
         borderColor: Colors.LightModeColors.greyCardDivider,
@@ -85,12 +87,28 @@ const styles = StyleSheet.create({
         width: HomePairsDimensions.MAX_BUTTON_WIDTH * 0.65,
         borderLeftWidth: 0.5,
         borderColor: Colors.LightModeColors.greyCardDivider,
+        minHeight: 200,
     },
     imageContainer: {
         flex: 1,
         justifyContent: 'center',
         alignContent: 'center',
         alignItems: 'center',
+    },
+    companyAddress: {
+        position: 'absolute',
+        bottom: 20,
+        paddingHorizontal: 2,
+        alignContent: 'center',
+        color: colors.gray,
+        fontSize: 14,
+        fontFamily: HomePairFonts.nunito_regular,
+    },
+    starting: {
+        textAlignVertical: 'top',
+        color: colors.lightGray,
+        fontSize: 14,
+        fontFamily: HomePairFonts.nunito_regular,
     },
 });
 
@@ -112,7 +130,7 @@ export default function ServiceProviderButton(props: ServiceProviderButtonProps)
     const { onClick, serviceProvider } = props;
     Moment.locale('en');
     // const date = Moment(serviceProvider.startDate.toString()).format('LLL');
-
+    console.log(serviceProvider);
     return (
         <View style={[styles.container]}>
             <TouchableOpacity
@@ -128,6 +146,9 @@ export default function ServiceProviderButton(props: ServiceProviderButtonProps)
                         <Text style={styles.payRateText}>
                             ${serviceProvider.payRate} / hour
                         </Text>
+                        <Text style={styles.starting}>
+                            starting cost
+                        </Text>
                     </View>
                     <View style={styles.rightColumnStyle}>
                         <Text style={styles.titleText}>
@@ -136,8 +157,8 @@ export default function ServiceProviderButton(props: ServiceProviderButtonProps)
                         <Text style={styles.companyDetailsText}>
                             {serviceProvider.skills}
                         </Text>
-                        <Text style={styles.companyDetailsText}>
-                            {serviceProvider.email}
+                        <Text style={styles.companyAddress}>
+                            {serviceProvider.address.toUpperCase()}
                         </Text>
                     </View>
                 </View>

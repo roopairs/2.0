@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 10,
         height: '100%',
         width: '100%',
-        backgroundColor: 'rgba(0,0,0,.6)',
+        backgroundColor: 'rgba(55,66,69,.68)',
     },
     imageContainer: {
         width: '100%',

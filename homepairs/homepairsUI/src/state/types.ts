@@ -133,7 +133,7 @@ export type Account = {
 };
 
 export type PropertyManagerAccount = Account & {
-    token: string;
+    roopairsToken: string;
 };
 
 export type TenantAccount = Account & {
@@ -192,7 +192,8 @@ export type NewServiceRequest = {
     serviceCategory: string, 
     serviceDate: string, 
     details: string,
-    phoneNumber?: string,
+    poc: string, 
+    pocName: string,
 }
 
 export type ServiceProvider = {
@@ -200,6 +201,7 @@ export type ServiceProvider = {
     prefId?: string, // Optional param if preferred service provider
     name: string,
     email: string,
+    address: string,
     phoneNum: string,
     contractLic: string, // contract license
     skills: string,
@@ -216,6 +218,7 @@ export enum ServiceRequestCompletionStatus {
 }
 
 export enum ServiceRequestStatusEnums {
+    WaitingApproval = 'WaitingApproval',
     Pending = 'Pending',
     Scheduled = 'Scheduled',
     InProgress = 'InProgress',

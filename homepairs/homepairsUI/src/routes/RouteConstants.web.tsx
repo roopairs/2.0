@@ -132,7 +132,7 @@ export const MainAppStack: Array<MainAppStackType> = [
         button: 'Add Property',
     },
     {
-        title: 'Service Request',
+        title: 'Service Requests',
         navigate: navigationPages.ServiceRequestScreen,
         button: 'Request Service',
     },
@@ -141,7 +141,7 @@ export const MainAppStack: Array<MainAppStackType> = [
         navigate: navigationPages.AccountSettings,
     },
     {
-        title: 'Log Out',
+        title: 'Sign Out',
         navigate: LOGIN,
     },
 ];
@@ -152,12 +152,12 @@ export const MainAppStackTenant: Array<MainAppStackType> = [
         navigate: TENANT_PROPERTY,
     },
     {
-        title: 'Service Request',
+        title: 'Service Requests',
         navigate: navigationPages.ServiceRequestScreen,
         button: 'Request Service',
     },
     {
-        title: 'Log Out',
+        title: 'Sign Out',
         navigate: navigationPages.LoginScreen,
     },
 ];

@@ -20,7 +20,6 @@ import HamburgerButton from './HamburgerButton/HamburgerButton';
 import { HomePairsHeaderTitle } from './HomePairsHeaderTitle/HomePairsHeaderTitle';
 import HomePairsMenu from './HomePairsHeaderMenu/HomePairsHeaderMenu';
 import styles from './styles';
-import { PreferredProviderFlatList } from './PreferredProviderFlatList';
 
 
 const backSymbol = '<';

@@ -28,7 +28,7 @@ export function mapStateToProps(state: AppState): WithSinglePropertyStateProps {
 
     return { 
         properties: properties.properties,
-        token: (accountProfile as PropertyManagerAccount).token,
+        token: (accountProfile as PropertyManagerAccount).roopairsToken,
         tenantInfo: properties.tenants,
         applianceInfo: properties.appliances,
         apiKey: state.settings.apiKey,

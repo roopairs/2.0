@@ -5,6 +5,7 @@ import {
     AccountConnectedCard,
     ConnectAccountCard,
 } from './AuthenticationCards';
+import { isNullOrUndefined } from 'src/utility';
 
 const homepairAccountStrings = strings.connectAccountPage;
 
@@ -33,7 +34,7 @@ export class AccountScreenBase extends React.Component<Props> {
     render() {
         const { accountProfile} = this.props;
         if (
-            accountProfile.token === homepairAccountStrings.tokenFailed
+            isNullOrUndefined(accountProfile.roopairsToken) 
         ) {
             return (
                 <ConnectAccountCard

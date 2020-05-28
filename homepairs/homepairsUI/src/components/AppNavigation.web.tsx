@@ -50,7 +50,7 @@ export function withNavHeader(NavigableComponent: any){
   return function PageWithNavHeader(props:any){
       return (
       <View style={{flex:1}}>
-          <HomePairsHeader >
+          <HomePairsHeader>
             <NavigableComponent {...props} />
           </HomePairsHeader>
         </View>);
@@ -313,7 +313,6 @@ function SinglePropertySwitch() {
 function PropertiesSwitch() {
     const location = useLocation();
     const background = location.state && location.state.background;
-  
     return (
       <View style={style.routeContainer}>
       <Route path={PROPERTY_LIST} render={(matches) => (

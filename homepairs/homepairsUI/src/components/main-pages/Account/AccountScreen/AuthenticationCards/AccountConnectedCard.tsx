@@ -38,6 +38,7 @@ export default function AccountConnectedCard(props: AccountConnectedCardProps) {
             containerStyle={styles.accountContainer}
             title={cardStrings.title}
             titleStyle={styles.textContainer}
+            titleContainerStyle={styles.titleContainerStyle}
             subtitle={cardStrings.subtitle}
             subtitleStyle={styles.cardDescription}
             wrapperStyle={styles.wrapper}>

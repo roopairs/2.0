@@ -2,7 +2,7 @@ import React from 'react';
 import {
     View,
     Text,
-    ScrollView,
+    StyleSheet,
     TouchableOpacity,
 } from 'react-native';
 import { ServiceRequestButton, ServiceRequestAddressPanel, SearchForm } from 'src/elements';
@@ -17,14 +17,15 @@ import {
     MainAppStackType,
     AccountTypes,
     Contact,
+    HomePairsDimensions, 
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import strings from 'homepairs-strings';
 import { NavigationRouteScreenProps, navigationPages, MainAppStack } from 'src/routes';
 import { fetchServiceRequests } from 'homepairs-endpoints';
 import { stringToCategory } from 'src/utility';
-import styles from './styles';
-import {SceneInjectedProps} from '../../components';
+import { SceneInjectedProps } from '../../components';
+
 
 export type ServiceRequestScreenStateProps = {
     pmInfo?: Contact;
@@ -41,6 +42,7 @@ export type ServiceRequestsScreenDispatchProps = {
 type ServiceRequestRadioState = {
     currentRequestsSelected: boolean,
     requestSelected: ServiceRequestStatus,
+    waitingApproval: number,
     pending: number;
     scheduled: number;
     inProgress: number;
@@ -64,12 +66,149 @@ export type ServiceRequestScreenProps = NavigationRouteScreenProps &
     ServiceRequestsScreenDispatchProps &
     ServiceRequestRadioProps
 
+const colors = BaseStyles.LightColorTheme;
+const styles = StyleSheet.create({
+    container: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingRight: BaseStyles.MarginPadding.xxlargConst,
+        marginBottom: BaseStyles.MarginPadding.small,
+    },
+    pallet: {
+        backgroundColor: colors.secondary,
+        width: BaseStyles.ContentWidth.max,
+        flex: 1,
+        maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+        alignSelf: 'center',
+    },
+    addBottomMargin: {
+        flex: 1,
+        marginBottom: BaseStyles.MarginPadding.largeConst,
+    },
+    buttonContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        padding: BaseStyles.MarginPadding.mediumConst,
+        width: BaseStyles.ContentWidth.reg,
+    },
+    titleContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        marginTop: BaseStyles.MarginPadding.large,
+        width: BaseStyles.ContentWidth.max,
+    },
+    title: {
+        fontFamily: BaseStyles.FontTheme.primary,
+        color: colors.lightGray,
+    },
+    currentArchivedButtonText: {
+        color: colors.darkGray,
+        fontSize: BaseStyles.FontTheme.reg,
+        textDecorationLine: 'underline',
+        alignSelf: 'center',
+    },
+    currentButtonStyle: {
+        justifyContent: 'center',
+        backgroundColor: colors.transparent,
+        width: BaseStyles.ContentWidth.half,
+        borderColor: colors.darkGray,
+        height: 40,
+    },
+    archivedButtonStyle: {
+        justifyContent: 'center',
+        backgroundColor: colors.transparent,
+        width: BaseStyles.ContentWidth.half,
+        borderColor: colors.darkGray,
+        height: 40,
+    },
+    selectedLeftThirdButton: {
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
+        borderColor: colors.primary,
+        height: 30,
+    },
+    selectedMiddleThirdButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
+        borderColor: colors.primary,
+        height: 30,
+        marginHorizontal: BaseStyles.MarginPadding.statusButton,
+    },
+    selectedRightThirdButton: {
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
+        borderColor: colors.primary,
+        height: 30,
+    },
+    selectedText: {
+        color: colors.shadow,
+        fontSize: BaseStyles.FontTheme.small,
+        fontFamily: BaseStyles.FontTheme.secondary,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    unselectedLeftThirdButton: {
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        backgroundColor: colors.transparent,
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
+        borderColor: colors.lightGray,
+        height: 30,
+    },
+    unselectedMiddleThirdButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.transparent,
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
+        borderColor: colors.lightGray,
+        height: 30,
+        marginHorizontal: BaseStyles.MarginPadding.statusButton,
+    },
+    unselectedRightThirdButton: {
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        backgroundColor: colors.transparent,
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
+        borderColor: colors.lightGray,
+        height: 30,
+    },
+    unselectedText: {
+        color: colors.darkGray,
+        fontSize: BaseStyles.FontTheme.small - 1,
+        alignSelf: 'center',
+    },
+    underline: {
+        borderBottomWidth: 2,
+    },
+    formTitle: {
+        alignSelf: 'center',
+        fontFamily: BaseStyles.FontTheme.primary,
+        fontSize: BaseStyles.FontTheme.xsmal,
+        color: '#AFB3B5',
+        paddingTop: BaseStyles.MarginPadding.statusTitle,
+        paddingBottom: BaseStyles.MarginPadding.xsmall,
+    },
+});
+
 const serviceRequestStrings = strings.serviceRequestPage;
 
 const initialRadioState: ServiceRequestState = {
     currentRequestsSelected: true,
     requestSelected: ServiceRequestStatusEnums.Pending,
     serviceRequests: [],
+    waitingApproval: 0,
     pending: 0,
     scheduled: 0,
     inProgress: 0,
@@ -112,14 +251,15 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         this.onPressCanceledRequests = this.onPressCanceledRequests.bind(this);
         this.onPressDeclinedRequests = this.onPressDeclinedRequests.bind(this);
         this.openServiceRequestModal = this.openServiceRequestModal.bind(this);
-        this.renderCard = this.renderCard.bind(this);
+        this.callFetchServiceRequests = this.callFetchServiceRequests.bind(this);
         this.renderCompletionStatusRadioButton = this.renderCompletionStatusRadioButton.bind(this);
         this.renderActiveStatusRadioButton = this.renderActiveStatusRadioButton.bind(this);
         this.renderInactiveStatusRadioButton = this.renderInactiveStatusRadioButton.bind(this);
         this.renderServiceRequests = this.renderServiceRequests.bind(this);
         this.renderFilteredServiceRequests = this.renderFilteredServiceRequests.bind(this);
+        this.renderFilteredServiceRequestsWaitingApproval = this.renderFilteredServiceRequestsWaitingApproval.bind(this);
+        this.renderFilteredServiceRequestsSubtitles = this.renderFilteredServiceRequestsSubtitles.bind(this);
         this.render = this.render.bind(this);
-        this.callFetchServiceRequests = this.callFetchServiceRequests.bind(this);
 
         props.parentCallBack(ServiceRequestCompletionStatus.Current);
         props.parentCallBack2(ServiceRequestStatusEnums.Pending);
@@ -208,8 +348,9 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
             const { reqs } = data;
             // set initial state- this guarantees that the state gets updated for the requests even if a given property has no requests
             this.setState({ serviceRequests: [] });
-            this.setState({ pending: 0, scheduled: 0, inProgress: 0, completed: 0, canceled: 0, declined: 0 });
+            this.setState({ waitingApproval: 0, pending: 0, scheduled: 0, inProgress: 0, completed: 0, canceled: 0, declined: 0 });
 
+            let waitingApproval: number = 0;
             let pending: number = 0;
             let scheduled: number = 0;
             let inProgress: number = 0;
@@ -220,7 +361,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
             const serviceRequests: ServiceRequest[] = [];
 
             reqs.forEach(req => {
-                const { appFixed, location, serviceDate, status, client, serviceCompany, serviceCategory, details, id } = req;
+                const { appFixed, location, serviceDate, status, serviceCompany, details, id, poc, pocName } = req;
                 const appliance = {
                     applianceId: appFixed.appId,
                     category: appFixed.category && stringToCategory(appFixed.category),
@@ -237,20 +378,25 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                     companyName: serviceCompany,
                     details,
                     appliance,
+                    poc, 
+                    pocName,
                     status: ServiceRequestStatusEnums[status],
                 };
 
                 serviceRequests.push(serviceRequest);
 
                 switch (ServiceRequestStatusEnums[status]) {
+                    case ServiceRequestStatusEnums.WaitingApproval:
+                        waitingApproval += 1;
+                        break;
+                    case ServiceRequestStatusEnums.Pending:
+                        pending += 1;
+                        break;
                     case ServiceRequestStatusEnums.Scheduled:
                         scheduled += 1;
                         break;
                     case ServiceRequestStatusEnums.InProgress:
                         inProgress += 1;
-                        break;
-                    case ServiceRequestStatusEnums.Pending:
-                        pending += 1;
                         break;
                     case ServiceRequestStatusEnums.Completed:
                         completed += 1;
@@ -264,30 +410,13 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                     default:
                         break;
                 }
-                this.setState({ pending, scheduled, inProgress, completed, canceled, declined });
+
+                this.setState({ waitingApproval, pending, scheduled, inProgress, completed, canceled, declined });
             });
             this.setState({ serviceRequests });
         }).catch(error => {
             console.log(error);
         });
-    }
-
-
-    renderServiceRequestButtons() {
-        const { serviceRequests } = this.state;
-        return (
-            <>
-                {serviceRequests.forEach(request => {
-                    return (<ServiceRequestButton serviceRequest={request} />);
-                })}
-            </>
-        );
-    }
-
-    renderCard(serviceRequest: ServiceRequest) {
-        return (
-            <ServiceRequestButton onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />
-        );
     }
 
     renderCompletionStatusRadioButton(currentRequestsSelected: boolean) {
@@ -326,7 +455,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         const leftThirdButtonStyle = (requestsSelected === ServiceRequestStatusEnums.Pending) ? styles.selectedLeftThirdButton : styles.unselectedLeftThirdButton;
         const middleThirdButtonStyle = (requestsSelected === ServiceRequestStatusEnums.Scheduled) ? styles.selectedMiddleThirdButton : styles.unselectedMiddleThirdButton;
         const rightThirdButtonStyle = (requestsSelected === ServiceRequestStatusEnums.InProgress) ? styles.selectedRightThirdButton : styles.unselectedRightThirdButton;
-        const { pending, scheduled, inProgress } = this.state;
+        const { waitingApproval, pending, scheduled, inProgress } = this.state;
 
         return (
             <>
@@ -337,7 +466,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                         onPress={this.onPressPendingRequests}>
                         <Text style={(requestsSelected === ServiceRequestStatusEnums.Pending) ?
                             styles.selectedText : styles.unselectedText}>
-                            {`${serviceRequestStrings.tabA1}(${pending})`}
+                            {`${serviceRequestStrings.tabA1}(${waitingApproval + pending})`}
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -412,26 +541,18 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         const { currentRequestsSelected, requestSelected, serviceRequests } = this.state;
 
         return (
-            <>
-                
-                { // Render the Dropdown menu if the account is a Property Manager
-                  // Otherwise, the state will be set with the tenant property 
-                accountType === AccountTypes.Tenant ? 
-                    <></>
-                    :
-                    <>
-                        <View style={{ marginTop: 30, width: BaseStyles.ContentWidth.reg, alignSelf: 'center', paddingHorizontal: 3 } /* Styled to be the same width as the SearchForm */}>
-                            <ServiceRequestAddressPanel properties={properties} parentCallBack={async (propId: string) => { await this.callFetchServiceRequests(propId); }} />
-                        </View>
-                        <View style={{ width: BaseStyles.ContentWidth.reg, alignSelf: 'center', marginTop: 10, height: 50 }}>
-                        <SearchForm<ServiceRequest>  
-                            objects={serviceRequests} 
-                            parentCallBack={() => {} /**TODO: Insert Your Service Requests Set State Function Here!!! */} 
-                            placeholder="Search requests..." 
-                            trim/>
-                        </View>
-                    </>
-                }
+            <View>
+                <View style={{ marginTop: 30, width: BaseStyles.ContentWidth.reg, alignSelf: 'center', paddingHorizontal: 3 } /* Styled to be the same width as the SearchForm */}>
+                    <ServiceRequestAddressPanel properties={properties} parentCallBack={async (propId: string) => { await this.callFetchServiceRequests(propId); }} />
+                </View>
+                <View style={{ width: BaseStyles.ContentWidth.reg, alignSelf: 'center', marginTop: 10, height: 50 } /* TODO: Update these styles so it renders properly on all devices */}>
+                    <SearchForm<ServiceRequest>
+                        objects={serviceRequests}
+                        parentCallBack={() => { this.setState({ serviceRequests }); } /* TODO: Insert Your Service Requests Set State Function Here!!! */}
+                        placeholder="Search requests..."
+                        trim />
+                    {/** TODO: Add Panel Here. */}
+                </View>
                 {this.renderCompletionStatusRadioButton(currentRequestsSelected)}
                 <View style={{ width: '100%', alignSelf: 'center', justifyContent: 'center', alignItems: 'center', paddingTop: BaseStyles.MarginPadding.medium }}>
                     {currentRequestsSelected ? this.renderActive(requestSelected) : this.renderInactive(requestSelected)}
@@ -439,7 +560,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                 <View style={{ justifyContent: 'center' }}>
                     {this.renderFilteredServiceRequests()}
                 </View>
-            </>
+            </View>
         );
     }
 
@@ -452,28 +573,90 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
     }
 
     renderFilteredServiceRequests() {
-        const { requestSelected, serviceRequests } = this.state;
+        const { requestSelected, serviceRequests,} = this.state;
         const filteredServiceRequests: ServiceRequest[] = filterTabbedObjects(serviceRequests, requestSelected);
 
         return (
             <>
-                {filteredServiceRequests.map(
-                    serviceRequest => {
-                        const { appliance } = serviceRequest;
-                        const { applianceId } = appliance;
-                        return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
-                    })}
+                {this.renderFilteredServiceRequestsWaitingApproval()}
+                <>
+                {this.renderFilteredServiceRequestsSubtitles()}
+                    {filteredServiceRequests.map(
+                        serviceRequest => {
+                            const { appliance } = serviceRequest;
+                            const { applianceId } = appliance;
+                            const active = serviceRequest.status === "Pending" || serviceRequest.status === "Scheduled" || serviceRequest.status === "InProgress";
+                            return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} active={active}/>);
+                        })}
+                </>
             </>
         );
     }
 
+    renderFilteredServiceRequestsWaitingApproval() {
+        const { requestSelected, serviceRequests, waitingApproval } = this.state;
+
+        return (
+            <>
+                {requestSelected === ServiceRequestStatusEnums.Pending && waitingApproval > 0
+                    ? <>
+                        <Text style={styles.formTitle}>WAITING APPROVAL</Text>
+                        {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.WaitingApproval).map(
+                            serviceRequest => {
+                                const { appliance } = serviceRequest;
+                                const { applianceId } = appliance;
+                                return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
+                            })}
+                    </>
+                    : <></>}
+            </>
+        );
+    }
+
+    renderFilteredServiceRequestsSubtitles() {
+        const { requestSelected, pending, scheduled, inProgress, completed, canceled, declined } = this.state;
+        let printActive: boolean = false;
+        let printInactive: boolean = false;
+
+        switch (ServiceRequestStatusEnums[requestSelected]) {
+            case ServiceRequestStatusEnums.Pending:
+                if(pending > 0){ printActive = true; }
+                break;
+            case ServiceRequestStatusEnums.Scheduled:
+                if(scheduled > 0){ printActive = true; }
+                break;
+            case ServiceRequestStatusEnums.InProgress:
+                if(inProgress > 0){ printActive = true; }
+                break;
+            case ServiceRequestStatusEnums.Completed:
+                if(completed > 0){ printInactive = true; }
+                break;
+            case ServiceRequestStatusEnums.Canceled:
+                if(canceled > 0){ printInactive = true; }
+                break;
+            case ServiceRequestStatusEnums.Declined:
+                if(declined > 0){ printInactive = true; }
+                break;
+            default:
+                break;
+        }
+        if (printActive) {
+            return (<>< Text style={styles.formTitle} >ACTIVE</Text></>);
+        }
+
+        if (printInactive) {
+            return (<><Text style={styles.formTitle}>INACTIVE</Text></>);
+        }
+
+        return (<></>);
+    }
+
+
     render() {
         return (
-            <ScrollView style={{ flexGrow: 1 }}>
-                <View style={styles.addBottomMargin}>
-                    {this.renderServiceRequests()}
-                </View>
-            </ScrollView>
+            <View style={styles.addBottomMargin}>
+                {this.renderServiceRequests()}
+            </View>
         );
     }
 }

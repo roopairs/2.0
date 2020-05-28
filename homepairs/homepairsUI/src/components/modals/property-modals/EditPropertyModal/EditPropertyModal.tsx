@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { Property, AppState, EditPropertyState } from 'homepairs-types';
+import { Property, AppState, EditPropertyState, PropertyManagerAccount } from 'homepairs-types';
 import { prepareNavigationHandlerComponent, NavigationRouteHandler } from 'src/routes';
 import { postUpdatedProperty } from 'homepairs-endpoints';
 import EditPropertyModalBase, {EditPropertyDispatchProps} from './EditPropertyModalBase';
@@ -17,7 +17,7 @@ function mapStateToProps(state: AppState) : EditPropertyState {
         email: state.accountProfile.email, 
         propId, 
         oldProp: state.properties.properties[propId],
-        roopairsToken: state.accountProfile.token,
+        roopairsToken: (state.accountProfile as PropertyManagerAccount).roopairsToken,
     };
 }
 

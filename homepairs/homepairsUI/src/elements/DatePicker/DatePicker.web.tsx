@@ -29,5 +29,6 @@ export default function DatePickerWeb(props: Props){
             value={serviceDate}
             onChange={value => getFormDate(value)}
             min={startDate}
+            step={15}
             time />;
 }

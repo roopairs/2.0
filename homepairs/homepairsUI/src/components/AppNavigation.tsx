@@ -38,23 +38,11 @@ import {
 // Add margin offset for Page components 
 function offSetForHeader(Offsetted: any){
     const OffSettedComponent = (props:any) => {
-        const {withPreferredProv} = props;
-        let marginTop = withPreferredProv ? 145 : 65;
+        let marginTop = 70;
         marginTop = Platform.OS === 'android' ? 0 : marginTop;
         return <View style={{flex:1, marginTop}}><Offsetted {...props}/></View>;
     };
-
-    function mapStateToProps(state: AppState){
-        const {accountProfile, header} = state;
-        const {accountType} = accountProfile;
-        const {currentPage} = header;
-        return{
-            withPreferredProv:
-                (accountType === AccountTypes.PropertyManager 
-                    && currentPage.navigate === navigationPages.ServiceRequestScreen),
-        };
-    };
-    return connect(mapStateToProps)(OffSettedComponent);      
+    return OffSettedComponent;      
 };
 
 const NewRequestPage = offSetForHeader(NewRequest);
