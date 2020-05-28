@@ -1,5 +1,5 @@
 import React from 'react';
-import {filterList} from 'src/utility';
+import {filterList, isNullOrUndefined} from 'src/utility';
 import { InputForm, InputFormProps} from './InputForm';
 
 
@@ -75,7 +75,15 @@ export class SearchForm<T> extends React.Component<SearchFormProps<T>, State>{
      */
     invokeSearchFromInputForm(text: string){
         const {objects, keys, parentCallBack} = this.props;
-        const filteredArray = filterList<T>(text, objects, keys);
+        let filteredArray;
+        if(isNullOrUndefined(objects))
+        {
+            filteredArray = [];
+        }
+        else
+        {
+            filteredArray = filterList<T>(text, objects, keys);
+        }
         this.setState({text});
         parentCallBack(filteredArray);
     }
