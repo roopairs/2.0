@@ -1,5 +1,5 @@
 import React from 'react';
-import { MainAppStackType, HomePairsDimensions, AppState } from 'homepairs-types';
+import { MainAppStackType, HomePairsDimensions } from 'homepairs-types';
 import {
     Platform,
     View,

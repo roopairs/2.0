@@ -1,6 +1,7 @@
 import { AppState } from "homepairs-types";
 import { connect } from "react-redux";
 import { TenantPropertyScreenBase, TenantPropertyStateProps} from './TenantPropertyScreenBase';
+import { withSinglePropertyConnect } from "../components";
 
 function mapStateToProps(state: AppState) : TenantPropertyStateProps {
     return { 
@@ -9,4 +10,4 @@ function mapStateToProps(state: AppState) : TenantPropertyStateProps {
     };
 };
 
-export default connect(mapStateToProps)(TenantPropertyScreenBase);
+export default connect(mapStateToProps)(withSinglePropertyConnect(TenantPropertyScreenBase));

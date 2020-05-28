@@ -20,6 +20,7 @@ import {
     ServiceProvider,
     TenantInfo,
     Contact,
+    TenantAccount,
 } from 'homepairs-types';
 import { addGoogleApiKey } from 'src/state/settings/actions';
 import {
@@ -332,7 +333,7 @@ export const fetchAccount = (
             const {status, role} = data;
             const accountType = getAccountType(data);
             if(status === SUCCESS){
-                console.log(data)
+                console.log(data);
                 // Set the login state of the application to authenticated
                 dispatch(setAccountAuthenticationState(true));
                 dispatch(parseAccount(data));
@@ -381,7 +382,7 @@ export const fetchAccount = (
  * @param {modalSetOffCallBack} modalSetOffCallBack - *Optional callback that will close 
  * the calling modal if it exists
  */
-export const generateAccountForTenant = (accountDetails: Account, password: String, 
+export const generateAccountForTenant = (accountDetails: TenantAccount, password: String, 
     navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
     const {firstName, lastName, email, address} = accountDetails;
     return async (dispatch: (arg0: any) => void) => {
@@ -393,6 +394,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
           password, 
         })
         .then((response) => {
+          console.log(response);
           const {data} = response;
           const {status} = data;
           if(status === SUCCESS){

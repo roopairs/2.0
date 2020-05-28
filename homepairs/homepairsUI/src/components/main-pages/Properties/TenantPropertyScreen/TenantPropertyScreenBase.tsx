@@ -8,9 +8,8 @@ import {
     StyleSheet,
 } from 'react-native';
 import { Property, HomePairsDimensions, Contact } from 'homepairs-types';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import * as BaseStyles from 'homepairs-base-styles';
-import { navigationPages } from 'src/routes';
+import { navigationPages, NavigationRouteHandler } from 'src/routes';
 import { CurrentTenantCard, WithSinglePropertyDispatchProps, WithSinglePropertyStateProps, ApplianceInfo, ServiceRequestCount, GeneralHomeInfo,
     AddressSticker } from '../components';
 import { PrimaryContactInfo } from './PrimaryContactInfo';
@@ -28,7 +27,7 @@ export type TenantPropertyDispatchProps = {
 }
 
 
-type Props = NavigationStackScreenProps 
+type Props = {navigation: NavigationRouteHandler} 
 & WithSinglePropertyDispatchProps
 & WithSinglePropertyStateProps
 & TenantPropertyStateProps;
@@ -104,6 +103,15 @@ export class TenantPropertyScreenBase extends React.Component<Props>{
         / overlapping styles aen't currently supported by react
         see ref: https://github.com/facebook/react/issues/2231 */
 
+
+    componentDidMount(){
+        // TODO: Call the HOC componentDidMount function to do this logic and and pass the state 
+        // to the children components where most relevant. This will be for the hardening. 
+        const {setAppliancesAndTenants, properties} = this.props;
+        const [property] = Object.entries(properties);
+        const [propId] = property;
+        setAppliancesAndTenants(propId);
+    }
 
     renderProperty(pair: [string, Property]) {
         const [propId, property] = pair;
