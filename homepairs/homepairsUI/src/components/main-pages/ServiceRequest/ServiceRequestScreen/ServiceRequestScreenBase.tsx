@@ -542,9 +542,13 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
 
         return (
             <View>
-                <View style={{ marginTop: 30, width: BaseStyles.ContentWidth.reg, alignSelf: 'center', paddingHorizontal: 3 } /* Styled to be the same width as the SearchForm */}>
-                    <ServiceRequestAddressPanel properties={properties} parentCallBack={async (propId: string) => { await this.callFetchServiceRequests(propId); }} />
-                </View>
+                {
+                    accountType === AccountTypes.Tenant ? 
+                    <></> : 
+                    <View style={{ marginTop: 30, width: BaseStyles.ContentWidth.reg, alignSelf: 'center', paddingHorizontal: 3 } /* Styled to be the same width as the SearchForm */}>
+                        <ServiceRequestAddressPanel properties={properties} parentCallBack={async (propId: string) => { await this.callFetchServiceRequests(propId); }} />
+                    </View>
+                }
                 <View style={{ width: BaseStyles.ContentWidth.reg, alignSelf: 'center', marginTop: 10, height: 50 } /* TODO: Update these styles so it renders properly on all devices */}>
                     <SearchForm<ServiceRequest>
                         objects={serviceRequests}
@@ -573,7 +577,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
     }
 
     renderFilteredServiceRequests() {
-        const { requestSelected, serviceRequests,} = this.state;
+        const { requestSelected, serviceRequests} = this.state;
         const filteredServiceRequests: ServiceRequest[] = filterTabbedObjects(serviceRequests, requestSelected);
 
         return (

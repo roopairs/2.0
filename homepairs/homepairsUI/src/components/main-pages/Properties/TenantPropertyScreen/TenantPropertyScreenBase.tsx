@@ -115,7 +115,7 @@ export class TenantPropertyScreenBase extends React.Component<Props>{
 
     renderProperty(pair: [string, Property]) {
         const [propId, property] = pair;
-        const { address, tenants } = property;
+        const { address } = property;
         const {propertyManager, navigation, apiKey, tenantInfo, applianceInfo} = this.props;
         return (
             <ScrollView 
