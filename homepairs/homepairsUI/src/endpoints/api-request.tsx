@@ -725,12 +725,16 @@ export const postNewServiceRequest = async (
 export const changeServiceRequestStatus = async (
     status: string,
     reqId: number,
+    token: string,
     navigation: NavigationRouteHandler,
     ) => {
-        await axios.put(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, { reqId, status })
+        await axios.put(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, { reqId, status, token })
         .then((response) => {
-            navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
-            setTimeout(() => navigation.reload(), 1000);
+            console.log(response);
+            if (response.data.status === "success") {
+                navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
+                setTimeout(() => navigation.reload(), 1000);
+            }
         })
         .catch(err => console.log(err));
 
