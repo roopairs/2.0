@@ -96,6 +96,8 @@ class ServiceRequestView(View):
         propId = inData.get('propId')
         appId = inData.get('appId')
         token = inData.get('token')
+        poc = inData.get('poc')
+        pocName = inData.get('pocName')
         serviceDate = dateutil.parser.parse(serviceDateStr)
         propList = Property.objects.filter(rooId=propId)
         appList = Appliance.objects.filter(rooAppId=appId)
@@ -149,6 +151,8 @@ class ServiceRequestView(View):
                                 client=str(prop.pm),
                                 serviceDate=serviceDate,
                                 details=details,
+                                poc=poc,
+                                pocName=pocName,
                                 location=prop,
                                 appFixed=app)
             try:
