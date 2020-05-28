@@ -40,11 +40,12 @@ const styles = StyleSheet.create({
         width: BaseStyles.ContentWidth.reg,
     },
     textContainer: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
         marginTop: BaseStyles.MarginPadding.large,
-        width: BaseStyles.ContentWidth.max,
+        marginHorizontal: BaseStyles.MarginPadding.largeConst + 5,
     },
     title: {
         fontFamily: BaseStyles.FontTheme.primary,
@@ -257,7 +258,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                     <View>
                         <View style={styles.textContainer}>
                             <Text style={styles.networkText}>
-                                {"\tYour request will be sent to the Roopairs network. When your service request is ready, you will be able to choose from a handful of bids from qualified service professionals."}
+                                {"\tYour request will be sent to the Roopairs\n network. When your service request is ready,\n you'll be able to choose from a handful of bids\n from qualified service professionals."}
                             </Text>
                         </View>
                         <ThinButton
@@ -287,7 +288,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
             ((networkError || !networkProvidersFound) ?
                 <View style={styles.textContainer}>
                     <Text style={styles.networkErrorText}>
-                        {"\tNetwork Providers are not currently implemented. \nPlease choose a preferred provider."}
+                        {"Network Providers are not currently implemented. \nPlease choose a preferred provider."}
                     </Text>
                 </View>
                 : this.selectProvider(serviceProviders[0].provId, "Network")
