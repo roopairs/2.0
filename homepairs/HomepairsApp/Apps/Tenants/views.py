@@ -120,9 +120,8 @@ class RegisterView(View):
             streetAddress = inData.get('address')
             password = inData.get('password')
 
-            print("######################", streetAddress, "###########################")
             temp = streetAddress.split(',')
-            if len(temp) <= 2:
+            if len(temp) < 2:
                 return JsonResponse(data=returnError(BAD_ADDRESS_FORMAT))
             streetAddress = temp[0].strip()
             city = temp[1].strip()
@@ -133,7 +132,10 @@ class RegisterView(View):
             if(tempPms.count() > 0 or tempTens.count() > 0):
                 return JsonResponse(data=returnError(EMAIL_ALREADY_USED))
 
-            propertyList = Property.objects.filter(streetAddress=streetAddress, city=city)
+            print(streetAddress)
+            print(city)
+            print(state)
+            propertyList = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
 
             tenantList = Tenant.objects.filter(email=email)
             if tenantList.exists():

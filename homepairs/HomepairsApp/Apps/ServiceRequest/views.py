@@ -102,6 +102,7 @@ class ServiceRequestView(View):
         propList = Property.objects.filter(rooId=propId)
         appList = Appliance.objects.filter(rooAppId=appId)
         if propList.exists():
+            prop = propList[0]
             types = ['Repair', 'Installation', 'Maintenance']
             typeNum = -1
             for i in range(0, len(types)):

@@ -13,7 +13,7 @@ class Tenant(models.Model):
     password = models.CharField(max_length=20)
     phoneNumber = models.CharField(max_length=20, null=True)
     place = models.ForeignKey(Property, on_delete=models.CASCADE, null=True, blank=True)
-    pm = models.ForeignKey(PropertyManager, on_delete=models.CASCADE)
+    pm = models.ForeignKey(PropertyManager, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.firstName + " " + self.lastName
