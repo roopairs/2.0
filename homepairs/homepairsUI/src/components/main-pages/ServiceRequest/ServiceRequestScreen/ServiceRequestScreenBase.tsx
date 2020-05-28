@@ -52,7 +52,8 @@ type ServiceRequestRadioState = {
 }
 
 type ServiceRequestState = ServiceRequestRadioState & {
-    serviceRequests: ServiceRequest[]
+    serviceRequests: ServiceRequest[],
+    originalList: ServiceRequest[],
 }
 
 export type ServiceRequestRadioProps = {
@@ -282,6 +283,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
     componentWillUnmount() {
         this.setState({
             serviceRequests: [],
+            originalList: [],
         });
     }
 
@@ -347,7 +349,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
             const { data } = response;
             const { reqs } = data;
             // set initial state- this guarantees that the state gets updated for the requests even if a given property has no requests
-            this.setState({ serviceRequests: [] });
+            this.setState({ serviceRequests: [], originalList: [] });
             this.setState({ waitingApproval: 0, pending: 0, scheduled: 0, inProgress: 0, completed: 0, canceled: 0, declined: 0 });
 
             let waitingApproval: number = 0;
@@ -413,7 +415,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
 
                 this.setState({ waitingApproval, pending, scheduled, inProgress, completed, canceled, declined });
             });
-            this.setState({ serviceRequests });
+            this.setState({ serviceRequests, originalList: [...serviceRequests] });
         }).catch(error => {
             console.log(error);
         });
@@ -538,7 +540,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
 
     renderServiceRequests() {
         const {properties, accountType} = this.props;
-        const { currentRequestsSelected, requestSelected, serviceRequests } = this.state;
+        const { currentRequestsSelected, requestSelected, serviceRequests, originalList } = this.state;
 
         return (
             <View>
@@ -551,8 +553,8 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                 }
                 <View style={{ width: BaseStyles.ContentWidth.reg, alignSelf: 'center', marginTop: 10, height: 50 } /* TODO: Update these styles so it renders properly on all devices */}>
                     <SearchForm<ServiceRequest>
-                        objects={serviceRequests}
-                        parentCallBack={() => { this.setState({ serviceRequests }); } /* TODO: Insert Your Service Requests Set State Function Here!!! */}
+                        objects={originalList}
+                        parentCallBack={(filtered: ServiceRequest[]) => { this.setState({ serviceRequests: filtered }); } /* TODO: Insert Your Service Requests Set State Function Here!!! */}
                         placeholder="Search requests..."
                         trim />
                     {/** TODO: Add Panel Here. */}
