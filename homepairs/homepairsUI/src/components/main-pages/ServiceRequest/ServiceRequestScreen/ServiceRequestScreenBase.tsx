@@ -17,7 +17,7 @@ import {
     MainAppStackType,
     AccountTypes,
     Contact,
-    HomePairsDimensions, 
+    HomePairsDimensions,
 } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import strings from 'homepairs-strings';
@@ -253,6 +253,8 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         this.onPressDeclinedRequests = this.onPressDeclinedRequests.bind(this);
         this.openServiceRequestModal = this.openServiceRequestModal.bind(this);
         this.callFetchServiceRequests = this.callFetchServiceRequests.bind(this);
+        this.populateServiceRequests = this.populateServiceRequests.bind(this);
+        this.countServiceRequestStatus = this.countServiceRequestStatus.bind(this);
         this.renderCompletionStatusRadioButton = this.renderCompletionStatusRadioButton.bind(this);
         this.renderActiveStatusRadioButton = this.renderActiveStatusRadioButton.bind(this);
         this.renderInactiveStatusRadioButton = this.renderInactiveStatusRadioButton.bind(this);
@@ -267,11 +269,11 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
 
     }
 
-    async componentDidMount(){
-        const {onUpdateHeader, accountType, properties } = this.props;
+    async componentDidMount() {
+        const { onUpdateHeader, accountType, properties } = this.props;
 
         // Fetch the service requests if the account Type is a Tenant or if the Account only has one property 
-        if(accountType === AccountTypes.Tenant || properties.length === 1){
+        if (accountType === AccountTypes.Tenant || properties.length === 1) {
             await this.callFetchServiceRequests(properties[0].propId);
         }
 
@@ -348,77 +350,89 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         await fetchServiceRequests(propId).then(response => {
             const { data } = response;
             const { reqs } = data;
-            // set initial state- this guarantees that the state gets updated for the requests even if a given property has no requests
-            this.setState({ serviceRequests: [], originalList: [] });
-            this.setState({ waitingApproval: 0, pending: 0, scheduled: 0, inProgress: 0, completed: 0, canceled: 0, declined: 0 });
 
-            let waitingApproval: number = 0;
-            let pending: number = 0;
-            let scheduled: number = 0;
-            let inProgress: number = 0;
-            let completed: number = 0;
-            let canceled: number = 0;
-            let declined: number = 0;
+            this.populateServiceRequests(reqs);
+            const { serviceRequests } = this.state;
+            this.countServiceRequestStatus(serviceRequests);
 
-            const serviceRequests: ServiceRequest[] = [];
-
-            reqs.forEach(req => {
-                const { appFixed, location, serviceDate, status, serviceCompany, details, id, poc, pocName } = req;
-                const appliance = {
-                    applianceId: appFixed.appId,
-                    category: appFixed.category && stringToCategory(appFixed.category),
-                    appName: appFixed.name,
-                    manufacturer: appFixed.manufacturer,
-                    modelNum: appFixed.modelNum,
-                    serialNum: appFixed.serialNum,
-                    location: appFixed.location,
-                };
-                const serviceRequest: ServiceRequest = {
-                    reqId: id,
-                    address: location,
-                    startDate: serviceDate,
-                    companyName: serviceCompany,
-                    details,
-                    appliance,
-                    poc, 
-                    pocName,
-                    status: ServiceRequestStatusEnums[status],
-                };
-
-                serviceRequests.push(serviceRequest);
-
-                switch (ServiceRequestStatusEnums[status]) {
-                    case ServiceRequestStatusEnums.WaitingApproval:
-                        waitingApproval += 1;
-                        break;
-                    case ServiceRequestStatusEnums.Pending:
-                        pending += 1;
-                        break;
-                    case ServiceRequestStatusEnums.Scheduled:
-                        scheduled += 1;
-                        break;
-                    case ServiceRequestStatusEnums.InProgress:
-                        inProgress += 1;
-                        break;
-                    case ServiceRequestStatusEnums.Completed:
-                        completed += 1;
-                        break;
-                    case ServiceRequestStatusEnums.Canceled:
-                        canceled += 1;
-                        break;
-                    case ServiceRequestStatusEnums.Declined:
-                        declined += 1;
-                        break;
-                    default:
-                        break;
-                }
-
-                this.setState({ waitingApproval, pending, scheduled, inProgress, completed, canceled, declined });
-            });
-            this.setState({ serviceRequests, originalList: [...serviceRequests] });
         }).catch(error => {
             console.log(error);
         });
+    }
+
+    populateServiceRequests(reqs) {
+        const serviceRequests: ServiceRequest[] = [];
+        // explicitly set initial state- guarantees that the state gets updated even if given property has no requests
+        this.setState({ serviceRequests: [] });
+
+        reqs.forEach(req => {
+            const { appFixed, location, serviceDate, status, serviceCompany, details, id } = req;
+            const appliance = {
+                applianceId: appFixed.appId,
+                category: appFixed.category && stringToCategory(appFixed.category),
+                appName: appFixed.name,
+                manufacturer: appFixed.manufacturer,
+                modelNum: appFixed.modelNum,
+                serialNum: appFixed.serialNum,
+                location: appFixed.location,
+            };
+            const serviceRequest: ServiceRequest = {
+                reqId: id,
+                address: location,
+                startDate: serviceDate,
+                companyName: serviceCompany,
+                details,
+                appliance,
+                status: ServiceRequestStatusEnums[status],
+            };
+            serviceRequests.push(serviceRequest);
+        });
+
+        this.setState({ serviceRequests: serviceRequests, originalList: serviceRequests });
+    }
+
+    countServiceRequestStatus(serviceRequests:ServiceRequests[]) {
+        let waitingApproval: number = 0;
+        let pending: number = 0;
+        let scheduled: number = 0;
+        let inProgress: number = 0;
+        let completed: number = 0;
+        let canceled: number = 0;
+        let declined: number = 0;
+
+        // explicitly set initial state- guarantees that the state gets updated even if given property has no requests
+        this.setState({ waitingApproval: 0, pending: 0, scheduled: 0, inProgress: 0, completed: 0, canceled: 0, declined: 0 });
+
+        serviceRequests.forEach(sr => {
+            const { status } = sr;
+            switch (ServiceRequestStatusEnums[status]) {
+                case ServiceRequestStatusEnums.WaitingApproval:
+                    waitingApproval += 1;
+                    break;
+                case ServiceRequestStatusEnums.Pending:
+                    pending += 1;
+                    break;
+                case ServiceRequestStatusEnums.InProgress:
+                    inProgress += 1;
+                    break;
+                case ServiceRequestStatusEnums.Scheduled:
+                    scheduled += 1;
+                    break;
+                case ServiceRequestStatusEnums.Completed:
+                    completed += 1;
+                    break;
+                case ServiceRequestStatusEnums.Canceled:
+                    canceled += 1;
+                    break;
+                case ServiceRequestStatusEnums.Declined:
+                    declined += 1;
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        this.setState({ waitingApproval, pending, scheduled, inProgress, completed, canceled, declined });
     }
 
     renderCompletionStatusRadioButton(currentRequestsSelected: boolean) {
@@ -539,22 +553,27 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
     }
 
     renderServiceRequests() {
-        const {properties, accountType} = this.props;
+        const { properties, accountType } = this.props;
         const { currentRequestsSelected, requestSelected, serviceRequests, originalList } = this.state;
+
+        console.log("original list: ");
+        console.log({ originalList });
+        console.log("updated list: ");
+        console.log({ serviceRequests });
 
         return (
             <View>
                 {
-                    accountType === AccountTypes.Tenant ? 
-                    <></> : 
-                    <View style={{ marginTop: 30, width: BaseStyles.ContentWidth.reg, alignSelf: 'center', paddingHorizontal: 3 } /* Styled to be the same width as the SearchForm */}>
-                        <ServiceRequestAddressPanel properties={properties} parentCallBack={async (propId: string) => { await this.callFetchServiceRequests(propId); }} />
-                    </View>
+                    accountType === AccountTypes.Tenant ?
+                        <></> :
+                        <View style={{ marginTop: 30, width: BaseStyles.ContentWidth.reg, alignSelf: 'center', paddingHorizontal: 3 } /* Styled to be the same width as the SearchForm */}>
+                            <ServiceRequestAddressPanel properties={properties} parentCallBack={async (propId: string) => { await this.callFetchServiceRequests(propId); }} />
+                        </View>
                 }
                 <View style={{ width: BaseStyles.ContentWidth.reg, alignSelf: 'center', marginTop: 10, height: 50 } /* TODO: Update these styles so it renders properly on all devices */}>
                     <SearchForm<ServiceRequest>
                         objects={originalList}
-                        parentCallBack={(filtered: ServiceRequest[]) => { this.setState({ serviceRequests: filtered }); } /* TODO: Insert Your Service Requests Set State Function Here!!! */}
+                        parentCallBack={(filtered: ServiceRequest[]) => { this.setState({ serviceRequests: filtered }); this.countServiceRequestStatus(filtered); } /* TODO: Insert Your Service Requests Set State Function Here!!! */}
                         placeholder="Search requests..."
                         trim />
                     {/** TODO: Add Panel Here. */}
@@ -579,20 +598,20 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
     }
 
     renderFilteredServiceRequests() {
-        const { requestSelected, serviceRequests} = this.state;
+        const { requestSelected, serviceRequests } = this.state;
         const filteredServiceRequests: ServiceRequest[] = filterTabbedObjects(serviceRequests, requestSelected);
 
         return (
             <>
                 {this.renderFilteredServiceRequestsWaitingApproval()}
                 <>
-                {this.renderFilteredServiceRequestsSubtitles()}
+                    {this.renderFilteredServiceRequestsSubtitles()}
                     {filteredServiceRequests.map(
                         serviceRequest => {
                             const { appliance } = serviceRequest;
                             const { applianceId } = appliance;
                             const active = serviceRequest.status === "Pending" || serviceRequest.status === "Scheduled" || serviceRequest.status === "InProgress";
-                            return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} active={active}/>);
+                            return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} active={active} />);
                         })}
                 </>
             </>
@@ -626,22 +645,22 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
 
         switch (ServiceRequestStatusEnums[requestSelected]) {
             case ServiceRequestStatusEnums.Pending:
-                if(pending > 0){ printActive = true; }
+                if (pending > 0) { printActive = true; }
                 break;
             case ServiceRequestStatusEnums.Scheduled:
-                if(scheduled > 0){ printActive = true; }
+                if (scheduled > 0) { printActive = true; }
                 break;
             case ServiceRequestStatusEnums.InProgress:
-                if(inProgress > 0){ printActive = true; }
+                if (inProgress > 0) { printActive = true; }
                 break;
             case ServiceRequestStatusEnums.Completed:
-                if(completed > 0){ printInactive = true; }
+                if (completed > 0) { printInactive = true; }
                 break;
             case ServiceRequestStatusEnums.Canceled:
-                if(canceled > 0){ printInactive = true; }
+                if (canceled > 0) { printInactive = true; }
                 break;
             case ServiceRequestStatusEnums.Declined:
-                if(declined > 0){ printInactive = true; }
+                if (declined > 0) { printInactive = true; }
                 break;
             default:
                 break;
