@@ -1,7 +1,7 @@
 import React, { Component } from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider, AccountTypes } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import { StyleSheet, Text, View, ScrollView} from 'react-native';
+import { StyleSheet, Text, View} from 'react-native';
 import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber, isPhoneNumberValid, isAlphaCharacterOnly } from 'src/utility';
 import {NavigationRouteScreenProps} from 'homepairs-routes';
 import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel, DatePicker} from 'homepairs-elements';
@@ -217,6 +217,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
         const {properties, accountType} = this.props;
 
         if(accountType === AccountTypes.Tenant){
+            console.log(properties);
             const [tenantProperty] = properties;
             const {address, propId} = tenantProperty; 
             this.setState({address, addressState: true, propId});
@@ -300,7 +301,8 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
 
     async clickSubmitButton() {
         const { serviceCategory, applianceId, providerId, serviceType, details, serviceDate, propId, poc, pocName} = this.state;
-        const {navigation, token, accountType} = this.props;
+        const {navigation, token, accountType, phoneNumber} = this.props;
+        console.log(propId);
         this.setState({errorCheck: false});
         if (this.validateForms()) {
             const pm = accountType === AccountTypes.PropertyManager;
@@ -315,6 +317,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
                 details,
                 poc, 
                 pocName,
+                phoneNumber,
             };
             await postNewServiceRequest(newServiceRequest, this.displayError, navigation, pm).catch(error => console.log(error));
         }

@@ -8,6 +8,7 @@ import { Platform } from "react-native";
 import {NavigationRouteHandler, withNavigationRouteHandler } from 'src/routes';
 import { generateAccountForPM, generateAccountForTenant } from 'homepairs-endpoints';
 import { SignUpScreenBase, SignUpViewDispatchProps } from "./SignUpScreenBase";
+import { TenantAccount } from '../../../state/types';
 import {
   AuthPassProps,
   withAuthPage,
@@ -32,7 +33,7 @@ const mapDispatchToProps : (dispatch: any) => SignUpViewDispatchProps = (dispatc
         if (details.accountType === AccountTypes.PropertyManager) {
             dispatch(generateAccountForPM(details, password, navigation, modalSetOff, displayError));
         } else {
-            dispatch(generateAccountForTenant(details, password, navigation, modalSetOff));
+            dispatch(generateAccountForTenant((details as TenantAccount), password, navigation, modalSetOff));
         }
     },
 });

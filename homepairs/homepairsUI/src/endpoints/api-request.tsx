@@ -258,7 +258,7 @@ export const fetchServiceRequests = async (propId: string) => {
 
 /**
  * ----------------------------------------------------
- * fetchServiceRequests
+ * fetchPropertyAppliancesAndTenants
  * ---------------------------------------------------- 
  * Makes a fetch requests to the homepairs server retrieving the data for the tenants 
  * and appliances related to a specific property. Upon failure, this function will
@@ -333,7 +333,7 @@ export const fetchAccount = (
             const {status, role} = data;
             const accountType = getAccountType(data);
             if(status === SUCCESS){
-                console.log(data);
+                console.log(data)
                 // Set the login state of the application to authenticated
                 dispatch(setAccountAuthenticationState(true));
                 dispatch(parseAccount(data));
@@ -384,7 +384,7 @@ export const fetchAccount = (
  */
 export const generateAccountForTenant = (accountDetails: TenantAccount, password: String, 
     navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
-    const {firstName, lastName, email, address} = accountDetails;
+    const {firstName, lastName, email, address, phoneNumber} = accountDetails;
     return async (dispatch: (arg0: any) => void) => {
         await axios.post(HOMEPAIRS_REGISTER_TENANT_ENDPOINT, {
           firstName, 
@@ -392,9 +392,9 @@ export const generateAccountForTenant = (accountDetails: TenantAccount, password
           email, 
           address, 
           password, 
+          phoneNumber,
         })
         .then((response) => {
-          console.log(response);
           const {data} = response;
           const {status} = data;
           if(status === SUCCESS){
@@ -692,7 +692,7 @@ export const postNewServiceRequest = async (
         {
             token: newServiceRequest.token, 
             propId: newServiceRequest.propId, 
-            tenId : newServiceRequest.tenId,
+            phoneNumber : newServiceRequest.phoneNumber,
             appId: newServiceRequest.appId, 
             provId: newServiceRequest.providerId, 
             serviceType: newServiceRequest.serviceType,
@@ -704,6 +704,7 @@ export const postNewServiceRequest = async (
             isPm,
         })
         .then(response => {
+            console.log(response);
             const {data} = response;
             const {status} = data;
             if (status === SUCCESS) {
@@ -715,6 +716,7 @@ export const postNewServiceRequest = async (
             }
         }).catch(error => {
             console.log(error);
+            displayError(error);
         });
 };
 

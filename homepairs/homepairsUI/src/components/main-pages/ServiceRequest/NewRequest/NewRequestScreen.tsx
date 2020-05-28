@@ -5,10 +5,11 @@ import { NewServiceRequestBase, NewRequestScreenStateProps } from './NewRequestS
 
 function mapStateToProps(state: AppState) : NewRequestScreenStateProps {
     const properties = convertObjectValuesToArray(state.properties.properties);
+    console.log((state.accountProfile as (TenantAccount)).phoneNumber)
     return {
         accountType: state.accountProfile.accountType,
         properties,
-        token: state.accountProfile.roopairsToken,
+        token: (state.accountProfile as (PropertyManagerAccount)).roopairsToken,
         pmId: (state.accountProfile as (PropertyManagerAccount)).pmId,
         phoneNumber: (state.accountProfile as (TenantAccount)).phoneNumber,
     };

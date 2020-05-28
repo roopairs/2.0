@@ -113,7 +113,7 @@ const strings = {
             firstName: 'FIRST NAME',
             lastName: 'LAST NAME',
             email: 'EMAIL',
-            phone: 'PHONE',
+            phone: 'PHONE NUMBER',
             password: 'PASSWORD',
             confirmPassword: 'CONFIRM PASSWORD',
             address: 'ADDRESS',
