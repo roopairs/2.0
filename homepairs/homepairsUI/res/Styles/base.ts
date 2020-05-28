@@ -60,8 +60,10 @@ export const FontTheme = {
 };
 
 export const MarginPadding = {
+    xsmall: '0.5%',
     small: '1%',
     medium: '2.5%',
+    statusTitle: '3.0%',
     inputForm: '3.5%',
     large: '5%',
     statusButton: '6.0%',

@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
         padding: BaseStyles.MarginPadding.medium,
         borderColor: colors.lightGray,
         borderWidth: 1,
-        margin: 20,
+        marginVertical: 10,
+        marginHorizontal: 20,
     },
     buttonStyle: {
         paddingLeft: BaseStyles.MarginPadding.medium,

@@ -218,6 +218,7 @@ export enum ServiceRequestCompletionStatus {
 }
 
 export enum ServiceRequestStatusEnums {
+    WaitingApproval = 'WaitingApproval',
     Pending = 'Pending',
     Scheduled = 'Scheduled',
     InProgress = 'InProgress',
