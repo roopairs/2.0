@@ -36,5 +36,7 @@ class ServiceRequest(models.Model):
                 "status": self.status,
                 "serviceDate": self.serviceDate,
                 "appFixed": appFixedStr,
-                "location": str(self.location)
+                "location": str(self.location),
+                "poc": self.poc,
+                "pocName": self.pocName
                 }
