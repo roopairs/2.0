@@ -4,6 +4,7 @@ import requests
 
 
 def postRooAPI(url, data):
+    print("HERE 6")
     response = requests.post(url, json=data)
     return json.loads(response.text)
 

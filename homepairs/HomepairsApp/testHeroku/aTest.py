@@ -4,21 +4,18 @@ import requests
 ################################################################################
 # Vars
 globUrl = 'https://homepairs-alpha.herokuapp.com/'
-globUrl = 'http://localhost:8000/'
 globUrl = 'https://homepairs-mytest.herokuapp.com/'
+globUrl = 'http://localhost:8000/'
 
 
 # Everything is correct
 def test_basic_connection():
-    firstName = 'Jason 2'
-    lastName = 'Bourne 2'
-    email = 'adamberard99@gmail.com'
-    password = 'pass4adam 2'
-    data = {'firstName': firstName,
-            'lastName': lastName,
-            'email': email,
-            'password': password}
-    url = globUrl + 'pm/register/'
+    email = 'aberard@calpoly.edu'
+    password = 'pass4adam'
+    data = {'email': email,
+            'password': password,
+           }
+    url = globUrl + 'pm/login/'
 
     x = requests.post(url, json=data)
     print(x.text)

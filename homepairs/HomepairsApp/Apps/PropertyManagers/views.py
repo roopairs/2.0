@@ -120,14 +120,15 @@ def createPropertyManager(info, email):
                                  email=email)
         try:
             tempPM.save()
-            toke.save()
         except Exception as e:
             return e.message
             return JsonResponse(data=returnError(e.message))
     return "success"
 
 def pmLogin(email, password):
+    print("HERE 4")
     info = roopairsPMLogin(email, password)
+    print("HERE 3")
 
     if NON_FIELD_ERRORS in info:
         return returnError(info.get(NON_FIELD_ERRORS))
@@ -159,6 +160,7 @@ def pmLogin(email, password):
 class LoginView(View):
 
     def post(self, request):
+        print("HERE")
         inData = json.loads(request.body)
         required = ['email', 'password']
         missingFields = checkRequired(required, inData)
@@ -172,6 +174,7 @@ class LoginView(View):
                 tenantTest['role'] = 'tenant'
                 return JsonResponse(tenantTest)
 
+            print("HERE 1")
             pmTest = pmLogin(email, password)
             if(pmTest.get(STATUS) == SUCCESS):
                 pmTest['role'] = 'pm'
