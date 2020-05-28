@@ -110,7 +110,7 @@ class LoginView(View):
 class RegisterView(View):
     def post(self, request):
         inData = json.loads(request.body)
-        required = ['firstName', 'lastName', 'email', 'password', 'address']
+        required = ['firstName', 'lastName', 'email', 'password', 'address', 'phoneNumber']
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) == 0):
@@ -119,6 +119,7 @@ class RegisterView(View):
             email = inData.get('email')
             streetAddress = inData.get('address')
             password = inData.get('password')
+            phoneNumber = inData.get('phoneNumber')
 
             temp = streetAddress.split(',')
             if len(temp) < 2:
@@ -150,6 +151,7 @@ class RegisterView(View):
                                  email=email,
                                  password=password,
                                  place=tenantsProp,
+                                 phoneNumber=phoneNumber,
                                  pm=tenantsPM)
                     try:
                         ten.save()
