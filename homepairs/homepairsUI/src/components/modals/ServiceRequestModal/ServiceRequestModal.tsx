@@ -238,12 +238,12 @@ export class ServiceRequestModalBase extends React.Component<Props> {
                     <Text style={this.styles.formTitle}>{serviceRequestStrings.appliance}</Text>
                     {this.serviceRequest.appliance.appName ? <AppliancePanel hasButton={false} appliance={this.serviceRequest.appliance} /> : <Text style={this.styles.detailText}>Not Appliance Selected</Text>}
                 </View>
-                {isPm === AccountTypes.PropertyManager && this.serviceRequest.status === ServiceRequestStatusEnums.Pending ?
+                {isPm === AccountTypes.PropertyManager && this.serviceRequest.status === ServiceRequestStatusEnums.WaitingApproval ?
                     <View style={this.styles.buttonsContainer}>
                         <ThinButton
                             name={this.acceptButton.name}
                             onClick={() => {
-                                changeServiceRequestStatus('Scheduled', this.serviceRequest.reqId, navigation);
+                                changeServiceRequestStatus('Pending', this.serviceRequest.reqId, navigation);
                             }}
                             buttonStyle={this.acceptButton.buttonStyle}
                             buttonTextStyle={this.acceptButton.buttonTextStyle}
@@ -267,7 +267,7 @@ export class ServiceRequestModalBase extends React.Component<Props> {
     render() {
         const {navigation} = this.props;
         const showCloseButton = true;
-        const active = this.serviceRequest.status === "Pending" || this.serviceRequest.status === "Scheduled" || this.serviceRequest.status === "InProgress";
+        const active = this.serviceRequest.status === "Pending" || this.serviceRequest.status === "Scheduled" || this.serviceRequest.status === "InProgress" || this.serviceRequest.status === "WaitingApproval";
         return(
             <View style={this.styles.modalContainer}>
             <ScrollView style={this.styles.scrollStyle}
