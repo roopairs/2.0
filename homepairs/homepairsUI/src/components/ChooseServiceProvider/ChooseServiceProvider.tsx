@@ -33,12 +33,11 @@ const styles = StyleSheet.create({
         marginBottom: BaseStyles.MarginPadding.largeConst,
     },
     buttonContainer: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
-        paddingTop: BaseStyles.MarginPadding.xsmallConst,
-        width: BaseStyles.ContentWidth.max,
+        padding: BaseStyles.MarginPadding.mediumConst,
+        width: BaseStyles.ContentWidth.reg,
     },
     textContainer: {
         alignItems: 'center',
@@ -58,30 +57,24 @@ const styles = StyleSheet.create({
     selectedLeftButton: {
         alignItems: 'flex-start',
         justifyContent: 'center',
-        backgroundColor: colors.primary,
-        padding: BaseStyles.MarginPadding.mediumConst,
-        width: BaseStyles.ContentWidth.half,
-        borderTopLeftRadius: BaseStyles.BorderRadius.small,
-        borderBottomLeftRadius: BaseStyles.BorderRadius.small,
-        borderWidth: 1,
-        borderColor: colors.lightGray,
-        height: 40,
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
+        borderColor: colors.primary,
+        height: 30,
+        marginHorizontal: BaseStyles.MarginPadding.statusButton,
     },
     selectedRightButton: {
         alignItems: 'flex-end',
         justifyContent: 'center',
-        backgroundColor: colors.primary,
-        padding: BaseStyles.MarginPadding.mediumConst,
-        width: BaseStyles.ContentWidth.half,
-        borderTopRightRadius: BaseStyles.BorderRadius.small,
-        borderBottomRightRadius: BaseStyles.BorderRadius.small,
-        borderWidth: 1,
-        borderColor: colors.lightGray,
-        height: 40,
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
+        borderColor: colors.primary,
+        height: 30,
     },
     selectedText: {
-        color: colors.secondary,
+        color: colors.shadow,
         fontSize: BaseStyles.FontTheme.reg,
+        fontFamily: BaseStyles.FontTheme.secondary,
         alignSelf: 'center',
         justifyContent: 'center',
         alignItems: 'center',
@@ -90,29 +83,24 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'center',
         backgroundColor: colors.transparent,
-        padding: BaseStyles.MarginPadding.mediumConst,
-        width: BaseStyles.ContentWidth.half,
-        borderTopLeftRadius: BaseStyles.BorderRadius.small,
-        borderBottomLeftRadius: BaseStyles.BorderRadius.small,
-        borderWidth: 1,
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
         borderColor: colors.lightGray,
-        height: 40,
+        height: 30,
+        marginHorizontal: BaseStyles.MarginPadding.statusButton,
     },
     unselectedRightButton: {
         alignItems: 'flex-end',
         justifyContent: 'center',
         backgroundColor: colors.transparent,
-        padding: BaseStyles.MarginPadding.mediumConst,
-        width: BaseStyles.ContentWidth.half,
-        borderTopRightRadius: BaseStyles.BorderRadius.small,
-        borderBottomRightRadius: BaseStyles.BorderRadius.small,
-        borderWidth: 1,
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
         borderColor: colors.lightGray,
-        height: 40,
+        height: 30,
     },
     unselectedText: {
-        color: colors.lightGray,
-        fontSize: BaseStyles.FontTheme.reg,
+        color: colors.darkGray,
+        fontSize: BaseStyles.FontTheme.reg - 1,
         alignSelf: 'center',
     },
     networkText: {
@@ -206,10 +194,10 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
         const leftButtonStyle = preferredProvidersSelected ? styles.selectedLeftButton : styles.unselectedLeftButton;
         const rightButtonStyle = preferredProvidersSelected ? styles.unselectedRightButton : styles.selectedRightButton;
         return (
-            <View style={styles.container}>
+            <View style={{ width: '100%', alignSelf: 'center', justifyContent: 'center', alignItems: 'center'}}>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
-                        testID='service-radio-current'
+                        testID='service-radio-preferred'
                         style={leftButtonStyle}
                         onPressIn={this.onPressPreferred}>
                         <Text style={preferredProvidersSelected ?
@@ -218,7 +206,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        testID='service-radio-completed'
+                        testID='service-radio-network'
                         style={rightButtonStyle}
                         onPressIn={this.onPressNetwork}>
                         <Text style={preferredProvidersSelected ?
