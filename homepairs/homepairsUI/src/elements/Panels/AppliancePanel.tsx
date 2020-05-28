@@ -66,15 +66,13 @@ function setStyles() {
             justifyContent: 'space-between',
             minHeight: 50,
             paddingTop: 5,
+            paddingHorizontal: 10,
         },
         infoRowContainer: {
             flexDirection: 'row',
-            alignContent: 'center',
-            alignItems: 'center',
-            justifyContent: 'center',
-            alignSelf: 'center',
             width: BaseStyles.ContentWidth.wide,
             paddingVertical: BaseStyles.MarginPadding.mediumConst,
+            paddingLeft: 30,
         },
         titleText: {
             minHeight: 20,
@@ -105,7 +103,6 @@ function setStyles() {
             height: 20,
         },
         body: {
-            alignItems: 'center',
             paddingTop: BaseStyles.MarginPadding.mediumConst,
             paddingBottom: bodyPadding,
         },
@@ -121,8 +118,6 @@ function setStyles() {
         },
         detailContainer: {
             flex: 1,
-            alignSelf: 'center',
-            alignItems: 'center',
         },
     });
 }
@@ -168,6 +163,10 @@ export default class AppliancePanel extends React.Component<Props, AppliancePane
         this.setState({ minHeight: event.nativeEvent.layout.height });
     }
 
+    checkEmpty(val: any) {
+        return val ? val : '--';
+    }
+
     toggle() {
         const { expanded, minHeight, maxHeight, animation } = this.state;
         const initialValue = expanded ? maxHeight + minHeight : minHeight;
@@ -193,8 +192,12 @@ export default class AppliancePanel extends React.Component<Props, AppliancePane
 
     renderBody() {
         const { appliance } = this.props;
-        const { manufacturer, modelNum, serialNum, location } = appliance;
-        console.log(appliance);
+        let { manufacturer, modelNum, serialNum, location } = appliance;
+        manufacturer = this.checkEmpty(manufacturer);
+        modelNum = this.checkEmpty(modelNum);
+        serialNum = this.checkEmpty(serialNum);
+        location = this.checkEmpty(location);
+
         return (
             <View style={this.styles.body} onLayout={this.setMaxHeight}>
                 <View style={this.styles.infoRowContainer}>

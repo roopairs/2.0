@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropertyListState, HeaderState, Property, PropertyDict } from 'homepairs-types';
 import { navigationPages } from 'homepairs-routes';
-import { ViewPropertyCard, SceneInjectedProps } from 'homepairs-components';
+import { ViewPropertyCard, SceneInjectedProps, HomePairsHeader } from 'homepairs-components';
 import { View, Platform, FlatList, AsyncStorage} from 'react-native';
 
 export type PropertiesScreenStateProps = {

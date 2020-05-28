@@ -127,9 +127,9 @@ export const MainAppStack: Array<MainAppStackType> = [
         button: 'Add Property',
     },
     {
-        title: 'Service Request',
+        title: 'Service Requests',
         navigate: navigationPages.ServiceRequestScreen,
-        key: 'ServiceRequest',
+        key: 'ServiceRequests',
         button: 'Request Service',
     },
     {

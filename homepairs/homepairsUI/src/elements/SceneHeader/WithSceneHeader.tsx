@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         width: '100%',
-        backgroundColor: colorTheme.primary,
+        backgroundColor: 'white',
         flex: 1,
     },
     pallet: {

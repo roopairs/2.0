@@ -12,7 +12,7 @@ import {
 } from './PropertiesScreenBase';
 
 const sceneParams: MainAppStackType = {
-    title: 'Properties',
+    title: 'My Properties',
     navigate: 'AccountProperties',
     key: 'Properties',
     button: 'Add Property',
