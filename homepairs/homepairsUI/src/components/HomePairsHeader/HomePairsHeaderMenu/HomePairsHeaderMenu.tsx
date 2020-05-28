@@ -133,7 +133,7 @@ export default class HomePairsMenu extends React.Component<Props> {
             setAuthenticatedState(false);
         }
 
-        if(value.title === 'Properties'){
+        if(value.title === 'My Properties'){
             ChooseMainPage(accountType, navigation);
         }else{
             navigation.navigate(value.navigate);

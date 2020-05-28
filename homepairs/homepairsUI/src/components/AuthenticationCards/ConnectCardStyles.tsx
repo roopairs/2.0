@@ -7,21 +7,28 @@ const colors = BaseStyles.LightColorTheme;
 export default StyleSheet.create({
     cardTitle: {
         color: colors.tertiary,
-        fontSize: 18,
+        fontSize: 25,
         fontFamily: HomePairFonts.nunito_bold,
     },
     cardDescription: {
         color: colors.tertiary,
         fontFamily: BaseStyles.FontTheme.primary,
         fontSize: BaseStyles.FontTheme.small,
+        paddingTop: 5,
     },
-
     textContainer: {
         width: BaseStyles.ContentWidth.reg,
-        borderBottomColor: colors.veryLightGray,
         paddingBottom: BaseStyles.MarginPadding.mediumConst,
         flex: 1,
+        fontSize: 20,
+    },
+    titleContainerStyle: {
+        width: '95%',
+        borderBottomColor: BaseStyles.LightColorTheme.veryLightGray,
+        paddingVertical: 5,
         borderBottomWidth: 1,
+        alignSelf: 'center',
+        justifyContent: 'center',
     },
     accountContainer: {
         backgroundColor: colors.secondary,
@@ -46,6 +53,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
         minHeight: 50,
+        paddingTop: 70,
     },
     thinButton: {
         alignItems: 'center',

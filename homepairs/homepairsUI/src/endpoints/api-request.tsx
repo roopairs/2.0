@@ -680,6 +680,7 @@ export const postNewServiceRequest = async (
     navigation: NavigationRouteHandler,
     isPm: boolean,
 ) => {
+        console.log(newServiceRequest);
         await axios
         .post(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, 
         {
@@ -691,6 +692,8 @@ export const postNewServiceRequest = async (
             serviceCategory: newServiceRequest.serviceCategory, 
             serviceDate: newServiceRequest.serviceDate, 
             details: newServiceRequest.details,
+            poc: newServiceRequest.poc, 
+            pocName: newServiceRequest.pocName,
             isPm,
         })
         .then(response => {
