@@ -1,13 +1,13 @@
-import React, {Component} from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
-import {Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider, MainAppStackType, AccountTypes } from 'homepairs-types';
+import React, { Component } from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
+import { Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider, MainAppStackType, AccountTypes } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber, isPhoneNumberValid, isAlphaCharacterOnly } from 'homepairs-utilities';
 import {NavigationRouteScreenProps, MainAppStack} from 'homepairs-routes';
 import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel, DatePicker} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
-import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from 'homepairs-components';
-import {HelperText} from 'react-native-paper';
+import { ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider } from 'homepairs-components';
+import { HelperText } from 'react-native-paper';
 import axios from 'axios';
 import { HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest, HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT } from 'homepairs-endpoints';
 
@@ -19,13 +19,13 @@ type NewRequestState = {
     serviceCategoryState: boolean,
     applianceId: string,
     applianceState: boolean,
-    providerId: number, 
+    providerId: number,
     providerState: boolean,
     serviceType: string,
     serviceTypeState: boolean,
-    details: string, 
+    details: string,
     detailsState: boolean,
-    serviceDate: Date, 
+    serviceDate: Date,
     dateState: boolean,
     poc: string, 
     pocState: boolean,
@@ -37,21 +37,21 @@ type NewRequestState = {
     serviceProviders: ServiceProvider[],
 };
 
-const initialState : NewRequestState = {
-    address: '', 
+const initialState: NewRequestState = {
+    address: '',
     addressState: false,
     propId: '',
     serviceCategory: ApplianceType.None,
-    serviceCategoryState: false, 
+    serviceCategoryState: false,
     applianceId: '',
     applianceState: false,
-    providerId: -1, 
+    providerId: -1,
     providerState: false,
     serviceType: '',
     serviceTypeState: false,
-    details: '', 
+    details: '',
     detailsState: false,
-    serviceDate: null, 
+    serviceDate: null,
     dateState: false,
     poc: '', 
     pocState: false,
@@ -78,11 +78,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
     },
     iconImage: {
-        height: 20, 
-        width: 20, 
+        height: 20,
+        width: 20,
     },
     errorStyle: {
-        fontFamily: BaseStyles.FontTheme.secondary, 
+        fontFamily: BaseStyles.FontTheme.secondary,
         fontSize: 16,
     },
     input: {
@@ -103,9 +103,9 @@ export type NewRequestScreenDispatchProps = {
     onUpdateHeader: (navPage: MainAppStackType) => any;
 }
 
-export type NewRequestScreenProps = 
-    & NavigationRouteScreenProps 
-    & NewRequestScreenDispatchProps 
+export type NewRequestScreenProps =
+    & NavigationRouteScreenProps
+    & NewRequestScreenDispatchProps
     & {
         properties: Property[],
         token: string,
@@ -147,13 +147,13 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
             borderRadius: 4,
             padding: 10,
         },
-        numberOfLines: 3, 
+        numberOfLines: 3,
         multiline: true,
         maxLength: 500,
     }
 
     buttonProps: ThinButtonProps = {
-        name: 'Send Request', 
+        name: 'Send Request',
         containerStyle: {
             flex: 1,
             alignSelf: 'center',
@@ -161,7 +161,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
             marginTop: BaseStyles.MarginPadding.largeConst,
             marginBottom: BaseStyles.MarginPadding.xlarge,
             minHeight: 50,
-        }, 
+        },
         buttonStyle: {
             alignItems: 'center',
             backgroundColor: Colors.LightModeColors.transparent,
@@ -173,7 +173,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
             borderColor: Colors.LightModeColors.blueButton,
         },
         buttonTextStyle: {
-            color: Colors.LightModeColors.blueButtonText, 
+            color: Colors.LightModeColors.blueButtonText,
             fontSize: BaseStyles.FontTheme.reg,
             alignSelf: 'center',
         },
@@ -181,7 +181,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
 
     constructor(props: Readonly<NewRequestScreenProps>) {
         super(props);
-        
+
         this.getFormAddress = this.getFormAddress.bind(this);
         this.getFormCategory = this.getFormCategory.bind(this);
         this.getFormAppliance = this.getFormAppliance.bind(this);
@@ -209,39 +209,39 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     componentDidMount() {
         // When the component is mounted, update the header. This component can be navigated from a different stack so 
         // we need to make sure the header remains updated in the case this happens
-        const {onUpdateHeader} = this.props;
+        const { onUpdateHeader } = this.props;
         onUpdateHeader();
 
         this.fetchServiceProviders();
     }
 
-    async getFormAddress(childData : string, propId: string) {
-        this.setState({address: childData, propId, addressState: true});
+    async getFormAddress(childData: string, propId: string) {
+        this.setState({ address: childData, propId, addressState: true });
         await this.fetchAppliances(propId);
     }
 
-    getFormCategory(childData : ApplianceType) {
-        this.setState({serviceCategory: childData, serviceCategoryState: true});
+    getFormCategory(childData: ApplianceType) {
+        this.setState({ serviceCategory: childData, serviceCategoryState: true });
     }
 
     getFormAppliance(childData: string) {
-        this.setState({applianceId: childData, applianceState: true});
+        this.setState({ applianceId: childData, applianceState: true });
     }
 
     getFormServiceProvider(childData: number) {
-        this.setState({providerId: childData, providerState: true});
+        this.setState({ providerId: childData, providerState: true });
     }
 
     getFormServiceType(childData: string) {
-        this.setState({serviceType: childData, serviceTypeState: true});
+        this.setState({ serviceType: childData, serviceTypeState: true });
     }
 
     getFormDescription(childData: string) {
-        this.setState({details: childData, detailsState: true});
+        this.setState({ details: childData, detailsState: true });
     }
 
     getFormDate(childData: Date) {
-        this.setState({serviceDate: childData, dateState: true});
+        this.setState({ serviceDate: childData, dateState: true });
     }
 
     getPOC(childData: string) {
@@ -254,22 +254,22 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
 
     fetchAppliances = async (propId: string) => {
         if (propId !== '') {
-            await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`).then((result) =>{
-                const {appliances} = result.data;
+            await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`).then((result) => {
+                const { appliances } = result.data;
                 const applianceInfo: Appliance[] = [];
 
                 appliances.forEach(appliance => {
-                    const {appId, category, name, manufacturer, modelNum, serialNum, location} = appliance;
+                    const { appId, category, name, manufacturer, modelNum, serialNum, location } = appliance;
 
                     applianceInfo.push({
                         applianceId: appId,
-                        category: stringToCategory(category), 
+                        category: stringToCategory(category),
                         appName: name, manufacturer, modelNum, serialNum, location,
                     });
                 });
-                this.setState({appliances: applianceInfo});
-            });  
-        }   
+                this.setState({ appliances: applianceInfo });
+            });
+        }
     };
 
     fetchServiceProviders = async () => {
@@ -286,23 +286,23 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     };
 
     displayError(msg: string) {
-        this.setState({errorMsg: msg, errorCheck: true});
+        this.setState({ errorMsg: msg, errorCheck: true });
     }
 
     async clickSubmitButton() {
         const { serviceCategory, applianceId, providerId, serviceType, details, serviceDate, propId, poc, pocName} = this.state;
         const {navigation, token, onUpdateHeader, isPm} = this.props;
         this.setState({errorCheck: false});
-        if (this.validateForms()) {    
+        if (this.validateForms()) {
             const pm = isPm === AccountTypes.PropertyManager;
-            const newServiceRequest : NewServiceRequest = {
+            const newServiceRequest: NewServiceRequest = {
                 token,
-                propId, 
-                appId: applianceId, 
-                providerId, 
+                propId,
+                appId: applianceId,
+                providerId,
                 serviceType,
-                serviceCategory: categoryToString(serviceCategory), 
-                serviceDate: serviceDate.toISOString(), 
+                serviceCategory: categoryToString(serviceCategory),
+                serviceDate: serviceDate.toISOString(),
                 details,
                 poc, 
                 pocName,
@@ -337,27 +337,27 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
         }
         return check;
     }
-    
+
     renderError() {
-        const {errorMsg, errorCheck} = this.state;
-        return <View style={{alignSelf:'center'}}>
+        const { errorMsg, errorCheck } = this.state;
+        return <View style={{ alignSelf: 'center' }}>
             <HelperText type='error' visible={errorCheck} style={styles.errorStyle}>{errorMsg}</HelperText>
         </View>;
     }
 
     render() {
-        const {properties} = this.props;
+        const { properties } = this.props;
         const {
-            addressState, 
-            serviceCategoryState, 
-            applianceState, 
-            providerState, 
-            serviceTypeState, 
-            detailsState, 
+            addressState,
+            serviceCategoryState,
+            applianceState,
+            providerState,
+            serviceTypeState,
+            detailsState,
             dateState,
-            appliances, 
-            serviceCategory, 
-            serviceProviders, 
+            appliances,
+            serviceCategory,
+            serviceProviders,
             serviceDate,
             pocState, 
             pocNameState
@@ -365,23 +365,23 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
         return (
             <ScrollView style={styles.scrollContainer}>
                 <Text style={styles.formTitle}>ADDRESS</Text>
-                <AddressPanel properties={properties} parentCallBack={this.getFormAddress}/> 
-                {addressState ? 
+                <AddressPanel properties={properties} parentCallBack={this.getFormAddress} />
+                {addressState ?
                     <>
                         <Text style={styles.formTitle}>SERVICE CATEGORY</Text>
-                        <ChooseServiceCategory onPress={this.getFormCategory}/>
+                        <ChooseServiceCategory onPress={this.getFormCategory} />
                     </> : <></>
                 }
-                {serviceCategoryState ? 
+                {serviceCategoryState ?
                     <>
                         <Text style={styles.formTitle}>APPLIANCE (IF APPLICABLE)</Text>
-                        <ChooseAppliance parentCallBack={this.getFormAppliance} applianceType={serviceCategory} appliances={appliances}/>
+                        <ChooseAppliance parentCallBack={this.getFormAppliance} applianceType={serviceCategory} appliances={appliances} />
                     </> : <></>
                 }
-                {applianceState ? 
+                {applianceState ?
                     <>
                         <Text style={styles.formTitle}>SERVICE PROVIDER</Text>
-                        <ChooseServiceProvider serviceProviders={serviceProviders} parentCallBack={this.getFormServiceProvider}/>
+                        <ChooseServiceProvider serviceProviders={serviceProviders} parentCallBack={this.getFormServiceProvider} />
                     </> : <></>
 
 
@@ -389,24 +389,26 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
                 {providerState ?
                     <>
                         <Text style={styles.formTitle}>SERVICE TYPE</Text>
-                        <ServiceTypePanel parentCallBack={this.getFormServiceType}/>
+                        <ServiceTypePanel parentCallBack={this.getFormServiceType} />
                     </> : <></>
 
                 }
-                {serviceTypeState ? 
-                    <> 
-                        <Text style={styles.formTitle}>WHAT HAPPENED?</Text>
-                        <InputForm 
-                            parentCallBack={this.getFormDescription}
-                            numberOfLines={this.formProps.numberOfLines} 
-                            inputStyle={this.formProps.inputStyle}
-                            multiline={this.formProps.multiline}
-                            maxLength={this.formProps.maxLength}
-                        />
+                {serviceTypeState ?
+                    <>
+                        <View style={{ marginBottom: '-7.5%' }}>
+                            <Text style={styles.formTitle}>WHAT HAPPENED?</Text>
+                            <InputForm
+                                parentCallBack={this.getFormDescription}
+                                numberOfLines={this.formProps.numberOfLines}
+                                inputStyle={this.formProps.inputStyle}
+                                multiline={this.formProps.multiline}
+                                maxLength={this.formProps.maxLength}
+                            />
+                        </View>
                     </> : <></>
                 }
-                {detailsState ? 
-                    <> 
+                {detailsState ?
+                    <>
                         <Text style={styles.formTitle}>WHEN DO YOU WANT IT TO BE FIXED?</Text>
                         <DatePicker serviceDate={serviceDate} getFormDate={this.getFormDate}/> 
                         
