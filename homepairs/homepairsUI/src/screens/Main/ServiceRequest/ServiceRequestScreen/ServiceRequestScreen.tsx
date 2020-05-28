@@ -57,4 +57,4 @@ const ServiceRequestScreen = connect(
  * that allows the user to add a new service request to their account. 
  */
 
-export default prepareNavigationHandlerComponent(withPreferredProviderFlatList(withSceneHeader(ServiceRequestScreen, sceneParam)));
+export default prepareNavigationHandlerComponent(withPreferredProviderFlatList(withSceneHeader(ServiceRequestScreen, sceneParam, false)));

@@ -68,7 +68,7 @@ export default function ServiceRequestButton(props: ServiceRequestButtonProps) {
     const date = Moment(serviceRequest.startDate.toString()).format('LLL');
 
     return (
-        <View style={[styles.container, {borderLeftColor: active ? colors.primary : colors.lightGray}]}>
+        <View style={[styles.container, {borderLeftColor: active ? colors.roopairs : colors.lightGray}]}>
             <TouchableOpacity
                 testID='click-service-request-button'
                 style={styles.buttonStyle}

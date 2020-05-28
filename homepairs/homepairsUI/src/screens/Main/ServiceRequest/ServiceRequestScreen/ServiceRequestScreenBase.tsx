@@ -354,7 +354,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
             const serviceRequests: ServiceRequest[] = [];
 
             reqs.forEach(req => {
-                const { appFixed, location, serviceDate, status, client, serviceCompany, serviceCategory, details, id } = req;
+                const { appFixed, location, serviceDate, status, client, serviceCompany, serviceCategory, details, id, poc, pocName } = req;
                 const appliance = {
                     applianceId: appFixed.appId,
                     category: appFixed.category && stringToCategory(appFixed.category),
@@ -371,6 +371,8 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                     companyName: serviceCompany,
                     details,
                     appliance,
+                    poc, 
+                    pocName,
                     status: ServiceRequestStatusEnums[status],
                 };
 
@@ -533,7 +535,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         const { currentRequestsSelected, requestSelected, serviceRequests } = this.state;
 
         return (
-            <>
+            <View>
                 <View style={{ marginTop: 30, width: BaseStyles.ContentWidth.reg, alignSelf: 'center', paddingHorizontal: 3 } /* Styled to be the same width as the SearchForm */}>
                     <ServiceRequestAddressPanel properties={properties} parentCallBack={async (propId: string) => { await this.callFetchServiceRequests(propId); }} />
                 </View>
@@ -552,7 +554,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                 <View style={{ justifyContent: 'center' }}>
                     {this.renderFilteredServiceRequests()}
                 </View>
-            </>
+            </View>
         );
     }
 
@@ -577,7 +579,8 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                         serviceRequest => {
                             const { appliance } = serviceRequest;
                             const { applianceId } = appliance;
-                            return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
+                            const active = serviceRequest.status === "Pending" || serviceRequest.status === "Scheduled" || serviceRequest.status === "InProgress";
+                            return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} active={active}/>);
                         })}
                 </>
             </>
@@ -645,11 +648,9 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
 
     render() {
         return (
-            <ScrollView style={{ flexGrow: 1 }}>
-                <View style={styles.addBottomMargin}>
-                    {this.renderServiceRequests()}
-                </View>
-            </ScrollView>
+            <View style={styles.addBottomMargin}>
+                {this.renderServiceRequests()}
+            </View>
         );
     }
 }

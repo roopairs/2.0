@@ -1,10 +1,10 @@
 import React, { Component } from 'react'; //* *For every file that uses jsx, YOU MUST IMPORT REACT  */
 import { Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider, MainAppStackType, AccountTypes } from 'homepairs-types';
 import Colors from 'homepairs-colors';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber } from 'homepairs-utilities';
-import { NavigationRouteScreenProps, MainAppStack } from 'homepairs-routes';
-import { AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel, DatePicker } from 'homepairs-elements';
+import { StyleSheet, Text, View, ScrollView} from 'react-native';
+import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber, isPhoneNumberValid, isAlphaCharacterOnly } from 'homepairs-utilities';
+import {NavigationRouteScreenProps, MainAppStack} from 'homepairs-routes';
+import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel, DatePicker} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
 import { ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider } from 'homepairs-components';
 import { HelperText } from 'react-native-paper';
@@ -27,6 +27,10 @@ type NewRequestState = {
     detailsState: boolean,
     serviceDate: Date,
     dateState: boolean,
+    poc: string, 
+    pocState: boolean,
+    pocName: string,
+    pocNameState: boolean,
     appliances: Appliance[],
     errorMsg: string,
     errorCheck: boolean,
@@ -49,6 +53,10 @@ const initialState: NewRequestState = {
     detailsState: false,
     serviceDate: null,
     dateState: false,
+    poc: '', 
+    pocState: false,
+    pocName: '',
+    pocNameState: false,
     appliances: [],
     errorMsg: '',
     errorCheck: false,
@@ -63,7 +71,7 @@ const styles = StyleSheet.create({
         fontFamily: BaseStyles.FontTheme.primary,
         fontSize: BaseStyles.FontTheme.reg,
         color: '#AFB3B5',
-        paddingVertical: BaseStyles.MarginPadding.medium,
+        paddingVertical: BaseStyles.MarginPadding.large,
     },
     datePickerContainer: {
         padding: BaseStyles.MarginPadding.medium,
@@ -76,6 +84,18 @@ const styles = StyleSheet.create({
     errorStyle: {
         fontFamily: BaseStyles.FontTheme.secondary,
         fontSize: 16,
+    },
+    input: {
+        alignItems: 'center',
+        alignSelf: 'center',
+        margin: BaseStyles.MarginPadding.xsmallConst,
+        minWidth: 40,
+        width: BaseStyles.ContentWidth.max,
+        height: 40,
+        borderColor: BaseStyles.LightColorTheme.lightGray,
+        borderWidth: 1,
+        borderRadius: BaseStyles.BorderRadius.small,
+        paddingHorizontal: BaseStyles.MarginPadding.mediumConst,
     },
 });
 
@@ -110,7 +130,11 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
 
     serviceDateRef;
 
-    formProps: InputFormProps = {
+    pocRef;
+
+    pocNameRef;
+
+    formProps : InputFormProps = {
         inputStyle: {
             alignItems: 'center',
             alignSelf: 'center',
@@ -165,6 +189,8 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
         this.getFormServiceProvider = this.getFormServiceProvider.bind(this);
         this.getFormDescription = this.getFormDescription.bind(this);
         this.getFormDate = this.getFormDate.bind(this);
+        this.getPOC = this.getPOC.bind(this);
+        this.getPOCName = this.getPOCName.bind(this);
         this.fetchAppliances = this.fetchAppliances.bind(this);
         this.displayError = this.displayError.bind(this);
         this.fetchServiceProviders = this.fetchServiceProviders.bind(this);
@@ -176,6 +202,8 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
         this.serviceTypeRef = React.createRef();
         this.descriptionRef = React.createRef();
         this.serviceDateRef = React.createRef();
+        this.pocRef = React.createRef();
+        this.pocNameRef = React.createRef();
     }
 
     componentDidMount() {
@@ -216,6 +244,14 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
         this.setState({ serviceDate: childData, dateState: true });
     }
 
+    getPOC(childData: string) {
+        this.setState({poc: childData, pocState: true});
+    }
+
+    getPOCName(childData: string) {
+        this.setState({pocName: childData, pocNameState: true});
+    }
+
     fetchAppliances = async (propId: string) => {
         if (propId !== '') {
             await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`).then((result) => {
@@ -237,16 +273,16 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     };
 
     fetchServiceProviders = async () => {
-        const { pmId } = this.props;
-        await axios.get(`${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${pmId}/`).then((result) => {
-            const { providers } = result.data;
-            const providerInfo: ServiceProvider[] = [];
-            providers.forEach(provider => {
-                const { provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo } = provider;
-                providerInfo.push({ provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate, timesHired, earliestHire, logo });
-            });
-            this.setState({ serviceProviders: providerInfo });
-        });
+            const {pmId} = this.props;
+            await axios.get(`${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${pmId}/`).then((result) =>{
+                const {providers} = result.data;
+                const providerInfo: ServiceProvider[] = [];
+                providers.forEach(provider => {
+                    const { provId, prefId, name, email, phoneNum, contractLic, skills, founded, rate, timesHired, earliestHire, logo, address } = provider;
+                    providerInfo.push({provId, prefId, name, email, phoneNum, contractLic, skills, founded, payRate: rate, timesHired, earliestHire, logo, address});
+                });
+                this.setState({serviceProviders: providerInfo});
+            });  
     };
 
     displayError(msg: string) {
@@ -254,11 +290,10 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     }
 
     async clickSubmitButton() {
-        const { serviceCategory, applianceId, providerId, serviceType, details, serviceDate, propId } = this.state;
-        const { navigation, token, onUpdateHeader, isPm } = this.props;
-        this.setState({ errorCheck: false });
+        const { serviceCategory, applianceId, providerId, serviceType, details, serviceDate, propId, poc, pocName} = this.state;
+        const {navigation, token, onUpdateHeader, isPm} = this.props;
+        this.setState({errorCheck: false});
         if (this.validateForms()) {
-
             const pm = isPm === AccountTypes.PropertyManager;
             const newServiceRequest: NewServiceRequest = {
                 token,
@@ -269,6 +304,8 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
                 serviceCategory: categoryToString(serviceCategory),
                 serviceDate: serviceDate.toISOString(),
                 details,
+                poc, 
+                pocName,
             };
             await postNewServiceRequest(newServiceRequest, this.displayError, navigation, pm).catch(error => console.log(error));
             onUpdateHeader(MainAppStack[1]);
@@ -276,24 +313,26 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     }
 
     validateForms() {
-        const { address, serviceCategory, applianceId, providerId, serviceType, serviceDate } = this.state;
+        const {address, serviceCategory, applianceId, providerId, serviceType, serviceDate, poc, pocName} = this.state;
         let check = true;
-        if (isEmptyOrSpaces(address)) {
+        if (isEmptyOrSpaces(address))
+            check = false;
+        if (serviceCategory === ApplianceType.None)
+            check = false;
+        if (isEmptyOrSpaces(applianceId))
+            check = false;
+        if (serviceDate === null)
+            check = false;
+        if (isEmptyOrSpaces(serviceType))
+            check = false;
+        if (!isPositiveWholeNumber(providerId.toString()))
+            check = false;
+        if(!isPhoneNumberValid(poc)) {
+            this.pocRef.current.setError(true);
             check = false;
         }
-        if (serviceCategory === ApplianceType.None) {
-            check = false;
-        }
-        if (isEmptyOrSpaces(applianceId)) {
-            check = false;
-        }
-        if (serviceDate === null) {
-            check = false;
-        }
-        if (isEmptyOrSpaces(serviceType)) {
-            check = false;
-        }
-        if (!isPositiveWholeNumber(providerId.toString())) {
+        if (!isAlphaCharacterOnly(pocName)) {
+            this.pocNameRef.current.setError(true);
             check = false;
         }
         return check;
@@ -320,6 +359,8 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
             serviceCategory,
             serviceProviders,
             serviceDate,
+            pocState, 
+            pocNameState
         } = this.state;
         return (
             <ScrollView style={styles.scrollContainer}>
@@ -369,17 +410,41 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
                 {detailsState ?
                     <>
                         <Text style={styles.formTitle}>WHEN DO YOU WANT IT TO BE FIXED?</Text>
-                        <DatePicker serviceDate={serviceDate} getFormDate={this.getFormDate} />
-                        {this.renderError()}
-                        <ThinButton
-                            name={this.buttonProps.name}
-                            onClick={async () => { await this.clickSubmitButton(); }}
-                            containerStyle={this.buttonProps.containerStyle}
-                            buttonStyle={this.buttonProps.buttonStyle}
-                            buttonTextStyle={this.buttonProps.buttonTextStyle}
-                        />
+                        <DatePicker serviceDate={serviceDate} getFormDate={this.getFormDate}/> 
+                        
                     </> : <></>
                 }
+                {dateState ? 
+                <>
+                    <Text style={styles.formTitle}>WHO SHOULD THEY ASK FOR?</Text>
+                    <InputForm 
+                        ref={this.pocNameRef}
+                        parentCallBack={this.getPOCName}
+                        inputStyle={styles.input}
+                        errorMessage="Name cannot be empty"
+                    />
+                </> : <></>}
+                {pocNameState ? 
+                <>
+                    <Text style={styles.formTitle}>WHAT&apos;S THEIR PHONE NUMBER?</Text>
+                    <InputForm 
+                        ref={this.pocRef}
+                        parentCallBack={this.getPOC}
+                        inputStyle={styles.input}
+                        errorMessage="Must be valid, non-empty phone number"
+                    />
+                </> : <></>}
+                {pocState ? 
+                <>
+                    {this.renderError()}
+                    <ThinButton 
+                        name={this.buttonProps.name}
+                        onClick={async () => {await this.clickSubmitButton();}}
+                        containerStyle={this.buttonProps.containerStyle}
+                        buttonStyle={this.buttonProps.buttonStyle}
+                        buttonTextStyle={this.buttonProps.buttonTextStyle}
+                    />
+                </> : <></>}
             </ScrollView>
         );
     }

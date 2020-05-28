@@ -68,6 +68,7 @@ export class AddServiceProviderModalBase extends React.Component<Props,CreateSta
             flex: 1,
             alignSelf: 'center',
             justifyContent: 'center',
+            marginTop: BaseStyles.MarginPadding.largeConst,
             marginBottom: BaseStyles.MarginPadding.xlarge,
             minHeight: 50,
         },

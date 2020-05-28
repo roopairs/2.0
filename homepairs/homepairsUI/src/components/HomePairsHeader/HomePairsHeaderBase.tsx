@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     Text,
     Dimensions,
+    FlatList
 } from 'react-native';
 import React from 'react';
 import {
@@ -181,7 +182,7 @@ export default class HomePairsHeaderBase extends React.Component<HomePairsHeader
     render() {
         const { header, navigation, accountType, onLogOut } = this.props;
         return (
-            <View style={styles.container}>
+            <View style={styles.container} >
                 <View
                     style={header.isDropDown ? styles.dropDownFlexDirection : styles.navBarFlexDirection}>
                     <View
