@@ -123,9 +123,9 @@ class RegisterView(View):
             temp = streetAddress.split(',')
             if len(temp) < 2:
                 return JsonResponse(data=returnError(BAD_ADDRESS_FORMAT))
-            streetAddress = temp[0].strip()
-            city = temp[1].strip()
-            state = temp[2].strip()
+            streetAddress = temp[0]#.strip()
+            city = temp[1]#.strip()
+            state = temp[2]#.strip()
 
             tempPms = PropertyManager.objects.filter(email=email)
             tempTens = Tenant.objects.filter(email=email)
