@@ -78,17 +78,15 @@ class ServiceRequestView(View):
         inData = json.loads(request.body)
         isPm = inData.get('isPm')
         if isPm:
-            required = ['provId', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'pocName', 'poc', 'token', 'propId', 'appId', 'isPm']
+            required = ['provPhoneNum', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'pocName', 'poc', 'token', 'propId', 'appId', 'isPm']
         else:
             required = ['phoneNumber', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'pocName', 'poc', 'propId', 'appId', 'isPm']
         missingFields = checkRequired(required, inData)
 
-        url = BASE_URL + 'service-locations/' + '/propId/jobs/'
-
         if(len(missingFields) != 0):
             return JsonResponse(data=missingError(missingFields))
 
-        provId = inData.get('provId')
+        provPhoneNum = inData.get('provPhoneNum')
         serviceCategory = inData.get('serviceCategory')
         serviceDateStr = inData.get('serviceDate')
         serviceType = inData.get('serviceType')
@@ -103,22 +101,26 @@ class ServiceRequestView(View):
         appList = Appliance.objects.filter(rooAppId=appId)
         if propList.exists():
             prop = propList[0]
+            url = BASE_URL + 'service-locations/' + '/' + prop.rooId + '/jobs/'
             types = ['Repair', 'Installation', 'Maintenance']
             typeNum = -1
             for i in range(0, len(types)):
                 if types[i] == serviceType:
                     typeNum = i + 1
             if isPm:
-                provList = ServiceProvider.objects.filter(id=provId)
+                provList = ServiceProvider.objects.filter(phoneNum=provPhoneNum)
+                if (not provList.exists()):
+                    return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
+                prov = provList[0]
                 status = 'Pending'
                 
 
                 data = {
-                            'service_company': provId,
+                            'service_company': prov.rooId,
                             'service_category': 1,
                             'service_type': typeNum,
                             'details': details,
-                            'point_of_contact_name': str(prop.pm),
+                            'point_of_contact_name': pocName,
                             'requested_arrival_time': str(serviceDate)
                     }
                 print("TOKEN?")
@@ -134,7 +136,6 @@ class ServiceRequestView(View):
                 phoneNumber = inData.get('phoneNumber')
                 print(phoneNumber)
                 tenant = Tenant.objects.filter(phoneNumber=phoneNumber)[0]
-                # tenPlace = Property.objects.filter(id=tenant.place)[0]
                 if propId != tenant.place.rooId:
                     return JsonResponse(data=returnError(NOT_YOUR_PROPERTY))
 

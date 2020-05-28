@@ -97,12 +97,14 @@ class ServiceProviderView(View):
                 contractLic = info.get('contractLic')
                 bio = info.get('bio')
                 rate = info.get('rate')
+                rooId = info.get('id')
                 skills = info.get('skills')
                 certified = info.get('certified')
                 founded = info.get('founded')
                 pro = ServiceProvider(name=name,
                                       email=email,
                                       phoneNum=phoneNum,
+                                      rooId=rooId,
                                       contractLic=contractLic,
                                       skills=skills,
                                       founded=founded,
