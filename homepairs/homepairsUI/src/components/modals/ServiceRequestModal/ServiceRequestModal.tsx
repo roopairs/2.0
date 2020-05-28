@@ -4,7 +4,7 @@ import { ThinButtonProps, Card, AppliancePanel, ThinButton } from 'src/elements'
 import strings from 'homepairs-strings';
 import { connect } from 'react-redux';
 import * as BaseStyles from 'homepairs-base-styles';
-import { HomePairsDimensions, AccountTypes, AppState, ServiceRequestStatusEnums} from 'homepairs-types';
+import { HomePairsDimensions, AccountTypes, AppState, ServiceRequestStatusEnums, PropertyManagerAccount} from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import {FontTheme} from 'homepairs-base-styles';
 import { HomePairFonts } from 'homepairs-fonts';
@@ -16,6 +16,7 @@ import Moment from 'moment';
 
 type ServiceRequestModalProps = {
     isPm: AccountTypes,
+    token: string,
 }
 
 type Props = NavigationRouteScreenProps & ServiceRequestModalProps;
@@ -200,7 +201,7 @@ export class ServiceRequestModalBase extends React.Component<Props> {
     }
 
     renderBody() {
-        const {isPm, navigation} = this.props;
+        const {isPm, navigation, token} = this.props;
         const date = Moment(this.serviceRequest.startDate.toString()).format('LLL');
         console.log(this.serviceRequest);
         return (
@@ -243,7 +244,7 @@ export class ServiceRequestModalBase extends React.Component<Props> {
                         <ThinButton
                             name={this.acceptButton.name}
                             onClick={() => {
-                                changeServiceRequestStatus('Pending', this.serviceRequest.reqId, navigation);
+                                changeServiceRequestStatus('Pending', this.serviceRequest.reqId, token, navigation);
                             }}
                             buttonStyle={this.acceptButton.buttonStyle}
                             buttonTextStyle={this.acceptButton.buttonTextStyle}
@@ -252,7 +253,7 @@ export class ServiceRequestModalBase extends React.Component<Props> {
                         <ThinButton
                             name={this.denyButton.name}
                             onClick={() => {
-                                changeServiceRequestStatus('Declined', this.serviceRequest.reqId, navigation);
+                                changeServiceRequestStatus('Declined', this.serviceRequest.reqId, token, navigation);
                             }}
                             buttonStyle={this.denyButton.buttonStyle}
                             buttonTextStyle={this.denyButton.buttonTextStyle}
@@ -292,6 +293,7 @@ export class ServiceRequestModalBase extends React.Component<Props> {
 
 function mapStateToProps(state: AppState) : ServiceRequestModalProps {
     return {
+        token: (state.accountProfile as (PropertyManagerAccount)).roopairsToken,
         isPm: state.accountProfile.accountType,
     };
 }
