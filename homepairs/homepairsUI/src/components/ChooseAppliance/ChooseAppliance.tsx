@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         marginTop: BaseStyles.MarginPadding.small,
         marginBottom: BaseStyles.MarginPadding.small,
         minHeight: 50,
-        width: 400,
+        width: BaseStyles.ContentWidth.thin,
         borderRadius: BaseStyles.BorderRadius.large,
         borderWidth: 2,
         borderColor: Colors.LightModeColors.greyButton,

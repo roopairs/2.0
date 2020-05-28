@@ -8,7 +8,6 @@ import Colors from 'homepairs-colors';
 import {HelperText} from 'react-native-paper';
 import { isPositiveWholeNumber, isNullOrUndefined, isEmptyOrSpaces } from 'homepairs-utilities';
 import {navigationPages, NavigationRouteScreenProps, NavigationRouteHandler} from 'homepairs-routes';
-import { createIconSetFromFontello } from "react-native-vector-icons";
 
 const {SingleProperty} = navigationPages;
 
