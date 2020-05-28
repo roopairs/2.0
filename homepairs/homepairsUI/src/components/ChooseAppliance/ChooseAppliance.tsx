@@ -56,7 +56,7 @@ export default class ChooseAppliance extends Component<ChooseApplianceProps,Choo
             marginTop: BaseStyles.MarginPadding.largeConst,
             marginBottom: BaseStyles.MarginPadding.large,
             minHeight: 50,
-            width: BaseStyles.ContentWidth.thin,
+            width: BaseStyles.ContentWidth.reg,
         }, 
         buttonStyle: {
             alignItems: 'center',

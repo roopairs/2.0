@@ -8,9 +8,7 @@ import { categoryToString } from 'homepairs-utilities';
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        width: '75%',
-        alignContent: 'center',
+        width: '100%',
         alignSelf: 'center',
         marginTop: BaseStyles.MarginPadding.medium,
     },
@@ -21,27 +19,39 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flex: 1,
+        flexDirection:'row', 
+        marginBottom: BaseStyles.MarginPadding.large,
+    },
+    leftButtonContainer: {
+        flex: 1,
         height: '100%',
         width: '50%',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingHorizontal: 10,
-        marginHorizontal: Platform.OS === 'web' ? '15%' : '25%',
+        paddingLeft: '15%',
+        paddingRight: '5%',
+    },
+    rightButtonContainer: {
+        flex: 1,
+        height: '100%',
+        width: '50%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingRight: '15%',
+        paddingLeft: '5%',
     },
     button: {
-        flex: 1,
         alignItems: 'center',
         backgroundColor: 'white',
         flexDirection: 'column',
         padding: 10,
-        height: '100%',
-        minHeight: Platform.OS === 'web' ? 135 : 120,
-        minWidth: 115,
+        minWidth: 110,
+        minHeight: Platform.OS === 'web' ? 105 : 105,
+        maxWidth: 110,
         width: BaseStyles.ContentWidth.max,
         borderRadius: 8,
         borderWidth: 2,
         borderColor: '#BEC3C7',
-
         shadowRadius: 2,
         shadowOffset: { width: 1, height: 1 },
         shadowOpacity: .2,
@@ -113,7 +123,7 @@ export default class ChooseServiceCategory extends React.Component<Props, State>
     }
     
     render(){
-        const {container, buttonContainer, button, option} = styles;
+        const {container, leftButtonContainer, rightButtonContainer, buttonContainer, button, option} = styles;
         const {hasBeenClicked, selectedOption} = this.state;
         return hasBeenClicked ? 
         (<View style={{alignSelf: 'center', width: BaseStyles.ContentWidth.reg}}>
@@ -124,32 +134,32 @@ export default class ChooseServiceCategory extends React.Component<Props, State>
         (
             <View style={{alignSelf: 'center', width: BaseStyles.ContentWidth.reg, marginBottom: 10}}>
                 <View style={container}>
-                    <View style={{flexDirection:'row', flex: 1, marginBottom: BaseStyles.MarginPadding.large, alignSelf: 'center'}}>
+                    <View style={buttonContainer}>
                         <ButtonWithBitmap 
                             image={bolt} 
                             name='Lighting and Electrical' 
                             onPress={() => {this.setServiceCategory(ApplianceType.LightingAndElectric);}}
-                            containerStyle={buttonContainer}
+                            containerStyle={leftButtonContainer}
                             buttonStyle={button}/>
                         <ButtonWithBitmap 
                             image={tint} 
                             name='Plumbing' 
                             onPress={() => {this.setServiceCategory(ApplianceType.Plumbing);}}
-                            containerStyle={buttonContainer}
+                            containerStyle={rightButtonContainer}
                             buttonStyle={button}/>
                     </View>
-                    <View style={{flexDirection:'row', flex: 1, marginTop: BaseStyles.MarginPadding.large, alignSelf: 'center'}}>
+                    <View style={buttonContainer}>
                         <ButtonWithBitmap 
                             image={fan} 
-                            name='Heating and Air Conditioning' 
+                            name={`Heating and\nAir Conditioning`}
                             onPress={() => {this.setServiceCategory(ApplianceType.HVAC);}}
-                            containerStyle={buttonContainer}
+                            containerStyle={leftButtonContainer}
                             buttonStyle={button}/>
                         <ButtonWithBitmap 
                             image={blender} 
                             name='Appliance' 
                             onPress={() => {this.setServiceCategory(ApplianceType.GeneralAppliance);}}
-                            containerStyle={buttonContainer}
+                            containerStyle={rightButtonContainer}
                             buttonStyle={button}/>
                     </View>
                 </View>
@@ -158,6 +168,6 @@ export default class ChooseServiceCategory extends React.Component<Props, State>
     };
 }
 
-ChooseServiceCategory.defaultProps ={
+ChooseServiceCategory.defaultProps = {
     testID: 'choose-service-category',
 };
