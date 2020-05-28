@@ -102,14 +102,14 @@ class ServiceRequestView(View):
         propList = Property.objects.filter(rooId=propId)
         appList = Appliance.objects.filter(rooAppId=appId)
         if propList.exists():
+            types = ['Repair', 'Installation', 'Maintenance']
+            typeNum = -1
+            for i in range(0, len(types)):
+                if types[i] == serviceType:
+                    typeNum = i + 1
             if isPm:
                 provList = ServiceProvider.objects.filter(id=provId)
                 status = 'Pending'
-                types = ['Repair', 'Installation', 'Maintenance']
-                typeNum = -1
-                for i in range(0, len(types)):
-                    if types[i] == serviceType:
-                        typeNum = i + 1
                 
 
                 data = {
@@ -131,6 +131,7 @@ class ServiceRequestView(View):
                 provList = ServiceProvider.objects.all()
                 status = 'WaitingApproval'
                 phoneNumber = inData.get('phoneNumber')
+                print(phoneNumber)
                 tenant = Tenant.objects.filter(phoneNumber=phoneNumber)[0]
                 # tenPlace = Property.objects.filter(id=tenant.place)[0]
                 if propId != tenant.place.rooId:
@@ -184,7 +185,7 @@ class ServiceRequestView(View):
             if reqList.exists():
                 req = reqList[0]
 
-                if req.status == 'WaitingApproval' and status == 'pending':
+                if req.status == 'WaitingApproval' and status == 'Pending':
                     url = BASE_URL + 'service-locations/' + '/propId/jobs/'
                     types = ['Repair', 'Installation', 'Maintenance']
                     typeNum = -1
