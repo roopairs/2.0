@@ -76,16 +76,15 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme){
             alignSelf: 'center',
         },
         cardTitle: {
-            color: colors.secondary,
             fontFamily: 'nunito-regular',
             fontSize: 20,
             alignSelf: 'center',
+            color: 'white',
         },
         cardTitleContainer: {
             borderTopRightRadius: 7,
             borderTopLeftRadius: 7,
             width: BaseStyles.ContentWidth.max,
-            backgroundColor: colors.primary, 
             paddingVertical: BaseStyles.MarginPadding.largeConst,
             paddingHorizontal: BaseStyles.MarginPadding.largeConst,
             alignSelf: 'center',
@@ -203,7 +202,7 @@ export class ServiceRequestModalBase extends React.Component<Props> {
     renderBody() {
         const {isPm, navigation} = this.props;
         const date = Moment(this.serviceRequest.startDate.toString()).format('LLL');
-        console.log(this.serviceRequest.appliance);
+        console.log(this.serviceRequest);
         return (
             <View>
                 <View style={this.styles.subContainer}>
@@ -268,6 +267,7 @@ export class ServiceRequestModalBase extends React.Component<Props> {
     render() {
         const {navigation} = this.props;
         const showCloseButton = true;
+        const active = this.serviceRequest.status === "Pending" || this.serviceRequest.status === "Scheduled" || this.serviceRequest.status === "InProgress";
         return(
             <View style={this.styles.modalContainer}>
             <ScrollView style={this.styles.scrollStyle}
@@ -280,7 +280,7 @@ export class ServiceRequestModalBase extends React.Component<Props> {
                     title={serviceRequestStrings.title} 
                     closeButtonPressedCallBack={() => navigation.goBack()} 
                     titleStyle={this.styles.cardTitle}
-                    titleContainerStyle={this.styles.cardTitleContainer}
+                    titleContainerStyle={[this.styles.cardTitleContainer, {backgroundColor: active ? BaseStyles.LightColorTheme.roopairs : BaseStyles.LightColorTheme.lightGray}]}
                     wrapperStyle={this.styles.cardWrapperStyle}
                     >
                     {this.renderBody()}

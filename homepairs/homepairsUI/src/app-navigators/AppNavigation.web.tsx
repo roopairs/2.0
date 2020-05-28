@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { BrowserRouter as Router, Route, Redirect, Switch, useLocation, useHistory} from 'react-router-dom';
 import {
   NewRequestScreen,
@@ -283,11 +283,11 @@ function SinglePropertySwitch() {
 function PropertiesSwitch() {
     const location = useLocation();
     const background = location.state && location.state.background;
-  
     return (
       <>
-      <HomePairsHeader />
-      <Route path={PROPERTY_LIST} render={(matches) => (
+        <HomePairsHeader />
+      
+        <Route path={PROPERTY_LIST} render={(matches) => (
             <>
                 <Switch path={PROPERTY_LIST} location={background || location}>
                     <Route exact path={PROPERTY_LIST}><PropertiesScreen/></Route>
@@ -298,6 +298,7 @@ function PropertiesSwitch() {
                 {background && <Route path={ADD_PROPERTY_MODAL}><AddPropertyModal/></Route>}
             </>
         )}/>
+      
       </>
     );
 }

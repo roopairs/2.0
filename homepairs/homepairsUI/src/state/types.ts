@@ -1,6 +1,7 @@
 import { Dimensions } from 'react-native';
 import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
+import { AddressPanel } from 'src/elements';
 
 
 /* *-------------------Appliances-------------------* */
@@ -191,6 +192,8 @@ export type NewServiceRequest = {
     serviceCategory: string, 
     serviceDate: string, 
     details: string,
+    poc: string, 
+    pocName: string,
 }
 
 export type ServiceProvider = {
@@ -198,6 +201,7 @@ export type ServiceProvider = {
     prefId?: string, // Optional param if preferred service provider
     name: string,
     email: string,
+    address: string,
     phoneNum: string,
     contractLic: string, // contract license
     skills: string,
