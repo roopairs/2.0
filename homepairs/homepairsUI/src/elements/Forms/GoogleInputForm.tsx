@@ -168,6 +168,7 @@ export default class GoogleInputForm extends React.Component<GoogleInputFormProp
                                 type= 'error'
                                 visible={error}
                                 style={error ? errorStyle : DefaultInputFormStyle.hide}
+                                padding='none'
                             >
                             {errorMessage}
                             </HelperText>
