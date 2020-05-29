@@ -1,6 +1,6 @@
 import { Dimensions } from 'react-native';
 import strings from 'homepairs-strings';
-import {MainAppStack} from 'homepairs-routes';
+import {MainAppStack} from 'src/routes';
 import { 
     HeaderState, 
     ToggleMenuAction,
@@ -28,7 +28,7 @@ function determineInitialIsDropDown() {
 export const initialState: HeaderState = {
     showMenu: false,
     isDropDown: determineInitialIsDropDown(),
-    currentPage: MainAppStack[0],
+    currentPage: {title: undefined, navigate: undefined},
     previousPagesStack: [],
     showBackButton: false,
     menu: [

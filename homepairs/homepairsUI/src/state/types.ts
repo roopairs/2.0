@@ -1,7 +1,6 @@
 import { Dimensions } from 'react-native';
 import { NavigationSwitchProp } from 'react-navigation';
 import { NavigationStackProp } from 'react-navigation-stack';
-import { AddressPanel } from 'src/elements';
 
 
 /* *-------------------Appliances-------------------* */
@@ -130,17 +129,17 @@ export type Account = {
     firstName: string;
     lastName: string;
     email: string;
-    address: string;
-    roopairsToken: string;
-};
-
-export type PropertyManagerAccount = Account & {
     pmId: number;
 };
 
+export type PropertyManagerAccount = Account & {
+    roopairsToken: string;
+};
+
 export type TenantAccount = Account & {
+    address: string;
+    phoneNumber: string;
     propId: number;
-    tenantId: number;
 };
 
 export type AccountState = PropertyManagerAccount | TenantAccount;
@@ -165,6 +164,7 @@ export type Contact = {
     firstName: string;
     lastName: string;
     email: string;
+    pmId?: string;
 }
 /* *-------------------Account Types-------------------* */
 
@@ -187,7 +187,7 @@ export type NewServiceRequest = {
     token: string, 
     propId: string, 
     appId: string, 
-    providerId: number, 
+    providerId?: number, 
     serviceType: string,
     serviceCategory: string, 
     serviceDate: string, 
@@ -304,11 +304,6 @@ export type MainAppStackType = {
      * a collection of these pages were to be stored.
      */
     navigate: string;
-
-    /**
-     * Unique value intended to distinguish each instance of this object
-     */
-    key: string;
 
     /**
      * Name of the button in the header. If none is defined, a button will not 

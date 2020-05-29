@@ -14,7 +14,12 @@ import { upArrow, downArrow } from 'homepairs-images';
 import {Property} from 'homepairs-types';
 
 
-export type PanelState = {
+export type AddressPanelProps = {
+    properties: Property[],
+    parentCallBack: (child: string, propId: string) => any
+};
+
+type AddressPanelState = {
     expanded: boolean;
     animation: Animated.Value;
     selectedIndex: number;
@@ -24,8 +29,7 @@ export type PanelState = {
     clicked: boolean;
 };
 
-
-const initialState: PanelState = {
+const initialState: AddressPanelState = {
     expanded: false,
     selectedIndex: 0,
     selectedString: 'Choose an Address',
@@ -33,11 +37,6 @@ const initialState: PanelState = {
     minHeight: 0,
     maxHeight: 0,
     clicked: false,
-};
-
-type PanelProps = {
-    properties: Property[],
-    parentCallBack: (child: string, propId: string) => any
 };
 
 const colors = BaseStyles.LightColorTheme;
@@ -91,12 +90,12 @@ function setStyles() {
     });
 }
 
-export default class ApplianceCategoryPanel extends React.Component<PanelProps, PanelState> {
+export default class ApplianceCategoryPanel extends React.Component<AddressPanelProps, AddressPanelState> {
     styles;
 
     icons;
 
-    constructor(props: Readonly<PanelProps>) {
+    constructor(props: Readonly<AddressPanelProps>) {
         super(props);
         this.styles = setStyles();
         this.state = {...initialState, 

@@ -29,6 +29,46 @@ export const ACCOUNT_SETTINGS = '/admin/account-settings';
 
 
 /**
+ * These are were all leaves will be stored for quick reference. This should be used when 
+ * directly navigating to a page. These leaves should also be stored in the navigationKeys 
+ * object as well. 
+ */
+export const navigationPages = {
+    // Property Pages
+    PropertiesScreen: PROPERTY_LIST,
+    TenantProperty: TENANT_PROPERTY,
+    SingleProperty: PROPERTY,
+    // Property Stack Modals 
+    AddNewPropertyModal: ADD_PROPERTY_MODAL,
+    EditPropertyModal: EDIT_PROPERTY_MODAL,
+    AddTenantModal: ADD_TENANT_MODAL,
+    EditTenantModal: EDIT_TENANT_MODAL,
+    AddApplianceModal: ADD_APPLIANCE_MODAL, 
+    EditApplianceModal: EDIT_APPLIANCE_MODAL,
+    AddServiceProviderModal: ADD_SERVICE_PROVIDER_MODAL,
+    PreferredProviderModal: PREFERRED_PROVIDER_MODAL,
+
+    // Service Request Pages
+    ServiceRequestScreen: SERVICE_REQUEST,
+    NewRequest: NEW_SERVICE_REQUEST,
+    ServiceRequestModal: SERVICE_REQUEST_INFO_MODAL,
+
+    // Account Settings Pages 
+    AccountSettings: ACCOUNT_SETTINGS, 
+
+    // Authentication Pages
+    LoginScreen: LOGIN,
+    RoopairsLogin: ROOPAIRS_LOGIN,
+    SignUpScreen: SIGNUP,
+
+    // Authentication Modals
+    RoopairsLoggingInModal: ROOPAIRS_LOGIN_MODAL,
+    CreatingAccountModal: CREATE_ACCOUNT_MODAL,
+    LoggingInModal: LOGIN_MODAL, 
+
+};
+
+/**
  * All keys that can be mapped to any page in the react navigator should 
  * be stored here. This is so there changes to one key can be affect by all
  * files instead of use having to go and individually changing keys. 
@@ -78,68 +118,46 @@ export const navigationKeys: {[id:string]: string} = {
     EditTenantModal: 'EditTenantModal',
 };
 
-/**
- * These are were all leaves will be stored for quick reference. This should be used when 
- * directly navigating to a page. These leaves should also be stored in the navigationKeys 
- * object as well. 
- */
-export const navigationPages = {
-    // Property Pages
-    PropertiesScreen: PROPERTY_LIST,
-    TenantProperty: TENANT_PROPERTY,
-    SingleProperty: PROPERTY,
-    // Property Stack Modals 
-    AddNewPropertyModal: ADD_PROPERTY_MODAL,
-    EditPropertyModal: EDIT_PROPERTY_MODAL,
-    AddTenantModal: ADD_TENANT_MODAL,
-    EditTenantModal: EDIT_TENANT_MODAL,
-    AddApplianceModal: ADD_APPLIANCE_MODAL, 
-    EditApplianceModal: EDIT_APPLIANCE_MODAL,
-    AddServiceProviderModal: ADD_SERVICE_PROVIDER_MODAL,
-    PreferredProviderModal: PREFERRED_PROVIDER_MODAL,
-
-    // Service Request Pages
-    ServiceRequestScreen: SERVICE_REQUEST,
-    NewRequest: NEW_SERVICE_REQUEST,
-    ServiceRequestModal: SERVICE_REQUEST_INFO_MODAL,
-
-    // Account Settings Pages 
-    AccountSettings: ACCOUNT_SETTINGS, 
-
-    // Authentication Pages
-    LoginScreen: LOGIN,
-    RoopairsLogin: ROOPAIRS_LOGIN,
-    SignUpScreen: SIGNUP,
-
-    // Authentication Modals
-    RoopairsLoggingInModal: ROOPAIRS_LOGIN_MODAL,
-    CreatingAccountModal: CREATE_ACCOUNT_MODAL,
-    LoggingInModal: LOGIN_MODAL, 
-
-};
-
+/* * Indices used to reference the MainAppStack * */
+export const NOMAP_INDEX = -1;
+export const HOME_INDEX = 0;
+export const SERVICE_INDEX = 1;
+export const SETTING_INDEX = 2;
+export const LOGOUT_INDEX = 3;
 
 export const MainAppStack: Array<MainAppStackType> = [
     {
         title: 'My Properties',
         navigate: PROPERTY_LIST,
-        key: 'Properties',
         button: 'Add Property',
     },
     {
         title: 'Service Requests',
         navigate: navigationPages.ServiceRequestScreen,
-        key: 'ServiceRequests',
         button: 'Request Service',
     },
     {
         title: 'Account Settings',
         navigate: navigationPages.AccountSettings,
-        key: 'AccountSettings',
     },
     {
-        title: 'Log Out',
+        title: 'Sign Out',
         navigate: LOGIN,
-        key: 'LogOut',
+    },
+];
+
+export const MainAppStackTenant: Array<MainAppStackType> = [
+    {
+        title: 'My Home',
+        navigate: TENANT_PROPERTY,
+    },
+    {
+        title: 'Service Requests',
+        navigate: navigationPages.ServiceRequestScreen,
+        button: 'Request Service',
+    },
+    {
+        title: 'Sign Out',
+        navigate: navigationPages.LoginScreen,
     },
 ];

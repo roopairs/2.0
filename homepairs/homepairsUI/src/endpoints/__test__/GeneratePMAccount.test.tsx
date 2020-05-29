@@ -3,7 +3,7 @@ import { AccountTypes, AccountStateAction, Account, Property, FetchPropertiesAct
 import { NavigationSwitchProp } from 'react-navigation';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { navigationPages } from 'homepairs-routes';
+import { navigationPages } from 'src/routes';
 import { HOMEPAIRS_REGISTER_PM_ENDPOINT, generateAccountForPM } from 'homepairs-endpoints';
 import { SetAccountAuthenticationStateAction } from 'homepairs-types';
 import { propertyManagerMock1, prepareNavigationSwitchMock  } from 'homepairs-test';
@@ -21,7 +21,7 @@ const testPMAccount1: Account = {
     lastName: 'Lynne',
     email: 'jackyLynne@gmail.com',
     address: 'ABC Street',
-    roopairsToken: '',
+    token: '',
 };
 
 const testJsonValue1 = {
@@ -54,7 +54,7 @@ const expectedFetchResult1: AccountStateAction = {
         email: 'jackyLynne@gmail.com',
         address: 'ABC Street',
         pmId: undefined,
-        roopairsToken: '1d9f80e98e9b16b94bf76c2dc49fe15b8b30d1a2',
+        token: '1d9f80e98e9b16b94bf76c2dc49fe15b8b30d1a2',
     },
 };
 

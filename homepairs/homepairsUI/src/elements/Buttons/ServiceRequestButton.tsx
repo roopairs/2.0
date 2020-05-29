@@ -11,7 +11,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairFonts } from 'homepairs-fonts';
 import { clock } from 'homepairs-images';
 import Moment from 'moment';
-import {categoryToString} from 'homepairs-utilities';
+import {categoryToString} from 'src/utility';
 
 export type ServiceRequestButtonProps = {
     onClick?: (serviceRequest: ServiceRequest) => any,

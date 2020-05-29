@@ -15,7 +15,12 @@ import { ApplianceType } from 'homepairs-types';
 import { upArrow, downArrow } from 'homepairs-images';
 
 
-export type ApplianceCategoryPanelState = {
+export type ApplianceCategoryPanelProps = {
+    parentCallBack: (appType: ApplianceType) => any,
+    initialCategory: ApplianceType,
+};
+
+type ApplianceCategoryPanelState = {
     expanded: boolean;
     animation: Animated.Value;
     selectedCategoryIndex: number;
@@ -32,11 +37,6 @@ const initialState: ApplianceCategoryPanelState = {
     animation: undefined,
     minHeight: 0,
     maxHeight: 0,
-};
-
-export type CategoryPanelProps = {
-    parentCallBack: (appType: ApplianceType) => any,
-    initialCategory: ApplianceType,
 };
 
 const categoryStrings = strings.applianceInfo.categories;
@@ -96,12 +96,13 @@ function setStyles() {
     });
 }
 
-export default class ApplianceCategoryPanel extends React.Component<CategoryPanelProps, ApplianceCategoryPanelState> {
+export default class ApplianceCategoryPanel extends React.Component<ApplianceCategoryPanelProps, ApplianceCategoryPanelState> {
+    
     styles;
 
     icons;
 
-    constructor(props: Readonly<CategoryPanelProps>) {
+    constructor(props: Readonly<ApplianceCategoryPanelProps>) {
         super(props);
         this.styles = setStyles();
         this.state = {...initialState, 

@@ -13,7 +13,14 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { upArrow, downArrow } from 'homepairs-images';
 import {Property} from 'homepairs-types';
 
-export type PanelState = {
+
+export type ServiceRequestAddressPanelProps = {
+    properties: Property[],
+    parentCallBack: (propId: string) => any
+};
+
+
+type PanelState = {
     expanded: boolean;
     animation: Animated.Value;
     selectedIndex: number;
@@ -32,11 +39,6 @@ const initialState: PanelState = {
     minHeight: 0,
     maxHeight: 0,
     clicked: false,
-};
-
-type PanelProps = {
-    properties: Property[],
-    parentCallBack: (propId: string) => any
 };
 
 const colors = BaseStyles.LightColorTheme;
@@ -94,12 +96,12 @@ function setStyles() {
     });
 }
 
-export default class ServiceRequestAddressPanel extends React.Component<PanelProps, PanelState> {
+export default class ServiceRequestAddressPanel extends React.Component<ServiceRequestAddressPanelProps, PanelState> {
     styles;
 
     icons;
 
-    constructor(props: Readonly<PanelProps>) {
+    constructor(props: Readonly<ServiceRequestAddressPanelProps>) {
         super(props);
         this.styles = setStyles();
         this.state = {...initialState, 

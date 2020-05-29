@@ -11,7 +11,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import Colors from 'homepairs-colors';
 import { HomePairFonts } from 'homepairs-fonts';
 import Moment from 'moment';
-import {isNullOrUndefined} from 'homepairs-utilities';
+import {isNullOrUndefined} from 'src/utility';
 import { TextTile, ImageTile } from '../Tiles/Tiles';
 
 export type ServiceProviderButtonProps = {
