@@ -13,7 +13,7 @@ import strings from 'homepairs-strings';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions, Appliance } from 'homepairs-types';
 import { upArrow, downArrow} from 'homepairs-images';
-import ThinButton, { ThinButtonProps } from '../Buttons/ThinButton';
+import { ThinButton, ThinButtonProps } from '../Buttons';
 
 export type AppliancePanelProps = {
     key?: string;
@@ -23,14 +23,12 @@ export type AppliancePanelProps = {
     onClick?: (child?: any) => any;
 };
 
-export type AppliancePanelState = {
+type AppliancePanelState = {
     expanded: boolean;
     animation: Animated.Value;
     minHeight: number;
     maxHeight: number;
 };
-
-type Props = AppliancePanelProps;
 
 const initialState: AppliancePanelState = {
     expanded: false,
@@ -66,15 +64,13 @@ function setStyles() {
             justifyContent: 'space-between',
             minHeight: 50,
             paddingTop: 5,
+            paddingHorizontal: 10,
         },
         infoRowContainer: {
             flexDirection: 'row',
-            alignContent: 'center',
-            alignItems: 'center',
-            justifyContent: 'center',
-            alignSelf: 'center',
             width: BaseStyles.ContentWidth.wide,
             paddingVertical: BaseStyles.MarginPadding.mediumConst,
+            paddingLeft: 30,
         },
         titleText: {
             minHeight: 20,
@@ -105,7 +101,6 @@ function setStyles() {
             height: 20,
         },
         body: {
-            alignItems: 'center',
             paddingTop: BaseStyles.MarginPadding.mediumConst,
             paddingBottom: bodyPadding,
         },
@@ -121,13 +116,11 @@ function setStyles() {
         },
         detailContainer: {
             flex: 1,
-            alignSelf: 'center',
-            alignItems: 'center',
         },
     });
 }
 
-export default class AppliancePanel extends React.Component<Props, AppliancePanelState> {
+export default class AppliancePanel extends React.Component<AppliancePanelProps, AppliancePanelState> {
     styles;
 
     icons;
@@ -147,7 +140,7 @@ export default class AppliancePanel extends React.Component<Props, AppliancePane
         },
     };
 
-    constructor(props: Readonly<Props>) {
+    constructor(props: Readonly<AppliancePanelProps>) {
         super(props);
         this.styles = setStyles();
         this.state = {...initialState, animation: new Animated.Value(0)};
@@ -166,6 +159,10 @@ export default class AppliancePanel extends React.Component<Props, AppliancePane
 
     setMinHeight(event) {
         this.setState({ minHeight: event.nativeEvent.layout.height });
+    }
+
+    checkEmpty(val: any) {
+        return val ? val : '--';
     }
 
     toggle() {
@@ -193,8 +190,12 @@ export default class AppliancePanel extends React.Component<Props, AppliancePane
 
     renderBody() {
         const { appliance } = this.props;
-        const { manufacturer, modelNum, serialNum, location } = appliance;
-        console.log(appliance);
+        let { manufacturer, modelNum, serialNum, location } = appliance;
+        manufacturer = this.checkEmpty(manufacturer);
+        modelNum = this.checkEmpty(modelNum);
+        serialNum = this.checkEmpty(serialNum);
+        location = this.checkEmpty(location);
+
         return (
             <View style={this.styles.body} onLayout={this.setMaxHeight}>
                 <View style={this.styles.infoRowContainer}>

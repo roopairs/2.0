@@ -1,0 +1,131 @@
+import { StyleSheet } from 'react-native';
+import * as BaseStyles from 'homepairs-base-styles';
+import { HomePairsDimensions } from 'homepairs-types';
+
+const colors = BaseStyles.LightColorTheme;
+export default StyleSheet.create({
+    container: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingRight: BaseStyles.MarginPadding.xxlargConst,
+        marginBottom: BaseStyles.MarginPadding.small,
+    },
+    pallet: {
+        backgroundColor: colors.secondary,
+        width: BaseStyles.ContentWidth.max,
+        flex: 1,
+        maxWidth: HomePairsDimensions.MAX_CONTENT_SIZE,
+        alignSelf: 'center',
+    },
+    addBottomMargin: {
+        flex: 1,
+        marginBottom: BaseStyles.MarginPadding.largeConst,
+    },
+    buttonContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        padding: BaseStyles.MarginPadding.mediumConst,
+        width: BaseStyles.ContentWidth.reg,
+    },
+    titleContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        marginTop: BaseStyles.MarginPadding.large,
+        width: BaseStyles.ContentWidth.max,
+    },
+    title: {
+        fontFamily: BaseStyles.FontTheme.primary,
+        color: colors.lightGray,
+    },
+    currentArchivedButtonText: {
+        color: colors.darkGray,
+        fontSize: BaseStyles.FontTheme.reg,
+        textDecorationLine: 'underline',
+        alignSelf: 'center',
+    },
+    currentButtonStyle: {
+        justifyContent: 'center',
+        backgroundColor: colors.transparent,
+        width: BaseStyles.ContentWidth.half,
+        borderColor: colors.darkGray,
+        height: 40,
+    },
+    archivedButtonStyle: {
+        justifyContent: 'center',
+        backgroundColor: colors.transparent,
+        width: BaseStyles.ContentWidth.half,
+        borderColor: colors.darkGray,
+        height: 40,
+    },
+    selectedLeftThirdButton: {
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
+        borderColor: colors.primary,
+        height: 30,
+    },
+    selectedMiddleThirdButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
+        borderColor: colors.primary,
+        height: 30,
+        marginHorizontal: BaseStyles.MarginPadding.statusButton,
+    },
+    selectedRightThirdButton: {
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
+        borderColor: colors.primary,
+        height: 30,
+    },
+    selectedText: {
+        color: colors.shadow,
+        fontSize: BaseStyles.FontTheme.small,
+        fontFamily: BaseStyles.FontTheme.secondary,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    unselectedLeftThirdButton: {
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        backgroundColor: colors.transparent,
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
+        borderColor: colors.lightGray,
+        height: 30,
+    },
+    unselectedMiddleThirdButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.transparent,
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
+        borderColor: colors.lightGray,
+        height: 30,
+        marginHorizontal: BaseStyles.MarginPadding.statusButton,
+    },
+    unselectedRightThirdButton: {
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        backgroundColor: colors.transparent,
+        width: BaseStyles.ContentWidth.almostThird,
+        borderBottomWidth: 1,
+        borderColor: colors.lightGray,
+        height: 30,
+    },
+    unselectedText: {
+        color: colors.darkGray,
+        fontSize: BaseStyles.FontTheme.small - 1,
+        alignSelf: 'center',
+    },
+    underline: {
+        borderBottomWidth: 2,
+    },
+});

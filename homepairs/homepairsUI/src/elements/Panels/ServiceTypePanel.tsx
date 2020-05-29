@@ -11,10 +11,13 @@ import {
 import { HomePairFonts } from 'homepairs-fonts';
 import * as BaseStyles from 'homepairs-base-styles';
 import { upArrow, downArrow } from 'homepairs-images';
-import {Property} from 'homepairs-types';
 
 
-export type PanelState = {
+export type ServiceTypePanelProps = {
+    parentCallBack: (child: string) => any
+};
+
+type PanelState = {
     expanded: boolean;
     animation: Animated.Value;
     selectedIndex: number;
@@ -104,7 +107,7 @@ function setStyles() {
 
 const serviceTypes = ['Repair', 'Installation', 'Maintenance'];
 
-export default class ServiceTypePanel extends React.Component<PanelProps, PanelState> {
+export default class ServiceTypePanel extends React.Component<ServiceTypePanel, PanelState> {
     styles;
 
     icons;

@@ -11,21 +11,21 @@ export const PROPERTY_LIST = 'PropertiesScreen';
 export const TENANT_PROPERTY = 'TenantProperty';
 export const PROPERTY = 'SingleProperty';
 
-export const ADD_PROPERTY_MODAL = '/admin/properties/add-property';
-export const EDIT_PROPERTY_MODAL = '/admin/property/edit-property';
-export const ADD_TENANT_MODAL = '/admin/property/add-tenant';
-export const EDIT_TENANT_MODAL = '/admin/property/edit-tenant';
-export const ADD_APPLIANCE_MODAL = '/admin/property/add-appliance';
-export const EDIT_APPLIANCE_MODAL = '/admin/property/edit-appliance';
+export const ADD_PROPERTY_MODAL = 'AddNewPropertyModal';
+export const EDIT_PROPERTY_MODAL = 'EditPropertyModal';
+export const ADD_TENANT_MODAL = 'AddTenantModal';
+export const EDIT_TENANT_MODAL = 'EditTenantModal';
+export const ADD_APPLIANCE_MODAL = 'AddApplianceModal';
+export const EDIT_APPLIANCE_MODAL = 'EditApplianceModal';
 
 
-export const SERVICE_REQUEST = '/admin/service-requests';
-export const NEW_SERVICE_REQUEST = '/admin/service-requests/new-service-requests';
-export const SERVICE_REQUEST_INFO_MODAL = '/admin/service-requests/information';
-export const ADD_SERVICE_PROVIDER_MODAL = '/admin/service-requests/add-service-provider';
-export const PREFERRED_PROVIDER_MODAL = '/admin/service-requests/preferred-provider';
+export const SERVICE_REQUEST = 'ServiceRequestScreen';
+export const NEW_SERVICE_REQUEST = 'NewRequest';
+export const SERVICE_REQUEST_INFO_MODAL = 'ServiceRequestModal';
+export const ADD_SERVICE_PROVIDER_MODAL = 'AddServiceProviderModal';
+export const PREFERRED_PROVIDER_MODAL = 'PreferredProviderModal';
 
-export const ACCOUNT_SETTINGS = '/admin/account-settings';
+export const ACCOUNT_SETTINGS = 'AccountSettings';
 
 export const navigationPages = {
     // Property Pages
@@ -90,27 +90,50 @@ export const navigationKeys: {[id:string]: string} = {
     ModalStack: 'ModalStack',
 };
 
-export const MainAppStack: Array<MainAppStackType> = [
+
+
+/* * Indices used to reference the MainAppStack * */
+export const NOMAP_INDEX = -1;
+export const HOME_INDEX = 0;
+export const SERVICE_INDEX = 1;
+export const SETTING_INDEX = 2;
+export const LOGOUT_INDEX = 3;
+
+
+
+export const MainAppStack: MainAppStackType[] = [
     {
         title: 'My Properties',
         navigate: navigationPages.PropertiesScreen,
-        key: 'My Properties',
         button: 'Add Property',
     },
     {
-        title: 'Service Request',
+        title: 'Service Requests',
         navigate: navigationPages.ServiceRequestScreen,
-        key: 'Service Request',
         button: 'Request Service',
     },
     {
         title: 'Account Settings',
         navigate: navigationPages.AccountSettings,
-        key: 'Account Settings',
     },
     {
-        title: 'Log Out',
+        title: 'Sign Out',
         navigate: navigationPages.LoginScreen,
-        key: 'Log Out',
+    },
+];
+
+export const MainAppStackTenant: MainAppStackType[] = [
+    {
+        title: 'My Home',
+        navigate: TENANT_PROPERTY,
+    },
+    {
+        title: 'Service Requests',
+        navigate: navigationPages.ServiceRequestScreen,
+        button: 'Request Service',
+    },
+    {
+        title: 'Sign Out',
+        navigate: navigationPages.LoginScreen,
     },
 ];

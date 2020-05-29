@@ -7,7 +7,7 @@ import {
     HeaderState,
 } from 'homepairs-types';
 import strings from 'homepairs-strings';
-import { MainAppStack } from 'homepairs-routes';
+import { MainAppStack } from 'src/routes';
 import { header, initialState } from '../reducer';
 
 

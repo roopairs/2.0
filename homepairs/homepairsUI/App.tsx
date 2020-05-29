@@ -6,7 +6,7 @@ import { AppState } from 'homepairs-types';
 import { ActivityIndicator, StatusBar, AsyncStorage } from 'react-native';
 import { PersistGate } from 'redux-persist/integration/react';
 import { fetchGoogleApiKey } from 'homepairs-endpoints';
-import { AppNavigator } from './src/app-navigators/AppNavigation';
+import { AppNavigator } from './src/components/AppNavigation';
 import initializeStore from './src/state/store';
 
 /* TODO: We can optimize this. Instead of holding the entire response, 
@@ -18,7 +18,7 @@ import initializeStore from './src/state/store';
 const checkSession = async () => {
     await LoadFonts();
     await AsyncStorage.getItem('persist:root').then(response => {
-        console.log(JSON.parse(response));
+        
     });
 };
 

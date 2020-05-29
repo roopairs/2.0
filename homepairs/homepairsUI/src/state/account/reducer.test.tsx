@@ -17,7 +17,7 @@ const prevState: AccountState = {
     city: undefined,
     lastName: 'Et tu nevouw',
     email: 'iamKing@gmail.com',
-    roopairsToken: '',
+    token: '',
     manId: 102449555,
 };
 
@@ -28,7 +28,7 @@ const newPMState: AccountState = {
     city: undefined,
     lastName: 'profile[accountKeys.LASTNAME]',
     email: 'jacklame@gmail.com',
-    roopairsToken: '',
+    token: '',
     manId: 102449555,
 };
 const newTenantState: AccountState = {
@@ -38,7 +38,7 @@ const newTenantState: AccountState = {
     city: undefined,
     lastName: 'Lion',
     email: 'kylelion@gmail.com',
-    roopairsToken: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
+    token: '8f2974bdc4c19c5d0276f0a51b163087a23f9e42',
     tenantId: 20,
     propId: 99,
 };

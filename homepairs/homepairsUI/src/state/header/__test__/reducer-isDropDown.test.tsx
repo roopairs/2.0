@@ -1,6 +1,6 @@
 import {HeaderActions} from 'homepairs-redux-actions';
 import strings from 'homepairs-strings';
-import { MainAppStack } from 'homepairs-routes';
+import { MainAppStack } from 'src/routes';
 import { 
     ToggleMenuAction,
     SwitchDropDownNavBarAction,

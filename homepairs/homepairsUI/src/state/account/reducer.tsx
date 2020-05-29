@@ -20,8 +20,8 @@ export const initialState: AccountState = {
     email: null,
     address: null,
     roopairsToken: null,
-    tenantId: null,
     propId: null,
+    pmId: null,
 };
 
 /**

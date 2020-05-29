@@ -11,7 +11,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairFonts } from 'homepairs-fonts';
 import { clock } from 'homepairs-images';
 import Moment from 'moment';
-import {categoryToString} from 'homepairs-utilities';
+import {categoryToString} from 'src/utility';
 
 export type ServiceRequestButtonProps = {
     onClick?: (serviceRequest: ServiceRequest) => any,
@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
         padding: BaseStyles.MarginPadding.medium,
         borderColor: colors.lightGray,
         borderWidth: 1,
-        margin: 20,
+        marginVertical: 10,
+        marginHorizontal: 20,
     },
     buttonStyle: {
         paddingLeft: BaseStyles.MarginPadding.medium,
@@ -67,7 +68,7 @@ export default function ServiceRequestButton(props: ServiceRequestButtonProps) {
     const date = Moment(serviceRequest.startDate.toString()).format('LLL');
 
     return (
-        <View style={[styles.container, {borderLeftColor: active ? colors.primary : colors.lightGray}]}>
+        <View style={[styles.container, {borderLeftColor: active ? colors.roopairs : colors.lightGray}]}>
             <TouchableOpacity
                 testID='click-service-request-button'
                 style={styles.buttonStyle}

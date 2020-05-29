@@ -1,5 +1,5 @@
 import React from 'react';
-import { isNullOrUndefined } from 'homepairs-utilities';
+import { isNullOrUndefined } from 'src/utility';
 import * as BaseStyles from 'homepairs-base-styles';
 import { 
     View,
@@ -65,12 +65,12 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-        width:'30%',
+        width:'100%',
         paddingHorizontal: 10,
     },
     imageStyle: {
-        width: 50,
-        height: 50,
+        width: 45,
+        height: 45,
         resizeMode: 'contain',
     },
     button: {
@@ -90,9 +90,9 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     buttonText: {
-        marginTop: BaseStyles.MarginPadding.smallConst,
+        marginTop: BaseStyles.MarginPadding.mediumConst,
         color: BaseStyles.LightColorTheme.gray,
-        fontSize: 15,
+        fontSize: 10,
         alignSelf: 'center',
         textAlign: 'center',
     },
