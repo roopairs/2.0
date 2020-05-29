@@ -5,7 +5,7 @@ import { AccountTypes, Account, HomePairsDimensions } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import {isPasswordValid, isEmailSyntaxValid, 
-    isAlphaCharacterOnly, isEmptyOrSpaces } from 'src/utility';
+    isAlphaCharacterOnly, isEmptyOrSpaces, isPhoneNumberValid } from 'src/utility';
 import { navigationPages, NavigationRouteHandler, NavigationRouteScreenProps } from 'src/routes';
 import {Divider} from 'react-native-elements';
 import {HelperText} from 'react-native-paper';
@@ -32,6 +32,7 @@ type SignUpState = {
     accountType: AccountTypes;
     firstName: string;
     lastName: string;
+    phoneNumber: string,
     email: string;
     address: string;
     password: string;
@@ -45,6 +46,7 @@ const baseState = {
     lastName: '',
     email: '',
     address: '',
+    phoneNumber: '',
     password: '',
     cPassword: '',
     errorCheck: false, 
@@ -113,6 +115,8 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
 
     emailRef;
 
+    phoneNumberRef;
+
     addressRef;
 
     passwordRef;
@@ -129,6 +133,8 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
         this.getFormPassword = this.getFormPassword.bind(this);
         this.getFormCPassword = this.getFormCPassword.bind(this);
         this.getFormAddress = this.getFormAddress.bind(this);
+        this.getFormPhoneNumber = this.getFormPhoneNumber.bind(this);
+        
         this.setModalOff = this.setModalOff.bind(this);
         this.resetForms = this.resetForms.bind(this);
         this.resetState = this.resetState.bind(this);
@@ -140,7 +146,8 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
         this.passwordRef = React.createRef();
         this.cPasswordRef = React.createRef();
         this.addressRef = React.createRef();
-        
+        this.phoneNumberRef = React.createRef();
+
         props.clickButton(this.clickSignUp);
         props.clickHighlightedText(this.clickSignIn);
     }
@@ -161,6 +168,10 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
 
     getFormLastName(childData: string) {
         this.setState({ lastName: childData });
+    }
+
+    getFormPhoneNumber(childData: string) {
+        this.setState({ phoneNumber: childData });
     }
 
     getFormEmail(childData: string) {
@@ -194,7 +205,7 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
         if (this.validateForms()) {
             navigation.navigate(navigationPages.CreatingAccountModal, null, true);
             const details: Account = { ...this.state, roopairsToken: '' };
-            generateHomePairsAccount(details, password, this.setModalOff, navigation, this.displayError);     
+            generateHomePairsAccount(details, password, this.setModalOff, navigation, console.log);     
         }
     };
 
@@ -208,7 +219,7 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
     }
 
     validateForms() {
-        const {firstName, lastName, password, cPassword, email, address, accountType} = this.state;
+        const {firstName, lastName, password, cPassword, email, address, accountType, phoneNumber} = this.state;
         let check = true;
         if (!isAlphaCharacterOnly(firstName)) {
             check = false;
@@ -234,6 +245,10 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
             check = false;
             this.addressRef.current.setError(true);
         }
+        if (accountType === AccountTypes.Tenant && !isPhoneNumberValid(phoneNumber)){
+            check = false;
+            this.phoneNumberRef.current.setError(true);
+        }
         return check;
     }
 
@@ -241,6 +256,7 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
         const {accountType} = this.state;
         if (accountType === AccountTypes.Tenant) {
             this.addressRef.current.setError(false);
+            this.phoneNumberRef.current.setError(false);
         }
         this.firstNameRef.current.setError(false);
         this.lastNameRef.current.setError(false);
@@ -267,6 +283,7 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
 
     renderInputForms() {
         const {formTitle, input } = styles;
+        const {accountType} = this.state;
         const inputFormProps = [
             {
                 ref: this.firstNameRef,
@@ -285,6 +302,16 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
                 formTitleStyle: formTitle,
                 inputStyle: input,
                 errorMessage: 'Last Name cannot be empty',
+            },
+            {
+                ref: this.phoneNumberRef,
+                key: signUpScreenStrings.inputForms.phone,
+                name: signUpScreenStrings.inputForms.phone,
+                parentCallBack: this.getFormPhoneNumber,
+                formTitleStyle: formTitle,
+                inputStyle: input,
+                errorMessage: 'Invalid phone number',
+                trim: true,
             },
             {
                 ref: this.emailRef,
@@ -318,6 +345,9 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
             },
         ];
         return inputFormProps.map(properties => {
+            if(properties.key === signUpScreenStrings.inputForms.phone && accountType !== AccountTypes.Tenant){
+                return <></>;
+            }
             return (
                 <InputForm
                     ref={properties.ref}

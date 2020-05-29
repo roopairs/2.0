@@ -192,6 +192,12 @@ export type NewServiceRequest = {
     serviceCategory: string, 
     serviceDate: string, 
     details: string,
+
+    /**
+     * Id for when tenant makes a service request 
+     */
+    phoneNumber: string,
+    
     poc: string, 
     pocName: string,
 }

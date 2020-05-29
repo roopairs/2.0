@@ -31,7 +31,6 @@ function parsePropertyManagerAccount(pmObject : any): PropertyManagerAccount{
  */
 function parseTenantAccount(tenantObject : any): TenantAccount{
     const {tenant, properties} = tenantObject;
-
     // Gather the information for the tenant account 
     const {email, firstName, lastName, phoneNumber, pm} = tenant;
     const {pmId} = pm[0]; 

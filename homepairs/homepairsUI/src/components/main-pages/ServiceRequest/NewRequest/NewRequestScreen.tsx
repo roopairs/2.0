@@ -8,7 +8,7 @@ function mapStateToProps(state: AppState) : NewRequestScreenStateProps {
     return {
         accountType: state.accountProfile.accountType,
         properties,
-        token: state.accountProfile.roopairsToken,
+        token: (state.accountProfile as (PropertyManagerAccount)).roopairsToken,
         pmId: (state.accountProfile as (PropertyManagerAccount)).pmId,
         phoneNumber: (state.accountProfile as (TenantAccount)).phoneNumber,
     };

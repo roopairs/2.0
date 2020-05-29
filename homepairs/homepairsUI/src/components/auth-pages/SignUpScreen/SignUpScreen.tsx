@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { Account, AccountTypes } from "homepairs-types";
+import { Account, AccountTypes, TenantAccount } from "homepairs-types";
 import strings from "homepairs-strings";
 import {LightColorTheme} from "homepairs-base-styles";
 import { withNavigation } from 'react-navigation';
@@ -32,7 +32,7 @@ const mapDispatchToProps : (dispatch: any) => SignUpViewDispatchProps = (dispatc
         if (details.accountType === AccountTypes.PropertyManager) {
             dispatch(generateAccountForPM(details, password, navigation, modalSetOff, displayError));
         } else {
-            dispatch(generateAccountForTenant(details, password, navigation, modalSetOff));
+            dispatch(generateAccountForTenant((details as TenantAccount), password, navigation, modalSetOff));
         }
     },
 });
