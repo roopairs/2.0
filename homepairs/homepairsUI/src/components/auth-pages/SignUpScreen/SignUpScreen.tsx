@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { Account, AccountTypes } from "homepairs-types";
+import { Account, AccountTypes, TenantAccount } from "homepairs-types";
 import strings from "homepairs-strings";
 import {LightColorTheme} from "homepairs-base-styles";
 import { withNavigation } from 'react-navigation';
@@ -8,7 +8,6 @@ import { Platform } from "react-native";
 import {NavigationRouteHandler, withNavigationRouteHandler } from 'src/routes';
 import { generateAccountForPM, generateAccountForTenant } from 'homepairs-endpoints';
 import { SignUpScreenBase, SignUpViewDispatchProps } from "./SignUpScreenBase";
-import { TenantAccount } from '../../../state/types';
 import {
   AuthPassProps,
   withAuthPage,

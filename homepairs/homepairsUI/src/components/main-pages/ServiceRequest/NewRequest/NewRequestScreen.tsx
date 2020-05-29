@@ -5,8 +5,6 @@ import { NewServiceRequestBase, NewRequestScreenStateProps } from './NewRequestS
 
 function mapStateToProps(state: AppState) : NewRequestScreenStateProps {
     const properties = convertObjectValuesToArray(state.properties.properties);
-    console.log((state.accountProfile as (TenantAccount)).phoneNumber)
-
     return {
         accountType: state.accountProfile.accountType,
         properties,
