@@ -7,6 +7,7 @@ import * as BaseStyles from 'homepairs-base-styles';
 import LocationItem from '../LocationItem/LocationItem';
 
 export type GoogleInputFormProps = {
+    typeGuard?: 'GOOGLE-INPUT-FORM';
     key?: any;
     name?: string;
     ref?: any;
@@ -181,6 +182,7 @@ export class GoogleInputForm extends React.Component<GoogleInputFormProps, Googl
 }
 
 GoogleInputForm.defaultProps = {
+    typeGuard: 'GOOGLE-INPUT-FORM',
     ref: undefined,
     key: null,
     name: null,

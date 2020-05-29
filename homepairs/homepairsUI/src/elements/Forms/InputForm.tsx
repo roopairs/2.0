@@ -4,6 +4,7 @@ import {HelperText} from 'react-native-paper';
 import {FontTheme} from 'homepairs-base-styles';
 
 export type InputFormProps = {
+    typeGuard?: 'INPUT-FORM'; 
     key?: any;
     name?: string;
     ref?: any;
@@ -149,6 +150,7 @@ export class InputForm extends React.Component<InputFormProps, InputFormState> {
 }
 
 InputForm.defaultProps = {
+    typeGuard: 'INPUT-FORM',
     ref: undefined,
     key: null,
     name: null,

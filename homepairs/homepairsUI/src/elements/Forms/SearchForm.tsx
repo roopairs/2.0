@@ -1,9 +1,10 @@
 import React from 'react';
 import {filterList, isNullOrUndefined} from 'src/utility';
-import { InputForm, InputFormProps} from './InputForm';
+import { InputForm, InputFormProps } from './InputForm';
 
 
 export type SearchFormProps<T> = InputFormProps & {
+    typeGuard?: 'SEARCH-FORM';
     /**
      * The list of items that the component will filter through. Pass this value into the 
      * component every time an update list or new list has been instantiated. 
@@ -98,3 +99,7 @@ export class SearchForm<T> extends React.Component<SearchFormProps<T>, State>{
     }
 }
 
+SearchForm.defaultProps = {
+    ...InputForm.defaultProps,
+    typeGuard:'SEARCH-FORM',
+};
