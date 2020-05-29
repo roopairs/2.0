@@ -28,8 +28,9 @@ SECRET_KEY = 'f93-=xap982nr==_ydsen_maqdf8_3=1j56^68s76abb+57)2%'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'homepairs-alpha.herokuapp.com',
-    'homepairs-mytest.herokuapp.com',
+    '.homepairs-alpha.herokuapp.com',
+    '.homepairs-mytest.herokuapp.com',
+    '.cpsecapstone.github.io/2.0/',
     'localhost',
 ]
 
