@@ -302,7 +302,6 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     async clickSubmitButton() {
         const { serviceCategory, applianceId, providerId, serviceType, details, serviceDate, propId, poc, pocName} = this.state;
         const {navigation, token, accountType, phoneNumber} = this.props;
-        console.log(propId);
         this.setState({errorCheck: false});
         if (this.validateForms()) {
             const pm = accountType === AccountTypes.PropertyManager;
