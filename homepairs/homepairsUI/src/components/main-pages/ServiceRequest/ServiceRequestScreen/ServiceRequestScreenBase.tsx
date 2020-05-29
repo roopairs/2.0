@@ -263,6 +263,9 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         this.renderFilteredServiceRequestsWaitingApproval = this.renderFilteredServiceRequestsWaitingApproval.bind(this);
         this.renderFilteredServiceRequestsSubtitles = this.renderFilteredServiceRequestsSubtitles.bind(this);
         this.render = this.render.bind(this);
+        this.callFetchServiceRequests = this.callFetchServiceRequests.bind(this);
+        this.populateServiceRequests = this.populateServiceRequests.bind(this);
+        this.countServiceRequestStatus = this.countServiceRequestStatus.bind(this);
 
         props.parentCallBack(ServiceRequestCompletionStatus.Current);
         props.parentCallBack2(ServiceRequestStatusEnums.Pending);
