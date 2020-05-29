@@ -78,7 +78,7 @@ class ServiceRequestView(View):
         inData = json.loads(request.body)
         isPm = inData.get('isPm')
         if isPm:
-            required = ['provPhoneNum', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'pocName', 'poc', 'token', 'propId', 'appId', 'isPm']
+            required = ['provId', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'pocName', 'poc', 'token', 'propId', 'appId', 'isPm']
         else:
             required = ['phoneNumber', 'serviceCategory', 'serviceType', 'serviceDate', 'details', 'pocName', 'poc', 'propId', 'appId', 'isPm']
         missingFields = checkRequired(required, inData)
@@ -86,7 +86,7 @@ class ServiceRequestView(View):
         if(len(missingFields) != 0):
             return JsonResponse(data=missingError(missingFields))
 
-        provPhoneNum = inData.get('provPhoneNum')
+        provId = inData.get('provId')
         serviceCategory = inData.get('serviceCategory')
         serviceDateStr = inData.get('serviceDate')
         serviceType = inData.get('serviceType')
@@ -108,7 +108,7 @@ class ServiceRequestView(View):
                 if types[i] == serviceType:
                     typeNum = i + 1
             if isPm:
-                provList = ServiceProvider.objects.filter(phoneNum=provPhoneNum)
+                provList = ServiceProvider.objects.filter(rooId=provId)
                 if (not provList.exists()):
                     return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
                 prov = provList[0]
@@ -116,7 +116,7 @@ class ServiceRequestView(View):
                 
 
                 data = {
-                            'service_company': prov.rooId,
+                            'service_company': provId,
                             'service_category': 1,
                             'service_type': typeNum,
                             'details': details,
