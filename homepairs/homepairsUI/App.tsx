@@ -7,7 +7,7 @@ import { ActivityIndicator, StatusBar, AsyncStorage } from 'react-native';
 import { PersistGate } from 'redux-persist/integration/react';
 import { fetchGoogleApiKey } from 'homepairs-endpoints';
 import * as firebase from 'firebase';
-import { AppNavigator } from './src/app-navigators/AppNavigation';
+import { AppNavigator } from './src/components/AppNavigation';
 import initializeStore from './src/state/store';
 
 /* START OF FIREBASE */
@@ -59,7 +59,7 @@ firebase.analytics(firebaseApp);
 const checkSession = async () => {
     await LoadFonts();
     await AsyncStorage.getItem('persist:root').then(response => {
-        console.log(JSON.parse(response));
+        
     });
 };
 

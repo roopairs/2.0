@@ -129,17 +129,17 @@ export type Account = {
     firstName: string;
     lastName: string;
     email: string;
-    address: string;
-    roopairsToken: string;
-};
-
-export type PropertyManagerAccount = Account & {
     pmId: number;
 };
 
+export type PropertyManagerAccount = Account & {
+    roopairsToken: string;
+};
+
 export type TenantAccount = Account & {
+    address: string;
+    phoneNumber: string;
     propId: number;
-    tenantId: number;
 };
 
 export type AccountState = PropertyManagerAccount | TenantAccount;
@@ -164,12 +164,14 @@ export type Contact = {
     firstName: string;
     lastName: string;
     email: string;
+    pmId?: string;
 }
 /* *-------------------Account Types-------------------* */
 
 /* *-------------------Service Types-------------------* */
 
 export type ServiceRequest = {
+    reqId: number,
     address: string, 
     technician?: string, 
     startDate: string, 
@@ -185,11 +187,19 @@ export type NewServiceRequest = {
     token: string, 
     propId: string, 
     appId: string, 
-    providerId: number, 
+    providerId?: number, 
     serviceType: string,
     serviceCategory: string, 
     serviceDate: string, 
     details: string,
+
+    /**
+     * Id for when tenant makes a service request 
+     */
+    phoneNumber: string,
+    
+    poc: string, 
+    pocName: string,
 }
 
 export type ServiceProvider = {
@@ -197,6 +207,7 @@ export type ServiceProvider = {
     prefId?: string, // Optional param if preferred service provider
     name: string,
     email: string,
+    address: string,
     phoneNum: string,
     contractLic: string, // contract license
     skills: string,
@@ -209,10 +220,11 @@ export type ServiceProvider = {
 
 export enum ServiceRequestCompletionStatus {
     Current = 'Current',
-    Completed = 'Completed',
+    Archived = 'Archived',
 }
 
 export enum ServiceRequestStatusEnums {
+    WaitingApproval = 'WaitingApproval',
     Pending = 'Pending',
     Scheduled = 'Scheduled',
     InProgress = 'InProgress',
@@ -298,11 +310,6 @@ export type MainAppStackType = {
      * a collection of these pages were to be stored.
      */
     navigate: string;
-
-    /**
-     * Unique value intended to distinguish each instance of this object
-     */
-    key: string;
 
     /**
      * Name of the button in the header. If none is defined, a button will not 

@@ -5,8 +5,8 @@
  */
 import axios from 'axios';
 import {AsyncStorage} from 'react-native';
-import { getAccountType, categoryToString, isNullOrUndefined, stringToCategory } from 'homepairs-utilities';
-import { NavigationRouteHandler, ChooseMainPage, navigationPages} from 'homepairs-routes';
+import { categoryToString, isNullOrUndefined, stringToCategory } from 'src/utility';
+import { NavigationRouteHandler, ChooseMainPage, navigationPages, getAccountType} from 'src/routes';
 import * as HomePairsStateActions from 'homepairs-redux-actions';
 import { 
     AccountTypes, 
@@ -20,6 +20,7 @@ import {
     ServiceProvider,
     TenantInfo,
     Contact,
+    TenantAccount,
 } from 'homepairs-types';
 import { addGoogleApiKey } from 'src/state/settings/actions';
 import {
@@ -60,13 +61,13 @@ export const parsePreferredProviders: (preferredServiceProviderJSON: any[]) => S
 (preferredServiceProviderJSON: any[]) => {
     return preferredServiceProviderJSON.map(serviceProvider => {
         const {provId, name, email, phoneNum, prefId,contractLic, skills, 
-            founded, rate, timesHired, earliestHire, logo} = serviceProvider;
+            founded, rate, timesHired, earliestHire, logo, address} = serviceProvider;
         return {
             provId, name, email, prefId,
             phoneNum, contractLic, skills, 
             founded, payRate: rate, timesHired, 
             earliestHire: isNullOrUndefined(earliestHire) ? undefined : new Date(earliestHire), 
-            logo,
+            logo, address,
         };
     });
 };
@@ -84,19 +85,17 @@ export const fetchGoogleApiKey = () => {
     };
 };
 
+
 /** 
 * ----------------------------------------------------
 * fetchPreferredProviders
 * ---------------------------------------------------- 
 * Makes a get request to the homepairs backend retrieving all preferred provider from the account 
-* associatted with the account Email. This function calls the dispatch method and updates the store 
+* associatted with the account. This function calls the dispatch method and updates the store 
 * upon success.
 * 
-* @param {ServiceProvider} serviceProvider -The object holding in the service provider to be removed
-* @param {string} accountEmail -The email of the associated account. This is used to by the backend to 
+* @param {string} pmID - The id of the associated account. This is used to by the backend to 
 * determine which account needs the specified provider to be removed
-* @param {(error:string) => any} onError -An optional callback function that will handle an error 
-* thrown if the api request fails
 */
 export const fetchPreferredProviders = (pmId: string) => {
     const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${pmId}/`;
@@ -106,6 +105,7 @@ export const fetchPreferredProviders = (pmId: string) => {
             const {data} = result;
             const {providers} = data;
             const parsedProviders = parsePreferredProviders(providers);
+            console.log(parsedProviders);
             dispatch(refreshServiceProviders(parsedProviders as ServiceProvider[]));
             return result;
         })
@@ -119,15 +119,12 @@ export const fetchPreferredProviders = (pmId: string) => {
 * ----------------------------------------------------
 * fetchNetworkProviders
 * ---------------------------------------------------- 
-* Makes a get request to the homepairs backend retrieving all network providera from the account 
-* associatted with the account Email. This function calls the dispatch method and updates the store 
+* Makes a get request to the homepairs backend retrieving all network providers from the account 
+* associatted with the account email. This function calls the dispatch method and updates the store 
 * upon success.
 * 
-* @param {ServiceProvider} serviceProvider -The object holding in the service provider to be removed
 * @param {string} accountEmail -The email of the associated account. This is used to by the backend to 
 * determine which account needs the specified provider to be removed
-* @param {(error:string) => any} onError -An optional callback function that will handle an error 
-* thrown if the api request fails
 */
 export const fetchNetworkProviders = (accountEmail: string) => {
     const endpoint = `${HOMEPAIRS_SERVICEPROVIDER_GET_ENDPOINT}${accountEmail}/`;
@@ -159,9 +156,10 @@ export const fetchNetworkProviders = (accountEmail: string) => {
  * Makes a post request to the homepairs backend adding a preferred provider from the account 
  * associatted with the account Email. Returns the result of the request upon completion. 
  * 
- * @param {string} accountEmail -The email of the associated account. This is used to by the backend to 
+ * @param {string} pmId  -The id of the associated account. This is used to by the backend to 
  * determine which account needs the specified provider to be added.
- * @param {ServiceProvider} serviceProvider -The object holding in the service provider to be added.
+ * @param {ServiceProvider} phoneNum - The string used to resolve the provider. Each service provider 
+ * will have a unique phone number
  * @param {(error:string) => any} onError -An optional callback function that will handle an error 
  * thrown if the api request fails.
  */
@@ -258,11 +256,9 @@ export const fetchServiceRequests = async (propId: string) => {
     return results;
 };
 
-
-
 /**
  * ----------------------------------------------------
- * fetchServiceRequests
+ * fetchPropertyAppliancesAndTenants
  * ---------------------------------------------------- 
  * Makes a fetch requests to the homepairs server retrieving the data for the tenants 
  * and appliances related to a specific property. Upon failure, this function will
@@ -337,6 +333,7 @@ export const fetchAccount = (
             const {status, role} = data;
             const accountType = getAccountType(data);
             if(status === SUCCESS){
+                console.log(data)
                 // Set the login state of the application to authenticated
                 dispatch(setAccountAuthenticationState(true));
                 dispatch(parseAccount(data));
@@ -349,10 +346,12 @@ export const fetchAccount = (
                 } else { // Assume role = tenant
                     const {properties, tenant} = data;
                     const {pm} = tenant;
-                    const {email, firstName, lastName} = pm[0];
+                    const {email, firstName, lastName, pmId} = pm[0];
                     const pmAccountType = AccountTypes.PropertyManager;
                     const pmContact = {accountType:pmAccountType, firstName, lastName, email };
                     dispatch(fetchPropertyAndPropertyManager(properties, pmContact));
+                    dispatch(fetchPreferredProviders(pmId));
+
                 }
                 // Navigate page based on the Account Type
                 ChooseMainPage(accountType, navigation);
@@ -383,9 +382,9 @@ export const fetchAccount = (
  * @param {modalSetOffCallBack} modalSetOffCallBack - *Optional callback that will close 
  * the calling modal if it exists
  */
-export const generateAccountForTenant = (accountDetails: Account, password: String, 
+export const generateAccountForTenant = (accountDetails: TenantAccount, password: String, 
     navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
-    const {firstName, lastName, email, address} = accountDetails;
+    const {firstName, lastName, email, address, phoneNumber} = accountDetails;
     return async (dispatch: (arg0: any) => void) => {
         await axios.post(HOMEPAIRS_REGISTER_TENANT_ENDPOINT, {
           firstName, 
@@ -393,6 +392,7 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
           email, 
           address, 
           password, 
+          phoneNumber,
         })
         .then((response) => {
           const {data} = response;
@@ -410,13 +410,10 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
             dispatch(fetchPropertyAndPropertyManager(properties, pmInfo));
             ChooseMainPage(AccountTypes.Tenant, navigation);
           } else {
-            console.log(response);
-            console.log(status);
             modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
           }
         })
         .catch(error => {
-          console.log(error);
           modalSetOffCallBack("Connection to the server could not be established.");
         });
     };
@@ -439,8 +436,12 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
    * @param {modalSetOffCallBack} modalSetOffCallBack - *Optional callback to 
    * close/navigate from the modal
    */
-  export const generateAccountForPM = (accountDetails: Account, password: String, 
-    navigation: NavigationRouteHandler, modalSetOffCallBack?: (error?:String) => void) => {
+  export const generateAccountForPM = (
+      accountDetails: Account, 
+      password: String, 
+      navigation: NavigationRouteHandler, 
+      modalSetOffCallBack?: (error?:String) => void, 
+      displayError?: (msg: string) => any) => {
       return async (dispatch: (arg0: any) => void) => {
         await axios.post(HOMEPAIRS_REGISTER_PM_ENDPOINT, {
             firstName: accountDetails.firstName, 
@@ -456,12 +457,13 @@ export const generateAccountForTenant = (accountDetails: Account, password: Stri
               dispatch(parseAccount(data));
               dispatch(fetchProperties(properties));
               ChooseMainPage(AccountTypes.PropertyManager, navigation);
-            }else{
+            } else {
+              displayError(response.data);
               modalSetOffCallBack("Home Pairs was unable create the account. Please try again.");
             }
           })
           .catch((error) => {
-            console.log(error);
+            displayError(error);
             modalSetOffCallBack("Connection to the server could not be established.");
           });
       };
@@ -515,7 +517,7 @@ export const postNewProperty = (
                     };
                     dispatch(addProperty(newProp));
                     setInitialState();
-                    navigation.goBack();
+                    navigation.resolveModalReplaceNavigation(navigationPages.PropertiesScreen);
                 } else {
                     const {error} = data;
                     displayError(error);
@@ -669,33 +671,71 @@ export const postUpdatedAppliance = async (
             .catch(error => console.log(error));
 };
 
+/**
+* ----------------------------------------------------
+ * postNewServiceRequest
+ * ----------------------------------------------------
+ * @param newServiceRequest 
+ * @param displayError 
+ * @param navigation 
+ * @param isPm 
+ */
 export const postNewServiceRequest = async (
     newServiceRequest: NewServiceRequest, 
     displayError: (msg: string) => void, 
     navigation: NavigationRouteHandler,
+    isPm: boolean,
 ) => {
+        console.log(newServiceRequest);
         await axios
         .post(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, 
         {
             token: newServiceRequest.token, 
             propId: newServiceRequest.propId, 
+            phoneNumber : newServiceRequest.phoneNumber,
             appId: newServiceRequest.appId, 
             provId: newServiceRequest.providerId, 
             serviceType: newServiceRequest.serviceType,
             serviceCategory: newServiceRequest.serviceCategory, 
             serviceDate: newServiceRequest.serviceDate, 
             details: newServiceRequest.details,
+            poc: newServiceRequest.poc, 
+            pocName: newServiceRequest.pocName,
+            isPm,
         })
         .then(response => {
+            console.log(response);
             const {data} = response;
             const {status} = data;
             if (status === SUCCESS) {
                 navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
             } else {
                 const {error} = data;
+                console.log(error)
                 displayError(error);
             }
         }).catch(error => {
             console.log(error);
+            displayError(error);
         });
+};
+
+
+// For accepting or denying a service request from the PM perspective
+export const changeServiceRequestStatus = async (
+    status: string,
+    reqId: number,
+    token: string,
+    navigation: NavigationRouteHandler,
+    ) => {
+        await axios.put(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, { reqId, status, token })
+        .then((response) => {
+            console.log(response);
+            if (response.data.status === "success") {
+                navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
+                setTimeout(() => navigation.reload(), 1000);
+            }
+        })
+        .catch(err => console.log(err));
+
 };

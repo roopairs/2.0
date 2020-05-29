@@ -2,7 +2,7 @@ import { AccountActions, PropertyListActions } from 'homepairs-redux-actions';
 import { AccountTypes, AccountStateAction, Account, FetchPropertyAndPropertyManagerAction, SetAccountAuthenticationStateAction} from 'homepairs-types';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { navigationPages} from 'homepairs-routes';
+import { navigationPages} from 'src/routes';
 import { propertyManagerMock1 , prepareNavigationSwitchMock} from 'homepairs-test';
 import { HOMEPAIRS_REGISTER_TENANT_ENDPOINT, generateAccountForTenant } from '../index';
 
@@ -21,7 +21,7 @@ const testTenantAccount1: Account = {
     lastName: 'Lynne',
     email: 'jackyLynne@gmail.com',
     address: 'ABC Street',
-    roopairsToken: '',
+    token: '',
 };
 
 const testJsonValue1 = {
@@ -60,7 +60,7 @@ const expectedFetchResult1: AccountStateAction = {
         lastName: 'Lynne',
         email: 'jackyLynne@gmail.com',
         address: 'ABC Street',
-        roopairsToken: '',
+        token: '',
         propId: '100',
         tenantId: 15,
     },

@@ -1,6 +1,6 @@
 import React from 'react';
-import {filterList} from 'homepairs-utilities';
-import InputForm, {InputFormProps} from './InputForm';
+import {filterList, isNullOrUndefined} from 'src/utility';
+import { InputForm, InputFormProps} from './InputForm';
 
 
 export type SearchFormProps<T> = InputFormProps & {
@@ -29,12 +29,12 @@ type State = {
      * The input text state is saved into this component since it will be needed for new 
      * new objects are passed into. This can occur during a refresh, or an async fetch 
      * request. The text allows access to the inputform text for filtering as soon as 
-     * an update has occurred.
+     * an update has occured.
      */
     text: string;
 }
 
-const initialState: State = { text: ""};
+const initialState: State = { text: "" };
 
 
 /**
@@ -75,7 +75,15 @@ export class SearchForm<T> extends React.Component<SearchFormProps<T>, State>{
      */
     invokeSearchFromInputForm(text: string){
         const {objects, keys, parentCallBack} = this.props;
-        const filteredArray = filterList<T>(text, objects, keys);
+        let filteredArray;
+        if(isNullOrUndefined(objects))
+        {
+            filteredArray = [];
+        }
+        else
+        {
+            filteredArray = filterList<T>(text, objects, keys);
+        }
         this.setState({text});
         parentCallBack(filteredArray);
     }

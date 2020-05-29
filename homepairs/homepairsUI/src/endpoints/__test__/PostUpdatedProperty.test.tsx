@@ -31,7 +31,7 @@ const updatedPropertyCredentials: EditPropertyState = {
     email: 'jackylynne@gmail.com',
     propId: '0',
     oldProp: prevProperty,
-    roopairsToken: '1B88484KDKSLIEK058UDDD',
+    token: '1B88484KDKSLIEK058UDDD',
 };
 
 // To test nested actions with an async REST request, we need to call an await on the

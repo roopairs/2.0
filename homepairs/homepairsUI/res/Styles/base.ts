@@ -2,16 +2,17 @@ import { HomePairsDimensions } from 'homepairs-types';
 import { HomePairFonts } from '../fonts';
 
 export type ColorTheme = {
-    primary: string
-    secondary: string
-    tertiary: string
-    space: string
-    transparent: string
-    red: string
-    gray: string
+    primary: string,
+    secondary: string,
+    tertiary: string,
+    space: string,
+    transparent: string,
+    red: string,
+    darkGray: string,
+    gray: string,
     lightGray: string,
     veryLightGray: string,
-    shadow: string
+    shadow: string,
     roopairs: string,
 }
 export const LightColorTheme : ColorTheme = {
@@ -21,6 +22,7 @@ export const LightColorTheme : ColorTheme = {
     space: '#1177B0',
     transparent: 'transparent',
     red: '#C70000',
+    darkGray: '#737A7C',
     gray: 'rgba(0,0,0,.5)',
     lightGray: 'rgba(55,66,69,.5)',
     veryLightGray: '#E9ECEF',
@@ -58,10 +60,13 @@ export const FontTheme = {
 };
 
 export const MarginPadding = {
+    xsmall: '0.5%',
     small: '1%',
     medium: '2.5%',
+    statusTitle: '3.0%',
     inputForm: '3.5%',
     large: '5%',
+    statusButton: '6.0%',
     xlarge: '10%',
 
     xsmallConst: 2.5,
@@ -73,8 +78,7 @@ export const MarginPadding = {
 };
 
 export const ContentWidth = {
-    almostThird: '29.3333333%',
-    almostHalf: '44%',
+    almostThird: '27.3333333%',
     third: '33.3333333%',
     half: '50%',
     thin: '90%',

@@ -1,4 +1,4 @@
-import { MainAppStack}  from 'homepairs-routes';
+import { MainAppStack}  from 'src/routes';
 import { 
     ToggleMenuAction,
     SwitchDropDownNavBarAction,

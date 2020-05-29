@@ -34,7 +34,7 @@ export function isPhoneNumberValid(phone:string){
  * between 6 and 50 characters long. This is subject to change in the future
  */
 export function isPasswordValid(input:string) : boolean {
-    const reg = new RegExp("^([a-zA-Z0-9!@#$%^&*\-]{8,32})$");
+    const reg = new RegExp("^([a-zA-Z0-9!@#$%^&*\-]{6,32})$");
     return reg.test(input);
 }
 

@@ -2,7 +2,7 @@
 import { NavigationStackProp } from 'react-navigation-stack';
 import { RouteProps, withRouter} from 'react-router-dom';
 import { NavigationSwitchProp, withNavigation} from 'react-navigation';
-import { isNullOrUndefined } from 'src/utility/ParameterChecker';
+import { isNullOrUndefined } from 'src/utility';
 import { Platform } from 'react-native';
 import React from 'react';
 import {navigationPages, MainAppStack} from '../RouteConstants';
@@ -37,6 +37,7 @@ export type NavigationRouteScreenProps = {
 export function prepareRoute(route:string, params?:any){
     // We need to proccess any potential params passed in via web router. This is achieved through sorting and 
     // appending the value of the params through the string. All values are sorted in ASCII order. 
+    console.log(params)
     const passedParams = isNullOrUndefined(params) ? {} : params;
     const sortedItems = Object.entries(passedParams).sort((a, b) => b[0].localeCompare(a[0]));
     let fullRoute = `${route}`;

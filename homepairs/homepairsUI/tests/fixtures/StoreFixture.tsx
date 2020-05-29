@@ -61,7 +61,7 @@ const PropertyManagerAcount: PropertyManagerAccount = {
     lastName: 'Williams',
     email: 'dWilliams@SpeechGrammarList.com',
     address: '21 Macalister Drive, Oakland, California',
-    roopairsToken: '',
+    token: '',
     manId: 1000,
 };
 /** User Account data for testing! */
