@@ -4,4 +4,6 @@ export { default as AddNewPropertyModal } from './AddNewPropertyModal/AddNewProp
 export { default as EditPropertyModal } from './EditPropertyModal/EditPropertyModal';
 export { default as EditPropertyModalBase } from './EditPropertyModal/EditPropertyModalBase';
 export { default as AddApplianceModal } from './AddApplianceModal/AddApplianceModal';
-export { default as EditApplianceModal } from './EditApplianceModal/EditApplianceModal';
+
+// TODO: UPDATE THIS PAGE AND DELETE EXTRANEOUS FILES
+export { default as EditApplianceModal } from './EditApplianceModal/NewEditApplianceModal';

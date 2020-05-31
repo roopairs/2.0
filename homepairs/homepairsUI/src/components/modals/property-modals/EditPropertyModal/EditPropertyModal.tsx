@@ -3,6 +3,7 @@ import { Property, AppState, EditPropertyState, PropertyManagerAccount } from 'h
 import { prepareNavigationHandlerComponent, NavigationRouteHandler } from 'src/routes';
 import { postUpdatedProperty } from 'homepairs-endpoints';
 import EditPropertyModalBase, {EditPropertyDispatchProps} from './EditPropertyModalBase';
+import NewEditPropertyModal from './NewEditPropertyModal';
 
 const mapDispatchToProps : (dispatch: any) => EditPropertyDispatchProps = (dispatch: any) => ({
     onEditProperty: (editProperty: Property, info: EditPropertyState, displayError: (msg: string) => void, navigation: NavigationRouteHandler) => 
@@ -23,4 +24,4 @@ function mapStateToProps(state: AppState) : EditPropertyState {
 
 export default prepareNavigationHandlerComponent(connect(
     mapStateToProps, 
-    mapDispatchToProps)(EditPropertyModalBase));
+    mapDispatchToProps)(NewEditPropertyModal));

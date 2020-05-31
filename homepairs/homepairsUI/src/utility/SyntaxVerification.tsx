@@ -58,14 +58,27 @@ export function isEmptyOrSpaces(str:string) : boolean {
  * -------------------------------------------------
  * isPositiveWholeNumber
  * -------------------------------------------------
- * @param {string} str
  * Test to see if the string is a string of digits. 
  * Returns a boolean based on the results
+ * 
+ * @param {string} str
  * 
  */
 export function isPositiveWholeNumber(str: string) : boolean {
     const expr = /^[0-9]*$/;
     return expr.test(str);
+}
+
+/**
+ * -------------------------------------------------
+ * isNotPositiveWholeNumber
+ * -------------------------------------------------
+ * Test to see if the string is NOT a string of digits. 
+ * Returns a boolean based on the results
+ * @param {string}str 
+ */
+export function isNotPositiveWholeNumber(str: string) : boolean {
+    return !isPositiveWholeNumber(str);
 }
 
 /**

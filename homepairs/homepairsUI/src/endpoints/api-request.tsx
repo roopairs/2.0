@@ -488,9 +488,7 @@ export const generateAccountForTenant = (accountDetails: TenantAccount, password
 export const postNewProperty = (
     newProperty: Property,
     info: AddNewPropertyState,
-    setInitialState: () => void,
-    displayError: (msg: string) => void,
-    navigation: NavigationRouteHandler,
+    displayError: (msg: string) => void = console.log,
 ) => {
     return async (dispatch: (arg0: any) => void) => {
         await axios
@@ -516,8 +514,6 @@ export const postNewProperty = (
                       tenants: newProperty.tenants,
                     };
                     dispatch(addProperty(newProp));
-                    setInitialState();
-                    navigation.resolveModalReplaceNavigation(navigationPages.PropertiesScreen);
                 } else {
                     const {error} = data;
                     displayError(error);
@@ -566,8 +562,6 @@ export const postUpdatedProperty = (
                 const {data} = response;
                 const {status} = data;
                 if ( status === SUCCESS) {
-                    navigation.resolveModalReplaceNavigation(SingleProperty, 
-                        {propId: editProperty.propId});
                     dispatch(updateProperty(editProperty));
                 } else {
                     const {error} = data;
@@ -641,10 +635,8 @@ export const postNewAppliance = async (
  * visibility of the modal of the calling component
  */
 export const postUpdatedAppliance = async (
-    propId: string,
     editAppliance: Appliance,
     displayError: (msg: string) => void,
-    navigation: NavigationRouteHandler,
 ) => {
         await axios
             .put( HOMEPAIRS_APPLIANCE_ENDPOINT,
@@ -661,11 +653,10 @@ export const postUpdatedAppliance = async (
             .then(response => {
                 const {data} = response;
                 const {status} = data;
-                if (status === SUCCESS) {
-                  navigation.resolveModalReplaceNavigation(SingleProperty, {propId});
-                } else {
+                if (status !== SUCCESS) {
                     const {error} = data;
                     displayError(error);
+                    throw Error(error);
                 }
             })
             .catch(error => console.log(error));
