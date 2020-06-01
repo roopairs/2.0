@@ -1,4 +1,4 @@
-import { StyleSheet, StatusBar, Platform, Dimensions} from 'react-native';
+import { StyleSheet, StatusBar, Platform} from 'react-native';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairsDimensions } from 'homepairs-types';
 import Colors from 'homepairs-colors';
@@ -7,7 +7,6 @@ import { FontTheme } from 'homepairs-base-styles';
 
 
 function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
-    const { width } = Dimensions.get('window');
     const colors = isNullOrUndefined(colorTheme) ? BaseStyles.LightColorTheme : colorTheme;
     return StyleSheet.create({
         formTitle: {
@@ -31,7 +30,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
         modalContainer: {
             flex: 1,
             maxWidth: HomePairsDimensions.MAX_PALLET,
-            width: Platform.OS === 'web' ? width : BaseStyles.ContentWidth.max,
+            width: BaseStyles.ContentWidth.max,
             alignSelf: 'center',
         },
         scrollStyle: {
