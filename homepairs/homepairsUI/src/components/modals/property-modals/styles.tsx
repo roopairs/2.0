@@ -116,6 +116,71 @@ const buttonStyles = StyleSheet.create({
         marginBottom: BaseStyles.MarginPadding.xlarge,
         minHeight: 50,
     },
+    twoButtonContainer:{
+        flexDirection: 'row', 
+        width: '100%', 
+        justifyContent: 
+        'center', 
+        alignSelf: 'center', 
+        marginBottom: 40,
+    },
+    editButtonConatiner: {
+        marginLeft: 3, 
+        width: '90%',
+    },
+    editTenantButtonStyle: {
+        alignItems: 'center',
+        backgroundColor: BaseStyles.LightColorTheme.transparent,
+        padding: BaseStyles.MarginPadding.mediumConst,
+        maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
+        borderRadius: BaseStyles.BorderRadius.large,
+        borderWidth: 1,
+        borderColor: BaseStyles.LightColorTheme.primary,
+    },
+    editTenantButtonTextStyle: {
+        color: BaseStyles.LightColorTheme.primary, 
+        fontSize: BaseStyles.FontTheme.reg,
+        alignSelf: 'center',
+    },
+    removeButtonConatiner: {
+        marginRight: 6, 
+        width: '90%', 
+        alignSelf:'flex-end',
+    },
+    removeTenantButtonStyle: {
+        alignItems: 'center',
+        backgroundColor: BaseStyles.LightColorTheme.transparent,
+        padding: BaseStyles.MarginPadding.mediumConst,
+        maxWidth: HomePairsDimensions.MAX_BUTTON_WIDTH,
+        borderRadius: BaseStyles.BorderRadius.large,
+        borderWidth: 1,
+        borderColor: BaseStyles.LightColorTheme.red,
+    },
+    removeTenantButtonTextStyle: {
+        color: BaseStyles.LightColorTheme.red, 
+        fontSize: BaseStyles.FontTheme.reg,
+        alignSelf: 'center',
+    },
+    editButtonContainerStyle: {
+        flex: 1,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginTop: BaseStyles.MarginPadding.largeConst,
+        marginBottom: BaseStyles.MarginPadding.xlarge,
+        marginRight: BaseStyles.MarginPadding.mediumConst,
+        minHeight: 50,
+        width: '90%',
+    },
+    removeButtonContainerStyle: {
+        flex: 1,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginTop: BaseStyles.MarginPadding.largeConst,
+        marginBottom: BaseStyles.MarginPadding.xlarge,
+        marginLeft: BaseStyles.MarginPadding.mediumConst,
+        minHeight: 50,
+        width: '90%',
+    },
 });
 
 export {setInputStyles, buttonStyles};

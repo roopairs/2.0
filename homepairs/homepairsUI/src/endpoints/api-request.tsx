@@ -231,13 +231,21 @@ export const deletePreferredProvider = (
  * @param {object} props -List of information used to define the tenant. Expected 
  * information follows: propId, email, firstName, lastName, phoneNumber
  */
-export const updateTenant = async ({...props}) => {
-    const {propId, email, firstName, lastName, phoneNumber} = props;
+export const updateTenant = async (tenant: TenantInfo & {propId: string},
+    displayError: (error:string) => void = console.log) => {
+    const {propId, email, firstName, lastName, phoneNumber} = tenant;
     await axios.post(HOMEPAIRS_TENANT_EDIT_ENDPOINT, 
-        {email, propId, firstName, lastName, phoneNumber}).then((result) =>{
-        console.log(result);
+        {email, propId, firstName, lastName, phoneNumber}).then(response =>{
+        const {data} = response;
+        const {status, error} = data;
+        if(status !== SUCCESS){
+            console.log(response);
+            displayError(error);
+            throw Error(error);
+        }
     }).catch(error =>{
-        console.log(error);
+        displayError(error.toString());
+        throw error;
     });
 };
 
@@ -543,7 +551,6 @@ export const postUpdatedProperty = (
     editProperty: Property,
     info: EditPropertyState,
     displayError: (msg: string) => void,
-    navigation: any,
 ) => {
     return async (dispatch: (arg0: any) => void) => {
         return axios
@@ -587,11 +594,10 @@ export const postUpdatedProperty = (
 // make docs
 export const postNewAppliance = async (
     newAppliance: Appliance,
-    info: AddApplianceState,
-    setInitialState: () => void,
     displayError: (msg: string) => void,
-    navigation: NavigationRouteHandler,
+    info: AddApplianceState,
 ) => {
+    console.log(info)
     await axios
         .post(HOMEPAIRS_APPLIANCE_ENDPOINT,
             {
@@ -608,14 +614,11 @@ export const postNewAppliance = async (
         .then(response => {
             const {data} = response;
             const {status} = data;
-            if (status === SUCCESS) {
-                const {property} = info;
-                const {propId} = property;
-                setInitialState();
-                navigation.resolveModalReplaceNavigation(SingleProperty, {propId});
-            } else {
+            if (status !== SUCCESS) {
                 const {error} = data;
+                console.log(error)
                 displayError(error);
+                throw Error(error);
             }
         })
         .catch(error => console.log(error));

@@ -54,7 +54,6 @@ export type ValidationFunction = (data: InputTypes, ...any: any[]) => boolean;
 export type FormState = {[key:string] : any}
 
 
-
 type SyncSubmitFunction = (...any) => void;
 type AsyncSubmitFunction = (...any) => Promise<void>;
 /**
@@ -88,14 +87,6 @@ export type Props = {
      * list of equal length to formProps
      */
     initialValues?: InputTypes[],
-
-    /**
-     * Callback method that is intended to pass data from the form through this component
-     * through to the parent. This component will not maintain the data of this form. It 
-     * is assummed that the parent component will pass a callback method as this property 
-     * to manage the data passed through. 
-     */
-    parentCallBack?: (key: string, value: InputTypes, ...rest: any[]) => void,
 
     /**
      * The route the component will navigate to when the close button has been pressed 
@@ -137,14 +128,7 @@ export type Props = {
      * the check will always pass. The component assumes this prop has the 
      * same lenght as form Props.
      */
-    validationMethods: ValidationFunction[];
-
-    /**
-     * Callback that will return the initial values passed as the initialValues.
-     * It will use the keys in the formProps to render and object mapped with the
-     * initialValues
-     */
-    onSetInitialState?: (initialState: {[key:string]: any}, ...any: any[]) => void;
+    validationMethods?: ValidationFunction[];
 };
 
 /**
@@ -261,7 +245,7 @@ class PropertyMutatorModal extends React.Component<Props, State> {
             if(isNullOrUndefined(validation))
                 continue;
             
-            // Somehow the Appliance has a validation method, simply ignore it
+            // If somehow the Appliance has a validation method, simply ignore it
             if(formProp === APPLIANCE_CATEGORY){
                 continue;
             }
@@ -317,6 +301,18 @@ class PropertyMutatorModal extends React.Component<Props, State> {
     }
 
     /**
+     * Method that sturns off all the Helper Texts' (Error Messages). It should be used when a valid 
+     * form as been submitted. This does not mean the form submission will be successful.
+     */
+    resetForms(){
+        this.formRef.forEach(ref => {
+            if(typeof ref !== 'string'){
+                ref.current.setState({error:false});
+            }
+        });
+    }
+
+    /**
      * Changes the state of the component when a submission has failed to complete. 
      * The message is passed will be what is presented at the bottom of the page. 
      * 
@@ -332,8 +328,6 @@ class PropertyMutatorModal extends React.Component<Props, State> {
      * of the form. If the forms pass the validation check, then the relevant 
      * forms are resetted and then proper cleanup (navigation, setting of initial state)
      * are invoked. 
-     * 
-     * TODO: CHECK IF ASYNC NEEDS TO BE ADDED!!!
      */
     async clickSubmitButton() {
         const {onClickSubmit} = this.props;
@@ -345,7 +339,32 @@ class PropertyMutatorModal extends React.Component<Props, State> {
         // API requests to update. Then it should set the state of the parent component to 
         // its initial values. 
         if (this.validateForms()) {
-            await onClickSubmit(this.state, this.displayError, this.props);
+            await onClickSubmit(this.state, this.displayError, this.props).then(() =>{
+                this.cleanComponent();
+            }).catch(error => {
+                console.log(error)
+                this.resetForms();
+            });
+        }
+    }
+
+    /**
+     * Invokes the parent method that is passed into the function upon completion 
+     * of the form. If the forms pass the validation check, then the relevant 
+     * forms are resetted and then proper cleanup (navigation, setting of initial state)
+     * are invoked. 
+     */
+    async clickRemoveButton() {
+        const {onClickRemove} = this.props;
+        
+        // Invoke clean up for this components contents 
+        this.setState({ hasError: false, errorMsg: "" });
+
+        // Now check the forms for validation. Note that onClickSubmit should invoke an 
+        // API requests to update. Then it should set the state of the parent component to 
+        // its initial values. 
+        if (this.validateForms()) {
+            await onClickRemove(this.state, this.displayError, this.props);
             this.cleanComponent();
         }
     }
@@ -355,9 +374,10 @@ class PropertyMutatorModal extends React.Component<Props, State> {
      * to the intitial values. It then will navigate back to the previous page. 
      */
     cleanComponent(){
-        this.goBackToPreviousPage(); 
         const initialState = this.mapInitialState();
         this.setState(initialState);
+        this.resetForms();
+        this.goBackToPreviousPage(); 
     }
 
     /**
@@ -379,10 +399,11 @@ class PropertyMutatorModal extends React.Component<Props, State> {
             const formProp = formProps[i];
             if(formProp === APPLIANCE_CATEGORY){
                 const {category} = this.state;
-                console.log(category)
                 form = (
                     <View key={APPLIANCE_CATEGORY}>
-                        <Text style={this.inputFormStyle.formTitle}>{editApplianceStrings.category}</Text>
+                        <Text style={this.inputFormStyle.formTitle}>
+                            {editApplianceStrings.category}
+                        </Text>
                         <ApplianceCategoryPanel 
                             initialCategory={category} 
                             parentCallBack={(data: InputTypes) => 
@@ -430,12 +451,55 @@ class PropertyMutatorModal extends React.Component<Props, State> {
     renderError() {
         const { errorMsg, hasError } = this.state;
         return <View style={{ alignSelf: 'center' }}>
-            <HelperText type='error' visible={hasError} style={this.inputFormStyle.errorStyle}>{errorMsg}</HelperText>
+            <HelperText 
+                type='error' 
+                visible={hasError}
+                style={this.inputFormStyle.errorStyle}>
+                    {errorMsg}
+            </HelperText>
         </View>;
     }
 
+    /**
+     * Render one thin button if no callback has been defined for the remove 
+     * button. If this value has been defined, the red remove button will be 
+     * rendered and will be pressable.
+     */
+    renderThinButtons() {
+        const {submitButtonName, removeButtonName, onClickRemove} = this.props;
+        return isNullOrUndefined(onClickRemove) ?  (
+            <ThinButton
+                name={submitButtonName}
+                onClick={async () => {await this.clickSubmitButton();}}
+                buttonStyle={buttonStyles.buttonStyle}
+                buttonTextStyle={buttonStyles.buttonTextStyle}
+                containerStyle={buttonStyles.containerStyle}/>
+        ) : (
+            <View style={buttonStyles.twoButtonContainer}>
+                <View style={{flex: 1}}>
+                <ThinButton 
+                    name={submitButtonName}
+                    onClick={async () => {await this.clickSubmitButton();}} 
+                    buttonStyle={buttonStyles.editTenantButtonStyle}
+                    buttonTextStyle={buttonStyles.editTenantButtonTextStyle}
+                    containerStyle={buttonStyles.editButtonConatiner}
+                    />
+                </View>
+                <View style={{flex: 1}}>
+                <ThinButton 
+                    name={removeButtonName}
+                    onClick={async () => { await this.clickRemoveButton();}} 
+                    buttonStyle={buttonStyles.removeTenantButtonStyle}
+                    buttonTextStyle={buttonStyles.removeTenantButtonTextStyle}
+                    containerStyle={buttonStyles.removeButtonConatiner}
+                    />
+                </View>
+            </View>
+        );
+    }
+
     render() {
-        const {submitButtonName} = this.props;
+        const {title} = this.props;
         return (
             <View style={this.inputFormStyle.modalContainer}>
                 <ScrollView style={this.inputFormStyle.scrollStyle}
@@ -443,28 +507,30 @@ class PropertyMutatorModal extends React.Component<Props, State> {
                     showsHorizontalScrollIndicator={false}>
                     <Card
                         containerStyle={this.inputFormStyle.cardContainer}
-                        title={editApplianceStrings.editTitle}
+                        title={title.toString()}
                         closeButtonPressedCallBack={() => {
                             this.cleanComponent();
                         }}
                         titleStyle={this.inputFormStyle.cardTitle}
                         titleContainerStyle={this.inputFormStyle.cardTitleContainer}
                         wrapperStyle={this.inputFormStyle.cardWrapperStyle}
-                        showCloseButton
-                    >
+                        showCloseButton>
                         <>{this.renderInputForms()}</>
                         {this.renderError()}
-                        <ThinButton
-                            name={submitButtonName}
-                            onClick={async () => {await this.clickSubmitButton();}}
-                            buttonStyle={buttonStyles.buttonStyle}
-                            buttonTextStyle={buttonStyles.buttonTextStyle}
-                            containerStyle={buttonStyles.containerStyle}
-                        />
+                        {this.renderThinButtons()}
                     </Card>
                 </ScrollView>
             </View>);
     }
 }
+
+PropertyMutatorModal.defaultProps = {
+    initialValues: null,
+    onClickSubmit: () => {},
+    onClickRemove: null,
+    submitButtonName: 'Save',
+    removeButtonName: 'Remove',
+    validationMethods: null,
+};
 
 export {PropertyMutatorModal};

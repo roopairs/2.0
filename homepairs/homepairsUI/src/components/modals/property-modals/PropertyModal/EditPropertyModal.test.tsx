@@ -10,7 +10,7 @@ import { prepareNavigationMock } from 'homepairs-test';
 import { TextInput, ScrollView, View } from 'react-native';
 import {HelperText} from 'react-native-paper';
 import {NavigationRouteHandler} from 'src/routes';
-import EditPropertyModalBase from "./EditPropertyModalBase";
+import EditPropertyModalBase from "./PropertyModal";
 
 
 type Props = NavigationStackProp & EditPropertyDispatchProps & EditPropertyState;
@@ -27,9 +27,8 @@ const props : Props = {
     email: undefined, 
     index: undefined, 
     oldProp: {
-        streetAddress: '123 Testing St.', 
-        state: 'CA', 
-        city: 'San Luis Obispo', 
+        propId: '1',
+        address: '123 Testing St.', 
         bedrooms: Number(0), 
         bathrooms: Number(0), 
         tenants: Number(0),
