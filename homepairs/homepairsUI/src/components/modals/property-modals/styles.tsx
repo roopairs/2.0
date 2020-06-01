@@ -29,6 +29,7 @@ function setInputStyles(colorTheme?: BaseStyles.ColorTheme) {
         },
         modalContainer: {
             flex: 1,
+            minWidth: HomePairsDimensions.MIN_CONTENT_SIZE,
             maxWidth: HomePairsDimensions.MAX_PALLET,
             width: BaseStyles.ContentWidth.max,
             alignSelf: 'center',
