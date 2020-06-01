@@ -121,7 +121,8 @@ const buttonStyles = StyleSheet.create({
         width: '100%', 
         justifyContent: 
         'center', 
-        alignSelf: 'center', 
+        alignSelf: 'center',
+        marginTop: BaseStyles.MarginPadding.largeConst, 
         marginBottom: 40,
     },
     editButtonConatiner: {

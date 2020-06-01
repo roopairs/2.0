@@ -339,12 +339,16 @@ class PropertyMutatorModal extends React.Component<Props, State> {
         // API requests to update. Then it should set the state of the parent component to 
         // its initial values. 
         if (this.validateForms()) {
-            await onClickSubmit(this.state, this.displayError, this.props).then(() =>{
-                this.cleanComponent();
-            }).catch(error => {
-                console.log(error)
-                this.resetForms();
-            });
+            if (onClickSubmit.constructor.name === "AsyncFunction"){
+                await onClickSubmit(this.state, this.displayError, this.props).then(() =>{
+                    this.cleanComponent();
+                }).catch(() => {
+                    this.resetForms();
+                });
+            } else{
+                onClickSubmit(this.state, this.displayError, this.props);
+                this.goBackToPreviousPage();
+            }
         }
     }
 

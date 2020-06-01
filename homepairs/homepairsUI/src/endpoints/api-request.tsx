@@ -597,7 +597,6 @@ export const postNewAppliance = async (
     displayError: (msg: string) => void,
     info: AddApplianceState,
 ) => {
-    console.log(info)
     await axios
         .post(HOMEPAIRS_APPLIANCE_ENDPOINT,
             {
@@ -616,7 +615,6 @@ export const postNewAppliance = async (
             const {status} = data;
             if (status !== SUCCESS) {
                 const {error} = data;
-                console.log(error)
                 displayError(error);
                 throw Error(error);
             }
