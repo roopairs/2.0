@@ -339,6 +339,7 @@ class PropertyMutatorModal extends React.Component<Props, State> {
         // API requests to update. Then it should set the state of the parent component to 
         // its initial values. 
         if (this.validateForms()) {
+            // Invoke proper functions when async
             if (onClickSubmit.constructor.name === "AsyncFunction"){
                 await onClickSubmit(this.state, this.displayError, this.props).then(() =>{
                     this.cleanComponent();
@@ -346,6 +347,7 @@ class PropertyMutatorModal extends React.Component<Props, State> {
                     this.resetForms();
                 });
             } else{
+                // Invoke when function is sync
                 onClickSubmit(this.state, this.displayError, this.props);
                 this.goBackToPreviousPage();
             }

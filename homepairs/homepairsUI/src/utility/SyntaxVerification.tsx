@@ -113,3 +113,16 @@ export function isAlphaCharacterOnly(input: string){
     const expression = /^[A-Za-z]+$/;
     return expression.test(input.toString());
 }
+
+/**
+ * -------------------------------------------------
+ * isValidCharacter
+ * -------------------------------------------------
+ * @param {string} input 
+ * Test to see if the string fulfills whitelisted characters. These values are only allowed 
+ * to prevent XSR attacks. 
+ */
+export function isValidCharacter(input:string) : boolean {
+    const reg = /^[a-z\d\-_\s]+$/i;
+    return reg.test(input);
+}
