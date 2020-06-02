@@ -9,6 +9,7 @@ from ..Appliances.models import Appliance
 from ..helperFuncs import getRooTokenAPI, postRooTokenAPI, putRooTokenAPI
 from ..PropertyManagers.models import PropertyManager
 from ..Tenants.models import Tenant
+from ..Tools.models import Token
 from .models import Property
 
 
@@ -100,8 +101,7 @@ def getProperty(email, streetAddress, city, state):
 # Adding Functions
 #
 
-
-def addNewProperties(email, token):
+def roopairsToUs(email, token):
     # This is for requesting properties from them
     url = BASE_URL + "service-locations/"
     properties = getRooTokenAPI(url, token)
@@ -111,8 +111,8 @@ def addNewProperties(email, token):
     # For now we will just assign them a default bed, bath and tenants
     # of 1 since front end is not set up to ask them yet
     if isinstance(properties, dict):
-        if(properties.get('detail') == 'Invalid token.'):
-            return returnError("Invalid token.")
+        if(properties.get('detail') != None):
+            return returnError(properties.get('detail'))
     for prop in properties:
         # We steal the propId froms from Roopairs
         propId = prop.get('id')
@@ -139,7 +139,42 @@ def addNewProperties(email, token):
             try:
                 prop.save()
             except Exception as e:
-                return JsonResponse(data=returnError(e.message))
+                return e.message
+    return "success"
+
+def usToRoopairs(token):
+    unpostedProperties = Property.objects.filter(rooId='')
+    url = BASE_URL + 'service-locations/'
+
+    for prop in unpostedProperties:
+        sendAddress = prop.streetAddress + ", " + prop.city + ", " + prop.state
+
+        data = {
+                   'physical_address': sendAddress
+               }
+        info = postRooTokenAPI(url, data, token)
+
+        if(NON_FIELD_ERRORS in info):
+            return info.get(NON_FIELD_ERRORS)
+
+        if('detail' in info):
+            return info.get('detail')
+
+        prop.rooId = info.get('id')
+        prop.save()
+
+    return 'success'
+
+def addNewProperties(email, token):
+    temp = roopairsToUs(email, token)
+    if(temp != 'success'):
+        return temp
+
+    temp = usToRoopairs(token)
+    if(temp != 'success'):
+        return temp
+
+    return "success"
 
 ################################################################################
 # Views / API Endpoints
@@ -149,48 +184,50 @@ def addNewProperties(email, token):
 @method_decorator(csrf_exempt, name='dispatch')
 class PropertyView(View):
     def post(self, request):
-        inData = json.loads(request.body)
-        required = ['streetAddress', 'pm', 'numBed',
-                    'numBath', 'maxTenants', 'token']
-        missingFields = checkRequired(required, inData)
+        # This is token validation
+        try:
+            token = Token.objects.get(token=request.headers.get('Token'))
+            if(not token.isValid()):
+                return JsonResponse(returnError("Token has expired."))
+        except Exception as e:
+            return JsonResponse(returnError("Not a valid token."))
 
-        url = BASE_URL + 'service-locations/'
+        if(not token.isPm()):
+            return JsonResponse(returnError("You are not a pm."))
+        pm = token.getPm()
+
+        inData = json.loads(request.body)
+        required = ['longAddress', 'numBed', 'numBath', 'maxTenants']
+        missingFields = checkRequired(required, inData)
 
         # If they missed any fields just return
         if(len(missingFields) > 0):
             return JsonResponse(data=missingError(missingFields))
 
-        splitAddress = inData.get('streetAddress').split(',')
+        longAddress = inData.get('longAddress')
+        splitAddress = longAddress.split(',')
         streetAddress = splitAddress[0]
         city = splitAddress[1]
         state = splitAddress[2]
-        pm = inData.get('pm')
         numBed = inData.get('numBed')
         numBath = inData.get('numBath')
         maxTenants = inData.get('maxTenants')
-        token = inData.get('token')
-        sendAddress = streetAddress + ", " + city + ", " + state
 
         # FIRST NEED TO SEE IF IT ALREADY EXISTS
         # Since properties get synced when you login, we only have to
         # check our database
-        isMade = Property.objects.filter(streetAddress=streetAddress, city=city, state=state)
+        try:
+            temp = Property.objects.get(streetAddress=streetAddress, city=city, state=state)
+            return JsonResponse(returnError("Property at this address already exists."))
+        except Exception as e:
+            pass
 
-        # Check to see if it already exists and just return if it does
-        if(isMade.exists()):
-            return JsonResponse(data=returnError(PROPERTY_ALREADY_EXISTS))
-
-        # If it doesn't exist in our database, add it to ours, then to Roopairs
-        pmList = PropertyManager.objects.filter(email=pm)
-        if(not pmList.exists()):
-            return JsonResponse(returnError(PM_DOESNT_EXIST))
-        if(pmList.count() > 1):
-            return JsonResponse(returnError(PM_SQUISH))
-
+        # Add it to their database, then add it to ours
         data = {
-                   'physical_address': sendAddress
+                   'physical_address': longAddress
                }
-        info = postRooTokenAPI(url, data, token)
+        url = BASE_URL + 'service-locations/'
+        info = postRooTokenAPI(url, data, token.getRooPairsToken())
 
         if(NON_FIELD_ERRORS in info):
             return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
@@ -198,93 +235,114 @@ class PropertyView(View):
         if(info.get('detail') == 'Invalid token.'):
             return JsonResponse(data=returnError(info.get('detail')))
 
-        pm = pmList[0]
+        propId = info.get('id')
+
         prop = Property(streetAddress=streetAddress,
                         city=city,
                         state=state,
                         numBed=numBed,
                         numBath=numBath,
                         maxTenants=maxTenants,
-                        rooId=info.get('id'),
+                        rooId=propId,
                         pm=pm)
         try:
             prop.save()
         except Exception as e:
             return JsonResponse(data=request(e.message))
+
         data = {
                    STATUS: SUCCESS,
-                   'propId': info.get('id')
+                   'propId': propId
                }
         return JsonResponse(data=data)
 
     def put(self, request):
-        inData = json.loads(request.body)
-        url = BASE_URL + 'service-locations/'
-        inData = json.loads(request.body)
+        # This is token validation
+        try:
+            token = Token.objects.get(token=request.headers.get('Token'))
+            if(not token.isValid()):
+                return JsonResponse(returnError("Token has expired."))
+        except Exception as e:
+            return JsonResponse(returnError("Not a valid token."))
 
-        required = ['streetAddress', 'pm', 'numBed', 'numBath',
-                    'maxTenants', 'token', 'propId']
+        if(not token.isPm()):
+            return JsonResponse(returnError("You are not a pm."))
+        pm = token.getPm()
+
+        inData = json.loads(request.body)
+        required = ['longAddress', 'numBed', 'numBath', 'maxTenants', 'propId']
+
         missingFields = checkRequired(required, inData)
-
         if(len(missingFields) > 0):
             return JsonResponse(data=missingError(missingFields))
 
-        splitAddress = inData.get('streetAddress').split(',')
+        longAddress = inData.get('longAddress')
+        splitAddress = longAddress.split(',')
+
         streetAddress = splitAddress[0]
         city = splitAddress[1]
         state = splitAddress[2]
-        pm = inData.get('pm')
         numBed = inData.get('numBed')
         numBath = inData.get('numBath')
         maxTenants = inData.get('maxTenants')
-        token = inData.get('token')
         propId = inData.get('propId')
 
-        # Before anything we check to see if the updated place exists already
-        # because that is an easy and obviouos error to throw before
-        # doing any work
-        possibleMatches = Property.objects.filter(streetAddress=streetAddress,
-                                                  city=city)
-        # Checks to see if a prop exists with this address that isn't the current address
-        if(possibleMatches.exists()):
-            if(not possibleMatches[0].rooId == propId):
-                return JsonResponse(returnError(PROPERTY_ALREADY_EXISTS))
+        # Making sure the property id is valid
+        try:
+            propToUpdate = Property.objects.get(rooId = propId)
+            if(propToUpdate.pm != pm):
+                return JsonResponse(returnError("You do not own this property."))
+        except Exception as e:
+            return JsonResponse(returnError("A property with this id does not exist."))
 
-        url = url + propId + '/'
+        # Making sure the property isn't being updated into another properties address
+        try:
+            propToUpdate = Property.objects.get(streetAddress=streetAddress, 
+                                                city=city, state=state, rooId=propId)
+        except Exception as e:
+            pass
 
-        sendAddress = streetAddress + ", " + city + ", " + state
+        url = BASE_URL + 'service-locations/' + propId + '/'
+
         data = {
-                   'physical_address': sendAddress
+                   'physical_address': longAddress
                }
-        response = putRooTokenAPI(url, data, token)
+        response = putRooTokenAPI(url, data, token.getRooPairsToken())
 
+        # THIS IS FUNNY
         if(not response.get('id') == propId):
             JsonResponse(data=returnError("UPDATE FAILED"))
 
-        thePropertyList = Property.objects.filter(rooId=propId)
-
-        if(not thePropertyList.exists()):
-            return JsonResponse(data=returnError(PROPERTY_DOESNT_EXIST))
-        if(thePropertyList.count() > 1):
-            return JsonResponse(data=returnError(PROPERTY_SQUISH))
-
-        theProperty = thePropertyList[0]
-        if theProperty.pm.email == pm:
-            theProperty.city = city
-            theProperty.state = state
-            theProperty.numBed = numBed
-            theProperty.numBath = numBath
-            theProperty.maxTenants = maxTenants
-            theProperty.streetAddress = streetAddress
-            try:
-                theProperty.save()
-            except Exception as e:
-                return JsonResponse(data=returnError(e.message))
-            return JsonResponse(data={STATUS: SUCCESS})
-        else:
-            return JsonResponse(data=returnError(NOT_PROP_OWNER))
+        propToUpdate.streetAddress = streetAddress
+        propToUpdate.city = city
+        propToUpdate.state = state
+        propToUpdate.numBed = numBed
+        propToUpdate.numBath = numBath
+        propToUpdate.maxTenants = maxTenants
+        propToUpdate.save()
+        return JsonResponse(data={STATUS: SUCCESS})
 
     def get(self, request, inPropId):
+        # This is token validation
+        try:
+            token = Token.objects.get(token=request.headers.get('Token'))
+            if(not token.isValid()):
+                return JsonResponse(returnError("Token has expired."))
+        except Exception as e:
+            return JsonResponse(returnError("Not a valid token."))
+            
+        if(token.isPm()):
+            pm = token.getPm()
+        else:
+            return JsonResponse(returnError("You are not a pm."))
+
+        temp = token.isPm()
+
+        try:
+            place = Property.objects.get(rooId=inPropId, pm=pm)
+        except Exception as e:
+            return JsonResponse(returnError("Cannot find this property."))
+
         listOfTenants = Tenant.objects.filter(place__rooId=inPropId)
         listOfNice = []
         for ten in listOfTenants:

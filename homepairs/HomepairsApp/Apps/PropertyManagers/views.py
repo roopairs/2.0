@@ -126,29 +126,30 @@ def createPropertyManager(info, email):
     return "success"
 
 def pmLogin(email, password):
-    print("HERE 4")
     info = roopairsPMLogin(email, password)
-    print("HERE 3")
 
     if NON_FIELD_ERRORS in info:
-        return returnError(info.get(NON_FIELD_ERRORS))
+        return info.get(NON_FIELD_ERRORS)
     elif TOKEN in info:
         createStatus = createPropertyManager(info, email)
         if(createStatus == 'success'):
             tempDict = getPropertyManager(email)
 
             if tempDict[STATUS] == FAIL:
-                return returnError('%s: %s' % (HOMEPAIRS_ACCOUNT_CREATION_FAILED, tempDict[ERROR]))
+                return tempDict[ERROR]
 
-            addNewProperties(email, info.get(TOKEN))
+            tempStatus = addNewProperties(email, info.get(TOKEN))
+            if(tempStatus != "success"):
+                print("HERE #@$#@#@")
+                return tempStatus
+            print("GOT PASSED IT")
 
             tempDict = getPropertyManager(email)
-            #toke.setRooPairsToken(info.get(TOKEN))
-            #tempDict[TOKEN] = toke.getToken()
+
             tempDict[TOKEN] = info.get(TOKEN)
             return tempDict
         else:
-            return JsonResponse(data=returnError(createStatus))
+            return createStatus
 
 
 ################################################################################
@@ -160,32 +161,40 @@ def pmLogin(email, password):
 class LoginView(View):
 
     def post(self, request):
-        print("HERE")
         inData = json.loads(request.body)
         required = ['email', 'password']
         missingFields = checkRequired(required, inData)
 
-        if(len(missingFields) == 0):
-            email = inData.get('email')
-            password = inData.get('password')
-
-            tenantTest = getTenant(email, password)
-            if(tenantTest.get(STATUS) == SUCCESS):
-                tenantTest['role'] = 'tenant'
-                return JsonResponse(tenantTest)
-
-            print("HERE 1")
-            pmTest = pmLogin(email, password)
-            if(pmTest.get(STATUS) == SUCCESS):
-                pmTest['role'] = 'pm'
-
-            
-
-            return JsonResponse(pmTest, status=200)
-        else:
+        if(len(missingFields) > 0):
             return JsonResponse(missingError(missingFields), status=200)
 
+        email = inData.get('email')
+        password = inData.get('password')
 
+        try:
+            toke = Token.objects.get(pm__email=email)
+        except Exception as e:
+            toke = Token()
+
+        toke.selfInitialize()
+        tenantTest = getTenant(email, password)
+        if(tenantTest.get(STATUS) == SUCCESS):
+            tenantTest['role'] = 'tenant'
+            tenantTest[TOKEN] = toke.getToken()
+            toke.setTenant(Tenant.objects.get(email=tenantTest.get('tenant')['email']))
+            toke.save()
+            return JsonResponse(tenantTest)
+
+        pmTest = pmLogin(email, password)
+        if(pmTest.get(STATUS) == SUCCESS):
+            toke.setRooPairsToken(pmTest.get('token'))
+            toke.setPm(PropertyManager.objects.get(email=pmTest.get('pm')['email']))
+            toke.save()
+            pmTest[TOKEN] = toke.getToken()
+            pmTest['role'] = 'pm'
+
+        return JsonResponse(pmTest, status=200)
+        
 @method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(View):
 
@@ -240,59 +249,5 @@ class RegisterView(View):
             else:
                 info['role'] = 'pm'
                 return JsonResponse(data=info, status=400)
-        else:
-            return JsonResponse(data=missingError(missingFields), status=400)
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class TenantControlView(View):
-    def put(self, request):
-        inData = json.loads(request.body)
-
-        required = ['propId', 'tenantEmail']
-        missingFields = checkRequired(required, inData)
-
-        if(len(missingFields) == 0):
-            propId = inData.get('propId')
-            tenantEmail = inData.get('tenantEmail')
-            print('propid tenemail')
-            print(propId)
-            print(tenantEmail)
-
-            # Make sure tenant is real
-            tenantList = Tenant.objects.filter(email=tenantEmail)
-
-            if(tenantList.exists()):
-                # At least one account exists
-                if(tenantList.count() == 1):
-                    # We got the tenant
-                    editTenant = tenantList[0]
-                else:
-                    return JsonResponse(returnError("Multiple tenant accounts detected"), status=400)
-            else:
-                return JsonResponse(returnError("Tenant account does not exist"), status=400)
-
-            # Now check if the property exists
-            propList = Property.objects.filter(rooId=propId)
-
-            if(propList.exists()):
-                # At least one property exists
-                if(propList.count() == 1):
-                    # We got the property
-                    moveToProp = propList[0]
-                else:
-                    return JsonResponse(returnError(PROPERTY_SQUISH), status=400)
-            else:
-                return JsonResponse(returnError(PROPERTY_DOESNT_EXIST), status=400)
-
-            if(editTenant.place == moveToProp):
-                return JsonResponse(returnError(TENANT_ALREADY_IN_PROP), status=400)
-
-            editTenant.place = moveToProp
-            try:
-                editTenant.save()
-            except Exception as e:
-                return JsonResponse(data=required(e.message), status=400)
-            return JsonResponse({STATUS: SUCCESS})
         else:
             return JsonResponse(data=missingError(missingFields), status=400)

@@ -32,6 +32,7 @@ urlpatterns = [
     path('property/<str:inPropId>/', PropertyView.as_view(), name='otherOne'),
     path('tenant/', include('Apps.Tenants.urls')),
     path('appliances/', ApplianceView.as_view(), name='appliance_view'),
+    path('appliances/<str:inAppId>/', ApplianceView.as_view(), name='appliance_view'),
     path('serviceprovider/prefprov/', PreferredProviderView.as_view(), name='pref_provider_view'),
     path('serviceprovider/prefprov/<str:inPmId>/', PreferredProviderView.as_view(), name='request_get'),
     path('serviceprovider/', ServiceProviderView.as_view(), name='service_provider_view'),

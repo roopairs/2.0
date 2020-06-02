@@ -171,7 +171,24 @@ class RegisterView(View):
 @method_decorator(csrf_exempt, name='dispatch')
 class TenantUpdate(View):
     def post(self, request):
-        print("Got here")
+        # This is token validation
+        try:
+            print(request.headers)
+            token = Token.objects.get(token=request.headers.get('Token'))
+            if(not token.isValid()):
+                return JsonResponse(returnError("Token has expired."))
+        except Exception as e:
+            return JsonResponse(returnError("Not a valid token."))
+
+        if(not token.isPm()):
+            return JsonResponse(returnError("You are not a pm."))
+        pm = token.getPm()
+
+        try:
+            prop = Property.objects.get(rooId=propId, pm=pm)
+        except Exception as e:
+            return JsonResponse(returnError("Property not found."))
+
         inData = json.loads(request.body)
         required = ['email', 'propId', 'firstName', 'lastName', 'phoneNumber']
         missingFields = checkRequired(required, inData)

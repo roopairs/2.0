@@ -1,0 +1,34 @@
+properties
+    get  - send token in header
+    put  - send token in header
+         - requires ['longAddress', 'numBed', 'numBath', 'maxTenants', 'propId']
+    post - send token in header
+         - requires ['longAddress', 'numBed', 'numBath', 'maxTenants']]
+
+appliances
+    post - send token in header
+         - requires ['name', 'category', 'location', 'propId']
+         - optional ['modelNum', 'serialNum', 'manufacturer']
+    put  - send token in header
+         - requires ['appId', 'newName', 'newCategory']
+         - optional ['newManufacturer', 'newSerialNum', 'newLocation', 'newModelNum']
+
+service providers
+    get  - send token in header get back list of preferred providers
+
+service requests
+    post - send token in header
+         - if pm: required = ['serviceCategory', 'serviceType', 'serviceDate', 'details', 
+                              'pocName', 'poc', 'propId', 'appId', 'provId']
+         - if ten: required = ['serviceCategory', 'serviceType', 'serviceDate', 'details', 
+                               'pocName', 'poc', 'propId', 'appId', 'phoneNumber']
+    put  - send token in header
+         - requires ['reqId', 'status']
+
+    get  - send token in header
+   get_pm- send token in header
+
+tenants
+    update - send token in header
+           - required ['email', 'propId', 'firstName', 'lastName', 'phoneNumber']
+

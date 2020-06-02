@@ -10,12 +10,15 @@ globUrl = 'http://localhost:8000/'
 
 # Everything is correct
 def test_basic_connection():
-    email = 'aberard@calpoly.edu'
+    email = 'jakeduh@gmail.com'
+    password = 'pass4jake'
+    email = 'testingTestingtester@test.com'
     password = 'pass4adam'
+
     data = {'email': email,
             'password': password,
            }
-    url = globUrl + 'pm/login/'
+    url = globUrl + 'login/'
 
     x = requests.post(url, json=data)
     print(x.text)

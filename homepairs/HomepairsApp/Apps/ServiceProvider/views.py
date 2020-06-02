@@ -68,121 +68,22 @@ def missingError(missingFields):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ServiceProviderView(View):
-    def post(self, request):
-        inData = json.loads(request.body)
-        required = ['phoneNum', 'token']
-        missingFields = checkRequired(required, inData)
-
-        if(len(missingFields) == 0):
-            phoneNum = inData.get('phoneNum')
-            token = inData.get('token')
-
-            proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
-            if not proList.exists():
-                url = BASE_URL + 'service-providers/'
-                data = {
-                           'phone': phoneNum
-                       }
-                info = postRooTokenAPI(url, data, token)
-                if NON_FIELD_ERRORS in info:
-                    return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
-                elif(info.get('detail') == 'Invalid token.'):
-                    return JsonResponse(data=returnError(info.get('detail')))
-                name = info.get('name')
-                email = info.get('email')
-                phoneNum = info.get('phoneNum')
-                website = info.get('website')
-                logo = info.get('logo')
-                address = info.get('address')
-                contractLic = info.get('contractLic')
-                bio = info.get('bio')
-                rate = info.get('rate')
-                rooId = info.get('id')
-                skills = info.get('skills')
-                certified = info.get('certified')
-                founded = info.get('founded')
-                pro = ServiceProvider(name=name,
-                                      email=email,
-                                      phoneNum=phoneNum,
-                                      rooId=rooId,
-                                      contractLic=contractLic,
-                                      skills=skills,
-                                      founded=founded,
-                                      website=website,
-                                      logo=logo,
-                                      address=address,
-                                      bio=bio,
-                                      rate=rate,
-                                      certified=certified,)
-                try:
-                    pro.save()
-                except Exception as e:
-                    return JsonResponse(data=returnError(e.message))
-                return JsonResponse(data={STATUS: SUCCESS})
-            else:
-                return JsonResponse(data=returnError(SERVPRO_ALREADY_EXIST))
-        else:
-            return JsonResponse(data=missingError(missingFields))
-
-    def put(self, request):
-        inData = json.loads(request.body)
-        required = ['oldPhoneNum', 'name', 'email', 'phoneNum', 'contractLic', 'skills', 'founded']
-        missingFields = checkRequired(required, inData)
-        if(len(missingFields) == 0):
-            oldPhoneNum = inData.get('oldPhoneNum')
-            name = inData.get('name')
-            email = inData.get('email')
-            phoneNum = inData.get('phoneNum')
-            contractLic = inData.get('contractLic')
-            skills = inData.get('skills')
-            dateStr = inData.get('founded')
-            try:
-                founded = datetime.datetime.strptime(dateStr, "%Y-%m-%d").date()
-            except Exception as e:
-                return JsonResponse(data=returnError(INVALID_DATE + e.messsage))
-
-            # The ServiceProvider
-            proList = ServiceProvider.objects.filter(phoneNum=oldPhoneNum)
-            if proList.exists():
-                newProList = ServiceProvider.objects.filter(phoneNum=phoneNum)
-                if newProList.exists():
-                    return JsonResponse(data=returnError(SERVPRO_ALREADY_EXIST))
-                pro = proList[0]
-                pro.name = name
-                pro.email = email
-                pro.phoneNum = phoneNum
-                pro.contractLic = contractLic
-                pro.skills = skills
-                pro.founded = founded
-                try:
-                    pro.save()
-                except Exception as e:
-                    return JsonResponse(data=returnError(e.message))
-                return JsonResponse(data={STATUS: SUCCESS})
-            else:
-                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
-        else:
-            return JsonResponse(data=missingError(missingFields))
-
     def get(self, request, inPmId):
-        preferredProviders = PreferredProviders.objects.filter(pm__id=inPmId)
+        # This is token validation
+        try:
+            print(request.headers)
+            token = Token.objects.get(token=request.headers.get('Token'))
+            if(not token.isValid()):
+                return JsonResponse(returnError("Token has expired."))
+        except Exception as e:
+            return JsonResponse(returnError("Not a valid token."))
+
+        if(not token.isPm()):
+            return JsonResponse(returnError("You are not a pm."))
+        pm = token.getPm()
+
+        preferredProviders = PreferredProviders.objects.filter(pm=pm)
         niceList = []
         for prov in preferredProviders:
             niceList.append(prov.provider.toDict())
         return JsonResponse(data={'providers': niceList})
-
-    def delete(self, request):
-        inData = json.loads(request.body)
-        required = ['phoneNum']
-        missingFields = checkRequired(required, inData)
-        if(len(missingFields) == 0):
-            phoneNum = inData.get('phoneNum')
-            proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
-            if proList.exists():
-                pro = proList[0]
-                pro.delete()
-                return JsonResponse(data={STATUS: SUCCESS})
-            else:
-                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
-        else:
-            return JsonResponse(data=missingError(missingFields))

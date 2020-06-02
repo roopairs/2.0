@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from ..helperFuncs import postRooTokenAPI
 from ..Properties.models import Property
+from ..Tools.models import Token
 from .models import Appliance
 
 
@@ -54,8 +55,21 @@ def missingError(missingFields):
 class ApplianceView(View):
     # Create a new appliance
     def post(self, request):
+        # This is token validation
+        try:
+            print(request.headers)
+            token = Token.objects.get(token=request.headers.get('Token'))
+            if(not token.isValid()):
+                return JsonResponse(returnError("Token has expired."))
+        except Exception as e:
+            return JsonResponse(returnError("Not a valid token."))
+
+        if(not token.isPm()):
+            return JsonResponse(returnError("You are not a pm."))
+        pm = token.getPm()
+
         inData = json.loads(request.body)
-        required = ['name', 'category', 'location', 'propId', 'token']
+        required = ['name', 'category', 'location', 'propId']
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) != 0):
@@ -68,46 +82,61 @@ class ApplianceView(View):
         serialNum = inData.get('serialNum')
         location = inData.get('location')
         propId = inData.get('propId')
-        token = inData.get('token')
-        propList = Property.objects.filter(rooId=propId)
-        if propList.exists():
-            prop = propList[0]
 
-            url = BASE_URL + 'service-locations/' + str(propId) + '/equipment/'
-            data = {
-                       'display_name': name,
-                       'type': 1
-                   }
-            info = postRooTokenAPI(url, data, token)
-            if NON_FIELD_ERRORS in info:
-                return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
-            elif(info.get('detail') == 'Invalid token.'):
-                return JsonResponse(data=returnError(info.get('detail')))
-            rooAppId = info.get('id')
-            print("HERE: ", info)
-            app = Appliance(name=name,
-                            manufacturer=manufacturer,
-                            category=category,
-                            modelNum=modelNum,
-                            serialNum=serialNum,
-                            location=location,
-                            rooAppId=rooAppId,
-                            place=prop)
-            try:
-                app.save()
-            except Exception as e:
-                return JsonResponse(data=returnError(e.message))
-            data = {
-                    STATUS: SUCCESS,
-                    'appId': app.rooAppId
-                   }
-            return JsonResponse(data=data)
-        else:
-            return JsonResponse(data=returnError(PROPERTY_DOESNT_EXIST))
+        try:
+            prop = Property.objects.get(rooId=propId)
+            if(prop.pm != pm):
+                return JsonResponse(returnError("You do not own this property."))
+        except Exception as e:
+            return JsonResponse(returnError("Property doesn't exist."))
+
+        url = BASE_URL + 'service-locations/' + str(propId) + '/equipment/'
+        data = {
+                   'display_name': name,
+                   'type': 1
+               }
+        info = postRooTokenAPI(url, data, token.getRooPairsToken())
+
+        if NON_FIELD_ERRORS in info:
+            return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
+        elif(info.get('detail') == 'Invalid token.'):
+            return JsonResponse(data=returnError(info.get('detail')))
+
+        rooAppId = info.get('id')
+        app = Appliance(name=name,
+                        manufacturer=manufacturer,
+                        category=category,
+                        modelNum=modelNum,
+                        serialNum=serialNum,
+                        location=location,
+                        rooAppId=rooAppId,
+                        place=prop)
+        try:
+            app.save()
+        except Exception as e:
+            return JsonResponse(data=returnError(e.message))
+        data = {
+                STATUS: SUCCESS,
+                'appId': app.rooAppId
+               }
+        return JsonResponse(data=data)
 
     # Update a appliance
 
     def put(self, request):
+        # This is token validation
+        try:
+            print(request.headers)
+            token = Token.objects.get(token=request.headers.get('Token'))
+            if(not token.isValid()):
+                return JsonResponse(returnError("Token has expired."))
+        except Exception as e:
+            return JsonResponse(returnError("Not a valid token."))
+
+        if(not token.isPm()):
+            return JsonResponse(returnError("You are not a pm."))
+        pm = token.getPm()
+
         inData = json.loads(request.body)
         required = ['appId', 'newName', 'newCategory']
         missingFields = checkRequired(required, inData)
@@ -121,6 +150,12 @@ class ApplianceView(View):
         newModelNum = inData.get('newModelNum')
         newSerialNum = inData.get('newSerialNum')
         newLocation = inData.get('newLocation')
+
+        try:
+            appliance = Appliance.objects.get(rooAppId=appId, place__pm = pm)
+        except Exception as e:
+            return JsonResponse(returnError("An appliance doesn't exist with this id and pm."))
+
 
         # The Appliance
         appList = Appliance.objects.filter(rooAppId=appId)
@@ -138,47 +173,5 @@ class ApplianceView(View):
             except Exception as e:
                 return JsonResponse(data=returnError(e.message))
             return JsonResponse(data={STATUS: SUCCESS})
-        else:
-            return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
-
-    # Read a appliance (unused)
-
-    def get(self, request):
-        inData = json.loads(request.body)
-        required = ['appId']
-        missingFields = checkRequired(required, inData)
-        if(len(missingFields) != 0):
-            return JsonResponse(data=missingError(missingFields))
-
-        appId = inData.get('appId')
-        appList = Appliance.objects.filter(id=appId)
-        if appList.exists():
-            app = appList[0]
-            data = {
-                       STATUS: SUCCESS,
-                       'app': app.toDict(),
-                   }
-            return JsonResponse(data=data)
-        else:
-            return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
-
-    # delete a appliance (unused)
-
-    def delete(self, request):
-        inData = json.loads(request.body)
-        required = ['appId']
-        missingFields = checkRequired(required, inData)
-        if(len(missingFields) != 0):
-            return JsonResponse(data=missingError(missingFields))
-
-        appId = inData.get('appId')
-        appList = Appliance.objects.filter(id=appId)
-        if appList.exists():
-            app = appList[0]
-            app.delete()
-            data = {
-                       STATUS: SUCCESS,
-                   }
-            return JsonResponse(data=data)
         else:
             return JsonResponse(data=returnError(APPLIANCE_DOESNT_EXIST))
