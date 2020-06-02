@@ -93,6 +93,7 @@ class PreferredProviderView(View):
             return JsonResponse(data=missingError(missingFields))
             
         phoneNum = inData.get('phoneNum')
+        phoneNum = re.sub('\D', '', phoneNum)
 
         try:
             prov = ServiceProvider.objects.get(phoneNum=phoneNum)
