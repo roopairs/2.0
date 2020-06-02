@@ -72,39 +72,63 @@ def missingError(missingFields):
 @method_decorator(csrf_exempt, name='dispatch')
 class PreferredProviderView(View):
     def post(self, request):
+        # This is token validation
+        try:
+            print(request.headers)
+            token = Token.objects.get(token=request.headers.get('Token'))
+            if(not token.isValid()):
+                return JsonResponse(returnError("Token has expired."))
+        except Exception as e:
+            return JsonResponse(returnError("Not a valid token."))
+
+        if(not token.isPm()):
+            return JsonResponse(returnError("You are not a pm."))
+        pm = token.getPm()
+
         inData = json.loads(request.body)
-        required = ['phoneNum', 'pmId']
+        required = ['phoneNum']
         missingFields = checkRequired(required, inData)
 
-        if(len(missingFields) == 0):
-            phoneNum = inData.get('phoneNum')
-            pmId = inData.get('pmId')
-
-            proList = ServiceProvider.objects.filter(phoneNum=phoneNum)
-            pmList = PropertyManager.objects.filter(id=pmId)
-            if proList.exists() and pmList.exists():
-                prefList = PreferredProviders.objects.filter(provider=proList[0],
-                                                             pm=pmList[0])
-                if not prefList.exists():
-                    pref = PreferredProviders(provider=proList[0],
-                                              pm=pmList[0])
-                    pref.save()
-                    data = {
-                            STATUS: SUCCESS,
-                            'prefId': pref.id
-                           }
-                    return JsonResponse(data)
-                else:
-                    return JsonResponse(data=returnError(PREF_PRO_ALREADY_EXIST))
-            else:
-                if proList.exists():
-                    return JsonResponse(data=returnError(PROPERTY_MAN_DOESNT_EXIST))
-                return JsonResponse(data=returnError(SERVPRO_DOESNT_EXIST))
-
-        else:
+        if(len(missingFields) > 0):
             return JsonResponse(data=missingError(missingFields))
+            
+        phoneNum = inData.get('phoneNum')
+
+        try:
+            prov = ServiceProvider.objects.get(phoneNum=phoneNum)
+        except:
+            return JsonResponse(returnError("Service Provider does not exist with that phone number."))
+        
+        try:
+            prefList = PreferredProviders.objects.filter(provider=proList[0],
+                                                     pm=pmList[0])
+            return JsonResponse(data={STATUS, SUCCESS})
+        except:
+            pref = PreferredProviders(provider=prov,
+                                      pm=pm)
+            pref.save()
+            data = {
+                    STATUS: SUCCESS,
+                    'prefId': pref.id
+                   }
+            return JsonResponse(data)
+        else:
+            return JsonResponse(data=returnError(PREF_PRO_ALREADY_EXIST))
 
     def get(self, request, inPmId):
+        # This is token validation
+        try:
+            print(request.headers)
+            token = Token.objects.get(token=request.headers.get('Token'))
+            if(not token.isValid()):
+                return JsonResponse(returnError("Token has expired."))
+        except Exception as e:
+            return JsonResponse(returnError("Not a valid token."))
+
+        if(not token.isPm()):
+            return JsonResponse(returnError("You are not a pm."))
+        pm = token.getPm()
+
         preferredProviders = PreferredProviders.objects.filter(pm__id=inPmId)
         niceList = []
         #ALSO RETURN PROVID
@@ -116,6 +140,19 @@ class PreferredProviderView(View):
         return JsonResponse(data={'providers': niceList})
 
     def delete(self, request):
+        # This is token validation
+        try:
+            print(request.headers)
+            token = Token.objects.get(token=request.headers.get('Token'))
+            if(not token.isValid()):
+                return JsonResponse(returnError("Token has expired."))
+        except Exception as e:
+            return JsonResponse(returnError("Not a valid token."))
+
+        if(not token.isPm()):
+            return JsonResponse(returnError("You are not a pm."))
+        pm = token.getPm()
+
         inData = json.loads(request.body)
         required = ['prefId']
         missingFields = checkRequired(required, inData)
