@@ -135,6 +135,7 @@ class PreferredProviderView(View):
             dict = prov.provider.toDict()
             dict["prefId"] = prov.id
             niceList.append(dict)
+        print({'providers': niceList})
         return JsonResponse(data={'providers': niceList})
 
     def delete(self, request):
