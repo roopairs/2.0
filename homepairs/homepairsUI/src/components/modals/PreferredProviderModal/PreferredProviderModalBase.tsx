@@ -12,6 +12,7 @@ import setInputStyles from './styles';
 
 export type PreferredProviderModalDispatchProps = {
     onRemoveServiceProvider: (
+        token: string,
         serviceProvider: ServiceProvider, 
         displayError: (error:string) => void,
         navigation: NavigationRouteHandler) => any
@@ -41,6 +42,8 @@ export class PreferredProvidertModalBase extends React.Component<PreferredProvid
     serviceProvider;
 
     servicePhoneNum;
+
+    token;
 
     submitButton : ThinButtonProps = {
         name: 'Remove Provider', 
@@ -74,6 +77,7 @@ export class PreferredProvidertModalBase extends React.Component<PreferredProvid
         super(props);
         this.styles = setInputStyles(null);
         this.servicePhoneNum = props.navigation.getParam('serviceProvider');
+        this.token = props.navigation.getParam('token');
         this.serviceProvider = props.preferredProvider[this.servicePhoneNum];
         this.state = initialState;
         this.setInitialState = this.setInitialState.bind(this);
@@ -92,7 +96,7 @@ export class PreferredProvidertModalBase extends React.Component<PreferredProvid
         const {navigation, onRemoveServiceProvider} = this.props;
         this.setState({errorCheck: false});
         console.log('Clciked');
-        onRemoveServiceProvider(this.serviceProvider, this.displayError, navigation);
+        onRemoveServiceProvider(this.token, this.serviceProvider, this.displayError, navigation);
         console.log('Clciked after request');
 
     }
@@ -132,8 +136,6 @@ export class PreferredProvidertModalBase extends React.Component<PreferredProvid
     renderBody() {
         const {founded, email, phoneNum, contractLic, skills} = this.serviceProvider;
         const dateFounded = new Date(this.serviceProvider.founded);
-        console.log(`Render Body ${email}`);
-        console.log(this.serviceProvider);
 
         return (
             <View>

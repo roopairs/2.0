@@ -9,15 +9,15 @@ const DefaultMessage: string = "No service provider with this phone number was f
 
 const mapDispatchToProps : (dispatch: any) => AddServiceProviderDispatchProps = (dispatch: any) => ({
     onAddServiceProvider: (
-        pmId: number,
+        token: string,
         phoneNum: string,
         setInitialState: () => void, 
         displayError: (check: boolean, message?: string) => void, 
         navigation: NavigationRouteHandler) => 
     {
         // The api request takes care of itself. It will return a response that we can use. 
-        postPreferredProvider(pmId, phoneNum).then(() => {
-            dispatch(fetchPreferredProviders(String(pmId)));
+        postPreferredProvider(token, phoneNum).then(() => {
+            dispatch(fetchPreferredProviders(token));
             setInitialState();
             navigation.resolveModalReplaceNavigation(SERVICE_REQUEST);
         }).catch((error: Error) => {

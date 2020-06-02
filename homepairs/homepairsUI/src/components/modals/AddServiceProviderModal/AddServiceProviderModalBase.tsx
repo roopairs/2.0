@@ -11,7 +11,7 @@ import setInputStyles from './styles';
 
 export type AddServiceProviderDispatchProps = {
     onAddServiceProvider: (
-        pmId: number, 
+        token: string, 
         phoneNum: string,
         setInitialState: () => void, 
         displayError: (check: boolean, message?: string) => void, 

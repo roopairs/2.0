@@ -276,6 +276,7 @@ export class EditApplianceModalBase extends React.Component<Props, EditState> {
     async updateAppliance() {
         const { navigation, setAppliancesAndTenants } = this.props;
         const propId = navigation.getParam('propId');
+        const token = navigation.getParam('token');
         const { applianceId, category, appName, manufacturer, modelNum, serialNum, location } = this.state;
         const newAppliance: Appliance = {
             applianceId, category, appName, manufacturer,
@@ -283,8 +284,8 @@ export class EditApplianceModalBase extends React.Component<Props, EditState> {
             serialNum: Number(serialNum),
             location,
         };
-        await postUpdatedAppliance(propId, newAppliance, this.displayError, navigation).then(() => {
-            setAppliancesAndTenants(String(propId));
+        await postUpdatedAppliance(token, propId, newAppliance, this.displayError, navigation).then(() => {
+            setAppliancesAndTenants(String(propId), token);
         }).catch((error: Error) => {
             if (error.message.includes('500')) {
                 console.log(error.message);

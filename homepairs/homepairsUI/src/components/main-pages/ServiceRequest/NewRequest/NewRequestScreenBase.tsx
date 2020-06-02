@@ -264,8 +264,9 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     }
 
     fetchAppliances = async (propId: string) => {
+        const {token} = this.props;
         if (propId !== '') {
-            await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`).then((result) => {
+            await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`, {headers: {Token : token}}).then((result) => {
                 const { appliances } = result.data;
                 const applianceInfo: Appliance[] = [];
                 appliances.forEach(appliance => {
@@ -283,8 +284,8 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     };
 
     fetchServiceProviders = async () => {
-        const {pmId} = this.props;
-        await axios.get(`${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${pmId}/`).then((result) =>{
+        const {pmId, token} = this.props;
+        await axios.get(`${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${pmId}/`, {headers: {Token: token}}).then((result) =>{
             const {providers} = result.data;
             const providerInfo: ServiceProvider[] = [];
             providers.forEach(provider => {

@@ -97,10 +97,10 @@ export const fetchGoogleApiKey = () => {
 * @param {string} pmID - The id of the associated account. This is used to by the backend to 
 * determine which account needs the specified provider to be removed
 */
-export const fetchPreferredProviders = (pmId: string) => {
-    const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${pmId}/`;
+export const fetchPreferredProviders = (token: string) => {
+    const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
     return async (dispatch: (func: any) => void) => {
-        await axios.get(endpoint)
+        await axios.get(endpoint, {headers: {Token: token}})
         .then(result => {
             const {data} = result;
             const {providers} = data;
@@ -164,9 +164,9 @@ export const fetchNetworkProviders = (accountEmail: string) => {
  * thrown if the api request fails.
  */
 export const postPreferredProvider = async (
-    pmId: number, phoneNum: string,  onError: (error:string) => any = console.log) => {
+    token: string, phoneNum: string,  onError: (error:string) => any = console.log) => {
     const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
-    await axios.post(endpoint, {phoneNum, pmId: String(pmId)})
+    await axios.post(endpoint, {phoneNum}, {headers: {Token: token}})
     .then(response => {
         const {data} = response;
         const {status} = data;
@@ -196,6 +196,7 @@ export const postPreferredProvider = async (
  * thrown if the api request fails
  */
 export const deletePreferredProvider = (
+    token: string,
     serviceProvider: ServiceProvider, 
     displayError: (error:string) => void,
     navigation: NavigationRouteHandler) => {
@@ -203,7 +204,7 @@ export const deletePreferredProvider = (
     const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
     // Simply print the error if no error function was defined, otherwise use the defined function
     return async (dispatch: (func: any) => void) => { 
-        await axios.delete(endpoint, {data: {prefId}})
+        await axios.delete(endpoint, {data: {prefId}, headers: {Token: token}})
         .then(response => {
             const {data} = response;
             const {status} = data;
@@ -266,8 +267,9 @@ export const fetchServiceRequests = async (propId: string) => {
  * 
  * @param propId -Identity of the property to fetch the information from
  */
-export const fetchPropertyAppliancesAndTenants = async (propId: string) => {
-    const results = await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`).then((result) =>{
+export const fetchPropertyAppliancesAndTenants = async (propId: string, token: string) => {
+    const results = await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`, {headers: {Token : token}}).then((result) =>{
+        console.log(result);
         const {tenants, appliances} = result.data;
         const tenantInfo: TenantInfo[] = [];
         const applianceInfo: Appliance[] = [];
@@ -333,7 +335,8 @@ export const fetchAccount = (
             const {status, role} = data;
             const accountType = getAccountType(data);
             if(status === SUCCESS){
-                console.log(data)
+                console.log(data);
+                const {token} = data;
                 // Set the login state of the application to authenticated
                 dispatch(setAccountAuthenticationState(true));
                 dispatch(parseAccount(data));
@@ -342,7 +345,7 @@ export const fetchAccount = (
                     const {properties, pm} = data;
                     const {pmId} = pm; 
                     dispatch(fetchProperties(properties));
-                    dispatch(fetchPreferredProviders(pmId));
+                    dispatch(fetchPreferredProviders(token));
                 } else { // Assume role = tenant
                     const {properties, tenant} = data;
                     const {pm} = tenant;
@@ -350,7 +353,7 @@ export const fetchAccount = (
                     const pmAccountType = AccountTypes.PropertyManager;
                     const pmContact = {accountType:pmAccountType, firstName, lastName, email };
                     dispatch(fetchPropertyAndPropertyManager(properties, pmContact));
-                    dispatch(fetchPreferredProviders(pmId));
+                    dispatch(fetchPreferredProviders(token));
 
                 }
                 // Navigate page based on the Account Type
@@ -496,12 +499,17 @@ export const postNewProperty = (
         await axios
             .post( HOMEPAIRS_PROPERTY_ENDPOINT,
                 {
-                    streetAddress: newProperty.address,
+                    longAddress: newProperty.address,
                     numBed: newProperty.bedrooms,
                     numBath: newProperty.bathrooms,
                     maxTenants: newProperty.tenants,
                     pm: info.email,
-                    token: info.roopairsToken,
+                    
+                },
+                {
+                    headers: {
+                        Token: info.roopairsToken,
+                    },
                 },
             )
             .then(response => {
@@ -554,12 +562,17 @@ export const postUpdatedProperty = (
             .put( HOMEPAIRS_PROPERTY_ENDPOINT,
                 {
                   propId: editProperty.propId,
-                  streetAddress: editProperty.address,
+                  longAddress: editProperty.address,
                   numBed: editProperty.bedrooms,
                   numBath: editProperty.bathrooms,
                   maxTenants: editProperty.tenants,
                   pm: info.email,
-                  token: info.roopairsToken,
+                  
+                },
+                {
+                    headers: {
+                        Token : info.roopairsToken,
+                    },
                 },
             )
             .then(response => {
@@ -602,13 +615,17 @@ export const postNewAppliance = async (
         .post(HOMEPAIRS_APPLIANCE_ENDPOINT,
             {
                 propId: info.property.propId,
-                token: info.token,
                 name: newAppliance.appName, 
                 manufacturer: newAppliance.manufacturer, 
                 category: categoryToString(newAppliance.category),
                 modelNum: newAppliance.modelNum, 
                 serialNum: newAppliance.serialNum, 
                 location: newAppliance.location, 
+            },
+            {
+                headers: {
+                    Token: info.token,
+                },
             },
         )
         .then(response => {
@@ -641,6 +658,7 @@ export const postNewAppliance = async (
  * visibility of the modal of the calling component
  */
 export const postUpdatedAppliance = async (
+    token: string,
     propId: string,
     editAppliance: Appliance,
     displayError: (msg: string) => void,
@@ -656,6 +674,11 @@ export const postUpdatedAppliance = async (
                     newModelNum: editAppliance.modelNum, 
                     newSerialNum: editAppliance.serialNum, 
                     newLocation: editAppliance.location,
+                },
+                {
+                    headers: {
+                        Token: token,
+                    },
                 },
             )
             .then(response => {
