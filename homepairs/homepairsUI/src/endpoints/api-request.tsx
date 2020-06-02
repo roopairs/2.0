@@ -231,13 +231,21 @@ export const deletePreferredProvider = (
  * @param {object} props -List of information used to define the tenant. Expected 
  * information follows: propId, email, firstName, lastName, phoneNumber
  */
-export const updateTenant = async ({...props}) => {
-    const {propId, email, firstName, lastName, phoneNumber} = props;
+export const updateTenant = async (tenant: TenantInfo & {propId: string},
+    displayError: (error:string) => void = console.log) => {
+    const {propId, email, firstName, lastName, phoneNumber} = tenant;
     await axios.post(HOMEPAIRS_TENANT_EDIT_ENDPOINT, 
-        {email, propId, firstName, lastName, phoneNumber}).then((result) =>{
-        console.log(result);
+        {email, propId, firstName, lastName, phoneNumber}).then(response =>{
+        const {data} = response;
+        const {status, error} = data;
+        if(status !== SUCCESS){
+            console.log(response);
+            displayError(error);
+            throw Error(error);
+        }
     }).catch(error =>{
-        console.log(error);
+        displayError(error.toString());
+        throw error;
     });
 };
 
@@ -488,9 +496,7 @@ export const generateAccountForTenant = (accountDetails: TenantAccount, password
 export const postNewProperty = (
     newProperty: Property,
     info: AddNewPropertyState,
-    setInitialState: () => void,
-    displayError: (msg: string) => void,
-    navigation: NavigationRouteHandler,
+    displayError: (msg: string) => void = console.log,
 ) => {
     return async (dispatch: (arg0: any) => void) => {
         await axios
@@ -516,8 +522,6 @@ export const postNewProperty = (
                       tenants: newProperty.tenants,
                     };
                     dispatch(addProperty(newProp));
-                    setInitialState();
-                    navigation.resolveModalReplaceNavigation(navigationPages.PropertiesScreen);
                 } else {
                     const {error} = data;
                     displayError(error);
@@ -547,7 +551,6 @@ export const postUpdatedProperty = (
     editProperty: Property,
     info: EditPropertyState,
     displayError: (msg: string) => void,
-    navigation: any,
 ) => {
     return async (dispatch: (arg0: any) => void) => {
         return axios
@@ -566,8 +569,6 @@ export const postUpdatedProperty = (
                 const {data} = response;
                 const {status} = data;
                 if ( status === SUCCESS) {
-                    navigation.resolveModalReplaceNavigation(SingleProperty, 
-                        {propId: editProperty.propId});
                     dispatch(updateProperty(editProperty));
                 } else {
                     const {error} = data;
@@ -593,10 +594,8 @@ export const postUpdatedProperty = (
 // make docs
 export const postNewAppliance = async (
     newAppliance: Appliance,
-    info: AddApplianceState,
-    setInitialState: () => void,
     displayError: (msg: string) => void,
-    navigation: NavigationRouteHandler,
+    info: AddApplianceState,
 ) => {
     await axios
         .post(HOMEPAIRS_APPLIANCE_ENDPOINT,
@@ -614,14 +613,10 @@ export const postNewAppliance = async (
         .then(response => {
             const {data} = response;
             const {status} = data;
-            if (status === SUCCESS) {
-                const {property} = info;
-                const {propId} = property;
-                setInitialState();
-                navigation.resolveModalReplaceNavigation(SingleProperty, {propId});
-            } else {
+            if (status !== SUCCESS) {
                 const {error} = data;
                 displayError(error);
+                throw Error(error);
             }
         })
         .catch(error => console.log(error));
@@ -641,10 +636,8 @@ export const postNewAppliance = async (
  * visibility of the modal of the calling component
  */
 export const postUpdatedAppliance = async (
-    propId: string,
     editAppliance: Appliance,
     displayError: (msg: string) => void,
-    navigation: NavigationRouteHandler,
 ) => {
         await axios
             .put( HOMEPAIRS_APPLIANCE_ENDPOINT,
@@ -661,11 +654,10 @@ export const postUpdatedAppliance = async (
             .then(response => {
                 const {data} = response;
                 const {status} = data;
-                if (status === SUCCESS) {
-                  navigation.resolveModalReplaceNavigation(SingleProperty, {propId});
-                } else {
+                if (status !== SUCCESS) {
                     const {error} = data;
                     displayError(error);
+                    throw Error(error);
                 }
             })
             .catch(error => console.log(error));

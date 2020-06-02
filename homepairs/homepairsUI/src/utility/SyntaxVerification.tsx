@@ -58,14 +58,27 @@ export function isEmptyOrSpaces(str:string) : boolean {
  * -------------------------------------------------
  * isPositiveWholeNumber
  * -------------------------------------------------
- * @param {string} str
  * Test to see if the string is a string of digits. 
  * Returns a boolean based on the results
+ * 
+ * @param {string} str
  * 
  */
 export function isPositiveWholeNumber(str: string) : boolean {
     const expr = /^[0-9]*$/;
     return expr.test(str);
+}
+
+/**
+ * -------------------------------------------------
+ * isNotPositiveWholeNumber
+ * -------------------------------------------------
+ * Test to see if the string is NOT a string of digits. 
+ * Returns a boolean based on the results
+ * @param {string}str 
+ */
+export function isNotPositiveWholeNumber(str: string) : boolean {
+    return !isPositiveWholeNumber(str);
 }
 
 /**
@@ -99,4 +112,17 @@ export function isEmailSyntaxValid(email: string) : Boolean {
 export function isAlphaCharacterOnly(input: string){
     const expression = /^[A-Za-z]+$/;
     return expression.test(input.toString());
+}
+
+/**
+ * -------------------------------------------------
+ * isValidCharacter
+ * -------------------------------------------------
+ * @param {string} input 
+ * Test to see if the string fulfills whitelisted characters. These values are only allowed 
+ * to prevent XSR attacks. 
+ */
+export function isValidCharacter(input:string) : boolean {
+    const reg = /^[a-z\d\-_\s]+$/i;
+    return reg.test(input);
 }

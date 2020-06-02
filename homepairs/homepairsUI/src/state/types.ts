@@ -458,9 +458,9 @@ export type EditApplianceState = {
 export enum HomePairsDimensions {
     DROP_MENU_WIDTH = 700,
     MAX_PALLET = 700,
-    MIN_PALLET = 360,
+    MIN_PALLET = 330,
     MAX_CONTENT_SIZE = 500,
-    MIN_CONTENT_SIZE = 300,
+    MIN_CONTENT_SIZE = 320,
     MAX_BUTTON_WIDTH = 300,
     MIN_BUTTON_WIDTH = 200,
     MIN_PALLET_HEIGHT = Dimensions.get('window').height

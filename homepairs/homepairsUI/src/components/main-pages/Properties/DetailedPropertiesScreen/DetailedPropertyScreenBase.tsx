@@ -125,8 +125,8 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
     }
 
     openAddApplianceModal() {
-        const [,property] = getPropIdAndProperty(this.props);
-        this.navigation.navigate(navigationPages.AddApplianceModal, {property, token: this.token}, true);
+        const [propId] = getPropIdAndProperty(this.props);
+        this.navigation.navigate(navigationPages.AddApplianceModal, {propId, token: this.token}, true);
     }
 
     openEditApplianceModal(appliance: Appliance) {

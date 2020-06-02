@@ -1,6 +1,6 @@
 import React from 'react';
 import {filterList, isNullOrUndefined} from 'src/utility';
-import { InputForm, InputFormProps} from './InputForm';
+import { InputForm, InputFormProps } from './InputForm';
 
 
 export type SearchFormProps<T> = InputFormProps & {
@@ -97,4 +97,3 @@ export class SearchForm<T> extends React.Component<SearchFormProps<T>, State>{
         );
     }
 }
-
