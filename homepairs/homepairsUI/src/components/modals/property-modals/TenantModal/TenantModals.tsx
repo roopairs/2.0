@@ -7,7 +7,7 @@ import { DetailedPropertyMutatorDispatchProps, DetailedPropertyMutatorModal, wit
 import { FormProps, ValidationFunction, FormState, PropertyMutatorModal } from '../PropertyMutatorModal';
 
 const {SingleProperty} = navigationPages;
-type Props =  NavigationRouteScreenProps & DetailedPropertyMutatorDispatchProps;
+type Props =  NavigationRouteScreenProps & DetailedPropertyMutatorDispatchProps & {title: string};
 
 const formProps: FormProps[] = [
     {
@@ -127,6 +127,7 @@ export class TenantModalBase extends React.Component<Props> {
         const {propId, initialValues, onClickRemove, onClickSubmit, props} = this;
         const {title} = props;
         const {navigation} = this.props;
+        const renderRemove = (title === 'Edit Tenant'); 
 
         return(
             <PropertyMutatorModal
@@ -137,7 +138,7 @@ export class TenantModalBase extends React.Component<Props> {
                 initialValues={initialValues}
                 goBackRoute={{route: SingleProperty, params: {propId}}}
                 onClickSubmit={onClickSubmit}
-                onClickRemove={onClickRemove}/>
+                onClickRemove={renderRemove ? onClickRemove : undefined}/>
         );
     }
 }

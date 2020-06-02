@@ -5,7 +5,7 @@ import { AccountTypes, Account, HomePairsDimensions } from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import {isPasswordValid, isEmailSyntaxValid, 
-    isAlphaCharacterOnly, isEmptyOrSpaces, isPhoneNumberValid } from 'src/utility';
+    isValidCharacter, isEmptyOrSpaces, isPhoneNumberValid } from 'src/utility';
 import { navigationPages, NavigationRouteHandler, NavigationRouteScreenProps } from 'src/routes';
 import {Divider} from 'react-native-elements';
 import {HelperText} from 'react-native-paper';
@@ -221,11 +221,11 @@ export class SignUpScreenBase extends React.Component<SignUpProps,SignUpState> {
     validateForms() {
         const {firstName, lastName, password, cPassword, email, address, accountType, phoneNumber} = this.state;
         let check = true;
-        if (!isAlphaCharacterOnly(firstName)) {
+        if (!isValidCharacter(firstName)) {
             check = false;
             this.firstNameRef.current.setError(true);
         }
-        if (!isAlphaCharacterOnly(lastName)) {
+        if (!isValidCharacter(lastName)) {
             check = false;
             this.lastNameRef.current.setError(true);
         }
