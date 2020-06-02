@@ -351,6 +351,7 @@ class PropertyView(View):
         listOfApps = Appliance.objects.filter(place__rooId=inPropId)
         listOfNiceApps = []
         for app in listOfApps:
+            print("NOTHING HERE")
             listOfNiceApps.append(app.toDict())
 
         returnable = {
