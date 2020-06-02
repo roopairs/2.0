@@ -210,7 +210,7 @@ class RegisterView(View):
             lastName = inData.get('lastName')
             email = inData.get('email')
             password = inData.get('password')
-            pmCompanyName = '%s %s Property Rental' % (firstName, lastName)
+            pmCompanyName = '%s Property Rental' % (email)
 
             tempPms = PropertyManager.objects.filter(email=email)
             tempTens = Tenant.objects.filter(email=email)
