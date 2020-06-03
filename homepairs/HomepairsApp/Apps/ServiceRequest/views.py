@@ -138,7 +138,7 @@ class ServiceRequestView(View):
 
             status = 'Pending'
             data = {
-                        'service_company': provId,
+                        'service_company': prov.rooId,
                         'service_category': 1,
                         'service_type': typeNum,
                         'details': details,

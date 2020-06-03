@@ -16,6 +16,7 @@ class ServiceProvider(models.Model):
     logo = models.CharField(max_length=200, null=True)
     address = models.CharField(max_length=100, null=True)
     contractLic = models.CharField(max_length=20, null=True)
+    rooId = models.CharField(max_length=20, null=True)
     bio = models.CharField(max_length=200, null=True)
     rate = models.CharField(max_length=50, null=True)
     skills = models.CharField(max_length=200, null=True)
@@ -30,7 +31,7 @@ class ServiceProvider(models.Model):
                   "name": self.name,
                   "email": self.email,
                   "phoneNum": self.phoneNum,
-                  #"rooId": self.rooId,
+                  "rooId": self.rooId,
                   "contractLic": self.contractLic,
                   "skills": self.skills,
                   "website": self.website,
