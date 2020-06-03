@@ -24,7 +24,7 @@ const checkSession = async () => {
 
 function mapStateToProps(state: AppState): any {
     return {
-        authed: state.authenticated,
+        authed: state.authenticated.authed,
     };
 }
 const ConnectedApp = connect(mapStateToProps)(AppNavigator);
