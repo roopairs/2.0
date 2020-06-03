@@ -12,6 +12,7 @@ import {
 import * as BaseStyles from 'homepairs-base-styles';
 import Colors from 'homepairs-colors';
 import { ServiceProviderButton, ThinButton, ThinButtonProps } from 'src/elements';
+import { isNullOrUndefined } from 'src/utility';
 
 const colors = BaseStyles.LightColorTheme;
 const styles = StyleSheet.create({
@@ -195,7 +196,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
         const leftButtonStyle = preferredProvidersSelected ? styles.selectedLeftButton : styles.unselectedLeftButton;
         const rightButtonStyle = preferredProvidersSelected ? styles.unselectedRightButton : styles.selectedRightButton;
         return (
-            <View style={{ width: '100%', alignSelf: 'center', justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{ width: '100%', alignSelf: 'center', justifyContent: 'center', alignItems: 'center' }}>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
                         testID='service-radio-preferred'
@@ -203,7 +204,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                         onPressIn={this.onPressPreferred}>
                         <Text style={preferredProvidersSelected ?
                             styles.selectedText : styles.unselectedText}>
-                            {"Preferred"}
+                            Preferred
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -212,7 +213,7 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
                         onPressIn={this.onPressNetwork}>
                         <Text style={preferredProvidersSelected ?
                             styles.unselectedText : styles.selectedText}>
-                            {"Network"}
+                            Network
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -299,6 +300,16 @@ export default class ChooseServiceProvider extends Component<ServiceProviderRadi
     renderPreferredProviders() {
         const { serviceProviders } = this.props;
         const filteredServiceProviders = serviceProviders; // TO DO IMPLEMENT FILTER
+
+        if (isNullOrUndefined(filteredServiceProviders) || filteredServiceProviders.length === 0) {
+            return (
+                <View style={styles.textContainer}>
+                    <Text style={styles.networkErrorText}>
+                        {"No Preferred Providers are designated for this property. \nPlease have the property manager add a Preferred Provider."}
+                    </Text>
+                </View>
+            );
+        }
 
         return (
             filteredServiceProviders.map(

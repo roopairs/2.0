@@ -145,7 +145,6 @@ export default StyleSheet.create({
         alignSelf: 'center',
     },
     emptyText: {
-        color: colors.red,
         alignSelf: 'center',
         fontSize: BaseStyles.FontTheme.reg,
         margin: BaseStyles.MarginPadding.largeConst,
