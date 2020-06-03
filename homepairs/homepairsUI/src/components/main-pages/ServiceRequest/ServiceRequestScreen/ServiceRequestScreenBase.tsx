@@ -611,10 +611,9 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                     {this.renderFilteredServiceRequestsSubtitles()}
                     {filteredServiceRequests.map(
                         serviceRequest => {
-                            const { appliance } = serviceRequest;
-                            const { applianceId } = appliance;
+                            const { reqId, status } = serviceRequest;
                             const active = serviceRequest.status === "Pending" || serviceRequest.status === "Scheduled" || serviceRequest.status === "InProgress";
-                            return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} active={active} />);
+                            return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} active={active} />);
                         })}
                 </>
             </>
@@ -631,9 +630,8 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                         <Text style={styles.formTitle}>WAITING APPROVAL</Text>
                         {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.WaitingApproval).map(
                             serviceRequest => {
-                                const { appliance } = serviceRequest;
-                                const { applianceId } = appliance;
-                                return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
+                                const { reqId, status } = serviceRequest;
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
                             })}
                     </>
                     : <></>}
