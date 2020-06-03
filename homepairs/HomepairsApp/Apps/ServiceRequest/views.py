@@ -120,7 +120,7 @@ class ServiceRequestView(View):
         if not app.exists():
             app = None
         types = ['Repair', 'Installation', 'Maintenance']
-        typeNum = -1
+        typeNum = 1
         for i in range(0, len(types)):
             if types[i] == serviceType:
                 typeNum = i + 1
@@ -216,13 +216,13 @@ class ServiceRequestView(View):
         if req.status == 'WaitingApproval' and status == 'Pending':
             url = BASE_URL + 'service-locations/' + '/propId/jobs/'
             types = ['Repair', 'Installation', 'Maintenance']
-            typeNum = -1
+            typeNum = 1
             for i in range(0, len(types)):
                 if types[i] == req.serviceType:
                     typeNum = i + 1
 
             data = {
-                        'service_company': req.location.id,
+                        'service_company': req.serviceCompany.rooId,
                         'service_category': 1,
                         'service_type': typeNum,
                         'details': req.details,
