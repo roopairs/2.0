@@ -192,5 +192,13 @@ describe('Test isPositiveWholeNumber Function', () =>{
     test.each(nonPositiveWholeNumbers)('This value should return false', (value) => {
         expect(isPositiveWholeNumber(value)).toBeFalsy();
     });
+});
 
+describe('Test isNotPositiveWholeNumber Function', () =>{
+    test.each(positiveWholeNumbers)('This value should return true', (value) => {
+        expect(isPositiveWholeNumber(value)).toBeFalsy();
+    });
+    test.each(nonPositiveWholeNumbers)('This value should return false', (value) => {
+        expect(isPositiveWholeNumber(value)).toBeTruthy();
+    });
 });

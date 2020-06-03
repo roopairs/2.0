@@ -292,16 +292,26 @@ function SinglePropertySwitch() {
                   <Route exact path={`${EDIT_PROPERTY_MODAL}/:propId`}><EditPropertyModal /></Route>
                   <Route path={`${ADD_TENANT_MODAL}/:propId`}><AddTenantModal/></Route>
                   <Route path={`${EDIT_TENANT_MODAL}/:propId`}><EditTenantModal/></Route>
+<<<<<<< HEAD
                   <Route path={`${ADD_APPLIANCE_MODAL}/:propId/:property`}><AddApplianceModal/></Route>
                   <Route path={`${EDIT_APPLIANCE_MODAL}/:token/:propId/:appliance`}><EditApplianceModal/></Route>
+=======
+                  <Route path={`${ADD_APPLIANCE_MODAL}/:token/:propId`}><AddApplianceModal/></Route>
+                  <Route path={`${EDIT_APPLIANCE_MODAL}/:propId/:appliance`}><EditApplianceModal/></Route>
+>>>>>>> 88c2a1c9d0a99a65336dabfc27284c9fea30b526
               </Switch>
       
               {/* Show the modal when a background page is set */}
               {background && <Route path={`${EDIT_PROPERTY_MODAL}/:propId`}> <EditPropertyReadyModal /> </Route>}
               {background && <Route path={`${ADD_TENANT_MODAL}/:propId`}><AddTenantReadyModal/></Route>}
               {background && <Route path={`${EDIT_TENANT_MODAL}/:tenant/:propId`}><EditTenantReadyModal/></Route>}
+<<<<<<< HEAD
               {background && <Route path={`${ADD_APPLIANCE_MODAL}/:token/:property`}><AddApplianceReadyModal/></Route>}
               {background && <Route path={`${EDIT_APPLIANCE_MODAL}/:token/:propId/:appliance`}><EditApplianceReadyModal/></Route>}
+=======
+              {background && <Route path={`${ADD_APPLIANCE_MODAL}/:token/:propId`}><AddApplianceReadyModal/></Route>}
+              {background && <Route path={`${EDIT_APPLIANCE_MODAL}/:propId/:appliance`}><EditApplianceReadyModal/></Route>}
+>>>>>>> 88c2a1c9d0a99a65336dabfc27284c9fea30b526
 
           </>
       

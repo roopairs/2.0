@@ -2,7 +2,7 @@ import React, { Component } from 'react'; //* *For every file that uses jsx, YOU
 import { Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider, AccountTypes } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import { StyleSheet, Text, View} from 'react-native';
-import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber, isPhoneNumberValid, isAlphaCharacterOnly } from 'src/utility';
+import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber, isPhoneNumberValid, isValidCharacter } from 'src/utility';
 import {NavigationRouteScreenProps} from 'homepairs-routes';
 import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel, DatePicker} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -183,6 +183,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     constructor(props: Readonly<NewRequestScreenProps>) {
         super(props);
 
+        console.log(isValidCharacter('adf000dfa sdfasd'));
         this.getFormAddress = this.getFormAddress.bind(this);
         this.getFormCategory = this.getFormCategory.bind(this);
         this.getFormAppliance = this.getFormAppliance.bind(this);
@@ -342,7 +343,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
             this.pocRef.current.setError(true);
             check = false;
         }
-        if (!isAlphaCharacterOnly(pocName)) {
+        if (!isValidCharacter(pocName)) {
             this.pocNameRef.current.setError(true);
             check = false;
         }

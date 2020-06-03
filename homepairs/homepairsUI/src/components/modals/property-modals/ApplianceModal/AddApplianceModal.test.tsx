@@ -9,7 +9,7 @@ import { mockStackNavigation, navigationStackSpyFunction} from 'homepairs-test';
 import { NavigationStackScreenProps, NavigationStackProp } from 'react-navigation-stack';
 import { TextInput, View, ScrollView, Text } from 'react-native';
 import {HelperText} from 'react-native-paper';
-import {AddApplianceModalBase} from "./AddApplianceModal";
+import {AddApplianceModalBase} from "../AddApplianceModal/AddApplianceModal";
 
 jest.mock('homepairs-images');
 
