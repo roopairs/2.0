@@ -10,6 +10,7 @@ import {
     ChooseMainPage, 
 } from 'src/routes';
 import setStyles from './styles';
+import { navigationPages } from '../../../routes/RouteConstants';
 
 export type HomePairsMenuProps = {
 
@@ -133,11 +134,15 @@ export default class HomePairsMenu extends React.Component<Props> {
         // to the Properties
         this.setSelected(value);
         this.closeMenu();
-        if(value.title === 'Log Out'){
+        console.log(value.navigate)
+        if(value.navigate === navigationPages.LoginScreen){
+            navigation.navigate(value.navigate);
             setAuthenticatedState(false);
+            return;
         }
 
-        if(value.title === 'My Properties'){
+        if(value.navigate === navigationPages.PropertiesScreen 
+            || value.navigate === navigationPages.TenantProperty){
             ChooseMainPage(accountType, navigation);
         }else{
             navigation.navigate(value.navigate);

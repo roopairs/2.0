@@ -6,7 +6,7 @@ import { withNavigation } from 'react-navigation';
 import { withRouter } from "react-router-dom";
 import { Platform } from "react-native";
 import {NavigationRouteHandler, withNavigationRouteHandler } from 'src/routes';
-import { generateAccountForPM, generateAccountForTenant } from 'homepairs-endpoints';
+import { generateAccountForPM, generateAccountForTenant, fetchGoogleApiKey } from 'homepairs-endpoints';
 import { SignUpScreenBase, SignUpViewDispatchProps } from "./SignUpScreenBase";
 import {
   AuthPassProps,
@@ -29,6 +29,7 @@ const mapDispatchToProps : (dispatch: any) => SignUpViewDispatchProps = (dispatc
       modalSetOff: () => any,
       navigation?: NavigationRouteHandler,
       displayError?: (msg: string) => any) => {
+        dispatch(fetchGoogleApiKey());
         if (details.accountType === AccountTypes.PropertyManager) {
             dispatch(generateAccountForPM(details, password, navigation, modalSetOff, displayError));
         } else {
