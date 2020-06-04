@@ -2,16 +2,14 @@ import { connect } from "react-redux";
 import { Account, AccountTypes, TenantAccount } from "homepairs-types";
 import strings from "homepairs-strings";
 import {LightColorTheme} from "homepairs-base-styles";
-import { withNavigation } from 'react-navigation';
-import { withRouter } from "react-router-dom";
-import { Platform } from "react-native";
-import {NavigationRouteHandler, withNavigationRouteHandler } from 'src/routes';
+import {NavigationRouteHandler,  prepareNavigationHandlerComponent } from 'src/routes';
 import { generateAccountForPM, generateAccountForTenant, fetchGoogleApiKey } from 'homepairs-endpoints';
 import { SignUpScreenBase, SignUpViewDispatchProps } from "./SignUpScreenBase";
 import {
   AuthPassProps,
   withAuthPage,
 } from '../AuthPage/WithAuthPage';
+
 
 const signUpStrings = strings.signUpPage;
 const authPageParam: AuthPassProps = {
@@ -40,7 +38,6 @@ const mapDispatchToProps : (dispatch: any) => SignUpViewDispatchProps = (dispatc
 
 
 const SignUpScreen = connect(null, mapDispatchToProps)(SignUpScreenBase);
-const NavigableAuthPage = withNavigationRouteHandler(SignUpScreen);
-const NavigateReadyAuthPage = Platform.OS === 'web' ? withRouter(NavigableAuthPage) : withNavigation(NavigableAuthPage);
-const AuthPage = withAuthPage(NavigateReadyAuthPage, authPageParam);
+const NavigableAuthPage = prepareNavigationHandlerComponent(SignUpScreen);
+const AuthPage = withAuthPage(NavigableAuthPage, authPageParam);
 export default AuthPage;

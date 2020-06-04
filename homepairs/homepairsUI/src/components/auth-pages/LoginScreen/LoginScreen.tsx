@@ -8,6 +8,7 @@ import {
   AuthPassProps,
   withAuthPage,
 } from '../AuthPage/WithAuthPage';
+import withAndroidBackHandler from '../../WithBackHandler';
 
 const signInStrings = strings.signInPage;
 const authPageParam: AuthPassProps = {

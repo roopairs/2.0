@@ -115,7 +115,8 @@ export default class HomePairsMenu extends React.Component<Props> {
      * @param {MainAppStackType} value 
      */
     setSelected(value: MainAppStackType) {
-        const {parentCallBack} = this.props;
+        const {parentCallBack, navigation} = this.props;
+        console.log(navigation.state)
         const [first] = this.MainAppStack; 
         let page = value;
         if (value.title === this.MainAppStack[this.MainAppStack.length - 1].title)
@@ -135,6 +136,7 @@ export default class HomePairsMenu extends React.Component<Props> {
         this.setSelected(value);
         this.closeMenu();
         console.log(value.navigate)
+        console.log(navigation)
         if(value.navigate === navigationPages.LoginScreen){
             navigation.navigate(value.navigate);
             setAuthenticatedState(false);
