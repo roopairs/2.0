@@ -254,7 +254,8 @@ class ServiceRequestView(View):
 
         if(not token.isPm()):
             return JsonResponse(returnError("You are not a pm."))
-        pm = token.getPm()
+        else:
+            pm = token.getTenant().pm
 
         try:
             prop = Property.objects.get(rooId=inPropId)
