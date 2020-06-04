@@ -113,10 +113,6 @@ export const MainAppStack: MainAppStackType[] = [
         button: 'Request Service',
     },
     {
-        title: 'Account Settings',
-        navigate: navigationPages.AccountSettings,
-    },
-    {
         title: 'Sign Out',
         navigate: navigationPages.LoginScreen,
     },
