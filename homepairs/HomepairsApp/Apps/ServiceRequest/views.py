@@ -114,6 +114,11 @@ class ServiceRequestView(View):
         serviceDate = dateutil.parser.parse(serviceDateStr)
 
         try:
+            prop = Property.objects.get(rooId=propId)
+        except Exception as e:
+            return JsonResponse(returnError("This property cannot be found."))
+
+        try:
             app = Appliance.objects.get(rooAppId=appId)
         except Exception as e:
             app = None
@@ -167,7 +172,7 @@ class ServiceRequestView(View):
                              serviceCompany=prov,
                              serviceType=str(typeNum),
                              status=status,
-                             client=str(prop.pm),
+                             client=str(pm),
                              serviceDate=serviceDate,
                              details=details,
                              poc=poc,
