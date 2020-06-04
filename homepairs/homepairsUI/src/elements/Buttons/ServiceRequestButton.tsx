@@ -6,7 +6,7 @@ import {
     StyleSheet,
     Image,
 } from 'react-native';
-import {ServiceRequest, AccountTypes} from 'homepairs-types';
+import {ServiceRequest, AccountTypes, ServiceRequestStatusEnums} from 'homepairs-types';
 import * as BaseStyles from 'homepairs-base-styles';
 import { HomePairFonts } from 'homepairs-fonts';
 import { clock } from 'homepairs-images';
@@ -15,7 +15,7 @@ import {categoryToString} from 'src/utility';
 
 export type ServiceRequestButtonProps = {
     onClick?: (serviceRequest: ServiceRequest) => any,
-    active?: boolean,
+    activeType?: ServiceRequestStatusEnums,
     serviceRequest?: ServiceRequest,
 }
 
@@ -63,12 +63,26 @@ const styles = StyleSheet.create({
 });
 
 export default function ServiceRequestButton(props: ServiceRequestButtonProps) {
-    const {onClick, active, serviceRequest} = props;
+    const {onClick, activeType, serviceRequest} = props;
     Moment.locale('en');
     const date = Moment(serviceRequest.startDate.toString()).format('LLL');
 
+    let borderColor = colors.lightGray;
+    if(activeType === ServiceRequestStatusEnums.Pending){
+        borderColor = colors.roopairs;
+    }
+    else if(activeType === ServiceRequestStatusEnums.Scheduled){
+        borderColor = colors.roopairs_blue;
+    }
+    else if(activeType === ServiceRequestStatusEnums.InProgress){
+        borderColor = colors.roopairs_purple;
+    }
+    else{
+        borderColor = colors.lightGray;
+    }
+
     return (
-        <View style={[styles.container, {borderLeftColor: active ? colors.roopairs : colors.lightGray}]}>
+        <View style={[styles.container, {borderLeftColor: borderColor}]}>
             <TouchableOpacity
                 testID='click-service-request-button'
                 style={styles.buttonStyle}
@@ -96,5 +110,5 @@ export default function ServiceRequestButton(props: ServiceRequestButtonProps) {
 
 ServiceRequestButton.defaultProps = {
     onClick: () => {}, 
-    active: true,
+    activeType: ServiceRequestStatusEnums.Pending,
 };

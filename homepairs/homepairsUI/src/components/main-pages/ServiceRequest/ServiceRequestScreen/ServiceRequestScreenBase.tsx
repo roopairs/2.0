@@ -813,3 +813,67 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         );
     }
 }
+
+/* renderFilteredServiceRequests() {
+        const { requestSelected, serviceRequests, waitingApproval, pending, scheduled, inProgress, completed, canceled, declined } = this.state;
+        const filteredServiceRequests: ServiceRequest[] = filterTabbedObjects(serviceRequests, requestSelected);
+
+        return (
+            <>
+                {this.renderFilteredServiceRequestsWaitingApproval()}
+                <>
+                    {this.renderFilteredServiceRequestsSubtitles()}
+                    {filteredServiceRequests.map(
+                        serviceRequest => {
+                            const { reqId, status } = serviceRequest;
+                            const active = serviceRequest.status === "Pending" || serviceRequest.status === "Scheduled" || serviceRequest.status === "InProgress";
+                            
+                            if(status === ServiceRequestStatusEnums.Scheduled && scheduled > 0){
+                                return this.renderFilteredServiceRequestsScheduled();
+                            }
+                            
+                            return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} active={active} />);
+                        })}
+                </>
+            </>
+        );
+    } */
+
+
+    /* renderFilteredServiceRequestsSubtitles() {
+        const { requestSelected, pending, scheduled, inProgress, completed, canceled, declined } = this.state;
+        let printActive: boolean = false;
+        let printInactive: boolean = false;
+
+        switch (ServiceRequestStatusEnums[requestSelected]) {
+            case ServiceRequestStatusEnums.Pending:
+                if (pending > 0) { printActive = true; }
+                break;
+            case ServiceRequestStatusEnums.Scheduled:
+                if (scheduled > 0) { printActive = true; }
+                break;
+            case ServiceRequestStatusEnums.InProgress:
+                if (inProgress > 0) { printActive = true; }
+                break;
+            case ServiceRequestStatusEnums.Completed:
+                if (completed > 0) { printInactive = true; }
+                break;
+            case ServiceRequestStatusEnums.Canceled:
+                if (canceled > 0) { printInactive = true; }
+                break;
+            case ServiceRequestStatusEnums.Declined:
+                if (declined > 0) { printInactive = true; }
+                break;
+            default:
+                break;
+        }
+        if (printActive) {
+            return (<>< Text style={styles.formTitle} >ACTIVE</Text></>);
+        }
+
+        if (printInactive) {
+            return (<><Text style={styles.formTitle}>INACTIVE</Text></>);
+        }
+
+        return (<></>);
+    } */
