@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { createAppContainer, SafeAreaView } from 'react-navigation';
+import { createAppContainer, SafeAreaView, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator, NavigationStackConfig, NavigationStackOptions } from 'react-navigation-stack';
 import { Platform, View } from 'react-native';
 import { LightColorTheme } from 'homepairs-base-styles';
 import { navigationKeys, navigationPages } from 'src/routes';
-import { AppState, AccountTypes } from 'homepairs-types';
-import { connect } from 'react-redux';
+import { withAndroidBackExit} from './WithBackHandler';
+
 import {
     LoginScreen,
     SignUpScreen,
@@ -105,6 +105,11 @@ const propertyStackConfig = {
     mode: 'modal',
 };
 
+const propertyPageConfig = {
+    ...innerStackConfig,
+    mode: 'modal',
+};
+
 const serviceRequestStackConfig = {
     initialRouteName: navigationPages.ServiceRequestScreen,
     ...innerStackConfig,
@@ -126,12 +131,43 @@ const PropertyStack = createStackNavigator(
     propertyStackConfig,
 );
 
+const PropertyPages = createStackNavigator(
+    {
+        [navigationKeys.PropertyStack] : PropertyStack,
+        [navigationKeys.AddNewPropertyModal]: AddNewPropertyModal,
+        [navigationKeys.EditPropertyModal]: EditPropertyModal,
+        [navigationKeys.AddApplianceModal]: AddApplianceModal, 
+        [navigationKeys.EditApplianceModal]: EditApplianceModal,
+        [navigationKeys.EditTenantModal]: EditTenantModal,
+        [navigationKeys.AddTenantModal]: AddTenantModal,
+    },
+    {
+        initialRouteName: navigationKeys.PropertyStack,
+        ...navigationConfiguration,
+    },
+);
+
 const ServiceRequestStack = createStackNavigator(
     {
       [navigationKeys.ServiceRequestScreen]: ServiceRequestPage, 
       [navigationKeys.NewRequest]: NewRequestPage,
     }, 
-  serviceRequestStackConfig);
+    serviceRequestStackConfig,
+);
+
+const ServiceRequestPages = createStackNavigator(
+    {
+        [navigationKeys.ServiceRequestStack]: ServiceRequestStack,
+        [navigationKeys.ServiceRequestModal]: ServiceRequestModal,
+        [navigationKeys.AddServiceProviderModal]: AddServiceProviderModal,
+        [navigationKeys.PreferredProviderModal]: PreferredProviderModal,
+    },
+    {
+        initialRouteName: navigationKeys.ServiceRequestStack,
+        ...navigationConfiguration,
+    },
+);
+
   
 const AccountStack = createStackNavigator(
     {
@@ -143,21 +179,11 @@ const AccountStack = createStackNavigator(
 /**
  * If you wish to add a modal to the stack, do so HERE!
  */
-const MainStack = createStackNavigator(
+const MainStack = createSwitchNavigator(
     {
-        [navigationKeys.Properties]: PropertyStack,
-        [navigationKeys.ServiceRequest]: ServiceRequestStack,
+        [navigationKeys.Properties]: PropertyPages,
+        [navigationKeys.ServiceRequestPages]: ServiceRequestPages,
         [navigationKeys.Account]: AccountStack,
-
-        [navigationKeys.AddNewPropertyModal]: AddNewPropertyModal,
-        [navigationKeys.EditPropertyModal]: EditPropertyModal,
-        [navigationKeys.AddApplianceModal]: AddApplianceModal, 
-        [navigationKeys.EditApplianceModal]: EditApplianceModal,
-        [navigationKeys.EditTenantModal]: EditTenantModal,
-        [navigationKeys.AddTenantModal]: AddTenantModal,
-        [navigationKeys.ServiceRequestModal]: ServiceRequestModal,
-        [navigationKeys.AddServiceProviderModal]: AddServiceProviderModal,
-        [navigationKeys.PreferredProviderModal]: PreferredProviderModal,
     },
     {
         initialRouteName: navigationKeys.Properties,
@@ -170,6 +196,9 @@ const AuthStack = createStackNavigator(
         [navigationKeys.LoginScreen]: LoginScreen,
         [navigationKeys.RoopairsLogin]: RoopairsLogin,
         [navigationKeys.SignUpScreen]: SignUpScreen,
+        [navigationKeys.CreatingAccountModal]: CreatingAccountModal,
+        [navigationKeys.RoopairsLoggingInModal]: LoggingInModal,
+        [navigationKeys.LoggingInModal]: LoggingInModal,
     },
     {
         initialRouteName: navigationKeys.LoginScreen,
@@ -179,16 +208,10 @@ const AuthStack = createStackNavigator(
 
 // NOTE: All authentication modals should be defined at the highest parent navigator. This permits the modal to be replaced 
 // from any page in the program. It is just safer to define all modals up here. 
-const container = createStackNavigator(
+const container = createSwitchNavigator(
     {
         [navigationKeys.Main]: MainStack,
         [navigationKeys.Auth]: AuthStack,
-        [navigationKeys.LoginScreen]: LoginScreen,
-        [navigationKeys.RoopairsLogin]: RoopairsLogin,
-        [navigationKeys.SignUpScreen]: SignUpScreen,
-        [navigationKeys.CreatingAccountModal]: CreatingAccountModal,
-        [navigationKeys.RoopairsLoggingInModal]: LoggingInModal,
-        [navigationKeys.LoggingInModal]: LoggingInModal,
     },
     {
         initialRouteName: navigationKeys.Auth,

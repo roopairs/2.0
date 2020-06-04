@@ -14,7 +14,7 @@ export type SearchFormProps<T> = InputFormProps & {
      * Callback method for whenever the filteredArray is updated. This will typically be 
      * used to set/return the results back to the parent component. 
      */
-    parentCallBack: (filtredArray: T[], ...rest) => any;
+    filter: (filtredArray: T[], ...rest) => void;
 
     /**
      * A optional parameter that can be used to define which keys to search while filtering 
@@ -74,18 +74,14 @@ export class SearchForm<T> extends React.Component<SearchFormProps<T>, State>{
      * @param {string} text -text state of the input form 
      */
     invokeSearchFromInputForm(text: string){
-        const {objects, keys, parentCallBack} = this.props;
+        const {objects, keys, filter} = this.props;
         let filteredArray;
         if(isNullOrUndefined(objects))
-        {
             filteredArray = [];
-        }
         else
-        {
             filteredArray = filterList<T>(text, objects, keys);
-        }
         this.setState({text});
-        parentCallBack(filteredArray);
+        filter(filteredArray);
     }
 
     render(){

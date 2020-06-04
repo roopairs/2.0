@@ -46,7 +46,7 @@ export class PropertiesScreenBase extends React.Component<PropertiesScreenProps>
 
         onSelectProperty(propId);
         onRevealGoBack(true);
-        navigation.navigate(navigationPages.SingleProperty, {propId});
+        navigation.push(navigationPages.SingleProperty, {propId});
     }
 
     fetchPropertyImage(address: string) {
