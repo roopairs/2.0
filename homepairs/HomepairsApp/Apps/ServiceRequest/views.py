@@ -89,7 +89,7 @@ class ServiceRequestView(View):
         else:
             user = token.getTenant()
 
-        required = ['serviceCategory', 'serviceType', 'serviceDate', 'provId',
+        required = ['serviceCategory', 'serviceType', 'serviceDate',
                     'details', 'pocName', 'poc', 'propId', 'appId']
 
         if token.isPm():
