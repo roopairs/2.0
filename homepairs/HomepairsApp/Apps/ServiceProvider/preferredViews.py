@@ -121,7 +121,7 @@ class PreferredProviderView(View):
         else:
             return JsonResponse(data=returnError(PREF_PRO_ALREADY_EXIST))
 
-    def get(self, request, inPmId):
+    def get(self, request):
         # This is token validation
         try:
             print(request.headers)
@@ -135,7 +135,7 @@ class PreferredProviderView(View):
             return JsonResponse(returnError("You are not a pm."))
         pm = token.getPm()
 
-        preferredProviders = PreferredProviders.objects.filter(pm__id=inPmId)
+        preferredProviders = PreferredProviders.objects.filter(pm=pm)
         niceList = []
         #ALSO RETURN PROVID
         for prov in preferredProviders:
