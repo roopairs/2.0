@@ -102,8 +102,8 @@ class PreferredProviderView(View):
             return JsonResponse(returnError("Service Provider does not exist with that phone number."))
         
         try:
-            pref = PreferredProviders.objects.get(provider=proList[0],
-                                                      pm=pmList[0])
+            pref = PreferredProviders.objects.get(provider=prov,
+                                                      pm=pm)
             data = {
                     STATUS: SUCCESS,
                     'prefId': pref.id
