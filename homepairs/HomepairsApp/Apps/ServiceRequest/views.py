@@ -265,7 +265,7 @@ class ServiceRequestView(View):
         except Exception as e:
             return JsonResponse(returnError("Property not found with that id."))
 
-        reqList = ServiceRequest.objects.filter(location__rooId=inPropId)
+        reqList = ServiceRequest.objects.filter(location__pm=pm)
         if reqList.exists():
             newList = []
             for i in reqList:
