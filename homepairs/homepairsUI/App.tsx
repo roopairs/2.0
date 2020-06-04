@@ -25,6 +25,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
+/* THIS BREAKS ON MOBILE!!!! */
+/*
 try {
     firebase.initializeApp(firebaseConfig);
 } catch (err) {
@@ -39,6 +41,10 @@ const performance_standalone = 'https://www.gstatic.com/firebasejs/7.14.4/fireba
 
 (function (sa, fbc) {
     function load(f, c) {
+
+        // NOTE: Why are you attempting to access the DOM, This will only work on web. For mobile 
+        // platforms, their is not DOM. 
+        
         var a = document.createElement('script');
         a.async = 1;
         a.src = f;
@@ -58,9 +64,6 @@ firebase.analytics(firebaseApp);
     */
 const checkSession = async () => {
     await LoadFonts();
-    await AsyncStorage.getItem('persist:root').then(response => {
-        
-    });
 };
 
 function mapStateToProps(state: AppState): any {
