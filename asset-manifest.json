@@ -1,11 +1,11 @@
 {
   "files": {
-    "app.js": "/2.0/static/js/app.d446bd3b.chunk.js",
-    "app.js.map": "/2.0/static/js/app.d446bd3b.chunk.js.map",
-    "runtime~app.js": "/2.0/static/js/runtime~app.1a737d44.js",
-    "runtime~app.js.map": "/2.0/static/js/runtime~app.1a737d44.js.map",
-    "static/js/2.e77e2213.chunk.js": "/2.0/static/js/2.e77e2213.chunk.js",
-    "static/js/2.e77e2213.chunk.js.map": "/2.0/static/js/2.e77e2213.chunk.js.map",
+    "app.js": "/2.0/static/js/app.61ef83a7.chunk.js",
+    "app.js.map": "/2.0/static/js/app.61ef83a7.chunk.js.map",
+    "runtime~app.js": "/2.0/static/js/runtime~app.40dcd341.js",
+    "runtime~app.js.map": "/2.0/static/js/runtime~app.40dcd341.js.map",
+    "static/js/2.07e0d2e5.chunk.js": "/2.0/static/js/2.07e0d2e5.chunk.js",
+    "static/js/2.07e0d2e5.chunk.js.map": "/2.0/static/js/2.07e0d2e5.chunk.js.map",
     "fonts/AntDesign.ttf": "/2.0/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/2.0/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/2.0/./fonts/Feather.ttf",
@@ -59,8 +59,8 @@
     "static/media/upArrow.png": "/2.0/static/media/upArrow.b8d8110c.png"
   },
   "entrypoints": [
-    "static/js/runtime~app.1a737d44.js",
-    "static/js/2.e77e2213.chunk.js",
-    "static/js/app.d446bd3b.chunk.js"
+    "static/js/runtime~app.40dcd341.js",
+    "static/js/2.07e0d2e5.chunk.js",
+    "static/js/app.61ef83a7.chunk.js"
   ]
 }
