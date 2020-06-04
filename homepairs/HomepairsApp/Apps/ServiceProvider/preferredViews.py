@@ -1,5 +1,6 @@
 import datetime
 import json
+import re
 
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
@@ -92,6 +93,7 @@ class PreferredProviderView(View):
             return JsonResponse(data=missingError(missingFields))
             
         phoneNum = inData.get('phoneNum')
+        phoneNum = re.sub('\D', '', phoneNum)
 
         try:
             prov = ServiceProvider.objects.get(phoneNum=phoneNum)

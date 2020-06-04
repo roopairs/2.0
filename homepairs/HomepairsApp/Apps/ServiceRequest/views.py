@@ -12,6 +12,7 @@ from ..helperFuncs import postRooTokenAPI
 from ..Properties.models import Property
 from ..Tenants.models import Tenant
 from ..ServiceProvider.models import ServiceProvider
+from ..Tools.models import Token
 from .models import ServiceRequest
 
 
@@ -91,11 +92,11 @@ class ServiceRequestView(View):
         required = ['serviceCategory', 'serviceType', 'serviceDate', 'provId',
                     'details', 'pocName', 'poc', 'propId', 'appId']
 
-        if isPm:
+        if token.isPm():
             required.append('provId')
         else:
             required.append('phoneNumber')
-
+        inData = json.loads(request.body)
         missingFields = checkRequired(required, inData)
 
         if(len(missingFields) > 0):
@@ -108,7 +109,6 @@ class ServiceRequestView(View):
         details = inData.get('details')
         propId = inData.get('propId')
         appId = inData.get('appId')
-        token = inData.get('token')
         poc = inData.get('poc')
         pocName = inData.get('pocName')
         serviceDate = dateutil.parser.parse(serviceDateStr)
@@ -117,9 +117,10 @@ class ServiceRequestView(View):
             app = Appliance.objects.filter(rooAppId=appId)
         except Exception as e:
             return JsonResponse(returnError("Could not find an appliance with that id."))
-
+        if not app.exists():
+            app = None
         types = ['Repair', 'Installation', 'Maintenance']
-        typeNum = -1
+        typeNum = 1
         for i in range(0, len(types)):
             if types[i] == serviceType:
                 typeNum = i + 1
@@ -127,18 +128,18 @@ class ServiceRequestView(View):
         if token.isPm():
             # Make sure the property exists and is owned by the requester
             try:
-                prop = Property.objects.get(rooId=propId, pm=pm)
+                prop = Property.objects.get(rooId=propId)
             except Exception as e:
                 return JsonResponse(returnError("This property cannot be found."))
 
             try:
-                prov = ServiceProvider.objects.get(rooId=provId)
+                prov = ServiceProvider.objects.get(id=provId)
             except Exception as e:
                 return JsonResponse(returnError("Service Provider not found with that id"))
 
             status = 'Pending'
             data = {
-                        'service_company': provId,
+                        'service_company': prov.rooId,
                         'service_category': 1,
                         'service_type': typeNum,
                         'details': details,
@@ -146,23 +147,22 @@ class ServiceRequestView(View):
                         'requested_arrival_time': str(serviceDate)
                    }
 
-            url = BASE_URL + 'service-locations/' + '/' + propId + '/jobs/'
+            url = BASE_URL + 'service-locations/' + propId + '/jobs/'
             info = postRooTokenAPI(url, data, token.getRooPairsToken())
             if NON_FIELD_ERRORS in info:
                 return JsonResponse(data=returnError(info.get(NON_FIELD_ERRORS)))
             elif(info.get('detail') == 'Invalid token.'):
                 return JsonResponse(data=returnError(info.get('detail')))
+            print(info)
         else:
             provList = ServiceProvider.objects.all()
+            prov = provList[0]
             status = 'WaitingApproval'
             phoneNumber = inData.get('phoneNumber')
 
             tenant = token.getTenant()
             if propId != tenant.place.rooId:
                 return JsonResponse(data=returnError(NOT_YOUR_PROPERTY))
-
-        
-        prov = provList[0]
 
         req = ServiceRequest(serviceCategory=serviceCategory,
                              serviceCompany=prov,
@@ -216,13 +216,13 @@ class ServiceRequestView(View):
         if req.status == 'WaitingApproval' and status == 'Pending':
             url = BASE_URL + 'service-locations/' + '/propId/jobs/'
             types = ['Repair', 'Installation', 'Maintenance']
-            typeNum = -1
+            typeNum = 1
             for i in range(0, len(types)):
                 if types[i] == req.serviceType:
                     typeNum = i + 1
 
             data = {
-                        'service_company': req.location.id,
+                        'service_company': req.serviceCompany.rooId,
                         'service_category': 1,
                         'service_type': typeNum,
                         'details': req.details,
