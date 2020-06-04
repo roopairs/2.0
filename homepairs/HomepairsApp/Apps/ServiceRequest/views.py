@@ -257,7 +257,8 @@ class ServiceRequestView(View):
         pm = token.getPm()
 
         try:
-            prop = Property.ojects.get(rooId=inPropId)
+            prop = Property.objects.get(rooId=inPropId)
+            print("SANITY CHECK")
             if(prop.pm != pm):
                 return JsonResponse(returnError("You do not own this property."))
         except Exception as e:
