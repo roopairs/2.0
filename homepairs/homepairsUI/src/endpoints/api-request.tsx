@@ -244,10 +244,12 @@ export const updateTenant = async (token: string, tenant: TenantInfo & {propId: 
         const {data} = response;
         const {status, error} = data;
         if (status !== SUCCESS){
-            displayError(error);
+            throw Error(error)
+            //displayError(error);
         }
     }).catch(error =>{
-        displayError(error.toString());
+        //displayError(error.toString());
+        console.log(error)
         throw error;
     });
 };
@@ -425,6 +427,7 @@ export const generateAccountForTenant = (accountDetails: TenantAccount, password
           }
         })
         .catch(error => {
+          console.log(error)
           modalSetOffCallBack("Connection to the server could not be established.");
         });
     };
@@ -493,55 +496,47 @@ export const generateAccountForTenant = (accountDetails: TenantAccount, password
  * 
  * @param {Property} newProperty -Property to add to the homepairs database
  * @param {AddNewPropertyState} info -Information used to indicate the property manager of the property
- * @param {setIntialState} setInitialState -Sets state of calling component to its original state. Should be used for forms
- * @param {onChangeModalVisibility} onChangeModalVisibility -Changes the visibility of the modal of the calling component
  */
-export const postNewProperty = (
-    newProperty: Property,
-    info: AddNewPropertyState,
-    displayError: (msg: string) => void = console.log,
-) => {
-    return async (dispatch: (arg0: any) => void) => {
-        await axios
-            .post( HOMEPAIRS_PROPERTY_ENDPOINT,
-                {
-                    longAddress: newProperty.address,
-                    numBed: newProperty.bedrooms,
-                    numBath: newProperty.bathrooms,
-                    maxTenants: newProperty.tenants,
-                    pm: info.email,
-                    
-                },
-                {
-                    headers: {
-                        Token: info.roopairsToken,
-                    },
-                },
-            )
-            .then(response => {
-                const {data} = response;
-                const {status, propId} = data;
-                if ( status === SUCCESS ) {
-                    const newProp : Property = {
-                      propId,
-                      address: newProperty.address,
-                      bedrooms: newProperty.bedrooms, 
-                      bathrooms: newProperty.bathrooms, 
-                      tenants: newProperty.tenants,
-                    };
-                    dispatch(addProperty(newProp));
-                } else {
-                    const {error} = data;
-                    displayError(error);
-                }
-            })
-            .catch(error => console.log(error));
-    };
+
+export const postNewProperty = async (newProperty: Property,
+    info: AddNewPropertyState) => {
+    const response = await axios
+    .post( HOMEPAIRS_PROPERTY_ENDPOINT,
+        {
+            longAddress: newProperty.address,
+            numBed: newProperty.bedrooms,
+            numBath: newProperty.bathrooms,
+            maxTenants: newProperty.tenants,
+            pm: info.email,
+            
+        },
+        {
+            headers: {
+                Token: info.roopairsToken,
+            },
+        },
+    )
+    .then(response => {
+        const {data} = response;
+        const {status} = data;
+        if ( status !== SUCCESS ) {
+            const {error} = data;
+            throw Error(error);
+        }
+        return response;
+    })
+    .catch(error => 
+    {
+            console.log(error);
+            throw error;
+    });
+    return response;
 };
+
 
 /**
  * ----------------------------------------------------
- * postUpdatedProperty
+ * putUpdatedProperty
  * ----------------------------------------------------
  * Sends a request to the homepairs API to update a selected property. On success,
  * it updates the redux-store and invokes a callback intended to close the modal
@@ -552,47 +547,40 @@ export const postNewProperty = (
  * @param {Property} editProperty -Contents of the property to be updated
  * @param {EditPropertyState} info -Information passed to the api to help determine which property in the
  * servers to update
- * @param {onChangeModalVisibility} onChangeModalVisibility -Changes the visibility of the modal
- * of the calling component
  */
-export const postUpdatedProperty = (
-    editProperty: Property,
-    info: EditPropertyState,
-    displayError: (msg: string) => void,
-) => {
-    return async (dispatch: (arg0: any) => void) => {
-        return axios
-            .put(HOMEPAIRS_PROPERTY_ENDPOINT,
-                {
-                  propId: editProperty.propId,
-                  longAddress: editProperty.address,
-                  numBed: editProperty.bedrooms,
-                  numBath: editProperty.bathrooms,
-                  maxTenants: editProperty.tenants,
-                  pm: info.email,
-                  
-                },
-                {
-                    headers: {
-                        Token : info.roopairsToken,
-                    },
-                },
-            )
-            .then(response => {
-                const {data} = response;
-                const {status} = data;
-                if ( status === SUCCESS) {
-                    dispatch(updateProperty(editProperty));
-                } else {
-                    const {error} = data;
-                    displayError(error);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
+export const putUpdatedProperty = async (editProperty: Property, info: EditPropertyState) => {
+    await axios
+    .put(HOMEPAIRS_PROPERTY_ENDPOINT,
+        {
+          propId: editProperty.propId,
+          longAddress: editProperty.address,
+          numBed: editProperty.bedrooms,
+          numBath: editProperty.bathrooms,
+          maxTenants: editProperty.tenants,
+          pm: info.email,
+          
+        },
+        {
+            headers: {
+                Token : info.roopairsToken,
+            },
+        },
+    )
+    .then(response => {
+        const {data} = response;
+        const {status} = data;
+        if ( status !== SUCCESS) {
+            const {error} = data;
+            throw Error(error);
+        }
+        return response;
+    })
+    .catch((error) => {
+        console.log(error);
+        throw error;
+    });
 };
+
 
 /**
  * Callback is intended to set the input forms of the component used to send
@@ -632,11 +620,11 @@ export const postNewAppliance = async (
             const {status} = data;
             if (status !== SUCCESS) {
                 const {error} = data;
-                displayError(error);
+                // displayError(error);
                 throw Error(error);
             }
         })
-        .catch(error => console.log(error));
+        .catch(error => {console.log(error); throw error;} );
 };
 
 /**
@@ -680,11 +668,10 @@ export const postUpdatedAppliance = async (
                 const {status} = data;
                 if (status !== SUCCESS) {
                     const {error} = data;
-                    displayError(error);
                     throw Error(error);
                 }
             })
-            .catch(error => console.log(error));
+            .catch(error => {console.log(error); throw error;});
 };
 
 /**

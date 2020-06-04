@@ -74,7 +74,7 @@ export class SearchForm<T> extends React.Component<SearchFormProps<T>, State>{
      * @param {string} text -text state of the input form 
      */
     invokeSearchFromInputForm(text: string){
-        const {objects, keys, parentCallBack} = this.props;
+        const {objects, keys, filter} = this.props;
         let filteredArray;
         if(isNullOrUndefined(objects))
         {
@@ -85,7 +85,7 @@ export class SearchForm<T> extends React.Component<SearchFormProps<T>, State>{
             filteredArray = filterList<T>(text, objects, keys);
         }
         this.setState({text});
-        parentCallBack(filteredArray);
+        filter(filteredArray);
     }
 
     render(){
