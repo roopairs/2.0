@@ -117,9 +117,7 @@ class PreferredProviderView(View):
                     STATUS: SUCCESS,
                     'prefId': pref.id
                    }
-            return JsonResponse(data)
-        else:
-            return JsonResponse(data=returnError(PREF_PRO_ALREADY_EXIST))
+            return JsonResponse(data=data)
 
     def get(self, request):
         # This is token validation
