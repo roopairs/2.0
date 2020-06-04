@@ -33,7 +33,6 @@ const { DROP_MENU_WIDTH } = HomePairsDimensions;
 const HeaderNavigators: string[] = [
     navigationPages.PropertiesScreen,
     navigationPages.ServiceRequestScreen,
-    navigationPages.AccountSettings,
     navigationPages.LoginScreen,
     navigationPages.TenantProperty,
 ];

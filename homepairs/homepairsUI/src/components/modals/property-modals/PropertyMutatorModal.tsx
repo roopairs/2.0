@@ -340,6 +340,13 @@ class PropertyMutatorModal extends React.Component<Props, State> {
         // its initial values. 
         if (this.validateForms()) {
             // Invoke proper functions when async
+            const mightBeAsync = onClickSubmit(this.state, this.displayError, this.props);
+            Promise.resolve(mightBeAsync).then(() =>{
+                this.cleanComponent();
+            }).catch(() => {
+                this.resetForms();
+            });
+            /*
             if (onClickSubmit.constructor.name === "AsyncFunction"){
                 await onClickSubmit(this.state, this.displayError, this.props).then(() =>{
                     this.cleanComponent();
@@ -351,6 +358,7 @@ class PropertyMutatorModal extends React.Component<Props, State> {
                 onClickSubmit(this.state, this.displayError, this.props);
                 this.goBackToPreviousPage();
             }
+            */
         }
     }
 

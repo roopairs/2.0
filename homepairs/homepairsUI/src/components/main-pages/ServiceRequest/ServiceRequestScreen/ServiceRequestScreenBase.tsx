@@ -576,7 +576,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                 <View style={{ width: BaseStyles.ContentWidth.reg, alignSelf: 'center', marginTop: 10, height: 50 } /* TODO: Update these styles so it renders properly on all devices */}>
                     <SearchForm<ServiceRequest>
                         objects={originalList}
-                        parentCallBack={(filtered: ServiceRequest[]) => { this.setState({ serviceRequests: filtered }); this.countServiceRequestStatus(filtered); } /* TODO: Insert Your Service Requests Set State Function Here!!! */}
+                        filter={(filtered: ServiceRequest[]) => { this.setState({ serviceRequests: filtered }); this.countServiceRequestStatus(filtered); } /* TODO: Insert Your Service Requests Set State Function Here!!! */}
                         placeholder="Search requests..."
                         trim />
                     {/** TODO: Add Panel Here. */}
@@ -611,10 +611,9 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                     {this.renderFilteredServiceRequestsSubtitles()}
                     {filteredServiceRequests.map(
                         serviceRequest => {
-                            const { appliance } = serviceRequest;
-                            const { applianceId } = appliance;
+                            const { reqId, status } = serviceRequest;
                             const active = serviceRequest.status === "Pending" || serviceRequest.status === "Scheduled" || serviceRequest.status === "InProgress";
-                            return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} active={active} />);
+                            return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} active={active} />);
                         })}
                 </>
             </>
@@ -631,9 +630,8 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                         <Text style={styles.formTitle}>WAITING APPROVAL</Text>
                         {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.WaitingApproval).map(
                             serviceRequest => {
-                                const { appliance } = serviceRequest;
-                                const { applianceId } = appliance;
-                                return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
+                                const { reqId, status } = serviceRequest;
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
                             })}
                     </>
                     : <></>}

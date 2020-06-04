@@ -79,8 +79,6 @@ let styles = null;
  * @param {HomePairsMenuProps} props 
  */
 export default class HomePairsMenu extends React.Component<Props> {
-    pages: any[];
-
     colorScheme: any;
 
     MainAppStack: MainAppStackType[];
@@ -117,7 +115,7 @@ export default class HomePairsMenu extends React.Component<Props> {
         const {parentCallBack} = this.props;
         const [first] = this.MainAppStack; 
         let page = value;
-        if (value.title === this.MainAppStack[this.MainAppStack.length - 1].title)
+        if (value.navigate === this.MainAppStack[this.MainAppStack.length - 1].navigate)
             page = first;
         parentCallBack(page);
     }
