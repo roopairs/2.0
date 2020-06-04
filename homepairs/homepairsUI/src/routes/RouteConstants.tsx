@@ -80,9 +80,12 @@ export const navigationKeys: {[id:string]: string} = {
     Login: 'Login',
     SignUp: 'SignUp',
     Connect: 'Connect',
-    Properties: 'Properties',
+    PropertyPages: 'PropertyPages',
     PropertyStack: 'PropertyStack',
-    ServiceRequest: 'ServiceRequest',
+    ServiceRequestStack: 'ServiceRequestStack',
+    ServiceRequestPages: 'ServiceRequestPages',
+
+
     Account: 'AccountStack',
     AccountProperties: 'AccountProperties',
     DetailedProperty: 'DetailedProperty',
@@ -111,10 +114,6 @@ export const MainAppStack: MainAppStackType[] = [
         title: 'Service Requests',
         navigate: navigationPages.ServiceRequestScreen,
         button: 'Request Service',
-    },
-    {
-        title: 'Account Settings',
-        navigate: navigationPages.AccountSettings,
     },
     {
         title: 'Sign Out',

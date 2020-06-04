@@ -290,18 +290,18 @@ function SinglePropertySwitch() {
               <Switch path={`${PROPERTY}/:propId`} location={background || location}>
                   <Route exact path={`${PROPERTY}/:propId`}><NavDetailedProperty/></Route>
                   <Route exact path={`${EDIT_PROPERTY_MODAL}/:propId`}><EditPropertyModal /></Route>
-                  <Route path={`${ADD_TENANT_MODAL}/:propId`}><AddTenantModal/></Route>
-                  <Route path={`${EDIT_TENANT_MODAL}/:propId`}><EditTenantModal/></Route>
-                  <Route path={`${ADD_APPLIANCE_MODAL}/:propId/:property`}><AddApplianceModal/></Route>
-                  <Route path={`${EDIT_APPLIANCE_MODAL}/:propId/:appliance`}><EditApplianceModal/></Route>
+                  <Route path={`${ADD_TENANT_MODAL}/:token/:propId`}><AddTenantModal/></Route>
+                  <Route path={`${EDIT_TENANT_MODAL}/:token/:propId`}><EditTenantModal/></Route>
+                  <Route path={`${ADD_APPLIANCE_MODAL}/:token/:propId`}><AddApplianceModal/></Route>
+                  <Route path={`${EDIT_APPLIANCE_MODAL}/:token/:propId/:appliance`}><EditApplianceModal/></Route>
               </Switch>
       
               {/* Show the modal when a background page is set */}
               {background && <Route path={`${EDIT_PROPERTY_MODAL}/:propId`}> <EditPropertyReadyModal /> </Route>}
-              {background && <Route path={`${ADD_TENANT_MODAL}/:propId`}><AddTenantReadyModal/></Route>}
-              {background && <Route path={`${EDIT_TENANT_MODAL}/:tenant/:propId`}><EditTenantReadyModal/></Route>}
-              {background && <Route path={`${ADD_APPLIANCE_MODAL}/:token/:property`}><AddApplianceReadyModal/></Route>}
-              {background && <Route path={`${EDIT_APPLIANCE_MODAL}/:propId/:appliance`}><EditApplianceReadyModal/></Route>}
+              {background && <Route path={`${ADD_TENANT_MODAL}/:token/:propId`}><AddTenantReadyModal/></Route>}
+              {background && <Route path={`${EDIT_TENANT_MODAL}/:token/:tenant/:propId`}><EditTenantReadyModal/></Route>}
+              {background && <Route path={`${ADD_APPLIANCE_MODAL}/:token/:propId`}><AddApplianceReadyModal/></Route>}
+              {background && <Route path={`${EDIT_APPLIANCE_MODAL}/:token/:propId/:appliance`}><EditApplianceReadyModal/></Route>}
 
           </>
       
@@ -344,6 +344,7 @@ function PropertiesSwitch() {
 export default function AppNavigator(props:any){  
     // TODO: Set PrivateRoute to auth status from session token
     // <Router basename={`${process.env.PUBLIC_URL}`}> is needed for web routing resolution for remote servers 
+    const {authed} = props;
     return (<>
         <Router basename={`${process.env.PUBLIC_URL}`}>  
             <Switch>
@@ -353,13 +354,13 @@ export default function AppNavigator(props:any){
                   <SignUpModalSwitch />
                 </Route>
                 <Route exact path='/'> <Redirect to={{pathname: LOGIN}} /></Route>
-                <PrivateRoute path={PROPERTY_LIST} Component={PropertiesSwitch} {...props}/>
-                <PrivateRoute path='/admin/property/' Component={SinglePropertySwitch} {...props}/>
-                <PrivateRoute path='/admin/service-requests' Component={ServiceRequestSwitch} {...props}/>
-                <PrivateRoute path={ACCOUNT_SETTINGS} Component={AccountSettingsSwitch} {...props}/>
+                <PrivateRoute authed={authed} path={PROPERTY_LIST} Component={PropertiesSwitch} {...props}/>
+                <PrivateRoute authed={authed} path='/admin/property/' Component={SinglePropertySwitch} {...props}/>
+                <PrivateRoute authed={authed} path='/admin/service-requests' Component={ServiceRequestSwitch} {...props}/>
+                <PrivateRoute authed={authed} path={ACCOUNT_SETTINGS} Component={AccountSettingsSwitch} {...props}/>
 
                 {/** Tenant Property Screen */}
-                <PrivateRoute path={TENANT_PROPERTY} Component={TenantAccountPropertySwitch} {...props}/>
+                <PrivateRoute authed={authed} path={TENANT_PROPERTY} Component={TenantAccountPropertySwitch} {...props}/>
 
                 <Route path='/*'>404 Does not Exist</Route>
             </Switch>

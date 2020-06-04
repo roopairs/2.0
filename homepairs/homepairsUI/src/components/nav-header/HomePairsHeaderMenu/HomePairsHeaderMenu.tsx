@@ -10,6 +10,7 @@ import {
     ChooseMainPage, 
 } from 'src/routes';
 import setStyles from './styles';
+import { navigationPages } from '../../../routes/RouteConstants';
 
 export type HomePairsMenuProps = {
 
@@ -79,8 +80,6 @@ let styles = null;
  * @param {HomePairsMenuProps} props 
  */
 export default class HomePairsMenu extends React.Component<Props> {
-    pages: any[];
-
     colorScheme: any;
 
     MainAppStack: MainAppStackType[];
@@ -114,10 +113,11 @@ export default class HomePairsMenu extends React.Component<Props> {
      * @param {MainAppStackType} value 
      */
     setSelected(value: MainAppStackType) {
-        const {parentCallBack} = this.props;
+        const {parentCallBack, navigation} = this.props;
+        console.log(navigation.state)
         const [first] = this.MainAppStack; 
         let page = value;
-        if (value.title === this.MainAppStack[this.MainAppStack.length - 1].title)
+        if (value.navigate === this.MainAppStack[this.MainAppStack.length - 1].navigate)
             page = first;
         parentCallBack(page);
     }
@@ -133,11 +133,16 @@ export default class HomePairsMenu extends React.Component<Props> {
         // to the Properties
         this.setSelected(value);
         this.closeMenu();
-        if(value.title === 'Log Out'){
+        console.log(value.navigate)
+        console.log(navigation)
+        if(value.navigate === navigationPages.LoginScreen){
+            navigation.navigate(value.navigate);
             setAuthenticatedState(false);
+            return;
         }
 
-        if(value.title === 'My Properties'){
+        if(value.navigate === navigationPages.PropertiesScreen 
+            || value.navigate === navigationPages.TenantProperty){
             ChooseMainPage(accountType, navigation);
         }else{
             navigation.navigate(value.navigate);

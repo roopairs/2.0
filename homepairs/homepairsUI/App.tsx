@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { registerRootComponent, AppLoading } from 'expo';
+import React, {useState, useEffect} from 'react';
+import { registerRootComponent, AppLoading} from 'expo';
 import { Provider, connect } from 'react-redux';
 import { LoadFonts } from 'homepairs-fonts';
 import { AppState } from 'homepairs-types';
-import { ActivityIndicator, StatusBar, AsyncStorage } from 'react-native';
+import { ActivityIndicator, StatusBar, AsyncStorage, BackHandler, Alert } from 'react-native';
 import { PersistGate } from 'redux-persist/integration/react';
 import { fetchGoogleApiKey } from 'homepairs-endpoints';
 import * as firebase from 'firebase';
@@ -65,13 +65,38 @@ const checkSession = async () => {
 
 function mapStateToProps(state: AppState): any {
     return {
-        authed: state.authenticated,
+        authed: state.authenticated.authed,
     };
 }
 const ConnectedApp = connect(mapStateToProps)(AppNavigator);
 
+const handleBackButton = () => {
+    Alert.alert(
+        'Exit App',
+        'Exiting the application?', [
+            {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+            }, 
+            {
+                text: 'OK',
+                onPress: () => BackHandler.exitApp(),
+            },
+        ], 
+        { cancelable: false },
+    );
+    return true;
+};
+
 const App = () => {
     const [dataLoaded, setDataLoaded] = useState(false);
+    
+    
+    useEffect(() => {
+        BackHandler.addEventListener("hardwareBackPress", handleBackButton);
+    }, [handleBackButton]);
+    
 
     const { store, persistor } = initializeStore();
     store.dispatch(fetchGoogleApiKey());

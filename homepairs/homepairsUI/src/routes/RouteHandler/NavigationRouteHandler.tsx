@@ -37,7 +37,6 @@ export type NavigationRouteScreenProps = {
 export function prepareRoute(route:string, params?:any){
     // We need to proccess any potential params passed in via web router. This is achieved through sorting and 
     // appending the value of the params through the string. All values are sorted in ASCII order. 
-    console.log(params)
     const passedParams = isNullOrUndefined(params) ? {} : params;
     const sortedItems = Object.entries(passedParams).sort((a, b) => b[0].localeCompare(a[0]));
     let fullRoute = `${route}`;
@@ -152,9 +151,10 @@ export default class NavigationRouteHandler{
                 history.push(fullRoute);
             }
         } else if(!isNullOrUndefined(this.navigation.push)){
-            this.navigation.push(route, {params});
+            this.navigation.push(route, params);
+            // (this.navigation as NavigationStackProp).setParams(params);
         } else {
-            this.navigation.navigate(route);
+            this.navigation.navigate(route, params);
         }
     }
 
@@ -195,10 +195,7 @@ export default class NavigationRouteHandler{
         let value = this.navigation.match.params[param];
         try{
             value = JSON.parse(value);
-        }catch(error){
-            console.log('This is not a valid object');
-            console.log(error);
-        }
+        }catch(error){};
         return value;
     }
 

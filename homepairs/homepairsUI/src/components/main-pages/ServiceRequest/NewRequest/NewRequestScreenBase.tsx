@@ -2,7 +2,7 @@ import React, { Component } from 'react'; //* *For every file that uses jsx, YOU
 import { Property, ApplianceType, NewServiceRequest, HomePairsDimensions, Appliance, ServiceProvider, AccountTypes } from 'homepairs-types';
 import Colors from 'homepairs-colors';
 import { StyleSheet, Text, View} from 'react-native';
-import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber, isPhoneNumberValid, isAlphaCharacterOnly } from 'src/utility';
+import { stringToCategory, isEmptyOrSpaces, categoryToString, isPositiveWholeNumber, isPhoneNumberValid, isValidCharacter } from 'src/utility';
 import {NavigationRouteScreenProps} from 'homepairs-routes';
 import {AddressPanel, InputForm, InputFormProps, ThinButton, ThinButtonProps, ServiceTypePanel, DatePicker} from 'homepairs-elements';
 import * as BaseStyles from 'homepairs-base-styles';
@@ -10,6 +10,7 @@ import { HelperText } from 'react-native-paper';
 import axios from 'axios';
 import { HOMEPAIRS_PROPERTY_ENDPOINT, postNewServiceRequest, HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT } from 'homepairs-endpoints';
 import {ChooseServiceCategory, ChooseAppliance, ChooseServiceProvider} from './components';
+
 
 type NewRequestState = {
     address: string,
@@ -182,7 +183,6 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
 
     constructor(props: Readonly<NewRequestScreenProps>) {
         super(props);
-
         this.getFormAddress = this.getFormAddress.bind(this);
         this.getFormCategory = this.getFormCategory.bind(this);
         this.getFormAppliance = this.getFormAppliance.bind(this);
@@ -217,13 +217,12 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
         const {properties, accountType} = this.props;
 
         if(accountType === AccountTypes.Tenant){
-            console.log(properties);
             const [tenantProperty] = properties;
             const {address, propId} = tenantProperty; 
             this.setState({address, addressState: true, propId});
         }
-
         this.fetchServiceProviders();
+        this.fetchAppliances(properties[0].propId);
     }
 
     async getFormAddress(childData: string, propId: string) {
@@ -264,8 +263,10 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     }
 
     fetchAppliances = async (propId: string) => {
+        const {token} = this.props;
         if (propId !== '') {
-            await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`).then((result) => {
+            await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`, {headers: {Token: token}}).then((result) => {
+                console.log(result);
                 const { appliances } = result.data;
                 const applianceInfo: Appliance[] = [];
                 appliances.forEach(appliance => {
@@ -283,8 +284,8 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
     };
 
     fetchServiceProviders = async () => {
-        const {pmId} = this.props;
-        await axios.get(`${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}${pmId}/`).then((result) =>{
+        const {token} = this.props;
+        await axios.get(`${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`, {headers: {Token: token}}).then((result) => {
             const {providers} = result.data;
             const providerInfo: ServiceProvider[] = [];
             providers.forEach(provider => {
@@ -341,7 +342,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
             this.pocRef.current.setError(true);
             check = false;
         }
-        if (!isAlphaCharacterOnly(pocName)) {
+        if (!isValidCharacter(pocName)) {
             this.pocNameRef.current.setError(true);
             check = false;
         }
@@ -372,6 +373,7 @@ export class NewServiceRequestBase extends Component<NewRequestScreenProps, NewR
             pocState, 
             pocNameState,
         } = this.state;
+        
         // TODO: Write Address Screen If only one property exists
         return (
             <View style={styles.scrollContainer}>

@@ -3,7 +3,7 @@ import {DateTimePicker} from 'react-widgets';
 import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
 import 'react-widgets/dist/css/react-widgets.css';
-
+import './pickerStyle.css';
 
 Moment.locale('en');
 momentLocalizer();
@@ -24,11 +24,12 @@ export default function DatePickerWeb(props: Props){
     maxDate.setHours(0, 0, 0);
 
     return <DateTimePicker 
-            key='web datetime picker'
-            dropDown
-            value={serviceDate}
-            onChange={value => getFormDate(value)}
-            min={startDate}
-            step={15}
-            time />;
+        containerClassName="dateTime"
+        key='web datetime picker'
+        dropDown
+        value={serviceDate}
+        onChange={value => getFormDate(value)}
+        min={startDate}
+        step={15}
+        time />;
 }

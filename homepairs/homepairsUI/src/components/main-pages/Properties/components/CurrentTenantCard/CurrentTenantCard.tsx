@@ -44,6 +44,11 @@ export type CurrentTenantCardProps =  {
      * care of both web and native navigation.
      */
     navigation?: NavigationRouteHandler, 
+
+    /**
+     * Token is required in order to add and edit a tenant to the card. 
+     */
+    token?: string
 }
 
 /**
@@ -59,7 +64,7 @@ export type CurrentTenantCardProps =  {
  * @param {CurrentTenantCardProps} props 
  */
 function CurrentTenantCard(props: CurrentTenantCardProps){
-    const {navigation, tenants, maxTenants, propId, hasEdit} = props;
+    const {navigation, tenants, maxTenants, propId, hasEdit, token} = props;
     const [error, setError] = useState(null);
     const numTenants = isNullOrUndefined(tenants) ? 0 : tenants.length;
 
@@ -74,11 +79,11 @@ function CurrentTenantCard(props: CurrentTenantCardProps){
             return;
         }
         setError(null);
-        navigation.navigate(navigationPages.AddTenantModal, {propId}, true);
+        navigation.navigate(navigationPages.AddTenantModal, {propId, token}, true);
     }
 
     function navigateToEditTenantModal(tenant: TenantInfo){
-        navigation.navigate(navigationPages.EditTenantModal, {propId, tenant}, true);
+        navigation.navigate(navigationPages.EditTenantModal, {propId, tenant, token}, true);
     }
 
     function renderError(){

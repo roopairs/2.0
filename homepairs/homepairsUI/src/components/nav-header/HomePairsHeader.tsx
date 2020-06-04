@@ -1,4 +1,4 @@
-import { AppState, MainAppStackType } from "homepairs-types";
+import { AppState, MainAppStackType, GENERAL_STATE_ACTION_TYPE } from "homepairs-types";
 import { connect } from "react-redux";
 import { HeaderActions, SessionActions, onGoBack } from 'homepairs-redux-actions';
 import {prepareNavigationHandlerComponent} from 'src/routes';
@@ -26,6 +26,7 @@ const mapDispatchToProps: (dispatch:any) => HomePairsHeaderDispatchProps = dispa
     dispatch(HeaderActions.updateSelectedPage(selected));
   },
   onLogOut: (authed:boolean) => {
+    // dispatch(() => {return GENERAL_STATE_ACTION_TYPE.SIGNOUT_REQUEST;});
     dispatch(SessionActions.setAccountAuthenticationState(authed));
   },
   onClickBackButton: () => {
