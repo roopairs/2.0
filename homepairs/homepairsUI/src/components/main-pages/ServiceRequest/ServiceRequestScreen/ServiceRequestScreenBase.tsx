@@ -589,7 +589,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                 <View style={{ width: BaseStyles.ContentWidth.reg, alignSelf: 'center', marginTop: 10, height: 50 } /* TODO: Update these styles so it renders properly on all devices */}>
                     <SearchForm<ServiceRequest>
                         objects={originalList}
-                        parentCallBack={(filtered: ServiceRequest[]) => { this.setState({ serviceRequests: filtered }); this.countServiceRequestStatus(filtered); } /* TODO: Insert Your Service Requests Set State Function Here!!! */}
+                        filter={(filtered: ServiceRequest[]) => { this.setState({ serviceRequests: filtered }); this.countServiceRequestStatus(filtered); } /* TODO: Insert Your Service Requests Set State Function Here!!! */}
                         placeholder="Search requests..."
                         trim />
                     {/** TODO: Add Panel Here. */}
@@ -680,7 +680,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                         {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.WaitingApproval).map(
                             serviceRequest => {
                                 const { reqId, status } = serviceRequest;
-                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} activeType={ServiceRequestStatusEnums.WaitingApproval}/>);
                             })}
                     </>
                     : <></>}
@@ -699,7 +699,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                         {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.Pending).map(
                             serviceRequest => {
                                 const { reqId, status } = serviceRequest;
-                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} activeType={ServiceRequestStatusEnums.Pending}/>);
                             })}
                     </>
                     : <></>}
@@ -719,7 +719,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                         {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.Scheduled).map(
                             serviceRequest => {
                                 const { reqId, status } = serviceRequest;
-                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} activeType={ServiceRequestStatusEnums.Scheduled}/>);
                             })}
                     </>
                     : <></>}
@@ -738,7 +738,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                         {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.InProgress).map(
                             serviceRequest => {
                                 const { reqId, status } = serviceRequest;
-                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} activeType={ServiceRequestStatusEnums.InProgress}/>);
                             })}
                     </>
                     : <></>}
@@ -756,7 +756,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                         {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.Completed).map(
                             serviceRequest => {
                                 const { reqId, status } = serviceRequest;
-                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} activeType={ServiceRequestStatusEnums.Completed}/>);
                             })}
                     </>
                     : <></>}
@@ -774,7 +774,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                         {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.Canceled).map(
                             serviceRequest => {
                                 const { reqId, status } = serviceRequest;
-                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} activeType={ServiceRequestStatusEnums.Canceled}/>);
                             })}
                     </>
                     : <></>}
