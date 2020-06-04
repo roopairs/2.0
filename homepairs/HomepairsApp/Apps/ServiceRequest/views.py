@@ -252,8 +252,8 @@ class ServiceRequestView(View):
         except Exception as e:
             return JsonResponse(returnError("Not a valid token."))
 
-        if(not token.isPm()):
-            return JsonResponse(returnError("You are not a pm."))
+        if(token.isPm()):
+            pm = token.getPm()
         else:
             pm = token.getTenant().pm
 

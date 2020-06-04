@@ -334,7 +334,7 @@ class PropertyView(View):
         if(token.isPm()):
             pm = token.getPm()
         else:
-            return JsonResponse(returnError("You are not a pm."))
+            pm = token.getTenant().pm
 
         temp = token.isPm()
 

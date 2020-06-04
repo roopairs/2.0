@@ -128,7 +128,7 @@ class PreferredProviderView(View):
         except Exception as e:
             return JsonResponse(returnError("Not a valid token."))
 
-        if(not token.isPm()):
+        if(token.isPm()):
             pm = token.getPm()
         else:
             pm = token.getTenant().pm
