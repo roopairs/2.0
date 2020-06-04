@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from ..Properties.models import Property
 from ..PropertyManagers.models import PropertyManager
+from ..Tools.models import Token
 from .models import Tenant
 
 
