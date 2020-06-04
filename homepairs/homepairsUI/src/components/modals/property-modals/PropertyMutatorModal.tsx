@@ -54,13 +54,12 @@ export type ValidationFunction = (data: InputTypes, ...any: any[]) => boolean;
 export type FormState = {[key:string] : any}
 
 
-type SyncSubmitFunction = (...any) => void;
 type AsyncSubmitFunction = (...any) => Promise<void>;
 /**
  * Valid functions for submitting a form. This is really used to allow the 
  * use of async functions for submission
  */
-export type SubmitFunctions = SyncSubmitFunction | AsyncSubmitFunction;
+export type SubmitFunctions = AsyncSubmitFunction;
 
 export type Props = {
     /**
@@ -334,12 +333,20 @@ class PropertyMutatorModal extends React.Component<Props, State> {
         
         // Invoke clean up for this components contents 
         this.setState({ hasError: false, errorMsg: "" });
-
         // Now check the forms for validation. Note that onClickSubmit should invoke an 
         // API requests to update. Then it should set the state of the parent component to 
         // its initial values. 
         if (this.validateForms()) {
             // Invoke proper functions when async
+            await onClickSubmit(this.state, this.displayError, this.props).then(() => {
+                this.cleanComponent();
+            })
+            .catch(error => {
+                console.log(error);
+                this.displayError(error.toString().replace('Error: ', ''));
+                this.resetForms();
+            });
+            /*
             if (onClickSubmit.constructor.name === "AsyncFunction"){
                 await onClickSubmit(this.state, this.displayError, this.props).then(() =>{
                     this.cleanComponent();
@@ -351,6 +358,7 @@ class PropertyMutatorModal extends React.Component<Props, State> {
                 onClickSubmit(this.state, this.displayError, this.props);
                 this.goBackToPreviousPage();
             }
+            */
         }
     }
 

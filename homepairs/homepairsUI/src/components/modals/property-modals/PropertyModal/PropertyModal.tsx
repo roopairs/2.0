@@ -9,12 +9,12 @@ const {SingleProperty} = navigationPages;
 
 export type EditPropertyDispatchProps = {
     onSendPropertyRequest: (newProperty: Property, info: EditPropertyState, 
-        displayError: (msg: string) => void) => void
+        displayError: (msg: string) => void) => Promise<void>;
 }
 
 export type AddNewPropertyDispatchProps = {
     onSendPropertyRequest: (newProperty: Property, info: AddNewPropertyState,
-         displayError: (msg: string) => void) => void
+         displayError: (msg: string) => void) => Promise<void>;
 }
 
 export type PropertyDispatchProps = 
@@ -124,7 +124,7 @@ export default class PropertyModalBase extends React.Component<Props> {
      * @param state - State of the PropertyMutatorModal to pull that data from.
      * @param displayError - Callback method to render errors when a submission has failed
      */
-    onClickSubmit(state: FormState, displayError: (msg: string) => void){
+    async onClickSubmit(state: FormState, displayError: (msg: string) => void){
         const {email, onSendPropertyRequest, propId, oldProp, roopairsToken} = this.props;
         const {address, bedrooms, bathrooms, tenants} = state;
         const newProperty : Property = {
@@ -135,7 +135,8 @@ export default class PropertyModalBase extends React.Component<Props> {
             tenants: Number(tenants),
         };
         const info: PropertyState = { email, propId, oldProp, roopairsToken};
-        onSendPropertyRequest(newProperty, info, displayError);   
+
+        await onSendPropertyRequest(newProperty, info, displayError).catch(error => {console.log(error); throw error;});   
     }
 
     render() {
