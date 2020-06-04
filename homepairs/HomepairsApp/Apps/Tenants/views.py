@@ -185,11 +185,6 @@ class TenantUpdate(View):
             return JsonResponse(returnError("You are not a pm."))
         pm = token.getPm()
 
-        try:
-            prop = Property.objects.get(rooId=propId, pm=pm)
-        except Exception as e:
-            return JsonResponse(returnError("Property not found."))
-
         inData = json.loads(request.body)
         required = ['email', 'propId', 'firstName', 'lastName', 'phoneNumber']
         missingFields = checkRequired(required, inData)
@@ -204,6 +199,12 @@ class TenantUpdate(View):
         phoneNumber = inData.get('phoneNumber')
         propertyList = Property.objects.filter(rooId=propId)
         tenList = Tenant.objects.filter(email=email)
+
+        try:
+            prop = Property.objects.get(rooId=propId, pm=pm)
+        except Exception as e:
+            return JsonResponse(returnError("Property not found."))
+
 
         if(not propertyList.exists()):
             return JsonResponse(data=returnError(INVALID_PROPERTY))
