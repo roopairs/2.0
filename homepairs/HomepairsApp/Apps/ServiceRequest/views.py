@@ -88,6 +88,7 @@ class ServiceRequestView(View):
             user = token.getPm()
         else:
             user = token.getTenant()
+            pm = user.getPm()
 
         required = ['serviceCategory', 'serviceType', 'serviceDate',
                     'details', 'pocName', 'poc', 'propId', 'appId']
