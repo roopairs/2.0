@@ -571,7 +571,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                 <View style={{ width: BaseStyles.ContentWidth.reg, alignSelf: 'center', marginTop: 10, height: 50 } /* TODO: Update these styles so it renders properly on all devices */}>
                     <SearchForm<ServiceRequest>
                         objects={originalList}
-                        parentCallBack={(filtered: ServiceRequest[]) => { this.setState({ serviceRequests: filtered }); this.countServiceRequestStatus(filtered); } /* TODO: Insert Your Service Requests Set State Function Here!!! */}
+                        filter={(filtered: ServiceRequest[]) => { this.setState({ serviceRequests: filtered }); this.countServiceRequestStatus(filtered); } /* TODO: Insert Your Service Requests Set State Function Here!!! */}
                         placeholder="Search requests..."
                         trim />
                     {/** TODO: Add Panel Here. */}
