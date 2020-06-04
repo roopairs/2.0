@@ -713,7 +713,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
 
         return (
             <>
-                {requestSelected === ServiceRequestStatusEnums.Pending && scheduled > 0
+                {requestSelected === ServiceRequestStatusEnums.Scheduled && scheduled > 0
                     ? <>
                         <Text style={styles.formTitle}>{title}</Text>
                         {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.Scheduled).map(
@@ -792,7 +792,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                         {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.Declined).map(
                             serviceRequest => {
                                 const { reqId, status } = serviceRequest;
-                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} activeType={ServiceRequestStatusEnums.Declined}/>);
                             })}
                     </>
                     : <></>}
