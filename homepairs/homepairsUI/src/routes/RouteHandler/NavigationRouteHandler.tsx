@@ -151,9 +151,10 @@ export default class NavigationRouteHandler{
                 history.push(fullRoute);
             }
         } else if(!isNullOrUndefined(this.navigation.push)){
-            this.navigation.push(route, {params});
+            this.navigation.push(route, params);
+            // (this.navigation as NavigationStackProp).setParams(params);
         } else {
-            this.navigation.navigate(route);
+            this.navigation.navigate(route, params);
         }
     }
 

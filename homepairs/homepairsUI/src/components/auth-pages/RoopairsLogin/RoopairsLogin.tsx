@@ -1,13 +1,11 @@
 import { connect } from 'react-redux';
 import strings from 'homepairs-strings';
 import HomePairColors from 'homepairs-colors';
-import { Image, Text, View, Platform } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import { roopairsLogo } from 'homepairs-images';
 import React from 'react';
-import { withNavigation } from 'react-navigation';
-import { withRouter } from 'react-router-dom';
-import { fetchAccount } from 'homepairs-endpoints';
-import { withNavigationRouteHandler } from 'src/routes';
+import { fetchAccount, fetchGoogleApiKey } from 'homepairs-endpoints';
+import { prepareNavigationHandlerComponent } from 'src/routes';
 import { RoopairsLoginBase, RoopairsLoginDispatchProps } from './RoopairsLoginBase';
 import {
     AuthPassProps,
@@ -47,13 +45,13 @@ const mapDispatchToProps: (dispatch: any) => RoopairsLoginDispatchProps = (
 ) => ({
     onFetchAccount: (username: string,password: string,navigation,modalSetOff: () => any) => 
     {
+        dispatch(fetchGoogleApiKey());
         dispatch(fetchAccount( username, password, navigation, modalSetOff));
     },
 });
 
 const RoopairsLogin = connect(null, mapDispatchToProps)(RoopairsLoginBase);
-const NavigableAuthPage = withNavigationRouteHandler(RoopairsLogin);
-const NavigateReadyAuthPage = Platform.OS === 'web' ? withRouter(NavigableAuthPage) : withNavigation(NavigableAuthPage);
-const AuthPage = withAuthPage(NavigateReadyAuthPage, authPageParam);
+const NavigableAuthPage = prepareNavigationHandlerComponent(RoopairsLogin);
+const AuthPage = withAuthPage(NavigableAuthPage, authPageParam);
 
 export default AuthPage;

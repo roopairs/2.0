@@ -61,7 +61,7 @@ mockAxios.onGet(mockAddress).reply(200, mockData);
 describe('Integration Test for the Properties Lists Screen Page', () => {
     const rendered = render(ComponentWithStore);
 
-    const {getByType, queryAllByType, getAllByType} = rendered;
+    const {getByType, queryAllByType} = rendered;
 
     const generalHomeInfo = queryAllByType(GeneralHomeInfo);
     const addressSticker= queryAllByType(AddressSticker);

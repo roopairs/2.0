@@ -382,4 +382,5 @@ export function withAuthPage(WrappedComponent: any,defaultAuthPassProps: AuthPas
             );
         }
     };
+    
 }

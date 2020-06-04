@@ -33,6 +33,7 @@ export type ServiceRequestScreenStateProps = {
     header: HeaderState;
     properties: Property[];
     accountType: AccountTypes;
+    token?: string,
 };
 
 export type ServiceRequestsScreenDispatchProps = {
@@ -280,7 +281,6 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         this.renderFilteredServiceRequestsCanceled = this.renderFilteredServiceRequestsCanceled.bind(this);
         this.renderFilteredServiceRequestsDeclined = this.renderFilteredServiceRequestsDeclined.bind(this);
         this.render = this.render.bind(this);
-        this.callFetchServiceRequests = this.callFetchServiceRequests.bind(this);
         this.populateServiceRequests = this.populateServiceRequests.bind(this);
         this.countServiceRequestStatus = this.countServiceRequestStatus.bind(this);
 
@@ -290,11 +290,11 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
     }
 
     async componentDidMount() {
-        const { onUpdateHeader, accountType, properties } = this.props;
+        const { onUpdateHeader, accountType, properties, token } = this.props;
 
         // Fetch the service requests if the account Type is a Tenant or if the Account only has one property 
         if (accountType === AccountTypes.Tenant || properties.length === 1) {
-            await this.callFetchServiceRequests(properties[0].propId);
+            await this.callFetchServiceRequests(properties[0].propId, token);
         }
 
         // When the component is mounted, update the header. This component can be navigated from a different stack so 
@@ -366,8 +366,8 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         navigation.navigate(navigationPages.ServiceRequestModal, { serviceRequest }, true);
     }
 
-    async callFetchServiceRequests(propId: string) {
-        await fetchServiceRequests(propId).then(response => {
+    async callFetchServiceRequests(propId: string, token: string) {
+        await fetchServiceRequests(propId, token).then(response => {
             const { data } = response;
             const { reqs } = data;
 
@@ -574,13 +574,8 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
     }
 
     renderServiceRequests() {
-        const { properties, accountType } = this.props;
+        const { properties, accountType, token } = this.props;
         const { currentRequestsSelected, requestSelected, serviceRequests, originalList } = this.state;
-
-        console.log("original list: ");
-        console.log({ originalList });
-        console.log("updated list: ");
-        console.log({ serviceRequests });
 
         return (
             <View>
@@ -588,7 +583,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                     accountType === AccountTypes.Tenant ?
                         <></> :
                         <View style={{ marginTop: 30, width: BaseStyles.ContentWidth.reg, alignSelf: 'center', paddingHorizontal: 3 } /* Styled to be the same width as the SearchForm */}>
-                            <ServiceRequestAddressPanel properties={properties} parentCallBack={async (propId: string) => { await this.callFetchServiceRequests(propId); }} />
+                            <ServiceRequestAddressPanel properties={properties} parentCallBack={async (propId: string) => { await this.callFetchServiceRequests(propId, token); }} />
                         </View>
                 }
                 <View style={{ width: BaseStyles.ContentWidth.reg, alignSelf: 'center', marginTop: 10, height: 50 } /* TODO: Update these styles so it renders properly on all devices */}>
