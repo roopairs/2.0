@@ -37,7 +37,6 @@ function setStyles(colorTheme?: BaseStyles.ColorTheme) {
             color: colors.lightGray,
         },
         emptyText: {
-            color: colors.red,
             alignSelf: 'center',
             fontSize: BaseStyles.FontTheme.reg,
             margin: BaseStyles.MarginPadding.largeConst,

@@ -77,13 +77,9 @@ export class SearchForm<T> extends React.Component<SearchFormProps<T>, State>{
         const {objects, keys, filter} = this.props;
         let filteredArray;
         if(isNullOrUndefined(objects))
-        {
             filteredArray = [];
-        }
         else
-        {
             filteredArray = filterList<T>(text, objects, keys);
-        }
         this.setState({text});
         filter(filteredArray);
     }

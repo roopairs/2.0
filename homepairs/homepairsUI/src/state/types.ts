@@ -428,6 +428,19 @@ export type AppState = {
     preferredProviders: PreferredServiceProviderState;
     // add future state slices here
 }
+
+export const GENERAL_STATE_ACTION_TYPE = {
+    SIGNOUT_REQUEST: 'SIGNOUT_REQUEST',
+};
+
+export type GeneralStateAction = 
+    | SessionAction 
+    | SettingsActions
+    | ServiceAction 
+    | PropertyListAction
+    | PreferredServiceProviderAction
+    | HeaderAction
+    | AccountStateAction
 /* *-------------------App State-------------------* */
 
 

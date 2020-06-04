@@ -26,7 +26,9 @@ const styles = StyleSheet.create({
         borderLeftWidth: 10,
         borderRadius: BaseStyles.BorderRadius.medium, 
         padding: BaseStyles.MarginPadding.medium,
-        borderColor: colors.lightGray,
+        borderTopColor: colors.lightGray,
+        borderRightColor: colors.lightGray,
+        borderBottomColor: colors.lightGray,
         borderWidth: 1,
         marginVertical: 10,
         marginHorizontal: 20,
@@ -63,9 +65,10 @@ const styles = StyleSheet.create({
 });
 
 export default function ServiceRequestButton(props: ServiceRequestButtonProps) {
-    const {onClick, active, serviceRequest} = props;
+    const {onClick, serviceRequest} = props;
     Moment.locale('en');
     const date = Moment(serviceRequest.startDate.toString()).format('LLL');
+    const active = serviceRequest.status === "Pending" || serviceRequest.status === "Scheduled" || serviceRequest.status === "InProgress";
 
     return (
         <View style={[styles.container, {borderLeftColor: active ? colors.roopairs : colors.lightGray}]}>
