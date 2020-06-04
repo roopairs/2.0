@@ -1,6 +1,7 @@
 import { AppState, MainAppStackType } from 'homepairs-types';
 import { connect } from 'react-redux';
 import { updateSelectedPage } from 'homepairs-redux-actions';
+import {PropertyManagerAccount} from 'homepairs-types';
 import { convertObjectValuesToArray } from 'src/utility';
 import {
     ServiceRequestScreenBase,
@@ -16,6 +17,7 @@ function mapStateToProps(state: AppState): ServiceRequestScreenStateProps {
         serviceRequestsState: serviceRequests,
         header,
         properties: convertObjectValuesToArray(properties.properties),
+        token: (state.accountProfile as (PropertyManagerAccount)).roopairsToken,
     };
 }
 

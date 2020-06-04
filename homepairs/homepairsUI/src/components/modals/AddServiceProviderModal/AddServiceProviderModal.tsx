@@ -38,6 +38,7 @@ const mapDispatchToProps : (dispatch: any) => AddServiceProviderDispatchProps = 
 function mapStateToProps(state: AppState) : any {
     return {
         pmId: (state.accountProfile as (PropertyManagerAccount)).pmId,
+        token: (state.accountProfile as (PropertyManagerAccount)).roopairsToken,
     };
 }
 

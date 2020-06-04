@@ -99,9 +99,11 @@ export const fetchGoogleApiKey = () => {
 */
 export const fetchPreferredProviders = (token: string) => {
     const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
+    console.log(token);
     return async (dispatch: (func: any) => void) => {
         await axios.get(endpoint, {headers: {Token: token}})
         .then(result => {
+            console.log(result);
             const {data} = result;
             const {providers} = data;
             const parsedProviders = parsePreferredProviders(providers);
@@ -110,6 +112,7 @@ export const fetchPreferredProviders = (token: string) => {
             return result;
         })
         .catch(error => {
+            console.log(error);
             return Promise.reject(error);
         });
     };
@@ -165,15 +168,15 @@ export const fetchNetworkProviders = (accountEmail: string) => {
  */
 export const postPreferredProvider = async (
     token: string, phoneNum: string,  onError: (error:string) => any = console.log) => {
+    console.log(token);
     const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
     await axios.post(endpoint, {phoneNum}, {headers: {Token: token}})
     .then(response => {
         const {data} = response;
         const {status} = data;
-        if(status !== SUCCESS){
+        if (status !== SUCCESS) {
             const {error} = data;
             onError(error);
-            throw Error(error);
         }
         return response;
     });
@@ -204,6 +207,7 @@ export const deletePreferredProvider = (
     const endpoint = `${HOMEPAIRS_PREFERRED_PROVIDER_ENDPOINT}`;
     // Simply print the error if no error function was defined, otherwise use the defined function
     return async (dispatch: (func: any) => void) => { 
+        console.log(token);
         await axios.delete(endpoint, {data: {prefId}, headers: {Token: token}})
         .then(response => {
             const {data} = response;
@@ -232,17 +236,15 @@ export const deletePreferredProvider = (
  * @param {object} props -List of information used to define the tenant. Expected 
  * information follows: propId, email, firstName, lastName, phoneNumber
  */
-export const updateTenant = async (tenant: TenantInfo & {propId: string},
+export const updateTenant = async (token: string, tenant: TenantInfo & {propId: string},
     displayError: (error:string) => void = console.log) => {
     const {propId, email, firstName, lastName, phoneNumber} = tenant;
     await axios.post(HOMEPAIRS_TENANT_EDIT_ENDPOINT, 
-        {email, propId, firstName, lastName, phoneNumber}).then(response =>{
+        {email, propId, firstName, lastName, phoneNumber}, {headers: {Token: token}}).then(response =>{
         const {data} = response;
         const {status, error} = data;
-        if(status !== SUCCESS){
-            console.log(response);
+        if (status !== SUCCESS){
             displayError(error);
-            throw Error(error);
         }
     }).catch(error =>{
         displayError(error.toString());
@@ -259,9 +261,9 @@ export const updateTenant = async (tenant: TenantInfo & {propId: string},
  * 
  * @param {string} propId -Identity of the the property service request will fetch
  */
-export const fetchServiceRequests = async (propId: string) => {
+export const fetchServiceRequests = async (propId: string, token: string) => {
     const completedEndpoint = `${HOMEPAIRS_SERVICE_REQUEST_ENDPOINT}${propId}/`;
-    const results = await axios.get(completedEndpoint);
+    const results = await axios.get(completedEndpoint, {headers: {Token: token}});
     return results;
 };
 
@@ -276,7 +278,7 @@ export const fetchServiceRequests = async (propId: string) => {
  * @param propId -Identity of the property to fetch the information from
  */
 export const fetchPropertyAppliancesAndTenants = async (propId: string, token: string) => {
-    const results = await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`, {headers: {Token : token}}).then((result) =>{
+    const results = await axios.get(`${HOMEPAIRS_PROPERTY_ENDPOINT}${propId}`, {headers: {Token : token}}).then((result) => {
         console.log(result);
         const {tenants, appliances} = result.data;
         const tenantInfo: TenantInfo[] = [];
@@ -351,18 +353,16 @@ export const fetchAccount = (
                 
                 if(role === PM){
                     const {properties, pm} = data;
-                    const {pmId} = pm; 
                     dispatch(fetchProperties(properties));
                     dispatch(fetchPreferredProviders(token));
                 } else { // Assume role = tenant
                     const {properties, tenant} = data;
                     const {pm} = tenant;
-                    const {email, firstName, lastName, pmId} = pm[0];
+                    const {email, firstName, lastName} = pm[0];
                     const pmAccountType = AccountTypes.PropertyManager;
                     const pmContact = {accountType:pmAccountType, firstName, lastName, email };
                     dispatch(fetchPropertyAndPropertyManager(properties, pmContact));
                     dispatch(fetchPreferredProviders(token));
-
                 }
                 // Navigate page based on the Account Type
                 ChooseMainPage(accountType, navigation);
@@ -562,7 +562,7 @@ export const postUpdatedProperty = (
 ) => {
     return async (dispatch: (arg0: any) => void) => {
         return axios
-            .put( HOMEPAIRS_PROPERTY_ENDPOINT,
+            .put(HOMEPAIRS_PROPERTY_ENDPOINT,
                 {
                   propId: editProperty.propId,
                   longAddress: editProperty.address,
@@ -589,7 +589,7 @@ export const postUpdatedProperty = (
                 }
             })
             .catch((error) => {
-              console.log(error);
+                console.log(error);
             });
     };
 };
@@ -653,11 +653,8 @@ export const postNewAppliance = async (
  * visibility of the modal of the calling component
  */
 export const postUpdatedAppliance = async (
-<<<<<<< HEAD
     token: string,
     propId: string,
-=======
->>>>>>> 88c2a1c9d0a99a65336dabfc27284c9fea30b526
     editAppliance: Appliance,
     displayError: (msg: string) => void,
 ) => {
@@ -705,11 +702,9 @@ export const postNewServiceRequest = async (
     navigation: NavigationRouteHandler,
     isPm: boolean,
 ) => {
-        console.log(newServiceRequest);
         await axios
         .post(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, 
         {
-            token: newServiceRequest.token, 
             propId: newServiceRequest.propId, 
             phoneNumber : newServiceRequest.phoneNumber,
             appId: newServiceRequest.appId, 
@@ -721,6 +716,11 @@ export const postNewServiceRequest = async (
             poc: newServiceRequest.poc, 
             pocName: newServiceRequest.pocName,
             isPm,
+        }, 
+        {
+            headers: {
+                Token: newServiceRequest.token,
+            },
         })
         .then(response => {
             console.log(response);
@@ -730,12 +730,11 @@ export const postNewServiceRequest = async (
                 navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
             } else {
                 const {error} = data;
-                console.log(error)
+                console.log(error);
                 displayError(error);
             }
         }).catch(error => {
             console.log(error);
-            displayError(error);
         });
 };
 
@@ -747,9 +746,8 @@ export const changeServiceRequestStatus = async (
     token: string,
     navigation: NavigationRouteHandler,
     ) => {
-        await axios.put(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, { reqId, status, token })
+        await axios.put(HOMEPAIRS_SERVICE_REQUEST_ENDPOINT, { reqId, status}, {headers: {Token: token}})
         .then((response) => {
-            console.log(response);
             if (response.data.status === "success") {
                 navigation.resolveModalReplaceNavigation(ServiceRequestScreen);
                 setTimeout(() => navigation.reload(), 1000);

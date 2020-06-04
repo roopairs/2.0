@@ -46,7 +46,6 @@ export const mapDispatchToProps: (dispatch:any) => WithSinglePropertyDispatchPro
     // Calls an api requesst from the backend and then updates the store 
     setAppliancesAndTenants: async (propId: string, token: string) => {
         await fetchPropertyAppliancesAndTenants(propId, token).then(response => {
-            console.log(response);
             const {tenants, appliances} = response;
             dispatch(storePropertyApplianceAndTenants(tenants,appliances));
         }).catch(error => {console.log(error);});

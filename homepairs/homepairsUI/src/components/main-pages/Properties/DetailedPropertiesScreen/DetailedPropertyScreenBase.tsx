@@ -169,11 +169,15 @@ export class DetailedPropertyScreenBase extends React.Component<DetailedProperty
                         <CurrentTenantCard
                             navigation={this.navigation}
                             propId={propId}
-                            tenants={tenantInfo}/>
+                            tenants={tenantInfo}
+                            token={this.token}
+                            />
+                            
                     </>
                     <ServiceRequestCount 
                         onClick={() => navigation.navigate(navigationPages.ServiceRequestScreen)}
                         propId={propId}
+                        token={this.token}
                     />
                 </View>
             </ScrollView>

@@ -20,6 +20,7 @@ const canEditProps = false;
 export type TenantPropertyStateProps = {
   propertyManager: Contact,
   apiKey: string,
+  token: string,
 }
 
 export type TenantPropertyDispatchProps = {
@@ -107,16 +108,17 @@ export class TenantPropertyScreenBase extends React.Component<Props>{
     componentDidMount(){
         // TODO: Call the HOC componentDidMount function to do this logic and and pass the state 
         // to the children components where most relevant. This will be for the hardening. 
-        const {setAppliancesAndTenants, properties} = this.props;
+        const {setAppliancesAndTenants, properties, token} = this.props;
         const [property] = Object.entries(properties);
         const [propId] = property;
-        setAppliancesAndTenants(propId);
+        console.log(token);
+        setAppliancesAndTenants(propId, token);
     }
 
     renderProperty(pair: [string, Property]) {
         const [propId, property] = pair;
         const { address } = property;
-        const {propertyManager, navigation, apiKey, tenantInfo, applianceInfo} = this.props;
+        const {propertyManager, navigation, apiKey, tenantInfo, applianceInfo, token} = this.props;
         return (
             <ScrollView 
                 contentContainerStyle={{}}
@@ -147,6 +149,7 @@ export class TenantPropertyScreenBase extends React.Component<Props>{
                     <ServiceRequestCount 
                         onClick={() => navigation.navigate(navigationPages.ServiceRequestScreen)}
                         propId={propId}
+                        token={token}
                     />
                 </View>
             </ScrollView>

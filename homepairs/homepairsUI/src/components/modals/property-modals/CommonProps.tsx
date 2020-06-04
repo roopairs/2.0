@@ -11,7 +11,7 @@ export type PropertyStateProps = {
 }
 
 export type DetailedPropertyMutatorDispatchProps = {
-    setAppliancesAndTenants: (propId: string) => any
+    setAppliancesAndTenants: (propId: string, token: string) => any
 }
 
 export function MapPropertyStateProps(state: AppState){
@@ -26,8 +26,8 @@ export const DetailedPropertyDispatchProps: (
     dispatch: any
 ) => DetailedPropertyMutatorDispatchProps = dispatch => ({
     // Calls an api requesst from the backend and then updates the store 
-    setAppliancesAndTenants: async (propId: string) => {
-        await fetchPropertyAppliancesAndTenants(propId).then(response => {
+    setAppliancesAndTenants: async (propId: string, token: string) => {
+        await fetchPropertyAppliancesAndTenants(propId, token).then(response => {
             const {tenants, appliances} = response;
             dispatch(storePropertyApplianceAndTenants(tenants,appliances));
         }).catch(error => {console.log(error);});

@@ -20,6 +20,7 @@ export type PreferredProviderModalDispatchProps = {
 
 export type PreferredProviderStateProps = {
     preferredProvider: ProviderDictionary,
+    token: string,
 }
 
 export type PreferredProviderProps = NavigationRouteScreenProps & PreferredProviderModalDispatchProps & PreferredProviderStateProps;
@@ -82,6 +83,7 @@ export class PreferredProvidertModalBase extends React.Component<PreferredProvid
         this.state = initialState;
         this.setInitialState = this.setInitialState.bind(this);
         this.displayError = this.displayError.bind(this);
+        this.clickRemoveButton = this.clickRemoveButton.bind(this);
     }
 
     setInitialState() {
@@ -93,10 +95,11 @@ export class PreferredProvidertModalBase extends React.Component<PreferredProvid
     }
 
     clickRemoveButton() {
-        const {navigation, onRemoveServiceProvider} = this.props;
+        const {navigation, onRemoveServiceProvider, token} = this.props;
         this.setState({errorCheck: false});
         console.log('Clciked');
-        onRemoveServiceProvider(this.token, this.serviceProvider, this.displayError, navigation);
+        console.log(this.token);
+        onRemoveServiceProvider(token, this.serviceProvider, this.displayError, navigation);
         console.log('Clciked after request');
 
     }
