@@ -72,13 +72,13 @@ export default function ServiceRequestButton(props: ServiceRequestButtonProps) {
 
     let borderColor = colors.lightGray;
     if(activeType === ServiceRequestStatusEnums.Pending){
-        borderColor = colors.roopairs;
+        borderColor = colors.roopairs_purple;
     }
     else if(activeType === ServiceRequestStatusEnums.Scheduled){
         borderColor = colors.roopairs_blue;
     }
     else if(activeType === ServiceRequestStatusEnums.InProgress){
-        borderColor = colors.roopairs_purple;
+        borderColor = colors.roopairs;
     }
     else{
         borderColor = colors.lightGray;
