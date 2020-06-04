@@ -7,6 +7,7 @@ function mapStateToProps(state: AppState) : TenantPropertyStateProps {
     return { 
       propertyManager: state.properties.propertyManager, 
       apiKey: state.settings.apiKey,
+      token: state.accountProfile.roopairsToken,
     };
 };
 

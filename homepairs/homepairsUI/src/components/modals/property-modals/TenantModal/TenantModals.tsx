@@ -86,6 +86,8 @@ export class TenantModalBase extends React.Component<Props> {
     initialValues;
 
     propId;
+
+    token;
   
     constructor(props: Readonly<Props>) {
         super(props);
@@ -94,6 +96,7 @@ export class TenantModalBase extends React.Component<Props> {
 
         const currentTenant = props.navigation.getParam('tenant');
         this.propId = props.navigation.getParam('propId');
+        this.token = props.navigation.getParam('token');
         this.initialValues = tenantObjectToArray(currentTenant);
     } 
   
@@ -107,10 +110,10 @@ export class TenantModalBase extends React.Component<Props> {
         const {setAppliancesAndTenants} = this.props;
         const newTenantInfo: TenantInfo = state as TenantInfo;
         const postValues = {propId: this.propId, ...newTenantInfo};
-        await updateTenant(postValues, displayError).then(() => {
-            setAppliancesAndTenants(String(this.propId));
+        await updateTenant(this.token, postValues, displayError).then(() => {
+            setAppliancesAndTenants(String(this.propId), this.token);
         }).catch(error => {
-            console.log(error)
+            console.log(error);
             throw error;
         });
     };

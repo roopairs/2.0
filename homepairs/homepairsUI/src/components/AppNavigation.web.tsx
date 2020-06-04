@@ -290,18 +290,18 @@ function SinglePropertySwitch() {
               <Switch path={`${PROPERTY}/:propId`} location={background || location}>
                   <Route exact path={`${PROPERTY}/:propId`}><NavDetailedProperty/></Route>
                   <Route exact path={`${EDIT_PROPERTY_MODAL}/:propId`}><EditPropertyModal /></Route>
-                  <Route path={`${ADD_TENANT_MODAL}/:propId`}><AddTenantModal/></Route>
-                  <Route path={`${EDIT_TENANT_MODAL}/:propId`}><EditTenantModal/></Route>
+                  <Route path={`${ADD_TENANT_MODAL}/:token/:propId`}><AddTenantModal/></Route>
+                  <Route path={`${EDIT_TENANT_MODAL}/:token/:propId`}><EditTenantModal/></Route>
                   <Route path={`${ADD_APPLIANCE_MODAL}/:token/:propId`}><AddApplianceModal/></Route>
-                  <Route path={`${EDIT_APPLIANCE_MODAL}/:propId/:appliance`}><EditApplianceModal/></Route>
+                  <Route path={`${EDIT_APPLIANCE_MODAL}/:token/:propId/:appliance`}><EditApplianceModal/></Route>
               </Switch>
       
               {/* Show the modal when a background page is set */}
               {background && <Route path={`${EDIT_PROPERTY_MODAL}/:propId`}> <EditPropertyReadyModal /> </Route>}
-              {background && <Route path={`${ADD_TENANT_MODAL}/:propId`}><AddTenantReadyModal/></Route>}
-              {background && <Route path={`${EDIT_TENANT_MODAL}/:tenant/:propId`}><EditTenantReadyModal/></Route>}
+              {background && <Route path={`${ADD_TENANT_MODAL}/:token/:propId`}><AddTenantReadyModal/></Route>}
+              {background && <Route path={`${EDIT_TENANT_MODAL}/:token/:tenant/:propId`}><EditTenantReadyModal/></Route>}
               {background && <Route path={`${ADD_APPLIANCE_MODAL}/:token/:propId`}><AddApplianceReadyModal/></Route>}
-              {background && <Route path={`${EDIT_APPLIANCE_MODAL}/:propId/:appliance`}><EditApplianceReadyModal/></Route>}
+              {background && <Route path={`${EDIT_APPLIANCE_MODAL}/:token/:propId/:appliance`}><EditApplianceReadyModal/></Route>}
 
           </>
       

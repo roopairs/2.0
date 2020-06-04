@@ -25,6 +25,9 @@ export type ServiceRequestCountProps = {
      * navigate the user to an Edit Property modal
      */
     onClick?: () => any;
+
+
+    token: string;
 };
 
 type ServiceRequestCountState = {
@@ -175,9 +178,9 @@ export default class ServiceRequestCount extends React.Component<ServiceRequestC
      * to count the amount of requests per qualifying category. 
      */
     async prepareServiceRequests(){
-        const {propId} = this.props;
+        const {propId, token} = this.props;
 
-        await fetchServiceRequests(propId).then(response =>{
+        await fetchServiceRequests(propId, token).then(response =>{
             const {data} = response;
             const {reqs} = data;
             let pending: number = 0;

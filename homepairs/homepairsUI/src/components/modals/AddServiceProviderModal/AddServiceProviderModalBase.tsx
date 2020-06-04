@@ -11,7 +11,7 @@ import setInputStyles from './styles';
 
 export type AddServiceProviderDispatchProps = {
     onAddServiceProvider: (
-        pmId: number, 
+        token: string, 
         phoneNum: string,
         setInitialState: () => void, 
         displayError: (check: boolean, message?: string) => void, 
@@ -21,6 +21,7 @@ export type AddServiceProviderDispatchProps = {
 
 type ServiceProviderInfo = {
     pmId: number,
+    token: string,
 }
 
 const { ServiceRequestScreen } = navigationPages;
@@ -122,11 +123,11 @@ export class AddServiceProviderModalBase extends React.Component<Props,CreateSta
 
     clickSubmitButton() {
         const {phoneNum} = this.state;
-        const {onAddServiceProvider, navigation, pmId} = this.props;
+        const {onAddServiceProvider, navigation, pmId, token} = this.props;
         this.resetForm();
         console.log(pmId);
         if (this.validatePhoneNumber()) 
-            onAddServiceProvider(pmId, phoneNum.trim(), this.setInitialState, this.setError, navigation);
+            onAddServiceProvider(token, phoneNum.trim(), this.setInitialState, this.setError, navigation);
         else
             this.setError(true,'Please enter a valid phone number.');    
         
