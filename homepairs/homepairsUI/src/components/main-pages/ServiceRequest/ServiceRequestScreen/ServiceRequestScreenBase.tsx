@@ -202,6 +202,18 @@ const styles = StyleSheet.create({
         paddingTop: BaseStyles.MarginPadding.statusTitle,
         paddingBottom: BaseStyles.MarginPadding.xsmall,
     },
+    networkText: {
+        textAlign: 'center',
+        alignSelf: 'center',
+        fontFamily: BaseStyles.FontTheme.primary,
+        fontSize: BaseStyles.FontTheme.reg,
+    },
+    textContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        paddingVertical: BaseStyles.MarginPadding.large,
+    },
 });
 
 const serviceRequestStrings = strings.serviceRequestPage;
@@ -210,6 +222,7 @@ const initialRadioState: ServiceRequestState = {
     currentRequestsSelected: true,
     requestSelected: ServiceRequestStatusEnums.Pending,
     serviceRequests: [],
+    originalList: [],
     waitingApproval: 0,
     pending: 0,
     scheduled: 0,
@@ -262,7 +275,11 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         this.renderServiceRequests = this.renderServiceRequests.bind(this);
         this.renderFilteredServiceRequests = this.renderFilteredServiceRequests.bind(this);
         this.renderFilteredServiceRequestsWaitingApproval = this.renderFilteredServiceRequestsWaitingApproval.bind(this);
-        this.renderFilteredServiceRequestsSubtitles = this.renderFilteredServiceRequestsSubtitles.bind(this);
+        this.renderFilteredServiceRequestsPending = this.renderFilteredServiceRequestsPending.bind(this);
+        this.renderFilteredServiceRequestsScheduled = this.renderFilteredServiceRequestsScheduled.bind(this);
+        this.renderFilteredServiceRequestsCompleted = this.renderFilteredServiceRequestsCompleted.bind(this);
+        this.renderFilteredServiceRequestsCanceled = this.renderFilteredServiceRequestsCanceled.bind(this);
+        this.renderFilteredServiceRequestsDeclined = this.renderFilteredServiceRequestsDeclined.bind(this);
         this.render = this.render.bind(this);
         this.populateServiceRequests = this.populateServiceRequests.bind(this);
         this.countServiceRequestStatus = this.countServiceRequestStatus.bind(this);
@@ -391,10 +408,11 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
             serviceRequests.push(serviceRequest);
         });
 
+        // eslint-disable-next-line object-shorthand
         this.setState({ serviceRequests: serviceRequests, originalList: serviceRequests });
     }
 
-    countServiceRequestStatus(serviceRequests:ServiceRequests[]) {
+    countServiceRequestStatus(serviceRequests: ServiceRequest[]) {
         let waitingApproval: number = 0;
         let pending: number = 0;
         let scheduled: number = 0;
@@ -596,7 +614,203 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
     }
 
     renderFilteredServiceRequests() {
-        const { requestSelected, serviceRequests } = this.state;
+        const { requestSelected, waitingApproval, pending, scheduled, inProgress, completed, canceled, declined } = this.state;
+        // const filteredServiceRequests: ServiceRequest[] = filterTabbedObjects(serviceRequests, requestSelected);
+
+        if (requestSelected === ServiceRequestStatusEnums.Pending){
+            if(!(pending > 0 || waitingApproval > 0)){
+                return  (<View><View style={styles.textContainer}><Text style={styles.networkText}>{"\tNo Pending Service Requests"}</Text></View></View>);
+            }
+            return(
+                <>
+                    <>
+                    {this.renderFilteredServiceRequestsWaitingApproval()}
+                    </><>
+                    {this.renderFilteredServiceRequestsPending()}
+                    </>
+                </>
+            );
+        }
+        if (requestSelected === ServiceRequestStatusEnums.Scheduled){ 
+            if (!(scheduled > 0)){
+                return  (<View><View style={styles.textContainer}><Text style={styles.networkText}>{"\tNo Scheduled Service Requests"}</Text></View></View>);
+            }
+            return this.renderFilteredServiceRequestsScheduled();
+        }
+        if (requestSelected === ServiceRequestStatusEnums.InProgress){
+            if(!(inProgress > 0)){
+                return  (<View><View style={styles.textContainer}><Text style={styles.networkText}>{"\tNo In Progress Service Requests"}</Text></View></View>);
+            }
+            return this.renderFilteredServiceRequestsInProgress();
+        }
+        if (requestSelected === ServiceRequestStatusEnums.Completed){
+            if (!(completed > 0)){
+                return  (<View><View style={styles.textContainer}><Text style={styles.networkText}>{"\tNo Completed Service Requests"}</Text></View></View>);
+            }
+            return this.renderFilteredServiceRequestsCompleted();
+        }
+        if (requestSelected === ServiceRequestStatusEnums.Canceled){ 
+            if (!(canceled > 0)){
+                return  (<View><View style={styles.textContainer}><Text style={styles.networkText}>{"\tNo Canceled Service Requests"}</Text></View></View>);
+            }
+            return this.renderFilteredServiceRequestsCanceled();
+        }
+        if (requestSelected === ServiceRequestStatusEnums.Declined){
+            if (!(declined > 0)){
+                return  (<View><View style={styles.textContainer}><Text style={styles.networkText}>{"\tNo Declined Service Requests"}</Text></View></View>);
+            }
+            return this.renderFilteredServiceRequestsDeclined();
+        }
+
+        // else case - it shouldn't ever reach this logically but better than crashing
+        return (
+            <></>
+        );
+        
+    }
+
+    renderFilteredServiceRequestsWaitingApproval() {
+        const { requestSelected, serviceRequests, waitingApproval } = this.state;
+
+        return (
+            <>
+                {requestSelected === ServiceRequestStatusEnums.Pending && waitingApproval > 0
+                    ? <>
+                        <Text style={styles.formTitle}>ACTION REQUIRED</Text>
+                        {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.WaitingApproval).map(
+                            serviceRequest => {
+                                const { reqId, status } = serviceRequest;
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} activeType={ServiceRequestStatusEnums.WaitingApproval}/>);
+                            })}
+                    </>
+                    : <></>}
+            </>
+        );
+    }
+
+    renderFilteredServiceRequestsPending() {
+        const { requestSelected, serviceRequests, pending } = this.state;
+
+        return (
+            <>
+                {requestSelected === ServiceRequestStatusEnums.Pending && pending > 0
+                    ? <>
+                        <Text style={styles.formTitle}>AWAITING RESPONSE</Text>
+                        {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.Pending).map(
+                            serviceRequest => {
+                                const { reqId, status } = serviceRequest;
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} activeType={ServiceRequestStatusEnums.Pending}/>);
+                            })}
+                    </>
+                    : <></>}
+            </>
+        );
+    }
+
+    renderFilteredServiceRequestsScheduled() {
+        const { requestSelected, serviceRequests, scheduled } = this.state;
+        let title: string;
+
+        return (
+            <>
+                {requestSelected === ServiceRequestStatusEnums.Scheduled && scheduled > 0
+                    ? <>
+                        <Text style={styles.formTitle}>{title}</Text>
+                        {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.Scheduled).map(
+                            serviceRequest => {
+                                const { reqId, status } = serviceRequest;
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} activeType={ServiceRequestStatusEnums.Scheduled}/>);
+                            })}
+                    </>
+                    : <></>}
+            </>
+        );
+    }
+
+    renderFilteredServiceRequestsInProgress() {
+        const { requestSelected, serviceRequests, inProgress } = this.state;
+
+        return (
+            <>
+                {requestSelected === ServiceRequestStatusEnums.InProgress && inProgress > 0
+                    ? <>
+                        <Text style={styles.formTitle}>ACTIVE</Text>
+                        {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.InProgress).map(
+                            serviceRequest => {
+                                const { reqId, status } = serviceRequest;
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} activeType={ServiceRequestStatusEnums.InProgress}/>);
+                            })}
+                    </>
+                    : <></>}
+            </>
+        );
+    }
+
+    renderFilteredServiceRequestsCompleted() {
+        const { requestSelected, serviceRequests, completed } = this.state;
+
+        return (
+            <>
+                {requestSelected === ServiceRequestStatusEnums.Completed && completed > 0
+                    ? <>
+                        {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.Completed).map(
+                            serviceRequest => {
+                                const { reqId, status } = serviceRequest;
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} activeType={ServiceRequestStatusEnums.Completed}/>);
+                            })}
+                    </>
+                    : <></>}
+            </>
+        );
+    }
+
+    renderFilteredServiceRequestsCanceled() {
+        const { requestSelected, serviceRequests, canceled } = this.state;
+
+        return (
+            <>
+                {requestSelected === ServiceRequestStatusEnums.Canceled && canceled > 0
+                    ? <>
+                        {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.Canceled).map(
+                            serviceRequest => {
+                                const { reqId, status } = serviceRequest;
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} activeType={ServiceRequestStatusEnums.Canceled}/>);
+                            })}
+                    </>
+                    : <></>}
+            </>
+        );
+    }
+
+    renderFilteredServiceRequestsDeclined() {
+        const { requestSelected, serviceRequests, declined } = this.state;
+
+        return (
+            <>
+                {requestSelected === ServiceRequestStatusEnums.Declined && declined > 0
+                    ? <>
+                        {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.Declined).map(
+                            serviceRequest => {
+                                const { reqId, status } = serviceRequest;
+                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} activeType={ServiceRequestStatusEnums.Declined}/>);
+                            })}
+                    </>
+                    : <></>}
+            </>
+        );
+    }
+
+    render() {
+        return (
+            <View style={styles.addBottomMargin}>
+                {this.renderServiceRequests()}
+            </View>
+        );
+    }
+}
+
+/* renderFilteredServiceRequests() {
+        const { requestSelected, serviceRequests, waitingApproval, pending, scheduled, inProgress, completed, canceled, declined } = this.state;
         const filteredServiceRequests: ServiceRequest[] = filterTabbedObjects(serviceRequests, requestSelected);
 
         return (
@@ -608,33 +822,20 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                         serviceRequest => {
                             const { reqId, status } = serviceRequest;
                             const active = serviceRequest.status === "Pending" || serviceRequest.status === "Scheduled" || serviceRequest.status === "InProgress";
+                            
+                            if(status === ServiceRequestStatusEnums.Scheduled && scheduled > 0){
+                                return this.renderFilteredServiceRequestsScheduled();
+                            }
+                            
                             return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} active={active} />);
                         })}
                 </>
             </>
         );
-    }
+    } */
 
-    renderFilteredServiceRequestsWaitingApproval() {
-        const { requestSelected, serviceRequests, waitingApproval } = this.state;
 
-        return (
-            <>
-                {requestSelected === ServiceRequestStatusEnums.Pending && waitingApproval > 0
-                    ? <>
-                        <Text style={styles.formTitle}>WAITING APPROVAL</Text>
-                        {filterTabbedObjects(serviceRequests, ServiceRequestStatusEnums.WaitingApproval).map(
-                            serviceRequest => {
-                                const { reqId, status } = serviceRequest;
-                                return (<ServiceRequestButton key={`${reqId}_${status}`} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
-                            })}
-                    </>
-                    : <></>}
-            </>
-        );
-    }
-
-    renderFilteredServiceRequestsSubtitles() {
+    /* renderFilteredServiceRequestsSubtitles() {
         const { requestSelected, pending, scheduled, inProgress, completed, canceled, declined } = this.state;
         let printActive: boolean = false;
         let printInactive: boolean = false;
@@ -670,14 +871,4 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         }
 
         return (<></>);
-    }
-
-
-    render() {
-        return (
-            <View style={styles.addBottomMargin}>
-                {this.renderServiceRequests()}
-            </View>
-        );
-    }
-}
+    } */

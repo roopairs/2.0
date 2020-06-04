@@ -14,6 +14,8 @@ export type ColorTheme = {
     veryLightGray: string,
     shadow: string,
     roopairs: string,
+    roopairs_blue: string,
+    roopairs_purple: string,
 }
 export const LightColorTheme : ColorTheme = {
     primary: '#00ADE9',
@@ -28,6 +30,8 @@ export const LightColorTheme : ColorTheme = {
     veryLightGray: '#E9ECEF',
     shadow: 'black',
     roopairs: '#40D7A7',
+    roopairs_blue: '#5a98ef',
+    roopairs_purple: '#8d44ad',
 };
 
 export const DarkColorTheme : ColorTheme = {
@@ -42,6 +46,8 @@ export const DarkColorTheme : ColorTheme = {
     veryLightGray: 'rgba(100,100,100, .50)',
     shadow: 'white',
     roopairs: '#40D7A7',
+    roopairs_blue: '#5a98ef',
+    roopairs_purple: '#8d44ad',
 };
 
 export const FontTheme = {
