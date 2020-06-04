@@ -344,6 +344,7 @@ function PropertiesSwitch() {
 export default function AppNavigator(props:any){  
     // TODO: Set PrivateRoute to auth status from session token
     // <Router basename={`${process.env.PUBLIC_URL}`}> is needed for web routing resolution for remote servers 
+    const {authed} = props;
     return (<>
         <Router basename={`${process.env.PUBLIC_URL}`}>  
             <Switch>
@@ -353,13 +354,13 @@ export default function AppNavigator(props:any){
                   <SignUpModalSwitch />
                 </Route>
                 <Route exact path='/'> <Redirect to={{pathname: LOGIN}} /></Route>
-                <PrivateRoute path={PROPERTY_LIST} Component={PropertiesSwitch} {...props}/>
-                <PrivateRoute path='/admin/property/' Component={SinglePropertySwitch} {...props}/>
-                <PrivateRoute path='/admin/service-requests' Component={ServiceRequestSwitch} {...props}/>
-                <PrivateRoute path={ACCOUNT_SETTINGS} Component={AccountSettingsSwitch} {...props}/>
+                <PrivateRoute authed={authed} path={PROPERTY_LIST} Component={PropertiesSwitch} {...props}/>
+                <PrivateRoute authed={authed} path='/admin/property/' Component={SinglePropertySwitch} {...props}/>
+                <PrivateRoute authed={authed} path='/admin/service-requests' Component={ServiceRequestSwitch} {...props}/>
+                <PrivateRoute authed={authed} path={ACCOUNT_SETTINGS} Component={AccountSettingsSwitch} {...props}/>
 
                 {/** Tenant Property Screen */}
-                <PrivateRoute path={TENANT_PROPERTY} Component={TenantAccountPropertySwitch} {...props}/>
+                <PrivateRoute authed={authed} path={TENANT_PROPERTY} Component={TenantAccountPropertySwitch} {...props}/>
 
                 <Route path='/*'>404 Does not Exist</Route>
             </Switch>

@@ -80,9 +80,12 @@ export const navigationKeys: {[id:string]: string} = {
     Login: 'Login',
     SignUp: 'SignUp',
     Connect: 'Connect',
-    Properties: 'Properties',
+    PropertyPages: 'PropertyPages',
     PropertyStack: 'PropertyStack',
-    ServiceRequest: 'ServiceRequest',
+    ServiceRequestStack: 'ServiceRequestStack',
+    ServiceRequestPages: 'ServiceRequestPages',
+
+
     Account: 'AccountStack',
     AccountProperties: 'AccountProperties',
     DetailedProperty: 'DetailedProperty',

@@ -4,6 +4,7 @@ import { DetailedPropertyPage, TenantPropertyPage, PropertiesPage} from './Prope
 import { ServiceRequestPage, NewRequestPage, ServiceRequestScreenProps } from './ServiceRequest';
 import { AccountPage} from './Account';
 import { withSceneHeader, withHeaderUpdate } from './components';
+import {withAndroidBackExit, withAndroidBackRegular} from '../WithBackHandler';
 
 const propertySceneParams: MainAppStackType = {
     title: 'My Properties',
@@ -36,7 +37,7 @@ const accountSceneParam: MainAppStackType = {
     navigate: 'Account',
 };
 
-export const DetailedProperty = prepareNavigationHandlerComponent(DetailedPropertyPage);
+export const DetailedProperty = prepareNavigationHandlerComponent(withAndroidBackRegular(DetailedPropertyPage));
 
 /**
  * ---------------------------------------------------
@@ -47,8 +48,9 @@ export const DetailedProperty = prepareNavigationHandlerComponent(DetailedProper
  * has been injected with a Modal; this gives this component the capability to reveal a smaller page 
  * that allows the user to add a new property to their account. 
  */
-export const Properties = withHeaderUpdate(prepareNavigationHandlerComponent(withSceneHeader(PropertiesPage, propertySceneParams)));
-export const TenantProperty = withHeaderUpdate(prepareNavigationHandlerComponent(TenantPropertyPage), HOME_INDEX);
+export const Properties = withAndroidBackExit(
+    withHeaderUpdate(prepareNavigationHandlerComponent(withSceneHeader(PropertiesPage, propertySceneParams))));
+export const TenantProperty = withAndroidBackExit(withHeaderUpdate(prepareNavigationHandlerComponent(TenantPropertyPage), HOME_INDEX));
 
 
 
@@ -61,9 +63,11 @@ export const TenantProperty = withHeaderUpdate(prepareNavigationHandlerComponent
  * can be injected with a Modal; this gives this component the capability to reveal a smaller page 
  * that allows the user to add a new service request to their account. 
  */
-export const ServiceRequest = withHeaderUpdate(prepareNavigationHandlerComponent(withSceneHeader(ServiceRequestPage, sceneParam, false)), sceneParam);
+export const ServiceRequest = withHeaderUpdate(withAndroidBackExit(
+    prepareNavigationHandlerComponent(withSceneHeader(ServiceRequestPage, sceneParam, false))), sceneParam);
 
 export const NewRequest = prepareNavigationHandlerComponent(withHeaderUpdate(
     withSceneHeader(prepareNavigationHandlerComponent(NewRequestPage), newRequestSceneParam), newRequestSceneParam, false));
 
-export const Account = prepareNavigationHandlerComponent(withSceneHeader(AccountPage, accountSceneParam, false));
+export const Account = 
+    prepareNavigationHandlerComponent(withSceneHeader(AccountPage, accountSceneParam, false));
