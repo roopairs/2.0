@@ -114,11 +114,10 @@ class ServiceRequestView(View):
         serviceDate = dateutil.parser.parse(serviceDateStr)
 
         try:
-            app = Appliance.objects.filter(rooAppId=appId)
+            app = Appliance.objects.get(rooAppId=appId)
         except Exception as e:
-            return JsonResponse(returnError("Could not find an appliance with that id."))
-        if not app.exists():
             app = None
+
         types = ['Repair', 'Installation', 'Maintenance']
         typeNum = 1
         for i in range(0, len(types)):
