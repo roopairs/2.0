@@ -14,7 +14,7 @@ export type SearchFormProps<T> = InputFormProps & {
      * Callback method for whenever the filteredArray is updated. This will typically be 
      * used to set/return the results back to the parent component. 
      */
-    parentCallBack: (filtredArray: T[], ...rest) => any;
+    filter: (filtredArray: T[], ...rest) => void;
 
     /**
      * A optional parameter that can be used to define which keys to search while filtering 
