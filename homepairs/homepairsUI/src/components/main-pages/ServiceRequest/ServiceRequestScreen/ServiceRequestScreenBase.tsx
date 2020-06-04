@@ -559,11 +559,6 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
         const { properties, accountType, token } = this.props;
         const { currentRequestsSelected, requestSelected, serviceRequests, originalList } = this.state;
 
-        console.log("original list: ");
-        console.log({ originalList });
-        console.log("updated list: ");
-        console.log({ serviceRequests });
-
         return (
             <View>
                 {
@@ -613,8 +608,8 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                         serviceRequest => {
                             const { appliance } = serviceRequest;
                             const { applianceId } = appliance;
-                            const active = serviceRequest.status === "Pending" || serviceRequest.status === "Scheduled" || serviceRequest.status === "InProgress";
-                            return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} active={active} />);
+                            console.log(serviceRequest.status);
+                            return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
                         })}
                 </>
             </>
@@ -633,7 +628,7 @@ export class ServiceRequestScreenBase extends React.Component<ServiceRequestScre
                             serviceRequest => {
                                 const { appliance } = serviceRequest;
                                 const { applianceId } = appliance;
-                                return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest} />);
+                                return (<ServiceRequestButton key={applianceId} onClick={this.openServiceRequestModal} serviceRequest={serviceRequest}/>);
                             })}
                     </>
                     : <></>}
