@@ -135,19 +135,32 @@ export class ApplianceModalBase extends React.Component<Props> {
             location,
         };
         const info = { property: this.property, token };
-        const sumbitAPIRequest = title === 'Edit Appliance' ? postUpdatedAppliance : postNewAppliance;
 
-        await sumbitAPIRequest(newAppliance, displayError, info).then(() => {
-            setAppliancesAndTenants(propId.toString());
-        }).catch((error: Error) => {
-            console.log(error)
-            if (error.message.includes('500')) {
-                displayError(DefaultMessage);
-            }
-            else {
-                displayError(error.message);
-            }
-        });
+        if (title === 'Edit Appliance') {
+            await postUpdatedAppliance(token, this.property.propId, newAppliance, displayError).then(() => {
+                setAppliancesAndTenants(propId.toString(), token);
+            }).catch((error: Error) => {
+                console.log(error);
+                if (error.message.includes('500')) {
+                    displayError(DefaultMessage);
+                }
+                else {
+                    displayError(error.message);
+                }
+            });
+        } else {
+            await postNewAppliance(newAppliance, displayError, info).then(() => {
+                setAppliancesAndTenants(propId.toString(), token);
+            }).catch((error: Error) => {
+                console.log(error);
+                if (error.message.includes('500')) {
+                    displayError(DefaultMessage);
+                }
+                else {
+                    displayError(error.message);
+                }
+            });
+        }
     }
 
     render() {

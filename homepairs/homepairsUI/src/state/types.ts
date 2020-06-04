@@ -140,6 +140,7 @@ export type TenantAccount = Account & {
     address: string;
     phoneNumber: string;
     propId: number;
+    roopairsToken: string;
 };
 
 export type AccountState = PropertyManagerAccount | TenantAccount;
