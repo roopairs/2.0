@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import PreferredProviders, ServiceProvider
 from ..PropertyManagers.models import PropertyManager
+from ..Tools.models import Token
 
 ################################################################################
 # CONSTANTS
