@@ -86,6 +86,7 @@ class ServiceRequestView(View):
 
         if(token.isPm()):
             user = token.getPm()
+            pm = token.getPm()
         else:
             user = token.getTenant()
             pm = user.pm
@@ -124,11 +125,36 @@ class ServiceRequestView(View):
         except Exception as e:
             app = None
 
-        types = ['Repair', 'Installation', 'Maintenance']
-        typeNum = 1
-        for i in range(0, len(types)):
-            if types[i] == serviceType:
-                typeNum = i + 1
+        # This section is just to set the category number
+        # 1 = General Appliance
+        # 2 = HVAC
+        # 3 = Lighting and Electrical
+        # 4 = Plumbing
+        cleanedUp = serviceCategory.strip().lower()
+        if(cleanedUp == 'hvac'):
+            serviceNum = 1
+        elif(cleanedUp == 'lighting and electrical'):
+            serviceNum = 2
+        elif(cleanedUp == 'plumbing'):
+            serviceNum = 3
+        elif(cleanedUp == 'general appliance'):
+            serviceNum = 4
+        else:
+            return JsonResponse(returnError("Service Category not valid."))
+
+        # This section is just to set the type number
+        # 1 = Repair
+        # 2 = Installation
+        # 3 = Maintenance
+        cleanedUp = serviceType.strip().lower()
+        if(cleanedUp == ('repair')):
+            typeNum = 1
+        elif(cleanedUp == ('installation')):
+            typeNum = 2
+        elif(cleanedUp == ('maintenance')):
+            typeNum = 3
+        else:
+            return JsonResponse(returnError("Service Type not valid."))
 
         if token.isPm():
             # Make sure the property exists and is owned by the requester
@@ -145,8 +171,8 @@ class ServiceRequestView(View):
             status = 'Pending'
             data = {
                         'service_company': prov.rooId,
-                        'service_category': 1,
-                        'service_type': typeNum,
+                        'service_category': serviceNum,
+                        'service_type': str(typeNum),
                         'details': details,
                         'point_of_contact_name': pocName,
                         'requested_arrival_time': str(serviceDate)
