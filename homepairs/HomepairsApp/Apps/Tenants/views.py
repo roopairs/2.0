@@ -223,6 +223,7 @@ class TenantUpdate(View):
         tenant.firstName = firstName
         tenant.lastName = lastName
         tenant.phoneNumber = phoneNumber
+        tenant.pm = pm
         try:
             tenant.save()
         except Exception as e:

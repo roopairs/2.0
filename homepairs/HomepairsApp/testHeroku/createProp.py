@@ -11,9 +11,9 @@ globUrl = 'http://localhost:8000/'
 # Everything is correct
 def test_basic_connection():
 
-    token = "5fb597d97f8b4f7414a9f61bf83693fe26643599a624d6fa0645116a003afce7"
+    token = "94c67afefd667f356d4bb89561c0b4c71badd54de20aeacac81054f34ad1f782"
     url = globUrl + 'property/'
-    longAddress = '138 Prospect St, Berlin, NH'
+    longAddress = '138 Prospect St Berlin, NH'
     numBed = 3
     numBath = 4
     maxTenants = 5

@@ -123,6 +123,8 @@ def roopairsToUs(email, token):
             # to check it
             tempPM = PropertyManager.objects.filter(email=email)[0]
             addy = prop.get('physical_address_formatted').split(',')
+            if(len(addy) < 3):
+                return "Address not formatted correctly. Must be comma separated by street address, city, state"
             tempStreetAddress = addy[0].strip()
             tempCity = addy[1].strip()
             tempState = addy[2].strip().split(' ')[0].strip()
@@ -206,6 +208,8 @@ class PropertyView(View):
 
         longAddress = inData.get('longAddress')
         splitAddress = longAddress.split(',')
+        if(len(splitAddress) < 3):
+            return JsonResponse(returnError("Address not formatted correctly. Must be comma separated by street address, city, state"))
         streetAddress = splitAddress[0]
         city = splitAddress[1]
         state = splitAddress[2]
@@ -278,6 +282,9 @@ class PropertyView(View):
 
         longAddress = inData.get('longAddress')
         splitAddress = longAddress.split(',')
+
+        if(len(splitAddress) < 3):
+            return JsonResponse(returnError("Address not formatted correctly. Must be comma separated by street address, city, state"))
 
         streetAddress = splitAddress[0]
         city = splitAddress[1]
